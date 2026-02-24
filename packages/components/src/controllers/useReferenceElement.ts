@@ -5,7 +5,7 @@ import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
 import { ReferenceElementComponentManager } from "./referenceElementManager";
 
-export type ReferenceElementType = "click" | "hover";
+export type ReferenceElementType = "click" | "hover" | "context";
 
 /**
  * Component contract required by the reference element controller.
@@ -34,7 +34,7 @@ export interface ReferenceElementComponent extends LitElement {
   /**
    * The type of reference element interaction ("click" or "hover").
    */
-  referenceElementType: ReferenceElementType;
+  referenceElementType: ReferenceElementType | nil;
   /**
    * If true, disables the trigger interaction for the component.
    */

@@ -14,9 +14,9 @@ import {
   hideFloatingUI,
   MenuPlacement,
   OverlayPositioning,
+  ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
@@ -28,8 +28,14 @@ import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
+import { referenceElementManager } from "../../controllers/referenceElementManager";
 import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, IDS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -38,11 +44,13 @@ declare global {
   }
 }
 
+const manager = referenceElementManager({ click: true, hover: true });
+
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - A slot for the element that triggers the component.
+ * @slot trigger - [deprecated] Use `referenceElement` property instead. A slot for the element that triggers the component.
  */
-export class Dropdown extends LitElement implements FloatingUIComponent {
+export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -53,6 +61,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Properties
 
+  get referenceElementType(): ReferenceElementType {
+    return this.referenceElement ? this.type : null;
+  }
+
+  referenceElementController = useReferenceElement(manager)(this);
+
   private filteredFlipPlacements: FlipPlacement[];
 
   floatingEl: HTMLDivElement;
@@ -61,15 +75,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   private groups: DropdownGroup["el"][] = [];
 
-  private guid = guid();
-
   private items: DropdownItem["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   transitionProp = "opacity" as const;
 
-  referenceEl: HTMLDivElement;
+  referenceEl: ReferenceElement;
 
   private resizeObserver = createObserver("resize", (entries) =>
     this.resizeObserverCallback(entries),
@@ -138,6 +150,17 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
+  /**
+   The `referenceElement` is used to position the component according to its `placement` value.
+   *
+   *Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   *
+   * However, a string `id` of the reference element can also be used.
+   *
+   *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   */
+  @property() referenceElement: ReferenceElement | string;
+
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -158,7 +181,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the type of action on the container element to open the component. */
-  @property({ reflect: true }) type: "hover" | "click" = "click";
+  @property({ reflect: true }) type: "hover" | "click" | "context" = "click";
 
   /**
    * Specifies the component's width.
@@ -216,7 +239,29 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.referenceEl, options);
+    return this.focusSetter(
+      () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl),
+      options,
+    );
+  }
+
+  @method()
+  async setVirtualElement(x: number, y: number): Promise<void> {
+    this.referenceEl = {
+      getBoundingClientRect() {
+        return {
+          width: 0,
+          height: 0,
+          x,
+          y,
+          top: y,
+          left: x,
+          right: x,
+          bottom: y,
+        };
+      },
+    };
+    connectFloatingUI(this);
   }
 
   //#endregion
@@ -257,7 +302,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.updateItems();
-    connectFloatingUI(this);
+
+    if (!this.referenceElementType) {
+      connectFloatingUI(this);
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -293,6 +341,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.handlePropsChange();
+    }
+
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl") && this.referenceElementType) {
+      connectFloatingUI(this);
     }
   }
 
@@ -337,7 +395,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
-    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
+    if (
+      this.referenceElement ||
+      this.disabled ||
+      !this.open ||
+      event.composedPath().includes(this.el)
+    ) {
       return;
     }
 
@@ -345,12 +408,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private closeCalciteDropdownOnEvent(event: Event): void {
+    if (this.referenceElement) {
+      return;
+    }
+
     this.closeCalciteDropdown();
     event.stopPropagation();
   }
 
   private closeCalciteDropdownOnOpenEvent(event: Event): void {
-    if (event.composedPath().includes(this.el)) {
+    if (this.referenceElement || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -358,7 +425,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private pointerEnterHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElement || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -366,7 +433,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private pointerLeaveHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElement || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -464,7 +531,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
 
-    if (!scrollerEl || !referenceEl) {
+    if (!scrollerEl || !(referenceEl instanceof HTMLElement)) {
       return;
     }
 
@@ -513,8 +580,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
+
+    if (!(this.referenceEl instanceof HTMLElement)) {
+      return;
+    }
+
+    // todo?
+    updateRefObserver(this.resizeObserver, this.referenceEl, el);
+
     connectFloatingUI(this);
   }
 
@@ -524,6 +598,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
+    if (!(this.referenceEl instanceof HTMLElement)) {
+      return;
+    }
+
     if (!event.composedPath().includes(this.referenceEl)) {
       return;
     }
@@ -609,23 +687,24 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   //#region Rendering
 
   override render(): JsxNode {
-    const { open, guid } = this;
+    const { open } = this;
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <div
-          class={CSS.triggerContainer}
-          id={IDS.menuButton(guid)}
-          onClick={this.toggleDropdown}
-          onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
-        >
-          <slot
-            aria-controls={IDS.menu(guid)}
-            ariaExpanded={open}
-            ariaHasPopup="menu"
-            name={SLOTS.trigger}
-          />
-        </div>
+        {!this.referenceElement ? (
+          <div
+            class={CSS.triggerContainer}
+            onClick={this.toggleDropdown}
+            onKeyDown={this.keyDownHandler}
+            ref={this.setReferenceEl}
+          >
+            <slot
+              ariaControlsElements={this.transitionEl ? [this.transitionEl] : undefined}
+              ariaExpanded={open}
+              ariaHasPopup="menu"
+              name={SLOTS.trigger}
+            />
+          </div>
+        ) : null}
         <div
           ariaHidden={!open}
           class={{
@@ -638,13 +717,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={IDS.menuButton(guid)}
+            ariaLabelledByElements={
+              // todo
+              this.referenceEl instanceof HTMLElement ? [this.referenceEl] : []
+            }
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

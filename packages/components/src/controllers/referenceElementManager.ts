@@ -3,7 +3,7 @@ import { ReferenceElement } from "../utils/floating-ui";
 import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../utils/dom";
 import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
-import { ReferenceElementComponent } from "./useReferenceElement";
+import { ReferenceElementComponent, ReferenceElementType } from "./useReferenceElement";
 
 function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElementComponent[]): boolean {
   if (a1 === a2) {
@@ -100,19 +100,24 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   let pointerDownPosition: { x: number; y: number } | nil = null;
   let registeredComponentCount = 0;
 
-  const queryComponents = (composedPath: EventTarget[]): ReferenceElementComponent[] | undefined => {
+  const queryComponents = (
+    composedPath: EventTarget[],
+    type: ReferenceElementType,
+  ): ReferenceElementComponent[] | undefined => {
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
 
     if (!registeredElement) {
       return undefined;
     }
 
-    return registeredElements.get(registeredElement);
+    const components = registeredElements.get(registeredElement);
+
+    return components?.filter((component) => component.referenceElementType === type);
   };
 
-  const toggleComponents = (event: KeyboardEvent | PointerEvent): void => {
+  const toggleComponents = (event: KeyboardEvent | PointerEvent, type: ReferenceElementType): void => {
     const composedPath = event.composedPath();
-    const components = queryComponents(composedPath);
+    const components = queryComponents(composedPath, type);
 
     components?.forEach((component) => {
       if (component && !component.triggerDisabled) {
@@ -149,7 +154,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     pointerDownPosition = null;
 
-    toggleComponents(event);
+    toggleComponents(event, "click");
   };
 
   const clearHoverOpenTimeout = (): void => {
@@ -217,7 +222,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     clickedComponents = null;
     const composedPath = event.composedPath();
-    const components = queryComponents(composedPath);
+    const components = queryComponents(composedPath, "hover");
 
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
@@ -260,7 +265,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     if (event.key === "Escape") {
       closeAllComponents();
     } else if (isActivationKey(event.key)) {
-      toggleComponents(event);
+      toggleComponents(event, "click");
     }
   };
 
@@ -309,7 +314,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     const composedPath = event.composedPath();
 
-    const components = queryComponents(composedPath);
+    const components = queryComponents(composedPath, "hover");
 
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
@@ -398,7 +403,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     const composedPath = event.composedPath();
-    const components = queryComponents(composedPath);
+    const components = queryComponents(composedPath, "hover");
 
     if (pathHasOpenHoverComponent(components, composedPath)) {
       clearHoverTimeout();
@@ -423,7 +428,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   const updateElement = (component: ReferenceElementComponent): void => {
     const { referenceEl, open } = component;
 
-    if (!referenceEl) {
+    if (!referenceEl || !component.referenceElementType) {
       return;
     }
 
@@ -470,7 +475,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const registerElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
-    if (!referenceEl) {
+    if (!referenceEl || !component.referenceElementType) {
       return;
     }
 
@@ -524,7 +529,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const unregisterElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
-    if (!referenceEl) {
+    if (!referenceEl || !component.referenceElementType) {
       return;
     }
 

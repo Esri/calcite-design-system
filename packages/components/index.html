@@ -9,12 +9,48 @@
 
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
+      <!-- Use case to have context menu open by default? -->
+      <calcite-dropdown width="m" type="context" id="context">
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <script>
+        const context = document.getElementById("context");
+        context.referenceElement = document.body;
+      </script>
 
-      <!-- demo snippet end -->
+      <div style="margin: 50px; padding: 50px">
+        <calcite-dropdown width="m" open>
+          <calcite-button slot="trigger">Select landform</calcite-button>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+
+        <calcite-button id="hover">Select landform</calcite-button>
+        <calcite-dropdown reference-element="hover" width="m" type="hover">
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+            <calcite-dropdown-item>River</calcite-dropdown-item>
+            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
