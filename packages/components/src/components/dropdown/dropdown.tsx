@@ -396,7 +396,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
     if (
-      this.referenceElement ||
+      this.referenceElementType ||
       this.disabled ||
       !this.open ||
       event.composedPath().includes(this.el)
@@ -408,7 +408,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private closeCalciteDropdownOnEvent(event: Event): void {
-    if (this.referenceElement) {
+    if (this.referenceElementType) {
       return;
     }
 
@@ -417,7 +417,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private closeCalciteDropdownOnOpenEvent(event: Event): void {
-    if (this.referenceElement || event.composedPath().includes(this.el)) {
+    if (this.referenceElementType || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -425,7 +425,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private pointerEnterHandler(): void {
-    if (this.referenceElement || this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -433,7 +433,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private pointerLeaveHandler(): void {
-    if (this.referenceElement || this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -580,15 +580,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    this.referenceEl = el;
-
-    if (!(this.referenceEl instanceof HTMLElement)) {
-      return;
+    if (this.referenceEl instanceof HTMLElement) {
+      updateRefObserver(this.resizeObserver, this.referenceEl, el);
     }
 
-    // todo?
-    updateRefObserver(this.resizeObserver, this.referenceEl, el);
-
+    this.referenceEl = el;
     connectFloatingUI(this);
   }
 
@@ -690,7 +686,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     const { open } = this;
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        {!this.referenceElement ? (
+        {!this.referenceElementType ? (
           <div
             class={CSS.triggerContainer}
             onClick={this.toggleDropdown}

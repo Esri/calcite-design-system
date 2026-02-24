@@ -69,6 +69,10 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     };
 
     const setUpReferenceElement = (warn = true): void => {
+      if (!component.referenceElementType) {
+        return;
+      }
+
       component.referenceEl = getReferenceElement(component);
 
       const { el, referenceElement, referenceEl } = component;
