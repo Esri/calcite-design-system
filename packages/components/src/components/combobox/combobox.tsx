@@ -370,7 +370,7 @@ export class Combobox
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item-group` & `calcite-combobox-item`s  (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
   /** Overrides individual strings used by the component. */
@@ -1250,10 +1250,10 @@ export class Combobox
 
   private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
     if (preserveOrder) {
-      const itemsAndGroup: ComboboxChildElement[] = Array.from(
+      const itemsAndGroups: ComboboxChildElement[] = Array.from(
         this.el.querySelectorAll(`${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`),
       );
-      return itemsAndGroup;
+      return itemsAndGroups;
     } else {
       return [...this.groupItems, ...this.items];
     }
