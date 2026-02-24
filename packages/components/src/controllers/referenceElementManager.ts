@@ -5,6 +5,9 @@ import { isActivationKey } from "../utils/key";
 import { toAriaBoolean } from "../utils/aria";
 import { ReferenceElementComponent, ReferenceElementType } from "./useReferenceElement";
 
+// todo: arrow keys for component. Maybe a function for when to open?
+// todo: fix shift tabindex on hover
+
 function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElementComponent[]): boolean {
   if (a1 === a2) {
     return true;

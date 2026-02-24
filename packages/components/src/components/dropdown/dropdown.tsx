@@ -702,13 +702,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
           </div>
         ) : null}
         <div
-          ariaHidden={!open}
           class={{
             [CSS.wrapper]: true,
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
               this.width || this.widthScale
             ),
           }}
+          inert={!open}
           popover="manual"
           ref={this.setFloatingEl}
         >
