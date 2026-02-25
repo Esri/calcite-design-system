@@ -1,6 +1,7 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 import { nil } from "@arcgis/toolkit/type";
+import { VirtualElement } from "@floating-ui/utils";
 import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
 import { ReferenceElementComponentManager } from "./referenceElementManager";
@@ -29,6 +30,10 @@ export interface ReferenceElementComponent extends LitElement {
    * The resolved reference element used to trigger the component.
    */
   referenceEl: ReferenceElement | nil;
+  /**
+   * The virtual reference element used to trigger the component when a virtual element is needed.
+   */
+  virtualReferenceEl?: VirtualElement;
   /**
    * The reference element, either as a string id or HTMLElement.
    */

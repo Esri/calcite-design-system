@@ -354,7 +354,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   const setContextVirtualElement = (components: ReferenceElementComponent[], x: number, y: number): void => {
     components?.forEach((component) => {
       if (!component.disabled) {
-        component.referenceEl = {
+        component.virtualReferenceEl = {
           getBoundingClientRect() {
             return {
               width: 0,

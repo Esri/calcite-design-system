@@ -80,6 +80,8 @@ interface PositionFloatingUiOptions {
    */
   referenceEl: ReferenceElement;
 
+  virtualReferenceEl?: VirtualElement;
+
   /**
    * The type of floating UI, which determines the default middleware used for positioning.
    */
@@ -105,10 +107,11 @@ export const positionFloatingUI =
       overlayPositioning = "absolute",
       placement,
       referenceEl,
+      virtualReferenceEl,
       type,
     }: PositionFloatingUiOptions,
   ): Promise<void> => {
-    if (!referenceEl || !floatingEl) {
+    if ((!referenceEl && !virtualReferenceEl) || !floatingEl) {
       return;
     }
 
@@ -120,7 +123,7 @@ export const positionFloatingUI =
       placement: effectivePlacement,
       strategy: position,
       middlewareData,
-    } = await computePosition(referenceEl, floatingEl, {
+    } = await computePosition(virtualReferenceEl ?? referenceEl, floatingEl, {
       strategy: overlayPositioning,
       placement:
         placement === "auto" || placement === "auto-start" || placement === "auto-end"
@@ -317,6 +320,9 @@ export interface FloatingUIComponent {
 
   /** The `referenceElement` used to position the component according to its `placement` value. */
   referenceEl: ReferenceElement;
+
+  /** The `virtualReferenceElement` used to position the component according to its `placement` value when a virtual element is needed. */
+  virtualReferenceEl?: VirtualElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -425,7 +431,7 @@ export async function reposition(
   options: PositionFloatingUiOptions,
   delayed = false,
 ): Promise<void> {
-  if (!component.open || !options.floatingEl || !options.referenceEl) {
+  if (!component.open || !options.floatingEl || (!options.referenceEl && !options.virtualReferenceEl)) {
     return;
   }
 
@@ -496,7 +502,7 @@ const componentToDebouncedRepositionMap = new WeakMap<
 >();
 
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
-  const { referenceEl, floatingEl } = component;
+  const { referenceEl, virtualReferenceEl, floatingEl } = component;
 
   if (!floatingEl.isConnected) {
     return;
@@ -517,7 +523,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   let repositionPromise: Promise<void>;
 
   const cleanUp = effectiveAutoUpdate(
-    referenceEl,
+    virtualReferenceEl ?? referenceEl,
     floatingEl,
     // callback is invoked immediately
     () => {
@@ -559,13 +565,13 @@ export function hideFloatingUI(component: FloatingUIComponent): void {
  * Helper to set up floating element interactions on connectedCallback.
  */
 export async function connectFloatingUI(component: FloatingUIComponent): Promise<void> {
-  const { floatingEl, referenceEl } = component;
+  const { floatingEl, referenceEl, virtualReferenceEl } = component;
 
   hideFloatingUI(component);
 
   disconnectFloatingUI(component);
 
-  if (!floatingEl || !referenceEl || !component.open) {
+  if (!floatingEl || (!referenceEl && !virtualReferenceEl) || !component.open) {
     return;
   }
 

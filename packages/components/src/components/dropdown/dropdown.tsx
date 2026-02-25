@@ -2,6 +2,7 @@
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
+import { VirtualElement } from "@floating-ui/utils";
 import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -105,6 +106,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#region State Properties
 
   @state() referenceEl: ReferenceElement;
+
+  @state() virtualReferenceEl: VirtualElement;
 
   //#endregion
 
@@ -218,13 +221,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       overlayPositioning,
       placement,
       referenceEl,
+      virtualReferenceEl,
     } = this;
 
     return reposition(
       this,
       {
         floatingEl,
-        referenceEl,
+        referenceEl: virtualReferenceEl ?? referenceEl,
         offsetDistance,
         offsetSkidding,
         overlayPositioning,
@@ -332,7 +336,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("referenceEl") && this.referenceElementType) {
+    if (
+      (changes.has("referenceEl") || changes.has("virtualReferenceEl")) &&
+      this.referenceElementType
+    ) {
       connectFloatingUI(this);
     }
   }
