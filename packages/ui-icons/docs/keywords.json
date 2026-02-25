@@ -11834,5 +11834,20 @@
     "alias": ["5.0.0", "media", "slope-analysis", "transition", "map-features", "visualize"],
     "category": "Media",
     "release": "5.0.0"
+  },
+  "file-bim": {
+    "alias": ["5.0.0", "files", "direct-read", "coordinates", "geodatabase", "analysis", "tools"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-dwg": {
+    "alias": ["5.0.0", "files", "map", "geodatabase", "points", "polylines", "annotation"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-rvt": {
+    "alias": ["5.0.0", "files", "geodatabase", "3d", "feature", "data"],
+    "category": "Files",
+    "release": "5.0.0"
   }
 }
