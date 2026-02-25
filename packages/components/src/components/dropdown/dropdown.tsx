@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
 import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
 import {
@@ -81,8 +81,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   transitionProp = "opacity" as const;
 
-  referenceEl: ReferenceElement;
-
   private resizeObserver = createObserver("resize", (entries) =>
     this.resizeObserverCallback(entries),
   );
@@ -101,6 +99,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
   })(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() referenceEl: ReferenceElement;
 
   //#endregion
 
@@ -158,6 +162,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * However, a string `id` of the reference element can also be used.
    *
    *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   *
+   * @required
    */
   @property() referenceElement: ReferenceElement | string;
 
@@ -283,10 +289,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
     this.updateItems();
-
-    if (!this.referenceElementType) {
-      connectFloatingUI(this);
-    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -337,7 +339,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   loaded(): void {
     this.updateSelectedItems();
-    connectFloatingUI(this);
   }
 
   override disconnectedCallback(): void {
@@ -349,24 +350,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   //#endregion
 
   //#region Private Methods
-
-  setVirtualElement(x: number, y: number): void {
-    this.referenceEl = {
-      getBoundingClientRect() {
-        return {
-          width: 0,
-          height: 0,
-          x,
-          y,
-          top: y,
-          left: x,
-          right: x,
-          bottom: y,
-        };
-      },
-    };
-    connectFloatingUI(this);
-  }
 
   private openHandler(): void {
     if (this.disabled) {
@@ -579,17 +562,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
+    this.referenceEl = el;
+
     if (this.referenceEl instanceof HTMLElement) {
       updateRefObserver(this.resizeObserver, this.referenceEl, el);
     }
-
-    this.referenceEl = el;
-    connectFloatingUI(this);
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-    connectFloatingUI(this);
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

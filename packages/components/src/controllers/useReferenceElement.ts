@@ -41,10 +41,6 @@ export interface ReferenceElementComponent extends LitElement {
    * If true, disables the trigger interaction for the component.
    */
   triggerDisabled?: boolean;
-  /**
-   * Sets a virtual reference element position using viewport coordinates.
-   */
-  setVirtualElement?: (x: number, y: number) => void;
 }
 
 /**
