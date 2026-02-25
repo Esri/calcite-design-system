@@ -1343,6 +1343,8 @@
     "feature-details-set": 61880,
     "conditional-rules-down": 61881,
     "add-to-video-layer": 61882,
-    "add-to-livestream-video-layer": 61883
+    "add-to-livestream-video-layer": 61883,
+    "file-rvt": 61884,
+    "file-bim": 61885
   }
 }
