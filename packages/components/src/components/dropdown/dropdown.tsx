@@ -701,8 +701,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
         >
           <div
             ariaLabelledByElements={
-              // todo
-              this.referenceEl instanceof HTMLElement ? [this.referenceEl] : []
+              this.referenceEl instanceof HTMLElement ? [this.referenceEl] : undefined
             }
             class={{
               [CSS.content]: true,

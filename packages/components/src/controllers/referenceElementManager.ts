@@ -416,6 +416,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     pressTimer = window.setTimeout(() => pressed(composedPath, x, y), pressTimerDuration);
   };
 
+  const startMove = (): void => {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+  };
+
   const endPress = (event: TouchEvent): void => {
     if (event.defaultPrevented) {
       return;
@@ -444,6 +449,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.addEventListener("touchstart", startPress);
       window.addEventListener("touchend", endPress);
       window.addEventListener("touchcancel", endPress);
+      window.addEventListener("touchmove", startMove);
     }
   };
 
@@ -466,6 +472,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       window.removeEventListener("touchstart", startPress);
       window.removeEventListener("touchend", endPress);
       window.removeEventListener("touchcancel", endPress);
+      window.removeEventListener("touchmove", startMove);
     }
   };
 
