@@ -1,12 +1,20 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
-import { referenceElementManager } from "./referenceElementManager";
+import {
+  ReferenceElementComponentManager,
+  referenceElementManager,
+} from "./referenceElementManager";
 import { ReferenceElementComponent, useReferenceElement } from "./useReferenceElement";
 
 describe("useReferenceElement", () => {
-  const refClickManager = referenceElementManager({ click: true });
-  const refHoverManager = referenceElementManager({ hover: true });
+  let refClickManager: ReferenceElementComponentManager;
+  let refHoverManager: ReferenceElementComponentManager;
+
+  beforeEach(() => {
+    refClickManager = referenceElementManager({ click: true });
+    refHoverManager = referenceElementManager({ hover: true });
+  });
 
   class ReferenceElement extends LitElement {
     render(): JsxNode {
