@@ -2,40 +2,13 @@ name: Deploy Latest
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - "releases/**"
 permissions:
   contents: write
   pull-requests: write
 jobs:
-  sync-dev-to-main:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-22.04
-    permissions:
-      id-token: write
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-          token: ${{ secrets.ADMIN_TOKEN }}
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: package.json
-      - name: Sync dev to main
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git rebase --autostash origin/dev
-          git pull --rebase origin main
-          npm install
-          npm run build
-          npm test
-          git push origin main
-
   release-please:
-    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -44,16 +17,16 @@ jobs:
         id: release
         with:
           token: ${{ secrets.ADMIN_TOKEN }}
-          target-branch: main
+          target-branch: ${{ github.ref_name }}
       - name: Checkout Repository
         if: steps.release.outputs.releases_created == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
       - name: Setup Node
         if: steps.release.outputs.releases_created == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: package.json
           registry-url: "https://registry.npmjs.org"

@@ -7,16 +7,17 @@ on:
 
 permissions:
   issues: write
+  actions: write
 
 jobs:
   close-needs-more-info-issues:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Close issue if more info is not provided
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/closeNeedMoreInfoIssues.js')

@@ -2,8 +2,9 @@
 const { createLabelIfMissing } = require("./support/utils");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
+  const logParams = { title: "Add Calcite Package Label" };
 
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
@@ -11,12 +12,12 @@ module.exports = async ({ github, context }) => {
   } = payload;
 
   if (!body) {
-    console.log("could not determine the issue body");
+    core.notice("Could not determine the issue body", logParams);
     return;
   }
 
   // NOTE: assumes all packages will be in the @esri NPM scope
-  const packageRegex = /(?<=\[X\]\s@esri\/)[\w-]*$/gm;
+  const packageRegex = /(?<=\[X\]\s@esri\/)[\w-]*$/gim;
   const packages = body.match(packageRegex) || [];
 
   for (const package of packages) {
@@ -34,6 +35,19 @@ module.exports = async ({ github, context }) => {
       owner,
       repo,
       labels: [package],
+    });
+
+    await github.rest.actions.createWorkflowDispatch({
+      owner,
+      repo,
+      workflow_id: "issue-monday-sync.yml",
+      ref: "dev",
+      inputs: {
+        issue_number: issue_number.toString(),
+        event_type: "SyncActionChanges",
+        label_name: package,
+        label_action: "added"
+      },
     });
   }
 };

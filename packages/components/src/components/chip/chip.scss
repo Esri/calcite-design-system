@@ -1,0 +1,519 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-chip-background-color: Specifies the component's background color.
+ * @prop --calcite-chip-border-color: Specifies the component's border color.
+ * @prop --calcite-chip-close-icon-color: Specifies the component's close element icon color.
+ * @prop --calcite-chip-corner-radius: Specifies the component's corner radius.
+ * @prop --calcite-chip-icon-color: Specifies the component's icon color.
+ * @prop --calcite-chip-select-icon-color-press: Specifies the component's selection element icon color when active.
+ * @prop --calcite-chip-select-icon-color-pressed: [Deprecated] Use `--calcite-chip-select-icon-color-press`. Specifies the component's selection element icon color when active.
+ * @prop --calcite-chip-select-icon-color: Specifies the component's selection element icon color.
+ * @prop --calcite-chip-text-color: Specifies the component's text color.
+ *
+ */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-height
+// --calcite-internal-action-spacing
+// --calcite-internal-chip-background-color
+// --calcite-internal-chip-block-size
+// --calcite-internal-chip-border-color
+// --calcite-internal-chip-close-background-color-hover
+// --calcite-internal-chip-close-background-color-press
+// --calcite-internal-chip-close-icon-color
+// --calcite-internal-chip-close-icon-color-hover
+// --calcite-internal-chip-close-padding
+// --calcite-internal-chip-container-space-x-end
+// --calcite-internal-chip-container-space-x-start
+// --calcite-internal-chip-font-size
+// --calcite-internal-chip-icon-size
+// --calcite-internal-chip-icon-space
+// --calcite-internal-chip-image-size
+// --calcite-internal-chip-image-space-x-end
+// --calcite-internal-chip-select-space-x-end
+// --calcite-internal-chip-select-space-x-start
+// --calcite-internal-chip-selectable-active-background-color
+// --calcite-internal-chip-selectable-active-border-color
+// --calcite-internal-chip-selectable-hover-background-color
+// --calcite-internal-chip-selectable-hover-border-color
+// --calcite-internal-chip-title-space
+// --calcite-internal-close-size
+
+@use "../../styles/includes";
+
+:host {
+  @apply inline-flex
+    cursor-default;
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
+}
+
+/* Host Prop Variant styles */
+:host([closed]) {
+  display: none;
+}
+
+:host([appearance="outline"]),
+:host([appearance="outline-fill"]) {
+  .container {
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-chip-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-hover-border-color: var(--calcite-chip-border-color, var(--calcite-color-brand));
+    --calcite-internal-chip-selectable-active-border-color: var(
+      --calcite-chip-border-color,
+      var(--calcite-color-brand)
+    );
+  }
+
+  &:host([kind="inverse"]) {
+    --calcite-internal-chip-border-color: var(--calcite-chip-border-color, var(--calcite-color-border-inverse));
+  }
+
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-border-color: var(--calcite-chip-border-color, var(--calcite-color-border-1));
+  }
+}
+:host([appearance="outline"]) {
+  --calcite-internal-chip-background-color: transparent;
+}
+:host([appearance="outline-fill"]) {
+  --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-1));
+}
+:host([appearance="solid"]) {
+  --calcite-internal-chip-border-color: transparent;
+  --calcite-internal-chip-selectable-hover-border-color: transparent;
+  --calcite-internal-chip-selectable-active-border-color: transparent;
+
+  &:host([kind="brand"]),
+  &:host([kind="inverse"]) {
+    --calcite-internal-chip-close-background-color-hover: var(--calcite-color-transparent-inverse-hover);
+    --calcite-internal-chip-close-background-color-press: var(--calcite-color-transparent-inverse-press);
+    --calcite-internal-chip-close-icon-color: var(--calcite-color-text-inverse);
+    --calcite-internal-chip-close-icon-color-hover: var(--calcite-color-text-inverse);
+
+    .container {
+      color: var(--calcite-chip-text-color, var(--calcite-color-text-inverse));
+    }
+
+    .close {
+      --calcite-color-focus: var(--calcite-color-text-inverse);
+    }
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-brand));
+  }
+
+  &:host([kind="inverse"]) {
+    --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-inverse));
+  }
+
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-background-color: var(--calcite-chip-background-color, var(--calcite-color-foreground-2));
+  }
+}
+:host([kind="neutral"]) {
+  .container {
+    color: var(--calcite-chip-text-color, var(--calcite-color-text-1));
+  }
+}
+
+:host([selected]) .select-icon {
+  opacity: 1;
+}
+
+:host([appearance="solid"]) {
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-border-2);
+  }
+
+  &:host([kind="inverse"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-inverse-hover);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-inverse-press);
+  }
+
+  &:host([kind="brand"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-brand-hover);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-brand-press);
+  }
+}
+
+:host([appearance="outline-fill"]) {
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-chip-selectable-hover-border-color: var(--calcite-color-border-input);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-foreground-3);
+    --calcite-internal-chip-selectable-active-border-color: var(--calcite-color-text-3);
+  }
+
+  &:host([kind="inverse"]),
+  &:host([kind="brand"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-foreground-2);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-foreground-3);
+  }
+}
+
+:host([appearance="outline"]) {
+  &:host([kind="neutral"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-transparent-hover);
+    --calcite-internal-chip-selectable-hover-border-color: var(--calcite-color-border-input);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-transparent-press);
+    --calcite-internal-chip-selectable-active-border-color: var(--calcite-color-text-3);
+  }
+
+  &:host([kind="inverse"]),
+  &:host([kind="brand"]) {
+    --calcite-internal-chip-selectable-hover-background-color: var(--calcite-color-transparent-hover);
+    --calcite-internal-chip-selectable-active-background-color: var(--calcite-color-transparent-press);
+  }
+}
+
+:host([scale="s"]) {
+  --calcite-internal-chip-close-padding: var(--calcite-spacing-none);
+
+  .container {
+    --calcite-internal-chip-block-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
+    --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-font-size: var(--calcite-font-size--2);
+    --calcite-internal-chip-icon-size: var(--calcite-size-xs, 1rem) /* 16px */;
+    --calcite-internal-chip-icon-space: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-chip-image-size: var(--calcite-spacing-xl, 1.25rem) /* 20px */;
+    --calcite-internal-chip-title-space: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    --calcite-internal-close-size: var(--calcite-size-xs, 1rem) /* 16px */;
+
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+      }
+    }
+
+    &.image--slotted {
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      }
+      &:not(.text--slotted, :has(.chip-icon)),
+      &:not(.selectable) {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
+    }
+
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+          --calcite-internal-chip-select-space-x-start: 0.125rem /* 2px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+
+        &:not(.text--slotted) {
+          --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        }
+      }
+    }
+  }
+}
+
+:host([scale="m"]) {
+  --calcite-internal-chip-close-padding: var(--calcite-spacing-xxs);
+
+  .container {
+    --calcite-internal-chip-block-size: var(--calcite-size-md, 2rem) /* 32px */;
+    --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-font-size: var(--calcite-font-size--1);
+    --calcite-internal-chip-icon-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
+    --calcite-internal-chip-icon-space: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-chip-image-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
+    --calcite-internal-chip-title-space: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    --calcite-internal-close-size: var(--calcite-size-sm, 1.5rem) /* 24px */;
+
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-px);
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-px);
+      }
+    }
+
+    &.image--slotted {
+      &:not(.is-circle) {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      }
+
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+      }
+    }
+
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-px);
+        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+          --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-select-space-x-end: 0.125rem /* 2px */;
+      --calcite-internal-chip-select-space-x-start: 0.125rem /* 2px */;
+
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.5rem /* 8px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      }
+    }
+
+    &.closable:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+    }
+  }
+}
+
+:host([scale="l"]) {
+  --calcite-internal-chip-close-padding: var(--calcite-spacing-xxs);
+
+  .container {
+    --calcite-internal-chip-block-size: 2.75rem /* 44px */;
+    --calcite-internal-chip-container-space-x-end: 0.5rem /* 8px */;
+    --calcite-internal-chip-container-space-x-start: 0.5rem /* 8px */;
+    --calcite-internal-chip-font-size: var(--calcite-font-size-0);
+    --calcite-internal-chip-icon-size: var(--calcite-size-md, 2rem) /* 32px */;
+    --calcite-internal-chip-icon-space: 0.5rem /* 8px */;
+    --calcite-internal-chip-image-size: var(--calcite-size-md, 2rem) /* 32px */;
+    --calcite-internal-chip-title-space: 0.5rem /* 8px */;
+    --calcite-internal-close-size: var(--calcite-size-md, 2rem) /* 32px */;
+
+    &:not(.closable) {
+      &.is-circle {
+        --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      }
+    }
+
+    &.image--slotted {
+      &:not(.is-circle) {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+      }
+
+      &:has(.chip-icon),
+      &.text--slotted,
+      &.closable {
+        --calcite-internal-chip-image-space-x-end: 0.5rem /* 8px */;
+      }
+    }
+
+    &.selectable.single:not(.is-circle) {
+      &.image--slotted {
+        --calcite-internal-chip-container-space-x-start: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+      }
+      &.selected {
+        --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+        --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-none, 0);
+
+        &.image--slotted {
+          --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+          --calcite-internal-chip-select-space-x-start: 0.5rem /* 8px */;
+        }
+      }
+    }
+
+    &.multiple:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-start: 0.5rem /* 8px */;
+
+      --calcite-internal-chip-select-space-x-end: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+      --calcite-internal-chip-select-space-x-start: var(--calcite-spacing-xxs, 0.25rem) /* 4px */;
+
+      &.image--slotted {
+        --calcite-internal-chip-select-space-x-end: 0.75rem /* 12px */;
+      }
+    }
+
+    &.closable:not(.is-circle) {
+      --calcite-internal-chip-container-space-x-end: var(--calcite-spacing-xs, 0.375rem) /* 6px */;
+    }
+  }
+}
+
+// Sub-element styles
+.container {
+  @apply inline-flex
+  h-full
+  max-w-full
+  items-center
+  focus-base
+  justify-center
+  box-border
+  font-medium;
+
+  background-color: var(--calcite-internal-chip-background-color);
+  border-color: var(--calcite-internal-chip-border-color);
+  border-radius: var(--calcite-chip-corner-radius, 9999px);
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  font-size: var(--calcite-internal-chip-font-size, var(--calcite-font-size));
+  padding-inline-start: var(--calcite-internal-chip-container-space-x-start);
+  padding-inline-end: var(--calcite-internal-chip-container-space-x-end);
+  block-size: var(--calcite-internal-chip-block-size, auto);
+  inline-size: var(--calcite-internal-chip-inline-size, auto);
+  min-inline-size: var(--calcite-internal-chip-block-size, auto);
+
+  &:hover .select-icon--active {
+    opacity: var(--calcite-opacity-full, 1);
+  }
+
+  &.selectable {
+    @apply cursor-pointer;
+
+    &:hover {
+      background-color: var(--calcite-internal-chip-selectable-hover-background-color);
+      border-color: var(--calcite-internal-chip-selectable-hover-border-color);
+    }
+    &:active {
+      background-color: var(--calcite-internal-chip-selectable-active-background-color);
+      border-color: var(--calcite-internal-chip-selectable-active-border-color);
+    }
+  }
+  &:not(.non-interactive):focus {
+    @apply focus-outset;
+  }
+
+  &.text--slotted .title {
+    @apply truncate;
+  }
+
+  &:not(.text--slotted) .title,
+  &:not(.image--slotted) .image-container {
+    display: none;
+  }
+
+  &.is-circle {
+    .chip-icon,
+    .image-container {
+      padding: var(--calcite-spacing-none, 0);
+    }
+  }
+}
+
+.title {
+  padding-inline: var(--calcite-internal-chip-title-space);
+}
+
+.image-container {
+  @apply inline-flex overflow-hidden;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  block-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  inline-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  padding-inline-start: var(--calcite-spacing-none, 0);
+  padding-inline-end: var(--calcite-internal-chip-image-space-x-end, 0);
+}
+
+.chip-icon {
+  @apply relative my-0 inline-flex ease-in-out;
+  color: var(
+    --calcite-chip-icon-color,
+    var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
+  );
+  padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
+}
+
+.select-icon {
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  inset-block-start: -1px;
+  position: absolute;
+  visibility: hidden;
+  inline-size: auto;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease-in-out,
+    inline-size 0.15s ease-in-out;
+  color: var(--calcite-chip-select-icon-color, currentColor);
+
+  &.select-icon--active {
+    position: relative;
+    visibility: visible;
+    opacity: var(--calcite-opacity-half, 0.5);
+    color: var(
+      --calcite-chip-select-icon-color-press,
+      var(--calcite-chip-select-icon-color-pressed, var(--calcite-chip-select-icon-color, currentColor))
+    );
+  }
+}
+
+.multiple .select-icon {
+  @apply flex justify-center items-center;
+}
+
+.multiple .select-icon,
+.single .select-icon--active {
+  padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
+  padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
+  block-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  inline-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+}
+
+.close {
+  --calcite-action-background-color-hover: var(--calcite-internal-chip-close-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-internal-chip-close-background-color-press);
+  --calcite-action-corner-radius: var(--calcite-corner-radius-pill);
+  --calcite-action-text-color: var(
+    --calcite-chip-close-icon-color,
+    var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color))
+  );
+  --calcite-action-text-color-press: var(
+    --calcite-chip-close-icon-color,
+    var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
+  );
+  --calcite-icon-color: var(--calcite-action-text-color);
+  --calcite-internal-action-height: unset;
+  --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
+}
+
+slot[name="image"]::slotted(*) {
+  @apply rounded-half flex h-full w-full overflow-hidden;
+}
+
+@include includes.disabled();
+@include includes.base-component();

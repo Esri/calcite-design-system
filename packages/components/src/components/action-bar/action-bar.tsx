@@ -1,0 +1,521 @@
+// @ts-strict-ignore
+import { debounce } from "es-toolkit";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
+import { createObserver } from "../../utils/observers";
+import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { OverlayPositioning } from "../../utils/floating-ui";
+import { DEBOUNCE } from "../../utils/resources";
+import { useT9n } from "../../controllers/useT9n";
+import { useCancelable } from "../../controllers/useCancelable";
+import type { Tooltip } from "../tooltip/tooltip";
+import type { ActionGroup } from "../action-group/action-group";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { Action } from "../action/action";
+import { isAction } from "../action/resources";
+import { getOverflowCount } from "../../utils/overflow";
+import { focusElementInGroup } from "../../utils/dom";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { CSS, SLOTS } from "./resources";
+import { overflowActions, queryActions } from "./utils";
+import { styles } from "./action-bar.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-action-bar": ActionBar;
+  }
+}
+
+/**
+ * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
+ * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+ * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
+ */
+export class ActionBar extends LitElement {
+  //#region Static Members
+
+  static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private actions: Action["el"][] = [];
+
+  private containerRef = createRef<HTMLDivElement>();
+
+  private expandToggleEl: Action["el"];
+
+  private actionGroups: ActionGroup["el"][];
+
+  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
+
+  private cancelable = useCancelable<this>()(this);
+
+  private resize = debounce(({ width, height }: { width: number; height: number }): void => {
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+
+    if (
+      overflowActionsDisabled ||
+      (layout === "vertical" && !height) ||
+      (layout === "horizontal" && !width)
+    ) {
+      return;
+    }
+
+    const itemSizes = this.getItemSizes();
+
+    this.updateGroups();
+
+    const groupCount: number =
+      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+
+    let bufferSize = groupCount;
+    const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
+
+    bufferSize +=
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineStart
+          : actionBarContainerStyle.paddingBlockStart,
+      ) +
+      getStylePixelValue(
+        layout === "horizontal"
+          ? actionBarContainerStyle.paddingInlineEnd
+          : actionBarContainerStyle.paddingBlockEnd,
+      );
+
+    if (actionGroups.length > 0) {
+      actionGroups.forEach((actionGroup, i) => {
+        const actionGroupStyle = getComputedStyle(actionGroup);
+        const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
+        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        bufferSize += actionGroupGap * actionGroupGapQuantity;
+        if (i < actionGroups.length - 1) {
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.paddingInlineEnd
+              : actionGroupStyle.paddingBlockEnd,
+          );
+          bufferSize += getStylePixelValue(
+            layout === "horizontal"
+              ? actionGroupStyle.borderInlineEndWidth
+              : actionGroupStyle.borderBlockEndWidth,
+          );
+        }
+      });
+    }
+
+    if (groupCount > 0) {
+      for (let i = 1; i < groupCount; i++) {
+        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
+      }
+    }
+
+    const overflowCount = getOverflowCount({
+      bufferSize,
+      containerSize: layout === "horizontal" ? width : height,
+      itemSizes,
+    });
+
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowCount,
+    });
+  }, DEBOUNCE.resize);
+
+  private resizeHandler = (entry: ResizeObserverEntry): void => {
+    const { width, height } = entry.contentRect;
+    this.resize({ width, height });
+  };
+
+  private resizeObserver = createObserver("resize", (entries) =>
+    this.resizeHandlerEntries(entries),
+  );
+
+  private toggleExpand = (): void => {
+    this.expanded = !this.expanded;
+    this.calciteActionBarToggle.emit();
+  };
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private setExpandToggleEl = (el: Action["el"]): void => {
+    this.expandToggleEl = el;
+  };
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() expandTooltip: Tooltip["el"];
+
+  @state() hasActionsEnd = false;
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** Specifies an accessible name for the last `calcite-action-group`. */
+  @property() actionsEndGroupLabel: string;
+
+  /**
+   * When `true`, the component is in a floating state.
+   */
+  @property({ reflect: true }) floating = false;
+
+  /** When `true`, the expand-toggling behavior is disabled. */
+  @property({ reflect: true }) expandDisabled = false;
+
+  /** When `true`, expands the component and its contents. */
+  @property({ reflect: true }) expanded = false;
+
+  /** Specifies the layout direction of the actions. */
+  @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
+    "vertical";
+
+  /** Overrides individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  @property({ reflect: true }) overflowActionsDisabled = false;
+
+  /**
+   * Specifies the type of positioning to use for overlaid content, where:
+   *
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
+   *
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the position of the component depending on the element's `dir` property. */
+  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+
+  /** Specifies the size of the expand `calcite-action`. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the selection appearance of the component */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "neutral" | "highlight",
+    SelectionAppearance
+  > = "neutral";
+
+  //#endregion
+
+  //#region Public Methods
+
+  /**
+   * Overflows actions that won't fit into menus.
+   *
+   * @private
+   */
+  @method()
+  async overflowActions(): Promise<void> {
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
+  }
+
+  /**
+   * Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the component's content area is collapsed. */
+  calciteActionBarCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteActionBarExpand = createEvent({ cancelable: false });
+
+  /** Fires when the `expanded` property is toggled. */
+  calciteActionBarToggle = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen("keydown", this.handleKeyDown);
+  }
+
+  override connectedCallback(): void {
+    this.updateGroups();
+    this.overflowActions();
+    this.updateActions();
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.cancelable.add(this.resize);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
+      this.overflowActions();
+    }
+
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
+      this.updateGroups();
+    }
+
+    if (
+      changes.has("overflowActionsDisabled") &&
+      (this.hasUpdated || this.overflowActionsDisabled !== false)
+    ) {
+      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      this.expandedHandler();
+      if (this.expanded) {
+        this.calciteActionBarExpand.emit();
+      } else {
+        this.calciteActionBarCollapse.emit();
+      }
+    }
+
+    if (
+      changes.has("selectionAppearance") &&
+      (this.hasUpdated || this.selectionAppearance !== "neutral")
+    ) {
+      this.updateActions();
+    }
+  }
+
+  loaded(): void {
+    this.overflowActions();
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+    this.resizeObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private getItemSizes(): number[] {
+    const { el, layout, expandToggleEl } = this;
+
+    const actions = queryActions(el);
+
+    if (expandToggleEl) {
+      actions.push(expandToggleEl);
+    }
+
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
+    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
+    return actions.map((action) => action[clientSize] || fallbackSize);
+  }
+
+  private expandedHandler(): void {
+    const { el, expanded } = this;
+    toggleChildActionText({ el, expanded });
+    this.overflowActions();
+  }
+
+  private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
+    if (overflowActionsDisabled) {
+      this.resizeObserver?.disconnect();
+      return;
+    }
+
+    this.resizeObserver?.observe(this.el);
+    this.overflowActions();
+  }
+
+  private actionMenuOpenHandler(event: CustomEvent<void>): void {
+    if ((event.target as ActionGroup["el"]).menuOpen) {
+      const composedPath = event.composedPath();
+      this.actionGroups?.forEach((group) => {
+        if (!composedPath.includes(group)) {
+          group.menuOpen = false;
+        }
+      });
+    }
+  }
+
+  private mutationObserverHandler(): void {
+    this.updateGroups();
+    this.overflowActions();
+    this.queryAndStoreActions();
+    this.updateActions();
+  }
+
+  private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
+    entries.forEach(this.resizeHandler);
+  }
+
+  private updateGroups(): void {
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    this.actionGroups = groups;
+    groups.forEach((group) => {
+      group.layout = this.layout;
+      group.scale = this.scale;
+    });
+  }
+
+  private handleDefaultSlotChange(): void {
+    this.updateGroups();
+    this.queryAndStoreActions();
+    this.updateActions();
+  }
+
+  private handleActionsEndSlotChange(event: Event): void {
+    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+  }
+
+  private handleTooltipSlotChange(event: Event): void {
+    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
+      el?.matches("calcite-tooltip"),
+    );
+
+    this.expandTooltip = tooltips[0];
+  }
+
+  private updateActions(): void {
+    this.actions.forEach((action) => {
+      action.selectionAppearance = this.selectionAppearance;
+    });
+  }
+
+  private queryAndStoreActions(): void {
+    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  }
+
+  private handleKeyDown(event: KeyboardEvent): void {
+    this.queryAndStoreActions();
+    const actions = this.actions.filter((action) => !action.disabled);
+    const current = document.activeElement;
+
+    if (!isAction(current)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        focusElementInGroup(actions, current, "next", true);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        focusElementInGroup(actions, current, "previous", true);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(actions, current, "first", true);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(actions, current, "last", true);
+        event.preventDefault();
+        break;
+      case "Tab":
+        this.setActionTabIndexes(current);
+        break;
+    }
+  }
+
+  private setActionTabIndexes(active: Action["el"]): void {
+    this.actions.forEach((action: Action["el"]) => {
+      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    });
+  }
+
+  //#endregion
+
+  //#region Rendering
+
+  private renderBottomActionGroup(): JsxNode {
+    const {
+      expanded,
+      expandDisabled,
+      el,
+      position,
+      toggleExpand,
+      scale,
+      layout,
+      messages,
+      actionsEndGroupLabel,
+      overlayPositioning,
+    } = this;
+
+    const expandToggleNode = !expandDisabled ? (
+      <ExpandToggle
+        collapseLabel={messages.collapseLabel}
+        collapseText={messages.collapse}
+        el={el}
+        expandLabel={messages.expandLabel}
+        expandText={messages.expand}
+        expanded={expanded}
+        position={position}
+        ref={this.setExpandToggleEl}
+        scale={scale}
+        toggle={toggleExpand}
+        tooltip={this.expandTooltip}
+      />
+    ) : null;
+
+    return (
+      <calcite-action-group
+        class={CSS.actionGroupEnd}
+        hidden={this.expandDisabled && !this.hasActionsEnd}
+        label={actionsEndGroupLabel}
+        layout={layout}
+        overlayPositioning={overlayPositioning}
+        scale={scale}
+      >
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
+        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
+        {expandToggleNode}
+      </calcite-action-group>
+    );
+  }
+
+  override render(): JsxNode {
+    return (
+      <div
+        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        class={CSS.container}
+        ref={this.containerRef}
+        role="toolbar"
+      >
+        <slot onSlotChange={this.handleDefaultSlotChange} />
+        {this.renderBottomActionGroup()}
+      </div>
+    );
+  }
+
+  //#endregion
+}

@@ -1,7 +1,10 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [main, rc, dev]
+    branches:
+      - "releases/**"
+      - rc
+      - dev
 permissions:
   pull-requests: write
   issues: write
@@ -10,17 +13,17 @@ jobs:
     if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: "Assign author"
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor.js')
             await action({github, context, core})
 
       - name: "Add commit type label"
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType.js')
