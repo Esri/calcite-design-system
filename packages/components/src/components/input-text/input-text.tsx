@@ -63,8 +63,6 @@ export class InputText
 
   //#region Private Properties
 
-  internals: ElementInternals = this.el.attachInternals();
-
   private actionWrapperRef = createRef<HTMLDivElement>();
 
   attributeWatch = useWatchAttributes(
@@ -339,7 +337,7 @@ export class InputText
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
 
-    this.internals.setFormValue(this.value);
+    this.elementInternals.setFormValue(this.value);
 
     connectLabel(this);
     connectForm(this);
@@ -506,7 +504,7 @@ export class InputText
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
-    this.internals.setFormValue(value);
+    this.elementInternals.setFormValue(value);
 
     if (origin === "direct") {
       this.setInputValue(value);

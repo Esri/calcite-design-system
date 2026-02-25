@@ -66,8 +66,6 @@ export class InputTimePicker
 
   //#region Private Properties
 
-  internals: ElementInternals = this.el.attachInternals();
-
   /**
    * Made into a prop for testing purposes only
    *
@@ -291,7 +289,7 @@ export class InputTimePicker
   override connectedCallback(): void {
     connectLabel(this);
     connectForm(this);
-    this.internals.setFormValue(this.value);
+    this.elementInternals.setFormValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -513,7 +511,7 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
-      this.internals.setFormValue(newValue);
+      this.elementInternals.setFormValue(newValue);
     } else {
       this.requestTimePickerUpdate();
     }
