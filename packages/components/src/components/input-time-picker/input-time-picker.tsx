@@ -173,6 +173,9 @@ export class InputTimePicker
    */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
+  /** Specifies placeholder text to display when the input does not have focus. */
+  @property() placeholder?: string;
+
   /** Determines the `calcite-time-picker`'s position relative to the input. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
@@ -281,6 +284,7 @@ export class InputTimePicker
   constructor() {
     super();
     this.listen("blur", this.blurHandler);
+    this.listen("focus", this.focusHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
   }
@@ -349,6 +353,14 @@ export class InputTimePicker
       } else {
         this.previousEmittedValue = value;
       }
+    }
+  }
+
+  private focusHandler(event: FocusEvent): void {
+    const target = event.target as MenuItem["el"];
+    this.isFocused = true;
+    if (target.open && !this.open) {
+      target.open = false;
     }
   }
 
@@ -531,6 +543,7 @@ export class InputTimePicker
   //#region Rendering
 
   override render(): JsxNode {
+    console.log("active?", this.el.shadowRoot.activeElement);
     const { messages, readOnly, scale } = this;
     const {
       fractionalSecond,
@@ -559,6 +572,7 @@ export class InputTimePicker
     const secondIsNumber = isValidNumber(second);
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
+    const showPlaceholder = (this.placeholder && document.activeElement !== this.el) ?? false;
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
@@ -587,6 +601,7 @@ export class InputTimePicker
             icon={ICONS.clock}
             scale={scale === "l" ? "m" : "s"}
           />
+          {showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
           <div
             aria-label={getLabelText(this)}
             ariaRequired={this.required}

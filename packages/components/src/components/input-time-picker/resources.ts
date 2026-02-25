@@ -14,6 +14,7 @@ export const CSS = {
   meridiem: "meridiem",
   minute: "minute",
   minuteSuffix: "minute-suffix",
+  placeholder: "placeholder",
   readOnly: "read-only",
   second: "second",
   secondSuffix: "second-suffix",

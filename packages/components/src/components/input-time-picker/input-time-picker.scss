@@ -91,6 +91,13 @@ calcite-time-picker {
   white-space: pre;
 }
 
+.placeholder {
+  color: var(--calcite-color-text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .input-container {
   display: flex;
   flex-grow: 1;
