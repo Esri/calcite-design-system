@@ -69,8 +69,5 @@
     "svgo": "^4.0.0",
     "svgson": "5.3.1",
     "svgstore-cli": "2.0.1"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

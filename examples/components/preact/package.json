@@ -42,7 +42,7 @@
     "vite-plugin-static-copy": "^2.2.0",
     "vitest": "^3.0.6"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }

@@ -22,7 +22,7 @@
     "publish:rc": "./support/release.sh publish rc",
     "version:hotfix": "./support/release.sh version hotfix",
     "publish:hotfix": "./support/release.sh publish hotfix",
-    "prepare": "concurrently --raw \"husky\" \"node ./support/check-volta.mts\"",
+    "prepare": "concurrently --raw \"husky\" \"node ./support/check-mise.mts\"",
     "start": "turbo run start --log-order=stream",
     "start:components": "turbo run start --log-order=stream --filter=@esri/calcite-components",
     "test": "turbo run test --log-order=stream",
@@ -122,7 +122,7 @@
   },
   "license": "SEE LICENSE.md",
   "packageManager": "npm@10.9.2",
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   },
   "dependencies": {
