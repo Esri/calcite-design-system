@@ -381,6 +381,7 @@ export class InputText
       event.preventDefault();
     }
     if (event.key === "Enter") {
+      event.preventDefault();
       this.elementInternals.form.requestSubmit();
     }
   }
