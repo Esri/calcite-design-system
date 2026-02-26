@@ -191,8 +191,10 @@ export class Filter extends LitElement {
     }
 
     if (event.key === "Escape") {
-      this.clear();
-      event.preventDefault();
+      if (this.value.length > 0) {
+        this.clear();
+        event.preventDefault();
+      }
     }
 
     if (event.key === "Enter") {

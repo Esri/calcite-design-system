@@ -597,13 +597,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const { response, error } = await runQuery(query, queryVariables);
     if (error || !response?.data?.change_multiple_column_values) {
       const baseMessage = `Failed to update columns for ID ${id}.`;
+      const errorDetail = error || JSON.stringify(response?.errors);
       const queriedId = await queryForId();
       if (!queriedId || queriedId === id) {
         const skippedMessage = queriedId
           ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID.`
           : `Retry skipped because no alternate item ID was found.`;
         return buildUpdateError({
-          messages: [baseMessage, skippedMessage, error],
+          messages: [baseMessage, skippedMessage, errorDetail],
         });
       }
 
@@ -613,12 +614,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
         queryVariables,
       );
       if (retryError || !retryResponse?.data?.change_multiple_column_values) {
+        const retryErrorDetail = retryError || JSON.stringify(retryResponse?.errors);
         return buildUpdateError({
           messages: [
             baseMessage,
             `Retry failed for queried ID ${queriedId}.`,
             `Original error: ${error}.`,
-            `Retry error: ${retryError}.`,
+            `Retry error: ${retryErrorDetail}.`,
           ],
         });
       }
