@@ -29,9 +29,6 @@
     "eslint": ">=8.0.0"
   },
   "packageManager": "npm@8.19.4",
-  "volta": {
-    "extends": "../../package.json"
-  },
   "devDependencies": {
     "vitest": "4.0.18"
   }
