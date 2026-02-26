@@ -150,7 +150,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-You need [Node](https://nodejs.org/en) installed for development. If you do not already have Node, it is recommend to use [Mise](https://mise.jdx.dev/). Follow steps 1–3 from the [Getting Started page](https://mise.jdx.dev/getting-started.html), which automatically uses the Node and npm versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). If you use a different Node version manager, ensure it matches the major Node and npm versions specified in `engines`.
+An installation of [Node](https://nodejs.org/en) is required for development. It is recommended to use [Mise](https://mise.jdx.dev/), which automatically uses the Node and npm versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). You'll need to follow steps 1–3 from the [Getting Started page](https://mise.jdx.dev/getting-started.html). If you use a different Node version manager, ensure it matches the major Node and npm versions specified in `engines`.
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
