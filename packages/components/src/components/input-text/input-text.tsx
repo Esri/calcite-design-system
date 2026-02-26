@@ -18,8 +18,6 @@ import {
   connectForm,
   disconnectForm,
   FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
   MutableValidityState,
   submitForm,
 } from "../../utils/form";
@@ -30,7 +28,7 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
@@ -57,6 +55,8 @@ export class InputText
 {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override styles = styles;
 
   //#endregion
@@ -81,17 +81,6 @@ export class InputText
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedValue: string;
 
@@ -350,10 +339,6 @@ export class InputText
 
     connectLabel(this);
     connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -371,10 +356,6 @@ export class InputText
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -483,10 +464,6 @@ export class InputText
     if (event.key === "Enter") {
       this.emitChangeIfUserModified();
     }
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("text", this, input);
   }
 
   private setInputValue(newInputValue: string): void {
@@ -638,7 +615,6 @@ export class InputText
             <slot name={SLOTS.action} />
           </div>
           {this.suffixText ? suffixText : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
