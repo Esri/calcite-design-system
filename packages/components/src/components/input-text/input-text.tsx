@@ -14,13 +14,7 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
+import { FormComponent, MutableValidityState, submitForm } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
@@ -337,8 +331,9 @@ export class InputText
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
 
+    this.elementInternals.setFormValue(this.value);
+
     connectLabel(this);
-    connectForm(this);
   }
 
   async load(): Promise<void> {
@@ -355,7 +350,6 @@ export class InputText
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -498,6 +492,7 @@ export class InputText
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
+    this.elementInternals.setFormValue(this.value);
 
     if (origin === "direct") {
       this.setInputValue(value);
