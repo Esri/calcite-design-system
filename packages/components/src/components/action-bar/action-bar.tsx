@@ -184,7 +184,7 @@ export class ActionBar extends LitElement {
 
   /**
    * When `true`, expands the component and its contents.
-   * When a child `calcite-action` specifies `textEnabled` as `true`, `text` initially displays adjacent to its `icon` regardless of expansion.
+   * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
    */
   @property({ reflect: true }) expanded = false;
 
