@@ -182,7 +182,7 @@ export class ActionBar extends LitElement {
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When `true`, expands the component and its contents. */
+  /** When `true`, expands the component and its contents. If `textEnabled` is `true` on a child `calcite-action`, contents will be displayed initially, even if `expanded` is `false`. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies the layout direction of the actions. */

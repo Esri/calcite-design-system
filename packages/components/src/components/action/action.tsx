@@ -163,7 +163,7 @@ export class Action extends LitElement implements FormOwner {
    */
   @property() text: string;
 
-  /** When `true`, indicates whether the text is displayed. */
+  /** When `true`, indicates whether `text` is displayed next to the `icon`. */
   @property({ reflect: true }) textEnabled = false;
 
   /**
