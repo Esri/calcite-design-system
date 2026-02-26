@@ -14,7 +14,7 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { FormComponent, MutableValidityState, submitForm } from "../../utils/form";
+import { FormComponent, MutableValidityState } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
@@ -381,9 +381,7 @@ export class InputText
       event.preventDefault();
     }
     if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+      this.elementInternals.form.requestSubmit();
     }
   }
 
