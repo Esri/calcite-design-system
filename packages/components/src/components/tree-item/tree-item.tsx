@@ -51,17 +51,6 @@ export class TreeItem extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  private handleChildrenTransitionEnd = (event: TransitionEvent): void => {
-    const shouldBeHidden = !(this.parentExpanded || this.depth === 1);
-    if (
-      shouldBeHidden &&
-      (event.propertyName === "max-block-size" || event.propertyName === "opacity")
-    ) {
-      this.el.inert = true;
-      this.el.toggleAttribute("calcite-hydrated-hidden", true);
-    }
-  };
-
   //#endregion
 
   //#region State Properties
@@ -426,12 +415,7 @@ export class TreeItem extends LitElement {
       />
     ) : null;
 
-    const shouldBeVisible = this.parentExpanded || this.depth === 1;
-    if (shouldBeVisible) {
-      /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-      this.el.inert = false;
-      this.el.toggleAttribute("calcite-hydrated-hidden", false);
-    }
+    const hidden = !(this.parentExpanded || this.depth === 1);
     const isExpanded = this.updateAfterInitialRender && this.expanded;
     const { hasEndActions } = this;
     const slotNode = (
@@ -460,6 +444,8 @@ export class TreeItem extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
 
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -508,7 +494,6 @@ export class TreeItem extends LitElement {
             }}
             data-test-id="calcite-tree-children"
             onClick={this.childrenClickHandler}
-            onTransitionEnd={this.handleChildrenTransitionEnd}
             role={this.hasChildren ? "group" : undefined}
           >
             <slot name={SLOTS.children} onSlotChange={this.handleChildrenSlotChange} />

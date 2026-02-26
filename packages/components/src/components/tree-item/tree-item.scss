@@ -178,6 +178,11 @@
   transition:
     opacity 1000ms ease-in-out,
     max-block-size 1000ms ease-in-out;
+
+  @starting-style {
+    opacity: 0;
+    max-block-size: 0;
+  }
 }
 
 .node-container {
