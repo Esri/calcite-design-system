@@ -23,7 +23,7 @@ Users can help most by:<a href="#users-help" id="users-help" />
 Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
 
 > [!WARNING]
-> Pull requests must come from a cloned repo with a feature branch. **GitHub forks are not supported** since workflows triggered from forks cannot access repository secrets (e.g., Chromatic tokens), causing visual snapshot and CI checks to fail. See [GitHub documentation](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#security-hardening-with-open-source-workflows).
+> **Pull requests must come from a cloned repo with a feature branch**. GitHub forks are not supported since workflows triggered from forks cannot access repository secrets (e.g., Chromatic tokens), causing visual snapshot and CI checks to fail. Refer to [GitHub's documentation on security guidelines](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#security-hardening-with-open-source-workflows).
 
 To become a contributor, you must:
 
