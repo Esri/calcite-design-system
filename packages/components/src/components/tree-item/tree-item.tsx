@@ -154,12 +154,10 @@ export class TreeItem extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-
     if (changes.has("expanded")) {
       if (this.hasUpdated || this.expanded !== false) {
         this.updateChildTree();
       }
-
       if (this.hasUpdated) {
         if (this.expanded) {
           this.calciteTreeItemExpand.emit();
@@ -443,7 +441,6 @@ export class TreeItem extends LitElement {
         : undefined;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
-
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -455,7 +452,6 @@ export class TreeItem extends LitElement {
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
         : undefined;
-
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
