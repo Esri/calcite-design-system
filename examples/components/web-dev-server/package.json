@@ -13,9 +13,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.3"
+    "@esri/calcite-components": "5.0.2"
   },
   "devDependencies": {
     "@web/dev-server": "^0.4.6"
+  },
+  "engines": {
+    "node": "24.11.0"
   }
 }

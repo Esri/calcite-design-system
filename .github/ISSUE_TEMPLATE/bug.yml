@@ -1,6 +1,6 @@
 name: Bug
 description: Report a bug in a component
-labels: ["bug", "0 - new", "needs triage"]
+labels: ["bug", "needs triage"]
 body:
   - type: checkboxes
     id: existing-issues
@@ -13,11 +13,12 @@ body:
   - type: dropdown
     id: component
     validations:
-      required: false
+      required: true
     attributes:
       label: Which Component
       description: Which component(s) are related to this issue? (Select all that apply).
       multiple: true
+      default: 0
       options:
         - N/A
         - Unknown / Not Sure
@@ -142,7 +143,7 @@ body:
     attributes:
       label: Reproduction Sample
       description: |
-        We provide the following templates to help get started: [CodePen](https://codepen.io/pen?template=RwgrjEx) (just Calcite), [StackBlitz](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md) (Calcite with React wrapper), or [JS Bin](https://jsbin.com/qecewik/edit?html,output) (Calcite with Maps SDK for JS). You can also click the "Open in StackBlitz" link at the top of each of [Calcite example's](https://github.com/Esri/calcite-design-system/tree/dev/examples/components) README or make your own from scratch. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
+        We provide the following templates to help get started: [CodePen](https://codepen.io/pen?template=emzLWmy) (just Calcite), [StackBlitz](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md) (Calcite with React wrapper), or [JS Bin](https://jsbin.com/hilotub/edit?html,output) (Calcite with Maps SDK for JS). You can also click the "Open in StackBlitz" link at the top of each of [Calcite example's](https://github.com/Esri/calcite-design-system/tree/dev/examples/components) README or make your own from scratch. Alternatively, a [documentation sample](https://developers.arcgis.com/calcite-design-system/components) can be used if the issue is reproducible. If you are experiencing build or Node related errors, please provide a GitHub repo for the sample.
     validations:
       required: true
   - type: textarea
@@ -178,7 +179,7 @@ body:
     id: regression
     attributes:
       label: Regression?
-      description: Please provide the last working version if the issue is a regression. If a value is entered, the issue will be considered a regression and prioritized accordingly.
+      description: Please provide the last working version if the issue is a regression. If a valid semantic version is entered, the issue will be considered a regression and prioritized accordingly.
     validations:
       required: false
   - type: dropdown
@@ -250,6 +251,7 @@ body:
         - ArcGIS Network Analyst
         - ArcGIS Online
         - ArcGIS Pro
+        - ArcGIS Maps for Adobe Creative Cloud
         - ArcGIS Maps SDK for JavaScript
         - ArcGIS Scene Viewer
         - ArcGIS Site Scan

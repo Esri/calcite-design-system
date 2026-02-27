@@ -1,0 +1,368 @@
+// @ts-strict-ignore
+import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it, beforeEach } from "vitest";
+import { accessible, themed } from "../../tests/commonTests";
+import { CSS as INPUT_CSS } from "../input/resources";
+import { DEBOUNCE } from "../../utils/resources";
+import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
+import type { Filter } from "./filter";
+import { CSS } from "./resources";
+
+mockConsole();
+
+describe("accessible", () => {
+  accessible("calcite-filter");
+});
+
+it("sets scale on the input", async () => {
+  const scale = "s";
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-filter scale="${scale}"></calcite-filter>`);
+
+  const input = await page.find(`calcite-filter >>> calcite-input`);
+  expect(await input.getProperty("scale")).toBe(scale);
+});
+
+it("honors label property", async () => {
+  const page = await newE2EPage();
+  const label = "hello world";
+  await page.setContent(`<calcite-filter label="${label}"></calcite-filter>`);
+
+  const input = await page.find(`calcite-filter >>> calcite-input`);
+  expect(await input.getProperty("label")).toBe(label);
+});
+
+describe("strings", () => {
+  it("should update the filter placeholder when a string is provided", async () => {
+    const page = await newE2EPage();
+    const placeholderText = "placeholder";
+    await page.setContent(`<calcite-filter placeholder="${placeholderText}"></calcite-filter>`);
+
+    const input = await page.find(`calcite-filter >>> calcite-input`);
+    expect(await input.getProperty("placeholder")).toBe(placeholderText);
+  });
+});
+
+describe("clear button", () => {
+  let page;
+
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent("<calcite-filter></calcite-filter>");
+    await page.evaluate(() => {
+      const filter = document.querySelector("calcite-filter");
+      filter.items = [{ foo: "bar" }];
+    });
+  });
+
+  describe("clearing value", () => {
+    const filterIsFocused = async (): Promise<boolean> =>
+      page.evaluate(() => document.querySelector("calcite-filter") === document.activeElement);
+
+    it("should clear the value in the input when pressed", async () => {
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.type("developer");
+      await page.waitForChanges();
+
+      expect(await filter.getProperty("value")).toBe("developer");
+
+      await page.$eval(
+        "calcite-filter",
+        async (filter: Filter["el"], buttonSelector: string): Promise<void> => {
+          return filter.shadowRoot
+            .querySelector("calcite-input")
+            .shadowRoot.querySelector<HTMLElement>(buttonSelector)
+            .click();
+        },
+        `.${INPUT_CSS.clearButton}`,
+      );
+      await page.waitForChanges();
+
+      expect(await filter.getProperty("value")).toBe("");
+      expect(await filterIsFocused()).toBe(true);
+    });
+
+    it("should clear the value in the input when the Escape key is pressed", async () => {
+      const filter = await page.find("calcite-filter");
+      await filter.callMethod("setFocus");
+      await page.waitForChanges();
+
+      await page.keyboard.type("developer");
+      await page.waitForChanges();
+
+      await page.keyboard.press("Escape");
+      await page.waitForChanges();
+
+      expect(await filter.getProperty("value")).toBe("");
+      expect(await filterIsFocused()).toBe(true);
+    });
+  });
+});
+
+function assertMatchingItems(filtered: any[], values: string[]): void {
+  expect(filtered).toHaveLength(values.length);
+  values.forEach((value) => expect(filtered.find((element) => element.value === value)).toBeDefined());
+}
+
+describe("filter behavior", () => {
+  let page: E2EPage;
+
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent("<calcite-filter></calcite-filter>");
+    await page.evaluate(() => {
+      const filter = document.querySelector("calcite-filter");
+      filter.items = [
+        {
+          name: "Harry",
+          description: "developer",
+          value: "harry",
+          metadata: { hairColor: "red", favoriteBand: "MetallicA" },
+        },
+        {
+          name: "Matt",
+          description: "developer",
+          value: "matt",
+          metadata: { hairColor: "black", favoriteBand: "Radiohead" },
+        },
+        {
+          name: "Franco",
+          description: "developer",
+          value: "franco",
+          metadata: { hairColor: "black", favoriteBand: "The Mars Volta" },
+        },
+        {
+          name: "Katy",
+          description: "engineer",
+          value: "katy",
+          metadata: { hairColor: "red", favoriteBand: "unknown" },
+        },
+        {
+          name: "Jon",
+          description: "developer",
+          value: "jon",
+          metadata: { hairColor: "brown", favoriteBand: "Hippity Hops" },
+        },
+        {
+          name: "regex",
+          description: "regex",
+          value: "regex",
+          metadata: { hairColor: "rainbow", favoriteBand: "regex()" },
+        },
+      ];
+    });
+  });
+
+  it("updates filtered items after filtering", async () => {
+    const filter = await page.find("calcite-filter");
+    const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+    await page.waitForTimeout(DEBOUNCE.filter);
+    await page.waitForChanges();
+
+    expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "katy", "jon", "regex"]);
+
+    const filterChangeEventSpy = await page.spyOnEvent("calciteFilterChange");
+    await filter.callMethod("setFocus");
+    await page.waitForChanges();
+    await filter.type("developer");
+    await filterChangeEventSpy.next();
+
+    expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["harry", "matt", "franco", "jon"]);
+
+    await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
+      filter.items = filter.items.slice(3);
+    });
+    await page.waitForTimeout(DEBOUNCE.filter);
+    await page.waitForChanges();
+
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["jon"]);
+    expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+
+    await page.$eval("calcite-filter", (filter: Filter["el"]): void => {
+      filter.items = [];
+    });
+    await page.waitForTimeout(DEBOUNCE.filter);
+    await page.waitForChanges();
+    assertMatchingItems(await filter.getProperty("filteredItems"), []);
+    expect(filterChangeSpy).toHaveReceivedEventTimes(1);
+  });
+
+  it("searches recursively in items and works and matches on a partial string ignoring case", async () => {
+    const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
+    const filter = await page.find("calcite-filter");
+
+    await filter.callMethod("setFocus");
+    await page.waitForChanges();
+    await filter.type("volt");
+    await waitForEventSpy.next();
+
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["franco"]);
+  });
+
+  it("should escape regex", async () => {
+    const waitForEventSpy = await page.spyOnEvent("calciteFilterChange");
+    const filter = await page.find("calcite-filter");
+
+    await filter.callMethod("setFocus");
+    await page.waitForChanges();
+    await filter.type("regex()");
+    await waitForEventSpy.next();
+
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["regex"]);
+  });
+});
+
+describe("filter behavior with predefined value prop", () => {
+  let page: E2EPage;
+
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
+    await page.evaluate(() => {
+      const filter = document.querySelector("calcite-filter");
+      filter.items = [
+        {
+          name: "Harry",
+          description: "developer",
+          value: "harry",
+          metadata: { hairColor: "red", favoriteBand: "MetallicA" },
+        },
+        {
+          name: "Matt",
+          description: "developer",
+          value: "matt",
+          metadata: { hairColor: "black", favoriteBand: "Radiohead" },
+        },
+      ];
+    });
+  });
+
+  it("should return matching value", async () => {
+    const filter = await page.find("calcite-filter");
+    await page.waitForTimeout(DEBOUNCE.filter);
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
+  });
+
+  it("should return no matching values", async () => {
+    const filter = await page.find("calcite-filter");
+    filter.setProperty("filterProps", ["description"]);
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.filter);
+    assertMatchingItems(await filter.getProperty("filteredItems"), []);
+  });
+});
+
+describe("filter method", () => {
+  let page: E2EPage;
+
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent(`<calcite-filter></calcite-filter>`);
+    await page.evaluate(() => {
+      const filter = document.querySelector("calcite-filter");
+      filter.items = [
+        {
+          name: "Harry",
+          description: "developer",
+          value: "harry",
+          metadata: { hairColor: "red", favoriteBand: "MetallicA" },
+        },
+        {
+          name: "Matt",
+          description: "developer",
+          value: "matt",
+          metadata: { hairColor: "black", favoriteBand: "Radiohead" },
+        },
+      ];
+    });
+  });
+
+  it("should filter with value argument", async () => {
+    const filter = await page.find("calcite-filter");
+    const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+    await filter.callMethod("filter", "Matt");
+    await page.waitForChanges();
+    expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["matt"]);
+  });
+
+  it("should filter without value argument", async () => {
+    const filter = await page.find("calcite-filter");
+    filter.setProperty("value", "harry");
+    await page.waitForChanges();
+    const filterChangeSpy = await page.spyOnEvent("calciteFilterChange");
+    await filter.callMethod("filter");
+    await page.waitForChanges();
+    expect(filterChangeSpy).toHaveReceivedEventTimes(0);
+    assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(html`<calcite-filter></calcite-filter>`, {
+      "--calcite-filter-content-space": {
+        targetProp: "padding",
+        shadowSelector: `.${CSS.container}`,
+      },
+      "--calcite-filter-input-background-color": {
+        targetProp: "--calcite-input-background-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-border-color": {
+        targetProp: "--calcite-input-border-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-corner-radius": {
+        targetProp: "--calcite-input-corner-radius",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-shadow": {
+        targetProp: "--calcite-input-shadow",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-icon-color": {
+        targetProp: "--calcite-input-icon-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-text-color": {
+        targetProp: "--calcite-input-text-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-placeholder-text-color": {
+        targetProp: "--calcite-input-placeholder-text-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-background-color": {
+        targetProp: "--calcite-input-actions-background-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-background-color-hover": {
+        targetProp: "--calcite-input-actions-background-color-hover",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-background-color-press": {
+        targetProp: "--calcite-input-actions-background-color-press",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-icon-color": {
+        targetProp: "--calcite-input-actions-icon-color",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-icon-color-hover": {
+        targetProp: "--calcite-input-actions-icon-color-hover",
+        shadowSelector: "calcite-input",
+      },
+      "--calcite-filter-input-actions-icon-color-press": {
+        targetProp: "--calcite-input-actions-icon-color-press",
+        shadowSelector: "calcite-input",
+      },
+    });
+  });
+});

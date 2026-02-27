@@ -1,6 +1,6 @@
 name: Documentation
 description: Report issues with documentation
-labels: ["docs", "0 - new", "needs triage"]
+labels: ["docs", "needs triage"]
 body:
   - type: markdown
     attributes:
@@ -10,11 +10,12 @@ body:
   - type: dropdown
     id: component
     validations:
-      required: false
+      required: true
     attributes:
       label: Which Component
       description: Which component(s) are related to this issue? (Select all that apply).
       multiple: true
+      default: 0
       options:
         - N/A
         - Unknown / Not Sure
@@ -125,12 +126,6 @@ body:
     attributes:
       label: Description
       description: What needs to be added or fixed?
-    validations:
-      required: true
-  - type: textarea
-    id: component
-    attributes:
-      label: Which Component
     validations:
       required: true
   - type: textarea

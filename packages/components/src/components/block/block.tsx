@@ -1,0 +1,665 @@
+// @ts-strict-ignore
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { Heading, HeadingLevel } from "../functional/Heading";
+import { FlipContext, Position, Scale, Status } from "../interfaces";
+import { getIconScale } from "../../utils/component";
+import { toggleOpenClose } from "../../utils/openCloseComponent";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
+import { IconName } from "../icon/interfaces";
+import { useT9n } from "../../controllers/useT9n";
+import { logger } from "../../utils/logger";
+import { SortHandle } from "../sort-handle/sort-handle";
+import { useSetFocus } from "../../controllers/useSetFocus";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
+import { styles as headerStyles } from "../../styles/component/header.scss";
+import { SortMenuItem } from "../sort-handle/interfaces";
+import { BlockSection } from "../block-section/block-section";
+import { useInteractive } from "../../controllers/useInteractive";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
+import { styles } from "./block.scss";
+
+declare global {
+  interface DeclareElements {
+    "calcite-block": Block;
+  }
+}
+
+/**
+ * @slot - A slot for adding custom content.
+ * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+ * @slot content-end - A slot for adding non-actionable elements after the component's header text.
+ * @slot content-start - A slot for adding non-actionable elements before the component's header text.
+ * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
+ */
+export class Block extends LitElement {
+  //#region Static Members
+
+  static override styles = [headerStyles, styles, sortableStyles];
+
+  //#endregion
+
+  //#region Private Properties
+
+  transitionProp = "margin-top" as const;
+
+  transitionEl: HTMLElement;
+
+  private blockSectionChildren: BlockSection["el"][] = [];
+
+  private sortHandleEl: SortHandle["el"];
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private interactiveContainer = useInteractive(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() hasContentEnd = false;
+
+  @state() hasContentStart = false;
+
+  @state() hasEndActions = false;
+
+  @state() hasMenuActions = false;
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** When `true`, the component is collapsible. */
+  @property({ reflect: true }) collapsible = false;
+
+  /** Specifies a description for the component. Displays below the heading. */
+  @property() description: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
+
+  /** When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable. */
+  @property({ reflect: true }) dragDisabled = false;
+
+  /**
+   * When `true`, the component displays a draggable button.
+   *
+   * @deprecated in v3.0.0, removal target v6.0.0 - No longer necessary. Use Block Group for draggable functionality.
+   */
+  @property({ reflect: true }) dragHandle = false;
+
+  /** When `true`, expands the component and its contents. */
+  @property({ reflect: true }) expanded = false;
+
+  /**
+   * Specifies the component's heading text.
+   *
+   */
+  @property() heading: string;
+
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies an icon to display at the end of the component. */
+  @property({ reflect: true, type: String }) iconEnd: IconName;
+
+  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /** Specifies an icon to display at the start of the component. */
+  @property({ reflect: true, type: String }) iconStart: IconName;
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /**
+   * Specifies an accessible label for the component.
+   */
+  @property() label: string;
+
+  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
+  @property() menuFlipPlacements: FlipPlacement[];
+
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+
+  /** Overrides individual strings used by the component. */
+  @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Defines the "Add to" items.
+   *
+   * @private
+   */
+  @property() addToItems: SortMenuItem[] = [];
+
+  /**
+   * Defines the "Move to" items.
+   *
+   * @private
+   */
+  @property() moveToItems: SortMenuItem[] = [];
+
+  /**
+   * Prevents reordering the component.
+   *
+   * @private
+   */
+  @property() sortDisabled = false;
+
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
+   */
+  @property({ reflect: true })
+  get open(): boolean {
+    return this.expanded;
+  }
+  set open(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "open",
+      removalVersion: 5,
+      suggested: "expanded",
+    });
+    this.expanded = value;
+  }
+
+  /**
+   * Specifies the type of positioning to use for overlaid content, where:
+   *
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
+   *
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setPosition: number = null;
+
+  /**
+   * Used to determine what menu options are available in the sort-handle
+   *
+   * @private
+   */
+  @property() setSize: number = null;
+
+  /** When `true`, displays and positions the sort handle. */
+  @property({ reflect: true }) sortHandleOpen = false;
+
+  /**
+   * Displays a status-related indicator icon.
+   *
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
+   */
+  @property({ reflect: true }) status: Status;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  //#endregion
+
+  //#region Public Methods
+
+  /**
+   * Sets focus on the component's first tabbable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  calciteBlockBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteBlockBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component is closed and animation is complete. */
+  calciteBlockClose = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is collapsed. */
+  calciteBlockCollapse = createEvent({ cancelable: false });
+
+  /** Fires when the component's content area is expanded. */
+  calciteBlockExpand = createEvent({ cancelable: false });
+
+  /** Fires when the component is open and animation is complete. */
+  calciteBlockOpen = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  calciteBlockSortHandleBeforeOpen = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is closed and animation is complete. */
+  calciteBlockSortHandleClose = createEvent({ cancelable: false });
+
+  /** Fires when the sort handle is open and animation is complete. */
+  calciteBlockSortHandleOpen = createEvent({ cancelable: false });
+
+  /**
+   * Fires when the component's header is clicked.
+   *
+   * @deprecated in v3.0.0, removal target v6.0.0 - Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
+   */
+  calciteBlockToggle = createEvent({ cancelable: false });
+
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  override connectedCallback(): void {
+    this.transitionEl = this.el;
+  }
+
+  load(): void {
+    if (!this.heading && !this.label) {
+      logger.warn(
+        `${this.el.tagName} is missing both heading & label. Please provide a heading or label for the component to be accessible.`,
+      );
+    }
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
+    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
+    Please refactor your code to reduce the need for this check.
+    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
+      toggleOpenClose(this);
+    }
+
+    if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
+      this.sortHandleOpenHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
+      if (this.expanded) {
+        this.calciteBlockExpand.emit();
+      } else {
+        this.calciteBlockCollapse.emit();
+      }
+    }
+
+    if (changes.has("scale") && this.hasUpdated) {
+      this.updateBlockSectionScale();
+    }
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  onBeforeOpen(): void {
+    this.calciteBlockBeforeOpen.emit();
+  }
+
+  onOpen(): void {
+    this.calciteBlockOpen.emit();
+  }
+
+  onBeforeClose(): void {
+    this.calciteBlockBeforeClose.emit();
+  }
+
+  onClose(): void {
+    this.calciteBlockClose.emit();
+  }
+
+  private sortHandleOpenHandler(): void {
+    if (!this.sortHandleEl) {
+      return;
+    }
+
+    // we set the property instead of the attribute to ensure expanded/collapsed events are emitted properly
+    this.sortHandleEl.open = this.sortHandleOpen;
+  }
+
+  private setSortHandleEl(el: SortHandle["el"]): void {
+    this.sortHandleEl = el;
+    this.sortHandleOpenHandler();
+  }
+
+  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeOpen.emit();
+  }
+
+  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.calciteBlockSortHandleBeforeClose.emit();
+  }
+
+  private handleSortHandleClose(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = false;
+    this.calciteBlockSortHandleClose.emit();
+  }
+
+  private handleSortHandleOpen(event: CustomEvent<void>): void {
+    event.stopPropagation();
+    this.sortHandleOpen = true;
+    this.calciteBlockSortHandleOpen.emit();
+  }
+
+  private onHeaderClick(): void {
+    this.expanded = !this.expanded;
+    this.calciteBlockToggle.emit();
+  }
+
+  private menuActionsSlotChangeHandler(event: Event): void {
+    this.hasMenuActions = slotChangeHasAssignedElement(event);
+  }
+
+  private actionsEndSlotChangeHandler(event: Event): void {
+    this.hasEndActions = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentEndSlotChange(event: Event): void {
+    this.hasContentEnd = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentStartSlotChange(event: Event): void {
+    this.hasContentStart = slotChangeHasAssignedElement(event);
+  }
+
+  private handleDefaultSlotChange(event: Event): void {
+    this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
+    this.updateBlockSectionScale();
+  }
+
+  private updateBlockSectionScale(): void {
+    this.blockSectionChildren.forEach((el: BlockSection["el"]) => {
+      el.scale = this.scale;
+    });
+  }
+
+  //#endregion
+
+  //#region Rendering
+
+  private renderScrim(): JsxNode {
+    const { loading } = this;
+    const defaultSlot = <slot onSlotChange={this.handleDefaultSlotChange} />;
+
+    return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
+  }
+
+  private renderLoaderStatusIcon(): JsxNode {
+    const { loading, messages, status } = this;
+
+    return loading ? (
+      <div class={CSS.icon} key="loader">
+        <calcite-loader inline label={messages.loading} scale={this.scale} />
+      </div>
+    ) : status ? (
+      <div class={CSS.icon} key="status-icon">
+        <calcite-icon
+          class={{
+            [CSS.statusIcon]: true,
+            [CSS.valid]: status == "valid",
+            [CSS.invalid]: status == "invalid",
+          }}
+          icon={ICONS[status]}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
+    ) : null;
+  }
+
+  private renderActionsEnd(): JsxNode {
+    return (
+      <div class={CSS.actionsEnd} hidden={!this.hasEndActions}>
+        <slot name={SLOTS.actionsEnd} onSlotChange={this.actionsEndSlotChangeHandler} />
+      </div>
+    );
+  }
+
+  private renderContentEnd(): JsxNode {
+    return (
+      <div
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        hidden={!this.hasContentEnd}
+      >
+        <div class={CSS.contentEnd}>
+          <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
+        </div>
+      </div>
+    );
+  }
+
+  private renderContentStart(): JsxNode {
+    return (
+      <div class={CSS.contentStart} hidden={!this.hasContentStart}>
+        <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
+      </div>
+    );
+  }
+
+  private renderTitle(): JsxNode {
+    const { heading, headingLevel, description } = this;
+    return heading || description ? (
+      <div class={CSS.title}>
+        <Heading class={CSS.heading} level={headingLevel}>
+          {heading}
+        </Heading>
+        {description ? <div class={CSS.description}>{description}</div> : null}
+      </div>
+    ) : null;
+  }
+
+  private renderIcon(position: Extract<"start" | "end", Position>): JsxNode {
+    const { iconFlipRtl } = this;
+
+    const flipRtl =
+      iconFlipRtl === "both" || position === "start"
+        ? iconFlipRtl === "start"
+        : iconFlipRtl === "end";
+
+    const iconValue = position === "start" ? this.iconStart : this.iconEnd;
+    const iconClass = position === "start" ? CSS.iconStart : CSS.iconEnd;
+
+    if (!iconValue) {
+      return undefined;
+    }
+
+    return (
+      <calcite-icon
+        class={iconClass}
+        flipRtl={flipRtl}
+        icon={iconValue}
+        key={iconValue}
+        scale={getIconScale(this.scale)}
+      />
+    );
+  }
+
+  override render(): JsxNode {
+    const {
+      collapsible,
+      loading,
+      expanded,
+      label,
+      heading,
+      messages,
+      description,
+      menuFlipPlacements,
+      menuPlacement,
+      moveToItems,
+      addToItems,
+      setPosition,
+      setSize,
+      dragDisabled,
+      sortDisabled,
+      iconEnd,
+      hasContentEnd,
+      hasContentStart,
+      iconStart,
+    } = this;
+
+    const toggleLabel = expanded ? messages.collapse : messages.expand;
+    const headerHasContent = !!(
+      heading ||
+      description ||
+      hasContentEnd ||
+      hasContentStart ||
+      iconStart ||
+      loading ||
+      status
+    );
+
+    const headerContent = (
+      <header
+        class={{
+          [CSS.header]: true,
+          [CSS.headerHasContent]: headerHasContent,
+          [CSS.headerDraggable]: this.dragHandle,
+        }}
+        id={IDS.header}
+      >
+        {this.renderIcon("start")}
+        {this.renderContentStart()}
+        {this.renderLoaderStatusIcon()}
+        {this.renderTitle()}
+      </header>
+    );
+
+    const collapseIcon = expanded ? ICONS.expanded : ICONS.collapsed;
+
+    const headerNode = (
+      <div class={CSS.headerContainer}>
+        {this.dragHandle ? (
+          <calcite-sort-handle
+            addToItems={addToItems}
+            disabled={dragDisabled}
+            label={heading || label}
+            moveToItems={moveToItems}
+            oncalciteSortHandleBeforeClose={this.handleSortHandleBeforeClose}
+            oncalciteSortHandleBeforeOpen={this.handleSortHandleBeforeOpen}
+            oncalciteSortHandleClose={this.handleSortHandleClose}
+            oncalciteSortHandleOpen={this.handleSortHandleOpen}
+            overlayPositioning="fixed"
+            ref={this.setSortHandleEl}
+            scale={this.scale}
+            setPosition={setPosition}
+            setSize={setSize}
+            sortDisabled={sortDisabled}
+            topLayerDisabled={this.topLayerDisabled}
+          />
+        ) : null}
+        {collapsible ? (
+          <button
+            aria-controls={IDS.content}
+            aria-describedby={IDS.header}
+            ariaExpanded={collapsible ? expanded : null}
+            class={CSS.toggle}
+            id={IDS.toggle}
+            onClick={this.onHeaderClick}
+            title={toggleLabel}
+          >
+            {headerContent}
+            <div class={CSS.iconEndContainer}>
+              {this.renderContentEnd()}
+              {this.renderIcon("end")}
+              <calcite-icon
+                class={CSS.toggleIcon}
+                icon={collapseIcon}
+                scale={getIconScale(this.scale)}
+              />
+            </div>
+          </button>
+        ) : (
+          headerContent
+        )}
+        {iconEnd && !collapsible ? (
+          <div class={CSS.iconEndContainer}>
+            {this.renderContentEnd()}
+            {this.renderIcon("end")}
+          </div>
+        ) : !iconEnd && !collapsible ? (
+          this.renderContentEnd()
+        ) : null}
+        <calcite-action-menu
+          flipPlacements={menuFlipPlacements ?? ["top", "bottom"]}
+          hidden={!this.hasMenuActions}
+          label={messages.options}
+          overlayPositioning={this.overlayPositioning}
+          placement={menuPlacement}
+          scale={this.scale}
+          topLayerDisabled={this.topLayerDisabled}
+        >
+          <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
+        </calcite-action-menu>
+        {this.renderActionsEnd()}
+      </div>
+    );
+
+    return (
+      <this.interactiveContainer disabled={this.disabled}>
+        <article
+          aria-label={label}
+          ariaBusy={loading}
+          class={{
+            [CSS.container]: true,
+          }}
+        >
+          {headerNode}
+          <section
+            aria-labelledby={IDS.toggle}
+            class={CSS.content}
+            hidden={!expanded}
+            id={IDS.content}
+          >
+            {this.renderScrim()}
+          </section>
+        </article>
+      </this.interactiveContainer>
+    );
+  }
+
+  //#endregion
+}

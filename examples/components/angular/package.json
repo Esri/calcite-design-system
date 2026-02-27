@@ -14,7 +14,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "copy": "ncp ./node_modules/@esri/calcite-components/dist/calcite/assets ./public/assets",
+    "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets ./public/assets",
     "postinstall": "npm run copy"
   },
   "dependencies": {
@@ -24,7 +24,7 @@
     "@angular/forms": "^20.3.3",
     "@angular/platform-browser": "^20.3.3",
     "@angular/router": "^20.3.3",
-    "@esri/calcite-components": "3.3.3",
+    "@esri/calcite-components": "5.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
@@ -42,5 +42,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
+  },
+  "engines": {
+    "node": "24.11.0"
   }
 }

@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.3",
+    "@esri/calcite-components": "5.0.2",
     "preact": "^10.26.2",
     "preact-iso": "^2.9.0"
   },
@@ -42,7 +42,7 @@
     "vite-plugin-static-copy": "^2.2.0",
     "vitest": "^3.0.6"
   },
-  "volta": {
-    "node": "18.13.0"
+  "engines": {
+    "node": "24.11.0"
   }
 }

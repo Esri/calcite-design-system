@@ -15,12 +15,15 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.3"
+    "@esri/calcite-components": "5.0.2"
   },
   "devDependencies": {
-    "@types/node": "^22.1.0",
+    "@types/node": "24.10.0",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "vite-plugin-static-copy": "^1.0.6"
+  },
+  "engines": {
+    "node": "24.11.0"
   }
 }

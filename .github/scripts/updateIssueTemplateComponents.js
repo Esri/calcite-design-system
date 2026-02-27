@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const componentsDir = path.join(process.cwd(), "packages", "calcite-components", "src", "components");
+const componentsDir = path.join(process.cwd(), "packages", "components", "src", "components");
 const blockList = new Set([
   "Action Menu",
   "Color Picker Hex Input",
@@ -39,7 +39,7 @@ async function main() {
   const allFiles = fs.readdirSync(templateDir);
 
   // Only update these template types
-  const targetPattern = /bug|accessibility|documentation|enhancement/i;
+  const targetPattern = /bug|accessibility|documentation|enhancement|refactor|test/i;
   const files = allFiles.filter((f) => targetPattern.test(f));
   if (files.length === 0) {
     console.log("No templates for bug, accessibility, documentation, or enhancement found in", templateDir);
@@ -71,7 +71,7 @@ async function main() {
       let componentsListEndIdx = optionsLineIndex + 1;
       while (componentsListEndIdx < lines.length) {
         // Stop when we hit the next input marker '- type:'
-        if (/^\s*\-\s*type:/.test(lines[componentsListEndIdx])) break;
+        if (/^\s*-\s*type:/.test(lines[componentsListEndIdx])) break;
         componentsListEndIdx++;
       }
 

@@ -15,7 +15,7 @@
     "start": "serve public"
   },
   "dependencies": {
-    "@esri/calcite-components": "3.3.3"
+    "@esri/calcite-components": "5.0.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
@@ -27,5 +27,8 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-postcss": "^4.0.2",
     "serve": "^14.2.3"
+  },
+  "engines": {
+    "node": "24.11.0"
   }
 }

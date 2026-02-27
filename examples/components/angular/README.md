@@ -38,13 +38,6 @@ import "@esri/calcite-components/components/calcite-loader";
 import "@esri/calcite-components/components/calcite-slider";
 ```
 
-Then, import the global Calcite components stylesheet (only do this once):
-
-```css
-/* src/styles.css */
-@import "@esri/calcite-components/calcite/calcite.css";
-```
-
 To use Calcite components in Angular, you **must** add CUSTOM_ELEMENTS_SCHEMA to the `schemas` property:
 
 ```ts
@@ -79,5 +72,13 @@ Calcite components can now be used in your application like any other Angular co
 Calcite components' assets need to be copied to the `./public` directory when [using assets](https://developers.arcgis.com/calcite-design-system/get-started/#load-the-assets) locally. This example has a `copy` npm script, which will automatically run after installing dependencies. For example:
 
 ```sh
-cp -r node_modules/@esri/calcite-components/dist/calcite/assets/ ./public
+cp -r node_modules/@esri/calcite-components/dist/cdn/assets/ ./public
+```
+
+### Import CSS styles
+
+Angular does not automatically load `.css` assets from external libraries. To ensure all component styles load correctly, explicitly import Calcite’s CSS in the project's root stylesheet (`src/styles.css`):
+
+```css
+@import "@esri/calcite-components/main.css";
 ```

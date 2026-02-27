@@ -8,9 +8,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "18"
       - name: Install dependencies
@@ -22,6 +22,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          base: dev
           commit-message: "chore: update issue template component lists"
           branch: update/issue-template-components
           title: "chore: update issue template component lists"

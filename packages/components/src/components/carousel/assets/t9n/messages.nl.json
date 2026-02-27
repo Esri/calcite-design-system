@@ -1,0 +1,9 @@
+{
+  "previous": "Vorige",
+  "next": "Volgende",
+  "play": "Afspelen",
+  "pause": "Pauze",
+  "carousel": "Carousel",
+  "carouselItemProgress": "Voortgangsindicator voor Carousel-item",
+  "paginationStatus": "Item {current} van {total}"
+}
