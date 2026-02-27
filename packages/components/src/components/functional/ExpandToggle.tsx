@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
@@ -16,6 +15,8 @@ interface ExpandToggleProps {
   collapseText: string;
   expandLabel: string;
   collapseLabel: string;
+  expandPosition?: "start" | "end";
+  direction: "ltr" | "rtl";
   el: HTMLElement;
   position: Position;
   tooltip?: Tooltip["el"];
@@ -28,10 +29,6 @@ const ICONS = {
   chevronsLeft: "chevrons-left",
   chevronsRight: "chevrons-right",
 } as const;
-
-function getCalcitePosition(position: Position, el: HTMLElement): Position {
-  return position || el.closest("calcite-shell-panel")?.position || "start";
-}
 
 export function toggleChildActionText({
   el,
@@ -82,8 +79,10 @@ export const ExpandToggle = ({
   tooltip,
   ref,
   scale,
+  direction,
+  expandPosition,
 }: ExpandToggleProps): TemplateResult => {
-  const rtl = getElementDir(el) === "rtl";
+  const rtl = direction === "rtl";
 
   const text = expanded ? collapseText : expandText;
   const label = expanded ? collapseLabel : expandLabel;
@@ -93,7 +92,9 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = getCalcitePosition(position, el) === "end";
+  const end =
+    (expandPosition || position || el.closest("calcite-shell-panel")?.position || "start") ===
+    "end";
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 

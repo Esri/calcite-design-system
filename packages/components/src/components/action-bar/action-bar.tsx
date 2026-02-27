@@ -3,6 +3,7 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
@@ -159,6 +160,8 @@ export class ActionBar extends LitElement {
     this.expandToggleEl = el;
   };
 
+  private _direction = useDirection();
+
   //#endregion
 
   //#region State Properties
@@ -167,12 +170,17 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsEnd = false;
 
+  @state() hasActionsStart = false;
+
   //#endregion
 
   //#region Public Properties
 
   /** Specifies an accessible name for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
+
+  /** Specifies an accessible name for the first `calcite-action-group`. */
+  @property() actionsStartGroupLabel: string;
 
   /**
    * When `true`, the component is in a floating state.
@@ -187,6 +195,9 @@ export class ActionBar extends LitElement {
    * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
    */
   @property({ reflect: true }) expanded = false;
+
+  /** Specifies the position of the expand `calcite-action`. */
+  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
@@ -398,6 +409,10 @@ export class ActionBar extends LitElement {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
   }
 
+  private handleActionsStartSlotChange(event: Event): void {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  }
+
   private handleTooltipSlotChange(event: Event): void {
     const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
       el?.matches("calcite-tooltip"),
@@ -460,26 +475,21 @@ export class ActionBar extends LitElement {
 
   //#region Rendering
 
-  private renderBottomActionGroup(): JsxNode {
-    const {
-      expanded,
-      expandDisabled,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout,
-      messages,
-      actionsEndGroupLabel,
-      overlayPositioning,
-    } = this;
+  private renderExpandTooltipSlot(): JsxNode {
+    return <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />;
+  }
 
-    const expandToggleNode = !expandDisabled ? (
+  private renderExpandToggle(): JsxNode {
+    const { el, expanded, toggleExpand, messages, position, scale, expandPosition } = this;
+
+    return (
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this._direction}
         el={el}
         expandLabel={messages.expandLabel}
+        expandPosition={expandPosition}
         expandText={messages.expand}
         expanded={expanded}
         position={position}
@@ -488,20 +498,57 @@ export class ActionBar extends LitElement {
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
       />
-    ) : null;
+    );
+  }
+
+  private renderStartActionGroup(): JsxNode {
+    const {
+      expandDisabled,
+      scale,
+      layout,
+      actionsStartGroupLabel,
+      overlayPositioning,
+      expandPosition,
+    } = this;
+
+    return (
+      <calcite-action-group
+        class={CSS.actionGroupStart}
+        hidden={expandDisabled && expandPosition === "start" && !this.hasActionsStart}
+        label={actionsStartGroupLabel}
+        layout={layout}
+        overlayPositioning={overlayPositioning}
+        scale={scale}
+      >
+        {!expandDisabled && expandPosition === "start" ? this.renderExpandToggle() : null}
+        <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
+        {expandPosition === "start" ? this.renderExpandTooltipSlot() : null}
+      </calcite-action-group>
+    );
+  }
+
+  private renderEndActionGroup(): JsxNode {
+    const {
+      expandDisabled,
+      scale,
+      layout,
+      actionsEndGroupLabel,
+      overlayPositioning,
+      expandPosition,
+    } = this;
 
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !this.hasActionsEnd}
+        hidden={expandDisabled && expandPosition === "end" && !this.hasActionsEnd}
         label={actionsEndGroupLabel}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
-        {expandToggleNode}
+        {expandPosition === "end" ? this.renderExpandTooltipSlot() : null}
+        {!expandDisabled && expandPosition === "end" ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );
   }
@@ -514,8 +561,9 @@ export class ActionBar extends LitElement {
         ref={this.containerRef}
         role="toolbar"
       >
+        {this.renderStartActionGroup()}
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        {this.renderBottomActionGroup()}
+        {this.renderEndActionGroup()}
       </div>
     );
   }

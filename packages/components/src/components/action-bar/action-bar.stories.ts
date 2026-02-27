@@ -105,6 +105,46 @@ export const floatingWithGroups = (): string =>
     </calcite-action-bar>
   </div>`;
 
+const expandPositionActions = html`<calcite-action text-enabled text="Add" icon="plus"></calcite-action>
+  <calcite-action text-enabled text="Save" icon="save"></calcite-action>
+  <calcite-action slot="actions-start" text-enabled text="Layers" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text-enabled text="Basemaps" icon="layer-basemap"></calcite-action>
+  <calcite-tooltip slot="expand-tooltip">Toggle Action Bar</calcite-tooltip>`;
+
+export const expandPositionHorizontal = (): string =>
+  html` <h2>Start</h2>
+    <calcite-action-bar expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>Start & RTL</h2>
+    <calcite-action-bar expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>End</h2>
+    <calcite-action-bar expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>End & RTL</h2>
+    <calcite-action-bar expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
+export const expandPositionVertical = (): string =>
+  html` <h2>Start</h2>
+    <calcite-action-bar expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>Start & RTL</h2>
+    <calcite-action-bar expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>End</h2>
+    <calcite-action-bar expand-position="end" expanded layout="vertical"> ${expandPositionActions} </calcite-action-bar>
+    <h2>End & RTL</h2>
+    <calcite-action-bar expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
 export const floatingDarkModeRTL = (): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">

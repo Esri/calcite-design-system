@@ -76,7 +76,8 @@
     max-inline-size: var(--calcite-action-bar-expanded-max-width, auto);
   }
 
-  .action-group--end {
+  .action-group--end,
+  .action-group--start {
     margin-block-start: auto;
   }
 
@@ -107,6 +108,10 @@
     overflow-x: auto;
   }
 
+  .action-group--start {
+    @apply me-auto;
+  }
+
   .action-group--end {
     @apply ms-auto;
   }
@@ -124,6 +129,10 @@
     border-inline-end-width: var(--calcite-border-width-sm);
     padding-inline-end: var(--calcite-internal-action-bar-padding);
   }
+}
+
+.action-group--start {
+  @apply justify-start;
 }
 
 .action-group--end {
