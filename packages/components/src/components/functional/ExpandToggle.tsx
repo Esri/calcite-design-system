@@ -8,6 +8,7 @@ import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import type { ActionMenu } from "../action-menu/action-menu";
+import { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -16,7 +17,7 @@ interface ExpandToggleProps {
   expandLabel: string;
   collapseLabel: string;
   expandPosition?: "start" | "end";
-  direction: "ltr" | "rtl";
+  direction: Direction;
   el: HTMLElement;
   position: Position;
   tooltip?: Tooltip["el"];

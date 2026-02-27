@@ -76,9 +76,12 @@
     max-inline-size: var(--calcite-action-bar-expanded-max-width, auto);
   }
 
-  .action-group--end,
-  .action-group--start {
+  .action-group--end {
     margin-block-start: auto;
+  }
+
+  .action-group--start {
+    margin-block-end: auto;
   }
 
   ::slotted(calcite-action-group:not(:last-of-type)) {

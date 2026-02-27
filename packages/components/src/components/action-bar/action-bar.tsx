@@ -511,10 +511,12 @@ export class ActionBar extends LitElement {
       expandPosition,
     } = this;
 
+    const hasExpandToggle = !expandDisabled && expandPosition === "start";
+
     return (
       <calcite-action-group
         class={CSS.actionGroupStart}
-        hidden={expandDisabled && expandPosition === "start" && !this.hasActionsStart}
+        hidden={!hasExpandToggle && !this.hasActionsStart}
         label={actionsStartGroupLabel}
         layout={layout}
         overlayPositioning={overlayPositioning}
@@ -537,10 +539,12 @@ export class ActionBar extends LitElement {
       expandPosition,
     } = this;
 
+    const hasExpandToggle = !expandDisabled && expandPosition === "end";
+
     return (
       <calcite-action-group
         class={CSS.actionGroupEnd}
-        hidden={expandDisabled && expandPosition === "end" && !this.hasActionsEnd}
+        hidden={!hasExpandToggle && !this.hasActionsEnd}
         label={actionsEndGroupLabel}
         layout={layout}
         overlayPositioning={overlayPositioning}
