@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.3-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.4...@esri/calcite-components@5.0.3-next.0) (2026-02-27)
+
+### Bug Fixes
+
+- **filter:** do not cancel `Escape` when value is empty ([#13975](https://github.com/Esri/calcite-design-system/issues/13975)) ([6f36776](https://github.com/Esri/calcite-design-system/commit/6f36776192bd3e1c31d8f79fd6baef526233df3f)), closes [#13967](https://github.com/Esri/calcite-design-system/issues/13967)
+
 ## [5.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1...@esri/calcite-components@5.0.2) (2026-02-18)
 
 ### Bug Fixes
