@@ -67,7 +67,7 @@ export class TableRow extends LitElement {
    * `"start"` positions content at the top of a cell, with any extra space below it.
    * `"end"` positions content at the bottom of a cell, with any extra space above it.
    */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment: Alignment = "center";
 
   /**
    * When `true`, the item will be hidden
