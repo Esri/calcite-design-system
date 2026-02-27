@@ -166,8 +166,8 @@
   max-block-size: 0;
   overflow: hidden;
   transition:
-    opacity 600ms ease-in-out,
-    max-block-size 600ms ease-in-out;
+    opacity 300ms animation.$easing-function,
+    max-block-size 300ms animation.$easing-function;
   pointer-events: none;
 }
 
@@ -176,8 +176,8 @@
   max-block-size: 900px;
   pointer-events: auto;
   transition:
-    opacity 600ms ease-in-out,
-    max-block-size 600ms ease-in-out;
+    opacity 300ms animation.$easing-function,
+    max-block-size 300ms animation.$easing-function;
 
   @starting-style {
     opacity: 0;
