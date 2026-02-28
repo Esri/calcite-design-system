@@ -37,6 +37,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+ * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component, prior to the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
@@ -75,8 +76,13 @@ export class ActionBar extends LitElement {
 
     this.updateGroups();
 
-    const groupCount: number =
-      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+    const actionsEndCount =
+      this.hasActionsEnd || (!expandDisabled && this.expandPosition === "end") ? 1 : 0;
+
+    const actionsStartCount =
+      this.hasActionsStart || (!expandDisabled && this.expandPosition === "start") ? 1 : 0;
+
+    const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
 
     let bufferSize = groupCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);

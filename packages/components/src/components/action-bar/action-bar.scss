@@ -80,10 +80,6 @@
     margin-block-start: auto;
   }
 
-  .action-group--start {
-    margin-block-end: auto;
-  }
-
   ::slotted(calcite-action-group:not(:last-of-type)) {
     border-block-end-width: var(--calcite-border-width-sm);
     border-image: linear-gradient(
@@ -109,10 +105,6 @@
 
   &:host([overflow-actions-disabled]) .container {
     overflow-x: auto;
-  }
-
-  .action-group--start {
-    @apply me-auto;
   }
 
   .action-group--end {
