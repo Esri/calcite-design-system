@@ -8,7 +8,7 @@ import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import type { ActionMenu } from "../action-menu/action-menu";
-import { Direction } from "../../utils/dom";
+import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
