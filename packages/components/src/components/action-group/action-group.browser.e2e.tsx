@@ -142,7 +142,7 @@ describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
   });
 });
 
-describe.only("calciteActionGroupChange event", () => {
+describe("calciteActionGroupChange event", () => {
   it("fires when selection changes", async () => {
     const { el } = await mount<"calcite-action-group">(
       <calcite-action-group selection-mode="single">
