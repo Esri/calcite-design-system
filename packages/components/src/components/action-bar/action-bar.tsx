@@ -530,7 +530,7 @@ export class ActionBar extends LitElement {
       >
         {!expandDisabled && expandPosition === "start" ? this.renderExpandToggle() : null}
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
-        {expandPosition === "start" ? this.renderExpandTooltipSlot() : null}
+        {!expandDisabled && expandPosition === "start" ? this.renderExpandTooltipSlot() : null}
       </calcite-action-group>
     );
   }
@@ -557,7 +557,7 @@ export class ActionBar extends LitElement {
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        {expandPosition === "end" ? this.renderExpandTooltipSlot() : null}
+        {!expandDisabled && expandPosition === "end" ? this.renderExpandTooltipSlot() : null}
         {!expandDisabled && expandPosition === "end" ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );

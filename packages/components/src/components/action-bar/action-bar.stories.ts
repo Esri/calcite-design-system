@@ -8,7 +8,7 @@ const { position, selectionAppearance } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<
   ActionBar,
-  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance"
+  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance" | "expandPosition"
 >;
 
 export default {
@@ -17,11 +17,16 @@ export default {
     expandDisabled: false,
     expanded: false,
     position: position.defaultValue,
+    expandPosition: "end",
     floating: false,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
     position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    expandPosition: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
@@ -38,6 +43,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
     position="${args.position}"
+    expandPosition="${args.expandPosition}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
