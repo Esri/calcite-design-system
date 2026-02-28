@@ -16,10 +16,10 @@ interface ExpandToggleProps {
   collapseText: string;
   expandLabel: string;
   collapseLabel: string;
-  expandPosition?: "start" | "end";
+  expandPosition?: Extract<"start" | "end", Position>;
   direction: Direction;
   el: HTMLElement;
-  position: Position;
+  position: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
   ref?: (el: HTMLElement) => void;

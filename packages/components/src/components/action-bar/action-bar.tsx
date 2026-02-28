@@ -507,7 +507,7 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private renderStartActionGroup(): JsxNode {
+  private renderActionsStartGroup(): JsxNode {
     const {
       expandDisabled,
       scale,
@@ -528,14 +528,14 @@ export class ActionBar extends LitElement {
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        {!expandDisabled && expandPosition === "start" ? this.renderExpandToggle() : null}
+        {hasExpandToggle ? this.renderExpandToggle() : null}
         <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
-        {!expandDisabled && expandPosition === "start" ? this.renderExpandTooltipSlot() : null}
+        {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
       </calcite-action-group>
     );
   }
 
-  private renderEndActionGroup(): JsxNode {
+  private renderActionsEndGroup(): JsxNode {
     const {
       expandDisabled,
       scale,
@@ -557,8 +557,8 @@ export class ActionBar extends LitElement {
         scale={scale}
       >
         <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        {!expandDisabled && expandPosition === "end" ? this.renderExpandTooltipSlot() : null}
-        {!expandDisabled && expandPosition === "end" ? this.renderExpandToggle() : null}
+        {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
+        {hasExpandToggle ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );
   }
@@ -571,9 +571,9 @@ export class ActionBar extends LitElement {
         ref={this.containerRef}
         role="toolbar"
       >
-        {this.renderStartActionGroup()}
+        {this.renderActionsStartGroup()}
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        {this.renderEndActionGroup()}
+        {this.renderActionsEndGroup()}
       </div>
     );
   }
