@@ -37,7 +37,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
- * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component, prior to the collapse/expand button.
+ * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
