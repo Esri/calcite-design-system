@@ -299,7 +299,10 @@ export class ActionBar extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
+    if (
+      (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
+      (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
+    ) {
       this.overflowActions();
     }
 
@@ -413,10 +416,12 @@ export class ActionBar extends LitElement {
 
   private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.overflowActions();
   }
 
   private handleActionsStartSlotChange(event: Event): void {
     this.hasActionsStart = slotChangeHasAssignedElement(event);
+    this.overflowActions();
   }
 
   private handleTooltipSlotChange(event: Event): void {
