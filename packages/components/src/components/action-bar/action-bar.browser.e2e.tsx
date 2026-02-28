@@ -240,6 +240,34 @@ describe("expand functionality", () => {
       expect(unusedGroup.hidden).toBe(true);
     },
   );
+
+  it("renders slotted actions-start in the start group and shows that group when only actions-start is provided", async () => {
+    const { el } = await mount<"calcite-action-bar">(
+      <calcite-action-bar expandDisabled>
+        <calcite-action icon="plus" id="start-action" slot="actions-start" text="Add" />
+      </calcite-action-bar>,
+    );
+
+    const shadowRoot = el.shadowRoot;
+    const startGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupStart}`);
+    const endGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupEnd}`);
+    const actionsStartSlot = startGroup?.querySelector<HTMLSlotElement>(
+      "slot[name='actions-start']",
+    );
+    const startAction = el.querySelector<HTMLElement>("#start-action");
+
+    expect(startGroup).not.toBeNull();
+    expect(actionsStartSlot).not.toBeNull();
+    expect(startAction).not.toBeNull();
+    expect(actionsStartSlot?.assignedElements({ flatten: true })).toContain(startAction);
+    expect(startGroup?.hidden).toBe(false);
+
+    if (endGroup) {
+      expect(endGroup.hidden).toBe(true);
+    } else {
+      expect(endGroup).toBeNull();
+    }
+  });
 });
 
 describe("overflowing actions", () => {
