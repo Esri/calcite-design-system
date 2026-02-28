@@ -46,6 +46,10 @@ export default tseslint.config(
               message:
                 "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
             },
+            {
+              group: ["lit-html", "lit-html/*"],
+              message: "Import from 'lit' instead of 'lit-html'",
+            },
           ],
         },
       ],
@@ -124,6 +128,22 @@ export default tseslint.config(
   },
 
   {
+    files: ["**/*.browser.*.tsx"],
+    extends: [calciteCoreConfig],
+    rules: {
+      "no-restricted-properties": [
+        "warn",
+        {
+          object: "page",
+          property: "getBySelector",
+          message:
+            "Prefer using more specific locators when possible for better test reliability – see https://vitest.dev/api/browser/locators",
+        },
+      ],
+    },
+  },
+
+  {
     plugins: {
       unicorn: unicornPlugin,
     },
@@ -143,6 +163,12 @@ export default tseslint.config(
           case: "kebabCase",
         },
       ],
+    },
+  },
+  {
+    files: ["src/controllers/**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
     },
   },
 );

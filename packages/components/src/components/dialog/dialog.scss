@@ -4,32 +4,32 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-dialog-scrim-background-color: Specifies the background color of the component's scrim.
- * @prop --calcite-dialog-size-x: Specifies the width of the component, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width - applies when `placement="cover"` is set.
- * @prop --calcite-dialog-min-size-x: Specifies the minimum width of the component, using `px`, `em`, `rem`, `vw`, or `%`.
- * @prop --calcite-dialog-max-size-x: Specifies the maximum width of the component, using `px`, `em`, `rem`, `vw`, or `%`.
- * @prop --calcite-dialog-size-y: Specifies the height of the component, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height - applies when `placement="cover"` is set.
- * @prop --calcite-dialog-min-size-y: Specifies the minimum height of the component, using `px`, `em`, `rem`, `vh`, or `%`.
- * @prop --calcite-dialog-max-size-y: Specifies the maximum height of the component, using `px`, `em`, `rem`, `vh`, or `%`.
+ * @prop --calcite-dialog-size-x: When `placement` is `"cover"`, specifies the component's width, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width.
+ * @prop --calcite-dialog-min-size-x: Specifies the component's minimum width, using `px`, `em`, `rem`, `vw`, or `%`.
+ * @prop --calcite-dialog-max-size-x: Specifies the component's maximum width, using `px`, `em`, `rem`, `vw`, or `%`.
+ * @prop --calcite-dialog-size-y: When `placement` is `"cover"`, specifies the component's height, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height.
+ * @prop --calcite-dialog-min-size-y: Specifies the component's minimum height, using `px`, `em`, `rem`, `vh`, or `%`.
+ * @prop --calcite-dialog-max-size-y: Specifies the component's maximum height, using `px`, `em`, `rem`, `vh`, or `%`.
  * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
- * @prop --calcite-dialog-offset-x: Specifies the horizontal offset of the component.
- * @prop --calcite-dialog-offset-y: Specifies the vertical offset of the component.
- * @prop --calcite-dialog-background-color: Specifies the background color of the component.
+ * @prop --calcite-dialog-offset-x: Specifies the component's horizontal offset.
+ * @prop --calcite-dialog-offset-y: Specifies the component's vertical offset.
+ * @prop --calcite-dialog-background-color: Specifies the component's background color.
  * @prop --calcite-dialog-icon-color: Specifies the color of the component's icon.
- * @prop --calcite-dialog-accent-color: Specifies the component's accent color when `kind` is specified.
+ * @prop --calcite-dialog-accent-color: When `kind` is specified, specifies the component's accent color.
  * @prop --calcite-dialog-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-dialog-heading-text-color: Specifies the text color of the component's `heading`.
  * @prop --calcite-dialog-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-dialog-header-background-color: Specifies the background color of the component's header.
- * @prop --calcite-dialog-header-action-background-color: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
- * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
- * @prop --calcite-dialog-header-action-text-color: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
- * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of Panel's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+ * @prop --calcite-dialog-header-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+ * @prop --calcite-dialog-header-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when hovered.
+ * @prop --calcite-dialog-header-action-background-color-press: Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed.
+ * @prop --calcite-dialog-header-action-text-color: Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+ * @prop --calcite-dialog-header-action-text-color-press: Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed or hovered.
  * @prop --calcite-dialog-footer-background-color: Specifies the background color of the component's footer.
- * @prop --calcite-dialog-space: Specifies the padding of the component's `"unnamed (default)"` slot.
- * @prop --calcite-dialog-header-content-space: Specifies the padding of the `"header-content"` slot.
+ * @prop --calcite-dialog-space: Specifies the padding of the component's `unnamed (default)` slot.
+ * @prop --calcite-dialog-header-content-space: Specifies the padding of the component's `header-content` slot.
  * @prop --calcite-dialog-action-menu-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
  */
 
@@ -58,8 +58,11 @@
   --calcite-internal-dialog-animation-offset: 20px;
 }
 
-:host([embedded]) {
-  @apply z-overlay;
+:host([top-layer-disabled]),
+:host([top-layer-disabled]) .container,
+:host([embedded]),
+.container--embedded {
+  z-index: var(--calcite-z-index-overlay);
 }
 
 :host([embedded][modal]) {
@@ -144,10 +147,14 @@
     var(--calcite-color-transparent-scrim)
   );
   @apply fixed
-    -z-default
     inset-0
     flex
     overflow-y-hidden;
+  z-index: calc(var(--calcite-z-index) * -1);
+}
+
+:host([top-layer-disabled]) .scrim {
+  z-index: unset;
 }
 
 calcite-panel {
@@ -221,7 +228,7 @@ calcite-panel {
   visibility: hidden;
 
   transition:
-    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
@@ -238,16 +245,11 @@ calcite-panel {
 
   inset-inline-start: var(--calcite-dialog-offset-x, 0);
   inset-block-start: var(--calcite-internal-dialog-hidden-position);
-
-  &--opening {
-    &-active {
-      inset-block-start: var(--calcite-internal-dialog-shown-position);
-    }
-  }
 }
 
+:host([top-layer-disabled]) .dialog,
 :host([embedded]) .dialog {
-  @apply z-modal;
+  z-index: var(--calcite-z-index-modal);
 }
 
 :host([menu-open]) .dialog {
@@ -282,7 +284,7 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
@@ -296,22 +298,16 @@ calcite-panel {
     inline-size: var(--calcite-dialog-size-x, $width);
     block-size: var(--calcite-dialog-size-y, auto);
   }
-
-  @media screen and (max-width: $width + 2 * spacing.$baseline) {
-    .width-#{$size} {
-      @apply m-0
-          h-full
-          max-h-full
-          w-full
-          max-w-full;
-      inset-inline-start: 0;
-      inset-block-start: var(--calcite-internal-dialog-animation-offset);
-    }
-    .width-#{$size}.dialog {
-      &--opening {
-        &-active {
-          inset-block-start: 0;
-        }
+  :host(:not([fullscreen-disabled])) {
+    @media screen and (max-width: $width + 2 * spacing.$baseline) {
+      .width-#{$size} {
+        @apply m-0
+            h-full
+            max-h-full
+            w-full
+            max-w-full;
+        inset-inline-start: 0;
+        inset-block-start: var(--calcite-internal-dialog-animation-offset);
       }
     }
   }
@@ -373,6 +369,16 @@ calcite-panel {
   border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-warning));
 }
 
+:host([open]) {
+  .dialog {
+    inset-block-start: var(--calcite-internal-dialog-shown-position);
+
+    @starting-style {
+      inset-block-start: var(--calcite-internal-dialog-hidden-position);
+    }
+  }
+}
+
 :host([kind="brand"][open]),
 :host([kind="danger"][open]),
 :host([kind="info"][open]),
@@ -386,7 +392,6 @@ calcite-panel {
 }
 
 .container--embedded {
-  @apply z-overlay;
   position: absolute;
   pointer-events: auto;
   calcite-scrim {

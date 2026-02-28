@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -9,7 +9,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
@@ -56,7 +56,7 @@ export class DropdownItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -69,16 +69,16 @@ export class DropdownItem extends LitElement {
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true, type: String }) iconEnd: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart: IconName;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** Specifies the relationship to the linked document defined in `href`. */
+  /** Specifies the relationship to the linked resource defined in `href`. */
   @property({ reflect: true }) rel: string;
 
   /**
@@ -101,7 +101,7 @@ export class DropdownItem extends LitElement {
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /** Specifies the frame or window to open the linked document. */
+  /** Specifies the frame or window to open the linked resource. */
   @property({ reflect: true }) target: string;
 
   //#endregion
@@ -324,11 +324,7 @@ export class DropdownItem extends LitElement {
           }}
         >
           {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? ICONS.check : ICONS.bulletPoint}
-              scale={getIconScale(this.scale)}
-            />
+            <calcite-icon class={CSS.icon} icon={ICONS.check} scale={getIconScale(this.scale)} />
           ) : null}
           {contentEl}
         </div>

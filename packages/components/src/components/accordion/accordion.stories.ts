@@ -326,6 +326,7 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
 export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
+
 export const slottedItemsStretched = (): string => html`
   <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">

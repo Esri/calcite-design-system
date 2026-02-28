@@ -93,6 +93,10 @@
   }
 }
 
+.container--highlight-selected {
+  background-color: var(--calcite-color-surface-highlight);
+}
+
 .nested-container {
   @apply hidden flex-col
     border-solid
@@ -188,15 +192,7 @@
   gap: var(--calcite-internal-list-action-spacing);
 }
 
-:host([display-mode="flat"][drag-handle]:is([selection-mode="none"], [selection-appearance="border"])) {
-  .drag-container {
-    padding-inline-end: var(--calcite-spacing-xxs);
-  }
-}
 :host([scale="s"]) {
-  .actions-start {
-    padding-inline-end: var(--calcite-spacing-sm);
-  }
   .content-container {
     gap: var(--calcite-spacing-sm);
     min-block-size: 32px;
@@ -221,29 +217,11 @@
   }
 }
 :host([scale="s"][display-mode="flat"][drag-handle]) {
-  .drag-container {
-    margin-inline: var(--calcite-internal-list-action-spacing);
-  }
   .selection-container {
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
-:host(
-  [scale="s"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
-      [selection-mode="multiple"],
-      [selection-mode="single"]
-    )
-) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
-}
 :host([scale="s"][display-mode="nested"]) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
   .selection-container {
     padding-inline-end: var(--calcite-spacing-xxs);
   }
@@ -288,9 +266,6 @@
   }
 }
 :host([scale="m"][display-mode="flat"][drag-handle]) {
-  .drag-container {
-    margin-inline: var(--calcite-internal-list-action-spacing);
-  }
   .container {
     padding-inline-start: 0;
   }
@@ -298,22 +273,7 @@
     padding-inline: var(--calcite-spacing-xxs) var(--calcite-spacing-sm);
   }
 }
-:host(
-  [scale="m"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
-      [selection-mode="multiple"],
-      [selection-mode="single"]
-    )
-) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
-}
 :host([scale="m"][display-mode="nested"]) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
   }
@@ -362,9 +322,6 @@
   }
 }
 :host([scale="l"][display-mode="flat"][drag-handle]) {
-  .drag-container {
-    margin-inline: var(--calcite-internal-list-action-spacing);
-  }
   .container {
     padding-inline-start: 0;
   }
@@ -372,22 +329,7 @@
     padding-inline-end: var(--calcite-spacing-md);
   }
 }
-:host(
-  [scale="s"][display-mode="flat"][drag-handle][selection-appearance="icon"]:is(
-      [selection-mode="multiple"],
-      [selection-mode="single"]
-    )
-) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
-}
 :host([scale="l"][display-mode="nested"]) {
-  .drag-container {
-    margin-block: 0;
-    margin-inline: var(--calcite-internal-list-action-spacing) 0;
-  }
   .container {
     padding-inline-start: var(--calcite-spacing-xxs);
   }
@@ -487,25 +429,11 @@
   ::slotted(calcite-action-menu),
   ::slotted(calcite-sort-handle),
   ::slotted(calcite-dropdown) {
-    @apply self-stretch;
-
     color: inherit;
   }
 }
 
 .row:focus {
-  .actions-start,
-  .actions-end {
-    inset-block: theme("spacing[0.5]");
-    .close,
-    ::slotted(calcite-action),
-    ::slotted(calcite-action-menu),
-    ::slotted(calcite-sort-handle),
-    ::slotted(calcite-dropdown) {
-      block-size: calc(100% - theme("spacing[1]"));
-    }
-  }
-
   &::after,
   &::before {
     @apply absolute;
@@ -537,7 +465,18 @@
 .close {
   calcite-action,
   ::slotted(calcite-action) {
-    @apply self-stretch items-center;
+    @apply items-center;
+  }
+}
+
+.drag-container {
+  margin-inline: var(--calcite-spacing-xxs);
+}
+
+:host([display-mode="nested"]),
+:host([selection-appearance="icon"]:not([selection-mode="none"])) {
+  .drag-container {
+    margin-inline: var(--calcite-spacing-xxs) 0;
   }
 }
 

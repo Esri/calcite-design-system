@@ -1,23 +1,25 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, hidden, renders, slots } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders, slots } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
-describe("calcite-swatch", () => {
-  describe("disabled", () => {
-    disabled(() => mount(<calcite-swatch interactive />));
-  });
+describe("disabled", () => {
+  disabled(() => mount(<calcite-swatch interactive />));
+});
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-swatch"));
-  });
+describe("is focusable", () => {
+  focusable(() => mount(<calcite-swatch interactive />));
+});
 
-  describe("renders", () => {
-    renders(() => mount("calcite-swatch"), { display: "block" });
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-swatch"));
+});
 
-  describe("slots", () => {
-    slots(() => mount("calcite-swatch"), SLOTS);
-  });
+describe("renders", () => {
+  renders(() => mount("calcite-swatch"), { display: "block" });
+});
+
+describe("slots", () => {
+  slots(() => mount("calcite-swatch"), SLOTS);
 });

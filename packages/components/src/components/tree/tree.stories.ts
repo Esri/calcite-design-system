@@ -57,8 +57,8 @@ export default {
   },
 };
 
-const treeItems = (expanded = true) => html`
-  <calcite-tree-item label="test item">
+const treeItems = (expanded = true, isSelectionModeNone = false) => html`
+  <calcite-tree-item label="test item" ${!isSelectionModeNone ? "selected" : ""}>
     <a>Child 1</a>
   </calcite-tree-item>
   <calcite-tree-item label="test item" icon-start="palette" ${expanded ? "expanded" : ""}>
@@ -144,7 +144,7 @@ export const singleSelectionMode = (): string => html` ${treeItems()} `;
 singleSelectionMode.decorators = [allScaleTreeBuilder];
 singleSelectionMode.args = { selectionMode: "single" };
 
-export const selectionModeNone = (): string => html`${treeItems()}`;
+export const selectionModeNone = (): string => html`${treeItems(true, true)}`;
 selectionModeNone.decorators = [allScaleTreeBuilder];
 selectionModeNone.args = { selectionMode: "none" };
 

@@ -1,14 +1,14 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import {
   filterDirectChildren,
   getElementDir,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -96,7 +96,7 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** @private */
@@ -360,19 +360,29 @@ export class TreeItem extends LitElement {
     }
   }
 
+  private getSelectionIcon(): IconName {
+    const { selectionMode, hasChildren } = this;
+    if (
+      selectionMode === "single" ||
+      selectionMode === "children" ||
+      selectionMode === "single-persist"
+    ) {
+      return ICONS.bulletPoint;
+    } else if (selectionMode === "multiple" || selectionMode === "multichildren") {
+      return ICONS.checkmark;
+    } else if (selectionMode === "none" && !hasChildren) {
+      return ICONS.blank;
+    }
+    return null;
+  }
+
   //#endregion
 
   //#region Rendering
 
   override render(): JsxNode {
     const rtl = getElementDir(this.el) === "rtl";
-    const showBulletPoint =
-      this.selectionMode === "single" ||
-      this.selectionMode === "children" ||
-      this.selectionMode === "single-persist";
-    const showCheckmark =
-      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
-    const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const selectionIcon = this.getSelectionIcon();
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron =
@@ -406,21 +416,14 @@ export class TreeItem extends LitElement {
           />
         </div>
       ) : null;
-    const selectedIcon = showBulletPoint
-      ? ICONS.bulletPoint
-      : showCheckmark
-        ? ICONS.checkmark
-        : showBlank
-          ? ICONS.blank
-          : null;
-    const itemIndicator = selectedIcon ? (
+
+    const itemIndicator = selectionIcon ? (
       <calcite-icon
         class={{
-          [CSS.bulletPointIcon]: selectedIcon === ICONS.bulletPoint,
-          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS.selectionIcon]: true,
           [CSS_UTILITY.rtl]: rtl,
         }}
-        icon={selectedIcon}
+        icon={selectionIcon}
         scale={getIconScale(this.scale)}
       />
     ) : null;

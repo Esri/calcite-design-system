@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, focusable, openClose, themed } from "../../tests/commonTests";
+import { accessible, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -37,743 +37,718 @@ const dispatchDialogKeydown = async ({
   await page.waitForChanges();
 };
 
-describe("calcite-dialog", () => {
-  mockConsole();
-
-  describe("openClose", () => {
-    openClose("calcite-dialog");
-    openClose.initial("calcite-dialog");
-  });
-
-  describe("accessible", () => {
-    accessible(async () => {
-      const page = await newProgrammaticE2EPage();
-      await skipAnimations(page);
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      await page.evaluate(() => {
-        const dialog = document.createElement("calcite-dialog");
-        dialog.open = true;
-        dialog.heading = "My Dialog";
-        dialog.description = "My Description";
-        document.body.append(dialog);
-      });
-      await openEventSpy.next();
-
-      return { page, tag: "calcite-dialog" };
-    });
-  });
-
-  describe("focus-trap", () => {
-    describe("default", () => {
-      focusTrap("calcite-dialog", {
-        toggleProp: "open",
-      });
-    });
-
-    describe("modal", () => {
-      focusTrap(html`<calcite-dialog modal></calcite-dialog>`, {
-        toggleProp: "open",
-      });
-    });
-  });
-
-  it("should set internal panel properties", async () => {
-    const page = await newE2EPage();
-    await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent("<calcite-dialog></calcite-dialog>");
-
-    const panel = await page.find(`calcite-dialog >>> calcite-panel`);
-    const dialog = await page.find("calcite-dialog");
-
-    const messageOverrides = { close: "shut the front door" };
-
-    dialog.setProperty("closeDisabled", true);
-    dialog.setProperty("loading", true);
-    dialog.setProperty("menuOpen", true);
-    dialog.setProperty("headingLevel", 1);
-    dialog.setProperty("overlayPositioning", "fixed");
-    dialog.setProperty("heading", "My Heading");
-    dialog.setProperty("description", "My Description");
-    dialog.setProperty("scale", "l");
-    dialog.setProperty("icon", "x");
-    dialog.setProperty("iconFlipRtl", true);
-    dialog.setProperty("messageOverrides", messageOverrides);
-    await page.waitForChanges();
-
-    expect(await panel.getProperty("closable")).toBe(false);
-    expect(await panel.getProperty("loading")).toBe(true);
-    expect(await panel.getProperty("menuOpen")).toBe(true);
-    expect(await panel.getProperty("headingLevel")).toBe(1);
-    expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
-    expect(await panel.getProperty("heading")).toBe("My Heading");
-    expect(await panel.getProperty("description")).toBe("My Description");
-    expect(await panel.getProperty("scale")).toBe("l");
-    expect(await panel.getProperty("icon")).toBe("x");
-    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
-    expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
-  });
-
-  it("outsideCloseDisabled", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
-    await skipAnimations(page);
-    await page.waitForChanges();
-
-    const dialog = await page.find("calcite-dialog");
-
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
-    await page.waitForChanges();
-    expect(await dialog.getProperty("open")).toBe(true);
-
-    dialog.setProperty("outsideCloseDisabled", false);
-    await page.waitForChanges();
-
-    await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
-    await page.waitForChanges();
-    expect(await dialog.getProperty("open")).toBe(false);
-  });
-
-  it("sets custom width correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-x:600px;"></calcite-dialog>`);
-
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.width).toEqual("600px");
-  });
-
-  it("sets custom height correctly", async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(`<calcite-dialog style="--calcite-dialog-size-y:600px;" open></calcite-dialog>`);
-
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.height).toEqual("600px");
-  });
-
-  it(`expectedly does not set custom width when "placement=cover" is true`, async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-size-x:600px;" placement="cover" open></calcite-dialog>`,
-    );
-
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.width).not.toEqual("600px");
-  });
-
-  it(`expectedly does not set custom height when "placement=cover" is true`, async () => {
-    const page = await newE2EPage();
-    // set large page to ensure test dialog isn't becoming fullscreen
-    await page.setViewport({ width: 1440, height: 1440 });
-    await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-size-y:600px;" placement="cover" open></calcite-dialog>`,
-    );
-
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.height).not.toEqual("600px");
-  });
-
-  it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
-    const page = await newE2EPage();
-    // set small page to test overflow
-    await page.setViewport({ width: 800, height: 800 });
-    await page.setContent(
-      `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
-    );
-
-    const dialog = await page.find("calcite-dialog");
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-
-    const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-    const style = await internalDialog.getComputedStyle();
-    expect(style.width).toEqual("800px");
-    expect(style.height).toEqual("800px");
-  });
-
-  it("escapeDisabled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
-    await skipAnimations(page);
-    await page.waitForChanges();
-
-    const dialog = await page.find("calcite-dialog");
-    expect(await dialog.getProperty("open")).toBe(true);
-    await dialog.callMethod("setFocus");
-    await page.waitForChanges();
-
-    const eventSpy = await page.spyOnEvent("keydown");
-
-    await page.keyboard.down("Escape");
-    await page.keyboard.up("Escape");
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEventTimes(1);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
-    expect(await dialog.getProperty("open")).toBe(true);
-
-    await page.keyboard.down("Enter");
-    await page.keyboard.up("Enter");
-    await page.waitForChanges();
-    expect(eventSpy).toHaveReceivedEventTimes(2);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
-
-    dialog.setProperty("escapeDisabled", false);
-    await page.waitForChanges();
-
-    await page.keyboard.down("Escape");
-    await page.keyboard.up("Escape");
-    await page.waitForChanges();
-
-    expect(eventSpy).toHaveReceivedEventTimes(3);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
-    expect(await dialog.getProperty("open")).toBe(false);
-  });
-
-  describe("beforeClose()", () => {
-    it("calls the beforeClose method prior to closing via click", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = vi.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
-      <calcite-dialog></calcite-dialog>
-    `);
-
-      const dialog = await page.find("calcite-dialog");
-      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
-      await page.waitForChanges();
-
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
-
-      const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
-      await closeButton.click();
-      await page.waitForChanges();
-      expect(mockCallBack).toHaveBeenCalledTimes(1);
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
-    });
-
-    it("calls the beforeClose method prior to closing via ESC key", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = vi.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
-      <calcite-dialog></calcite-dialog>
-    `);
-      await skipAnimations(page);
-
-      const dialog = await page.find("calcite-dialog");
-      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
-      await page.waitForChanges();
-
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
-
-      const closeEventSpy = await page.spyOnEvent("calciteDialogClose");
-      await page.keyboard.press("Escape");
-      await page.waitForChanges();
-      await closeEventSpy;
-
-      expect(mockCallBack).toHaveBeenCalledTimes(1);
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
-    });
-
-    it("calls the beforeClose method prior to closing via attribute", async () => {
-      const page = await newE2EPage();
-      const mockCallBack = vi.fn();
-      await page.exposeFunction("beforeClose", mockCallBack);
-      await page.setContent(`
-    <calcite-dialog></calcite-dialog>
-  `);
-
-      const dialog = await page.find("calcite-dialog");
-      await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
-      await page.waitForChanges();
-
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
-      dialog.removeAttribute("open");
-      await page.waitForChanges();
-
-      expect(mockCallBack).toHaveBeenCalledTimes(1);
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
-    });
-
-    it("should handle rejected 'beforeClose' promise'", async () => {
-      const page = await newE2EPage();
-
-      const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
-      await page.exposeFunction("beforeClose", mockCallBack);
-
-      await page.setContent(`<calcite-dialog open></calcite-dialog>`);
-
-      await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
-      await page.waitForChanges();
-
-      const dialog = await page.find("calcite-dialog");
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
-
-      expect(mockCallBack).toHaveBeenCalledTimes(1);
-    });
-
-    it("should remain open with rejected 'beforeClose' promise'", async () => {
-      const page = await newE2EPage();
-
-      await page.exposeFunction("beforeClose", () => Promise.reject());
-      await page.setContent(`<calcite-dialog open></calcite-dialog>`);
-
-      await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
-
-      const dialog = await page.find("calcite-dialog");
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
-
-      expect(await dialog.getProperty("open")).toBe(true);
-      expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
-      expect(dialog.getAttribute("open")).toBe(""); // Makes sure attribute is added back
-    });
-
-    it("does not invoke beforeClose when initially open", async () => {
-      const page = await newProgrammaticE2EPage();
-      await page.evaluate(async () => {
-        const dialog = document.createElement("calcite-dialog");
-        dialog.open = true;
-        dialog.beforeClose = () => new Promise(() => document.body.removeChild(dialog));
-        document.body.append(dialog);
-      });
-      await page.waitForChanges();
-
-      expect(await page.find("calcite-dialog")).not.toBeNull();
-    });
-  });
-
-  describe("calcite-dialog accessibility checks", () => {
-    it("traps focus within the dialog when open", async () => {
-      const button1Id = "button1";
-      const button2Id = "button2";
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog>
-          <div>
-            <button id="${button1Id}">Focus1</button>
-            <button id="${button2Id}">Focus2</button>
-          </div>
-        </calcite-dialog>`,
-      );
-      const dialog = await page.find("calcite-dialog");
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
-
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
-
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
-    });
-
-    it("restores focus to previously focused element when closed", async () => {
-      const initiallyFocusedId = "initially-focused";
-      const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <button id="${initiallyFocusedId}">Focus</button>
-        <calcite-dialog></calcite-dialog>
-      `);
-      await skipAnimations(page);
-
-      const dialog = await page.find("calcite-dialog");
-      await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
-        button.focus();
-      });
-
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
-
-      expect(await isElementFocused(page, initiallyFocusedIdSelector)).toBe(true);
-    });
-
-    it("traps focus within the dialog when open and disabled close button", async () => {
-      const button1Id = "button1";
-      const button2Id = "button2";
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog close-disabled>
-          <div slot="custom-content">
-            <button id="${button1Id}">Focus1</button>
-            <button id="${button2Id}">Focus2</button>
-          </div>
-        </calcite-dialog>`,
-      );
-      await skipAnimations(page);
-      const dialog = await page.find("calcite-dialog");
-
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
-
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
-
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
-
-      await page.keyboard.down("Shift");
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
-
-      await page.keyboard.press("Tab");
-      expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
-    });
-
-    it("subsequently opening a dialog dynamically gets focus trapped", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog id="dialog1" heading="Dialog 1">
-          <calcite-button id="openButton">open second dialog</calcite-button>
-        </calcite-dialog>
-      `);
-      await skipAnimations(page);
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      const dialog = await page.find("calcite-dialog");
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-
-      await page.evaluate(() => {
-        const btn = document.getElementById("openButton");
-        btn.addEventListener("click", () => {
-          const button = document.createElement("calcite-button");
-          button.innerHTML = "focusable";
-
-          const dialog2 = document.createElement("calcite-dialog");
-          dialog2.id = "dialog2";
-          dialog2.append(button);
-          document.body.append(dialog2);
-          dialog2.open = true;
-        });
-      });
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      await page.click("#openButton");
-      await openEventSpy.next();
-
-      expect(await isElementFocused(page, "#dialog2")).toBe(true);
-    });
-  });
-
-  describe("focusable", () => {
-    const createDialogHTML = (contentHTML?: string, attrs?: string) =>
-      `<calcite-dialog heading="Title" open ${attrs}>${contentHTML}</calcite-dialog>`;
-
-    const focusableContentTargetClass = "test";
-    const shadowFocusTargetSelector = `.${CSS.panel}`;
-    const focusTargetSelector = `.${focusableContentTargetClass}`;
-
-    const focusableContentHTML = html`This is the content
-      <button class="${focusableContentTargetClass}">test</button> `;
-
-    describe("focuses internal panel by default", () => {
-      focusable(createDialogHTML(focusableContentHTML), {
-        shadowFocusTargetSelector,
-      });
-    });
-
-    describe("focuses content if there is no close button", () => {
-      focusable(createDialogHTML(focusableContentHTML, "close-disabled"), {
-        focusTargetSelector,
-      });
-    });
-  });
-
-  it("content with visibility: visible should not be focusable when closed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-dialog>
-        <button id="should-not-be-keyboard-focusable" style="visibility: visible">hi</button>
-      </calcite-dialog>
-    `);
-
-    await page.keyboard.press("Tab");
-    expect(await isElementFocused(page, "#should-not-be-keyboard-focusable")).toBe(false);
-  });
-
-  it("has correct aria role/attribute", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);
-    await page.waitForChanges();
-
-    const dialog = await page.find("calcite-dialog");
-    const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
-
-    await page.waitForChanges();
-    expect(dialogContainer).toEqualAttribute("role", "dialog");
-    expect(dialogContainer).toEqualAttribute("aria-modal", "false");
-
-    dialog.setProperty("modal", true);
-
-    await page.waitForChanges();
-    expect(dialogContainer).toEqualAttribute("role", "dialog");
-    expect(dialogContainer).toEqualAttribute("aria-modal", "true");
-  });
-
-  it("closes and allows re-opening when Escape key is pressed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog></calcite-dialog>`);
-    await skipAnimations(page);
-    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-
-    const dialog = await page.find("calcite-dialog");
-    const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
-
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-    await openEventSpy.next();
-    expect(await dialog.isVisible()).toBe(true);
-
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(await container.isVisible()).toBe(false);
-    expect(await dialog.getProperty("open")).toBe(false);
-
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-    expect(await container.isVisible()).toBe(true);
-  });
-
-  it("closes when Escape key is pressed and dialog is open on page load", async () => {
+mockConsole();
+
+describe("openClose", () => {
+  openClose("calcite-dialog");
+  openClose.initial("calcite-dialog");
+});
+
+describe("accessible", () => {
+  accessible(async () => {
     const page = await newProgrammaticE2EPage();
+    await skipAnimations(page);
     const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
     await page.evaluate(() => {
       const dialog = document.createElement("calcite-dialog");
       dialog.open = true;
+      dialog.heading = "My Dialog";
+      dialog.description = "My Description";
       document.body.append(dialog);
     });
-
-    const dialog = await page.find("calcite-dialog");
-    await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
     await openEventSpy.next();
 
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    expect(dialog).not.toHaveAttribute("open");
+    return { page, tag: "calcite-dialog" };
+  });
+});
 
-    dialog.setProperty("open", true);
-    await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
+describe("focus-trap", () => {
+  describe("default", () => {
+    focusTrap("calcite-dialog", {
+      toggleProp: "open",
+    });
   });
 
-  it("closes and allows re-opening when Close button is clicked", async () => {
+  describe("modal", () => {
+    focusTrap(html`<calcite-dialog modal></calcite-dialog>`, {
+      toggleProp: "open",
+    });
+  });
+});
+
+it("should set internal panel properties", async () => {
+  const page = await newE2EPage();
+  await page.exposeFunction("beforeClose", () => Promise.reject());
+  await page.setContent("<calcite-dialog></calcite-dialog>");
+
+  const panel = await page.find(`calcite-dialog >>> calcite-panel`);
+  const dialog = await page.find("calcite-dialog");
+
+  const messageOverrides = { close: "shut the front door" };
+
+  dialog.setProperty("closeDisabled", true);
+  dialog.setProperty("loading", true);
+  dialog.setProperty("menuOpen", true);
+  dialog.setProperty("headingLevel", 1);
+  dialog.setProperty("overlayPositioning", "fixed");
+  dialog.setProperty("heading", "My Heading");
+  dialog.setProperty("description", "My Description");
+  dialog.setProperty("scale", "l");
+  dialog.setProperty("icon", "x");
+  dialog.setProperty("iconFlipRtl", true);
+  dialog.setProperty("messageOverrides", messageOverrides);
+  await page.waitForChanges();
+
+  expect(await panel.getProperty("closable")).toBe(false);
+  expect(await panel.getProperty("loading")).toBe(true);
+  expect(await panel.getProperty("menuOpen")).toBe(true);
+  expect(await panel.getProperty("headingLevel")).toBe(1);
+  expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
+  expect(await panel.getProperty("heading")).toBe("My Heading");
+  expect(await panel.getProperty("description")).toBe("My Description");
+  expect(await panel.getProperty("scale")).toBe("l");
+  expect(await panel.getProperty("icon")).toBe("x");
+  expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
+});
+
+it("outsideCloseDisabled", async () => {
+  const page = await newE2EPage();
+  // set large page to ensure test dialog isn't becoming fullscreen
+  await page.setViewport({ width: 1440, height: 1440 });
+  await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
+  await skipAnimations(page);
+  await page.waitForChanges();
+
+  const dialog = await page.find("calcite-dialog");
+
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.waitForChanges();
+  expect(await dialog.getProperty("open")).toBe(true);
+
+  dialog.setProperty("outsideCloseDisabled", false);
+  await page.waitForChanges();
+
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.waitForChanges();
+  expect(await dialog.getProperty("open")).toBe(false);
+});
+
+it("sets custom width correctly", async () => {
+  const page = await newE2EPage();
+  // set large page to ensure test dialog isn't becoming fullscreen
+  await page.setViewport({ width: 1440, height: 1440 });
+  await page.setContent(`<calcite-dialog style="--calcite-dialog-size-x:600px;"></calcite-dialog>`);
+
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+
+  const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  const style = await internalDialog.getComputedStyle();
+  expect(style.width).toEqual("600px");
+});
+
+it("sets custom height correctly", async () => {
+  const page = await newE2EPage();
+  // set large page to ensure test dialog isn't becoming fullscreen
+  await page.setViewport({ width: 1440, height: 1440 });
+  await page.setContent(`<calcite-dialog style="--calcite-dialog-size-y:600px;" open></calcite-dialog>`);
+
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+
+  const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  const style = await internalDialog.getComputedStyle();
+  expect(style.height).toEqual("600px");
+});
+
+it(`expectedly does not set custom width when "placement=cover" is true`, async () => {
+  const page = await newE2EPage();
+  // set large page to ensure test dialog isn't becoming fullscreen
+  await page.setViewport({ width: 1440, height: 1440 });
+  await page.setContent(
+    `<calcite-dialog style="--calcite-dialog-size-x:600px;" placement="cover" open></calcite-dialog>`,
+  );
+
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+
+  const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  const style = await internalDialog.getComputedStyle();
+  expect(style.width).not.toEqual("600px");
+});
+
+it(`expectedly does not set custom height when "placement=cover" is true`, async () => {
+  const page = await newE2EPage();
+  // set large page to ensure test dialog isn't becoming fullscreen
+  await page.setViewport({ width: 1440, height: 1440 });
+  await page.setContent(
+    `<calcite-dialog style="--calcite-dialog-size-y:600px;" placement="cover" open></calcite-dialog>`,
+  );
+
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+
+  const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  const style = await internalDialog.getComputedStyle();
+  expect(style.height).not.toEqual("600px");
+});
+
+it("does not overflow page bounds when requested css variable sizes are larger than viewport", async () => {
+  const page = await newE2EPage();
+  // set small page to test overflow
+  await page.setViewport({ width: 800, height: 800 });
+  await page.setContent(
+    `<calcite-dialog style="--calcite-dialog-size-y:1200px;--calcite-dialog-size-x:1200px;" open></calcite-dialog>`,
+  );
+
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+
+  const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  const style = await internalDialog.getComputedStyle();
+  expect(parseInt(style.width)).toBeLessThanOrEqual(800);
+  expect(parseInt(style.height)).toBeLessThanOrEqual(800);
+});
+
+it("escapeDisabled", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-dialog open escape-disabled heading="My Dialog">Some content</calcite-dialog>`);
+  await skipAnimations(page);
+  await page.waitForChanges();
+
+  const dialog = await page.find("calcite-dialog");
+  expect(await dialog.getProperty("open")).toBe(true);
+  await dialog.callMethod("setFocus");
+  await page.waitForChanges();
+
+  const eventSpy = await page.spyOnEvent("keydown");
+
+  await page.keyboard.down("Escape");
+  await page.keyboard.up("Escape");
+  await page.waitForChanges();
+
+  expect(eventSpy).toHaveReceivedEventTimes(1);
+  expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+  expect(await dialog.getProperty("open")).toBe(true);
+
+  await page.keyboard.down("Enter");
+  await page.keyboard.up("Enter");
+  await page.waitForChanges();
+  expect(eventSpy).toHaveReceivedEventTimes(2);
+  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+
+  dialog.setProperty("escapeDisabled", false);
+  await page.waitForChanges();
+
+  await page.keyboard.down("Escape");
+  await page.keyboard.up("Escape");
+  await page.waitForChanges();
+
+  expect(eventSpy).toHaveReceivedEventTimes(3);
+  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+  expect(await dialog.getProperty("open")).toBe(false);
+});
+
+describe("beforeClose()", () => {
+  it("calls the beforeClose method prior to closing via click", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog></calcite-dialog>`);
-    await skipAnimations(page);
+    const mockCallBack = vi.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+      <calcite-dialog></calcite-dialog>
+    `);
+
     const dialog = await page.find("calcite-dialog");
-    const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
-    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+    await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     await page.waitForChanges();
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    await openEventSpy.next();
-    expect(await container.isVisible()).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
 
     const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
     await closeButton.click();
     await page.waitForChanges();
-    expect(await container.isVisible()).toBe(false);
-    expect(await dialog.getProperty("open")).toBe(false);
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
+  });
+
+  it("calls the beforeClose method prior to closing via ESC key", async () => {
+    const page = await newE2EPage();
+    const mockCallBack = vi.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+      <calcite-dialog></calcite-dialog>
+    `);
+    await skipAnimations(page);
+
+    const dialog = await page.find("calcite-dialog");
+    await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
+    await page.waitForChanges();
+
+    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEventSpy.next();
+
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+
+    const closeEventSpy = await page.spyOnEvent("calciteDialogClose");
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await closeEventSpy;
+
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
+  });
+
+  it("calls the beforeClose method prior to closing via attribute", async () => {
+    const page = await newE2EPage();
+    const mockCallBack = vi.fn();
+    await page.exposeFunction("beforeClose", mockCallBack);
+    await page.setContent(`
+    <calcite-dialog></calcite-dialog>
+  `);
+
+    const dialog = await page.find("calcite-dialog");
+    await page.$eval("calcite-dialog", (el: Dialog["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
+    await page.waitForChanges();
 
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(await container.isVisible()).toBe(true);
+
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+    dialog.removeAttribute("open");
+    await page.waitForChanges();
+
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeNull();
   });
 
-  it("should close when the scrim is clicked", async () => {
+  it("should handle rejected 'beforeClose' promise'", async () => {
     const page = await newE2EPage();
-    await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+
+    const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
+    await page.exposeFunction("beforeClose", mockCallBack);
+
+    await page.setContent(`<calcite-dialog open></calcite-dialog>`);
+
+    await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(mockCallBack).toHaveBeenCalledTimes(1);
+  });
+
+  it("should remain open with rejected 'beforeClose' promise'", async () => {
+    const page = await newE2EPage();
+
+    await page.exposeFunction("beforeClose", () => Promise.reject());
+    await page.setContent(`<calcite-dialog open></calcite-dialog>`);
+
+    await page.$eval("calcite-dialog", (elm: Dialog["el"]) => (elm.beforeClose = (window as TestWindow).beforeClose));
+
+    const dialog = await page.find("calcite-dialog");
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await dialog.getProperty("open")).toBe(true);
+    expect(await page.find(`calcite-dialog >>> .${CSS.containerOpen}`)).toBeDefined();
+    expect(dialog.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+  });
+
+  it("does not invoke beforeClose when initially open", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate(async () => {
+      const dialog = document.createElement("calcite-dialog");
+      dialog.open = true;
+      dialog.beforeClose = () => new Promise(() => document.body.removeChild(dialog));
+      document.body.append(dialog);
+    });
+    await page.waitForChanges();
+
+    expect(await page.find("calcite-dialog")).not.toBeNull();
+  });
+});
+
+describe("calcite-dialog accessibility checks", () => {
+  it("traps focus within the dialog when open", async () => {
+    const button1Id = "button1";
+    const button2Id = "button2";
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog>
+        <div>
+          <button id="${button1Id}">Focus1</button>
+          <button id="${button2Id}">Focus2</button>
+        </div>
+      </calcite-dialog>`,
+    );
+    const dialog = await page.find("calcite-dialog");
+    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEventSpy.next();
+
+    expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, "calcite-panel", { shadowed: true })).toBe(true);
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+  });
+
+  it("restores focus to previously focused element when closed", async () => {
+    const initiallyFocusedId = "initially-focused";
+    const initiallyFocusedIdSelector = `#${initiallyFocusedId}`;
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <button id="${initiallyFocusedId}">Focus</button>
+      <calcite-dialog></calcite-dialog>
+    `);
+    await skipAnimations(page);
+
+    const dialog = await page.find("calcite-dialog");
+    await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
+      button.focus();
+    });
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, initiallyFocusedIdSelector)).toBe(true);
+  });
+
+  it("traps focus within the dialog when open and disabled close button", async () => {
+    const button1Id = "button1";
+    const button2Id = "button2";
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog close-disabled>
+        <div slot="custom-content">
+          <button id="${button1Id}">Focus1</button>
+          <button id="${button2Id}">Focus2</button>
+        </div>
+      </calcite-dialog>`,
+    );
+    await skipAnimations(page);
+    const dialog = await page.find("calcite-dialog");
+
+    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+    await openEventSpy.next();
+
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+
+    await page.keyboard.down("Shift");
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button2Id}`)).toBe(true);
+
+    await page.keyboard.press("Tab");
+    expect(await isElementFocused(page, `#${button1Id}`)).toBe(true);
+  });
+
+  it("subsequently opening a dialog dynamically gets focus trapped", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dialog id="dialog1" heading="Dialog 1">
+        <calcite-button id="openButton">open second dialog</calcite-button>
+      </calcite-dialog>
+    `);
+    await skipAnimations(page);
+    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
     const dialog = await page.find("calcite-dialog");
     dialog.setProperty("open", true);
     await page.waitForChanges();
-    expect(dialog).toHaveAttribute("open");
 
-    await page.evaluate((className) => {
-      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
-      (scrim as HTMLElement).click();
-    }, `.${CSS.scrim}`);
+    await page.evaluate(() => {
+      const btn = document.getElementById("openButton");
+      btn.addEventListener("click", () => {
+        const button = document.createElement("calcite-button");
+        button.innerHTML = "focusable";
 
+        const dialog2 = document.createElement("calcite-dialog");
+        dialog2.id = "dialog2";
+        dialog2.append(button);
+        document.body.append(dialog2);
+        dialog2.open = true;
+      });
+    });
     await page.waitForChanges();
-    expect(await dialog.getProperty("open")).toBe(false);
+    await openEventSpy.next();
+
+    await page.click("#openButton");
+    await openEventSpy.next();
+
+    expect(await isElementFocused(page, "#dialog2")).toBe(true);
+  });
+});
+
+it("content with visibility: visible should not be focusable when closed", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`
+    <calcite-dialog>
+      <button id="should-not-be-keyboard-focusable" style="visibility: visible">hi</button>
+    </calcite-dialog>
+  `);
+
+  await page.keyboard.press("Tab");
+  expect(await isElementFocused(page, "#should-not-be-keyboard-focusable")).toBe(false);
+});
+
+it("has correct aria role/attribute", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-dialog open>Hello world!</calcite-dialog>`);
+  await page.waitForChanges();
+
+  const dialog = await page.find("calcite-dialog");
+  const dialogContainer = await page.find(`calcite-dialog >>> .${CSS.container}`);
+
+  await page.waitForChanges();
+  expect(dialogContainer).toEqualAttribute("role", "dialog");
+  expect(dialogContainer).toEqualAttribute("aria-modal", "false");
+
+  dialog.setProperty("modal", true);
+
+  await page.waitForChanges();
+  expect(dialogContainer).toEqualAttribute("role", "dialog");
+  expect(dialogContainer).toEqualAttribute("aria-modal", "true");
+});
+
+it("closes and allows re-opening when Escape key is pressed", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-dialog></calcite-dialog>`);
+  await skipAnimations(page);
+  const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+
+  const dialog = await page.find("calcite-dialog");
+  const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
+
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  await openEventSpy.next();
+  expect(await dialog.isVisible()).toBe(true);
+
+  await page.keyboard.press("Escape");
+  await page.waitForChanges();
+  expect(await container.isVisible()).toBe(false);
+  expect(await dialog.getProperty("open")).toBe(false);
+
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  expect(await container.isVisible()).toBe(true);
+});
+
+it("closes when Escape key is pressed and dialog is open on page load", async () => {
+  const page = await newProgrammaticE2EPage();
+  const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+  await page.evaluate(() => {
+    const dialog = document.createElement("calcite-dialog");
+    dialog.open = true;
+    document.body.append(dialog);
   });
 
-  describe("overflow prevention", () => {
-    async function hasOverflowStyle(page: E2EPage): Promise<boolean> {
-      return page.evaluate(() => document.documentElement.style.overflow === "hidden");
-    }
+  const dialog = await page.find("calcite-dialog");
+  await page.waitForChanges();
+  expect(dialog).toHaveAttribute("open");
+  await openEventSpy.next();
 
-    it("does not set overflow style on document when opened/closed and non modal", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog></calcite-dialog>`);
-      const dialog = await page.find("calcite-dialog");
+  await page.keyboard.press("Escape");
+  await page.waitForChanges();
+  expect(dialog).not.toHaveAttribute("open");
 
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  expect(dialog).toHaveAttribute("open");
+});
 
-      expect(await hasOverflowStyle(page)).toEqual(false);
+it("closes and allows re-opening when Close button is clicked", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-dialog></calcite-dialog>`);
+  await skipAnimations(page);
+  const dialog = await page.find("calcite-dialog");
+  const container = await page.find(`calcite-dialog >>> .${CSS.container}`);
+  const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+  await page.waitForChanges();
 
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  await openEventSpy.next();
+  expect(await container.isVisible()).toBe(true);
 
-      expect(await hasOverflowStyle(page)).toEqual(false);
-    });
+  const closeButton = await page.find(`calcite-dialog >>> calcite-panel >>> #${PanelIDS.close}`);
+  await closeButton.click();
+  await page.waitForChanges();
+  expect(await container.isVisible()).toBe(false);
+  expect(await dialog.getProperty("open")).toBe(false);
 
-    it("correctly sets overflow style on document when opened/closed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
-      const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  expect(await container.isVisible()).toBe(true);
+});
 
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
+it("should close when the scrim is clicked", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+  const dialog = await page.find("calcite-dialog");
+  dialog.setProperty("open", true);
+  await page.waitForChanges();
+  expect(dialog).toHaveAttribute("open");
 
-      expect(await hasOverflowStyle(page)).toEqual(true);
+  await page.evaluate((className) => {
+    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    (scrim as HTMLElement).click();
+  }, `.${CSS.scrim}`);
 
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
+  await page.waitForChanges();
+  expect(await dialog.getProperty("open")).toBe(false);
+});
 
-      expect(await hasOverflowStyle(page)).toEqual(false);
-    });
+describe("overflow prevention", () => {
+  async function hasOverflowStyle(page: E2EPage): Promise<boolean> {
+    return page.evaluate(() => document.documentElement.style.overflow === "hidden");
+  }
 
-    it("preserves existing overflow style when dialog is opened/closed", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
-      await page.evaluate(() => (document.documentElement.style.overflow = "scroll"));
-      const dialog = await page.find("calcite-dialog");
+  it("does not set overflow style on document when opened/closed and non modal", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-dialog></calcite-dialog>`);
+    const dialog = await page.find("calcite-dialog");
 
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
 
-      expect(await hasOverflowStyle(page)).toEqual(true);
+    expect(await hasOverflowStyle(page)).toEqual(false);
 
-      dialog.setProperty("open", false);
-      await page.waitForChanges();
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
 
-      expect(await page.evaluate(() => document.documentElement.style.overflow)).toEqual("scroll");
-    });
-
-    it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
-      const page = await newE2EPage();
-      await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs" modal></calcite-dialog></calcite-shell>`);
-      const dialog = await page.find("calcite-dialog");
-
-      dialog.setProperty("open", true);
-      await page.waitForChanges();
-
-      expect(await hasOverflowStyle(page)).toEqual(false);
-    });
-
-    it("correctly removes overflow style on document when multiple dialogs are closed in first-in-last-out order", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog id="dialog-1" modal></calcite-dialog>
-        <calcite-dialog id="dialog-2" modal></calcite-dialog>
-      `);
-      const dialog1 = await page.find("#dialog-1");
-      const dialog2 = await page.find("#dialog-2");
-
-      dialog1.setProperty("open", true);
-      await page.waitForChanges();
-      dialog2.setProperty("open", true);
-      await page.waitForChanges();
-
-      expect(await hasOverflowStyle(page)).toEqual(true);
-
-      dialog2.setProperty("open", false);
-      await page.waitForChanges();
-      dialog1.setProperty("open", false);
-      await page.waitForChanges();
-
-      expect(await hasOverflowStyle(page)).toEqual(false);
-    });
-
-    it("correctly removes overflow style on document when multiple dialogs are closed in first-in-first-out order", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dialog id="dialog-1" modal></calcite-dialog>
-        <calcite-dialog id="dialog-2" modal></calcite-dialog>
-      `);
-      const dialog1 = await page.find("#dialog-1");
-      const dialog2 = await page.find("#dialog-2");
-
-      dialog1.setProperty("open", true);
-      await page.waitForChanges();
-      dialog2.setProperty("open", true);
-      await page.waitForChanges();
-
-      expect(await hasOverflowStyle(page)).toEqual(true);
-
-      dialog1.setProperty("open", false);
-      await page.waitForChanges();
-      dialog2.setProperty("open", false);
-      await page.waitForChanges();
-
-      expect(await hasOverflowStyle(page)).toEqual(false);
-    });
+    expect(await hasOverflowStyle(page)).toEqual(false);
   });
 
-  it("when dialog css override set, scrim should adhere to requested color", async () => {
-    const overrideStyle = "rgba(160, 20, 10, 0.5)";
-    const page = await newE2EPage({
-      html: `
+  it("correctly sets overflow style on document when opened/closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+    const dialog = await page.find("calcite-dialog");
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(true);
+
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(false);
+  });
+
+  it("preserves existing overflow style when dialog is opened/closed", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-dialog modal></calcite-dialog>`);
+    await page.evaluate(() => (document.documentElement.style.overflow = "scroll"));
+    const dialog = await page.find("calcite-dialog");
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(true);
+
+    dialog.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await page.evaluate(() => document.documentElement.style.overflow)).toEqual("scroll");
+  });
+
+  it("correctly does not add overflow style on document when open and slotted in shell dialogs slot", async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<calcite-shell><calcite-dialog slot="dialogs" modal></calcite-dialog></calcite-shell>`);
+    const dialog = await page.find("calcite-dialog");
+
+    dialog.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(false);
+  });
+
+  it("correctly removes overflow style on document when multiple dialogs are closed in first-in-last-out order", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dialog id="dialog-1" modal></calcite-dialog>
+      <calcite-dialog id="dialog-2" modal></calcite-dialog>
+    `);
+    const dialog1 = await page.find("#dialog-1");
+    const dialog2 = await page.find("#dialog-2");
+
+    dialog1.setProperty("open", true);
+    await page.waitForChanges();
+    dialog2.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(true);
+
+    dialog2.setProperty("open", false);
+    await page.waitForChanges();
+    dialog1.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(false);
+  });
+
+  it("correctly removes overflow style on document when multiple dialogs are closed in first-in-first-out order", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-dialog id="dialog-1" modal></calcite-dialog>
+      <calcite-dialog id="dialog-2" modal></calcite-dialog>
+    `);
+    const dialog1 = await page.find("#dialog-1");
+    const dialog2 = await page.find("#dialog-2");
+
+    dialog1.setProperty("open", true);
+    await page.waitForChanges();
+    dialog2.setProperty("open", true);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(true);
+
+    dialog1.setProperty("open", false);
+    await page.waitForChanges();
+    dialog2.setProperty("open", false);
+    await page.waitForChanges();
+
+    expect(await hasOverflowStyle(page)).toEqual(false);
+  });
+});
+
+it("when dialog css override set, scrim should adhere to requested color", async () => {
+  const overrideStyle = "rgba(160, 20, 10, 0.5)";
+  const page = await newE2EPage({
+    html: `
       <calcite-dialog modal heading="Title of the dialog" open style="--calcite-dialog-scrim-background-color:${overrideStyle}">
         <div>The actual content of the dialog</div>
         <calcite-button slot="footer-start" kind="neutral" appearance="outline" icon="chevron-left" width="full">
@@ -783,456 +758,455 @@ describe("calcite-dialog", () => {
         <calcite-button slot="footer-end" width="full"> Save </calcite-button>
       </calcite-dialog>
       `,
-    });
-    const scrimStyles = await page.evaluate((className) => {
-      const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
-      return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
-    }, `.${CSS.scrim}`);
-    expect(scrimStyles).toEqual(overrideStyle);
   });
+  const scrimStyles = await page.evaluate((className) => {
+    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
+  }, `.${CSS.scrim}`);
+  expect(scrimStyles).toEqual(overrideStyle);
+});
 
-  it("should set embedded on slotted alerts", async () => {
+it("should set embedded on slotted alerts", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-dialog open>
+      test
+      <calcite-alert slot="alerts" open label="this is a default alert">
+        <div slot="title">Hello there!</div>
+        <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+      </calcite-alert>
+    </calcite-dialog>`,
+  );
+  await page.waitForChanges();
+
+  const alert = await page.find("calcite-alert");
+
+  expect(await alert.getProperty("embedded")).toBe(true);
+});
+
+it("should not set transform when not dragEnabled or resizable", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-dialog open> test </calcite-dialog>`);
+  await skipAnimations(page);
+  await page.setViewport({ width: 1200, height: 1200 });
+  await page.waitForChanges();
+
+  const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  expect((await container.getComputedStyle()).transform).toBe("none");
+});
+
+describe("keyboard movement", () => {
+  it("should move properly via arrow keys", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog open>
-        test
-        <calcite-alert slot="alerts" open label="this is a default alert">
-          <div slot="title">Hello there!</div>
-          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
-        </calcite-alert>
-      </calcite-dialog>`,
+      html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
     );
-    await page.waitForChanges();
-
-    const alert = await page.find("calcite-alert");
-
-    expect(await alert.getProperty("embedded")).toBe(true);
-  });
-
-  it("should not set transform when not dragEnabled or resizable", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-dialog open> test </calcite-dialog>`);
     await skipAnimations(page);
     await page.setViewport({ width: 1200, height: 1200 });
     await page.waitForChanges();
-
     const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
     expect((await container.getComputedStyle()).transform).toBe("none");
+
+    await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
+    expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${resizeShiftStep})`);
+
+    await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
+    expect((await container.getComputedStyle()).transform).toBe("none");
+
+    await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
+    expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${resizeShiftStep}, 0)`);
+
+    await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
+    expect((await container.getComputedStyle()).transform).toBe("none");
+  });
+});
+
+describe("keyboard assistive text", () => {
+  it("should not have assistive text by default", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    expect(assistiveTextElement).toBeNull();
   });
 
-  describe("keyboard movement", () => {
-    it("should move properly via arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
-      );
-      await skipAnimations(page);
-      await page.setViewport({ width: 1200, height: 1200 });
-      await page.waitForChanges();
-      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
-      expect((await container.getComputedStyle()).transform).toBe("none");
-
-      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, 0, ${resizeShiftStep})`);
-
-      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("none");
-
-      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe(`matrix(1, 0, 0, 1, -${resizeShiftStep}, 0)`);
-
-      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: false });
-      expect((await container.getComputedStyle()).transform).toBe("none");
-    });
+  it("should have assistive text when resizable", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    expect(assistiveTextElement).not.toBeNull();
+    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+    const messages = await import("./assets/t9n/messages.json");
+    expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
   });
 
-  describe("keyboard assistive text", () => {
-    it("should not have assistive text by default", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
-      );
-      await skipAnimations(page);
-      await page.waitForChanges();
-      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-      expect(assistiveTextElement).toBeNull();
-    });
-
-    it("should have assistive text when resizable", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
-      );
-      await skipAnimations(page);
-      await page.waitForChanges();
-      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-      expect(assistiveTextElement).not.toBeNull();
-      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import("./assets/t9n/messages.json");
-      expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
-    });
-
-    it("should have assistive text when dragEnabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
-      );
-      await skipAnimations(page);
-      await page.waitForChanges();
-      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-      expect(assistiveTextElement).not.toBeNull();
-      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import("./assets/t9n/messages.json");
-      expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
-    });
-
-    it("should have assistive text when resizable and dragEnabled", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
-          >Hello world!</calcite-dialog
-        >`,
-      );
-      await skipAnimations(page);
-      await page.waitForChanges();
-      const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
-      expect(assistiveTextElement).not.toBeNull();
-      expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
-      const messages = await import("./assets/t9n/messages.json");
-      expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
-    });
+  it("should have assistive text when dragEnabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    expect(assistiveTextElement).not.toBeNull();
+    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+    const messages = await import("./assets/t9n/messages.json");
+    expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
   });
 
-  describe("keyboard resize", () => {
-    it("should resize properly via shift and arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
-          ><p>
-            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
-            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
-            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
-            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
-            fermentum tellus quis ad facilisis ultrices eros imperdiet.
-          </p></calcite-dialog
-        >`,
-      );
-      await skipAnimations(page);
-      await page.setViewport({ width: 1200, height: 1200 });
-      await page.waitForChanges();
-      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+  it("should have assistive text when resizable and dragEnabled", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
+        >Hello world!</calcite-dialog
+      >`,
+    );
+    await skipAnimations(page);
+    await page.waitForChanges();
+    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    expect(assistiveTextElement).not.toBeNull();
+    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
+    const messages = await import("./assets/t9n/messages.json");
+    expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
+  });
+});
 
-      let computedStyle = await container.getComputedStyle();
-      const initialBlockSize = computedStyle.blockSize;
-      const initialInlineSize = computedStyle.inlineSize;
-      const initialHeight = parseInt(initialBlockSize);
-      const initialWidth = parseInt(initialInlineSize);
+describe("keyboard resize", () => {
+  it("should resize properly via shift and arrow keys", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
+        ><p>
+          Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+          Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+          eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+          ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+          fermentum tellus quis ad facilisis ultrices eros imperdiet.
+        </p></calcite-dialog
+      >`,
+    );
+    await skipAnimations(page);
+    await page.setViewport({ width: 1200, height: 1200 });
+    await page.waitForChanges();
+    const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
 
-      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+    let computedStyle = await container.getComputedStyle();
+    const initialBlockSize = computedStyle.blockSize;
+    const initialInlineSize = computedStyle.inlineSize;
+    const initialHeight = parseInt(initialBlockSize);
+    const initialWidth = parseInt(initialInlineSize);
 
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight - resizeShiftStep}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
-      await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight - resizeShiftStep}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+    await dispatchDialogKeydown({ page, key: "ArrowDown", shiftKey: true });
 
-      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
 
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth - resizeShiftStep}px`);
+    await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
 
-      await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth - resizeShiftStep}px`);
 
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
-    });
+    await dispatchDialogKeydown({ page, key: "ArrowRight", shiftKey: true });
 
-    it("should honor minBlockSize and minInlineSize when resizing", async () => {
-      const page = await newE2EPage();
-      await page.setContent(
-        html`<calcite-dialog
-          style="
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+  });
+
+  it("should honor minBlockSize and minInlineSize when resizing", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-dialog
+        style="
           --calcite-dialog-size-y: 400px;
           --calcite-dialog-size-x: 400px;
           --calcite-dialog-min-size-y: 400px;
           --calcite-dialog-min-size-x: 400px;"
-          width-scale="s"
-          heading="Hello world"
-          resizable
-          open
-          ><p>
-            Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
-            Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
-            eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
-            ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
-            fermentum tellus quis ad facilisis ultrices eros imperdiet.
-          </p></calcite-dialog
+        width-scale="s"
+        heading="Hello world"
+        resizable
+        open
+        ><p>
+          Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
+          Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
+          eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
+          ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
+          fermentum tellus quis ad facilisis ultrices eros imperdiet.
+        </p></calcite-dialog
+      >`,
+    );
+    await skipAnimations(page);
+    await page.setViewport({ width: 1200, height: 1200 });
+    await page.waitForChanges();
+    const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+
+    let computedStyle = await container.getComputedStyle();
+    const initialBlockSize = computedStyle.blockSize;
+    const initialHeight = parseInt(initialBlockSize);
+    const initialInlineSize = computedStyle.inlineSize;
+    const initialWidth = parseInt(initialInlineSize);
+
+    await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
+
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+
+    await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
+
+    computedStyle = await container.getComputedStyle();
+    expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
+    expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
+  });
+});
+
+describe("slotted", () => {
+  it("should not close when slotted panels are closed", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-dialog open>
+        <calcite-panel closable heading="test"></calcite-panel>
+      </calcite-dialog>`,
+    });
+    await page.waitForChanges();
+
+    const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
+
+    await closeButton.click();
+    await page.waitForChanges();
+
+    const dialog = await page.find("calcite-dialog");
+    expect(await dialog.getProperty("open")).toBe(true);
+  });
+});
+
+describe("theme sizing", () => {
+  themed(
+    async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog icon="banana" width-scale="s" modal open fullscreen-disabled
+          ><p>Hello world!</p></calcite-dialog
         >`,
       );
       await skipAnimations(page);
-      await page.setViewport({ width: 1200, height: 1200 });
-      await page.waitForChanges();
-      const container = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
+      return { page, tag: "calcite-dialog" };
+    },
+    {
+      "--calcite-dialog-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-dialog-min-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "minInlineSize",
+      },
+      "--calcite-dialog-max-size-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "maxInlineSize",
+      },
+      "--calcite-dialog-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "blockSize",
+      },
+      "--calcite-dialog-min-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "minBlockSize",
+      },
+      "--calcite-dialog-max-size-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "maxBlockSize",
+      },
+      "--calcite-dialog-offset-x": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "insetInlineStart",
+      },
+      "--calcite-dialog-offset-y": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "insetBlockStart",
+      },
+    },
+  );
+});
 
-      let computedStyle = await container.getComputedStyle();
-      const initialBlockSize = computedStyle.blockSize;
-      const initialHeight = parseInt(initialBlockSize);
-      const initialInlineSize = computedStyle.inlineSize;
-      const initialWidth = parseInt(initialInlineSize);
+describe("theme appearance", () => {
+  themed(
+    async () => {
+      const page = await newE2EPage();
+      await page.setContent(
+        html`<calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
+          <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
+          <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
+          <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
+          <div slot="content-top">To continue, you must agree to the terms</div>
+          <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
+            <calcite-checkbox></calcite-checkbox>I agree to the terms
+          </calcite-label>
+          <p>
+            Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
+            fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros. Aenean
+            sodales sollicitudin dui in fermentum.
+          </p>
 
-      await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
-
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
-
-      await dispatchDialogKeydown({ page, key: "ArrowLeft", shiftKey: true });
-
-      computedStyle = await container.getComputedStyle();
-      expect(computedStyle.blockSize).toBe(`${initialHeight}px`);
-      expect(computedStyle.inlineSize).toBe(`${initialWidth}px`);
-    });
-  });
-
-  describe("slotted", () => {
-    it("should not close when slotted panels are closed", async () => {
-      const page = await newE2EPage({
-        html: html`<calcite-dialog open>
-          <calcite-panel closable heading="test"></calcite-panel>
+          <calcite-button slot="footer-end" width="auto" scale="s">Add members now</calcite-button>
         </calcite-dialog>`,
-      });
-      await page.waitForChanges();
-
-      const closeButton = await page.find(`calcite-panel >>> #${PanelIDS.close}`);
-
-      await closeButton.click();
-      await page.waitForChanges();
-
-      const dialog = await page.find("calcite-dialog");
-      expect(await dialog.getProperty("open")).toBe(true);
-    });
-  });
-
-  describe("theme sizing", () => {
-    themed(
-      async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-dialog icon="banana" width-scale="s" modal open><p>Hello world!</p></calcite-dialog>`,
-        );
-        // set large page to ensure test dialog isn't becoming fullscreen
-        await page.setViewport({ width: 1440, height: 1440 });
-        await skipAnimations(page);
-        return { page, tag: "calcite-dialog" };
-      },
-      {
-        "--calcite-dialog-size-x": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "inlineSize",
-        },
-        "--calcite-dialog-min-size-x": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "minInlineSize",
-        },
-        "--calcite-dialog-max-size-x": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "maxInlineSize",
-        },
-        "--calcite-dialog-size-y": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "blockSize",
-        },
-        "--calcite-dialog-min-size-y": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "minBlockSize",
-        },
-        "--calcite-dialog-max-size-y": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "maxBlockSize",
-        },
-        "--calcite-dialog-offset-x": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "insetInlineStart",
-        },
-        "--calcite-dialog-offset-y": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "insetBlockStart",
-        },
-      },
-    );
-  });
-
-  describe("theme appearance", () => {
-    themed(
-      async () => {
-        const page = await newE2EPage();
-        await page.setContent(
-          html`<calcite-dialog heading="Information" description="Themed" kind="info" scale="s" modal open>
-            <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
-            <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-            <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
-            <div slot="content-top">To continue, you must agree to the terms</div>
-            <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
-              <calcite-checkbox></calcite-checkbox>I agree to the terms
-            </calcite-label>
-            <p>
-              Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam
-              fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros.
-              Aenean sodales sollicitudin dui in fermentum.
-            </p>
-
-            <calcite-button slot="footer-end" width="auto" scale="s">Add members now</calcite-button>
-          </calcite-dialog>`,
-        );
-        // set large page to ensure test dialog isn't becoming fullscreen
-        await page.setViewport({ width: 1440, height: 1440 });
-        await skipAnimations(page);
-        return { page, tag: "calcite-dialog" };
-      },
-      {
-        "--calcite-dialog-scrim-background-color": {
-          shadowSelector: `.${CSS.scrim}`,
-          targetProp: "--calcite-scrim-background",
-        },
-        "--calcite-dialog-content-space": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-content-space",
-        },
-        "--calcite-dialog-footer-space": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-footer-space",
-        },
-        "--calcite-dialog-background-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-background-color",
-        },
-        "--calcite-dialog-icon-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-icon-color",
-        },
-        "--calcite-dialog-heading-text-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-heading-text-color",
-        },
-        "--calcite-dialog-description-text-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-description-text-color",
-        },
-        "--calcite-dialog-header-action-background-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-action-background-color",
-        },
-        "--calcite-dialog-header-action-text-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-action-text-color",
-        },
-        "--calcite-dialog-header-background-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-background-color",
-        },
-        "--calcite-dialog-footer-background-color": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-footer-background-color",
-        },
-        "--calcite-dialog-border-color": [
-          {
-            shadowSelector: `.${CSS.panel}`,
-            targetProp: "--calcite-panel-border-color",
-          },
-          {
-            shadowSelector: `.${CSS.panel}`,
-            targetProp: "--calcite-panel-border-color",
-          },
-          {
-            shadowSelector: `.${CSS.panel}`,
-            targetProp: "--calcite-panel-border-color",
-          },
-          {
-            shadowSelector: `.${CSS.panel}`,
-            targetProp: "--calcite-panel-border-color",
-          },
-        ],
-        "--calcite-dialog-accent-color": {
-          shadowSelector: `.${CSS.dialog}`,
-          targetProp: "borderColor",
-        },
-        "--calcite-dialog-space": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-space",
-        },
-        "--calcite-dialog-corner-radius": {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-corner-radius",
-        },
-      },
-    );
-  });
-
-  describe.each([{ modal: true }, { modal: false }])("focusTrap behavior", ({ modal }) => {
-    let page: E2EPage;
-    let dialog: E2EElement;
-
-    beforeEach(async () => {
-      page = await newProgrammaticE2EPage();
+      );
+      // set large page to ensure test dialog isn't becoming fullscreen
+      await page.setViewport({ width: 1440, height: 1440 });
       await skipAnimations(page);
-      const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-      await page.evaluate((modal) => {
-        const innerButton = document.createElement("button");
-        innerButton.id = "insideEl";
-        innerButton.innerText = "inside";
+      return { page, tag: "calcite-dialog" };
+    },
+    {
+      "--calcite-dialog-scrim-background-color": {
+        shadowSelector: `.${CSS.scrim}`,
+        targetProp: "--calcite-scrim-background",
+      },
+      "--calcite-dialog-content-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-space",
+      },
+      "--calcite-dialog-footer-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-footer-space",
+      },
+      "--calcite-dialog-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-background-color",
+      },
+      "--calcite-dialog-icon-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-icon-color",
+      },
+      "--calcite-dialog-heading-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-heading-text-color",
+      },
+      "--calcite-dialog-description-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-description-text-color",
+      },
+      "--calcite-dialog-header-action-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-action-background-color",
+      },
+      "--calcite-dialog-header-action-text-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-action-text-color",
+      },
+      "--calcite-dialog-header-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-header-background-color",
+      },
+      "--calcite-dialog-footer-background-color": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-footer-background-color",
+      },
+      "--calcite-dialog-border-color": [
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-border-color",
+        },
+      ],
+      "--calcite-dialog-accent-color": {
+        shadowSelector: `.${CSS.dialog}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-dialog-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-space",
+      },
+      "--calcite-dialog-corner-radius": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-corner-radius",
+      },
+    },
+  );
+});
 
-        const outsideButton = document.createElement("button");
-        outsideButton.id = "outsideEl";
-        outsideButton.innerText = "outside";
+describe.each([{ modal: true }, { modal: false }])("focusTrap behavior", ({ modal }) => {
+  let page: E2EPage;
+  let dialog: E2EElement;
 
-        const dialog = document.createElement("calcite-dialog");
-        dialog.modal = modal;
-        dialog.open = true;
+  beforeEach(async () => {
+    page = await newProgrammaticE2EPage();
+    await skipAnimations(page);
+    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
+    await page.evaluate((modal) => {
+      const innerButton = document.createElement("button");
+      innerButton.id = "insideEl";
+      innerButton.innerText = "inside";
 
-        dialog.append(innerButton);
-        document.body.append(dialog);
-        document.body.append(outsideButton);
-      }, modal);
-      await page.waitForChanges();
-      await openEventSpy.next();
-      await page.waitForChanges();
+      const outsideButton = document.createElement("button");
+      outsideButton.id = "outsideEl";
+      outsideButton.innerText = "outside";
 
-      dialog = await page.find("calcite-dialog");
-    });
+      const dialog = document.createElement("calcite-dialog");
+      dialog.modal = modal;
+      dialog.open = true;
 
-    it(`can tab out of dialog when modal=${modal} and focusTrapDisabled=true`, async () => {
-      dialog.setProperty("focusTrapDisabled", true);
-      await page.waitForChanges();
+      dialog.append(innerButton);
+      document.body.append(dialog);
+      document.body.append(outsideButton);
+    }, modal);
+    await page.waitForChanges();
+    await openEventSpy.next();
+    await page.waitForChanges();
 
-      expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
+    dialog = await page.find("calcite-dialog");
+  });
 
-      // focus starts on close button
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+  it(`can tab out of dialog when modal=${modal} and focusTrapDisabled=true`, async () => {
+    dialog.setProperty("focusTrapDisabled", true);
+    await page.waitForChanges();
 
-      expect(await isElementFocused(page, "#outsideEl")).toBe(true);
-    });
+    expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
 
-    it(`cannot tab out of dialog when modal=${modal} and focusTrapDisabled=false`, async () => {
-      dialog.setProperty("focusTrapDisabled", false);
-      await page.waitForChanges();
+    // focus starts on close button
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
 
-      expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
+    expect(await isElementFocused(page, "#outsideEl")).toBe(true);
+  });
 
-      // focus starts on close button
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.keyboard.press("Tab");
-      await page.waitForChanges();
+  it(`cannot tab out of dialog when modal=${modal} and focusTrapDisabled=false`, async () => {
+    dialog.setProperty("focusTrapDisabled", false);
+    await page.waitForChanges();
 
-      expect(await isElementFocused(page, "#insideEl")).toBe(true);
-    });
+    expect(await isElementFocused(page, "calcite-dialog")).toBe(true);
+
+    // focus starts on close button
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+
+    expect(await isElementFocused(page, "#insideEl")).toBe(true);
   });
 });

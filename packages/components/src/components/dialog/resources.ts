@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 export const CSS = {
@@ -8,7 +9,6 @@ export const CSS = {
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
   assistiveText: "assistive-text",
-  openingActive: "dialog--opening-active",
 };
 
 export const SLOTS = {

@@ -175,6 +175,7 @@ export const withAvatarAndIconAndClosable = (): string => {
     </div>
   `;
 };
+
 export const overriddenIconColor = (): string =>
   html`<calcite-chip icon="banana" style="--calcite-icon-color: #ac9f42" label="Banana" closable>Banana</calcite-chip>`;
 

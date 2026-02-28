@@ -1,6 +1,7 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, JsxNode } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -8,88 +9,127 @@ import {
   renders,
   slots,
   handlesActionMenuPlacements,
+  focusable,
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
-describe("calcite-action-group", () => {
-  mockConsole();
+mockConsole();
 
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-action-group"),
-      [
-        {
-          propertyName: "layout",
-          defaultValue: "vertical",
-        },
-        {
-          propertyName: "overlayPositioning",
-          defaultValue: "absolute",
-        },
-        {
-          propertyName: "menuPlacement",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "menuFlipPlacements",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "scale",
-          defaultValue: "m",
-        },
-      ],
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-action-group"),
+    [
+      {
+        propertyName: "layout",
+        defaultValue: "vertical",
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-action-group"),
+    [
+      {
+        propertyName: "menuPlacement",
+        value: "bottom",
+      },
+    ],
+  );
+});
+
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-action-group"));
+});
+
+describe("renders", () => {
+  renders(
+    () =>
+      mount(
+        <calcite-action-group>
+          <calcite-action icon="polygon" />
+        </calcite-action-group>,
+      ),
+    { display: "flex" },
+  );
+});
+
+describe("slots", () => {
+  slots(() => mount("calcite-action-group"), SLOTS);
+});
+
+describe("floating-ui", () => {
+  describe("handles action-menu placement and flipPlacements", () => {
+    handlesActionMenuPlacements(() =>
+      mount(
+        <calcite-action-group overlay-positioning="fixed" scale="l">
+          <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
+          <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
+        </calcite-action-group>,
+      ),
     );
   });
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-action-group"),
-      [
-        {
-          propertyName: "menuPlacement",
-          value: "bottom",
-        },
-      ],
+function renderActionGroup(): JsxNode {
+  return (
+    <calcite-action-group scale="l">
+      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+    </calcite-action-group>
+  );
+}
+
+describe("focusable", () => {
+  focusable(() => mount(renderActionGroup), { shadowFocusTargetSelector: "calcite-action" });
+});
+
+describe("translation support", () => {
+  t9n(() => mount("calcite-action-group"));
+});
+
+describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
+  it("does not activate actions or set ARIA attributes", async () => {
+    const { el } = await mount<"calcite-action-group">(
+      <calcite-action-group selection-mode="none">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-group>,
     );
-  });
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-action-group"));
-  });
+    const [action1, action2] = el.querySelectorAll("calcite-action");
 
-  describe("renders", () => {
-    renders(
-      () =>
-        mount(
-          <calcite-action-group>
-            <calcite-action icon="polygon" />
-          </calcite-action-group>,
-        ),
-      { display: "flex" },
-    );
-  });
+    await userEvent.click(action1);
+    expect(action1.active).toBe(false);
+    expect(action2.active).toBe(false);
 
-  describe("slots", () => {
-    slots(() => mount("calcite-action-group"), SLOTS);
-  });
+    await userEvent.click(action2);
+    expect(action1.active).toBe(false);
+    expect(action2.active).toBe(false);
 
-  describe("floating-ui", () => {
-    describe("handles action-menu placement and flipPlacements", () => {
-      handlesActionMenuPlacements(() =>
-        mount(
-          <calcite-action-group overlay-positioning="fixed" scale="l">
-            <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
-            <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
-          </calcite-action-group>,
-        ),
-      );
-    });
-  });
+    expect(action1.getAttribute("aria-checked")).toBeNull();
+    expect(action1.getAttribute("role")).toBeNull();
 
-  describe("translation support", () => {
-    t9n(() => mount("calcite-action-group"));
+    expect(action2.getAttribute("aria-checked")).toBeNull();
+    expect(action2.getAttribute("role")).toBeNull();
   });
 });

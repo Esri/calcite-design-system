@@ -6,21 +6,20 @@ import { SLOTS } from "./resources";
 
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface FlowItemStoryArgs
-  extends Pick<
-    FlowItem,
-    | "closed"
-    | "disabled"
-    | "closable"
-    | "collapsible"
-    | "collapsed"
-    | "collapseDirection"
-    | "loading"
-    | "icon"
-    | "iconFlipRtl"
-    | "scale"
-    | "selected"
-  > {
+interface FlowItemStoryArgs extends Pick<
+  FlowItem,
+  | "closed"
+  | "disabled"
+  | "closable"
+  | "collapsible"
+  | "collapsed"
+  | "collapseDirection"
+  | "loading"
+  | "icon"
+  | "iconFlipRtl"
+  | "scale"
+  | "selected"
+> {
   heightScale: string;
 }
 
@@ -301,3 +300,22 @@ export const withAlertsSlot = (): string => html`
     </calcite-alert>
   </calcite-flow-item>
 `;
+
+export const scales = (): string =>
+  html`<style>
+      calcite-flow {
+        height: auto !important;
+      }
+    </style>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="s"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="s"> </calcite-flow-item>
+    </calcite-flow>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="m"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="m"> </calcite-flow-item>
+    </calcite-flow>
+    <calcite-flow>
+      <calcite-flow-item heading="Profile" scale="l"> </calcite-flow-item>
+      <calcite-flow-item selected heading="Education" scale="l"> </calcite-flow-item>
+    </calcite-flow>`;

@@ -27,6 +27,7 @@ import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useTopLayer } from "../../controllers/useTopLayer";
 import { ItemKeyboardEvent } from "./interfaces";
 import { CSS, IDS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
@@ -39,7 +40,7 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
+ * @slot trigger - A slot for the element that triggers the component.
  */
 export class Dropdown extends LitElement implements FloatingUIComponent {
   //#region Static Members
@@ -85,6 +86,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  private topLayer = useTopLayer<this>({
+    target: () => this.floatingEl,
+  })(this);
+
   //#endregion
 
   //#region Public Properties
@@ -96,44 +101,40 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted `calcite-dropdown-item`s when their initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /**
-   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
-   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scrollbar.
+   * Value must be greater than `0`, and does not include `groupTitle`s from `calcite-dropdown-group`.
    */
   @property({ reflect: true }) maxItems = 0;
 
   /**
-   * Offset the position of the component away from the `referenceElement`.
-   *
-   * @default 0
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = 0;
 
-  /** Offset the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
+   * Determines the component's placement relative to the container element.
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -141,23 +142,32 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the component's selected items.
+   * The component's selected items.
    *
    * @readonly
    */
   @property() selectedItems: DropdownItem["el"][] = [];
 
-  /** Specifies the action to open the component from the container element. */
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
+  /** Specifies the type of action on the container element to open the component. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
   /**
-   * Specifies the width of the component.
+   * Specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale;
 
-  /** Specifies the width of the component. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -165,7 +175,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed
    */
@@ -222,7 +232,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   /** Fires when the component is closed and animation is complete. */
   calciteDropdownClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteDropdownOpen = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-dropdown-item`'s selection changes. */
@@ -301,29 +311,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Methods
 
-  private async handlePopover(): Promise<void> {
-    await this.componentOnReady();
-
-    if (!this.floatingEl) {
-      return;
-    }
-
-    if (this.open) {
-      this.floatingEl.showPopover();
-    } else {
-      this.floatingEl.hidePopover();
-    }
-  }
-
   private openHandler(): void {
-    toggleOpenClose(this);
-
     if (this.disabled) {
       return;
     }
 
+    toggleOpenClose(this);
     this.reposition(true);
-    this.handlePopover();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -501,6 +495,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onBeforeOpen(): void {
     this.focusOnFirstActiveOrDefaultItem();
     this.calciteDropdownBeforeOpen.emit();
+    this.topLayer.show();
   }
 
   onOpen(): void {
@@ -514,6 +509,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   onClose(): void {
     this.calciteDropdownClose.emit();
     hideFloatingUI(this);
+    this.topLayer.hide();
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
@@ -525,7 +521,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
-    this.handlePopover();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

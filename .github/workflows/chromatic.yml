@@ -1,17 +1,21 @@
 name: Chromatic
 on:
-  push:
-    branches: [rc, dev]
   pull_request:
     branches: [rc, dev]
     types: [opened, labeled, synchronize]
 jobs:
   run:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'pr ready for visual snapshots' &&
+      !contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
@@ -26,8 +30,6 @@ jobs:
           npm --workspace="packages/ui-icons" run build
           npm --workspace="packages/components" run build-storybook
       - name: Publish to Chromatic
-        if: |
-          (github.event.action == 'labeled' && github.event.label.name == 'pr ready for visual snapshots') || github.event_name == 'push'
         uses: chromaui/action@v13
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
@@ -38,16 +40,21 @@ jobs:
           storybookBuildDir: docs
         env:
           STORYBOOK_SCREENSHOT_TEST_BUILD: true
+          CHROMATIC_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
           CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+          CHROMATIC_SHA: ${{ github.event.pull_request.head.sha || github.ref }}
+          CHROMATIC_SLUG: ${{ github.repository }}
   skip:
-    if: contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
     runs-on: ubuntu-latest
     steps:
       - name: Skip Chromatic
-        uses: Sibz/github-status-action@v1
+        uses: guibranco/github-status-action-v2@v1
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: UI Tests
           description: Chromatic run skipped
           state: success
-          sha: ${{github.event.pull_request.head.sha || github.sha}}
+          sha: ${{ github.event.pull_request.head.sha || github.sha }}

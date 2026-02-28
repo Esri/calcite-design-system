@@ -3,11 +3,11 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-menu-item-accent-color: Specifies the border color of the component when `active`.
- * @prop --calcite-menu-background-color: Specifies the background color of the component.
- * @prop --calcite-menu-item-sub-menu-border-color: Specifies the border color of sub-menu.
- * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the border radius of sub-menu.
- * @prop --calcite-menu-text-color: Specifies the text color of the component.
+ * @prop --calcite-menu-item-accent-color: When `active`, specifies the component's border color.
+ * @prop --calcite-menu-background-color: Specifies the component's background color.
+ * @prop --calcite-menu-item-sub-menu-border-color: Specifies the submenu's border color.
+ * @prop --calcite-menu-item-sub-menu-corner-radius: Specifies the submenu's border radius.
+ * @prop --calcite-menu-text-color: Specifies the component's text color.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -15,12 +15,16 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-menu-background-color
+// --calcite-internal-menu-item-border
 // --calcite-internal-menu-item-icon-color
 // --calcite-internal-menu-text-color
 
 @use "../../styles/includes";
 
 :host {
+  --calcite-internal-menu-item-border: 1px solid
+    var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
+
   @apply flex
   items-center
   relative
@@ -96,7 +100,7 @@
 
   &.layout--vertical {
     @apply flex w-full justify-start;
-    padding-block: 1rem;
+    padding-block: var(--calcite-space-md);
     border-block-end: 0;
     border-inline-end: theme("spacing.1") solid var(--calcite-color-transparent);
   }
@@ -112,14 +116,20 @@
     border-color: var(--calcite-menu-item-accent-color, var(--calcite-color-brand));
   }
   .icon {
-    --calcite-internal-menu-item-icon-color: var(--calcite-color-brand);
+    --calcite-internal-menu-item-icon-color: var(
+      --calcite-icon-color,
+      var(--calcite-ui-icon-color, var(--calcite-color-brand))
+    );
   }
 }
 
 .icon {
   color: var(
     --calcite-menu-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-menu-item-icon-color, var(--calcite-color-text-3)))
+    var(
+      --calcite-icon-color,
+      var(--calcite-internal-menu-item-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-3)))
+    )
   );
 }
 
@@ -146,6 +156,7 @@
 :host([layout="vertical"]) .hover-href-icon {
   @apply ps-2;
 }
+
 :host([layout="vertical"]) .hover-href-icon ~ .icon--end {
   @apply ms-2;
 }
@@ -199,7 +210,7 @@
 
 .dropdown-menu-items {
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
-  border: 1px solid var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
+  border: var(--calcite-internal-menu-item-border);
   border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
@@ -227,8 +238,24 @@
   }
 }
 
-:host([layout="vertical"]:last-of-type) .dropdown-menu-items {
-  border-block-end: 0;
+:host([layout="vertical"]:last-of-type) {
+  .dropdown-menu-items {
+    border-block-end: 0;
+  }
+}
+
+:host([layout="vertical"]) {
+  .dropdown--vertical.dropdown-menu-items {
+    border: none;
+
+    &::after {
+      content: "";
+      border-block-start: var(--calcite-internal-menu-item-border);
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline: var(--calcite-space-md) 0;
+    }
+  }
 }
 
 :host([slot="submenu-item"]) .parent--vertical {

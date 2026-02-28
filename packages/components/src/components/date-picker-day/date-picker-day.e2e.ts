@@ -1,39 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { focusable } from "../../tests/commonTests";
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { DATE_PICKER_FORMAT_OPTIONS } from "../date-picker/resources";
 
-describe("calcite-date-picker-day", () => {
-  describe("focusable", () => {
-    focusable(async () => {
-      const page = await newProgrammaticE2EPage();
-      await page.evaluate(() => {
-        const dateEl = document.createElement("calcite-date-picker-day");
-        dateEl.active = true;
-        dateEl.dateTimeFormat = new Intl.DateTimeFormat("en"); // options not needed as this is only needed for rendering
-        dateEl.day = 3;
-        document.body.append(dateEl);
-      });
-      await page.waitForChanges();
+describe("accessibility", () => {
+  it("labels its associated day", async () => {
+    const page = await newProgrammaticE2EPage();
+    await page.evaluate((dateTimeFormatOptions: Intl.DateTimeFormatOptions) => {
+      const dateEl = document.createElement("calcite-date-picker-day");
+      dateEl.dateTimeFormat = new Intl.DateTimeFormat("en", dateTimeFormatOptions);
+      dateEl.day = 20;
+      dateEl.value = new Date("2020-02-20T08:00:00.000Z");
+      document.body.append(dateEl);
+    }, DATE_PICKER_FORMAT_OPTIONS);
+    await page.waitForChanges();
+    const day = await page.find(`calcite-date-picker-day`);
 
-      return { tag: "calcite-date-picker-day", page };
-    });
-  });
-
-  describe("accessibility", () => {
-    it("labels its associated day", async () => {
-      const page = await newProgrammaticE2EPage();
-      await page.evaluate((dateTimeFormatOptions: Intl.DateTimeFormatOptions) => {
-        const dateEl = document.createElement("calcite-date-picker-day");
-        dateEl.dateTimeFormat = new Intl.DateTimeFormat("en", dateTimeFormatOptions);
-        dateEl.day = 20;
-        dateEl.value = new Date("2020-02-20T08:00:00.000Z");
-        document.body.append(dateEl);
-      }, DATE_PICKER_FORMAT_OPTIONS);
-      await page.waitForChanges();
-      const day = await page.find(`calcite-date-picker-day`);
-
-      expect(day.getAttribute("aria-label")).toBe("Thursday, February 20, 2020");
-    });
+    expect(day.getAttribute("aria-label")).toBe("Thursday, February 20, 2020");
   });
 });
