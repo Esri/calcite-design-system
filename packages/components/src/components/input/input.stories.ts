@@ -84,7 +84,7 @@ export default {
   },
 };
 
-export const Simple = (args: InputStoryArgs): string => html`
+export const simple = (args: InputStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
       id="input-with-label"
@@ -109,7 +109,7 @@ export const Simple = (args: InputStoryArgs): string => html`
   </div>
 `;
 
-export const WithSlottedAction = (): string => html`
+export const withSlottedAction = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input
       id="input-with-slotted-action"
@@ -128,9 +128,9 @@ export const WithSlottedAction = (): string => html`
   </div>
 `;
 
-export const Disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
+export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -151,14 +151,14 @@ export const DarkModeRTL = (): string => html`
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const NegativeInfinity = (): string => html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
+export const negativeInfinity = (): string => html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
 
-export const ArabicLocaleWithLatinNumberingSystem = (): string =>
+export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;
 
-export const ValidationMessageAllScales = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -195,7 +195,7 @@ export const ValidationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const WidthSetToBreakpoints = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -215,7 +215,7 @@ export const WidthSetToBreakpoints = (): string =>
     ></calcite-input>
   `);
 
-export const ShrinkingInputDoesNotObscureCalendarIcon = (): string => html`
+export const shrinkingInputDoesNotObscureCalendarIcon = (): string => html`
   <style>
     .container {
       display: flex;
@@ -236,7 +236,7 @@ export const ShrinkingInputDoesNotObscureCalendarIcon = (): string => html`
   </div>
 `;
 
-export const FontSizeSetAtRoot = (): string =>
+export const fontSizeSetAtRoot = (): string =>
   html` <style>
       :root {
         font-size: 60px;
@@ -246,7 +246,7 @@ export const FontSizeSetAtRoot = (): string =>
       <calcite-button slot="action"> Search </calcite-button>
     </calcite-input>`;
 
-export const OverlayDoesNotObscureIcon = (): string =>
+export const overlayDoesNotObscureIcon = (): string =>
   html` <style>
       .overlay {
         position: absolute;

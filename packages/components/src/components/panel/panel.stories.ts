@@ -97,7 +97,7 @@ const panelContent = `
   ${contentHTML}
   ${footerHTML}`;
 
-export const Simple = (args: PanelStoryArgs): string => html`
+export const simple = (args: PanelStoryArgs): string => html`
   <calcite-panel
     ${boolean("closed", args.closed)}
     ${boolean("disabled", args.disabled)}
@@ -121,7 +121,7 @@ export const Simple = (args: PanelStoryArgs): string => html`
   </calcite-panel>
 `;
 
-export const OnlyProps = (): string => html`
+export const onlyProps = (): string => html`
   <div style="width: 300px;">
     <calcite-panel
       height-scale="s"
@@ -132,25 +132,25 @@ export const OnlyProps = (): string => html`
   </div>
 `;
 
-export const DisabledWithStyledSlot = (): string => html`
+export const disabledWithStyledSlot = (): string => html`
   <calcite-panel style="height: 100%;" heading="Heading" disabled>
     <div id="content" style="height: 100%;">${contentHTML}</div>
   </calcite-panel>
 `;
 
-export const WithIcon = (): string => html`
+export const withIcon = (): string => html`
   <calcite-panel scale="s" icon="banana" heading="Banana"> Hello world! </calcite-panel>
   <calcite-panel scale="m" icon="banana" heading="Banana"> Hello world! </calcite-panel>
   <calcite-panel scale="l" icon="banana" heading="Banana"> Hello world! </calcite-panel>
 `;
 
-export const WithDescriptionAndIcon = (): string => html`
+export const withDescriptionAndIcon = (): string => html`
   <calcite-panel scale="s" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
   <calcite-panel scale="m" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
   <calcite-panel scale="l" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-panel
     collapse-direction="down"
     height-scale="m"
@@ -164,9 +164,9 @@ export const DarkModeRTL = (): string => html`
   </calcite-panel>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const ClosableWithActions = (): string => html`
+export const closableWithActions = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -181,7 +181,7 @@ export const ClosableWithActions = (): string => html`
   </calcite-panel>
 `;
 
-export const CollapsibleWithoutActions = (): string => html`
+export const collapsibleWithoutActions = (): string => html`
   <calcite-panel
     style="height: 100%;"
     collapsible
@@ -193,7 +193,7 @@ export const CollapsibleWithoutActions = (): string => html`
   </calcite-panel>
 `;
 
-export const CollapsibleWithActions = (): string => html`
+export const collapsibleWithActions = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -209,7 +209,7 @@ export const CollapsibleWithActions = (): string => html`
   </calcite-panel>
 `;
 
-export const CollapseDirectionUp = (): string => html`
+export const collapseDirectionUp = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -226,7 +226,7 @@ export const CollapseDirectionUp = (): string => html`
   </calcite-panel>
 `;
 
-export const CollapseDirectionUpCollapsed = (): string => html`
+export const collapseDirectionUpCollapsed = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -244,7 +244,7 @@ export const CollapseDirectionUpCollapsed = (): string => html`
   </calcite-panel>
 `;
 
-export const CollapsedWithActions = (): string => html`
+export const collapsedWithActions = (): string => html`
   <calcite-panel
     style="height: 100%;"
     closable
@@ -284,7 +284,7 @@ export const CollapsedWithActions = (): string => html`
   </calcite-panel>
 `;
 
-export const WithActionBar = (): string =>
+export const withActionBar = (): string =>
   html`<div style="width: 300px;">
     <calcite-panel height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -299,7 +299,7 @@ export const WithActionBar = (): string =>
     </calcite-panel>
   </div>`;
 
-export const FooterPadding = (): string =>
+export const footerPadding = (): string =>
   html`<div style="width: 300px;">
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
       <div slot="header-content">Header!</div>
@@ -313,7 +313,7 @@ export const FooterPadding = (): string =>
     </calcite-panel>
   </div>`;
 
-export const FooterVariations = (): string =>
+export const footerVariations = (): string =>
   html`<h2>footer</h2>
     <div style="width: 300px;">
       <calcite-panel height-scale="s">
@@ -373,7 +373,7 @@ export const FooterVariations = (): string =>
       </calcite-panel>
     </div>`;
 
-export const ActionBarBackgroundColor = (): string =>
+export const actionBarBackgroundColor = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
     <calcite-action-bar slot="action-bar" expand-disabled>
       <calcite-action-group>
@@ -390,7 +390,7 @@ export const ActionBarBackgroundColor = (): string =>
     <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
-export const FooterWithoutContent = (): string =>
+export const footerWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
@@ -399,7 +399,7 @@ export const FooterWithoutContent = (): string =>
     <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
-export const ActionBarWithoutContent = (): string =>
+export const actionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
@@ -414,7 +414,7 @@ export const ActionBarWithoutContent = (): string =>
     </calcite-action-bar>
   </calcite-panel>`;
 
-export const ActionBarZIndex = (): string =>
+export const actionBarZIndex = (): string =>
   html`<calcite-panel style="width: 400px;" height-scale="s" menu-open>
     <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
     <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
@@ -431,7 +431,7 @@ export const ActionBarZIndex = (): string =>
     <p>Some content</p></calcite-panel
   >`;
 
-export const FooterAndActionBarWithoutContent = (): string =>
+export const footerAndActionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
@@ -447,7 +447,7 @@ export const FooterAndActionBarWithoutContent = (): string =>
     <p slot="footer">Footer!</p>
   </calcite-panel>`;
 
-export const FlexContent = (): string =>
+export const flexContent = (): string =>
   html`<calcite-panel style="height: 300px; width: 500px" heading="My Panel"
     ><div
       style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
@@ -458,7 +458,7 @@ export const FlexContent = (): string =>
     ></div
   ></calcite-panel>`;
 
-export const FlexContentWithFAB = (): string =>
+export const flexContentWithFAB = (): string =>
   html`<calcite-panel style="height: 300px; width: 500px" heading="My Panel"
     ><div
       style="display: flex; flex-direction: column; height: 100%; width: 100%; background-size: 16px 16px; background-color: gray; background-image: radial-gradient(
@@ -470,7 +470,7 @@ export const FlexContentWithFAB = (): string =>
     <calcite-fab slot="fab"></calcite-fab
   ></calcite-panel>`;
 
-export const OverflowContent = (): string =>
+export const overflowContent = (): string =>
   html` <style>
       .container {
         max-height: 300px;
@@ -495,27 +495,27 @@ export const OverflowContent = (): string =>
       </calcite-panel>
     </div>`;
 
-export const OverflowContentWithFab = (): string =>
+export const overflowContentWithFab = (): string =>
   html` <calcite-panel style="max-height: 300px; height: 300px; width: 500px" heading="My Panel"
     ><div style="min-height: 500px">My Content</div>
     <calcite-fab slot="fab"></calcite-fab
   ></calcite-panel>`;
 
-export const NoOverflowContentWithFab = (): string =>
+export const noOverflowContentWithFab = (): string =>
   html` <calcite-panel style="max-height: 300px; height: 300px; width: 500px" heading="My Panel"
     ><div>My Content</div>
     <calcite-fab slot="fab"></calcite-fab
   ></calcite-panel>`;
 
-export const WithTextContentOnly = (): string =>
+export const withTextContentOnly = (): string =>
   html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
 
-export const WithNoHeaderBorderBlockEnd = (): string =>
+export const withNoHeaderBorderBlockEnd = (): string =>
   html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
 
-export const FooterAndContentTopBottomSlots = (): string => html`
+export const footerAndContentTopBottomSlots = (): string => html`
   <div style="height: 350px; width: 400px; display: flex">
     <calcite-panel height-scale="s">
       <div slot="header-content">Header!</div>
@@ -535,7 +535,7 @@ export const FooterAndContentTopBottomSlots = (): string => html`
   </div>
 `;
 
-export const ContentTopAndActionBarSlotsNoHeader = (): string => html`
+export const contentTopAndActionBarSlotsNoHeader = (): string => html`
   <div style="height: 350px; width: 400px; display: flex">
     <calcite-panel height-scale="s">
       <calcite-action-bar slot="action-bar">
@@ -554,7 +554,7 @@ export const ContentTopAndActionBarSlotsNoHeader = (): string => html`
   </div>
 `;
 
-export const FooterStartAndEndSlots = (): string => html`
+export const footerStartAndEndSlots = (): string => html`
   <calcite-panel style="height: 200px; width: 300px;">
     <div slot="header-content">header-content slot</div>
     <p>Slotted content!</p>
@@ -568,7 +568,7 @@ export const FooterStartAndEndSlots = (): string => html`
   </calcite-panel>
 `;
 
-export const WithSlottedAlert = (): string => html`
+export const withSlottedAlert = (): string => html`
   <calcite-panel style="height: 500px; width: 800px;">
     <calcite-alert slot="alerts" open label="this is a default alert" scale="s">
       <div slot="title">Hello there!</div>
@@ -586,7 +586,7 @@ export const WithSlottedAlert = (): string => html`
   </calcite-panel>
 `;
 
-export const FooterSlotPrecedence = (): string => html`
+export const footerSlotPrecedence = (): string => html`
   <calcite-panel style="height: 200px">
     <p>Slotted content!</p>
     <div slot="header-content">header-content slot</div>
@@ -604,7 +604,7 @@ export const FooterSlotPrecedence = (): string => html`
   </calcite-panel>
 `;
 
-export const ScalesFontAndPadding = (): string => html`
+export const scalesFontAndPadding = (): string => html`
   <calcite-panel
     heading="This is a heading"
     description="And that's a description"

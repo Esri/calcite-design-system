@@ -57,7 +57,7 @@ const accordionItemContent = `Custom content here<br/><img src="${placeholderIma
   height: 133,
 })}"><br/>More custom content here`;
 
-export const Simple = (args: AccordionStoryArgs): string => html`
+export const simple = (args: AccordionStoryArgs): string => html`
   <calcite-accordion scale="${args.scale}" appearance="${args.appearance}" selection-mode="${args.selectionMode}">
     <calcite-accordion-item
       heading="${args.heading}"
@@ -95,7 +95,7 @@ export const Simple = (args: AccordionStoryArgs): string => html`
   </calcite-accordion>
 `;
 
-export const WithActions = (): string => html`
+export const withActions = (): string => html`
   <calcite-accordion scale="s">
     <calcite-accordion-item scale="m" heading="Accordion Item 1">
       <calcite-action scale="s" icon="brush-tip" label="Paint" slot="actions-start"></calcite-action
@@ -118,7 +118,7 @@ export const WithActions = (): string => html`
   </calcite-accordion>
 `;
 
-export const HeadingLevelAllScales = (): string => html`
+export const headingLevelAllScales = (): string => html`
   <style>
     .accordion-grid {
       display: grid;
@@ -228,7 +228,7 @@ export const HeadingLevelAllScales = (): string => html`
   </div>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
@@ -245,9 +245,9 @@ export const DarkModeRTL = (): string => html`
   </calcite-accordion>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const TransparentAppearance = (): string => html`
+export const transparentAppearance = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
@@ -264,7 +264,7 @@ export const TransparentAppearance = (): string => html`
   </calcite-accordion>
 `;
 
-export const WithIconStartAndEnd = (): string => html`
+export const withIconStartAndEnd = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
       ${accordionItemContent}
@@ -323,10 +323,10 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
   )
   .join("");
 
-export const LongHeadingMediumiconforlargeaccordionitem = (): string => html`
+export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
-export const SlottedItemsStretched = (): string => html`
+export const slottedItemsStretched = (): string => html`
   <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">
       <calcite-action slot="actions-start" icon="smile"> </calcite-action>
@@ -345,7 +345,7 @@ export const SlottedItemsStretched = (): string => html`
   </calcite-accordion>
 `;
 
-export const WithContentStartAndEnd = (): string => html`
+export const withContentStartAndEnd = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}

@@ -140,38 +140,38 @@ const iconStartLargeActionsEnd = (scale: string) => html`
   </calcite-tree-item>
 `;
 
-export const SingleSelectionMode = (): string => html` ${treeItems()} `;
-SingleSelectionMode.decorators = [allScaleTreeBuilder];
-SingleSelectionMode.args = { selectionMode: "single" };
+export const singleSelectionMode = (): string => html` ${treeItems()} `;
+singleSelectionMode.decorators = [allScaleTreeBuilder];
+singleSelectionMode.args = { selectionMode: "single" };
 
-export const SelectionModeNone = (): string => html`${treeItems()}`;
-SelectionModeNone.decorators = [allScaleTreeBuilder];
-SelectionModeNone.args = { selectionMode: "none" };
+export const selectionModeNone = (): string => html`${treeItems()}`;
+selectionModeNone.decorators = [allScaleTreeBuilder];
+selectionModeNone.args = { selectionMode: "none" };
 
-export const LinesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
-LinesRTL.decorators = [allScaleTreeBuilder];
-LinesRTL.args = { lines: true, selectionMode: "single" };
+export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
+linesRTL.decorators = [allScaleTreeBuilder];
+linesRTL.args = { lines: true, selectionMode: "single" };
 
-export const MultipleSelectionModeWithLines = (): string => html` ${treeItems()} `;
+export const multipleSelectionModeWithLines = (): string => html` ${treeItems()} `;
 
-MultipleSelectionModeWithLines.decorators = [allScaleTreeBuilder];
-MultipleSelectionModeWithLines.args = { lines: true, selectionMode: "multiple" };
+multipleSelectionModeWithLines.decorators = [allScaleTreeBuilder];
+multipleSelectionModeWithLines.args = { lines: true, selectionMode: "multiple" };
 
-export const AncestorsSelectionModeWithLines = (): string => html` ${treeItems()} `;
+export const ancestorsSelectionModeWithLines = (): string => html` ${treeItems()} `;
 
-AncestorsSelectionModeWithLines.decorators = [allScaleTreeBuilder];
-AncestorsSelectionModeWithLines.args = { lines: true, selectionMode: "ancestors" };
+ancestorsSelectionModeWithLines.decorators = [allScaleTreeBuilder];
+ancestorsSelectionModeWithLines.args = { lines: true, selectionMode: "ancestors" };
 
-export const SinglePersistSelectionModeWithLines = (): string => html` ${treeItems()} `;
+export const singlePersistSelectionModeWithLines = (): string => html` ${treeItems()} `;
 
-SinglePersistSelectionModeWithLines.decorators = [allScaleTreeBuilder];
-SinglePersistSelectionModeWithLines.args = { lines: true, selectionMode: "single-persist" };
+singlePersistSelectionModeWithLines.decorators = [allScaleTreeBuilder];
+singlePersistSelectionModeWithLines.args = { lines: true, selectionMode: "single-persist" };
 
-export const IconStartAndActionsEnd = (scale: string): string => html` ${iconStartLargeActionsEnd(scale)} `;
-IconStartAndActionsEnd.decorators = [allScaleTreeBuilder];
-IconStartAndActionsEnd.args = { selectionMode: "single" };
+export const iconStartAndActionsEnd = (scale: string): string => html` ${iconStartLargeActionsEnd(scale)} `;
+iconStartAndActionsEnd.decorators = [allScaleTreeBuilder];
+iconStartAndActionsEnd.args = { selectionMode: "single" };
 
-export const TreeItemTextContentWraps = (): string => html`
+export const treeItemTextContentWraps = (): string => html`
   <calcite-tree style="width: 300px">
     <calcite-tree-item label="test item">
       <span>Possibly_long_tree_item_name_because_it_is_a_user_generated_layer_name</span>
@@ -179,7 +179,7 @@ export const TreeItemTextContentWraps = (): string => html`
   </calcite-tree>
 `;
 
-export const TreeItemContentIsNotClipped = (): string => html`
+export const treeItemContentIsNotClipped = (): string => html`
   <style>
     .string-value {
       white-space: pre-wrap;
@@ -211,10 +211,10 @@ export const TreeItemContentIsNotClipped = (): string => html`
   </calcite-tree>
 `;
 
-export const DarkModeRTL = (): string => html`<div dir="rtl">${treeItems()}</div> `;
-DarkModeRTL.parameters = { themes: modesDarkDefault };
-DarkModeRTL.args = { selectionMode: "single" };
-DarkModeRTL.decorators = [allScaleTreeBuilder];
+export const darkModeRTL = (): string => html`<div dir="rtl">${treeItems()}</div> `;
+darkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.args = { selectionMode: "single" };
+darkModeRTL.decorators = [allScaleTreeBuilder];
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">

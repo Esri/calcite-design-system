@@ -34,7 +34,7 @@ const data: HTMLCalciteGraphElement["el"]["el"]["data"] = [
 const rainbow = ["red", "orange", "yellow", "green", "cyan", "blue", "violet"];
 const colorStops = rainbow.map((color, i) => ({ offset: (1 / (rainbow.length - 1)) * i, color }));
 
-export const Simple = (args: GraphStoryArgs): HTMLDivElement => {
+export const simple = (args: GraphStoryArgs): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = `${args.width}px`;
   div.style.height = `${args.height}px`;
@@ -46,7 +46,7 @@ export const Simple = (args: GraphStoryArgs): HTMLDivElement => {
   return div;
 };
 
-export const HighlightRange = (): HTMLDivElement => {
+export const highlightRange = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -60,7 +60,7 @@ export const HighlightRange = (): HTMLDivElement => {
   return div;
 };
 
-export const WithColorStops = (): HTMLDivElement => {
+export const withColorStops = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -73,7 +73,7 @@ export const WithColorStops = (): HTMLDivElement => {
   return div;
 };
 
-export const DarkModeRTL = (): HTMLDivElement => {
+export const darkModeRTL = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -90,4 +90,4 @@ export const DarkModeRTL = (): HTMLDivElement => {
   return div;
 };
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

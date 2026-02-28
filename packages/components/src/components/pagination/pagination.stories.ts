@@ -44,7 +44,7 @@ export default {
   },
 };
 
-export const Simple = (args: PaginationStoryArgs): string => html`
+export const simple = (args: PaginationStoryArgs): string => html`
   <style>
     .sb-show-main.sb-main-centered #storybook-root {
       padding: 0 !important;
@@ -88,34 +88,34 @@ const getResponsiveTemplate = ({
   `;
 };
 
-export const ResponsiveLargeNumberFirstPage = (): string =>
+export const responsiveLargeNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "first" }));
 
-export const ResponsiveLargeNumberMiddlePage = (): string =>
+export const responsiveLargeNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "middle" }));
 
-export const ResponsiveLargeNumberLastPage = (): string =>
+export const responsiveLargeNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "last" }));
 
-export const ResponsiveSmallNumberFirstPage = (): string =>
+export const responsiveSmallNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "first" }));
 
-export const ResponsiveSmallNumberMiddlePage = (): string =>
+export const responsiveSmallNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "middle" }));
 
-export const ResponsiveSmallNumberLastPage = (): string =>
+export const responsiveSmallNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "last" }));
 
-export const ResponsiveTinyNumberFirstPage = (): string =>
+export const responsiveTinyNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "first" }));
 
-export const ResponsiveTinyNumberMiddlePage = (): string =>
+export const responsiveTinyNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "middle" }));
 
-export const ResponsiveTinyNumberLastPage = (): string =>
+export const responsiveTinyNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
-export const DarkModeFrenchLocaleAndLargeScaleGetsMediumChevron = (): string => html`
+export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron = (): string => html`
   <calcite-pagination
     class="calcite-mode-dark"
     start-item="1"
@@ -128,9 +128,9 @@ export const DarkModeFrenchLocaleAndLargeScaleGetsMediumChevron = (): string => 
   </calcite-pagination>
 `;
 
-DarkModeFrenchLocaleAndLargeScaleGetsMediumChevron.parameters = { themes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron.parameters = { themes: modesDarkDefault };
 
-export const ArabicNumberingSystemAndRTL = (): string =>
+export const arabicNumberingSystemAndRTL = (): string =>
   html`<calcite-pagination
     dir="rtl"
     numbering-system="arab"
@@ -141,6 +141,6 @@ export const ArabicNumberingSystemAndRTL = (): string =>
   >
   </calcite-pagination>`;
 
-ArabicNumberingSystemAndRTL.parameters = {
+arabicNumberingSystemAndRTL.parameters = {
   chromatic: { diffThreshold: 1 },
 };

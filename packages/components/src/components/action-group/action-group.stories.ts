@@ -4,7 +4,7 @@ export default {
   title: "Components/Action Group",
 };
 
-export const HonorsFlexGrow = (): string =>
+export const honorsFlexGrow = (): string =>
   html`<style>
       calcite-action {
         flex-grow: 1;
@@ -16,7 +16,7 @@ export const HonorsFlexGrow = (): string =>
       <calcite-action icon="bluetooth" alignment="center"></calcite-action>
     </calcite-action-group>`;
 
-export const GridCenteringOfActionsInAGroup = (): string => html`
+export const gridCenteringOfActionsInAGroup = (): string => html`
   <div style="width:400px">
     <calcite-action-group layout="grid">
       <calcite-action alignment="center" scale="m" appearance="solid" icon="polygon"> </calcite-action>
@@ -26,7 +26,7 @@ export const GridCenteringOfActionsInAGroup = (): string => html`
   </div>
 `;
 
-export const WithoutDefinedGridGap = (): string =>
+export const withoutDefinedGridGap = (): string =>
   html` <calcite-action-group layout="grid">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
@@ -39,7 +39,7 @@ export const WithoutDefinedGridGap = (): string =>
     <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
   </calcite-action-group>`;
 
-export const WithDefinedGridGap = (): string => html`
+export const withDefinedGridGap = (): string => html`
   <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0;">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
@@ -53,21 +53,21 @@ export const WithDefinedGridGap = (): string => html`
   </calcite-action-group>
 `;
 
-export const ArabicLocale = (): string =>
+export const arabicLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="ar">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const GermanLocale = (): string =>
+export const germanLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="de">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const NorwegianLocale = (): string =>
+export const norwegianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="no">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>

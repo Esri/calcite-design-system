@@ -63,7 +63,7 @@ export default {
   },
 };
 
-export const Simple = (args: ActionStoryArgs): string => html`
+export const simple = (args: ActionStoryArgs): string => html`
   <div>
     <calcite-action
       ${boolean("active", args.active)}
@@ -82,7 +82,7 @@ export const Simple = (args: ActionStoryArgs): string => html`
   </div>
 `;
 
-export const DisabledAndTextOnly = (): string => html`
+export const disabledAndTextOnly = (): string => html`
   <div>
     <calcite-action
       alignment="start"
@@ -113,14 +113,14 @@ export const DisabledAndTextOnly = (): string => html`
   </div>
 `;
 
-export const Loading = (): string => html`
+export const loading = (): string => html`
   <div>
     <calcite-action icon="banana" loading text-enabled text="Text"></calcite-action>
     <calcite-action active icon="banana" loading text-enabled text="Text"></calcite-action>
   </div>
 `;
 
-export const ActiveAndAppearanceTransparent = (): string => html`
+export const activeAndAppearanceTransparent = (): string => html`
   <div>
     <calcite-action
       icon="banana"
@@ -135,7 +135,7 @@ export const ActiveAndAppearanceTransparent = (): string => html`
   </div>
 `;
 
-export const AlignmentEndAndSmallScaleAndIndicator = (): string => html`
+export const alignmentEndAndSmallScaleAndIndicator = (): string => html`
   <div style="width: 300px">
     <calcite-action
       appearance="solid"
@@ -150,7 +150,7 @@ export const AlignmentEndAndSmallScaleAndIndicator = (): string => html`
   </div>
 `;
 
-export const AlignmentStartAndLargeScaleAndTextOverflow = (): string => html`
+export const alignmentStartAndLargeScaleAndTextOverflow = (): string => html`
   <div style="width: 150px">
     <calcite-action
       appearance="solid"
@@ -164,7 +164,7 @@ export const AlignmentStartAndLargeScaleAndTextOverflow = (): string => html`
   </div>
 `;
 
-export const IndicatorTextEnabled = (): string => html`
+export const indicatorTextEnabled = (): string => html`
   <calcite-action
     appearance="solid"
     indicator
@@ -176,15 +176,15 @@ export const IndicatorTextEnabled = (): string => html`
   ></calcite-action>
 `;
 
-export const IndicatorTextEnabledNoIcon = (): string => html`
+export const indicatorTextEnabledNoIcon = (): string => html`
   <calcite-action indicator scale="m" active text="click-me" text-enabled></calcite-action>
 `;
 
-export const IndicatorNoTextEnabledNoIcon = (): string => html`
+export const indicatorNoTextEnabledNoIcon = (): string => html`
   <calcite-action indicator active text="click-me"></calcite-action>
 `;
 
-export const NoTextHeight = (): string => html`
+export const noTextHeight = (): string => html`
   <h2>All actions should be the same height</h2>
   <div style="width: min-content">
     <div style="border: solid 1px">
@@ -199,7 +199,7 @@ export const NoTextHeight = (): string => html`
   </div>
 `;
 
-export const ArabicLocale = (): string => html`
+export const arabicLocale = (): string => html`
   <calcite-action
     dir="rtl"
     icon="banana"
@@ -210,7 +210,7 @@ export const ArabicLocale = (): string => html`
   ></calcite-action>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <div>
     <calcite-action
       appearance="solid"
@@ -226,4 +226,4 @@ export const DarkModeRTL = (): string => html`
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

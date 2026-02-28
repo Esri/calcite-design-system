@@ -28,7 +28,7 @@ export default {
   },
 };
 
-export const Simple = (args: MenuStoryArgs): string => html`
+export const simple = (args: MenuStoryArgs): string => html`
   <calcite-menu layout="${args.layout}">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -36,7 +36,7 @@ export const Simple = (args: MenuStoryArgs): string => html`
   </calcite-menu>
 `;
 
-export const IconsAndBreadcrumb = (): string =>
+export const iconsAndBreadcrumb = (): string =>
   html`<calcite-menu>
     <calcite-menu-item
       icon-start="layer"
@@ -61,7 +61,7 @@ export const IconsAndBreadcrumb = (): string =>
     ></calcite-menu-item>
   </calcite-menu>`;
 
-export const IconsAndBreadcrumbVertical = (): string =>
+export const iconsAndBreadcrumbVertical = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item
       icon-start="layer"
@@ -86,7 +86,7 @@ export const IconsAndBreadcrumbVertical = (): string =>
     ></calcite-menu-item>
   </calcite-menu>`;
 
-export const WithNesting = (): string =>
+export const withNesting = (): string =>
   html`<calcite-panel>
     <calcite-menu layout="horizontal">
       <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
@@ -123,14 +123,14 @@ export const WithSubmenuOpenInVerticalLayout = (): string =>
     <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
   </calcite-menu>`;
 
-export const DarkModeRTL = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-menu dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-export const VerticalComplexUseCase = (): string =>
+export const verticalComplexUseCase = (): string =>
   html`<calcite-shell-panel width-scale="l">
     <calcite-panel heading="Extreme nested vertical menu">
       <calcite-menu layout="vertical">
@@ -192,7 +192,7 @@ export const VerticalComplexUseCase = (): string =>
     </calcite-panel>
   </calcite-shell-panel>`;
 
-export const VerticalLayoutInDarkModeRTL = (): string =>
+export const verticalLayoutInDarkModeRTL = (): string =>
   html`<calcite-menu layout="vertical" dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>

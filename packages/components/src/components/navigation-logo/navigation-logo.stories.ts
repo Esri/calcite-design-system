@@ -14,7 +14,7 @@ export default {
   },
 };
 
-export const Simple = (args: NavigationLogoStoryArgs): string =>
+export const simple = (args: NavigationLogoStoryArgs): string =>
   html`<calcite-navigation-logo
     description="${args.description}"
     heading="${args.heading}"
@@ -22,23 +22,23 @@ export const Simple = (args: NavigationLogoStoryArgs): string =>
     ${boolean("active", args.active)}
   />`;
 
-export const Heading = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
+export const heading = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
 
-export const Description = (): string =>
+export const description = (): string =>
   html`<calcite-navigation-logo
     description="City of AcmeCo"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const Thumbnail = (): string =>
+export const thumbnail = (): string =>
   html`<calcite-navigation-logo thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const HeadingAndThumbnail = (): string =>
+export const headingAndThumbnail = (): string =>
   html`<calcite-navigation-logo heading="ArcGIS Online" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const HeadingAndIcon = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
+export const headingAndIcon = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" icon="link-chart" />`;
 
-export const DescriptionAndThumbnail = (): string =>
+export const descriptionAndThumbnail = (): string =>
   html`<calcite-navigation-logo
     description="City of AcmeCo"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
@@ -52,7 +52,7 @@ export const All = (): string =>
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const SlottedInNav = (): string => html`
+export const slottedInNav = (): string => html`
   <calcite-navigation style="--calcite-color-brand: #bf390f">
     <calcite-navigation-logo
       heading="ArcGIS Online"
@@ -63,7 +63,7 @@ export const SlottedInNav = (): string => html`
   </calcite-navigation>
 `;
 
-export const WithHref = (): string => html`
+export const withHref = (): string => html`
   <calcite-navigation>
     <calcite-navigation-logo
       slot="logo"
@@ -77,7 +77,7 @@ export const WithHref = (): string => html`
   </calcite-navigation>
 `;
 
-export const HeadingLevel = (): string => html`
+export const headingLevel = (): string => html`
   <calcite-navigation-logo
     heading="ArcGIS Online"
     heading-level="1"

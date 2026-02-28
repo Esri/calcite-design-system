@@ -14,37 +14,37 @@ export default {
   argTypes: { scale: { options: scale.values, control: { type: "select" } }, label: { control: { type: "text" } } },
 };
 
-export const Simple = (args: SwatchStoryArgs): string => html`
+export const simple = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="${args.scale}" label="${args.label}" ${boolean("selected", args.selected)}></calcite-swatch>
   </div>
 `;
 
-export const WithHex = (args: SwatchStoryArgs): string => html`
+export const withHex = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" color="#FF0000" label="${args.label}"> </calcite-swatch>
   </div>
 `;
 
-export const WithRgba = (args: SwatchStoryArgs): string => html`
+export const withRgba = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" color="rgba(255, 0, 0, 0.5)" label="${args.label}"> </calcite-swatch>
   </div>
 `;
 
-export const HexDisabled = (args: SwatchStoryArgs): string => html`
+export const hexDisabled = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" color="#FF0000" label="${args.label}" disabled> </calcite-swatch>
   </div>
 `;
 
-export const EmptyDisabled = (args: SwatchStoryArgs): string => html`
+export const emptyDisabled = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" label="${args.label}" disabled> </calcite-swatch>
   </div>
 `;
 
-export const WithImage = (args: SwatchStoryArgs): string => html`
+export const withImage = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" label="${args.label}">
       <img
@@ -58,7 +58,7 @@ export const WithImage = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
-export const WithImageDisabled = (args: SwatchStoryArgs): string => html`
+export const withImageDisabled = (args: SwatchStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-swatch scale="m" label="${args.label}" disabled>
       <img
@@ -72,10 +72,10 @@ export const WithImageDisabled = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
-export const DarkModeRTL = (args: SwatchStoryArgs): string => html`
+export const darkModeRTL = (args: SwatchStoryArgs): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-swatch class="calcite-mode-dark" label="${args.label}"></calcite-swatch>
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

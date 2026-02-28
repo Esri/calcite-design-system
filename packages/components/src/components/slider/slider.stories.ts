@@ -75,7 +75,7 @@ export default {
   },
 };
 
-export const Simple = (args: SliderStoryArgs): string => html`
+export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
@@ -97,7 +97,7 @@ export const Simple = (args: SliderStoryArgs): string => html`
   ></calcite-slider>
 `;
 
-export const Range = (): string => html`
+export const range = (): string => html`
   <calcite-slider
     min="0"
     min-label="Temperature, lower bound"
@@ -112,7 +112,7 @@ export const Range = (): string => html`
   ></calcite-slider>
 `;
 
-export const DarkModeMirroredRange = (): string => html`
+export const darkModeMirroredRange = (): string => html`
   <calcite-slider
     class="calcite-mode-dark"
     mirrored
@@ -132,11 +132,11 @@ export const DarkModeMirroredRange = (): string => html`
   ></calcite-slider>
 `;
 
-DarkModeMirroredRange.story = {
+darkModeMirroredRange.story = {
   parameters: { themes: modesDarkDefault },
 };
 
-export const RangeLabeledTicks = (): string => html`
+export const rangeLabeledTicks = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -151,11 +151,11 @@ export const RangeLabeledTicks = (): string => html`
   ></calcite-slider>
 `;
 
-RangeLabeledTicks.parameters = {
+rangeLabeledTicks.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const RangeLabeledTicksOverlappingAtMax = (): string => html`
+export const rangeLabeledTicksOverlappingAtMax = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -170,11 +170,11 @@ export const RangeLabeledTicksOverlappingAtMax = (): string => html`
   ></calcite-slider>
 `;
 
-RangeLabeledTicksOverlappingAtMax.parameters = {
+rangeLabeledTicksOverlappingAtMax.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const RangeLabeledTicksOverlappingAtMin = (): string => html`
+export const rangeLabeledTicksOverlappingAtMin = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -189,11 +189,11 @@ export const RangeLabeledTicksOverlappingAtMin = (): string => html`
   ></calcite-slider>
 `;
 
-RangeLabeledTicksOverlappingAtMin.parameters = {
+rangeLabeledTicksOverlappingAtMin.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const RangeLabeledTicksEdgePositioningAtMax = (): string => html`
+export const rangeLabeledTicksEdgePositioningAtMax = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -208,11 +208,11 @@ export const RangeLabeledTicksEdgePositioningAtMax = (): string => html`
   ></calcite-slider>
 `;
 
-RangeLabeledTicksEdgePositioningAtMax.parameters = {
+rangeLabeledTicksEdgePositioningAtMax.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const RangeLabeledTicksEdgePositioningAtMin = (): string => html`
+export const rangeLabeledTicksEdgePositioningAtMin = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -227,7 +227,7 @@ export const RangeLabeledTicksEdgePositioningAtMin = (): string => html`
   ></calcite-slider>
 `;
 
-RangeLabeledTicksEdgePositioningAtMin.parameters = {
+rangeLabeledTicksEdgePositioningAtMin.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
@@ -410,7 +410,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   return sliderContainer;
 };
 
-export const DarkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const darkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => {
   const slider = createHistogramSlider({
     range: [0, 100],
     values: [25, 75],
@@ -428,11 +428,11 @@ export const DarkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => 
   return slider;
 };
 
-DarkModeHistogramRTL.parameters = { themes: modesDarkDefault };
+darkModeHistogramRTL.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
+export const disabled = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
-export const WordBreakDoesNotAffectLabels = (): string =>
+export const wordBreakDoesNotAffectLabels = (): string =>
   html`<calcite-slider
     min="-100"
     max="100"
@@ -562,7 +562,7 @@ export const WithLargeFontSize = (): string =>
     </body>
   </html>`;
 
-export const MaxTickRendering = (): string => html`
+export const maxTickRendering = (): string => html`
   <style>
     calcite-slider {
       width: 60vw;
@@ -583,7 +583,7 @@ export const MaxTickRendering = (): string => html`
   <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
 `;
 
-export const RendersWhenTrackRelatedPropChanges = (): string => html`
+export const rendersWhenTrackRelatedPropChanges = (): string => html`
   <calcite-slider id="example-slider" label-ticks max="32" value="24" min="16" snap step="8" ticks="8"></calcite-slider>
   <script>
     (async () => {
@@ -600,11 +600,11 @@ export const RendersWhenTrackRelatedPropChanges = (): string => html`
   </script>
 `;
 
-RendersWhenTrackRelatedPropChanges.parameters = {
+rendersWhenTrackRelatedPropChanges.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const SpaceGroupSeparatorNoBreak = (): string => html`
+export const spaceGroupSeparatorNoBreak = (): string => html`
   <calcite-slider
     lang="ru"
     value="1000"
@@ -617,7 +617,7 @@ export const SpaceGroupSeparatorNoBreak = (): string => html`
   ></calcite-slider>
 `;
 
-export const FillPlacements = (): string => html`
+export const fillPlacements = (): string => html`
   <h1>single</h1>
 
   <h2>start (default)</h2>
@@ -749,7 +749,7 @@ export const FillPlacements = (): string => html`
   ></calcite-slider>
 `;
 
-export const CustomLabelsAndTicks = (): string => html`
+export const customLabelsAndTicks = (): string => html`
   <label>Label formatter (single value)</label>
   <calcite-slider
     id="singleFormattedLabelSlider"
@@ -832,11 +832,11 @@ export const CustomLabelsAndTicks = (): string => html`
   </script>
 `;
 
-CustomLabelsAndTicks.parameters = {
+customLabelsAndTicks.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const ValidationMessageAllScales = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;

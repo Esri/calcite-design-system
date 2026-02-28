@@ -4,7 +4,7 @@ export default {
   title: "Components/Action Menu",
 };
 
-export const Simple = (): string => html`
+export const simple = (): string => html`
   <calcite-action-menu>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -13,7 +13,7 @@ export const Simple = (): string => html`
   </calcite-action-menu>
 `;
 
-export const SimpleTransparent = (): string =>
+export const simpleTransparent = (): string =>
   html`<div style="background-color:red">
     <calcite-action-menu appearance="transparent">
       <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -22,7 +22,7 @@ export const SimpleTransparent = (): string =>
     </calcite-action-menu>
   </div> `;
 
-export const Open = (): string => html`
+export const open = (): string => html`
   <calcite-action-menu open>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -31,7 +31,7 @@ export const Open = (): string => html`
   </calcite-action-menu>
 `;
 
-export const OpenWithGroups = (): string => html`
+export const openWithGroups = (): string => html`
   <calcite-action-menu open>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action-group>
@@ -47,7 +47,7 @@ export const OpenWithGroups = (): string => html`
   </calcite-action-menu>
 `;
 
-export const KeyDownOpen = (): string => html`
+export const keyDownOpen = (): string => html`
   <calcite-action-menu>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -73,7 +73,7 @@ export const KeyDownOpen = (): string => html`
   </script>
 `;
 
-export const OpenMaxHeight = (): string => html`
+export const openMaxHeight = (): string => html`
   <calcite-action-menu open>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -97,4 +97,4 @@ export const OpenMaxHeight = (): string => html`
   </calcite-action-menu>
 `;
 
-KeyDownOpen.parameters = { chromatic: { delay: 1000 } };
+keyDownOpen.parameters = { chromatic: { delay: 1000 } };

@@ -50,7 +50,7 @@ export default {
   },
 };
 
-export const Simple = (args: RatingStoryArgs): string => html`
+export const simple = (args: RatingStoryArgs): string => html`
   <calcite-rating
     scale="${args.scale}"
     value="${args.value}"
@@ -65,7 +65,7 @@ export const Simple = (args: RatingStoryArgs): string => html`
   ></calcite-rating>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-rating
     class="calcite-mode-dark"
     dir="rtl"
@@ -77,9 +77,9 @@ export const DarkModeRTL = (): string => html`
   ></calcite-rating>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
+export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
 
 export const Focus = (): string =>
   html` <calcite-rating value="4" required></calcite-rating>
@@ -94,7 +94,7 @@ Focus.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const ValidationMessageAllScales = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;

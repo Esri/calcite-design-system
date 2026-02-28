@@ -22,7 +22,7 @@ export default {
   },
 };
 
-export const Simple = (args: SwitchStoryArgs): string => html`
+export const simple = (args: SwitchStoryArgs): string => html`
   <calcite-switch
     name="setting"
     value="enabled"
@@ -32,13 +32,13 @@ export const Simple = (args: SwitchStoryArgs): string => html`
   ></calcite-switch>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-switch class="calcite-mode-dark" name="setting" value="enabled" checked scale="m"></calcite-switch>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
+export const disabled = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
 
 export const Focus = (): string => html`
   <div style="width:300px;height:300px; padding: 20px">

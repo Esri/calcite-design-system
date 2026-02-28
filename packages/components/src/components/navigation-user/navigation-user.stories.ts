@@ -20,7 +20,7 @@ export default {
   },
 };
 
-export const Simple = (args: NavigationUserStoryArgs): string => html`
+export const simple = (args: NavigationUserStoryArgs): string => html`
   <calcite-navigation-user
     slot="user"
     full-name="${args.fullName}"
@@ -32,17 +32,17 @@ export const Simple = (args: NavigationUserStoryArgs): string => html`
   />
 `;
 
-export const FullName = (): string => html`<calcite-navigation-user full-name="Edward Abbey" />`;
+export const fullName = (): string => html`<calcite-navigation-user full-name="Edward Abbey" />`;
 
-export const Username = (): string => html`<calcite-navigation-user username="eabbey_123" />`;
+export const username = (): string => html`<calcite-navigation-user username="eabbey_123" />`;
 
-export const Thumbnail = (): string =>
+export const thumbnail = (): string =>
   html`<calcite-navigation-user thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const FullNameAndThumbnail = (): string =>
+export const fullNameAndThumbnail = (): string =>
   html`<calcite-navigation-user full-name="Edward Abbey" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
-export const UsernameAndThumbnail = (): string =>
+export const usernameAndThumbnail = (): string =>
   html`<calcite-navigation-user username="eabbey_123" thumbnail="${placeholderImage({ width: 50, height: 50 })}" />`;
 
 export const All = (): string =>
@@ -52,7 +52,7 @@ export const All = (): string =>
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 
-export const SlottedInNav = (): string => html`
+export const slottedInNav = (): string => html`
   <calcite-navigation style="--calcite-color-brand: #bf390f">
     <calcite-navigation-user
       full-name="Edward Abbey"

@@ -52,7 +52,7 @@ export default {
   },
 };
 
-export const Simple = (args: TextAreaStoryArgs): string => html`
+export const simple = (args: TextAreaStoryArgs): string => html`
   <calcite-text-area
     scale="${args.scale}"
     status="${args.status}"
@@ -69,7 +69,7 @@ export const Simple = (args: TextAreaStoryArgs): string => html`
   </calcite-text-area>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-text-area
     dir="rtl"
     class="calcite-mode-dark"
@@ -78,41 +78,41 @@ export const DarkModeRTL = (): string => html`
   </calcite-text-area>
 `;
 
-export const WithSlottedElements = (): string => html`
+export const withSlottedElements = (): string => html`
   <calcite-text-area placeholder="Add Notes" max-length="50" scale="m" placeholder="Add Notes" columns="20" rows="2">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
-export const WithSlottedElementsDarkModeRTL = (): string => html`
+export const withSlottedElementsDarkModeRTL = (): string => html`
   <calcite-text-area max-length="50" placeholder="Add Notes" dir="rtl" class="calcite-mode-dark">
     <calcite-button slot="footer-start">RESET</calcite-button>
     <calcite-action icon="code" slot="footer-end"></calcite-action>
   </calcite-text-area>
 `;
 
-export const Disabled = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
+export const disabled = (): string => html` <calcite-text-area disabled> </calcite-text-area> `;
 
-export const Readonly = (): string => html` <calcite-text-area readonly> </calcite-text-area> `;
+export const readonly = (): string => html` <calcite-text-area readonly> </calcite-text-area> `;
 
-export const ResizeDisabled = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
+export const resizeDisabled = (): string => html` <calcite-text-area resize="none"> </calcite-text-area> `;
 
-export const GroupSeparator = (): string => html`
+export const groupSeparator = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="fr" max-length="123456" group-separator>
   </calcite-text-area>
 `;
 
-export const ExceedingMaxLength = (): string => html`
+export const exceedingMaxLength = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" max-length="10"> </calcite-text-area>
 `;
 
-export const ChineseLang = (): string => html`
+export const chineseLang = (): string => html`
   <calcite-text-area value="Rocky Mountains National Park" lang="zh-cn" group-separator max-length="654321">
   </calcite-text-area>
 `;
 
-export const InsideContainerWithHeightAndWidth = (): string =>
+export const insideContainerWithHeightAndWidth = (): string =>
   html`<div style="width:500px;height:500px"><calcite-text-area></calcite-text-area></div>`;
 
 /** Adds explicit height/width for components using position:fixed per Chromatic doc <https://www.chromatic.com/docs/snapshots/#why-isn%E2%80%99t-my-modal-or-dialog-captured>. */
@@ -128,7 +128,7 @@ const wrapperStyles = html`
   </style>
 `;
 
-export const ValidationMessageAllScales = (): string => html`
+export const validationMessageAllScales = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-text-area

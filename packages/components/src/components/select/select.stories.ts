@@ -47,7 +47,7 @@ export default {
   },
 };
 
-export const Simple = (args: SelectStoryArgs): string => html`
+export const simple = (args: SelectStoryArgs): string => html`
   <div style="width:260px">
     <calcite-select
       ${boolean("disabled", args.disabled)}
@@ -73,7 +73,7 @@ export const Simple = (args: SelectStoryArgs): string => html`
   </div>
 `;
 
-export const Grouped = (): string => html`
+export const grouped = (): string => html`
   <calcite-select status="idle" width="auto" scale="m">
     <calcite-option-group label="My fancy group label">
       <calcite-option label="fancy label" value="value"></calcite-option>
@@ -87,7 +87,7 @@ export const Grouped = (): string => html`
   </calcite-select>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-select status="idle" width="auto" scale="m" dir="rtl" class="calcite-mode-dark">
     <calcite-option-group label="My fancy group label">
       <calcite-option label="fancy label" value="value"></calcite-option>
@@ -101,16 +101,16 @@ export const DarkModeRTL = (): string => html`
   </calcite-select>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const DisabledAndLargeScaleGetsMediumChevron = (): string => html`
+export const disabledAndLargeScaleGetsMediumChevron = (): string => html`
   <calcite-select disabled scale="l">
     <calcite-option label="first" value="1"></calcite-option>
     <calcite-option label="second" value="2"></calcite-option>
   </calcite-select>
 `;
 
-export const ValidationMessageAllScales = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;

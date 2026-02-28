@@ -89,7 +89,7 @@ const thumbnailImage = placeholderImage({ width: 44, height: 44 });
 
 const listAttributes = (): string => html` selection-mode="none" selection-appearance="icon" label="My List" `;
 
-export const Simple = (args: ListStoryArgs): string => html`
+export const simple = (args: ListStoryArgs): string => html`
   <calcite-list
     ${boolean("closable", args.closable)}
     ${boolean("closed", args.closed)}
@@ -152,7 +152,7 @@ export const Simple = (args: ListStoryArgs): string => html`
   </calcite-list>
 `;
 
-export const Scales = (): string => html`
+export const scales = (): string => html`
   <!-- scales -->
   <div class="parent">
     <div class="child right-aligned-text">scales with icon-start and icon-end</div>
@@ -3965,7 +3965,7 @@ export const Scales = (): string => html`
   </div>
 `;
 
-export const OnlyLabelVersusOnlyDescription = (): string => html`
+export const onlyLabelVersusOnlyDescription = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
@@ -3974,7 +3974,7 @@ export const OnlyLabelVersusOnlyDescription = (): string => html`
   </calcite-list>
 `;
 
-export const StretchSlottedContent = (): string => html`
+export const stretchSlottedContent = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description.">
       <calcite-handle slot="actions-start"></calcite-handle>
@@ -4002,7 +4002,7 @@ export const StretchSlottedContent = (): string => html`
   </calcite-list>
 `;
 
-export const NestedItems = (): string => html`
+export const nestedItems = (): string => html`
   <calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item
       expanded
@@ -4076,11 +4076,11 @@ export const NestedItems = (): string => html`
   </calcite-list>
 `;
 
-NestedItems.parameters = {
+nestedItems.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const GroupedItems = (): string => html`
+export const groupedItems = (): string => html`
   <calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item-group heading="Nested">
       <calcite-list-item
@@ -4125,11 +4125,11 @@ export const GroupedItems = (): string => html`
   </calcite-list>
 `;
 
-GroupedItems.parameters = {
+groupedItems.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const StartAndEndContentSlots = (): string =>
+export const startAndEndContentSlots = (): string =>
   html`<calcite-list ${listAttributes()}>
     <calcite-list-item>
       <calcite-action slot="actions-end" icon="ellipsis"> </calcite-action>
@@ -4166,7 +4166,7 @@ export const StartAndEndContentSlots = (): string =>
     </calcite-list-item>
   </calcite-list> `;
 
-export const ContentBottomSlots = (): string =>
+export const contentBottomSlots = (): string =>
   html`<calcite-list ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
@@ -4182,7 +4182,7 @@ export const ContentBottomSlots = (): string =>
     </calcite-list-item>
   </calcite-list> `;
 
-export const ContentBottomSlotsNested = (): string =>
+export const contentBottomSlotsNested = (): string =>
   html`<calcite-list display-mode="nested" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom" expanded>
       <span slot="content-bottom">Some value or something and a <b>thing</b>.</span>
@@ -4199,7 +4199,7 @@ export const ContentBottomSlotsNested = (): string =>
     </calcite-list-item>
   </calcite-list> `;
 
-export const RichContent = (): string => html`
+export const richContent = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
@@ -4242,7 +4242,7 @@ export const RichContent = (): string => html`
     </calcite-list-item>
   </calcite-list>
 `;
-export const RichContentFilterEnabled = (): string => html`
+export const richContentFilterEnabled = (): string => html`
   <calcite-list filter-enabled>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
       <calcite-action icon="web" label="Princess Bubblegum website" scale="s" slot="actions-start"></calcite-action>
@@ -4286,7 +4286,7 @@ export const RichContentFilterEnabled = (): string => html`
   </calcite-list>
 `;
 
-export const FilterEnabledWithHiddenItems = (): string => html`
+export const filterEnabledWithHiddenItems = (): string => html`
   <calcite-list filter-enabled>
     <calcite-list-item-group hidden heading="Layers">
       <calcite-list-item hidden label="Hidden item" description="I should not be displayed."> </calcite-list-item>
@@ -4298,7 +4298,7 @@ export const FilterEnabledWithHiddenItems = (): string => html`
   </calcite-list>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <h1>selection-mode="none" + selection-appearance="icon"</h1>
   <calcite-list class="calcite-mode-dark" dir="rtl" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
@@ -4355,9 +4355,9 @@ export const DarkModeRTL = (): string => html`
   </calcite-list>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string =>
+export const disabled = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
@@ -4376,7 +4376,7 @@ export const Disabled = (): string =>
     ></calcite-list-item>
   </calcite-list>`;
 
-export const CustomContent = (): string =>
+export const customContent = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item>
       <div slot="content">
@@ -4398,7 +4398,7 @@ export const CustomContent = (): string =>
     >
   </calcite-list>`;
 
-export const SinglePersist = (): string =>
+export const singlePersist = (): string =>
   html`<calcite-list selection-mode="single-persist" label="test">
     <calcite-list-item selected label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -4430,7 +4430,7 @@ export const SinglePersist = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const ClosableListItems = (): string =>
+export const closableListItems = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-list-item selected closable label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -4462,7 +4462,7 @@ export const ClosableListItems = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const FilteredChildListItems = (): string =>
+export const filteredChildListItems = (): string =>
   html`<calcite-list
       display-mode="nested"
       filter-enabled
@@ -4647,11 +4647,11 @@ export const FilteredChildListItems = (): string =>
       </calcite-list-item-group>
     </calcite-list>`;
 
-FilteredChildListItems.parameters = {
+filteredChildListItems.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const FilterActions = (): string =>
+export const filterActions = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -4711,7 +4711,7 @@ export const FilterActions = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const SortableList = (): string =>
+export const sortableList = (): string =>
   html`<calcite-list drag-enabled selection-mode="single" label="List 1" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -4778,7 +4778,7 @@ export const SortableList = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const SortableNestedList = (): string =>
+export const sortableNestedList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -4803,7 +4803,7 @@ export const SortableNestedList = (): string =>
     <calcite-list-item expanded label="Hi! 7" description="hello world"></calcite-list-item>
   </calcite-list>`;
 
-export const EmptyExpandedLists = (): string =>
+export const emptyExpandedLists = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -4866,7 +4866,7 @@ export const EmptyExpandedLists = (): string =>
       ></calcite-list></calcite-list-item
   ></calcite-list>`;
 
-export const ListWithEmptyChildList = (): string =>
+export const listWithEmptyChildList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled label="List 1" group="nested" selection-mode="single">
     <calcite-list-item expanded label="Hi! 4" description="hello world">
       <calcite-list
@@ -4879,7 +4879,7 @@ export const ListWithEmptyChildList = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const ListWithGroupedAndSlottedItems = (): string =>
+export const listWithGroupedAndSlottedItems = (): string =>
   html`<calcite-list filter-enabled>
     <calcite-list-item-group heading="Outdoor recreation">
       <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
@@ -4920,7 +4920,7 @@ export const ListWithGroupedAndSlottedItems = (): string =>
     </calcite-list-item-group>
   </calcite-list>`;
 
-export const FilteredListItemsNoResults = (): string =>
+export const filteredListItemsNoResults = (): string =>
   html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="Apples" value="apples"></calcite-list-item>
     <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
@@ -4931,7 +4931,7 @@ export const FilteredListItemsNoResults = (): string =>
     </calcite-notice>
   </calcite-list>`;
 
-export const NestingLists = (): string => html`<h4>Nesting List Items</h4>
+export const nestingLists = (): string => html`<h4>Nesting List Items</h4>
   <calcite-list display-mode="nested">
     <calcite-list-item label="List Item" expanded>
       <calcite-list-item label="List Item"></calcite-list-item>
@@ -4951,7 +4951,7 @@ export const NestingLists = (): string => html`<h4>Nesting List Items</h4>
     </calcite-list-item>
   </calcite-list>`;
 
-export const ClosedItems = (): string =>
+export const closedItems = (): string =>
   html` <calcite-list>
     <calcite-list-item
       closable
@@ -5015,7 +5015,7 @@ export const ClosedItems = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const DragEnabledNestedLists = (): string =>
+export const dragEnabledNestedLists = (): string =>
   html`<calcite-list display-mode="nested" id="root" drag-enabled label="List 1" group="my-list">
     <calcite-list-item expanded label="Depth 1" description="Item 1">
       <calcite-list display-mode="nested" group="my-list">
@@ -5034,7 +5034,7 @@ export const DragEnabledNestedLists = (): string =>
     <calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item>
   </calcite-list>`;
 
-export const DragEnabledNestedListsIndirectChildren = (): string =>
+export const dragEnabledNestedListsIndirectChildren = (): string =>
   html`<calcite-list display-mode="nested" id="root" drag-enabled label="List 1" group="my-list">
     <div>
       <calcite-list-item expanded label="Depth 1" description="Item 1">
@@ -5059,7 +5059,7 @@ export const DragEnabledNestedListsIndirectChildren = (): string =>
     <div><calcite-list-item drag-disabled label="Depth 1" description="Item 7"></calcite-list-item></div>
   </calcite-list>`;
 
-export const InteractiveMode = (): string => html`
+export const interactiveMode = (): string => html`
   <h2>interaction-mode="static" and selection-mode="none" (non-interactive)</h2>
 
   <calcite-list interaction-mode="static" selection-mode="none">
@@ -5096,12 +5096,12 @@ export const InteractiveMode = (): string => html`
   </calcite-list>
 `;
 
-export const SortableListWithSingleItem = (): string =>
+export const sortableListWithSingleItem = (): string =>
   html`<calcite-list drag-enabled label="test">
     <calcite-list-item label="small" value="small" description="small hello world"></calcite-list-item>
   </calcite-list>`;
 
-export const FilterGroups = (): string =>
+export const filterGroups = (): string =>
   html` <calcite-list
     filter-enabled
     filter-placeholder="typing 'recreation' should show 1st group with all items"
@@ -5125,5 +5125,5 @@ export const FilterGroups = (): string =>
     </calcite-list-item-group>
   </calcite-list>`;
 
-export const EmptyFixedHeight = (): string =>
+export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;

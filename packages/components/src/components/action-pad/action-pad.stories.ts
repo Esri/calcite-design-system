@@ -33,7 +33,7 @@ export default {
   },
 };
 
-export const Simple = (args: ActionPadStoryArgs): string => html`
+export const simple = (args: ActionPadStoryArgs): string => html`
   <calcite-action-pad
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
@@ -50,7 +50,7 @@ export const Simple = (args: ActionPadStoryArgs): string => html`
   </calcite-action-pad>
 `;
 
-export const WithDefinedWidths = (): string => html`
+export const withDefinedWidths = (): string => html`
   <style>
     calcite-action-pad {
       --calcite-action-pad-expanded-max-width: 150px;
@@ -67,7 +67,7 @@ export const WithDefinedWidths = (): string => html`
   </calcite-action-pad>
 `;
 
-export const WithGroups = (): string =>
+export const withGroups = (): string =>
   html`<calcite-action-pad layout="horizontal">
     <calcite-action-group>
       <calcite-action text="Add" icon="plus" appearance="solid" scale="m"></calcite-action>
@@ -88,7 +88,7 @@ export const WithGroups = (): string =>
     >
   </calcite-action-pad>`;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-action-pad position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -100,34 +100,34 @@ export const DarkModeRTL = (): string => html`
   </calcite-action-pad>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const HebrewLocale = (): string =>
+export const hebrewLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="he" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const NorwegianLocale = (): string =>
+export const norwegianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="nb" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const SpanishLocale = (): string =>
+export const spanishLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="es" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const TaiwanLocale = (): string =>
+export const taiwanLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="zh-TW" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const RussianLocale = (): string =>
+export const russianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="ru" layout="horizontal"> </calcite-action-pad>
   </div>`;
 
-export const RomanianMoldovaLocale = (): string =>
+export const romanianMoldovaLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-pad expanded lang="ro-mo" layout="horizontal"> </calcite-action-pad>
   </div>`;

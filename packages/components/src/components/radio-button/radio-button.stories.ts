@@ -27,7 +27,7 @@ export default {
   },
 };
 
-export const Simple = (args: RadioButtonStoryArgs): string => html`
+export const simple = (args: RadioButtonStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-radio-button
       ${boolean("checked", args.checked)}
@@ -42,13 +42,13 @@ export const Simple = (args: RadioButtonStoryArgs): string => html`
   </calcite-label>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-label layout="inline" class="calcite-mode-dark" dir="rtl">
     <calcite-radio-button name="dark" scale="m" value="value"> </calcite-radio-button>
     Radio Button
   </calcite-label>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
+export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;

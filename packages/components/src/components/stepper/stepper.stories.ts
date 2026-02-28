@@ -71,7 +71,7 @@ export default {
   },
 };
 
-export const Simple = (args: StepperStoryArgs): string => html`
+export const simple = (args: StepperStoryArgs): string => html`
   <h1>Default</h1>
   <calcite-stepper
     layout="${args.layout}"
@@ -110,7 +110,7 @@ export const Simple = (args: StepperStoryArgs): string => html`
   </calcite-stepper>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl">
     <calcite-stepper
     class="calcite-mode-dark"
@@ -150,9 +150,9 @@ export const DarkModeRTL = (): string => html`
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const OverriddenWidth = (): string =>
+export const overriddenWidth = (): string =>
   html` <calcite-stepper numbered style="width: 50vw">
     <calcite-stepper-item heading="Choose method" description="Add members without sending invitations" complete>
       <calcite-notice open width="full">
@@ -176,13 +176,13 @@ export const OverriddenWidth = (): string =>
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const Disabled = (): string =>
+export const disabled = (): string =>
   html`<calcite-stepper>
     <calcite-stepper-item heading="item1" complete disabled>1</calcite-stepper-item>
     <calcite-stepper-item heading="item2">2</calcite-stepper-item>
   </calcite-stepper>`;
 
-export const ArabicNumberingSystem = (): string =>
+export const arabicNumberingSystem = (): string =>
   html` <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" scale="s">
     <calcite-stepper-item heading="الخطوةالاولى" complete>
       <calcite-notice open width="full">
@@ -206,7 +206,7 @@ export const ArabicNumberingSystem = (): string =>
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const VerticalLayout = (): string =>
+export const verticalLayout = (): string =>
   html`<calcite-stepper layout="vertical" scale="s">
       <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         >Step 1 Content Goes Here</calcite-stepper-item
@@ -241,7 +241,7 @@ export const VerticalLayout = (): string =>
       ></calcite-stepper-item>
     </calcite-stepper>`;
 
-export const HorizontalSingleLayout = (): string => html`
+export const horizontalSingleLayout = (): string => html`
   <div style="display: flex; flex-direction: column; gap: 1em;">
     <calcite-stepper layout="horizontal-single" numbered icon scale="s">
       <calcite-stepper-item heading="Choose method">
@@ -314,7 +314,7 @@ export const HorizontalSingleLayout = (): string => html`
   </div>
 `;
 
-export const VerticalLayoutFullWidth = (): string =>
+export const verticalLayoutFullWidth = (): string =>
   html`<calcite-stepper layout="vertical" scale="s">
       <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         ><calcite-notice open icon="tree" width="full">

@@ -35,7 +35,7 @@ export default {
   },
 };
 
-export const Simple = (args: FabStoryArgs): string => html`
+export const simple = (args: FabStoryArgs): string => html`
   <calcite-fab
     appearance="${args.appearance}"
     ${boolean("disabled", args.disabled)}
@@ -47,13 +47,13 @@ export const Simple = (args: FabStoryArgs): string => html`
     scale="${args.scale}"
   ></calcite-fab>
 `;
-export const Disabled = (): string => html`
+export const disabled = (): string => html`
   <calcite-fab disabled icon="plus"></calcite-fab>
   <br />
   <calcite-fab disabled loading icon="plus"></calcite-fab>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-fab
     appearance="outline-fill"
     icon="plus"
@@ -66,4 +66,4 @@ export const DarkModeRTL = (): string => html`
   ></calcite-fab>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

@@ -16,9 +16,9 @@ const simpleHTML = html`<calcite-stack>
   <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
 </calcite-stack>`;
 
-export const Simple = (): string => simpleHTML;
+export const simple = (): string => simpleHTML;
 
-export const StretchSlottedContent = (): string => html`
+export const stretchSlottedContent = (): string => html`
   <calcite-stack>
     <calcite-handle slot="actions-start"></calcite-handle>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
@@ -41,10 +41,10 @@ export const StretchSlottedContent = (): string => html`
   </calcite-stack>
 `;
 
-export const SimpleDarkMode = (): string => simpleHTML;
-SimpleDarkMode.parameters = { themes: modesDarkDefault };
+export const simpleDarkMode = (): string => simpleHTML;
+simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const Disabled = (): string =>
+export const disabled = (): string =>
   html`<calcite-stack disabled>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
@@ -53,7 +53,7 @@ export const Disabled = (): string =>
     <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
   </calcite-stack>`;
 
-export const PanelFooter = (): string =>
+export const panelFooter = (): string =>
   html`<calcite-panel>
     <div slot="header-content">My Panel</div>
     <p>My content</p>

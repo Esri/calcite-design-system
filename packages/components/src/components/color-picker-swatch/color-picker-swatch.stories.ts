@@ -12,21 +12,21 @@ export default {
   },
 };
 
-export const Simple = (args: ColorPickerSwatchStoryArgs): string => html`
+export const simple = (args: ColorPickerSwatchStoryArgs): string => html`
   <calcite-color-picker-swatch ${boolean("active", args.active)} color="${args.color}"></calcite-color-picker-swatch>
 `;
 
-export const Active = (): string =>
+export const active = (): string =>
   html`<calcite-color-picker-swatch active color="#c00f33"></calcite-color-picker-swatch>`;
 
-export const EmptyActive = (): string => html`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`;
+export const emptyActive = (): string => html`<calcite-color-picker-swatch active></calcite-color-picker-swatch>`;
 
-export const WithAlpha = (): string =>
+export const withAlpha = (): string =>
   html`<calcite-color-picker-swatch alpha-channel color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;
 
-export const WithAlphaActive = (): string =>
+export const withAlphaActive = (): string =>
   html`<calcite-color-picker-swatch active alpha-channel color="rgba(255, 0, 255, 0.5)"></calcite-color-picker-swatch>`;
 
-export const DarkModeRTL = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-color-picker-swatch value="#c00f33"></calcite-color-picker-swatch>`;
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

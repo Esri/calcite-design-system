@@ -86,7 +86,7 @@ export default {
   },
 };
 
-export const Simple = (args: AutocompleteStoryArgs): string => html`
+export const simple = (args: AutocompleteStoryArgs): string => html`
   <div style="width:350px">
     <form class="locate-form">
       <calcite-autocomplete
@@ -134,7 +134,7 @@ export const Simple = (args: AutocompleteStoryArgs): string => html`
   </div>
 `;
 
-export const SmallViewport = (): string => html`
+export const smallViewport = (): string => html`
   <calcite-autocomplete open>
     <calcite-autocomplete-item-group heading="Dogs">
       <calcite-autocomplete-item label="Rover" value="rover" heading="Rover"></calcite-autocomplete-item>
@@ -146,15 +146,15 @@ export const SmallViewport = (): string => html`
     </calcite-autocomplete-item-group>
   </calcite-autocomplete>
 `;
-SmallViewport.parameters = { chromatic: { viewports: [300, 300] } };
+smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const CustomIcon = (): string => html`
+export const customIcon = (): string => html`
   <div style="width:350px">
     <calcite-autocomplete icon="banana"></calcite-autocomplete>
   </div>
 `;
 
-export const NoIcon = (): string => html`
+export const noIcon = (): string => html`
   <div style="width:350px">
     <calcite-autocomplete id="autocomplete"></calcite-autocomplete>
   </div>
@@ -163,7 +163,7 @@ export const NoIcon = (): string => html`
   </script>
 `;
 
-export const MatchResults = (): string =>
+export const matchResults = (): string =>
   html`<div style="width:350px; height: 600px;">
     <calcite-autocomplete label="Item list" id="myAutocomplete" input-value="item" open>
       <calcite-autocomplete-item-group heading="items">
@@ -557,8 +557,8 @@ const kitchenSinkHTML = html`
   </div>
 `;
 
-export const KitchenSink = (): string => kitchenSinkHTML;
+export const kitchenSink = (): string => kitchenSinkHTML;
 
-export const KitchenSinkDarkRTL = (): string => `<div dir="rtl">${kitchenSinkHTML}</div>`;
+export const kitchenSinkDarkRTL = (): string => `<div dir="rtl">${kitchenSinkHTML}</div>`;
 
-KitchenSinkDarkRTL.parameters = { themes: modesDarkDefault };
+kitchenSinkDarkRTL.parameters = { themes: modesDarkDefault };

@@ -9,14 +9,14 @@ export default {
   },
 };
 
-export const Closed = (): string => html`
+export const closed = (): string => html`
   <calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>
 `;
 
-export const Open = (): string =>
+export const open = (): string =>
   html`<calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>`;
 
-export const Positions = (): string => html`
+export const positions = (): string => html`
   <style>
     .wrapper {
       display: grid;
@@ -47,7 +47,7 @@ export const Positions = (): string => html`
   </div>
 `;
 
-export const WithMoveToItems = (): string => html`
+export const withMoveToItems = (): string => html`
   <div style="height:600px; width:600px;">
     <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
   </div>
@@ -60,7 +60,7 @@ export const WithMoveToItems = (): string => html`
   </script>
 `;
 
-export const WithAddToItems = (): string => html`
+export const withAddToItems = (): string => html`
   <div style="height:600px; width:600px;">
     <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
   </div>
@@ -73,6 +73,6 @@ export const WithAddToItems = (): string => html`
   </script>
 `;
 
-export const Disabled = (): string => html`
+export const disabled = (): string => html`
   <calcite-sort-handle label="test" set-position="4" set-size="10" disabled></calcite-sort-handle>
 `;

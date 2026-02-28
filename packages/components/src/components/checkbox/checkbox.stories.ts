@@ -29,7 +29,7 @@ export default {
   },
 };
 
-export const Simple = (args: CheckboxStoryArgs): string => html`
+export const simple = (args: CheckboxStoryArgs): string => html`
   <calcite-label layout="inline">
     <calcite-checkbox
       ${boolean("checked", args.checked)}
@@ -42,13 +42,13 @@ export const Simple = (args: CheckboxStoryArgs): string => html`
   </calcite-label>
 `;
 
-export const Disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
+export const disabled = (): string => html`<calcite-checkbox checked disabled></calcite-checkbox>`;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-label dir="rtl" layout="inline" class="calcite-mode-dark">
     <calcite-checkbox checked scale="m"></calcite-checkbox>
     Checkbox
   </calcite-label>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

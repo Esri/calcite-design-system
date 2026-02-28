@@ -58,7 +58,7 @@ const footerEndButtonsHtml = html`
   </div>
 `;
 
-export const Simple = (args: CardStoryArgs): string => html`
+export const simple = (args: CardStoryArgs): string => html`
   <div style="width: 260px">
     <calcite-card
       ${boolean("loading", args.loading)}
@@ -70,7 +70,7 @@ export const Simple = (args: CardStoryArgs): string => html`
   </div>
 `;
 
-export const SimpleWithFooterLinks = (args: CardStoryArgs): string => html`
+export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
@@ -82,7 +82,7 @@ export const SimpleWithFooterLinks = (args: CardStoryArgs): string => html`
   </div>
 `;
 
-export const SimpleWithFooterButton = (args: CardStoryArgs): string => html`
+export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
@@ -94,7 +94,7 @@ export const SimpleWithFooterButton = (args: CardStoryArgs): string => html`
   </div>
 `;
 
-export const Thumbnail = (): string => html`
+export const thumbnail = (): string => html`
   <div style="width:260px">
     <calcite-card>
       ${thumbnailHtml}
@@ -145,7 +145,7 @@ export const Thumbnail = (): string => html`
   </div>
 `;
 
-export const HeaderDoesNotOverlapWithCheckboxDeprecated = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="heading">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
     <span slot="description"
@@ -160,7 +160,7 @@ export const HeaderDoesNotOverlapWithCheckboxDeprecated = (): string => html`
   </calcite-card>
 `;
 
-export const SlottedFooterItems = (): string => html`
+export const slottedFooterItems = (): string => html`
   <div id="card-container" style="width:260px;">
     <calcite-card>
       ${thumbnailHtml}
@@ -182,7 +182,7 @@ export const SlottedFooterItems = (): string => html`
   </div>
 `;
 
-export const DarkModeRTL = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card
       >${thumbnailHtml}${headingAndDescriptionHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card
@@ -190,4 +190,4 @@ export const DarkModeRTL = (): string => html`
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

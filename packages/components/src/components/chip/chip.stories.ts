@@ -40,7 +40,7 @@ export default {
   },
 };
 
-export const Simple = (args: ChipStoryArgs): string => html`
+export const simple = (args: ChipStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip
       scale="${args.scale}"
@@ -54,7 +54,7 @@ export const Simple = (args: ChipStoryArgs): string => html`
   </div>
 `;
 
-export const WithIcon = (args: ChipStoryArgs): string => html`
+export const withIcon = (args: ChipStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="${args.label}">
       My great chip</calcite-chip
@@ -62,7 +62,7 @@ export const WithIcon = (args: ChipStoryArgs): string => html`
   </div>
 `;
 
-export const WithImage = (args: ChipStoryArgs): string => html`
+export const withImage = (args: ChipStoryArgs): string => html`
   <div style="background-color:white;padding:100px">
     <calcite-chip scale="m" appearance="solid" kind="neutral" label="${args.label}">
       <img slot="image" src="${placeholderImage({ width: 50, height: 50 })}" />
@@ -71,7 +71,7 @@ export const WithImage = (args: ChipStoryArgs): string => html`
   </div>
 `;
 
-export const WithAvatar = (): string => {
+export const withAvatar = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
       <calcite-chip scale="m" appearance="solid" kind="neutral" label="Username">
@@ -87,7 +87,7 @@ export const WithAvatar = (): string => {
   `;
 };
 
-export const WithAvatarAndIcon = (): string => {
+export const withAvatarAndIcon = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
       <calcite-chip scale="m" appearance="solid" kind="neutral" icon="layer" label="Username">
@@ -105,7 +105,7 @@ export const WithAvatarAndIcon = (): string => {
 
 // <div style="background-color:var(--calcite-color-foreground-current); padding:50px; display=inline-grid; grid-template-columns: 1fr; gap:var(--calcite-spacing-xxs);">
 
-export const WithClosable = (args: ChipStoryArgs): string => html`
+export const withClosable = (args: ChipStoryArgs): string => html`
   <div
     style="display: grid; background-color:var(--calcite-color-foreground-current); padding: 50px; gap:var(--calcite-spacing-xxs);"
   >
@@ -160,7 +160,7 @@ export const WithClosable = (args: ChipStoryArgs): string => html`
   </div>
 `;
 
-export const WithAvatarAndIconAndClosable = (): string => {
+export const withAvatarAndIconAndClosable = (): string => {
   return html`
     <div style="background-color:white;padding:100px">
       <calcite-chip scale="m" appearance="solid" kind="neutral" label="Username" closable icon="layer">
@@ -175,13 +175,13 @@ export const WithAvatarAndIconAndClosable = (): string => {
     </div>
   `;
 };
-export const OverriddenIconColor = (): string =>
+export const overriddenIconColor = (): string =>
   html`<calcite-chip icon="banana" style="--calcite-icon-color: #ac9f42" label="Banana" closable>Banana</calcite-chip>`;
 
-export const DarkModeRTL = (args: ChipStoryArgs): string => html`
+export const darkModeRTL = (args: ChipStoryArgs): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-chip class="calcite-mode-dark" label="${args.label}">My great chip</calcite-chip>
   </div>
 `;
 
-DarkModeRTL.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

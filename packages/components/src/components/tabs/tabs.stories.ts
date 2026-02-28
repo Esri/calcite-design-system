@@ -34,7 +34,7 @@ export default {
   },
 };
 
-export const Simple = (args: TabsStoryArgs): string => html`
+export const simple = (args: TabsStoryArgs): string => html`
   <calcite-tabs layout="${args.layout}" position="${args.position}" scale="${args.scale}">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -49,7 +49,7 @@ export const Simple = (args: TabsStoryArgs): string => html`
   </calcite-tabs>
 `;
 
-export const SimpleDarkModeRTL = (): string => html`
+export const simpleDarkModeRTL = (): string => html`
   <calcite-tabs dir="rtl" class="calcite-mode-dark">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -63,14 +63,14 @@ export const SimpleDarkModeRTL = (): string => html`
     <calcite-tab><p>Tab 4 Content</p></calcite-tab>
   </calcite-tabs>
 `;
-SimpleDarkModeRTL.parameters = {
+simpleDarkModeRTL.parameters = {
   themes: modesDarkDefault,
   chromatic: {
     delay: 500,
   },
 };
 
-export const Bordered = (): string => html`
+export const bordered = (): string => html`
   <calcite-tabs layout="inline" position="top" scale="m" bordered>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
@@ -85,7 +85,7 @@ export const Bordered = (): string => html`
   </calcite-tabs>
 `;
 
-export const Closable = (): string => html`
+export const closable = (): string => html`
   <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1" closable> Tab 1 Title </calcite-tab-title>
@@ -100,7 +100,7 @@ export const Closable = (): string => html`
   </calcite-tabs>
 `;
 
-export const BorderedDarkModeRTL = (): string => html`
+export const borderedDarkModeRTL = (): string => html`
   <calcite-tabs layout="inline" position="top" scale="m" bordered dir="rtl" class="calcite-mode-dark">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title tab="tab1">Tab 1 Title</calcite-tab-title>
@@ -114,11 +114,11 @@ export const BorderedDarkModeRTL = (): string => html`
     <calcite-tab tab="tab4" selected>Tab 4 Content</calcite-tab>
   </calcite-tabs>
 `;
-BorderedDarkModeRTL.parameters = { themes: modesDarkDefault };
+borderedDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 const selectedIcon = iconNames[0];
 
-export const WithIcons = (): string => html`
+export const withIcons = (): string => html`
   <calcite-tabs layout="inline" position="top" scale="m">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected icon-start="${selectedIcon}">Tab 1 Title</calcite-tab-title>
@@ -134,7 +134,7 @@ export const WithIcons = (): string => html`
   </calcite-tabs>
 `;
 
-export const SetWidth = (): string => html`
+export const setWidth = (): string => html`
   <div style="width: 400px;">
     <calcite-tabs
     layout="inline"
@@ -197,63 +197,63 @@ const tabStyles = html`
   </style>
 `;
 
-export const CenterScale = (): string => html`
+export const centerScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="center" scale="s">${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="center" scale="m">${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="center" scale="l">${TabNavHTMLSimple}</calcite-tabs>
 `;
 
-export const CenterVariedTabWidthScale = (): string => html`
+export const centerVariedTabWidthScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="center" scale="s">${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="center" scale="m">${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="center" scale="l">${TabNavHTMLVariedTabWidth}</calcite-tabs>
 `;
 
-export const CenterBorderedScale = (): string => html`
+export const centerBorderedScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="center" scale="s" bordered>${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="center" scale="m" bordered>${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="center" scale="l" bordered>${TabNavHTMLSimple}</calcite-tabs>
 `;
 
-export const CenterBorderedVariedTabWidthScale = (): string => html`
+export const centerBorderedVariedTabWidthScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="center" scale="s" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="center" scale="m" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="center" scale="l" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
 `;
 
-export const InlineScale = (): string => html`
+export const inlineScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="inline" scale="s">${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="inline" scale="m">${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="inline" scale="l">${TabNavHTMLSimple}</calcite-tabs>
 `;
 
-export const InlineVariedTabWidthScale = (): string => html`
+export const inlineVariedTabWidthScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="inline" scale="s">${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="inline" scale="m">${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="inline" scale="l">${TabNavHTMLVariedTabWidth}</calcite-tabs>
 `;
 
-export const InlineBorderedScale = (): string => html`
+export const inlineBorderedScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="inline" scale="s" bordered>${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="inline" scale="m" bordered>${TabNavHTMLSimple}</calcite-tabs>
   <calcite-tabs layout="inline" scale="l" bordered>${TabNavHTMLSimple}</calcite-tabs>
 `;
 
-export const InlineBorderedVariedTabWidthScale = (): string => html`
+export const inlineBorderedVariedTabWidthScale = (): string => html`
   ${tabStyles}
   <calcite-tabs layout="inline" scale="s" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="inline" scale="m" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
   <calcite-tabs layout="inline" scale="l" bordered>${TabNavHTMLVariedTabWidth}</calcite-tabs>
 `;
 
-export const DisabledTabsAndMediumIconsForLargeTabsTitle = (): string => html`
+export const disabledTabsAndMediumIconsForLargeTabsTitle = (): string => html`
   <calcite-tabs scale="l">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
@@ -267,7 +267,7 @@ export const DisabledTabsAndMediumIconsForLargeTabsTitle = (): string => html`
   </calcite-tabs>
 `;
 
-export const Centered = (): string => html`
+export const centered = (): string => html`
   <calcite-tabs layout="center">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title>Tab 1 Title</calcite-tab-title>
@@ -282,7 +282,7 @@ export const Centered = (): string => html`
   </calcite-tabs>
 `;
 
-export const CenteredClosable = (): string => html`
+export const centeredClosable = (): string => html`
   <calcite-tabs layout="center">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
@@ -299,7 +299,7 @@ export const CenteredClosable = (): string => html`
   </calcite-tabs>
 `;
 
-export const CenteredBorderedClosable = (): string => html`
+export const centeredBorderedClosable = (): string => html`
   <calcite-tabs layout="center" bordered>
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
@@ -316,7 +316,7 @@ export const CenteredBorderedClosable = (): string => html`
   </calcite-tabs>
 `;
 
-export const CenteredTabsAreEvenlyJustifiedAcrossNavWidth = (): string => html`
+export const centeredTabsAreEvenlyJustifiedAcrossNavWidth = (): string => html`
   <calcite-tabs layout="center">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
@@ -331,7 +331,7 @@ export const CenteredTabsAreEvenlyJustifiedAcrossNavWidth = (): string => html`
   </calcite-tabs>
 `;
 
-export const InlineTabsJustifyAgainstTheStartOfTheNavWidth = (): string => html`
+export const inlineTabsJustifyAgainstTheStartOfTheNavWidth = (): string => html`
   <calcite-tabs layout="inline">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title closable>Tab 1 Title</calcite-tab-title>
@@ -374,7 +374,7 @@ Tab200PercentHeightWithVerticalScroll.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const FixedHeightNoVerticalScrollbar = (): string => html`
+export const fixedHeightNoVerticalScrollbar = (): string => html`
   <calcite-tabs style="height: 400px">
     <calcite-tab-nav slot="title-group">
       <calcite-tab-title selected> Watercraft </calcite-tab-title>
@@ -405,7 +405,7 @@ export const FixedHeightNoVerticalScrollbar = (): string => html`
   </calcite-tabs>
 `;
 
-export const NoVerticalScrollbarInsideShellPanel = (): string => html`
+export const noVerticalScrollbarInsideShellPanel = (): string => html`
   <calcite-shell content-behind>
     <calcite-shell-panel slot="panel-end" width-scale="l" position="end" display-mode="float">
       <calcite-panel heading="Panel with Tabs >> vertical scrollbar">
@@ -442,7 +442,7 @@ export const NoVerticalScrollbarInsideShellPanel = (): string => html`
   </calcite-shell>
 `;
 
-export const ResponsiveTabs = (): string =>
+export const responsiveTabs = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -534,7 +534,7 @@ export const ResponsiveTabs = (): string =>
     </calcite-tabs>
   `);
 
-export const PaddingPropOverrideAtRootLevel = (): string => html`
+export const paddingPropOverrideAtRootLevel = (): string => html`
   <style>
     :root {
       --calcite-tab-content-block-padding: 0;
@@ -552,7 +552,7 @@ export const PaddingPropOverrideAtRootLevel = (): string => html`
   </calcite-tabs>
 `;
 
-export const PaddingPropOverrideAtElementLevel = (): string => html`
+export const paddingPropOverrideAtElementLevel = (): string => html`
   <calcite-tabs>
     <calcite-tabs>
       <calcite-tab-nav slot="title-group">

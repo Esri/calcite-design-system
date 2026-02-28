@@ -29,7 +29,7 @@ export default {
   },
 };
 
-export const Simple = (args: CardGroupStoryArgs): string => html`
+export const simple = (args: CardGroupStoryArgs): string => html`
   <calcite-card-group selection-mode="${args.selectionMode}">
     <calcite-card label="test card">
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
@@ -127,7 +127,7 @@ export const Simple = (args: CardGroupStoryArgs): string => html`
   </calcite-card-group>
 `;
 
-export const Single = (): string => html`
+export const single = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -148,7 +148,7 @@ export const Single = (): string => html`
   </calcite-card-group>
 `;
 
-export const SinglePersistWithPreSelected = (): string => html`
+export const singlePersistWithPreSelected = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -169,7 +169,7 @@ export const SinglePersistWithPreSelected = (): string => html`
   </calcite-card-group>
 `;
 
-export const Multiple = (): string => html`
+export const multiple = (): string => html`
   <calcite-card-group selection-mode="multiple">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -190,7 +190,7 @@ export const Multiple = (): string => html`
   </calcite-card-group>
 `;
 
-export const MultipleCardHeightsMatchPerRow = (): string => html`
+export const multipleCardHeightsMatchPerRow = (): string => html`
   <div>
     <style>
       calcite-card {
@@ -329,7 +329,7 @@ export const MultipleCardHeightsMatchPerRow = (): string => html`
   </div>
 `;
 
-export const DarkThemeRTL = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-card-group>
       <calcite-card label="forest">
@@ -352,4 +352,4 @@ export const DarkThemeRTL = (): string => html`
   </div>
 `;
 
-DarkThemeRTL.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };
