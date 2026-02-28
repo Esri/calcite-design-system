@@ -77,4 +77,4 @@ export const darkModeRTL = (): string => html`
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link`;
+export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link>`;
