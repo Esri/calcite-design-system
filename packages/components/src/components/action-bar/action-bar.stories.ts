@@ -43,7 +43,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
     position="${args.position}"
-    expandPosition="${args.expandPosition}"
+    expand-position="${args.expandPosition}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
