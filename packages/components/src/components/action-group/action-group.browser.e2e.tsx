@@ -41,6 +41,14 @@ describe("defaults", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "selectionMode",
+        defaultValue: "none",
+      },
+      {
+        propertyName: "selectedActions",
+        defaultValue: [],
+      },
     ],
   );
 });
@@ -131,5 +139,29 @@ describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
 
     expect(action2.getAttribute("aria-checked")).toBeNull();
     expect(action2.getAttribute("role")).toBeNull();
+  });
+});
+
+describe.only("calciteActionGroupChange event", () => {
+  it("fires when selection changes", async () => {
+    const { el } = await mount<"calcite-action-group">(
+      <calcite-action-group selection-mode="single">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-group>,
+    );
+
+    let changeCount = 0;
+    el.addEventListener("calciteActionGroupChange", () => {
+      changeCount += 1;
+    });
+
+    const [action1, action2] = el.querySelectorAll("calcite-action");
+
+    await userEvent.click(action1);
+    expect(changeCount).toBe(1);
+
+    await userEvent.click(action2);
+    expect(changeCount).toBe(2);
   });
 });

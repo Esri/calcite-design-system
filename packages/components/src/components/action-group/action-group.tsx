@@ -136,6 +136,9 @@ export class ActionGroup extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
+  /** Specifies the active actions in the group. */
+  @property() selectedActions: Action["el"][] = [];
+
   //#endregion
 
   //#region Public Methods
@@ -163,10 +166,7 @@ export class ActionGroup extends LitElement {
   calciteActionGroupExpand = createEvent({ cancelable: false });
 
   /** Fires after an action's active state changes. */
-  calciteActionGroupChange = createEvent<{
-    action: Action["el"];
-    active: boolean;
-  }>({ cancelable: false });
+  calciteActionGroupChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -189,6 +189,20 @@ export class ActionGroup extends LitElement {
       } else if (this.selectionMode === "none") {
         this.clearActionAriaAttributes();
       }
+
+      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+        const selected = this.actions?.filter((action) => action.active) ?? [];
+        if (selected.length > 1) {
+          this.actions.forEach((action) =>
+            this.updateAction(action, action === selected[selected.length - 1]),
+          );
+        }
+      }
+
+      this.selectedActions =
+        this.selectionMode === "none"
+          ? []
+          : (this.actions?.filter((action) => action.active) ?? []);
     }
 
     if (changes.has("expanded")) {
@@ -213,19 +227,22 @@ export class ActionGroup extends LitElement {
     if (this.selectionMode === "multiple") {
       const nextActive = !active.active;
       this.updateAction(active, nextActive);
-      this.calciteActionGroupChange.emit({ action: active, active: nextActive });
+      this.selectedActions = this.actions.filter((action) => action.active);
+      this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single") {
       const nextActive = !active.active;
       this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
-      this.calciteActionGroupChange.emit({ action: active, active: nextActive });
+      this.selectedActions = this.actions.filter((action) => action.active);
+      this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single-persist") {
       if (!this.actions[index].active) {
         this.actions.forEach((action, i) => this.updateAction(action, i === index));
-        this.calciteActionGroupChange.emit({ action: active, active: true });
+        this.selectedActions = [active];
+        this.calciteActionGroupChange.emit();
       }
       return;
     }
