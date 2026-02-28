@@ -47,13 +47,13 @@ export const simple = (args: FabStoryArgs): string => html`
     scale="${args.scale}"
   ></calcite-fab>
 `;
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-fab disabled icon="plus"></calcite-fab>
   <br />
   <calcite-fab disabled loading icon="plus"></calcite-fab>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-fab
     appearance="outline-fill"
     icon="plus"
@@ -66,4 +66,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-fab>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

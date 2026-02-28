@@ -26,7 +26,7 @@ export const gridCenteringOfActionsInAGroup = (): string => html`
   </div>
 `;
 
-export const withoutDefinedGridGap_TestOnly = (): string =>
+export const withoutDefinedGridGap = (): string =>
   html` <calcite-action-group layout="grid">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
@@ -39,7 +39,7 @@ export const withoutDefinedGridGap_TestOnly = (): string =>
     <calcite-action text="Basemaps" icon="arrow-down-right"></calcite-action>
   </calcite-action-group>`;
 
-export const withDefinedGridGap_TestOnly = (): string => html`
+export const withDefinedGridGap = (): string => html`
   <calcite-action-group layout="grid" style="--calcite-action-group-gap: 0;">
     <calcite-action text="Add" icon="arrow-up-left"></calcite-action>
     <calcite-action text="Save" icon="chevron-up"></calcite-action>
@@ -53,42 +53,42 @@ export const withDefinedGridGap_TestOnly = (): string => html`
   </calcite-action-group>
 `;
 
-export const arabicLocale_TestOnly = (): string =>
+export const arabicLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="ar">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const germanLocale_TestOnly = (): string =>
+export const germanLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="de">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const norwegianLocale_TestOnly = (): string =>
+export const norwegianLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="no">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const ChineseLocale_TestOnly = (): string =>
+export const ChineseLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="zh-CN">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const GreekLocale_TestOnly = (): string =>
+export const GreekLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="el">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
 
-export const TurkishLocale_TestOnly = (): string =>
+export const TurkishLocale = (): string =>
   html`<div style="width:400px">
     <calcite-action-group expanded lang="tr">
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
