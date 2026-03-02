@@ -7,6 +7,7 @@ export const dialogTokens = {
   calciteDialogBorderColor: "",
   calciteDialogContentBottomSpace: "",
   calciteDialogContentTopSpace: "",
+  calciteDialogContentSpace: "",
   calciteDialogCornerRadius: "",
   calciteDialogDescriptionTextColor: "",
   calciteDialogFooterBackgroundColor: "",
