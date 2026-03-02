@@ -232,8 +232,8 @@ describe("expand functionality", () => {
       expect(unexpectedGroup?.querySelector("#expand-toggle")).toBeNull();
 
       const unusedGroup = expandPosition === "start" ? endGroup : startGroup;
-
-      expect(unusedGroup.hidden).toBe(true);
+      expect(unusedGroup).not.toBeNull();
+      expect(unusedGroup!.hidden).toBe(true);
     },
   );
 
