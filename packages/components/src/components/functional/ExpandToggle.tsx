@@ -16,7 +16,6 @@ interface ExpandToggleProps {
   collapseText: string;
   expandLabel: string;
   collapseLabel: string;
-  expandPosition?: Extract<"start" | "end", Position>;
   direction: Direction;
   el: HTMLElement;
   position: Extract<"start" | "end", Position>;
@@ -81,7 +80,6 @@ export const ExpandToggle = ({
   ref,
   scale,
   direction,
-  expandPosition,
 }: ExpandToggleProps): TemplateResult => {
   const rtl = direction === "rtl";
 
@@ -93,9 +91,8 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end =
-    (expandPosition || position || el.closest("calcite-shell-panel")?.position || "start") ===
-    "end";
+  const end = (position || el.closest("calcite-shell-panel")?.position || "start") === "end";
+
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 
