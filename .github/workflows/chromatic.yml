@@ -1,4 +1,5 @@
 name: Chromatic
+
 on:
   push:
     branches: [rc, dev]
@@ -18,38 +19,18 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: actions/setup-node@v6
+      - uses: ./.github/actions/chromatic/build-storybook
+
+      - uses: ./.github/actions/chromatic/publish
         with:
-          node-version-file: package.json
-
-      - name: Build storybook
-        env:
-          STORYBOOK_SCREENSHOT_TEST_BUILD: true
-          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
-        run: |
-          npm install
-          npm --workspace="packages/design-tokens" run build
-          npm --workspace="packages/tailwind-preset" run build
-          npm --workspace="packages/ui-icons" run build
-          npm --workspace="packages/components" run build-storybook
-
-      - name: Publish to Chromatic
-        uses: chromaui/action@v13
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          zip: true
-          exitOnceUploaded: true
-          autoAcceptChanges: ${{ github.base_ref || github.ref_name }}
-          workingDir: packages/components
-          storybookBuildDir: docs
-        env:
-          STORYBOOK_SCREENSHOT_TEST_BUILD: true
-          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
-
-          # the following are needed when using the pull_request event, see https://www.chromatic.com/docs/github-actions/#recommended-configuration-for-build-events:~:text=If%20you%20decide,the%20checkout%20step%3A
-          CHROMATIC_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
-          CHROMATIC_SHA: ${{ github.event.pull_request.head.sha || github.ref }}
-          CHROMATIC_SLUG: ${{ github.repository }}
+          project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          auto-accept-changes: ${{ github.base_ref || github.ref_name }}
+          working-dir: packages/components
+          storybook-build-dir: docs
+          chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+          chromatic-branch: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          chromatic-sha: ${{ github.event.pull_request.head.sha || github.ref }}
+          chromatic-slug: ${{ github.repository }}
 
   run-push:
     if: github.event_name == 'push'
@@ -59,33 +40,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: package.json
+      - uses: ./.github/actions/chromatic/build-storybook
 
-      - name: Build storybook
-        env:
-          STORYBOOK_SCREENSHOT_TEST_BUILD: true
-          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
-        run: |
-          npm install
-          npm --workspace="packages/design-tokens" run build
-          npm --workspace="packages/tailwind-preset" run build
-          npm --workspace="packages/ui-icons" run build
-          npm --workspace="packages/components" run build-storybook
-
-      - name: Publish baseline to Chromatic
-        uses: chromaui/action@v13
+      - uses: ./.github/actions/chromatic/publish
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          zip: true
-          exitOnceUploaded: true
-          autoAcceptChanges: ${{ github.ref_name }}
-          workingDir: packages/components
-          storybookBuildDir: docs
-        env:
-          STORYBOOK_SCREENSHOT_TEST_BUILD: true
-          CHROMATIC_DIFF_THRESHOLD: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+          project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          auto-accept-changes: ${{ github.ref_name }}
+          working-dir: packages/components
+          storybook-build-dir: docs
+          chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
 
   skip:
     if: contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
