@@ -62,14 +62,7 @@ export class ActionBar extends LitElement {
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const {
-      expanded,
-      expandDisabled,
-      layout,
-      overflowActionsDisabled,
-      actionGroups,
-      expandPosition,
-    } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
 
     if (
       overflowActionsDisabled ||
@@ -79,9 +72,11 @@ export class ActionBar extends LitElement {
       return;
     }
 
+    this.updateGroups();
+
     const itemSizes = this.getItemSizes();
 
-    this.updateGroups();
+    const { actionGroups } = this;
 
     const actionsEndCount =
       this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
