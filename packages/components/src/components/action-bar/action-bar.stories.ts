@@ -147,12 +147,12 @@ export const expandPositionHorizontal = (): string =>
     <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>position="end" expand-position="end"</h2>
-    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>position="end" expand-position="end" & RTL</h2>
-    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>`;
 
@@ -186,12 +186,12 @@ export const expandPositionVertical = (): string =>
     <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>position="end" expand-position="end"</h2>
-    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>position="end" expand-position="end" & RTL</h2>
-    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>`;
 
