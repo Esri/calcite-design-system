@@ -201,34 +201,6 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
     : null;
 }
 
-/**
- * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
- *
- * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
- *
- * @param element An element.
- * @param onVisit The callback.
- * @returns The result.
- */
-export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
-  return visit(element, onVisit);
-}
-
-function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
-  if (!node) {
-    return;
-  }
-
-  const result = onVisit(node);
-  if (result !== undefined) {
-    return result;
-  }
-
-  const { parentNode } = node;
-
-  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
-}
-
 export type FocusableElement = SetFocusable | HTMLElement;
 
 export interface SetFocusable extends LitElement {

@@ -246,7 +246,7 @@ export const horizontalSmall = (): string => html`
   </div>
 `;
 
-export const horizontalOverflow_TestOnly = (): string => html`
+export const horizontalOverflow = (): string => html`
   <div style="width: 450px; display:flex;">
     <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
       <calcite-action-group>
@@ -310,7 +310,7 @@ export const gridLayout = (): string =>
     </calcite-action-bar>
   </div>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -322,7 +322,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-action-bar>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const adjacentTooltipsOpenQuickly = (): string => html`
   <div style="display:flex; height:500px; width: 200px;">
@@ -349,32 +349,32 @@ export const adjacentTooltipsOpenQuickly = (): string => html`
   </div>
 `;
 
-export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+export const hebrewLocale = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+export const norwegianLocale = (): string => `<calcite-action-bar expanded lang="nb">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+export const FrenchLocale = (): string => `<calcite-action-bar expanded lang="fr">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+export const hongKongLocale = (): string => `<calcite-action-bar expanded lang="zh-HK">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const ukrainianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+export const ukrainianLocale = (): string => `<calcite-action-bar expanded lang="uk">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+export const bosnianLocale = (): string => `<calcite-action-bar expanded lang="bs">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;

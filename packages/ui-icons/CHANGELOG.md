@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.4...@esri/calcite-ui-icons@4.5.0-next.5) (2026-03-02)
+
+### Features
+
+- add travel mode icons ([#13990](https://github.com/Esri/calcite-design-system/issues/13990)) ([b57323c](https://github.com/Esri/calcite-design-system/commit/b57323cc1ffb8a250945b26fd59cd0cfe39ef9d0))
+
+## [4.5.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.3...@esri/calcite-ui-icons@4.5.0-next.4) (2026-02-27)
+
+### Features
+
+- add bim, dwg, and rvt icons ([#13977](https://github.com/Esri/calcite-design-system/issues/13977)) ([b1b800f](https://github.com/Esri/calcite-design-system/commit/b1b800fa9410db2bef1ab776217cda84bbc1efe5))
+
 ## [4.5.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.2...@esri/calcite-ui-icons@4.5.0-next.3) (2026-02-17)
 
 ### Features
