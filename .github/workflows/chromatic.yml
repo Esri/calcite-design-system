@@ -19,9 +19,9 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - uses: ./.github/actions/chromatic/build-storybook
+      - uses: ./.github/workflows/chromatic/build-storybook
 
-      - uses: ./.github/actions/chromatic/publish
+      - uses: ./.github/workflows/chromatic/publish
         with:
           project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           auto-accept-changes: ${{ github.base_ref || github.ref_name }}
@@ -40,9 +40,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: ./.github/actions/chromatic/build-storybook
+      - uses: ./.github/workflows/chromatic/build-storybook
 
-      - uses: ./.github/actions/chromatic/publish
+      - uses: ./.github/workflows/chromatic/publish
         with:
           project-token: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           auto-accept-changes: ${{ github.ref_name }}
