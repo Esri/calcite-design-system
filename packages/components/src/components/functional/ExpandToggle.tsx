@@ -30,6 +30,10 @@ const ICONS = {
   chevronsRight: "chevrons-right",
 } as const;
 
+function getCalcitePosition(position: Position, el: HTMLElement): Position {
+  return position || el.closest("calcite-shell-panel")?.position || "start";
+}
+
 export function toggleChildActionText({
   el,
   expanded,
@@ -91,7 +95,7 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = (position || el.closest("calcite-shell-panel")?.position || "start") === "end";
+  const end = getCalcitePosition(position, el) === "end";
 
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
