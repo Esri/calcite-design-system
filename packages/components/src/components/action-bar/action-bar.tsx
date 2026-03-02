@@ -84,7 +84,7 @@ export class ActionBar extends LitElement {
     this.updateGroups();
 
     const actionsEndCount =
-      this.hasActionsEnd || (!expandDisabled && this.hasExpandPositionEnd) ? 1 : 0;
+      this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
 
     const actionsStartCount =
       this.hasActionsStart || (!expandDisabled && expandPosition === "start") ? 1 : 0;
@@ -185,10 +185,6 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsStart = false;
 
-  @state() get hasExpandPositionEnd(): boolean {
-    return this.expandPosition === "end" || !this.expandPosition;
-  }
-
   //#endregion
 
   //#region Public Properties
@@ -213,8 +209,8 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the position of the expand `calcite-action`. By default, expand is positioned at the end */
-  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position>;
+  /** Specifies the position of the expand `calcite-action`. */
+  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
@@ -312,7 +308,7 @@ export class ActionBar extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
-      (changes.has("expandPosition") && this.hasUpdated)
+      (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
     ) {
       this.overflowActions();
     }
@@ -551,9 +547,16 @@ export class ActionBar extends LitElement {
   }
 
   private renderActionsEndGroup(): JsxNode {
-    const { expandDisabled, scale, layout, actionsEndGroupLabel, overlayPositioning } = this;
+    const {
+      expandDisabled,
+      scale,
+      layout,
+      actionsEndGroupLabel,
+      overlayPositioning,
+      expandPosition,
+    } = this;
 
-    const hasExpandToggle = !expandDisabled && this.hasExpandPositionEnd;
+    const hasExpandToggle = !expandDisabled && expandPosition === "end";
 
     return (
       <calcite-action-group
