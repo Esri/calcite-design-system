@@ -28,7 +28,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "serve": "^14.2.3"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }
