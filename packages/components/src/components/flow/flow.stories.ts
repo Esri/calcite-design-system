@@ -139,14 +139,14 @@ export const simple = (args: FlowStoryArgs): string => html`
   </calcite-flow>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-flow class="calcite-mode-dark" dir="rtl">
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item1HTML)} </calcite-flow-item>
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item2HTML)} </calcite-flow-item>
   </calcite-flow>
 `;
 
-export const noDoubleScrollbars_TestOnly = (): string => html`
+export const noDoubleScrollbars = (): string => html`
   <style>
     #container {
       display: flex;
