@@ -28,6 +28,8 @@ jobs:
           working-dir: packages/components
           storybook-build-dir: docs
           chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
+
+          # the following are needed when using the pull_request event, see https://www.chromatic.com/docs/github-actions/#recommended-configuration-for-build-events:~:text=If%20you%20decide,the%20checkout%20step%3A
           chromatic-branch: ${{ github.event.pull_request.head.ref || github.ref_name }}
           chromatic-sha: ${{ github.event.pull_request.head.sha || github.ref }}
           chromatic-slug: ${{ github.repository }}
