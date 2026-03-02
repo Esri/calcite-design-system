@@ -233,11 +233,6 @@ describe("expand functionality", () => {
 
       const unusedGroup = expandPosition === "start" ? endGroup : startGroup;
 
-      if (!unusedGroup) {
-        expect(unusedGroup).toBeNull();
-        return;
-      }
-
       expect(unusedGroup.hidden).toBe(true);
     },
   );

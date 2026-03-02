@@ -30,7 +30,7 @@ const ICONS = {
   chevronsRight: "chevrons-right",
 } as const;
 
-function getCalcitePosition(position: Position, el: HTMLElement): Position {
+function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
@@ -95,7 +95,7 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = getCalcitePosition(position, el) === "end";
+  const end = getCalcitePosition(el, position) === "end";
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 
