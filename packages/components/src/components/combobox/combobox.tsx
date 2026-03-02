@@ -1249,14 +1249,15 @@ export class Combobox
   }
 
   private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
-    if (preserveOrder) {
-      const itemsAndGroups: ComboboxChildElement[] = Array.from(
-        this.el.querySelectorAll(`${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`),
-      );
-      return itemsAndGroups;
-    } else {
+    if (!preserveOrder) {
       return [...this.groupItems, ...this.items];
     }
+
+    return Array.from(
+      this.el.querySelectorAll<ComboboxChildElement>(
+        `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`,
+      ),
+    );
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
