@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components-react": "5.0.1",
+    "@esri/calcite-components-react": "5.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
@@ -34,7 +34,7 @@
     "vite": "^5.4.0",
     "vite-plugin-static-copy": "^1.0.6"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }
