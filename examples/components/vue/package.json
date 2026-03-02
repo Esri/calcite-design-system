@@ -16,7 +16,7 @@
     "copy": "ncp ./node_modules/@esri/calcite-components/dist/cdn/assets/ ./public/assets/"
   },
   "dependencies": {
-    "@esri/calcite-components": "5.0.1",
+    "@esri/calcite-components": "5.0.2",
     "vue": "^3.4.36"
   },
   "devDependencies": {
@@ -26,7 +26,7 @@
     "typescript": "^4.5.5",
     "vite": "^5.4.0"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }

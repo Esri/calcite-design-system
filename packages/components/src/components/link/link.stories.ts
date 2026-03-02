@@ -101,7 +101,7 @@ export const multiLineWithIcons = (args: LinkStoryArgs): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div class="calcite-mode-dark" dir="rtl" style="color: white; font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link class="calcite-mode-dark">link text here</calcite-link>
@@ -109,6 +109,6 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-link disabled>disabled</calcite-link`;
+export const disabled = (): string => html`<calcite-link disabled>disabled</calcite-link>`;

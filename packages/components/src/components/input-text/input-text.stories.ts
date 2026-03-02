@@ -86,7 +86,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       id="input-dark-mode"
@@ -98,9 +98,9 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-input-text>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+export const mediumIconForLargeScaleStyling = (): string => html`
   <calcite-label scale="l">
     Input Label
     <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
@@ -114,7 +114,7 @@ export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
   </calcite-label>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -134,7 +134,7 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
     ></calcite-input-text>
   `);
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
