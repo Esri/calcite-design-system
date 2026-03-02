@@ -227,7 +227,8 @@ describe("expand functionality", () => {
       const expectedGroup = expandPosition === "start" ? startGroup : endGroup;
       const unexpectedGroup = expandPosition === "start" ? endGroup : startGroup;
 
-      expect(expectedGroup?.querySelector("#expand-toggle")).not.toBeNull();
+      expect(expectedGroup).not.toBeNull();
+      expect(expectedGroup!.querySelector("#expand-toggle")).not.toBeNull();
       expect(unexpectedGroup?.querySelector("#expand-toggle")).toBeNull();
 
       const unusedGroup = expandPosition === "start" ? endGroup : startGroup;
