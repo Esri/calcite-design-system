@@ -258,11 +258,8 @@ describe("expand functionality", () => {
     expect(actionsStartSlot?.assignedElements({ flatten: true })).toContain(startAction);
     expect(startGroup?.hidden).toBe(false);
 
-    if (endGroup) {
-      expect(endGroup.hidden).toBe(true);
-    } else {
-      expect(endGroup).toBeNull();
-    }
+    expect(endGroup).not.toBeNull();
+    expect(endGroup!.hidden).toBe(true);
   });
 });
 
