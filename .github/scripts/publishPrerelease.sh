@@ -6,7 +6,7 @@ if [ "$BRANCH" = "dev" ] && [ "$NEXT_RELEASE_ENABLED" != "true" ]; then
     exit 0
 fi
 
-npm install
+npm ci
 
 if [ "$BRANCH" = "dev" ] && ! npm run util:is-next-deployable; then
     echo "No deployable changes on dev"

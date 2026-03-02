@@ -84,448 +84,179 @@ const simpleGroupHTML = html`
   </calcite-autocomplete>
 `;
 
-describe("calcite-autocomplete", () => {
-  it("should emit calciteAutocompleteItemSelect", async () => {
-    const page = await newE2EPage();
+it("should emit calciteAutocompleteItemSelect", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("#myAutocomplete");
+  const item = await page.find("calcite-autocomplete-item[value='two']");
+  const itemChangeSpy = await autocomplete.spyOnEvent("calciteAutocompleteItemSelect");
+
+  await autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+  await item.click();
+
+  expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+
+  await autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+  await page.waitForChanges();
+
+  expect(itemChangeSpy).toHaveReceivedEventTimes(2);
+});
+
+describe("theme", () => {
+  themed("<calcite-autocomplete open></calcite-autocomplete>", {
+    "--calcite-autocomplete-background-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-autocomplete-corner-radius": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-autocomplete-text-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "color",
+    },
+    "--calcite-autocomplete-menu-max-size-y": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "maxBlockSize",
+    },
+    "--calcite-autocomplete-input-prefix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-size",
+    },
+    "--calcite-autocomplete-input-suffix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-size",
+    },
+    "--calcite-autocomplete-input-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-background-color",
+    },
+    "--calcite-autocomplete-input-border-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-border-color",
+    },
+    "--calcite-autocomplete-input-corner-radius": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-corner-radius",
+    },
+    "--calcite-autocomplete-input-shadow": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-shadow",
+    },
+    "--calcite-autocomplete-input-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-icon-color",
+    },
+    "--calcite-autocomplete-input-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-text-color",
+    },
+    "--calcite-autocomplete-input-placeholder-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-placeholder-text-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-background-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-press",
+    },
+    "--calcite-autocomplete-input-actions-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-press",
+    },
+    "--calcite-autocomplete-input-loading-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-background-color",
+    },
+    "--calcite-autocomplete-input-loading-fill-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-fill-color",
+    },
+    "--calcite-autocomplete-input-prefix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-text-color",
+    },
+    "--calcite-autocomplete-input-suffix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-text-color",
+    },
+  });
+});
+
+describe("accessible", () => {
+  accessible(simpleHTML);
+  accessible(simpleFormHTML);
+  accessible(simpleGroupHTML);
+  accessible(simpleGroupHTML);
+});
+
+describe("labelable", () => {
+  labelable("calcite-autocomplete");
+});
+
+describe("openClose", () => {
+  openClose(simpleHTML);
+});
+
+describe("is form-associated", () => {
+  formAssociated(simpleHTML, {
+    testValue: "two",
+    submitsOnEnter: true,
+  });
+});
+
+it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
+  expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
+});
+
+it("should be able to remove icon", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  const input = await page.find("calcite-autocomplete >>> calcite-input");
+
+  expect(await input.getProperty("icon")).toBe(true);
+
+  autocomplete.setProperty("icon", false);
+  await page.waitForChanges();
+
+  expect(await input.getProperty("icon")).toBe(false);
+});
+
+describe("keyboard navigation", () => {
+  let page: E2EPage;
+  beforeEach(async () => {
+    page = await newE2EPage();
     await page.setContent(simpleHTML);
-
-    const autocomplete = await page.find("#myAutocomplete");
-    const item = await page.find("calcite-autocomplete-item[value='two']");
-    const itemChangeSpy = await autocomplete.spyOnEvent("calciteAutocompleteItemSelect");
-
-    await autocomplete.callMethod("setFocus");
-    await page.waitForChanges();
-    await item.click();
-
-    expect(itemChangeSpy).toHaveReceivedEventTimes(1);
-
-    await autocomplete.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-
-    expect(itemChangeSpy).toHaveReceivedEventTimes(2);
   });
 
-  describe("theme", () => {
-    themed("<calcite-autocomplete open></calcite-autocomplete>", {
-      "--calcite-autocomplete-background-color": {
-        shadowSelector: `.${CSS.contentAnimation}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-autocomplete-corner-radius": {
-        shadowSelector: `.${CSS.contentAnimation}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-autocomplete-text-color": {
-        shadowSelector: `.${CSS.contentAnimation}`,
-        targetProp: "color",
-      },
-      "--calcite-autocomplete-menu-max-size-y": {
-        shadowSelector: `.${CSS.contentAnimation}`,
-        targetProp: "maxBlockSize",
-      },
-      "--calcite-autocomplete-input-prefix-size": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-prefix-size",
-      },
-      "--calcite-autocomplete-input-suffix-size": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-suffix-size",
-      },
-      "--calcite-autocomplete-input-background-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-background-color",
-      },
-      "--calcite-autocomplete-input-border-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-border-color",
-      },
-      "--calcite-autocomplete-input-corner-radius": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-corner-radius",
-      },
-      "--calcite-autocomplete-input-shadow": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-shadow",
-      },
-      "--calcite-autocomplete-input-icon-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-icon-color",
-      },
-      "--calcite-autocomplete-input-text-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-text-color",
-      },
-      "--calcite-autocomplete-input-placeholder-text-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-placeholder-text-color",
-      },
-      "--calcite-autocomplete-input-actions-background-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-background-color",
-      },
-      "--calcite-autocomplete-input-actions-background-color-hover": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-background-color-hover",
-      },
-      "--calcite-autocomplete-input-actions-background-color-press": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-background-color-press",
-      },
-      "--calcite-autocomplete-input-actions-icon-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-icon-color",
-      },
-      "--calcite-autocomplete-input-actions-icon-color-hover": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-icon-color-hover",
-      },
-      "--calcite-autocomplete-input-actions-icon-color-press": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-actions-icon-color-press",
-      },
-      "--calcite-autocomplete-input-loading-background-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-loading-background-color",
-      },
-      "--calcite-autocomplete-input-loading-fill-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-loading-fill-color",
-      },
-      "--calcite-autocomplete-input-prefix-text-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-prefix-text-color",
-      },
-      "--calcite-autocomplete-input-suffix-text-color": {
-        shadowSelector: `.${CSS.input}`,
-        targetProp: "--calcite-input-suffix-text-color",
-      },
-    });
-  });
-
-  describe("accessible", () => {
-    accessible(simpleHTML);
-    accessible(simpleFormHTML);
-    accessible(simpleGroupHTML);
-    accessible(simpleGroupHTML);
-  });
-
-  describe("labelable", () => {
-    labelable("calcite-autocomplete");
-  });
-
-  describe("openClose", () => {
-    openClose(simpleHTML);
-  });
-
-  describe("is form-associated", () => {
-    formAssociated(simpleHTML, {
-      testValue: "two",
-      submitsOnEnter: true,
-    });
-  });
-
-  it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
-    const page = await newE2EPage();
-    await page.setContent(simpleHTML);
-
-    const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
-    expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
-  });
-
-  it("should be able to remove icon", async () => {
-    const page = await newE2EPage();
-    await page.setContent(simpleHTML);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    const input = await page.find("calcite-autocomplete >>> calcite-input");
-
-    expect(await input.getProperty("icon")).toBe(true);
-
-    autocomplete.setProperty("icon", false);
-    await page.waitForChanges();
-
-    expect(await input.getProperty("icon")).toBe(false);
-  });
-
-  describe("keyboard navigation", () => {
-    let page: E2EPage;
-    beforeEach(async () => {
-      page = await newE2EPage();
-      await page.setContent(simpleHTML);
-    });
-
-    it("should open on focus", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-    });
-
-    it("should close on tab", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      await page.keyboard.press("Tab");
-      expect(await autocomplete.getProperty("open")).toBe(false);
-    });
-
-    it("should close on escape", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      await page.keyboard.press("Escape");
-      expect(await autocomplete.getProperty("open")).toBe(false);
-    });
-
-    it.each(["ArrowUp", "ArrowDown"])("should set active with %s key", async (key) => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-
-      await page.$eval(
-        "calcite-autocomplete >>> calcite-input",
-        (input: Input["el"], key) => {
-          input.dispatchEvent(new KeyboardEvent("keydown", { key: `${key}`, bubbles: true }));
-        },
-        key,
-      );
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await findAll(page, "calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(key === "ArrowUp" ? items.length - 2 === i : i === 0);
-      }
-    });
-
-    it("should navigate with arrow keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await findAll(page, "calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(false);
-      }
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 1);
-      }
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-    });
-
-    it("should navigate with arrow keys and mostly disabled items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTMLDisabledItems);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await findAll(page, "calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(false);
-      }
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
-      }
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-    });
-
-    it("should navigate with home/end keys", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTML);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await findAll(page, "calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(false);
-      }
-
-      await page.keyboard.press("End");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === items.length - 2);
-      }
-
-      await page.keyboard.press("Home");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-    });
-
-    it("should navigate with home/end key and mostly disabled items", async () => {
-      const page = await newE2EPage();
-      await page.setContent(simpleHTMLDisabledItems);
-
-      const autocomplete = await page.find("calcite-autocomplete");
-      autocomplete.callMethod("setFocus");
-      await page.waitForChanges();
-
-      expect(await autocomplete.getProperty("open")).toBe(true);
-
-      const items = await findAll(page, "calcite-autocomplete-item");
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(false);
-      }
-
-      await page.keyboard.press("End");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
-      }
-
-      await page.keyboard.press("Home");
-      await page.waitForChanges();
-
-      for (let i = 0; i < items.length; i++) {
-        expect(await items[i].getProperty("active")).toBe(i === 0);
-      }
-    });
-  });
-
-  it("should close when document is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`${simpleHTML}<div id="test">test</div>`);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    await autocomplete.click();
-    await page.waitForChanges();
-
-    expect(await autocomplete.getProperty("open")).toBe(true);
-
-    const testDiv = await page.find("#test");
-    await testDiv.click();
-    await page.waitForChanges();
-
-    expect(await autocomplete.getProperty("open")).toBe(false);
-  });
-
-  it("should open when input is clicked", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`${simpleHTML}<div id="test">test</div>`);
-
-    const input = await page.find("calcite-autocomplete >>> calcite-input");
-    await input.click();
-    await page.waitForChanges();
-
-    const autocomplete = await page.find("calcite-autocomplete");
-
-    expect(await autocomplete.getProperty("open")).toBe(true);
-  });
-
-  it("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
-    const page = await newE2EPage();
-    await page.setContent(simpleHTML);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.setProperty("open", true);
-    await page.waitForChanges();
-
-    const changeEvent = await autocomplete.spyOnEvent("calciteAutocompleteChange");
-
-    const item = await page.find("calcite-autocomplete-item[value='two']");
-    await item.click();
-    await page.waitForChanges();
-
-    expect(await autocomplete.getProperty("value")).toBe("two");
-    expect(await autocomplete.getProperty("open")).toBe(false);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
-    expect(await isElementFocused(page, "#myAutocomplete")).toBe(true);
-  });
-
-  it("handles scrollContentTo method", async () => {
-    const page = await newE2EPage();
-    await page.setContent(scrollHTML);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.setProperty("open", true);
-
-    await page.waitForChanges();
-
-    const scrollEl = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
-
-    expect(await scrollEl.getProperty("scrollTop")).toBe(0);
-
-    await page.$eval("calcite-autocomplete", async (autocomplete: Autocomplete["el"]) => {
-      await autocomplete.scrollContentTo({ top: 100 });
-    });
-
-    expect(await scrollEl.getProperty("scrollTop")).toBe(100);
-  });
-
-  it("should set value, close, and emit calciteAutocompleteChange when item is selected via keyboard", async () => {
+  it("should open on focus", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
 
@@ -533,116 +264,58 @@ describe("calcite-autocomplete", () => {
     autocomplete.callMethod("setFocus");
     await page.waitForChanges();
 
-    const changeEvent = await autocomplete.spyOnEvent("calciteAutocompleteChange");
-
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
-
-    expect(await autocomplete.getProperty("value")).toBe("one");
-    expect(await autocomplete.getProperty("open")).toBe(false);
-    expect(changeEvent).toHaveReceivedEventTimes(1);
+    expect(await autocomplete.getProperty("open")).toBe(true);
   });
 
-  it("should not throw error when enter is pressed after arrow key", async () => {
+  it("should close on tab", async () => {
     const page = await newE2EPage();
-    await page.setContent(emptyAutocompleteHTML);
+    await page.setContent(simpleHTML);
 
     const autocomplete = await page.find("calcite-autocomplete");
     autocomplete.callMethod("setFocus");
     await page.waitForChanges();
 
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
+    await page.keyboard.press("Tab");
+    expect(await autocomplete.getProperty("open")).toBe(false);
   });
 
-  it("should set scale on items and item groups", async () => {
+  it("should close on escape", async () => {
     const page = await newE2EPage();
-    await page.setContent(simpleGroupHTML);
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    await page.keyboard.press("Escape");
+    expect(await autocomplete.getProperty("open")).toBe(false);
+  });
+
+  it.each(["ArrowUp", "ArrowDown"])("should set active with %s key", async (key) => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+
+    await page.$eval(
+      "calcite-autocomplete >>> calcite-input",
+      (input: Input["el"], key) => {
+        input.dispatchEvent(new KeyboardEvent("keydown", { key: `${key}`, bubbles: true }));
+      },
+      key,
+    );
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
 
     const items = await findAll(page, "calcite-autocomplete-item");
-    const groups = await findAll(page, "calcite-autocomplete-item-group");
 
     for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("scale")).toBe("m");
-    }
-
-    for (let i = 0; i < groups.length; i++) {
-      expect(await groups[i].getProperty("scale")).toBe("m");
-    }
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.setProperty("scale", "l");
-    await page.waitForChanges();
-
-    for (let i = 0; i < items.length; i++) {
-      expect(await items[i].getProperty("scale")).toBe("l");
-    }
-
-    for (let i = 0; i < groups.length; i++) {
-      expect(await groups[i].getProperty("scale")).toBe("l");
+      expect(await items[i].getProperty("active")).toBe(key === "ArrowUp" ? items.length - 2 === i : i === 0);
     }
   });
 
-  it("should only display when open and content is present", async () => {
-    const page = await newE2EPage();
-    await page.setContent(simpleHTML);
-    await skipAnimations(page);
-
-    const animationContainer = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.setProperty("open", true);
-    await page.waitForChanges();
-
-    expect(await animationContainer.isVisible()).toBe(true);
-
-    autocomplete.setProperty("open", false);
-    await page.waitForChanges();
-    expect(await animationContainer.isVisible()).toBe(false);
-
-    await page.$eval("calcite-autocomplete", (autocomplete: Autocomplete["el"]) => {
-      autocomplete.innerHTML = "";
-    });
-    autocomplete.setProperty("open", true);
-    await page.waitForChanges();
-    expect(await animationContainer.isVisible()).toBe(false);
-  });
-
-  it("should emit calciteAutocompleteTextChange", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`${simpleHTML}<button>test</button>`);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.callMethod("setFocus");
-    await page.waitForChanges();
-
-    const textChangeEvent = await autocomplete.spyOnEvent("calciteAutocompleteTextChange");
-
-    await page.keyboard.type("test");
-    await page.waitForChanges();
-
-    const button = await page.find("button");
-    await button.focus();
-
-    expect(textChangeEvent).toHaveReceivedEventTimes(1);
-  });
-
-  it("should emit calciteAutocompleteTextInput", async () => {
-    const page = await newE2EPage();
-    await page.setContent(simpleHTML);
-
-    const autocomplete = await page.find("calcite-autocomplete");
-    autocomplete.callMethod("setFocus");
-    await page.waitForChanges();
-
-    const inputEvent = await autocomplete.spyOnEvent("calciteAutocompleteTextInput");
-
-    await page.keyboard.type("test");
-    await page.waitForChanges();
-
-    expect(inputEvent).toHaveReceivedEventTimes(4);
-  });
-
-  it("should open on input if text exists or close otherwise", async () => {
+  it("should navigate with arrow keys", async () => {
     const page = await newE2EPage();
     await page.setContent(simpleHTML);
 
@@ -652,17 +325,342 @@ describe("calcite-autocomplete", () => {
 
     expect(await autocomplete.getProperty("open")).toBe(true);
 
-    autocomplete.setProperty("open", false);
+    const items = await findAll(page, "calcite-autocomplete-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(false);
+    }
+
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    await page.keyboard.type("a");
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 1);
+    }
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
+  });
+
+  it("should navigate with arrow keys and mostly disabled items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTMLDisabledItems);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
     await page.waitForChanges();
 
     expect(await autocomplete.getProperty("open")).toBe(true);
 
-    await page.keyboard.press("Backspace");
+    const items = await findAll(page, "calcite-autocomplete-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(false);
+    }
+
+    await page.keyboard.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(await autocomplete.getProperty("open")).toBe(false);
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
+    }
+
+    await page.keyboard.press("ArrowUp");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
   });
+
+  it("should navigate with home/end keys", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTML);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    const items = await findAll(page, "calcite-autocomplete-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(false);
+    }
+
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === items.length - 2);
+    }
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
+  });
+
+  it("should navigate with home/end key and mostly disabled items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(simpleHTMLDisabledItems);
+
+    const autocomplete = await page.find("calcite-autocomplete");
+    autocomplete.callMethod("setFocus");
+    await page.waitForChanges();
+
+    expect(await autocomplete.getProperty("open")).toBe(true);
+
+    const items = await findAll(page, "calcite-autocomplete-item");
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(false);
+    }
+
+    await page.keyboard.press("End");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === items.length - 1);
+    }
+
+    await page.keyboard.press("Home");
+    await page.waitForChanges();
+
+    for (let i = 0; i < items.length; i++) {
+      expect(await items[i].getProperty("active")).toBe(i === 0);
+    }
+  });
+});
+
+it("should close when document is clicked", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`${simpleHTML}<div id="test">test</div>`);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  await autocomplete.click();
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("open")).toBe(true);
+
+  const testDiv = await page.find("#test");
+  await testDiv.click();
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("open")).toBe(false);
+});
+
+it("should open when input is clicked", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`${simpleHTML}<div id="test">test</div>`);
+
+  const input = await page.find("calcite-autocomplete >>> calcite-input");
+  await input.click();
+  await page.waitForChanges();
+
+  const autocomplete = await page.find("calcite-autocomplete");
+
+  expect(await autocomplete.getProperty("open")).toBe(true);
+});
+
+it("should set value, close, and emit calciteAutocompleteChange when item is selected via mouse", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("open", true);
+  await page.waitForChanges();
+
+  const changeEvent = await autocomplete.spyOnEvent("calciteAutocompleteChange");
+
+  const item = await page.find("calcite-autocomplete-item[value='two']");
+  await item.click();
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("value")).toBe("two");
+  expect(await autocomplete.getProperty("open")).toBe(false);
+  expect(changeEvent).toHaveReceivedEventTimes(1);
+  expect(await isElementFocused(page, "#myAutocomplete")).toBe(true);
+});
+
+it("handles scrollContentTo method", async () => {
+  const page = await newE2EPage();
+  await page.setContent(scrollHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("open", true);
+
+  await page.waitForChanges();
+
+  const scrollEl = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
+
+  expect(await scrollEl.getProperty("scrollTop")).toBe(0);
+
+  await page.$eval("calcite-autocomplete", async (autocomplete: Autocomplete["el"]) => {
+    await autocomplete.scrollContentTo({ top: 100 });
+  });
+
+  expect(await scrollEl.getProperty("scrollTop")).toBe(100);
+});
+
+it("should set value, close, and emit calciteAutocompleteChange when item is selected via keyboard", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+
+  const changeEvent = await autocomplete.spyOnEvent("calciteAutocompleteChange");
+
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+
+  expect(await autocomplete.getProperty("value")).toBe("one");
+  expect(await autocomplete.getProperty("open")).toBe(false);
+  expect(changeEvent).toHaveReceivedEventTimes(1);
+});
+
+it("should not throw error when enter is pressed after arrow key", async () => {
+  const page = await newE2EPage();
+  await page.setContent(emptyAutocompleteHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("Enter");
+});
+
+it("should set scale on items and item groups", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleGroupHTML);
+
+  const items = await findAll(page, "calcite-autocomplete-item");
+  const groups = await findAll(page, "calcite-autocomplete-item-group");
+
+  for (let i = 0; i < items.length; i++) {
+    expect(await items[i].getProperty("scale")).toBe("m");
+  }
+
+  for (let i = 0; i < groups.length; i++) {
+    expect(await groups[i].getProperty("scale")).toBe("m");
+  }
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("scale", "l");
+  await page.waitForChanges();
+
+  for (let i = 0; i < items.length; i++) {
+    expect(await items[i].getProperty("scale")).toBe("l");
+  }
+
+  for (let i = 0; i < groups.length; i++) {
+    expect(await groups[i].getProperty("scale")).toBe("l");
+  }
+});
+
+it("should only display when open and content is present", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+  await skipAnimations(page);
+
+  const animationContainer = await page.find(`calcite-autocomplete >>> .${CSS.contentAnimation}`);
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("open", true);
+  await page.waitForChanges();
+
+  expect(await animationContainer.isVisible()).toBe(true);
+
+  autocomplete.setProperty("open", false);
+  await page.waitForChanges();
+  expect(await animationContainer.isVisible()).toBe(false);
+
+  await page.$eval("calcite-autocomplete", (autocomplete: Autocomplete["el"]) => {
+    autocomplete.innerHTML = "";
+  });
+  autocomplete.setProperty("open", true);
+  await page.waitForChanges();
+  expect(await animationContainer.isVisible()).toBe(false);
+});
+
+it("should emit calciteAutocompleteTextChange", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`${simpleHTML}<button>test</button>`);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+
+  const textChangeEvent = await autocomplete.spyOnEvent("calciteAutocompleteTextChange");
+
+  await page.keyboard.type("test");
+  await page.waitForChanges();
+
+  const button = await page.find("button");
+  await button.focus();
+
+  expect(textChangeEvent).toHaveReceivedEventTimes(1);
+});
+
+it("should emit calciteAutocompleteTextInput", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+
+  const inputEvent = await autocomplete.spyOnEvent("calciteAutocompleteTextInput");
+
+  await page.keyboard.type("test");
+  await page.waitForChanges();
+
+  expect(inputEvent).toHaveReceivedEventTimes(4);
+});
+
+it("should open on input if text exists or close otherwise", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTML);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.callMethod("setFocus");
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("open")).toBe(true);
+
+  autocomplete.setProperty("open", false);
+  await page.waitForChanges();
+
+  await page.keyboard.type("a");
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("open")).toBe(true);
+
+  await page.keyboard.press("Backspace");
+  await page.waitForChanges();
+
+  expect(await autocomplete.getProperty("open")).toBe(false);
 });

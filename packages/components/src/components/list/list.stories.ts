@@ -5301,7 +5301,7 @@ export const selection = (): string => {
     .join("");
 };
 
-export const onlyLabelVersusOnlyDescription_TestOnly = (): string => html`
+export const onlyLabelVersusOnlyDescription = (): string => html`
   <calcite-list ${listAttributes()}>
     <calcite-list-item label="This has no description."> </calcite-list-item>
   </calcite-list>
@@ -5646,7 +5646,7 @@ export const filterEnabledWithHiddenItems = (): string => html`
   </calcite-list>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <h1>selection-mode="none" + selection-appearance="icon"</h1>
   <calcite-list class="calcite-mode-dark" dir="rtl" ${listAttributes()}>
     <calcite-list-item label="Princess Bubblegum" description="Ruler of The Candy Kingdom">
@@ -5715,9 +5715,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-list>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
@@ -5736,7 +5736,7 @@ export const disabled_TestOnly = (): string =>
     ></calcite-list-item>
   </calcite-list>`;
 
-export const customContent_TestOnly = (): string =>
+export const customContent = (): string =>
   html`<calcite-list disabled>
     <calcite-list-item>
       <div slot="content">
@@ -5776,7 +5776,7 @@ export const customContent_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const singlePersist_TestOnly = (): string =>
+export const singlePersist = (): string =>
   html`<calcite-list selection-mode="single-persist" label="test">
     <calcite-list-item selected label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -5808,7 +5808,7 @@ export const singlePersist_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const closableListItems_TestOnly = (): string =>
+export const closableListItems = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-list-item selected closable label="basic" value="basic" description="hello world">
       <calcite-icon
@@ -5840,7 +5840,7 @@ export const closableListItems_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const filteredChildListItems_TestOnly = (): string =>
+export const filteredChildListItems = (): string =>
   html`<calcite-list
       display-mode="nested"
       filter-enabled
@@ -6025,11 +6025,11 @@ export const filteredChildListItems_TestOnly = (): string =>
       </calcite-list-item-group>
     </calcite-list>`;
 
-filteredChildListItems_TestOnly.parameters = {
+filteredChildListItems.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const filterActions_TestOnly = (): string =>
+export const filterActions = (): string =>
   html`<calcite-list selection-mode="single" label="test" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -6089,7 +6089,7 @@ export const filterActions_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const sortableList_TestOnly = (): string =>
+export const sortableList = (): string =>
   html`<calcite-list drag-enabled selection-mode="single" label="List 1" filter-enabled>
     <calcite-action
       appearance="transparent"
@@ -6156,7 +6156,7 @@ export const sortableList_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const sortableNestedList_TestOnly = (): string =>
+export const sortableNestedList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -6181,7 +6181,7 @@ export const sortableNestedList_TestOnly = (): string =>
     <calcite-list-item expanded label="Hi! 7" description="hello world"></calcite-list-item>
   </calcite-list>`;
 
-export const emptyExpandedLists_TestOnly = (): string =>
+export const emptyExpandedLists = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled group="nested" label="List 1" selection-mode="multiple">
     <calcite-list-item expanded label="Hi! 1" description="hello world">
       <calcite-list display-mode="nested" drag-enabled label="List 2" group="nested" selection-mode="multiple">
@@ -6244,7 +6244,7 @@ export const emptyExpandedLists_TestOnly = (): string =>
       ></calcite-list></calcite-list-item
   ></calcite-list>`;
 
-export const listWithEmptyChildList_TestOnly = (): string =>
+export const listWithEmptyChildList = (): string =>
   html`<calcite-list display-mode="nested" drag-enabled label="List 1" group="nested" selection-mode="single">
     <calcite-list-item expanded label="Hi! 4" description="hello world">
       <calcite-list
@@ -6257,7 +6257,7 @@ export const listWithEmptyChildList_TestOnly = (): string =>
     </calcite-list-item>
   </calcite-list>`;
 
-export const listWithGroupedAndSlottedItems_TestOnly = (): string =>
+export const listWithGroupedAndSlottedItems = (): string =>
   html`<calcite-list filter-enabled>
     <calcite-list-item-group heading="Outdoor recreation">
       <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
@@ -6298,7 +6298,7 @@ export const listWithGroupedAndSlottedItems_TestOnly = (): string =>
     </calcite-list-item-group>
   </calcite-list>`;
 
-export const filteredListItemsNoResults_TestOnly = (): string =>
+export const filteredListItemsNoResults = (): string =>
   html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="Apples" value="apples"></calcite-list-item>
     <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
@@ -6309,7 +6309,7 @@ export const filteredListItemsNoResults_TestOnly = (): string =>
     </calcite-notice>
   </calcite-list>`;
 
-export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</h4>
+export const nestingLists = (): string => html`<h4>Nesting List Items</h4>
   <calcite-list display-mode="nested">
     <calcite-list-item label="List Item" expanded>
       <calcite-list-item label="List Item"></calcite-list-item>
@@ -6329,7 +6329,7 @@ export const nestingLists_TestOnly = (): string => html`<h4>Nesting List Items</
     </calcite-list-item>
   </calcite-list>`;
 
-export const closedItems_TestOnly = (): string =>
+export const closedItems = (): string =>
   html` <calcite-list>
     <calcite-list-item
       closable
@@ -6530,3 +6530,24 @@ export const filterGroups = (): string =>
 
 export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
+
+export const emptyContent = (): string =>
+  html`<h1>Empty List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <div slot="empty-content">
+        <h2>Start configuring a form for the layer</h2>
+        <p>Drag items here to add them to the form.</p>
+      </div>
+    </calcite-list>
+    <h1>Populated List</h1>
+    <calcite-list group="items" drag-enabled label="Park features">
+      <calcite-list-item label="Hiking trails" description="Designated routes for hikers to use." value="hiking-trails">
+        <calcite-action slot="actions-end" icon="layer" text="Trails layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
+        <calcite-action slot="actions-end" icon="layer" text="Waterfalls layer"></calcite-action>
+      </calcite-list-item>
+      <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
+        <calcite-action slot="actions-end" icon="layer" text="Rivers layer"></calcite-action>
+      </calcite-list-item>
+    </calcite-list>`;

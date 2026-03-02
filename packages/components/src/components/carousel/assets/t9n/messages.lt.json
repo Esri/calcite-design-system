@@ -5,5 +5,5 @@
   "pause": "Pristabdyti",
   "carousel": "Carousel",
   "carouselItemProgress": "Karuselės elemento eigos indikatorius",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "{current} elementas iš {total}"
 }

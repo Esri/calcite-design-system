@@ -50,7 +50,7 @@ export const smallViewport = (): string => html`
 `;
 smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const open_TestOnly = (): string => html`
+export const open = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
@@ -65,7 +65,7 @@ export const open_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-tooltip
@@ -81,9 +81,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const rightAligned_TestOnly = (): string =>
+export const rightAligned = (): string =>
   html`<div style="width:800px; height:800px;">
     <div style="text-align: right; width: 600px;">
       <a href="#" id="tooltip-button">Hover for Tooltip</a>
@@ -93,7 +93,7 @@ export const rightAligned_TestOnly = (): string =>
     </div>
   </div>`;
 
-export const transparentBG_TestOnly = (): string => html`
+export const transparentBG = (): string => html`
   <style>
     calcite-tooltip {
       --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);

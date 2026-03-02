@@ -3,23 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.0.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.1...@esri/calcite-components@5.0.1-next.2) (2026-02-06)
+## [5.0.3-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.4...@esri/calcite-components@5.0.3-next.0) (2026-02-27)
 
 ### Bug Fixes
 
-- **input-time-picker:** sync popup value with input when directly cleared ([#13875](https://github.com/Esri/calcite-design-system/issues/13875)) ([4bc9d32](https://github.com/Esri/calcite-design-system/commit/4bc9d323b4fd92b7e35cf0cd97c46987aa3d1bef)), closes [#13328](https://github.com/Esri/calcite-design-system/issues/13328)
+- **filter:** do not cancel `Escape` when value is empty ([#13975](https://github.com/Esri/calcite-design-system/issues/13975)) ([6f36776](https://github.com/Esri/calcite-design-system/commit/6f36776192bd3e1c31d8f79fd6baef526233df3f)), closes [#13967](https://github.com/Esri/calcite-design-system/issues/13967)
 
-## [5.0.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1-next.0...@esri/calcite-components@5.0.1-next.1) (2026-02-06)
-
-### Bug Fixes
-
-- **input-date-picker:** allow configuring range calendar background color via token ([#13873](https://github.com/Esri/calcite-design-system/issues/13873)) ([0796920](https://github.com/Esri/calcite-design-system/commit/079692085bfbdb6dfb845fe70739a588be00aace)), closes [#13804](https://github.com/Esri/calcite-design-system/issues/13804)
-
-## [5.0.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0-next.90...@esri/calcite-components@5.0.1-next.0) (2026-02-05)
+## [5.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1...@esri/calcite-components@5.0.2) (2026-02-18)
 
 ### Bug Fixes
 
-- **input-time-picker:** emit change event when clearing meridiem ([#13836](https://github.com/Esri/calcite-design-system/issues/13836)) ([3dc347c](https://github.com/Esri/calcite-design-system/commit/3dc347cf0d97c9350bb29375bd6b1ceb3a00eb22)), closes [#12889](https://github.com/Esri/calcite-design-system/issues/12889)
+- **date-picker:** Set appropriate scale for month header actions ([#13922](https://github.com/Esri/calcite-design-system/issues/13922)) ([baead2f](https://github.com/Esri/calcite-design-system/commit/baead2fc469bfccf5eb29a90e88e52a8b0c5cfe1))
+- **popover:** Implement missing `extraContainers` parameter on `updateFocusTrapElements()` ([#13940](https://github.com/Esri/calcite-design-system/issues/13940)) ([6cde9c5](https://github.com/Esri/calcite-design-system/commit/6cde9c5d092a260e118a46faf29fbbb1d34dbde6))
+
+## [5.0.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.0...@esri/calcite-components@5.0.1) (2026-02-12)
+
+### Bug Fixes
+
+- **dialog:** Honor `--calcite-dialog-offset-y` regardless of fullscreen behavior ([#13903](https://github.com/Esri/calcite-design-system/issues/13903)) ([b3a4215](https://github.com/Esri/calcite-design-system/commit/b3a4215e8da3d3e8aafbc26f1289f05707396141))
+- **input-date-picker:** Allow configuring range calendar background color via token ([#13873](https://github.com/Esri/calcite-design-system/issues/13873)) ([41481c2](https://github.com/Esri/calcite-design-system/commit/41481c2d3a14c082e903646ebfeac00f4323a2b0))
+- **input-time-picker:** Emit change event when clearing meridiem ([#13836](https://github.com/Esri/calcite-design-system/issues/13836)) ([c0b2fc5](https://github.com/Esri/calcite-design-system/commit/c0b2fc5684b0707639f4d6b5ff8896f7891e83ee))
+- **input-time-picker:** Sync popup value with input when directly cleared ([#13875](https://github.com/Esri/calcite-design-system/issues/13875)) ([611234a](https://github.com/Esri/calcite-design-system/commit/611234a3c906201e3ed1ac67db7541e47bbb82ef))
+- **tab-title:** Switch order of preferred and deprecated icon color variables ([#13889](https://github.com/Esri/calcite-design-system/issues/13889)) ([1459c8c](https://github.com/Esri/calcite-design-system/commit/1459c8ced4526a4dcdd6179286b351b8e1113ce4))
+- **tree-item:** Restore selection icon to bullet when `selection-mode='single'|'single-persist'|'children'` ([#13915](https://github.com/Esri/calcite-design-system/issues/13915)) ([c8e6f4f](https://github.com/Esri/calcite-design-system/commit/c8e6f4f945bebd923968bd313bf67faf233d7352))
 
 ## [5.0.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@3.3.3...@esri/calcite-components@5.0.0) (2026-02-04)
 

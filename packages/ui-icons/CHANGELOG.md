@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.3...@esri/calcite-ui-icons@4.5.0-next.4) (2026-02-27)
+
+### Features
+
+- add bim, dwg, and rvt icons ([#13977](https://github.com/Esri/calcite-design-system/issues/13977)) ([b1b800f](https://github.com/Esri/calcite-design-system/commit/b1b800fa9410db2bef1ab776217cda84bbc1efe5))
+
+## [4.5.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.2...@esri/calcite-ui-icons@4.5.0-next.3) (2026-02-17)
+
+### Features
+
+- update eyedropper ([#13941](https://github.com/Esri/calcite-design-system/issues/13941)) ([5825f26](https://github.com/Esri/calcite-design-system/commit/5825f26083f42f559233ecf4ded7bf2da30c7bd5))
+
+## [4.5.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.1...@esri/calcite-ui-icons@4.5.0-next.2) (2026-02-17)
+
+### Features
+
+- add gradient ([#13937](https://github.com/Esri/calcite-design-system/issues/13937)) ([76dbbd1](https://github.com/Esri/calcite-design-system/commit/76dbbd1034a96c1a77cfd9e59bc79c98352d5e5f))
+
+## [4.5.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.0...@esri/calcite-ui-icons@4.5.0-next.1) (2026-02-10)
+
+### Features
+
+- add excalibur icons ([#13898](https://github.com/Esri/calcite-design-system/issues/13898)) ([5b45d06](https://github.com/Esri/calcite-design-system/commit/5b45d06937d4907314731e7354db528e729d2214))
+
 ## [4.5.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0-next.22...@esri/calcite-ui-icons@4.5.0-next.0) (2026-02-05)
 
 ### Features

@@ -5,5 +5,5 @@
   "pause": "暫停",
   "carousel": "轉盤",
   "carouselItemProgress": "轉盤項目的進度指示燈",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "第 {current} 個項目，總計 {total} 個"
 }

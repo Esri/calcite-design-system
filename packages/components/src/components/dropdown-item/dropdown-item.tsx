@@ -9,7 +9,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { ItemKeyboardEvent } from "../dropdown/interfaces";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
