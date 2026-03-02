@@ -118,36 +118,80 @@ const expandPositionActions = html`<calcite-action text-enabled text="Add" icon=
   <calcite-tooltip slot="expand-tooltip">Toggle Action Bar</calcite-tooltip>`;
 
 export const expandPositionHorizontal = (): string =>
-  html` <h2>Start</h2>
-    <calcite-action-bar expand-position="start" expanded layout="horizontal">
+  html`<style>
+      calcite-action-bar[layout="horizontal"] {
+        width: 600px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>Start & RTL</h2>
-    <calcite-action-bar expand-position="start" dir="rtl" expanded layout="horizontal">
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>End</h2>
-    <calcite-action-bar expand-position="end" expanded layout="horizontal">
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>End & RTL</h2>
-    <calcite-action-bar expand-position="end" dir="rtl" expanded layout="horizontal">
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
       ${expandPositionActions}
     </calcite-action-bar>`;
 
 export const expandPositionVertical = (): string =>
-  html` <h2>Start</h2>
-    <calcite-action-bar expand-position="start" expanded layout="vertical">
+  html`<style>
+      calcite-action-bar[layout="vertical"] {
+        height: 300px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>Start & RTL</h2>
-    <calcite-action-bar expand-position="start" dir="rtl" expanded layout="vertical">
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>
-    <h2>End</h2>
-    <calcite-action-bar expand-position="end" expanded layout="vertical"> ${expandPositionActions} </calcite-action-bar>
-    <h2>End & RTL</h2>
-    <calcite-action-bar expand-position="end" dir="rtl" expanded layout="vertical">
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
       ${expandPositionActions}
     </calcite-action-bar>`;
 
