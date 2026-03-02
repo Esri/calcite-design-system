@@ -12,9 +12,9 @@ import { promisify } from "node:util";
   }
 
   try {
-    await execAsync("volta --version", { encoding: "utf8" });
+    await execAsync("mise --version", { encoding: "utf8" });
   } catch {
-    console.error("Volta is not installed. Please install from https://volta.sh");
+    console.error("Mise is not installed. Please install from https://mise.jdx.dev/");
     process.exit(1);
   }
 })();

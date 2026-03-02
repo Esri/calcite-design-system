@@ -91,7 +91,7 @@ export const fullWidthWithIcons = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-segmented-control
     class="calcite-mode-dark"
     dir="rtl"
@@ -104,9 +104,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-segmented-control>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-segmented-control disabled>
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
     <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
@@ -128,7 +128,7 @@ export const WithIconStartAndEnd = (): string =>
     <calcite-segmented-control-item value="nothing">Nothing</calcite-segmented-control-item>
   </calcite-segmented-control>`;
 
-export const validationMessage_TestOnly = (): string => html`
+export const validationMessage = (): string => html`
   <style>
     .container {
       display: flex;

@@ -13,7 +13,7 @@ export const simple = (): string => html`
   </calcite-action-menu>
 `;
 
-export const simpleTransparent_TestOnly = (): string =>
+export const simpleTransparent = (): string =>
   html`<div style="background-color:red">
     <calcite-action-menu appearance="transparent">
       <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -47,7 +47,7 @@ export const openWithGroups = (): string => html`
   </calcite-action-menu>
 `;
 
-export const keyDownOpen_TestOnly = (): string => html`
+export const keyDownOpen = (): string => html`
   <calcite-action-menu>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -73,7 +73,7 @@ export const keyDownOpen_TestOnly = (): string => html`
   </script>
 `;
 
-export const openMaxHeight_TestOnly = (): string => html`
+export const openMaxHeight = (): string => html`
   <calcite-action-menu open>
     <calcite-action slot="trigger" text="Add" icon="banana"></calcite-action>
     <calcite-action text="Plus" icon="plus" text-enabled></calcite-action>
@@ -97,4 +97,4 @@ export const openMaxHeight_TestOnly = (): string => html`
   </calcite-action-menu>
 `;
 
-keyDownOpen_TestOnly.parameters = { chromatic: { delay: 1000 } };
+keyDownOpen.parameters = { chromatic: { delay: 1000 } };

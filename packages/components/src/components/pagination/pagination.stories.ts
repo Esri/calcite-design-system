@@ -88,34 +88,34 @@ const getResponsiveTemplate = ({
   `;
 };
 
-export const responsiveLargeNumberFirstPage_TestOnly = (): string =>
+export const responsiveLargeNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "first" }));
 
-export const responsiveLargeNumberMiddlePage_TestOnly = (): string =>
+export const responsiveLargeNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "middle" }));
 
-export const responsiveLargeNumberLastPage_TestOnly = (): string =>
+export const responsiveLargeNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 150000, pageSize: 100, type: "last" }));
 
-export const responsiveSmallNumberFirstPage_TestOnly = (): string =>
+export const responsiveSmallNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "first" }));
 
-export const responsiveSmallNumberMiddlePage_TestOnly = (): string =>
+export const responsiveSmallNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "middle" }));
 
-export const responsiveSmallNumberLastPage_TestOnly = (): string =>
+export const responsiveSmallNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 50, pageSize: 10, type: "last" }));
 
-export const responsiveTinyNumberFirstPage_TestOnly = (): string =>
+export const responsiveTinyNumberFirstPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "first" }));
 
-export const responsiveTinyNumberMiddlePage_TestOnly = (): string =>
+export const responsiveTinyNumberMiddlePage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "middle" }));
 
-export const responsiveTinyNumberLastPage_TestOnly = (): string =>
+export const responsiveTinyNumberLastPage = (): string =>
   createBreakpointStories(getResponsiveTemplate({ totalItems: 12, pageSize: 1, type: "last" }));
 
-export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron = (): string => html`
   <calcite-pagination
     class="calcite-mode-dark"
     start-item="1"
@@ -128,9 +128,9 @@ export const darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly = (): s
   </calcite-pagination>
 `;
 
-darkModeFrenchLocaleAndLargeScaleGetsMediumChevron_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeFrenchLocaleAndLargeScaleGetsMediumChevron.parameters = { themes: modesDarkDefault };
 
-export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
+export const arabicNumberingSystemAndRTL = (): string =>
   html`<calcite-pagination
     dir="rtl"
     numbering-system="arab"
@@ -141,6 +141,6 @@ export const arabicNumberingSystemAndRTL_TestOnly = (): string =>
   >
   </calcite-pagination>`;
 
-arabicNumberingSystemAndRTL_TestOnly.parameters = {
+arabicNumberingSystemAndRTL.parameters = {
   chromatic: { diffThreshold: 1 },
 };
