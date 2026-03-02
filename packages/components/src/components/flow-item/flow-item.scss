@@ -11,6 +11,8 @@
  * @prop --calcite-flow-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-flow-border-color: Specifies the component's border color.
  * @prop --calcite-flow-background-color: Specifies the component's background color.
+ * @prop --calcite-flow-content-top-space: Specifies the padding of the `"content-top"` slot.
+ * @prop --calcite-flow-content-bottom-space: Specifies the padding of the `"content-bottom"` slot.
  * @prop --calcite-flow-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-flow-footer-background-color: Specifies the background color of the component's footer.
  * @prop --calcite-flow-space: Specifies the padding of the component's `unnamed (default)` slot.
@@ -61,6 +63,8 @@ calcite-panel {
   --calcite-panel-heading-text-color: var(--calcite-flow-heading-text-color);
   --calcite-panel-icon-color: var(--calcite-flow-icon-color);
   --calcite-panel-space: var(--calcite-flow-space);
+  --calcite-panel-content-top-space: var(--calcite-flow-content-top-space);
+  --calcite-panel-content-bottom-space: var(--calcite-flow-content-bottom-space);
 }
 
 @include includes.base-component();

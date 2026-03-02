@@ -307,6 +307,14 @@ describe("theme", () => {
       shadowSelector: "calcite-panel",
       targetProp: "--calcite-panel-header-content-space",
     },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
+    },
     "--calcite-flow-footer-space": {
       shadowSelector: "calcite-panel",
       targetProp: "--calcite-panel-footer-space",

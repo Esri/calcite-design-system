@@ -720,6 +720,12 @@ describe("theme", () => {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
       },
+      "--calcite-panel-content-top-space": {
+        targetProp: "padding",
+      },
+      "--calcite-panel-content-bottom-space": {
+        targetProp: "padding",
+      },
     },
   );
   themed(
