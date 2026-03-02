@@ -35,7 +35,7 @@ This package includes the compatible version of the main component library as a 
 By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can copy your assets to a project directory and set the asset path in your app with `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components:
 
 ```ts
-import { setAssetPath } from "@esri/calcite-components/dist/components";
+import { setAssetPath } from "@esri/calcite-components";
 
 // Local assets
 setAssetPath(window.location.href);
