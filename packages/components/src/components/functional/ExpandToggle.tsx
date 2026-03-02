@@ -96,7 +96,6 @@ export const ExpandToggle = ({
   }
 
   const end = getCalcitePosition(position, el) === "end";
-
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 
