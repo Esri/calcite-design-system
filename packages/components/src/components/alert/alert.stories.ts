@@ -205,7 +205,7 @@ export const customIcon = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -225,9 +225,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const actionsEndNoQueue_TestOnly = (): string => html`
+export const actionsEndNoQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -246,7 +246,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
   </div>
 `;
 
-export const actionsEndQueued_TestOnly = (): string => html`
+export const actionsEndQueued = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
@@ -269,7 +269,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </div>
 `;
 
-export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
+export const textAlignDoesNotAffectComponentAlignment = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
