@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 
@@ -83,11 +84,11 @@ describe("translation support", () => {
   t9n(() => mount("calcite-stepper"));
 });
 
-describe("layout regressions", () => {
+describe("fixed height sizing", () => {
   it.each(["horizontal", "horizontal-single"] as const)(
     "content row is larger than header row when fixed height is set (%s) (#12786)",
     async (layout) => {
-      const { el, component } = await mount<"calcite-stepper">(
+      await mount<"calcite-stepper">(
         <calcite-stepper layout={layout} style={{ blockSize: "20rem", inlineSize: "40rem" }}>
           <calcite-stepper-item heading="Step 1" selected>
             <div style={{ blockSize: "100%" }}>Step 1 content</div>
@@ -98,19 +99,14 @@ describe("layout regressions", () => {
         </calcite-stepper>,
       );
 
-      await component.updateComplete;
+      const selectedItem = page.getBySelector("calcite-stepper-item[selected]");
+      const header = selectedItem.getBySelector(`.${STEPPER_ITEM_CSS.stepperItemHeader}`);
+      const content = selectedItem.getBySelector(`.${STEPPER_ITEM_CSS.stepperItemContent}`);
 
-      const selectedItem = el.querySelector("calcite-stepper-item[selected]")!;
-      const header = selectedItem.shadowRoot!.querySelector<HTMLElement>(
-        `.${STEPPER_ITEM_CSS.stepperItemHeader}`,
-      )!;
-      const content = selectedItem.shadowRoot!.querySelector<HTMLElement>(
-        `.${STEPPER_ITEM_CSS.stepperItemContent}`,
-      )!;
-      const headerRect = header.getBoundingClientRect();
-      const contentRect = content.getBoundingClientRect();
+      const headerBox = header.element().getBoundingClientRect();
+      const contentBox = content.element().getBoundingClientRect();
 
-      expect(contentRect.height).toBeGreaterThan(headerRect.height);
+      expect(contentBox.height).toBeGreaterThan(headerBox.height);
     },
   );
 });
