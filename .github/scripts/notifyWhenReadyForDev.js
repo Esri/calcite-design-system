@@ -2,12 +2,12 @@
 // When the "2 - ready for dev" label is added to an issue:
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
-// 3. Generates a notification comment tagging the manager(s)
+// 3. Generates a notification comment tagging the planner(s)
 // 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
-// Note the script automatically adds the "@" character in to notify the manager(s)
+// Note the script automatically adds the "@" character in to notify the planner(s)
 const {
   labels: { issueWorkflow },
 } = require("./support/resources");
@@ -25,10 +25,10 @@ module.exports = async ({ github, context }) => {
     issue: { number },
   } = payload;
 
-  const { MANAGERS } = process.env;
+  const { PLANNERS } = process.env;
 
   // Add a "@" character to notify the user
-  const calcite_managers = MANAGERS?.split(",").map((v) => " @" + v.trim());
+  const calcite_planners = PLANNERS?.split(",").map((v) => " @" + v.trim());
 
   const issueProps = {
     owner,
@@ -64,10 +64,10 @@ module.exports = async ({ github, context }) => {
     milestone: null,
   });
 
-  // Add a comment to notify the project manager(s)
+  // Add a comment to notify the planner(s)
   await github.rest.issues.createComment({
     ...issueProps,
-    body: `Development can now begin, as design and/or acceptance criteria for the issue have been defined. cc ${calcite_managers}`,
+    body: `Development can now begin, as design and/or acceptance criteria for the issue have been defined. cc ${calcite_planners}`,
   });
 
   await github.rest.actions.createWorkflowDispatch({
