@@ -70,6 +70,7 @@
       "items"
       "content";
     gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    grid-template-rows: auto 1fr;
   }
 }
 

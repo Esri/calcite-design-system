@@ -356,3 +356,37 @@ export const verticalLayoutFullWidth = (): string =>
       <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go" selected></calcite-stepper-item>
       </calcite-stepper-item>
     </calcite-stepper>`;
+
+export const horizontalContentHeight = (): string =>
+  html`<style>
+      #stepper {
+        border: 1px solid red;
+        height: 100%;
+        width: 600px;
+        height: 400px;
+      }
+
+      #stepper-item-1 {
+        border: 1px solid green;
+        height: 100%;
+      }</style
+    ><calcite-stepper numbered id="stepper">
+      <calcite-stepper-item heading="Add info" selected>
+        <div id="stepper-item-1">
+          <calcite-notice width="full" open>
+            <div slot="title">Step 1 content</div>
+          </calcite-notice>
+        </div>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Add data"> </calcite-stepper-item>
+      <calcite-stepper-item heading="Add images">
+        <calcite-notice width="full" open>
+          <div slot="title">Step 3 content</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+      <calcite-stepper-item heading="Review">
+        <calcite-notice width="full" open>
+          <div slot="title">Step 4 content</div>
+        </calcite-notice>
+      </calcite-stepper-item>
+    </calcite-stepper> `;
