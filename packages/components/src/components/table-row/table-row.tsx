@@ -62,10 +62,10 @@ export class TableRow extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the vertical alignment of content within child `calcite-table-cell`s.
-   * `"center"` positions content in the middle of a cell's height, with equal space above and below it.
-   * `"start"` positions content at the top of a cell, with any extra space below it.
-   * `"end"` positions content at the bottom of a cell, with any extra space above it.
+   * Specifies the vertical alignment of content within child `calcite-table-cell`s, where:
+   * `"start"` positions content at the top of a cell,
+   * `"center"` positions content in the middle of a cell, and
+   * `"end"` positions content at the bottom of a cell.
    */
   @property({ reflect: true }) alignment: Alignment;
 
