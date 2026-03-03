@@ -361,7 +361,6 @@ export const horizontalContentHeight = (): string =>
   html`<style>
       #stepper {
         border: 1px solid red;
-        height: 100%;
         width: 600px;
         height: 400px;
       }
