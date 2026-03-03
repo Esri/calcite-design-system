@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "@esri/calcite-components/dist/components/calcite-button";
-import "@esri/calcite-components/dist/components/calcite-icon";
-import "@esri/calcite-components/dist/components/calcite-slider";
+import "@esri/calcite-components/components/calcite-button";
+import "@esri/calcite-components/components/calcite-icon";
+import "@esri/calcite-components/components/calcite-slider";
 import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
 import "./App.css";
 
@@ -26,7 +26,7 @@ function App() {
           }
         }}
       />
-      <p>The slider currently has a value of {sliderValue}</p>
+      <p>The slider currently has a value of {sliderValue}.</p>
     </>
   );
 }
