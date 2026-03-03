@@ -22,6 +22,9 @@ Users can help most by:<a href="#users-help" id="users-help" />
 
 Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
 
+> [!WARNING]
+> **Pull requests must come from a cloned repo with a feature branch**. GitHub forks are not supported since workflows triggered from forks cannot access repository secrets (e.g., Chromatic tokens), causing visual snapshot and CI checks to fail. Refer to [GitHub's documentation on security guidelines](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#security-hardening-with-open-source-workflows).
+
 To become a contributor, you must:
 
 - Be a current Esri employee
@@ -147,7 +150,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you do not already have Node installed, we recommend using [Mise](https://mise.jdx.dev/), which automatically uses the Node and NPM versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). If you use a different Node version manager, ensure it matches the major Node and NPM versions specified in `engines`.
+An installation of [Node](https://nodejs.org/en) is required for development. It is recommended to use [Mise](https://mise.jdx.dev/), which automatically uses the Node and npm versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). You'll need to follow steps 1–3 from the [Getting Started page](https://mise.jdx.dev/getting-started.html). If you use a different Node version manager, ensure it matches the major Node and npm versions specified in `engines`.
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 

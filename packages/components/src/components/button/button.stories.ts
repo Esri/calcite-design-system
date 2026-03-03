@@ -118,21 +118,21 @@ export const setWidthContainer = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-button disabled>disabled</calcite-button>
   <br />
   <calcite-button loading disabled>loading + disabled</calcite-button>
 `;
 
-export const withIconStartEmpty_TestOnly = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
+export const withIconStartEmpty = (): string => html` <calcite-button icon-start> Button </calcite-button>`;
 
-withIconStartEmpty_TestOnly.storyName = "With icon-start set to empty";
+withIconStartEmpty.storyName = "With icon-start set to empty";
 
-export const withIconEndEmpty_TestOnly = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
+export const withIconEndEmpty = (): string => html` <calcite-button icon-end> Button </calcite-button>`;
 
-withIconEndEmpty_TestOnly.storyName = "With icon-end set to empty";
+withIconEndEmpty.storyName = "With icon-end set to empty";
 
-export const sideBySide_TestOnly = (): string => html`
+export const sideBySide = (): string => html`
   <div style="width: 300px; max-width: 100%; display: flex; flex-direction: row; background-color: #fff">
     <calcite-button width="half" appearance="outline-fill" kind="brand" alignment="center" scale="m" type="button">
       Back
@@ -151,7 +151,7 @@ export const sideBySide_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-button
     class="calcite-mode-dark"
     dir="rtl"
@@ -168,9 +168,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-button>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const appearanceAndKindCombinations_TestOnly = (): string => html`
+export const appearanceAndKindCombinations = (): string => html`
   <calcite-button scale="s" appearance="outline" kind="brand">outline+brand</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="danger">outline+danger</calcite-button>
   <calcite-button scale="s" appearance="outline" kind="inverse">outline+inverse</calcite-button>

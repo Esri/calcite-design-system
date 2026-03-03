@@ -145,7 +145,7 @@ export const thumbnail = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="heading">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
     <span slot="description"
@@ -160,7 +160,7 @@ export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string =>
   </calcite-card>
 `;
 
-export const slottedFooterItems_TestOnly = (): string => html`
+export const slottedFooterItems = (): string => html`
   <div id="card-container" style="width:260px;">
     <calcite-card>
       ${thumbnailHtml}
@@ -182,7 +182,7 @@ export const slottedFooterItems_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card
       >${thumbnailHtml}${headingAndDescriptionHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card
@@ -190,4 +190,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
