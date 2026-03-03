@@ -15,7 +15,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components": "5.0.0"
+    "@esri/calcite-components": "5.0.2"
   },
   "devDependencies": {
     "@types/node": "24.10.0",
@@ -23,7 +23,7 @@
     "vite": "^5.3.5",
     "vite-plugin-static-copy": "^1.0.6"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }

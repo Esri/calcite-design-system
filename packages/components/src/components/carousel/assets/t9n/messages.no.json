@@ -5,5 +5,5 @@
   "pause": "Stans midlertidig",
   "carousel": "Karusell",
   "carouselItemProgress": "Fremdriftsindikator for karusellelement",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Element {current} av {total}"
 }

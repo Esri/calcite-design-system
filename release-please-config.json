@@ -21,7 +21,6 @@
   ],
   "packages": {
     "packages/components": {
-      "release-as": "5.0.0",
       "component": "@esri/calcite-components",
       "extra-files": [
         "README.md",
@@ -64,7 +63,6 @@
     },
     "packages/components-react": {
       "component": "@esri/calcite-components-react",
-      "release-as": "5.0.0",
       "extra-files": [
         {
           "type": "json",

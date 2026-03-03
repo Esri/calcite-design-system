@@ -5,5 +5,5 @@
   "pause": "Premor",
   "carousel": "Vrtiljak",
   "carouselItemProgress": "Indikator napredka za vrtljiv element",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Element {current} od {total}"
 }

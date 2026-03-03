@@ -65,7 +65,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
    * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality
-   * @property {"dropdown"} [type] - The type of the column, used for special handling
+   * @property {"multiMutable" | "multiAppendable"} [type] - The type of the column, used for special handling
    */
   /** @type {Record<string, MondayColumn>} */
   const mondayColumns = {
@@ -73,18 +73,31 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     title: { id: "name", title: "Item" },
     issueNumber: { id: "numeric_mknk2xhh", title: "Issue Number" },
     link: { id: "link", title: "GH Link" },
-    designers: { id: "people", title: "Designer" },
-    developers: { id: "multiple_person_mkt920b0", title: "Developer" },
-    productEngineers: { id: "multiple_person_mkt9pzj9", title: "Verified by" },
+    designers: { id: "people", title: "Designer", type: "multiAppendable" },
+    developers: {
+      id: "multiple_person_mkt920b0",
+      title: "Developer",
+      type: "multiAppendable",
+    },
+    productEngineers: {
+      id: "multiple_person_mkt9pzj9",
+      title: "Verified by",
+      type: "multiAppendable",
+    },
+    allAssignees: {
+      id: "multiple_person_mm0pwfy",
+      title: "Github Assignee",
+      type: "multiAppendable",
+    },
     status: { id: "dup__of_overall_status__1", title: "Status" },
     date: { id: "date6", title: "Milestone" },
     priority: { id: "priority", title: "Priority" },
     typeDropdown: {
       id: "dropdown_mkwhjde2",
       title: "Issue Type",
-      type: "dropdown",
+      type: "multiMutable",
     },
-    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "dropdown" },
+    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "multiMutable" },
     designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
@@ -484,11 +497,8 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       role = mondayColumns.developers;
     }
 
-    if (columnUpdates[role.id]) {
-      columnUpdates[role.id] += `, ${info.id}`;
-    } else {
-      columnUpdates[role.id] = `${info.id}`;
-    }
+    setColumnValue(role, info.id);
+    setColumnValue(mondayColumns.allAssignees, info.id);
     core.notice(
       `Added assignee "${person.login}" to "${role.title}" column.`,
       logParams,
@@ -597,13 +607,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const { response, error } = await runQuery(query, queryVariables);
     if (error || !response?.data?.change_multiple_column_values) {
       const baseMessage = `Failed to update columns for ID ${id}.`;
+      const errorDetail = error || JSON.stringify(response?.errors);
       const queriedId = await queryForId();
       if (!queriedId || queriedId === id) {
         const skippedMessage = queriedId
           ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID.`
           : `Retry skipped because no alternate item ID was found.`;
         return buildUpdateError({
-          messages: [baseMessage, skippedMessage, error],
+          messages: [baseMessage, skippedMessage, errorDetail],
         });
       }
 
@@ -613,12 +624,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
         queryVariables,
       );
       if (retryError || !retryResponse?.data?.change_multiple_column_values) {
+        const retryErrorDetail = retryError || JSON.stringify(retryResponse?.errors);
         return buildUpdateError({
           messages: [
             baseMessage,
             `Retry failed for queried ID ${queriedId}.`,
             `Original error: ${error}.`,
-            `Retry error: ${retryError}.`,
+            `Retry error: ${retryErrorDetail}.`,
           ],
         });
       }
@@ -693,16 +705,16 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   /**
-   * Add or remove a label from a DropdownValues object. Creates a new object if none exists.
+   * Add or remove a label from a multiMutable object. Creates a new object if none exists.
    * @private
    * @param {MondayLabel} labelInfo - The label information
    * @param {("add" | "remove")} action - The action to perform: "add" or "remove"
-   * @returns {{ labels: string[] } | string} - The updated dropdown object or an empty string if no labels remain
+   * @returns {{ labels: string[] } | string} - The updated multiMutable object or an empty string if no labels remain
    */
-  function createDropdownValues(labelInfo, action) {
+  function updateMultiMutableValue(labelInfo, action) {
     if (action !== "add" && action !== "remove") {
       throw new Error(
-        `Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`,
+        `Invalid action "${action}" in updateMultiMutableValue. Use "add" or "remove".`,
       );
     }
 
@@ -725,15 +737,15 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       }
     }
 
-    const dropdownSet = new Set(existingLabels);
-    const present = dropdownSet.has(labelValue);
+    const valueSet = new Set(existingLabels);
+    const present = valueSet.has(labelValue);
     if (action === "add" && !present) {
-      dropdownSet.add(labelValue);
+      valueSet.add(labelValue);
     } else if (action === "remove" && present) {
-      dropdownSet.delete(labelValue);
+      valueSet.delete(labelValue);
     }
 
-    return dropdownSet.size ? { labels: Array.from(dropdownSet) } : "";
+    return valueSet.size ? { labels: Array.from(valueSet) } : "";
   }
 
   /**
@@ -761,17 +773,17 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       return;
     }
 
-    const isDropdown = info.column.type === "dropdown";
+    const isMultiMutable= info.column.type === "multiMutable";
     if (action === "add") {
       setColumnValue(
         info.column,
-        isDropdown ? createDropdownValues(info, "add") : info.value,
+        isMultiMutable ? updateMultiMutableValue(info, "add") : info.value,
         logParams,
       );
     } else if (info.clearable) {
       setColumnValue(
         info.column,
-        isDropdown ? createDropdownValues(info, "remove") : "",
+        isMultiMutable ? updateMultiMutableValue(info, "remove") : "",
         logParams,
       );
     }
@@ -838,8 +850,8 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     }
 
     if (assignees.length) {
-      assignees.forEach((person) => addAssignee(person));
       setAssignedStatus();
+      handleAssignees();
     }
 
     if (issueMilestone) {
@@ -899,7 +911,8 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   /**
-   * Set a specific column value in columnUpdates
+   * Set a specific column value in columnUpdates.
+   * If `column.type` is `"multiAppendable"` and `value` is not empty, the value will be appended via comma-separation to any existing values in the column.
    * @param {MondayColumn} column
    * @param {ColumnValue} value
    * @param {import('@actions/core').AnnotationProperties} [logParams] - Optional logging parameters
@@ -918,7 +931,15 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       return;
     }
 
-    columnUpdates[column.id] = value;
+    const existingValue = columnUpdates[column.id];
+    const newValue =
+      column.type === "multiAppendable" && value !== ""
+        ? existingValue
+          ? `${existingValue}, ${value}`
+          : `${value}`
+        : value;
+
+    columnUpdates[column.id] = newValue;
     core.notice(
       value === ""
         ? `Cleared "${column.title}" column.`
@@ -1011,6 +1032,10 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       .forEach((role) => {
         setColumnValue(role, "");
       });
+
+    if (!assignees.length) {
+      setColumnValue(mondayColumns.allAssignees, "");
+    }
   }
 
   /**
