@@ -136,7 +136,11 @@ export class ActionGroup extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the active actions in the group. */
+  /**
+   * Specifies the active actions in the group.
+   *
+   * @readonly
+   */
   @property() selectedActions: Action["el"][] = [];
 
   //#endregion

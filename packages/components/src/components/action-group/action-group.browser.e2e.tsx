@@ -142,7 +142,7 @@ describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
   });
 });
 
-describe("calciteActionGroupChange event", () => {
+describe("selection change event and selectedActions state", () => {
   it("fires when selection changes", async () => {
     const { el } = await mount<"calcite-action-group">(
       <calcite-action-group selection-mode="single">
@@ -163,5 +163,27 @@ describe("calciteActionGroupChange event", () => {
 
     await userEvent.click(action2);
     expect(changeCount).toBe(2);
+  });
+
+  it("tracks active actions based on selection", async () => {
+    const { el } = await mount<"calcite-action-group">(
+      <calcite-action-group selection-mode="single">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-group>,
+    );
+
+    const [action1, action2] = el.querySelectorAll("calcite-action");
+
+    await userEvent.click(action1);
+    expect(el.selectedActions).toHaveLength(1);
+    expect(el.selectedActions[0]).toBe(action1);
+
+    await userEvent.click(action2);
+    expect(el.selectedActions).toHaveLength(1);
+    expect(el.selectedActions[0]).toBe(action2);
+
+    await userEvent.click(action2);
+    expect(el.selectedActions).toHaveLength(0);
   });
 });
