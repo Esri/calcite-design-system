@@ -5,11 +5,13 @@ on:
     branches: [rc, dev]
   pull_request:
     branches: [rc, dev]
-    types: [labeled]
+    types: [labeled, synchronize]
 
 jobs:
   run-pr:
     if: >
+      github.event_name == 'pull_request' &&
+      github.event.action == 'labeled' &&
       github.event.label.name == 'pr ready for visual snapshots' &&
       !contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
     runs-on: ubuntu-latest
@@ -53,7 +55,9 @@ jobs:
           chromatic-diff-threshold: ${{ secrets.CHROMATIC_DIFF_THRESHOLD }}
 
   skip:
-    if: contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(github.event.pull_request.labels.*.name, 'skip visual snapshots')
     runs-on: ubuntu-latest
     steps:
       - name: Skip Chromatic
