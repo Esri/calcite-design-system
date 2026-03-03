@@ -57,10 +57,10 @@ export class TableCell extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the horizontal alignment of content within the component.
-   * "start" positions content at the start of the cell with extra space at the end. For example, in left to right languages, content aligns to the left of the cell with extra space on the right.
-   * "center" positions content in the middle of the cell, with equal space on either side.
-   * "end" positions content at the end of the cell with extra space at the start. For example, in left to right languages, content aligns to the right of the cell with extra space on the left.
+   * Specifies the horizontal alignment of content within the component, where:
+   * `"start"` positions content at the start of the cell,
+   * `"center"` positions content in the middle of the cell, and 
+   * `"end"` positions content at the end of the cell.
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 
