@@ -203,10 +203,11 @@ export class ActionGroup extends LitElement {
         }
       }
 
-      this.selectedActions =
+      this.updateSelectedActions(
         this.selectionMode === "none"
           ? []
-          : (this.actions?.filter((action) => action.active) ?? []);
+          : (this.actions?.filter((action) => action.active) ?? []),
+      );
     }
 
     if (changes.has("expanded")) {
@@ -231,21 +232,21 @@ export class ActionGroup extends LitElement {
     if (this.selectionMode === "multiple") {
       const nextActive = !active.active;
       this.updateAction(active, nextActive);
-      this.selectedActions = this.actions.filter((action) => action.active);
+      this.updateSelectedActions(this.actions.filter((action) => action.active));
       this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single") {
       const nextActive = !active.active;
       this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
-      this.selectedActions = this.actions.filter((action) => action.active);
+      this.updateSelectedActions(this.actions.filter((action) => action.active));
       this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single-persist") {
       if (!this.actions[index].active) {
         this.actions.forEach((action, i) => this.updateAction(action, i === index));
-        this.selectedActions = [active];
+        this.updateSelectedActions([active]);
         this.calciteActionGroupChange.emit();
       }
       return;
@@ -310,6 +311,19 @@ export class ActionGroup extends LitElement {
   private updateAction(action: Action["el"], isActive: boolean): void {
     action.active = isActive;
     this.setActionAriaChecked(action, isActive);
+  }
+
+  private updateSelectedActions(nextSelected: Action["el"][]): void {
+    const currentSelected = this.selectedActions;
+
+    if (currentSelected.length === nextSelected.length) {
+      const matches = currentSelected.every((action, index) => action === nextSelected[index]);
+      if (matches) {
+        return;
+      }
+    }
+
+    this.selectedActions = nextSelected;
   }
 
   //#endregion
