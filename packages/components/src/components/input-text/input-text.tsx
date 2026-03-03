@@ -14,7 +14,7 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import { FormComponent, MutableValidityState } from "../../utils/form";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
@@ -43,11 +43,10 @@ declare global {
  * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputText
-  extends LitElement
-  implements LabelableComponent, FormComponent, TextualInputComponent
-{
+export class InputText extends LitElement implements LabelableComponent, TextualInputComponent {
   //#region Static Members
+
+  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static formAssociated = true;
 
@@ -97,6 +96,10 @@ export class InputText
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -331,8 +334,6 @@ export class InputText
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
 
-    this.elementInternals.setFormValue(this.value);
-
     connectLabel(this);
   }
 
@@ -382,7 +383,7 @@ export class InputText
     }
     if (event.key === "Enter") {
       event.preventDefault();
-      this.elementInternals.form.requestSubmit();
+      this.formSupport.requestSubmit();
     }
   }
 
@@ -507,6 +508,8 @@ export class InputText
         this.emitChangeIfUserModified();
       }
     }
+
+    this.elementInternals.setFormValue(value);
   }
 
   //#endregion
