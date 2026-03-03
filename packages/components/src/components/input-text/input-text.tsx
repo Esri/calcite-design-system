@@ -28,7 +28,7 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
@@ -329,6 +329,10 @@ export class InputText
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
+      // form is HTMLFormElement | null
+      console.log("Associated form:", form);
+    });
   }
 
   override connectedCallback(): void {
@@ -466,10 +470,6 @@ export class InputText
     if (event.key === "Enter") {
       this.emitChangeIfUserModified();
     }
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("text", this, input);
   }
 
   private setInputValue(newInputValue: string): void {
