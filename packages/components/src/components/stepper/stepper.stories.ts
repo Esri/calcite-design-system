@@ -358,7 +358,7 @@ export const verticalLayoutFullWidth = (): string =>
     </calcite-stepper>`;
 
 export const horizontalContentHeight = (): string =>
-  html`<calcite-stepper numbered style=" border: 1px solid red; width: 600px; height: 400px;">
+  html`<calcite-stepper numbered style="border: 1px solid red; width: 600px; height: 400px;">
     <calcite-stepper-item heading="Add info" selected>
       <div style="border: 1px solid green; height: 100%;">
         <calcite-notice width="full" open>
@@ -366,7 +366,7 @@ export const horizontalContentHeight = (): string =>
         </calcite-notice>
       </div>
     </calcite-stepper-item>
-    <calcite-stepper-item heading="Add data"> </calcite-stepper-item>
-    <calcite-stepper-item heading="Add images"> </calcite-stepper-item>
-    <calcite-stepper-item heading="Review"> </calcite-stepper-item>
-  </calcite-stepper> `;
+    <calcite-stepper-item heading="Add data"></calcite-stepper-item>
+    <calcite-stepper-item heading="Add images"></calcite-stepper-item>
+    <calcite-stepper-item heading="Review"></calcite-stepper-item>
+  </calcite-stepper>`;
