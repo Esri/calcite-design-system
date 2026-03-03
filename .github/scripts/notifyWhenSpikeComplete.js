@@ -2,12 +2,12 @@
 // When the "spike complete" label is added to an issue:
 // 1. Modifies the labels,
 // 2. Updates the assignees and milestone, and
-// 3. Generates a notification to the Calcite project manager(s)
+// 3. Generates a notification comment tagging the manager(s)
 // 4. Emits "SyncActionChanges" event to trigger the Monday.com sync
 //
 // The secret is formatted like so: person1, person2, person3
 //
-// Note the script automatically adds the "@" character in to notify the project manager(s)
+// Note the script automatically adds the "@" character in to notify the manager(s)
 const {
   labels: { issueWorkflow, planning },
 } = require("./support/resources");
@@ -64,7 +64,7 @@ module.exports = async ({ github, context }) => {
   // Add a comment to notify the project manager(s)
   await github.rest.issues.createComment({
     ...issueProps,
-    body: `cc ${calcite_managers}`,
+    body: `The spike effort has been completed. cc ${calcite_managers}`,
   });
 
   await github.rest.actions.createWorkflowDispatch({
