@@ -17,6 +17,7 @@ import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { SelectionMode } from "../interfaces";
@@ -135,6 +136,13 @@ export class ActionGroup extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
+  /**
+   * Specifies the active actions in the group.
+   *
+   * @readonly
+   */
+  @property() selectedActions: Action["el"][] = [];
+
   //#endregion
 
   //#region Public Methods
@@ -161,6 +169,9 @@ export class ActionGroup extends LitElement {
   /** Fires when the component's content area is expanded. */
   calciteActionGroupExpand = createEvent({ cancelable: false });
 
+  /** Fires after an action's active state changes. */
+  calciteActionGroupChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -182,6 +193,21 @@ export class ActionGroup extends LitElement {
       } else if (this.selectionMode === "none") {
         this.clearActionAriaAttributes();
       }
+
+      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+        const selected = this.actions?.filter((action) => action.active) ?? [];
+        if (selected.length > 1) {
+          this.actions.forEach((action) =>
+            this.updateAction(action, action === selected[selected.length - 1]),
+          );
+        }
+      }
+
+      this.updateSelectedActions(
+        this.selectionMode === "none"
+          ? []
+          : (this.actions?.filter((action) => action.active) ?? []),
+      );
     }
 
     if (changes.has("expanded")) {
@@ -204,23 +230,24 @@ export class ActionGroup extends LitElement {
 
   private setActiveAction(index: number, active: Action["el"]): void {
     if (this.selectionMode === "multiple") {
-      active.active = !active.active;
-      this.setActionAriaChecked(active, active.active);
+      const nextActive = !active.active;
+      this.updateAction(active, nextActive);
+      this.updateSelectedActions(this.actions.filter((action) => action.active));
+      this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single") {
-      this.actions.forEach((action, i) => {
-        action.active = i === index && !action.active;
-        this.setActionAriaChecked(action, action.active);
-      });
+      const nextActive = !active.active;
+      this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
+      this.updateSelectedActions(this.actions.filter((action) => action.active));
+      this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single-persist") {
       if (!this.actions[index].active) {
-        this.actions.forEach((action, i) => {
-          action.active = i === index;
-          this.setActionAriaChecked(action, action.active);
-        });
+        this.actions.forEach((action, i) => this.updateAction(action, i === index));
+        this.updateSelectedActions([active]);
+        this.calciteActionGroupChange.emit();
       }
       return;
     }
@@ -235,8 +262,11 @@ export class ActionGroup extends LitElement {
   }
 
   private handleActionClick(event: MouseEvent): void {
-    const target = event.target as Action["el"];
-    if (!target) {
+    const target = event
+      .composedPath()
+      .find((element): element is Action["el"] => isAction(element as Element));
+
+    if (!target || target.disabled) {
       return;
     }
     const index = this.actions.indexOf(target);
@@ -276,6 +306,24 @@ export class ActionGroup extends LitElement {
         }
       });
     }
+  }
+
+  private updateAction(action: Action["el"], isActive: boolean): void {
+    action.active = isActive;
+    this.setActionAriaChecked(action, isActive);
+  }
+
+  private updateSelectedActions(nextSelected: Action["el"][]): void {
+    const currentSelected = this.selectedActions;
+
+    if (currentSelected.length === nextSelected.length) {
+      const matches = currentSelected.every((action, index) => action === nextSelected[index]);
+      if (matches) {
+        return;
+      }
+    }
+
+    this.selectedActions = nextSelected;
   }
 
   //#endregion

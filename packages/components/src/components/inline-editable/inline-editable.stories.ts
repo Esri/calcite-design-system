@@ -46,7 +46,7 @@ export const simple = (args: InlineEditableStoryArgs): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-inline-editable disabled>
     <calcite-input value="disabled"></calcite-input>
   </calcite-inline-editable>
@@ -56,7 +56,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-inline-editable>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;">
     <calcite-label class="calcite-mode-dark" status="idle" scale="m" layout="default">
       My great label
@@ -67,9 +67,9 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const longValue_TestOnly = (): string =>
+export const longValue = (): string =>
   html`<div style="width: 300px;">
     <calcite-inline-editable>
       <calcite-input

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.3-next.1...@esri/calcite-components@5.0.3-next.2) (2026-03-03)
+
+### Bug Fixes
+
+- **combobox:** honor max-items property ([#13959](https://github.com/Esri/calcite-design-system/issues/13959)) ([9cda075](https://github.com/Esri/calcite-design-system/commit/9cda07558f28b3f4708e63c18825701bc2fa3798)), closes [#10985](https://github.com/Esri/calcite-design-system/issues/10985)
+
+## [5.0.3-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.3-next.0...@esri/calcite-components@5.0.3-next.1) (2026-03-02)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.0.3-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2-next.4...@esri/calcite-components@5.0.3-next.0) (2026-02-27)
+
+### Bug Fixes
+
+- **filter:** do not cancel `Escape` when value is empty ([#13975](https://github.com/Esri/calcite-design-system/issues/13975)) ([6f36776](https://github.com/Esri/calcite-design-system/commit/6f36776192bd3e1c31d8f79fd6baef526233df3f)), closes [#13967](https://github.com/Esri/calcite-design-system/issues/13967)
+
 ## [5.0.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.1...@esri/calcite-components@5.0.2) (2026-02-18)
 
 ### Bug Fixes

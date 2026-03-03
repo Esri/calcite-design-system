@@ -53,7 +53,7 @@ export const iconsBoth = (): string =>
     <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
-export const allIconsAndSubMenu_TestOnly = (): string =>
+export const allIconsAndSubMenu = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -66,7 +66,7 @@ export const allIconsAndSubMenu_TestOnly = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item
   ></calcite-menu>`;
 
-export const allIconsAndSubMenuVertical_TestOnly = (): string =>
+export const allIconsAndSubMenuVertical = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -79,7 +79,7 @@ export const allIconsAndSubMenuVertical_TestOnly = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-menu-item
     text="Menu item"
     active
