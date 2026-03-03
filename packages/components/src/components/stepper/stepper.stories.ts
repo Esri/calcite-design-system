@@ -360,10 +360,7 @@ export const verticalLayoutFullWidth = (): string =>
 export const horizontalContentHeight = (): string =>
   html`<calcite-stepper numbered style=" border: 1px solid red; width: 600px; height: 400px;">
     <calcite-stepper-item heading="Add info" selected>
-      <div
-        style="border: 1px solid green;
-        height: 100%;"
-      >
+      <div style="border: 1px solid green; height: 100%;">
         <calcite-notice width="full" open>
           <div slot="title">Step 1 content</div>
         </calcite-notice>
