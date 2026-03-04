@@ -5,5 +5,5 @@
   "pause": "Pauza",
   "carousel": "Carousel",
   "carouselItemProgress": "Indikator napretka za stavku Vrteška",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Stavka {current} od {total}"
 }

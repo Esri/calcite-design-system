@@ -11829,5 +11829,140 @@
     "alias": ["5.0.0", "layers", "insert", "publish", "data", "telemetry", "tool"],
     "category": "Layers",
     "release": "5.0.0"
+  },
+  "gradient": {
+    "alias": ["5.0.0", "media", "slope-analysis", "transition", "map-features", "visualize"],
+    "category": "Media",
+    "release": "5.0.0"
+  },
+  "file-bim": {
+    "alias": ["5.0.0", "files", "direct-read", "coordinates", "geodatabase", "analysis", "tools"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-dwg": {
+    "alias": ["5.0.0", "files", "map", "geodatabase", "points", "polylines", "annotation"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-rvt": {
+    "alias": ["5.0.0", "files", "geodatabase", "3d", "feature", "data"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "bicycle-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "two-wheeler",
+      "ride",
+      "pedal",
+      "wheel",
+      "bike",
+      "bicycling",
+      "commute",
+      "exercise",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "bus-travel-mode": {
+    "alias": ["5.0.0", "transportation", "motor", "vehicle", "automobile", "public-transit", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "car-travel-mode": {
+    "alias": ["5.0.0", "transportation", "automobile", "vehicle", "wheels", "ride", "commute", "commuting", "vehicle"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "emergency": {
+    "alias": ["5.0.0", "objects", "urgency", "disaster", "catastrophe", "crisis"],
+    "category": "Objects",
+    "release": "5.0.0"
+  },
+  "moped-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "bike",
+      "motorized",
+      "automobile",
+      "two-wheeler",
+      "scooter",
+      "commute",
+      "commuting",
+      "vehicle"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "motorcycle-travel-mode": {
+    "alias": ["5.0.0", "transportation", "two-wheeler", "motor", "ride", "bike", "commute", "commuting", "vehicle"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "scooter-travel-mode": {
+    "alias": ["5.0.0", "transportation", "two-wheeler", "bike", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "shuttle-travel-mode": {
+    "alias": ["5.0.0", "transportation", "bus", "automobile", "vehicle", "ride", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "stroller-travel-mode": {
+    "alias": ["5.0.0", "transportation", "pushchair", "baby-carriage", "buggy", "pram", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "train-travel-mode": {
+    "alias": ["5.0.0", "transportation", "train-station", "lightspeed-rail", "public-transit", "vehicle", "engine"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "tram-travel-mode": {
+    "alias": ["5.0.0", "transportation", "streetcar", "trolley", "vehicle", "track", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "truck-travel-mode": {
+    "alias": ["5.0.0", "transportation", "pickup", "commute", "commuting", "semi-rig", "deliver"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "walking-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "stroll",
+      "stride",
+      "hike",
+      "step",
+      "person",
+      "commute",
+      "commuting",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "wheelchair-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "commute",
+      "commuting",
+      "pushchair",
+      "sport",
+      "hadicapped",
+      "person",
+      "disabiltiy",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
   }
 }

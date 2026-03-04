@@ -524,7 +524,7 @@ export class DatePickerMonthHeader extends LitElement {
         onKeyDown={isDirectionRight ? this.nextMonthKeydown : this.prevMonthKeydown}
         ref={isDirectionRight ? this.nextMonthActionRef : this.prevMonthActionRef}
         role="button"
-        scale={this.scale === "l" ? "l" : "m"}
+        scale={this.scale}
         text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
       />
     );

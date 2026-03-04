@@ -373,7 +373,7 @@ export class Combobox
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
   /** Overrides individual strings used by the component. */
@@ -1211,7 +1211,7 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const allItemsAndGroups = this.getItemsAndGroups(true);
     const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
@@ -1252,8 +1252,16 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(): ComboboxChildElement[] {
-    return [...this.groupItems, ...this.items];
+  private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
+    if (!preserveOrder) {
+      return [...this.groupItems, ...this.items];
+    }
+
+    return Array.from(
+      this.el.querySelectorAll<ComboboxChildElement>(
+        `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`,
+      ),
+    );
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
