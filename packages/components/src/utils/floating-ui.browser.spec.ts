@@ -57,7 +57,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
   return fake;
 }
 
-describe("repositioning", () => {
+describe.each(["ltr", "rtl"])("repositioning (%s)", (direction) => {
   let fakeFloatingUiComponent: FloatingUIComponent;
   let floatingEl: HTMLDivElement;
   let referenceEl: HTMLButtonElement;
@@ -72,7 +72,7 @@ describe("repositioning", () => {
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
 
     positionOptions = {
-      direction: "ltr",
+      direction,
       floatingEl,
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,
