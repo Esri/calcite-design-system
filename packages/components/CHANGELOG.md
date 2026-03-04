@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.3-next.2...@esri/calcite-components@5.1.0-next.3) (2026-03-03)
+
+### Features
+
+- **action-group:** add `calciteActionGroupChange` for selection tracking ([#13969](https://github.com/Esri/calcite-design-system/issues/13969)) ([cc39f0d](https://github.com/Esri/calcite-design-system/commit/cc39f0d417641f893b1e0e4cb17e975f46716e30)), closes [#13962](https://github.com/Esri/calcite-design-system/issues/13962)
+
+### Bug Fixes
+
+- **stepper:** only stepper content should expand to available height ([#14001](https://github.com/Esri/calcite-design-system/issues/14001)) ([4e27c10](https://github.com/Esri/calcite-design-system/commit/4e27c10ae1169c256bfd8cb48ce7cfc3910559b1)), closes [#12786](https://github.com/Esri/calcite-design-system/issues/12786) [#12786](https://github.com/Esri/calcite-design-system/issues/12786)
+
 ## [5.0.3-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.3-next.1...@esri/calcite-components@5.0.3-next.2) (2026-03-03)
 
 ### Bug Fixes
