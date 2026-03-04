@@ -9,6 +9,8 @@
  * @prop --calcite-panel-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-panel-border-color: Specifies the component's border color.
  * @prop --calcite-panel-background-color: Specifies the component's background color.
+ * @prop --calcite-panel-content-top-space: Specifies the padding of the `"content-top"` slot.
+ * @prop --calcite-panel-content-bottom-space: Specifies the padding of the `"content-bottom"` slot.
  * @prop --calcite-panel-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-panel-header-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
  * @prop --calcite-panel-header-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
@@ -112,9 +114,16 @@ slot[name="alerts"]::slotted(calcite-alert) {
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
-  padding: var(--calcite-internal-panel-default-space);
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
+}
+
+.content-top {
+  padding: var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-space));
+}
+
+.content-bottom {
+  padding: var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-space));
 }
 
 .container {
