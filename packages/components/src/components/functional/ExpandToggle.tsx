@@ -86,8 +86,6 @@ export const ExpandToggle = ({
 }: ExpandToggleProps): TemplateResult => {
   const rtl = direction === "rtl";
 
-  // console.log(rtl, direction);
-
   const text = expanded ? collapseText : expandText;
   const label = expanded ? collapseLabel : expandLabel;
   const icons = [ICONS.chevronsLeft, ICONS.chevronsRight];
