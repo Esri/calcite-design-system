@@ -57,6 +57,8 @@ export class InputText
 {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override styles = styles;
 
   //#endregion
@@ -340,6 +342,10 @@ export class InputText
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
+    this.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
+      // form is HTMLFormElement | null
+      console.log("Associated form:", form);
+    });
   }
 
   override connectedCallback(): void {

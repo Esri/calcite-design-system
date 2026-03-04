@@ -9,13 +9,7 @@ export interface FormTriggerComponent extends LitElement {
 /**
  * A controller for managing form trigger behaviors via "button" components.
  */
-export const useFormTrigger = makeGenericController<void, FormTriggerComponent>((component, controller) => {
-  controller.onConnected(() => console.log("connectedCallback"));
-
-  component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
-    console.log("luminaFormAssociatedCallback", form);
-  });
-
+export const useFormTrigger = makeGenericController<void, FormTriggerComponent>((component) => {
   component.listen("click", () => {
     if (component.href) {
       return;
