@@ -210,8 +210,8 @@ export class ActionBar extends LitElement {
   /**
    * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
    *
-   * `"start"` points the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
-   * `"end"` points the expand toggle's chevron away from the end of the component when `expanded` is `false`.
+   * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
+   * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
    *
    * When `expanded` is `true`, the chevron direction is reversed.
    */
