@@ -65,7 +65,7 @@ export class Action extends LitElement implements FormOwner {
 
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger(this);
+  formTrigger = useFormTrigger()(this);
 
   //#endregion
 
