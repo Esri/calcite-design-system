@@ -57,7 +57,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
   return fake;
 }
 
-describe.each(["ltr", "rtl"])("repositioning (%s)", (direction) => {
+describe.each(["ltr", "rtl"] as const)("repositioning (%s)", (direction) => {
   let fakeFloatingUiComponent: FloatingUIComponent;
   let floatingEl: HTMLDivElement;
   let referenceEl: HTMLButtonElement;

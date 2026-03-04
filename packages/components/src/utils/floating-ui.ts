@@ -20,6 +20,7 @@ import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
+import { Direction } from "./dom";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -42,7 +43,7 @@ interface PositionFloatingUiOptions {
   /**
    * The direction of the component, which determines the effective placement of variation placements (e.g., "leading" or "trailing").
    */
-  direction: "ltr" | "rtl";
+  direction: Direction;
 
   /**
    * Prevents flipping the component's placement when overlapping its `referenceElement`.
