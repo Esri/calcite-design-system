@@ -5,7 +5,7 @@ import { page } from "vitest/browser";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import { nextFrame } from "../../utils/dom";
-import { StepperItem } from "../stepper-item/stepper-item";
+import type { StepperItem } from "../stepper-item/stepper-item";
 
 describe("defaults", () => {
   defaults(
