@@ -142,7 +142,7 @@ describe("inheritable props in shadow DOM", () => {
     `;
     container.append(wrapper);
 
-    const shadowRoot = wrapper.shadowRoot;
+    const shadowRoot = wrapper.shadowRoot!;
 
     await customElements.whenDefined("calcite-stepper");
     await customElements.whenDefined("calcite-stepper-item");
@@ -158,7 +158,7 @@ describe("inheritable props in shadow DOM", () => {
       expect(item.scale).toBe("m");
     });
 
-    const stepper = shadowRoot.querySelector("calcite-stepper");
+    const stepper = shadowRoot.querySelector("calcite-stepper")!;
 
     stepper.icon = true;
     stepper.numbered = true;
