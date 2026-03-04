@@ -263,6 +263,10 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
     this.childEl = el;
   }
 
+  formTriggerDisabled(): boolean {
+    return !!this.href;
+  }
+
   //#endregion
 
   //#region Rendering

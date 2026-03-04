@@ -8,15 +8,28 @@
     <script src="/src/demos/_assets/demo-form.ts"></script>
   </head>
 
-  <body class="calcite-mode-auto">
+  <body>
     <demo-form>
-      <form>
-        <input type="text" name="nativeText" />
-        <calcite-input-text name="calciteText"></calcite-input-text>
+      <form style="display: flex; flex-direction: column; gap: 0.5rem">
+        <input type="text" name="nativeText" value="I'm a native text input" />
+        <calcite-input-text name="calciteText" value="I'm a calcite text input"></calcite-input-text>
         <calcite-button type="submit">Submit</calcite-button>
+        <calcite-button disabled type="submit">Disabled Submit</calcite-button>
         <calcite-button type="reset">Reset</calcite-button>
-        <calcite-action icon="submit" text="Submit" text-enabled type="submit"></calcite-action>
-        <calcite-action icon="reset" text="Reset" text-enabled type="reset"></calcite-action>
+        <calcite-button disabled type="reset">Disabled Reset</calcite-button>
+        <calcite-action icon="submit" text="Submit Action" text-enabled type="submit"></calcite-action>
+        <calcite-action
+          disabled
+          icon="submit"
+          text="Disabled Submit Action"
+          text-enabled
+          type="submit"
+        ></calcite-action>
+        <calcite-action icon="reset" text="Reset Action" text-enabled type="reset"></calcite-action>
+        <calcite-action disabled icon="reset" text="Disabled Reset Action" text-enabled type="reset"></calcite-action>
+        <calcite-button href="https://www.esri.com/en-us/home" type="submit"
+          >I'm a Calcite Button linked to Esri's homepage</calcite-button
+        >
       </form>
     </demo-form>
   </body>
