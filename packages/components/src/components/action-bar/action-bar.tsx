@@ -207,7 +207,14 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the position of the component depending on the element's `dir` property. */
+  /**
+   * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   *
+   * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
+   * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
+   *
+   * When `expanded` is `true`, the chevron direction is reversed.
+   */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
