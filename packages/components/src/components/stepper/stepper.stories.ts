@@ -370,3 +370,15 @@ export const horizontalContentHeight = (): string =>
     <calcite-stepper-item heading="Add images"></calcite-stepper-item>
     <calcite-stepper-item heading="Review"></calcite-stepper-item>
   </calcite-stepper>`;
+
+export const horizontalBoxSizing = (): string =>
+  html`<calcite-stepper numbered>
+    <calcite-stepper-item heading="Add info" selected>
+      <calcite-notice width="full" open>
+        <div slot="title">Step 1 content</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Add data"> </calcite-stepper-item>
+    <calcite-stepper-item heading="Add images"> </calcite-stepper-item>
+    <calcite-stepper-item heading="Review"> </calcite-stepper-item>
+  </calcite-stepper>`;
