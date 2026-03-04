@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+    <script src="/src/demos/_assets/demo-form.ts"></script>
   </head>
 
-  <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
-
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
-    </demo-dom-swapper>
-    <demo-options></demo-options>
+  <body class="calcite-mode-auto">
+    <demo-form>
+      <form>
+        <input type="text" name="nativeText" />
+        <calcite-input-text name="calciteText"></calcite-input-text>
+        <calcite-button type="submit">Submit</calcite-button>
+      </form>
+    </demo-form>
   </body>
 </html>

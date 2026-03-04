@@ -13,7 +13,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
+import { findAssociatedForm, FormOwner } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -24,6 +24,7 @@ import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -45,6 +46,8 @@ declare global {
 export class Button extends LitElement implements LabelableComponent, FormOwner {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override styles = styles;
 
   //#endregion
@@ -59,6 +62,8 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   private contentRef = createRef<HTMLSpanElement>();
 
   formEl: HTMLFormElement;
+
+  formTrigger = useFormTrigger(this);
 
   labelEl: Label["el"];
 
@@ -240,23 +245,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   }
 
   onLabelClick(): void {
-    this.handleClick();
     this.setFocus();
-  }
-
-  private handleClick(): void {
-    const { type } = this;
-
-    if (this.href) {
-      return;
-    }
-
-    // this.type refers to type attribute, not child element type
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
   }
 
   private setTooltipText(): void {
@@ -347,7 +336,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
-          onClick={this.handleClick}
           ref={this.setChildEl}
           rel={childElType === "a" && this.rel}
           tabIndex={this.disabled ? -1 : null}
