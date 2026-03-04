@@ -40,7 +40,7 @@ interface PositionFloatingUiOptions {
   arrowEl?: SVGSVGElement;
 
   /**
-   * The direction of the component, which determines the effective placement of variation placements (e.g., "leading" or "trailing"). If not provided, it will be determined based on the `floatingEl`'s direction or inherited direction.
+   * The direction of the component, which determines the effective placement of variation placements (e.g., "leading" or "trailing").
    */
   direction: "ltr" | "rtl";
 
