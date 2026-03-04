@@ -4,6 +4,8 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
+import { nextFrame } from "../../utils/dom";
+import { StepperItem } from "../stepper-item/stepper-item";
 
 describe("defaults", () => {
   defaults(
@@ -109,4 +111,70 @@ describe("fixed height sizing", () => {
       expect(contentBox.height).toBeGreaterThan(headerBox.height);
     },
   );
+});
+
+describe("inheritable props in shadow DOM", () => {
+  it("updates items when stepper is inside a custom element shadow root", async () => {
+    if (!customElements.get("calcite-stepper-wrapper")) {
+      customElements.define(
+        "calcite-stepper-wrapper",
+        class extends HTMLElement {
+          constructor() {
+            super();
+            const shadowRoot = this.attachShadow({ mode: "open" });
+
+            shadowRoot.innerHTML = `
+              <calcite-stepper>
+                <slot></slot>
+              </calcite-stepper>
+            `;
+          }
+        },
+      );
+    }
+
+    const { container } = await mount(<div />);
+
+    const wrapper = document.createElement("calcite-stepper-wrapper");
+    wrapper.innerHTML = `
+      <calcite-stepper-item heading="Step 1"></calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2"></calcite-stepper-item>
+    `;
+    container.append(wrapper);
+
+    const shadowRoot = wrapper.shadowRoot;
+
+    await customElements.whenDefined("calcite-stepper");
+    await customElements.whenDefined("calcite-stepper-item");
+    await nextFrame();
+
+    let items = page.getBySelector("calcite-stepper-item");
+    expect(items.length).toBe(2);
+
+    items.elements().forEach((item: StepperItem) => {
+      expect(item.icon).toBe(false);
+      expect(item.numbered).toBe(false);
+      expect(item.layout).toBe(undefined);
+      expect(item.scale).toBe("m");
+    });
+
+    const stepper = shadowRoot.querySelector("calcite-stepper");
+
+    stepper.icon = true;
+    stepper.numbered = true;
+    stepper.layout = "vertical";
+    stepper.scale = "l";
+
+    await nextFrame();
+
+    items = page.getBySelector("calcite-stepper-item");
+    expect(items.length).toBe(2);
+
+    items.elements().forEach((item: StepperItem) => {
+      expect(item.icon).toBe(true);
+      expect(item.numbered).toBe(true);
+      expect(item.layout).toBe("vertical");
+      expect(item.scale).toBe("l");
+    });
+  });
 });

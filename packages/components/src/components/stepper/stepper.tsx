@@ -295,7 +295,7 @@ export class Stepper extends LitElement {
   }
 
   private updateItems(): void {
-    this.el.querySelectorAll("calcite-stepper-item").forEach((item) => {
+    this.items.forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
       item.layout = this.layout;
