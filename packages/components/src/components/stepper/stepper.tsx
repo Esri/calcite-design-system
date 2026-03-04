@@ -201,6 +201,7 @@ export class Stepper extends LitElement {
     if (
       (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("numberingSystem") && (this.hasUpdated || this.numberingSystem !== undefined))
     ) {
@@ -208,7 +209,6 @@ export class Stepper extends LitElement {
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
-      this.updateItems();
       this.determineActiveStepper();
     }
 
