@@ -200,16 +200,16 @@ export class Stepper extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
-      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("numberingSystem") && (this.hasUpdated || this.numberingSystem !== undefined))
     ) {
       this.updateItems();
-      this.determineActiveStepper();
     }
 
-    if (changes.has("numberingSystem")) {
-      this.setStepperItemNumberingSystem();
+    if (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) {
+      this.updateItems();
+      this.determineActiveStepper();
     }
 
     if (changes.has("currentActivePosition")) {
@@ -300,6 +300,7 @@ export class Stepper extends LitElement {
       item.numbered = this.numbered;
       item.layout = this.layout;
       item.scale = this.scale;
+      item.numberingSystem = this.numberingSystem;
     });
   }
 
@@ -345,12 +346,6 @@ export class Stepper extends LitElement {
     return this.items.filter((item) => !item.disabled && !isHidden(item));
   }
 
-  private setStepperItemNumberingSystem(): void {
-    this.items.forEach((item: StepperItem["el"]) => {
-      item.numberingSystem = this.numberingSystem;
-    });
-  }
-
   private handleActionClick(event: MouseEvent): void {
     const currentActivePosition = this.currentActivePosition;
     const target = event.target as Action["el"];
@@ -387,7 +382,7 @@ export class Stepper extends LitElement {
     const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerRef.value.style.gridTemplateAreas = spacing;
     this.containerRef.value.style.gridTemplateColumns = spacing;
-    this.setStepperItemNumberingSystem();
+    this.updateItems();
   }
 
   //#endregion

@@ -154,7 +154,7 @@ describe("inheritable props in shadow DOM", () => {
     items.elements().forEach((item: StepperItem) => {
       expect(item.icon).toBe(false);
       expect(item.numbered).toBe(false);
-      expect(item.layout).toBe(undefined);
+      expect(item.layout).toBe("horizontal");
       expect(item.scale).toBe("m");
     });
 
