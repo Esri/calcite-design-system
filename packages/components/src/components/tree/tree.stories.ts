@@ -1,22 +1,14 @@
+import { Decorator } from "@storybook/web-components-vite";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Scale } from "../interfaces";
-import { Tree } from "./tree";
 
 /**
  * This decorator takes HTML for items and will create a composite story for all scales for each specified selection mode.
  *
- * @param itemsStory - the HTML story template for items
- * @param context - the context object
- * @param context.args - the args object
- * @param context.args.selectionMode - the selection mode(s) to use for the tree
- * @param context.args.lines
- * @returns the composite story for all scales for  specified selection mode
+ * @returns the composite story for all scales for the specified selection mode
  */
-function allScaleTreeBuilder(
-  itemsStory: () => string,
-  context: { args: { selectionMode: Tree["selectionMode"]; lines: boolean } },
-): string {
+const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
   const items = itemsStory();
   const { selectionMode = "single", lines } = context.args;
   const scales: Scale[] = ["s", "m", "l"];
@@ -46,7 +38,7 @@ function allScaleTreeBuilder(
       )}
     </div>
   `;
-}
+};
 
 export default {
   title: "Components/Tree",
