@@ -49,15 +49,19 @@ jobs:
           npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
 
           git checkout -b ci/cherry-pick-release-commit origin/dev
+          dev_head="$(git rev-parse HEAD)"
 
           if ! git cherry-pick "$release_commit"; then
-            git checkout --theirs \
-              ${{github.workspace}}/packages/*/CHANGELOG.md
-
-            git checkout --theirs \
-              ${{github.workspace}}/packages/*/package.json
-
+            git checkout --theirs -- packages/*/CHANGELOG.md
+            git checkout --ours -- packages/*/package.json
             git cherry-pick --continue
+          fi
+
+          git restore --source="$dev_head" -- packages/*/package.json
+          git add -- packages/*/package.json
+
+          if ! git diff --cached --quiet; then
+            git commit --amend --no-edit
           fi
 
           git push -u origin HEAD
