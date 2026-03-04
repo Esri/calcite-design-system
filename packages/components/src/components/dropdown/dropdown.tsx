@@ -54,7 +54,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -197,7 +197,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl,
         offsetDistance,

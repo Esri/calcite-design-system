@@ -31,7 +31,7 @@ export class TableCell extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   /**
    * Made into a prop for testing purposes only
@@ -164,7 +164,7 @@ export class TableCell extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = this.#dir;
+    const dir = this.direction;
     const staticCell =
       this.disabled ||
       (this.interactionMode === "static" &&

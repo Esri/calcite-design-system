@@ -97,7 +97,7 @@ export class Autocomplete
 
   defaultInputValue: Autocomplete["inputValue"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   floatingEl: HTMLDivElement;
 
@@ -356,7 +356,7 @@ export class Autocomplete
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,

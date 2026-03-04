@@ -43,7 +43,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   defaultValue: Checkbox["checked"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -250,7 +250,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = this.#dir === "rtl";
+    const rtl = this.direction === "rtl";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>

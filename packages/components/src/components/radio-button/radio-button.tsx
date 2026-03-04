@@ -40,7 +40,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   defaultValue: RadioButton["value"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -391,7 +391,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
     let adjustedKey = key;
 
-    if (this.#dir === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

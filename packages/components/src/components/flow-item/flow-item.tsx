@@ -51,7 +51,7 @@ export class FlowItem extends LitElement {
 
   private containerRef = createRef<Panel["el"]>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   /**
    * Made into a prop for testing purposes only
@@ -273,7 +273,7 @@ export class FlowItem extends LitElement {
   //#region Rendering
 
   private renderBackButton(): JsxNode {
-    const rtl = this.#dir === "rtl";
+    const rtl = this.direction === "rtl";
     const { showBackButton, backButtonClick, messages } = this;
     const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;

@@ -64,7 +64,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   private arrowEl: SVGSVGElement;
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -248,7 +248,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,

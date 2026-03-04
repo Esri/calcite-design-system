@@ -34,7 +34,7 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -603,7 +603,7 @@ export class TimePicker extends LitElement implements TimeComponent {
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: meridiemOrder === 0 || this.#dir === "rtl",
+              [CSS.meridiemStart]: meridiemOrder === 0 || this.direction === "rtl",
             }}
             role="group"
           >

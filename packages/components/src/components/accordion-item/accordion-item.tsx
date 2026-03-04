@@ -39,7 +39,7 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private headerRef = createRef<HTMLButtonElement>();
 
@@ -369,7 +369,7 @@ export class AccordionItem extends LitElement {
         <div
           class={{
             [CSS.header]: true,
-            [CSS_UTILITY.rtl]: this.#dir === "rtl",
+            [CSS_UTILITY.rtl]: this.direction === "rtl",
             [CSS.headerAppearance(this.appearance)]: true,
           }}
         >

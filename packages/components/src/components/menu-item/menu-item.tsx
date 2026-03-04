@@ -41,7 +41,7 @@ export class MenuItem extends LitElement {
 
   private anchorRef = createRef<HTMLAnchorElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private dropdownActionRef = createRef<Action["el"]>();
 
@@ -409,7 +409,7 @@ export class MenuItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const dir = this.#dir;
+    const dir = this.direction;
     return (
       <li
         class={{

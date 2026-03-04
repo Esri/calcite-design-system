@@ -53,7 +53,7 @@ export class TabTitle extends LitElement {
 
   private containerEl: HTMLDivElement;
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private guid = IDS.host(guid());
 
@@ -345,7 +345,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (this.#dir === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
           this.calciteInternalTabsFocusPrevious.emit();
@@ -353,7 +353,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (this.#dir === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
           this.calciteInternalTabsFocusNext.emit();

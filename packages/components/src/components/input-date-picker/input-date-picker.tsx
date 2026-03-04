@@ -114,7 +114,7 @@ export class InputDatePicker
 
   private dialogId = IDS.dialog(guid());
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private endInputRef = createRef<InputText["el"]>();
 
@@ -379,7 +379,7 @@ export class InputDatePicker
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,

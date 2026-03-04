@@ -20,7 +20,7 @@ export class Progress extends LitElement {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   //#endregion
 
@@ -52,7 +52,7 @@ export class Progress extends LitElement {
   override render(): JsxNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value}%` } : {};
-    const dir = this.#dir;
+    const dir = this.direction;
     return (
       <div
         ariaLabel={this.label || this.text}

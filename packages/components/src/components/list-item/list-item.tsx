@@ -58,7 +58,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private handleGridRef = createRef<HTMLDivElement>();
 
@@ -827,7 +827,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
       return null;
     }
 
-    const dir = this.#dir;
+    const dir = this.direction;
 
     const icon = expandable
       ? expanded

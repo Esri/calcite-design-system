@@ -42,7 +42,7 @@ export class TabNav extends LitElement {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private effectiveDir: Direction = "ltr";
 
@@ -182,7 +182,7 @@ export class TabNav extends LitElement {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    this.effectiveDir = this.#dir;
+    this.effectiveDir = this.direction;
   }
 
   loaded(): void {

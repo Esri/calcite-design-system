@@ -44,7 +44,7 @@ export class ShellPanel extends LitElement {
 
   //#region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -241,7 +241,7 @@ export class ShellPanel extends LitElement {
     }
 
     const rect = this.getContentElDOMRect();
-    const invertRTL = this.#dir === "rtl" ? -1 : 1;
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
@@ -319,7 +319,7 @@ export class ShellPanel extends LitElement {
 
     this.resizeValues = values;
 
-    const rtl = this.#dir === "rtl";
+    const rtl = this.direction === "rtl";
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -401,7 +401,7 @@ export class ShellPanel extends LitElement {
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
-    const dir = this.#dir;
+    const dir = this.direction;
     const isBlockPosition = layout === "horizontal";
 
     const separatorNode =

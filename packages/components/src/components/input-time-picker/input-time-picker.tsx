@@ -78,7 +78,7 @@ export class InputTimePicker
 
   defaultValue: InputTimePicker["value"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -562,7 +562,7 @@ export class InputTimePicker
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
-    const meridiemStart = meridiemOrder === 0 || this.#dir === "rtl";
+    const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <this.interactiveContainer disabled={this.disabled}>

@@ -55,7 +55,7 @@ export class Sheet extends LitElement {
 
   private contentRef = createRef<HTMLDivElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -407,7 +407,7 @@ export class Sheet extends LitElement {
     }
 
     const rect = this.getContentRefDOMRect();
-    const invertRTL = this.#dir === "rtl" ? -1 : 1;
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
@@ -502,7 +502,7 @@ export class Sheet extends LitElement {
 
     this.resizeValues = values;
 
-    const rtl = this.#dir === "rtl";
+    const rtl = this.direction === "rtl";
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -578,7 +578,7 @@ export class Sheet extends LitElement {
 
   override render(): JsxNode {
     const { resizable, position, resizeValues } = this;
-    const dir = this.#dir;
+    const dir = this.direction;
     const isBlockPosition = position === "block-start" || position === "block-end";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "aria-describedby", this.contentId);

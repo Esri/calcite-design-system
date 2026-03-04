@@ -26,7 +26,7 @@ export class Icon extends LitElement {
 
   // #region Private Properties
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private intersectionObserver: IntersectionObserver;
 
@@ -163,7 +163,7 @@ export class Icon extends LitElement {
 
   override render(): JsxNode {
     const { flipRtl, pathData, scale, textLabel } = this;
-    const dir = this.#dir;
+    const dir = this.direction;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");

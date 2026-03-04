@@ -96,7 +96,7 @@ export class Combobox
 
   private closeButtonRef = createRef<HTMLButtonElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -534,7 +534,7 @@ export class Combobox
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,

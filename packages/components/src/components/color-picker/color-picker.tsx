@@ -89,7 +89,7 @@ export class ColorPicker extends LitElement {
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private hueScopeRef = createRef<HTMLDivElement>();
 
@@ -1666,7 +1666,7 @@ export class ColorPicker extends LitElement {
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
-    const direction = this.#dir;
+    const direction = this.direction;
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (

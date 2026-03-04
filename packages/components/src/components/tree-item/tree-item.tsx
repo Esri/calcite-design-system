@@ -43,7 +43,7 @@ export class TreeItem extends LitElement {
 
   private childTree: Tree["el"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private isSelectionMultiLike: boolean;
 
@@ -367,7 +367,7 @@ export class TreeItem extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = this.#dir === "rtl";
+    const rtl = this.direction === "rtl";
     const showCheckmark = this.selectionMode !== "none" && this.selectionMode !== "ancestors";
     const showBlank = this.selectionMode === "none" && !this.hasChildren;
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;

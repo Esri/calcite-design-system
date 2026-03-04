@@ -54,7 +54,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
 
   private arrowRef = createRef<SVGSVGElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   floatingEl: HTMLDivElement;
 
@@ -158,7 +158,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
-        direction: this.#dir,
+        direction: this.direction,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,

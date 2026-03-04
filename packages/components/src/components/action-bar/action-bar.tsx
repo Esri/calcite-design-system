@@ -52,7 +52,7 @@ export class ActionBar extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private expandToggleEl: Action["el"];
 
@@ -478,7 +478,7 @@ export class ActionBar extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
-        direction={this.#dir}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

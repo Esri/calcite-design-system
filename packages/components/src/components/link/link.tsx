@@ -37,7 +37,7 @@ export class Link extends LitElement {
 
   private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -129,7 +129,7 @@ export class Link extends LitElement {
 
   override render(): JsxNode {
     const { download } = this;
-    const dir = this.#dir;
+    const dir = this.direction;
     const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon

@@ -45,7 +45,7 @@ export class ActionPad extends LitElement {
 
   private actionGroups: ActionGroup["el"][];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -313,7 +313,7 @@ export class ActionPad extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
-        direction={this.#dir}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

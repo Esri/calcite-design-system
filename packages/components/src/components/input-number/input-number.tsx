@@ -88,7 +88,7 @@ export class InputNumber
 
   defaultValue: InputNumber["value"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -934,7 +934,7 @@ export class InputNumber
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = this.#dir;
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />

@@ -48,7 +48,7 @@ export class Carousel extends LitElement {
 
   private containerId = IDS.host(guid());
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   private itemContainerRef = createRef<HTMLDivElement>();
 
@@ -700,7 +700,7 @@ export class Carousel extends LitElement {
 
   private renderArrow(direction: "previous" | "next"): JsxNode {
     const isPrev = direction === "previous";
-    const dir = this.#dir;
+    const dir = this.direction;
     const scale = this.arrowType === "edge" ? "m" : "s";
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
     const title = isPrev ? this.messages.previous : this.messages.next;

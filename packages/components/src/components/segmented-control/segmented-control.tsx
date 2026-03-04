@@ -55,7 +55,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
 
   defaultValue: SegmentedControl["value"];
 
-  #dir = useDirection();
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -286,7 +286,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
 
     let adjustedKey = key;
 
-    if (this.#dir === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }
