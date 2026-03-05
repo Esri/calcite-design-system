@@ -6594,7 +6594,6 @@ export const stickyGroupHeader = (): string =>
         </calcite-list-item>
         <calcite-list-item
           selected
-          id="birdwatching-zones"
           label="Birdwatching zones"
           description="Habitats where visitors can observe local bird species."
           value="birdwatching-zones"
@@ -6610,7 +6609,7 @@ export const stickyGroupHeader = (): string =>
       <script>
         (async () => {
           await customElements.whenDefined("calcite-list-item");
-          const birdWatchingZonesItem = document.getElementById("birdwatching-zones");
+          const birdWatchingZonesItem = document.querySelector("calcite-list-item[value='birdwatching-zones']");
           await birdWatchingZonesItem.componentOnReady();
           birdWatchingZonesItem.scrollIntoView({ block: "nearest" });
         })();

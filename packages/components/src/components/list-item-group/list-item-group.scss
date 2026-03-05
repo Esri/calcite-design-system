@@ -20,7 +20,7 @@
 @include includes.disabled();
 
 .container {
-  @apply m-0 flex flex-1 sticky top-0 z-default;
+  @apply m-0 flex flex-1 sticky top-0 z-sticky;
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-list-color, var(--calcite-color-text-1));
 }
