@@ -351,9 +351,15 @@ export class SortHandle extends LitElement {
   }
 
   private renderReorderGroup(): JsxNode {
-    return this.hasReorderItems ? (
+    if (!this.hasReorderItems) {
+      return null;
+    }
+
+    const shouldShowGroupTitle = this.moveToItems.length > 0 || this.addToItems.length > 0;
+
+    return (
       <calcite-dropdown-group
-        groupTitle={this.messages.reorder}
+        groupTitle={shouldShowGroupTitle ? this.messages.reorder : undefined}
         id={IDS.reorder}
         key="reorder"
         scale={this.scale}
@@ -364,7 +370,7 @@ export class SortHandle extends LitElement {
         {this.renderDown()}
         {this.renderBottom()}
       </calcite-dropdown-group>
-    ) : null;
+    );
   }
 
   private renderAddToGroup(): JsxNode {
@@ -399,10 +405,11 @@ export class SortHandle extends LitElement {
     ) : null;
   }
 
-  private renderDropdownItem(positionIndex: number, label: string): JsxNode {
+  private renderDropdownItem(positionIndex: number, label: string, disabled = false): JsxNode {
     return (
       <calcite-dropdown-item
         data-value={REORDER_VALUES[positionIndex]}
+        disabled={disabled}
         key={REORDER_VALUES[positionIndex]}
         label={label}
         oncalciteDropdownItemSelect={this.handleReorder}
@@ -412,30 +419,20 @@ export class SortHandle extends LitElement {
     );
   }
 
-  private renderTop(): JsxNode | null {
-    const { setPosition } = this;
-
-    return setPosition !== 1 && setPosition !== 2
-      ? this.renderDropdownItem(0, this.messages.moveToTop)
-      : null;
+  private renderTop(): JsxNode {
+    return this.renderDropdownItem(0, this.messages.moveToTop, this.setPosition === 1);
   }
 
-  private renderUp(): JsxNode | null {
-    return this.setPosition !== 1 ? this.renderDropdownItem(1, this.messages.moveUp) : null;
+  private renderUp(): JsxNode {
+    return this.renderDropdownItem(1, this.messages.moveUp, this.setPosition === 1);
   }
 
-  private renderDown(): JsxNode | null {
-    return this.setPosition !== this.setSize
-      ? this.renderDropdownItem(2, this.messages.moveDown)
-      : null;
+  private renderDown(): JsxNode {
+    return this.renderDropdownItem(2, this.messages.moveDown, this.setPosition === this.setSize);
   }
 
-  private renderBottom(): JsxNode | null {
-    const { setPosition, setSize } = this;
-
-    return setPosition !== setSize && setPosition !== setSize - 1
-      ? this.renderDropdownItem(3, this.messages.moveToBottom)
-      : null;
+  private renderBottom(): JsxNode {
+    return this.renderDropdownItem(3, this.messages.moveToBottom, this.setPosition === this.setSize);
   }
 
   //#endregion

@@ -216,6 +216,71 @@ it("doesn't render reorder group when sortDisabled is true", async () => {
   expect(await page.find(`calcite-sort-handle >>> #${IDS.reorder}`)).toBeNull();
 });
 
+it("hides reorder group title when no sibling groups are present", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    `<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`,
+  );
+  await skipAnimations(page);
+
+  const messages: typeof T9nStrings = await (await page.find("calcite-sort-handle")).getProperty("messages");
+  const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
+
+  expect(await reorderGroup.getProperty("groupTitle")).not.toBe(messages.reorder);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("moveToItems", [{ label: "List 2", id: "list2" }]);
+  await page.waitForChanges();
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBe(messages.reorder);
+
+  sortHandle.setProperty("moveToItems", []);
+  sortHandle.setProperty("addToItems", [{ label: "List 2", id: "list2" }]);
+  await page.waitForChanges();
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBe(messages.reorder);
+
+  sortHandle.setProperty("addToItems", []);
+  await page.waitForChanges();
+
+  expect(await reorderGroup.getProperty("groupTitle")).not.toBe(messages.reorder);
+});
+
+it("disables reorder items at boundary positions", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    `<calcite-sort-handle label="test" set-position="1" set-size="5"></calcite-sort-handle>`,
+  );
+  await skipAnimations(page);
+
+  const topItem = await page.find(`calcite-sort-handle >>> [data-value="${REORDER_VALUES[0]}"]`);
+  const upItem = await page.find(`calcite-sort-handle >>> [data-value="${REORDER_VALUES[1]}"]`);
+  const downItem = await page.find(`calcite-sort-handle >>> [data-value="${REORDER_VALUES[2]}"]`);
+  const bottomItem = await page.find(`calcite-sort-handle >>> [data-value="${REORDER_VALUES[3]}"]`);
+
+  expect(await topItem.getProperty("disabled")).toBe(true);
+  expect(await upItem.getProperty("disabled")).toBe(true);
+  expect(await downItem.getProperty("disabled")).toBe(false);
+  expect(await bottomItem.getProperty("disabled")).toBe(false);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("setPosition", 5);
+  await page.waitForChanges();
+
+  expect(await topItem.getProperty("disabled")).toBe(false);
+  expect(await upItem.getProperty("disabled")).toBe(false);
+  expect(await downItem.getProperty("disabled")).toBe(true);
+  expect(await bottomItem.getProperty("disabled")).toBe(true);
+
+  sortHandle.setProperty("setPosition", 3);
+  await page.waitForChanges();
+
+  expect(await topItem.getProperty("disabled")).toBe(false);
+  expect(await upItem.getProperty("disabled")).toBe(false);
+  expect(await downItem.getProperty("disabled")).toBe(false);
+  expect(await bottomItem.getProperty("disabled")).toBe(false);
+});
+
 describe("openClose", () => {
   openClose(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
 });
