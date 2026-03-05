@@ -224,7 +224,7 @@ describe("sticky group heading with filter", () => {
     const list = el as HTMLElement;
 
     // locate the filter row (input) inside the list's shadow DOM
-    const filterInput = list.shadowRoot!.querySelector("calcite-input") as HTMLElement | null;
+    const filterInput = list.shadowRoot!.querySelector("calcite-filter") as HTMLElement | null;
     expect(filterInput).toBeTruthy();
 
     const firstGroup = list.querySelector("calcite-list-item-group")!;
