@@ -292,7 +292,11 @@ export const useForm = <T extends FormComponent>(
     }
 
     controller.onConnected(() => {
-      component.listen("invalid", handleInvalidInput);
+      component.el.addEventListener("invalid", handleInvalidInput);
+    });
+
+    controller.onDisconnected(() => {
+      component.el.removeEventListener("invalid", handleInvalidInput);
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
@@ -307,16 +311,17 @@ export const useForm = <T extends FormComponent>(
       }
 
       if (changes.has("value")) {
-        if (inputDelegate) {
-          inputDelegate.value = component.value;
-          syncInternalInput(component, inputDelegate);
-          inputDelegate.checkValidity();
-          component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
-          if ("validity" in component) {
-            component.validity = component.elementInternals.validity;
-          }
-        }
         component.elementInternals.setFormValue(getFormValue());
+      }
+
+      if (inputDelegate) {
+        inputDelegate.value = component.value;
+        syncInternalInput(component, inputDelegate);
+        inputDelegate.checkValidity();
+        component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
+        if ("validity" in component) {
+          component.validity = component.elementInternals.validity;
+        }
       }
     });
 

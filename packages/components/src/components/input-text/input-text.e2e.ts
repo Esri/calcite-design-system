@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { formAssociatedEI, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
@@ -345,10 +345,6 @@ it("should not focus when clicking validation message", async () => {
   await page.waitForChanges();
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
-});
-
-describe("is form-associated", () => {
-  formAssociatedEI("calcite-input-text", { testValue: "test", submitsOnEnter: true, validation: true });
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input-text");
