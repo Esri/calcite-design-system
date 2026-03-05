@@ -127,7 +127,7 @@ export const simple = (args: CardGroupStoryArgs): string => html`
   </calcite-card-group>
 `;
 
-export const single_TestOnly = (): string => html`
+export const single = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -148,7 +148,7 @@ export const single_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const singlePersistWithPreSelected_TestOnly = (): string => html`
+export const singlePersistWithPreSelected = (): string => html`
   <calcite-card-group selection-mode="single">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -169,7 +169,7 @@ export const singlePersistWithPreSelected_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const multiple_TestOnly = (): string => html`
+export const multiple = (): string => html`
   <calcite-card-group selection-mode="multiple">
     <calcite-card label="forest">
       <span slot="heading">Heading</span>
@@ -190,7 +190,7 @@ export const multiple_TestOnly = (): string => html`
   </calcite-card-group>
 `;
 
-export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
+export const multipleCardHeightsMatchPerRow = (): string => html`
   <div>
     <style>
       calcite-card {
@@ -329,7 +329,7 @@ export const multipleCardHeightsMatchPerRow_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-card-group>
       <calcite-card label="forest">
@@ -352,4 +352,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };

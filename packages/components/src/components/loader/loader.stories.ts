@@ -32,7 +32,7 @@ export const simple = (args: LoaderStoryArgs): string => html`
   <calcite-loader type="${args.type}" scale="${args.scale}" value="${args.value}" />
 `;
 
-export const inline_TestOnly = (): string => html`
+export const inline = (): string => html`
   <div style="display: inline-flex;align-items: center;justify-content: center;width: 100%;">
   <calcite-loader
     scale="m"
@@ -79,7 +79,7 @@ export const determinate = (): string => html`
   </div>
 `;
 
-export const customTheme_TestOnly = (): string => html`
+export const customTheme = (): string => html`
   <calcite-loader
     type="indeterminate"
     scale="m"

@@ -73,7 +73,7 @@ export const withColorStops = (): HTMLDivElement => {
   return div;
 };
 
-export const darkModeRTL_TestOnly = (): HTMLDivElement => {
+export const darkModeRTL = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -90,4 +90,4 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
