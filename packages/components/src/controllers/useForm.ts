@@ -295,7 +295,7 @@ export const useForm = <T extends FormComponent>(
       component.listen("invalid", handleInvalidInput);
     });
 
-    controller.onUpdated((changes: PropertyValues<typeof component>) => {
+    controller.onUpdate((changes: PropertyValues<typeof component>) => {
       if (changes.has("value") && !defaultValueDirty) {
         defaultValueDirty = true;
         component.defaultValue = component.value;
