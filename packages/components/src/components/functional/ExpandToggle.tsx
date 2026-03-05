@@ -14,7 +14,6 @@ interface ExpandToggleProps {
   expanded: boolean;
   expandText: string;
   collapseText: string;
-  direction: "ltr" | "rtl";
   expandLabel: string;
   collapseLabel: string;
   direction: Direction;
@@ -85,7 +84,6 @@ export const ExpandToggle = ({
   tooltip,
   ref,
   scale,
-  direction,
 }: ExpandToggleProps): TemplateResult => {
   const rtl = direction === "rtl";
 
