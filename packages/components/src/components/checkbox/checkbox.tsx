@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   CheckableFormComponent,
   connectForm,
@@ -42,6 +42,8 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   defaultChecked: boolean;
 
   defaultValue: Checkbox["checked"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -248,7 +250,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const rtl = this.direction === "rtl";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>

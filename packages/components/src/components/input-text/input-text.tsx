@@ -12,8 +12,8 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { setRequestedIcon } from "../../utils/dom";
 import {
   connectForm,
   disconnectForm,
@@ -73,6 +73,8 @@ export class InputText
   private childRef = createRef<HTMLInputElement>();
 
   defaultValue: InputText["value"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -543,7 +545,7 @@ export class InputText
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />

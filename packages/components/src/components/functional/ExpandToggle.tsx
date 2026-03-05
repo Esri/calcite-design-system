@@ -14,6 +14,7 @@ interface ExpandToggleProps {
   expanded: boolean;
   expandText: string;
   collapseText: string;
+  direction: "ltr" | "rtl";
   expandLabel: string;
   collapseLabel: string;
   direction: Direction;
@@ -72,11 +73,12 @@ const setTooltipReference = ({
 };
 
 export const ExpandToggle = ({
+  collapseText,
+  collapseLabel,
+  direction,
   expanded,
   expandText,
-  collapseText,
   expandLabel,
-  collapseLabel,
   toggle,
   el,
   position,

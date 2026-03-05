@@ -2,7 +2,8 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
@@ -56,6 +57,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   private contentRef = createRef<HTMLDivElement>();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private direction = useDirection();
 
   private handleGridRef = createRef<HTMLDivElement>();
 
@@ -818,13 +821,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale } = this;
+    const { expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
     }
 
-    const dir = getElementDir(el);
+    const dir = this.direction;
 
     const icon = expandable
       ? expanded
