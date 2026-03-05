@@ -4,8 +4,10 @@ import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
 import { CalciteMenuItem } from "./menu-item";
 
-interface MenuItemStoryArgs
-  extends Pick<CalciteMenuItem, "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"> {
+interface MenuItemStoryArgs extends Pick<
+  CalciteMenuItem,
+  "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"
+> {
   src: string;
 }
 
