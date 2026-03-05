@@ -540,3 +540,44 @@ export const offsetPlacement = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+export const test = (): string =>
+  html`<div style="margin: 50px; padding: 50px">
+    <calcite-button>Non actionable button</calcite-button>
+
+    <calcite-dropdown width="m" type="hover">
+      <calcite-button slot="trigger">Hover</calcite-button>
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+
+    <calcite-button id="hover">Hover: controller</calcite-button>
+    <calcite-dropdown reference-element="hover" width="m" type="hover">
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+
+    <calcite-button id="context">Context: controller</calcite-button>
+    <calcite-dropdown reference-element="context" width="m" type="context">
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </div>`;
