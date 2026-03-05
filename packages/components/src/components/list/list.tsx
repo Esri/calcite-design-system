@@ -3,7 +3,6 @@ import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
@@ -147,11 +146,19 @@ export class List extends LitElement implements SortableComponent {
     return this.filterProps.filter((prop) => prop !== "el");
   }
 
+  private filterRowResizeObserver = createObserver("resize", () => this.updateFilterRowHeight());
+
+  private setFilterContainerRef = (el: HTMLDivElement): void => {
+    this.filterContainerRef = el;
+    this.observeFilterRow();
+    this.updateFilterRowHeight();
+  };
+
+  private filterContainerRef?: HTMLDivElement;
+
   //#endregion
 
   //#region State Properties
-
-  @state() filterContainerRef = createRef<HTMLDivElement>();
 
   @state() assistiveText: string;
 
@@ -168,6 +175,8 @@ export class List extends LitElement implements SortableComponent {
   @state() hasContent = false;
 
   @state() hasEmptyContent = false;
+
+  @state() filterRowHeight = 0;
 
   //#endregion
 
@@ -460,6 +469,7 @@ export class List extends LitElement implements SortableComponent {
 
   override disconnectedCallback(): void {
     this.disconnectObserver();
+    this.unobserveFilterRow();
     disconnectSortableComponent(this);
   }
 
@@ -543,6 +553,24 @@ export class List extends LitElement implements SortableComponent {
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
+  }
+
+  unobserveFilterRow(): void {
+    this.filterRowResizeObserver?.disconnect();
+  }
+
+  private observeFilterRow(): void {
+    this.unobserveFilterRow();
+
+    const filterRowEl = this.filterContainerRef;
+
+    if (filterRowEl) {
+      this.filterRowResizeObserver?.observe(filterRowEl);
+    }
+  }
+
+  private updateFilterRowHeight(): void {
+    this.filterRowHeight = this.filterContainerRef?.clientHeight ?? 0;
   }
 
   private handleListItemChange(): void {
@@ -1221,8 +1249,7 @@ export class List extends LitElement implements SortableComponent {
             [CSS.containerHeight]: this.listItems.length < 1 && loading,
           }}
           style={{
-            ["--calcite-internal-filter-enabled-offset"]:
-              (this.filterContainerRef.value?.clientHeight ?? 0) + "px",
+            ["--calcite-internal-filter-enabled-offset"]: `${this.filterRowHeight}px`,
           }}
         >
           {this.dragEnabled ? (
@@ -1240,7 +1267,7 @@ export class List extends LitElement implements SortableComponent {
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <div class={CSS.sticky} ref={this.filterContainerRef} role="rowgroup">
+              <div class={CSS.sticky} ref={this.setFilterContainerRef} role="rowgroup">
                 <div role="row">
                   <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
