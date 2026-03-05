@@ -3,6 +3,7 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
@@ -50,6 +51,8 @@ export class ActionBar extends LitElement {
   private actions: Action["el"][] = [];
 
   private containerRef = createRef<HTMLDivElement>();
+
+  private direction = useDirection();
 
   private expandToggleEl: Action["el"];
 
@@ -485,6 +488,7 @@ export class ActionBar extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

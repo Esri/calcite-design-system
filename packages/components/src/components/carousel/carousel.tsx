@@ -2,9 +2,9 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   focusElementInGroup,
-  getElementDir,
   slotChangeGetAssignedElements,
   whenAnimationDone,
 } from "../../utils/dom";
@@ -48,6 +48,8 @@ export class Carousel extends LitElement {
 
   private containerId = IDS.host(guid());
 
+  private direction = useDirection();
+
   private itemContainerRef = createRef<HTMLDivElement>();
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
@@ -71,7 +73,7 @@ export class Carousel extends LitElement {
     if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
-        this.direction = "forward";
+        this.itemDirection = "forward";
         this.nextItem(false);
       } else {
         time = time - 0.01;
@@ -97,7 +99,7 @@ export class Carousel extends LitElement {
 
   //#region State Properties
 
-  @state() direction: "forward" | "backward" | "standby" = "standby";
+  @state() itemDirection: "forward" | "backward" | "standby" = "standby";
 
   @state() hasMultiple = false;
 
@@ -255,8 +257,8 @@ export class Carousel extends LitElement {
       this.autoplayWatcher(this.autoplay);
     }
 
-    if (changes.has("direction") && (this.hasUpdated || this.direction !== "standby")) {
-      this.directionWatcher(this.direction);
+    if (changes.has("itemDirection") && (this.hasUpdated || this.itemDirection !== "standby")) {
+      this.itemDirectionWatcher(this.itemDirection);
     }
 
     if (changes.has("playing") && (this.hasUpdated || this.playing !== false)) {
@@ -288,16 +290,18 @@ export class Carousel extends LitElement {
     }
   }
 
-  private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby" || !this.itemContainerRef.value) {
+  private async itemDirectionWatcher(
+    itemDirection: "forward" | "backward" | "standby",
+  ): Promise<void> {
+    if (itemDirection === "standby" || !this.itemContainerRef.value) {
       return;
     }
 
     await whenAnimationDone(
       this.itemContainerRef.value,
-      direction === "forward" ? "item-forward" : "item-backward",
+      itemDirection === "forward" ? "item-forward" : "item-backward",
     );
-    this.direction = "standby";
+    this.itemDirection = "standby";
   }
 
   private suspendWatcher(): void {
@@ -414,17 +418,17 @@ export class Carousel extends LitElement {
   }
 
   private handleArrowClick(event: MouseEvent): void {
-    const direction = (event.target as HTMLDivElement).dataset.direction;
+    const direction = (event.target as HTMLDivElement).dataset.itemDirection;
 
     if (this.playing) {
       this.handlePause(true);
     }
 
     if (direction === "next") {
-      this.direction = "forward";
+      this.itemDirection = "forward";
       this.nextItem(true);
     } else if (direction === "previous") {
-      this.direction = "backward";
+      this.itemDirection = "backward";
       this.previousItem();
     }
   }
@@ -441,7 +445,7 @@ export class Carousel extends LitElement {
       this.handlePause(true);
     }
 
-    this.direction = requestedPosition > this.selectedIndex ? "forward" : "backward";
+    this.itemDirection = requestedPosition > this.selectedIndex ? "forward" : "backward";
     this.setSelectedItem(requestedPosition, true);
   }
 
@@ -522,7 +526,7 @@ export class Carousel extends LitElement {
         if (!this.hasMultiple) {
           return;
         }
-        this.direction = "forward";
+        this.itemDirection = "forward";
         this.nextItem(true);
         break;
       case "ArrowLeft":
@@ -530,7 +534,7 @@ export class Carousel extends LitElement {
         if (!this.hasMultiple) {
           return;
         }
-        this.direction = "backward";
+        this.itemDirection = "backward";
         this.previousItem();
         break;
       case "Home":
@@ -538,7 +542,7 @@ export class Carousel extends LitElement {
         if (this.selectedIndex === 0) {
           return;
         }
-        this.direction = "backward";
+        this.itemDirection = "backward";
         this.setSelectedItem(0, true);
         break;
       case "End":
@@ -546,7 +550,7 @@ export class Carousel extends LitElement {
         if (this.selectedIndex === lastItem) {
           return;
         }
-        this.direction = "forward";
+        this.itemDirection = "forward";
         this.setSelectedItem(lastItem, true);
         break;
     }
@@ -696,9 +700,9 @@ export class Carousel extends LitElement {
     );
   }
 
-  private renderArrow(direction: "previous" | "next"): JsxNode {
-    const isPrev = direction === "previous";
-    const dir = getElementDir(this.el);
+  private renderArrow(itemDirection: "previous" | "next"): JsxNode {
+    const isPrev = itemDirection === "previous";
+    const dir = this.direction;
     const scale = this.arrowType === "edge" ? "m" : "s";
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
     const title = isPrev ? this.messages.previous : this.messages.next;
@@ -707,7 +711,7 @@ export class Carousel extends LitElement {
       <button
         aria-controls={this.containerId}
         class={{ [CSS.paginationItem]: true, [css]: true }}
-        data-direction={direction}
+        data-item-direction={itemDirection}
         onClick={this.handleArrowClick}
         title={title}
       >
@@ -717,7 +721,7 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { direction } = this;
+    const { itemDirection } = this;
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -741,8 +745,8 @@ export class Carousel extends LitElement {
           <section
             class={{
               [CSS.itemContainer]: true,
-              [CSS.itemContainerForward]: direction === "forward",
-              [CSS.itemContainerBackward]: direction === "backward",
+              [CSS.itemContainerForward]: itemDirection === "forward",
+              [CSS.itemContainerBackward]: itemDirection === "backward",
             }}
             id={this.containerId}
             ref={this.itemContainerRef}
