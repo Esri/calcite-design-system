@@ -376,7 +376,7 @@ export class Stepper extends LitElement {
     );
     this.items = items;
     this.updateFilteredItems();
-    const spacing = Array(items.length).fill("1fr").join(" ");
+    const spacing = Array(this.visibleItems.length).fill("1fr").join(" ");
     this.containerRef.value.style.gridTemplateAreas = spacing;
     this.containerRef.value.style.gridTemplateColumns = spacing;
     this.updateItems();
