@@ -7,27 +7,26 @@ import type { Slider as HTMLCalciteSliderElement } from "./slider";
 
 const { scale, status } = ATTRIBUTES;
 
-interface SliderStoryArgs
-  extends Pick<
-    Slider,
-    | "min"
-    | "max"
-    | "value"
-    | "step"
-    | "minLabel"
-    | "disabled"
-    | "labelHandles"
-    | "labelTicks"
-    | "ticks"
-    | "pageStep"
-    | "precise"
-    | "mirrored"
-    | "snap"
-    | "scale"
-    | "status"
-    | "validationMessage"
-    | "validationIcon"
-  > {
+interface SliderStoryArgs extends Pick<
+  Slider,
+  | "min"
+  | "max"
+  | "value"
+  | "step"
+  | "minLabel"
+  | "disabled"
+  | "labelHandles"
+  | "labelTicks"
+  | "ticks"
+  | "pageStep"
+  | "precise"
+  | "mirrored"
+  | "snap"
+  | "scale"
+  | "status"
+  | "validationMessage"
+  | "validationIcon"
+> {
   temperature: string;
 }
 
