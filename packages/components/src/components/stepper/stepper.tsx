@@ -39,11 +39,11 @@ export class Stepper extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private visibleItems: StepperItem["el"][] = [];
+
   private enabledItems: StepperItem["el"][] = [];
 
   private guid = guid();
-
-  private itemMap = new Map<StepperItem["el"], { position: number; content: Node[] }>();
 
   private items: StepperItem["el"][] = [];
 
@@ -101,7 +101,7 @@ export class Stepper extends LitElement {
   /** Set the last `calcite-stepper-item` as active. */
   @method()
   async endStep(): Promise<void> {
-    const enabledStepIndex = this.getEnabledStepIndex(this.items.length - 1, "previous");
+    const enabledStepIndex = this.getEnabledStepIndex(this.visibleItems.length - 1, "previous");
 
     if (typeof enabledStepIndex !== "number") {
       return;
@@ -266,11 +266,7 @@ export class Stepper extends LitElement {
   }
 
   private registerItem(event: CustomEvent): void {
-    const item = event.target as StepperItem["el"];
-    const { content, position } = event.detail;
-
-    this.itemMap.set(item, { position, content });
-    this.enabledItems = this.filterItems();
+    this.updateFilteredItems();
     event.stopPropagation();
   }
 
@@ -305,16 +301,16 @@ export class Stepper extends LitElement {
   }
 
   private determineActiveStepper(): void {
-    const { items } = this;
+    const { visibleItems } = this;
 
-    if (items.length < 2) {
+    if (visibleItems.length < 2) {
       return;
     }
 
     const { currentActivePosition, layout } = this;
 
     this.multipleViewMode = layout !== "horizontal-single";
-    items.forEach((item, index) => {
+    visibleItems.forEach((item, index) => {
       item.itemHidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
     });
   }
@@ -323,14 +319,14 @@ export class Stepper extends LitElement {
     startIndex: number,
     direction: "next" | "previous" = "next",
   ): number | null {
-    const { items, currentActivePosition } = this;
+    const { visibleItems, currentActivePosition } = this;
 
     let newIndex = startIndex;
-    while (newIndex >= 0 && newIndex < items.length && items[newIndex]?.disabled) {
+    while (newIndex >= 0 && newIndex < visibleItems.length && visibleItems[newIndex]?.disabled) {
       newIndex = newIndex + (direction === "previous" ? -1 : 1);
     }
 
-    return newIndex !== currentActivePosition && newIndex < items.length && newIndex >= 0
+    return newIndex !== currentActivePosition && newIndex < visibleItems.length && newIndex >= 0
       ? newIndex
       : null;
   }
@@ -340,10 +336,6 @@ export class Stepper extends LitElement {
     this.calciteInternalStepperItemChange.emit({
       position,
     });
-  }
-
-  private filterItems(): StepperItem["el"][] {
-    return this.items.filter((item) => !item.disabled && !isHidden(item));
   }
 
   private handleActionClick(event: MouseEvent): void {
@@ -358,14 +350,14 @@ export class Stepper extends LitElement {
     if (
       typeof this.currentActivePosition === "number" &&
       currentActivePosition !== this.currentActivePosition &&
-      !this.items[this.currentActivePosition].disabled
+      !this.visibleItems[this.currentActivePosition]?.disabled
     ) {
       this.emitItemSelect();
     }
   }
 
   private getFirstEnabledStepperPosition(): number {
-    const enabledStepIndex = this.items.findIndex((item) => !item.disabled);
+    const enabledStepIndex = this.visibleItems.findIndex((item) => !item.disabled);
 
     if (enabledStepIndex > -1) {
       return enabledStepIndex;
@@ -373,12 +365,17 @@ export class Stepper extends LitElement {
     return 0;
   }
 
+  private updateFilteredItems(): void {
+    this.visibleItems = this.items.filter((item) => !isHidden(item));
+    this.enabledItems = this.visibleItems.filter((item) => !item.disabled);
+  }
+
   private handleDefaultSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is StepperItem["el"] =>
-        el?.tagName === "CALCITE-STEPPER-ITEM" && !isHidden(el as StepperItem["el"]),
+      (el): el is StepperItem["el"] => el?.tagName === "CALCITE-STEPPER-ITEM",
     );
     this.items = items;
+    this.updateFilteredItems();
     const spacing = Array(items.length).fill("1fr").join(" ");
     this.containerRef.value.style.gridTemplateAreas = spacing;
     this.containerRef.value.style.gridTemplateColumns = spacing;
@@ -401,7 +398,7 @@ export class Stepper extends LitElement {
       >
         {this.layout === "horizontal-single" && (
           <div class={{ [CSS.stepBarContainer]: true }}>
-            {this.items.map((item, index) => (
+            {this.visibleItems.map((item, index) => (
               <StepBar
                 active={index === this.currentActivePosition}
                 complete={item.complete && index !== this.currentActivePosition && !item.error}

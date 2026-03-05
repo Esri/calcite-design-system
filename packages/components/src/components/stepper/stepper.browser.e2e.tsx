@@ -156,6 +156,7 @@ describe("inheritable props in shadow DOM", () => {
       expect(item.numbered).toBe(false);
       expect(item.layout).toBe("horizontal");
       expect(item.scale).toBe("m");
+      expect(item.numberingSystem).toBeUndefined();
     });
 
     const stepper = shadowRoot.querySelector("calcite-stepper")!;
@@ -164,6 +165,7 @@ describe("inheritable props in shadow DOM", () => {
     stepper.numbered = true;
     stepper.layout = "vertical";
     stepper.scale = "l";
+    stepper.numberingSystem = "arab";
 
     await nextFrame();
 
@@ -175,6 +177,7 @@ describe("inheritable props in shadow DOM", () => {
       expect(item.numbered).toBe(true);
       expect(item.layout).toBe("vertical");
       expect(item.scale).toBe("l");
+      expect(item.numberingSystem).toBe("arab");
     });
   });
 });
