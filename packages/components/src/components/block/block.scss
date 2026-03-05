@@ -271,8 +271,7 @@ calcite-sort-handle {
   @apply flex-1 relative min-h-0 opacity-0;
   padding-block: var(--calcite-internal-block-padding-block);
   padding-inline: var(--calcite-internal-block-padding-inline);
-  transition-property: opacity;
-  transition-duration: var(--calcite-animation-timing);
+  transition: opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 .content-end,
@@ -310,7 +309,7 @@ calcite-action-menu {
   }
 
   .content {
-    @apply opacity-100;
+    opacity: 1;
   }
 }
 
