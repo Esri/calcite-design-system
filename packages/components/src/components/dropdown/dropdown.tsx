@@ -3,6 +3,7 @@ import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
 import { VirtualElement } from "@floating-ui/utils";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -67,6 +68,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   referenceElementController = useReferenceElement(manager)(this);
+
+  private direction = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -227,6 +230,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl: virtualReferenceEl ?? referenceEl,
         offsetDistance,

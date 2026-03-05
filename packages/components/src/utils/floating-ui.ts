@@ -20,7 +20,7 @@ import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
-import { getElementDir } from "./dom";
+import { Direction } from "./dom";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -39,6 +39,11 @@ interface PositionFloatingUiOptions {
    * The associated arrow element used to point to the reference element, if applicable.
    */
   arrowEl?: SVGSVGElement;
+
+  /**
+   * The direction of the component, which determines the effective placement of variation placements (e.g., "leading" or "trailing").
+   */
+  direction: Direction;
 
   /**
    * Prevents flipping the component's placement when overlapping its `referenceElement`.
@@ -99,6 +104,7 @@ export const positionFloatingUI =
     component: FloatingUIComponent,
     {
       arrowEl,
+      direction,
       flipDisabled,
       flipPlacements,
       floatingEl,
@@ -115,7 +121,7 @@ export const positionFloatingUI =
       return;
     }
 
-    const isRTL = getElementDir(floatingEl) === "rtl";
+    const isRTL = direction === "rtl";
 
     const {
       x,

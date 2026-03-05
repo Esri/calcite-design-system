@@ -2,7 +2,7 @@
 import { literal } from "lit/static-html.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconName } from "../icon/interfaces";
@@ -36,6 +36,8 @@ export class Link extends LitElement {
   //#region Private Properties
 
   private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
+
+  private direction = useDirection();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -126,8 +128,8 @@ export class Link extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { download, el } = this;
-    const dir = getElementDir(el);
+    const { download } = this;
+    const dir = this.direction;
     const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon
