@@ -46,7 +46,7 @@ describe("sticky container", () => {
     const computedStyle = getComputedStyle(container);
 
     expect(computedStyle.position).toBe("sticky");
-    expect(computedStyle.top).toBe("0px");
+    expect(computedStyle.insetBlockStart).toBe("0px");
     expect(computedStyle.zIndex).not.toBe("auto");
   });
 });
