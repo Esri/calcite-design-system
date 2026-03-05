@@ -292,10 +292,6 @@ export const useForm = <T extends FormComponent>(
     }
 
     controller.onConnected(() => {
-      // workaround for luminaFormAssociatedCallback not firing
-      component.el.dispatchEvent(
-        new CustomEvent("luminaFormAssociatedCallback", { detail: [component.elementInternals.form] }),
-      );
       component.listen("invalid", handleInvalidInput);
     });
 
