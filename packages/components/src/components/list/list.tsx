@@ -555,7 +555,7 @@ export class List extends LitElement implements SortableComponent {
     this.setUpSorting();
   }
 
-  unobserveFilterRow(): void {
+  private unobserveFilterRow(): void {
     this.filterRowResizeObserver?.disconnect();
   }
 
