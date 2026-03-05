@@ -6554,7 +6554,7 @@ export const emptyContent = (): string =>
 
 export const stickyGroupHeader = (): string =>
   html`<div style="height:300px; overflow: auto;">
-    <calcite-list label="Park features">
+    <calcite-list label="Park features" selection-mode="single">
       <calcite-list-item-group heading="Outdoor recreation">
         <calcite-list-item
           label="Hiking trails"
@@ -6593,6 +6593,7 @@ export const stickyGroupHeader = (): string =>
         >
         </calcite-list-item>
         <calcite-list-item
+          selected
           id="birdwatching-zones"
           label="Birdwatching zones"
           description="Habitats where visitors can observe local bird species."
