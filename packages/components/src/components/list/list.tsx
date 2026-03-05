@@ -3,6 +3,7 @@ import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
@@ -149,6 +150,8 @@ export class List extends LitElement implements SortableComponent {
   //#endregion
 
   //#region State Properties
+
+  @state() filterContainerRef = createRef<HTMLDivElement>();
 
   @state() assistiveText: string;
 
@@ -1217,6 +1220,10 @@ export class List extends LitElement implements SortableComponent {
             [CSS.container]: true,
             [CSS.containerHeight]: this.listItems.length < 1 && loading,
           }}
+          style={{
+            ["--calcite-internal-filter-enabled-offset"]:
+              (this.filterContainerRef.value?.clientHeight ?? 0) + "px",
+          }}
         >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
@@ -1233,7 +1240,7 @@ export class List extends LitElement implements SortableComponent {
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <div class={CSS.sticky} role="rowgroup">
+              <div class={CSS.sticky} ref={this.filterContainerRef} role="rowgroup">
                 <div role="row">
                   <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
