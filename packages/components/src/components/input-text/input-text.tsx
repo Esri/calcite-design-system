@@ -12,8 +12,8 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { setRequestedIcon } from "../../utils/dom";
 import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -66,6 +66,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   private childRef = createRef<HTMLInputElement>();
 
   defaultValue: InputText["value"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -517,7 +519,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />

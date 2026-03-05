@@ -109,7 +109,7 @@ export const simple = (args: TableStoryArgs): string => html`
   </calcite-table>
 `;
 
-export const simpleStriped_TestOnly = (): string =>
+export const simpleStriped = (): string =>
   html`<calcite-table striped caption="Simple-striped table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -137,7 +137,7 @@ export const simpleStriped_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const bordered_TestOnly = (): string =>
+export const bordered = (): string =>
   html`<calcite-table bordered caption="Bordered table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -165,7 +165,7 @@ export const bordered_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const borderedStriped_TestOnly = (): string =>
+export const borderedStriped = (): string =>
   html`<calcite-table bordered striped caption="Bordered striped table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -193,7 +193,7 @@ export const borderedStriped_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const alignments_TestOnly = (): string =>
+export const alignments = (): string =>
   html`<calcite-table numbered>
     <calcite-table-row slot="table-header" caption="Various alignments table">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -221,7 +221,7 @@ export const alignments_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const alignmentsTableRow_TestOnly = (): string =>
+export const alignmentsTableRow = (): string =>
   html`<calcite-table numbered selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
@@ -285,7 +285,7 @@ export const alignmentsTableRow_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const alignmentsTableRowAndHeadersAndCells_TestOnly = (): string =>
+export const alignmentsTableRowAndHeadersAndCells = (): string =>
   html`<calcite-table numbered selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Row alignment default (start)"></calcite-table-header>
@@ -349,7 +349,7 @@ export const alignmentsTableRowAndHeadersAndCells_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const disabledRows_TestOnly = (): string =>
+export const disabledRows = (): string =>
   html`<calcite-table caption="Bordered-striped table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -377,7 +377,7 @@ export const disabledRows_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const numbered_TestOnly = (): string =>
+export const numbered = (): string =>
   html` <calcite-table numbered caption="Numbered table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -405,7 +405,7 @@ export const numbered_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const richCellContent_TestOnly = (): string =>
+export const richCellContent = (): string =>
   html` <calcite-table numbered caption="With rich cell content table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -440,7 +440,7 @@ export const richCellContent_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const layoutFixed_TestOnly = (): string =>
+export const layoutFixed = (): string =>
   html`<calcite-table layout="fixed" caption="Layout fixed">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -468,7 +468,7 @@ export const layoutFixed_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const rowSpanAndColSpan_TestOnly = (): string =>
+export const rowSpanAndColSpan = (): string =>
   html`<calcite-table bordered striped caption="Using row-span and col-span table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
@@ -505,7 +505,7 @@ export const rowSpanAndColSpan_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const rowSpanAndColSpanNumbered_TestOnly = (): string =>
+export const rowSpanAndColSpanNumbered = (): string =>
   html`<calcite-table bordered striped numbered caption="Using row-span and col-span table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description" col-span="7"></calcite-table-header>
@@ -542,7 +542,7 @@ export const rowSpanAndColSpanNumbered_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const rowSpanAndColSpan3_TestOnly = (): string =>
+export const rowSpanAndColSpan3 = (): string =>
   html`<calcite-table bordered striped caption="Using row-span and col-span table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -584,7 +584,7 @@ export const rowSpanAndColSpan3_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const complexWithFooter_TestOnly = (): string =>
+export const complexWithFooter = (): string =>
   html`<calcite-table caption="Multiple headers using col-span table" bordered>
     <calcite-table-row slot="table-header">
       <calcite-table-header col-span="2" heading="Name"></calcite-table-header>
@@ -642,7 +642,7 @@ export const complexWithFooter_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const headersInRows_TestOnly = (): string =>
+export const headersInRows = (): string =>
   html` <calcite-table caption="Headers in rows table">
     <calcite-table-row>
       <calcite-table-header heading="Heading"></calcite-table-header>
@@ -670,7 +670,7 @@ export const headersInRows_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const headersInRowsAndHeadAndFooter_TestOnly = (): string =>
+export const headersInRowsAndHeadAndFooter = (): string =>
   html` <calcite-table caption="Headers in rows and table-head table">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading"></calcite-table-header>
@@ -710,7 +710,7 @@ export const headersInRowsAndHeadAndFooter_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const singleSelection_TestOnly = (): string =>
+export const singleSelection = (): string =>
   html` <calcite-table selection-mode="single" caption="selection-mode single table">
     <calcite-action slot="selection-actions" icon="layer"></calcite-action>
     <calcite-action slot="selection-actions" icon="send"></calcite-action>
@@ -742,7 +742,7 @@ export const singleSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const singleSelectionSelected_TestOnly = (): string =>
+export const singleSelectionSelected = (): string =>
   html` <calcite-table selection-mode="single" caption="selection-mode single table">
     <calcite-action slot="selection-actions" icon="layer"></calcite-action>
     <calcite-action slot="selection-actions" icon="send"></calcite-action>
@@ -774,7 +774,7 @@ export const singleSelectionSelected_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
+export const selectionModeMultipleAndSelectedOnLoad = (): string =>
   html` <calcite-table
     page-size="4"
     selection-mode="multiple"
@@ -841,7 +841,7 @@ export const selectionModeMultipleAndSelectedOnLoad_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const selectionModeMultipleAndAllSelectedSinglePageOnLoad_TestOnly = (): string =>
+export const selectionModeMultipleAndAllSelectedSinglePageOnLoad = (): string =>
   html` <calcite-table selection-mode="multiple" numbered caption="selection-mode multiple with selected at load">
     <calcite-action slot="selection-actions" icon="layer"></calcite-action>
     <calcite-action slot="selection-actions" icon="send"></calcite-action>
@@ -873,7 +873,7 @@ export const selectionModeMultipleAndAllSelectedSinglePageOnLoad_TestOnly = (): 
     </calcite-table-row>
   </calcite-table>`;
 
-export const selectionModeMultipleAndAllSelectedMultiplePagesOnLoad_TestOnly = (): string =>
+export const selectionModeMultipleAndAllSelectedMultiplePagesOnLoad = (): string =>
   html` <calcite-table
     page-size="4"
     selection-mode="multiple"
@@ -1008,7 +1008,7 @@ export const selectionModeMultipleAndSelectedSelectionDisplayNoneOnLoad = (): st
     </calcite-table-row>
   </calcite-table>`;
 
-export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader_TestOnly = (): string =>
+export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader = (): string =>
   html`<calcite-table
     page-size="4"
     selection-mode="multiple"
@@ -1093,7 +1093,7 @@ export const selectionModeMultipleAndSelectedOnLoadWithMultipleFooterAndHeader_T
     </calcite-table-row>
   </calcite-table>`;
 
-export const tableHeaderInRows_TestOnly = (): string =>
+export const tableHeaderInRows = (): string =>
   html` <calcite-table selection-mode="multiple" caption="selection-mode single table" striped>
     <calcite-action slot="selection-actions" icon="layer"></calcite-action>
     <calcite-action slot="selection-actions" icon="send"></calcite-action>
@@ -1155,7 +1155,7 @@ export const tableHeaderInRows_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const LongWrappingTextContent_TestOnly = (): string =>
+export const LongWrappingTextContent = (): string =>
   html` <calcite-table numbered caption="Long cell wrapping table">
     <calcite-table-row slot="table-header">
       <calcite-table-header
@@ -1228,7 +1228,7 @@ export const LongWrappingTextContent_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const localized_TestOnly = (): string =>
+export const localized = (): string =>
   html`<calcite-table
     lang="ar"
     numbering-system="arab"
@@ -1395,7 +1395,7 @@ export const localized_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const tableCellCssBackgroundVariable_TestOnly = (): string =>
+export const tableCellCssBackgroundVariable = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1423,7 +1423,7 @@ export const tableCellCssBackgroundVariable_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const tableBorderedWithStripedAndSingleFooter_TestOnly = (): string =>
+export const tableBorderedWithStripedAndSingleFooter = (): string =>
   html`<calcite-table striped bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1457,7 +1457,7 @@ export const tableBorderedWithStripedAndSingleFooter_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const tableBorderedWithMultipleFooter_TestOnly = (): string =>
+export const tableBorderedWithMultipleFooter = (): string =>
   html`<calcite-table bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1497,7 +1497,7 @@ export const tableBorderedWithMultipleFooter_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const tableBorderedWithComplexFooterHeaderRowColSpan_TestOnly = (): string =>
+export const tableBorderedWithComplexFooterHeaderRowColSpan = (): string =>
   html`<calcite-table
     numbered
     caption="Multiple headers using col-span"
@@ -1553,7 +1553,7 @@ export const tableBorderedWithComplexFooterHeaderRowColSpan_TestOnly = (): strin
     </calcite-table-row>
   </calcite-table> `;
 
-export const tableBorderedWithComplexRowColSpan_TestOnly = (): string =>
+export const tableBorderedWithComplexRowColSpan = (): string =>
   html`<calcite-table bordered caption="Table with complex col-span and row-span" layout="fixed">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1626,7 +1626,7 @@ export const tableBorderedWithComplexRowColSpan_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1654,9 +1654,9 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const darkModeRTLWithSelection_TestOnly = (): string =>
+export const darkModeRTLWithSelection = (): string =>
   html`<calcite-table striped caption="Simple-striped table" dir="rtl" selection-mode="multiple">
     <calcite-table-row slot="table-header">
       <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1684,4 +1684,4 @@ export const darkModeRTLWithSelection_TestOnly = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
-darkModeRTLWithSelection_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTLWithSelection.parameters = { themes: modesDarkDefault };

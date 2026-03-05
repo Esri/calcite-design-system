@@ -65,11 +65,12 @@
   .container {
     display: grid;
     // grid-templates-columns are dynamically generated
-    // grid-templates-rows are dynamically generated
+    // grid-templates-areas are dynamically generated
     grid-template-areas:
       "items"
       "content";
     gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    grid-template-rows: auto 1fr;
   }
 }
 
