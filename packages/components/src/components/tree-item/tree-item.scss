@@ -166,8 +166,8 @@
   max-block-size: 0;
   overflow: hidden;
   transition:
-    opacity 300ms animation.$easing-function,
-    max-block-size 300ms animation.$easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
   pointer-events: none;
 }
 
@@ -176,8 +176,8 @@
   max-block-size: 900px;
   pointer-events: auto;
   transition:
-    opacity 300ms animation.$easing-function,
-    max-block-size 300ms animation.$easing-function;
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size var(--calcite-internal-animation-timing-slowest) animation.$easing-function;
 
   @starting-style {
     opacity: 0;
