@@ -578,9 +578,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private async focusOnFirstActiveOrDefaultItem(): Promise<void> {
-    const selectedItem = this.getTraversableItems().find((item) => item.selected);
+    const traversableItems = this.getTraversableItems();
+    const selectedItem = traversableItems.find((item) => item.selected);
     const target: DropdownItem["el"] =
-      selectedItem || (this.focusLastDropdownItem ? this.items.at(-1) : this.items[0]);
+      selectedItem || (this.focusLastDropdownItem ? traversableItems.at(-1) : traversableItems[0]);
 
     this.focusLastDropdownItem = false;
 
