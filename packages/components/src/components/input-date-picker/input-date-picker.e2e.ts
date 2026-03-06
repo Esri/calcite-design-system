@@ -224,13 +224,14 @@ it("should clear active date properly when deleted and committed via keyboard", 
   await page.waitForChanges();
 
   for (let i = 0; i < 10; i++) {
-    await input.press("Backspace");
+    await input.press("Delete");
   }
   await input.press("Enter");
 
   await page.waitForChanges();
 
   const element = await page.find("calcite-input-date-picker");
+  await page.waitForChanges();
   expect(await element.getProperty("value")).toBe("");
 });
 

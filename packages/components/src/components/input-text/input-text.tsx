@@ -383,9 +383,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.clearInputTextValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      event.preventDefault();
+    if (event.key === "Enter" && this.formSupport.active) {
       this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 

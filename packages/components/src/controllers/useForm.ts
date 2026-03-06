@@ -177,6 +177,10 @@ function isInputComponent(
 
 interface UseForm {
   /**
+   * Function that returns true if a form is associated with the component, false otherwise
+   */
+  active: boolean;
+  /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
@@ -341,6 +345,9 @@ export const useForm = <T extends FormComponent>(
     }
 
     return {
+      get active() {
+        return !!component.elementInternals.form;
+      },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();
       },
