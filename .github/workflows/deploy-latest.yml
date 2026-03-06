@@ -48,22 +48,25 @@ jobs:
           npm run publish:latest
           npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
 
+          release_version="$(node -p "require('./packages/components/package.json').version")"
+
           git checkout -b ci/cherry-pick-release-commit origin/dev
-          dev_head="$(git rev-parse HEAD)"
 
-          if ! git cherry-pick "$release_commit"; then
-            git checkout --theirs -- packages/*/CHANGELOG.md
-            git checkout --ours -- packages/*/package.json
-            git cherry-pick --continue
-          fi
+          dev_version="$(node -p "require('./packages/components/package.json').version")"
+          kept_version=$(
+            node -p "
+              const semver=require('semver');
+              semver.gt('$dev_version','$release_version') ? '--ours' : '--theirs'
+            "
+          )
 
-          git restore --source="$dev_head" -- packages/*/package.json
-          git add -- packages/*/package.json
+          git cherry-pick --no-commit "$release_commit" || true
 
-          if ! git diff --cached --quiet; then
-            git commit --amend --no-edit
-          fi
+          git checkout --theirs -- packages/*/CHANGELOG.md
+          git checkout "$kept_version" -- packages/*/package.json
+          git add packages/*/CHANGELOG.md packages/*/package.json
 
+          git commit -C "$release_commit"
           git push -u origin HEAD
           gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
             --label "skip visual snapshots"
