@@ -47,7 +47,7 @@ interface FormOwner extends LitElement {
    *
    * When not set, the component will be associated with its ancestor form element, if any.
    *
-   * Note that this prop should use the `@Prop` decorator.
+   * Note that this prop should use the `@property` decorator.
    */
   form: string;
 }
