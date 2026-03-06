@@ -52,19 +52,40 @@ jobs:
 
           git checkout -b ci/cherry-pick-release-commit origin/dev
 
+          dev_commit="$(git rev-parse HEAD)"
           dev_version="$(node -p "require('./packages/components/package.json').version")"
-          kept_version=$(
+
+          kept_commit=$(
             node -p "
               const semver=require('semver');
-              semver.gt('$dev_version','$release_version') ? '--ours' : '--theirs'
+              semver.gt('$dev_version','$release_version') ? '$dev_commit' : '$release_commit'
             "
           )
 
-          git cherry-pick --no-commit "$release_commit" || true
+          if ! git cherry-pick --no-commit "$release_commit"; then
+            conflicts="$()"
 
-          git checkout --theirs -- packages/*/CHANGELOG.md
-          git checkout "$kept_version" -- packages/*/package.json
+            if git diff --name-only --diff-filter=U |
+              grep -qvE 'packages/.*/(CHANGELOG\.md|package\.json)'; then
+              echo "Aborting cherry-pick due to unexpected conflicts."
+              git cherry-pick --abort
+              exit 1
+            else
+              echo "Cherry-pick failed with no detected conflicts. Investigation needed."
+              git cherry-pick --abort
+              exit 1
+            fi
+          fi
+
+          git checkout "$release_commit" -- packages/*/CHANGELOG.md
+          git checkout "$kept_commit" -- packages/*/package.json
           git add packages/*/CHANGELOG.md packages/*/package.json
+
+          if git diff --name-only --diff-filter=U then
+            echo "Aborting cherry-pick due to unexpected conflicts.
+            git cherry-pick --abort
+            exit 1
+          fi
 
           git commit -C "$release_commit"
           git push -u origin HEAD
