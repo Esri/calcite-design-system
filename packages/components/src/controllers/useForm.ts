@@ -2,6 +2,7 @@ import { Writable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
+import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
@@ -26,11 +27,7 @@ export const componentsWithInputEvent = [
  * @returns the event name
  */
 export function getClearValidationEventName(componentTag: string): string {
-  const componentTagCamelCase = componentTag
-    .split("-")
-    .map((part: string, index: number) => (index === 0 ? part : `${part[0].toUpperCase()}${part.slice(1)}`))
-    .join("");
-
+  const componentTagCamelCase = uncapitalize(kebabToPascal(componentTag));
   return `${componentTagCamelCase}${componentsWithInputEvent.includes(componentTag) ? "Input" : "Change"}`;
 }
 
