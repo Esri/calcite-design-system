@@ -1,8 +1,8 @@
 import { beforeEach, expect, it, vi } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import { Mock } from "@vitest/spy";
 import { componentsWithInputEvent, getClearValidationEventName, ValidationProps } from "../../../controllers/useForm";
+import { TestSetup } from "./interfaces";
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */
@@ -46,10 +46,6 @@ interface FormAssociatedOptions {
 
   /** Specifies if the component supports preventing submission and displaying validation messages. */
   validation?: boolean;
-}
-
-interface TestSetup {
-  (): ReturnType<typeof mount>;
 }
 
 /**
