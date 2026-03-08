@@ -141,7 +141,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
 
     /* keeping things simple by using submit-type input
       this should cover button and calcite-button submit cases */
-    const submitter = document.createElement("calcite-button");
+    const submitter = document.createElement("input");
     submitter.type = "submit";
     submitter.id = "submitter";
 
