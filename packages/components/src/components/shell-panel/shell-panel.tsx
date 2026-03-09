@@ -451,7 +451,9 @@ export class ShellPanel extends LitElement {
   }
 
   private setupActionBarObserver(): void {
-    const actionBar = this.el.querySelector('calcite-action-bar[slot="action-bar"]');
+    const actionBar = this.el.querySelector<ActionBar["el"]>(
+      'calcite-action-bar[slot="action-bar"]',
+    );
 
     if (!actionBar || !this.contentRef.value) {
       return;
@@ -462,7 +464,7 @@ export class ShellPanel extends LitElement {
         return;
       }
 
-      const isExpanded = actionBar.hasAttribute("expanded");
+      const isExpanded = actionBar.expanded;
       if (isExpanded) {
         this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
       } else {
@@ -476,7 +478,7 @@ export class ShellPanel extends LitElement {
     });
 
     // Set initial state
-    const isExpanded = actionBar.hasAttribute("expanded");
+    const isExpanded = actionBar.expanded;
     if (isExpanded) {
       this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
     }
