@@ -323,7 +323,6 @@ export const useForm = <T extends FormComponent>(
         });
         return formData;
       }
-
       if (isCheckable(component)) {
         if (component.checked) {
           if (inputDelegate && options.inputType === "checkbox") {
@@ -333,7 +332,6 @@ export const useForm = <T extends FormComponent>(
         }
         return "";
       }
-
       return component.value;
     }
 
