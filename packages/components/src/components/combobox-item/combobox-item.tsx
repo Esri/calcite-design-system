@@ -135,7 +135,7 @@ export class ComboboxItem extends LitElement {
   /**
    * Specifies the selection appearance, where
    *
-   * `"icon"` displays a checkmark or dot, and
+   * `"icon"` displays a radio or checkbox, and
    *
    * `"highlight"` displays a background highlight.
    *
