@@ -4,7 +4,7 @@ import { LitElement, property, createEvent, h, state, JsxNode, method } from "@a
 import { guid } from "../../utils/guid";
 import { ComboboxChildElement } from "../combobox/interfaces";
 import { getAncestors, getDepth, isSingleLike } from "../combobox/utils";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
@@ -133,6 +133,20 @@ export class ComboboxItem extends LitElement {
   > = "multiple";
 
   /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, and
+   *
+   * `"highlight"` displays a background highlight.
+   *
+   * @private
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
+
+  /**
    * Specifies the component's short heading.
    *
    * When provided, the short heading will be displayed in the component's selection.
@@ -251,6 +265,9 @@ export class ComboboxItem extends LitElement {
   }
 
   private renderSelectIndicator(icon: IconName): JsxNode {
+    if (this.selectionAppearance === "highlight") {
+      return null;
+    }
     return (
       <calcite-icon
         class={{
@@ -293,6 +310,7 @@ export class ComboboxItem extends LitElement {
       [CSS.label]: true,
       [CSS.active]: this.active,
       [CSS.single]: isSingleSelect,
+      [CSS.containerHighlightSelected]: this.selected && this.selectionAppearance === "highlight",
     };
     const depth = getDepth(this.el);
 

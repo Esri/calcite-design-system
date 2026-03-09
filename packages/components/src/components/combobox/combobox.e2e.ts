@@ -53,6 +53,84 @@ describe("accessible with open selected items", () => {
   `);
 });
 
+describe("accessible with highlight selection appearance", () => {
+  accessible(html`
+    <calcite-combobox open label="Trees" selection-appearance="highlight">
+      <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+      <calcite-combobox-item selected value="Spruce" heading="Spruce"></calcite-combobox-item>
+      <calcite-combobox-item value="Fir" heading="Fir"></calcite-combobox-item>
+    </calcite-combobox>
+  `);
+});
+
+describe("selectionAppearance", () => {
+  it("propagates selectionAppearance to items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox open label="Trees" selection-appearance="highlight">
+        <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Spruce" heading="Spruce"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const items = await findAll(page, "calcite-combobox-item");
+    for (const item of items) {
+      expect(await item.getProperty("selectionAppearance")).toBe("highlight");
+    }
+  });
+
+  it("applies highlight class to selected items", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox open label="Trees" selection-appearance="highlight">
+        <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+        <calcite-combobox-item value="Spruce" heading="Spruce"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const selectedItem = await page.find("calcite-combobox-item[selected]");
+    const label = await selectedItem.find("." + ComboboxItemCSS.containerHighlightSelected);
+    expect(label).toBeTruthy();
+
+    const unselectedItem = await page.find("calcite-combobox-item:not([selected])");
+    const unselectedLabel = await unselectedItem.find("." + ComboboxItemCSS.containerHighlightSelected);
+    expect(unselectedLabel).toBeNull();
+  });
+
+  it("does not render the selection icon when appearance is highlight", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox open label="Trees" selection-appearance="highlight">
+        <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const selectedItem = await page.find("calcite-combobox-item[selected]");
+    const icon = await selectedItem.find("." + ComboboxItemCSS.icon);
+    expect(icon).toBeNull();
+  });
+
+  it("defaults to icon appearance", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`
+      <calcite-combobox open label="Trees">
+        <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
+      </calcite-combobox>
+    `);
+    await page.waitForChanges();
+
+    const combobox = await page.find("calcite-combobox");
+    expect(await combobox.getProperty("selectionAppearance")).toBe("icon");
+
+    const selectedItem = await page.find("calcite-combobox-item[selected]");
+    const icon = await selectedItem.find("." + ComboboxItemCSS.icon);
+    expect(icon).toBeTruthy();
+  });
+});
+
 describe("labelable", () => {
   labelable("calcite-combobox");
 });
