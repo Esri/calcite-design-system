@@ -301,7 +301,7 @@ export const useForm = <T extends FormComponent>(
         component.defaultChecked = component.checked;
       }
 
-      if (changes.has("value")) {
+      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
