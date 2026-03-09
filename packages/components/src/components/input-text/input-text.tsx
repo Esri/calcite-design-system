@@ -46,8 +46,6 @@ declare global {
 export class InputText extends LitElement implements LabelableComponent, TextualInputComponent {
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
-
   static formAssociated = true;
 
   static override styles = styles;
