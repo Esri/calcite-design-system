@@ -1,4 +1,4 @@
-import { beforeEach, expect, it, vi } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { Mock } from "@vitest/spy";
 import { RenderResult } from "@arcgis/lumina-compiler/testing";
@@ -63,7 +63,7 @@ interface FormAssociatedOptions {
 export function formAssociated(setup: TestSetup, options: FormAssociatedOptions): void {
   const inputTypeContext = options?.inputType ? ` (input type="${options.inputType}")` : "";
 
-  beforeEach(() => {
+  afterEach(() => {
     document.body.innerHTML = "";
   });
 
