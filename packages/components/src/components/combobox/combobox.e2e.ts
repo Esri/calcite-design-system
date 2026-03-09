@@ -90,12 +90,12 @@ describe("selectionAppearance", () => {
     `);
     await page.waitForChanges();
 
-    const selectedItem = await page.find("calcite-combobox-item[selected]");
-    const label = await selectedItem.find("." + ComboboxItemCSS.containerHighlightSelected);
+    const label = await page.find(`calcite-combobox-item[selected] >>> .${ComboboxItemCSS.containerHighlightSelected}`);
     expect(label).toBeTruthy();
 
-    const unselectedItem = await page.find("calcite-combobox-item:not([selected])");
-    const unselectedLabel = await unselectedItem.find("." + ComboboxItemCSS.containerHighlightSelected);
+    const unselectedLabel = await page.find(
+      `calcite-combobox-item:not([selected]) >>> .${ComboboxItemCSS.containerHighlightSelected}`,
+    );
     expect(unselectedLabel).toBeNull();
   });
 
@@ -108,8 +108,7 @@ describe("selectionAppearance", () => {
     `);
     await page.waitForChanges();
 
-    const selectedItem = await page.find("calcite-combobox-item[selected]");
-    const icon = await selectedItem.find("." + ComboboxItemCSS.icon);
+    const icon = await page.find(`calcite-combobox-item[selected] >>> .${ComboboxItemCSS.icon}`);
     expect(icon).toBeNull();
   });
 
@@ -125,8 +124,7 @@ describe("selectionAppearance", () => {
     const combobox = await page.find("calcite-combobox");
     expect(await combobox.getProperty("selectionAppearance")).toBe("icon");
 
-    const selectedItem = await page.find("calcite-combobox-item[selected]");
-    const icon = await selectedItem.find("." + ComboboxItemCSS.icon);
+    const icon = await page.find(`calcite-combobox-item[selected] >>> .${ComboboxItemCSS.icon}`);
     expect(icon).toBeTruthy();
   });
 });
