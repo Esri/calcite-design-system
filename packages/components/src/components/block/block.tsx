@@ -5,7 +5,7 @@ import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -66,6 +66,8 @@ export class Block extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  openCloseController = useOpenClose<this>()(this);
 
   //#endregion
 
@@ -309,10 +311,6 @@ export class Block extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      toggleOpenClose(this);
-    }
-
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
     }
