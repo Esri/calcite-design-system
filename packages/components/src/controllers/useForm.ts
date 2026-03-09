@@ -6,6 +6,7 @@ import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
+import { SetFocusable } from "../utils/dom";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -58,6 +59,7 @@ export interface FormComponent<T = any>
   extends
     FormOwner,
     LitElement,
+    SetFocusable,
     // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
     Partial<Pick<CheckableFormComponent, "checked" | "defaultChecked">> {
   /** When true, this component's value will not be submitted in the form. */

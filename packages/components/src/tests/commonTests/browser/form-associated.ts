@@ -3,8 +3,8 @@ import { userEvent } from "vitest/browser";
 import { Mock } from "@vitest/spy";
 import { RenderResult } from "@arcgis/lumina-compiler/testing";
 import {
-  FormComponent,
   componentsWithInputEvent,
+  FormComponent,
   getClearValidationEventName,
   ValidationProps,
 } from "../../../controllers/useForm";
@@ -173,24 +173,24 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     expect(el.validity).toHaveProperty("valueMissing", true);
   }
 
-  function ensureName(el: FormComponent): void {
+  function ensureName(el: FormComponent["el"]): void {
     if (!el.hasAttribute("name")) {
       el.setAttribute("name", "testName");
     }
   }
 
-  function ensureRequired(el: FormComponent): void {
+  function ensureRequired(el: FormComponent["el"]): void {
     if (!el.hasAttribute("required")) {
       el.toggleAttribute("required");
     }
   }
 
-  function ensureUnchecked(el: FormComponent): void {
+  function ensureUnchecked(el: FormComponent["el"]): void {
     el.removeAttribute("checked");
     el.removeAttribute("selected");
   }
 
-  function ensureForm(el: FormComponent): void {
+  function ensureForm(el: FormComponent["el"]): void {
     if (!el.hasAttribute("form")) {
       el.setAttribute("form", "test-form");
     }
@@ -205,7 +205,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function assertValueResetOnFormReset(
-    el: FormComponent,
+    el: FormComponent["el"],
     options: FormAssociatedOptions,
     reRender: () => Promise<boolean>,
   ): Promise<void> {
@@ -215,7 +215,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     (el as any)[resettablePropName] = options.testValue;
     await reRender();
 
-    const form = document.body.querySelector("form")!;
+    const form = document.querySelector("form")!;
     form.reset();
     await reRender();
 
@@ -297,7 +297,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
      * If the input cannot be submitted because it is invalid, undefined will be returned
      */
     async function submitAndGetValue(): Promise<SubmitValueResult> {
-      const form = document.body.querySelector("form")!;
+      const form = document.querySelector("form")!;
       const inputName = name;
       let resolve: (value: SubmitValueResult) => void;
       const submitPromise = new Promise<SubmitValueResult>((yes) => (resolve = yes));
@@ -332,27 +332,20 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     }
   }
 
-  async function assertFormSubmitOnEnter(el: FormComponent, options: FormAssociatedOptions): Promise<void> {
-    let called = false;
-    const form = document.body.querySelector("form")!;
+  async function assertFormSubmitOnEnter(el: FormComponent["el"], options: FormAssociatedOptions): Promise<void> {
+    const submitHandler = vi.fn((event: SubmitEvent) => event.preventDefault());
+    const form = document.querySelector("form")!;
+    form.addEventListener("submit", submitHandler);
 
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      called = true;
-    });
-
-    const stringifiedTestValue = stringifyTestValue(options.testValue);
-
-    el.value = stringifiedTestValue;
+    el.value = stringifyTestValue(options.testValue);
     await el.setFocus();
-
     await userEvent.keyboard("{Enter}");
 
-    expect(called).toBe(true);
+    expect(submitHandler).toHaveBeenCalledTimes(1);
   }
 
   async function assertPreventsFormSubmission(
-    el: FormComponent,
+    el: FormComponent["el"],
     submitter: HTMLInputElement,
     message: string,
   ): Promise<void> {
@@ -361,7 +354,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function assertClearsValidationOnValueChange(
-    el: HTMLElement,
+    el: FormComponent["el"],
     options: FormAssociatedOptions,
     eventSpy: Mock,
   ): Promise<void> {
@@ -370,6 +363,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
         await userEvent.keyboard(key);
       }
     } else {
+      await el.setFocus();
       await userEvent.type(el, options?.validUserInputTestValue ?? options.testValue);
       await userEvent.keyboard("{Tab}");
     }
@@ -384,7 +378,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     expectValidationProps(el);
   }
 
-  async function assertUserMessageNotOverridden(el: FormComponent, submitter: HTMLInputElement): Promise<void> {
+  async function assertUserMessageNotOverridden(el: FormComponent["el"], submitter: HTMLInputElement): Promise<void> {
     const customValidationMessage = "This is a custom message.";
     const customValidationIcon = "banana";
 
