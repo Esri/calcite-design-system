@@ -1,7 +1,13 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { Mock } from "@vitest/spy";
-import { componentsWithInputEvent, getClearValidationEventName, ValidationProps } from "../../../controllers/useForm";
+import { RenderResult } from "@arcgis/lumina-compiler/testing";
+import {
+  FormComponent,
+  componentsWithInputEvent,
+  getClearValidationEventName,
+  ValidationProps,
+} from "../../../controllers/useForm";
 import { TestSetup } from "./interfaces";
 
 interface FormAssociatedOptions {
@@ -68,7 +74,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function testAncestorFormAssociated(setup: TestSetup): Promise<void> {
-    const { el, reRender } = await setup();
+    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
 
     ensureName(el);
 
@@ -96,7 +102,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function testIdFormAssociated(setup: TestSetup): Promise<void> {
-    const { el, reRender } = await setup();
+    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureForm(el);
@@ -127,7 +133,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function testRequiredPropertyValidation(setup: TestSetup): Promise<void> {
-    const { el } = await setup();
+    const { el } = (await setup()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureRequired(el);
@@ -166,24 +172,24 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     expect(el.validity).toHaveProperty("valueMissing", true);
   }
 
-  function ensureName(el: HTMLElement): void {
+  function ensureName(el: FormComponent): void {
     if (!el.hasAttribute("name")) {
       el.setAttribute("name", "testName");
     }
   }
 
-  function ensureRequired(el: HTMLElement): void {
+  function ensureRequired(el: FormComponent): void {
     if (!el.hasAttribute("required")) {
       el.toggleAttribute("required");
     }
   }
 
-  function ensureUnchecked(el: HTMLElement): void {
+  function ensureUnchecked(el: FormComponent): void {
     el.removeAttribute("checked");
     el.removeAttribute("selected");
   }
 
-  function ensureForm(el: HTMLElement): void {
+  function ensureForm(el: FormComponent): void {
     if (!el.hasAttribute("form")) {
       el.setAttribute("form", "test-form");
     }
@@ -198,7 +204,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function assertValueResetOnFormReset(
-    el: HTMLElement,
+    el: FormComponent,
     options: FormAssociatedOptions,
     reRender: () => Promise<boolean>,
   ): Promise<void> {
@@ -325,7 +331,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     }
   }
 
-  async function assertFormSubmitOnEnter(el: HTMLElement, options: FormAssociatedOptions): Promise<void> {
+  async function assertFormSubmitOnEnter(el: FormComponent, options: FormAssociatedOptions): Promise<void> {
     let called = false;
     const form = document.body.querySelector("form")!;
 
@@ -345,7 +351,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function assertPreventsFormSubmission(
-    el: HTMLElement,
+    el: FormComponent,
     submitter: HTMLInputElement,
     message: string,
   ): Promise<void> {
@@ -377,7 +383,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     expectValidationProps(el);
   }
 
-  async function assertUserMessageNotOverridden(el: HTMLElement, submitter: HTMLInputElement): Promise<void> {
+  async function assertUserMessageNotOverridden(el: FormComponent, submitter: HTMLInputElement): Promise<void> {
     const customValidationMessage = "This is a custom message.";
     const customValidationIcon = "banana";
 

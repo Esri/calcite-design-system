@@ -54,7 +54,12 @@ interface FormOwner extends LitElement {
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-interface FormComponent<T = any> extends FormOwner, LitElement {
+export interface FormComponent<T = any>
+  extends
+    FormOwner,
+    LitElement,
+    // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
+    Partial<Pick<CheckableFormComponent, "checked" | "defaultChecked">> {
   /** When true, this component's value will not be submitted in the form. */
   disabled: boolean;
 
@@ -94,18 +99,6 @@ interface FormComponent<T = any> extends FormOwner, LitElement {
 
   /** The validity state of the form component. */
   validity?: MutableValidityState;
-
-  // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
-
-  /** For boolean-valued components, this property defines whether the associated value is submitted to the form or not. */
-  checked?: boolean;
-
-  /**
-   * The initial checked value for this form component.
-   *
-   * When the form is reset, the checked property will be set to this value.
-   */
-  defaultChecked?: boolean;
 }
 
 /**
@@ -330,6 +323,7 @@ export const useForm = <T extends FormComponent>(
         });
         return formData;
       }
+
       if (isCheckable(component)) {
         if (component.checked) {
           if (inputDelegate && options.inputType === "checkbox") {
@@ -339,6 +333,7 @@ export const useForm = <T extends FormComponent>(
         }
         return "";
       }
+
       return component.value;
     }
 
