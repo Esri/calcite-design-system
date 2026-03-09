@@ -508,8 +508,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         this.emitChangeIfUserModified();
       }
     }
-
-    this.elementInternals.setFormValue(value);
   }
 
   //#endregion
