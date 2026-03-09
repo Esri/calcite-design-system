@@ -235,8 +235,6 @@ export const useForm = <T extends FormComponent>(
       onFormReset();
     });
 
-    component.listen("luminaFormDisabledCallback", () => {});
-
     component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
       if (form) {
         form.addEventListener("invalid", invalidFormHandler, { capture: true });

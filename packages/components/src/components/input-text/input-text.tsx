@@ -67,8 +67,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private direction = useDirection();
 
-  formEl: HTMLFormElement;
-
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
@@ -492,7 +490,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     this.previousValueOrigin = origin;
     this.userChangedValue = origin === "user" && value !== this.value;
     this.value = value;
-    this.elementInternals.setFormValue(this.value);
 
     if (origin === "direct") {
       this.setInputValue(value);
@@ -508,8 +505,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         this.emitChangeIfUserModified();
       }
     }
-
-    this.elementInternals.setFormValue(value);
   }
 
   //#endregion
