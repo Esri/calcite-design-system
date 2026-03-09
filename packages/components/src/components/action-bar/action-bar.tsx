@@ -3,6 +3,7 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
@@ -50,6 +51,8 @@ export class ActionBar extends LitElement {
   private actions: Action["el"][] = [];
 
   private containerRef = createRef<HTMLDivElement>();
+
+  private direction = useDirection();
 
   private expandToggleEl: Action["el"];
 
@@ -207,7 +210,14 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the position of the component depending on the element's `dir` property. */
+  /**
+   * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   *
+   * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
+   * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
+   *
+   * When `expanded` is `true`, the chevron direction is reversed.
+   */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
@@ -478,6 +488,7 @@ export class ActionBar extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

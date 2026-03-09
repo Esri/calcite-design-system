@@ -11,7 +11,7 @@ import {
   stringOrBoolean,
   LuminaJsx,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { debounce } from "es-toolkit";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef } from "lit/directives/ref.js";
@@ -96,6 +96,8 @@ export class Autocomplete
   defaultValue: Autocomplete["value"];
 
   defaultInputValue: Autocomplete["inputValue"];
+
+  private direction = useDirection();
 
   floatingEl: HTMLDivElement;
 
@@ -354,6 +356,7 @@ export class Autocomplete
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,

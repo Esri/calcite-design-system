@@ -6,8 +6,10 @@ import { Button } from "./button";
 
 const { appearance, kind, scale, width } = ATTRIBUTES;
 
-interface ButtonStoryArgs
-  extends Pick<Button, "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"> {
+interface ButtonStoryArgs extends Pick<
+  Button,
+  "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"
+> {
   text: string;
 }
 
