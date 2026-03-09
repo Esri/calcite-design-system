@@ -82,7 +82,7 @@ export interface FormComponent<T = any>
   /**
    * This form component's value.
    *
-   * Note that this prop should use the `@Prop` decorator.
+   * Note that this prop should use the `@property` decorator.
    */
   value: T;
 
@@ -169,9 +169,10 @@ function isInputComponent(
 
 interface UseForm {
   /**
-   * Function that returns true if a form is associated with the component, false otherwise
+   * When true, this component is associated with a form and will have its value submitted when the form is submitted.
    */
   active: boolean;
+
   /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
@@ -234,8 +235,6 @@ export const useForm = <T extends FormComponent>(
     component.listen("luminaFormResetCallback", () => {
       onFormReset();
     });
-
-    component.listen("luminaFormDisabledCallback", () => {});
 
     component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
       if (form) {
@@ -302,7 +301,7 @@ export const useForm = <T extends FormComponent>(
         component.defaultChecked = component.checked;
       }
 
-      if (changes.has("value")) {
+      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
@@ -327,13 +326,12 @@ export const useForm = <T extends FormComponent>(
       }
       if (isCheckable(component)) {
         if (component.checked) {
-          if (inputDelegate && options.inputType === "checkbox") {
-            return inputDelegate.value;
-          }
-          return component.value;
+          return inputDelegate && options.inputType === "checkbox" ? inputDelegate.value : component.value;
         }
-        return "";
+
+        return null;
       }
+
       return component.value;
     }
 
