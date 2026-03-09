@@ -22,22 +22,23 @@ interface FormAssociatedOptions {
 
   /*
    * Set this if the value required to emit an input/change event is different from `testValue`.
-   * The value is passed to `page.keyboard.type()`. For example, input-time-picker requires
+   * The value is passed to `userEvent.type()`. For example, input-time-picker requires
    * appending AM or PM before the value commits and calciteInputTimePickerChange emits.
    *
    * This option is only relevant when the `validation` option is enabled.
-   * @todo update this to browser mode specifics
+   *
+   * @see https://vitest.dev/api/browser/interactivity.html#userevent-type
    */
   validUserInputTestValue?: string;
 
   /*
    * Set this if emitting an input/change event requires key presses. Each array item will be passed
-   * to `page.keyboard.press()`. For example, the combobox value can be changed by pressing "Space"
+   * to `userEvent.keyboard()`. For example, the combobox value can be changed by pressing "Space"
    * to open the component and "Enter" to select a value.
    *
    * This option is only relevant when the `validation` option is enabled.
    *
-   * @todo update this to browser mode specifics
+   * @see https://vitest.dev/api/browser/interactivity.html#userevent-keyboard
    */
   changeValueKeys?: string[];
 
