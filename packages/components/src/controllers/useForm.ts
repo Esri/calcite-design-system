@@ -326,13 +326,12 @@ export const useForm = <T extends FormComponent>(
       }
       if (isCheckable(component)) {
         if (component.checked) {
-          if (inputDelegate && options.inputType === "checkbox") {
-            return inputDelegate.value;
-          }
-          return component.value;
+          return inputDelegate && options.inputType === "checkbox" ? inputDelegate.value : component.value;
         }
-        return "";
+
+        return null;
       }
+
       return component.value;
     }
 
