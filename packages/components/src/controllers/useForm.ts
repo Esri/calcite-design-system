@@ -82,7 +82,7 @@ export interface FormComponent<T = any>
   /**
    * This form component's value.
    *
-   * Note that this prop should use the `@Prop` decorator.
+   * Note that this prop should use the `@property` decorator.
    */
   value: T;
 
@@ -169,9 +169,10 @@ function isInputComponent(
 
 interface UseForm {
   /**
-   * Function that returns true if a form is associated with the component, false otherwise
+   * When true, this component is associated with a form and will have its value submitted when the form is submitted.
    */
   active: boolean;
+
   /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
