@@ -28,13 +28,27 @@ declare global {
  * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
  */
 export class Shell extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region Private Properties
+
+  private panelSlotElements: Record<
+    "panel-start" | "panel-end" | "panel-top" | "panel-bottom",
+    ShellPanel["el"][]
+  > = {
+    "panel-start": [],
+    "panel-end": [],
+    "panel-top": [],
+    "panel-bottom": [],
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasAlerts = false;
 
@@ -56,16 +70,16 @@ export class Shell extends LitElement {
 
   @state() panelIsResizing = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -96,9 +110,9 @@ export class Shell extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
     this.updateShellPanelConfig();
@@ -151,44 +165,56 @@ export class Shell extends LitElement {
   }
 
   private handlePanelTopChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "start";
-      });
+    this.panelSlotElements["panel-top"] = panelElements;
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "start";
+    });
     this.updateShellPanelConfig();
   }
 
   private handlePanelBottomChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "end";
-      });
+    this.panelSlotElements["panel-bottom"] = panelElements;
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "end";
+    });
     this.updateShellPanelConfig();
   }
 
   private handlePanelStartChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "start";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
+    this.panelSlotElements["panel-start"] = panelElements;
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "start";
+    });
     this.updateShellPanelConfig();
   }
 
   private handlePanelEndChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "end";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
+    this.panelSlotElements["panel-end"] = panelElements;
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "end";
+    });
     this.updateShellPanelConfig();
   }
 
@@ -202,7 +228,12 @@ export class Shell extends LitElement {
   }
 
   private updateShellPanelConfig(): void {
-    const shellPanels = this.el.querySelectorAll<ShellPanel["el"]>("calcite-shell-panel");
+    const shellPanels = [
+      ...this.panelSlotElements["panel-start"],
+      ...this.panelSlotElements["panel-end"],
+      ...this.panelSlotElements["panel-top"],
+      ...this.panelSlotElements["panel-bottom"],
+    ];
 
     shellPanels.forEach((panel) => {
       const { slot, resizable } = panel;
@@ -213,9 +244,9 @@ export class Shell extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderHeader(): JsxNode {
     return (
