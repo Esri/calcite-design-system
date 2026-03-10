@@ -67,7 +67,7 @@ export class Block extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  openCloseController = useOpenClose<this>()(this);
+  openCloseController = useOpenClose<this>(["expanded"])(this);
 
   //#endregion
 

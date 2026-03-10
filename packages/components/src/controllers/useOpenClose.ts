@@ -2,9 +2,11 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import { LitElement } from "@arcgis/lumina";
 import { Ref } from "lit/directives/ref.js";
 import type { KebabCase } from "type-fest";
+import { ReactiveElement } from "lit";
 import { whenTransitionDone } from "../utils/dom";
 
 type VisibilityProp = "open" | "closed" | "expanded" | "collapsed";
+type VisibilityPropList = readonly [VisibilityProp, ...VisibilityProp[]];
 
 type VisibilityState = Partial<Record<VisibilityProp, boolean>> &
   ({ open: boolean } | { closed: boolean } | { expanded: boolean } | { collapsed: boolean });
@@ -21,13 +23,15 @@ export type UseOpenCloseComponent = LitElement &
     onClose: () => void;
     transitionEl?: HTMLElement;
     transitionRef?: Ref<HTMLElement>;
-    updateComplete: Promise<boolean>;
+    updateComplete: ReactiveElement["updateComplete"];
   };
 
 /**
  * Controller for managing open/close lifecycle and transitions.
  */
-export const useOpenClose = <T extends UseOpenCloseComponent>(): ReturnType<typeof makeGenericController<void, T>> =>
+export const useOpenClose = <T extends UseOpenCloseComponent>(
+  visibilityProps: VisibilityPropList,
+): ReturnType<typeof makeGenericController<void, T>> =>
   makeGenericController<void, T>((component, controller) => {
     let previousOpenState = getOpenState(component);
 
@@ -41,15 +45,19 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(): ReturnType<type
     });
 
     function getOpenState(host: UseOpenCloseComponent): boolean {
-      if ("open" in host) {
-        return host.open;
+      return visibilityProps.every((visibilityProp) => getOpenStateForProp(host, visibilityProp));
+    }
+
+    function getOpenStateForProp(host: UseOpenCloseComponent, visibilityProp: VisibilityProp): boolean {
+      if (visibilityProp === "open") {
+        return !!host.open;
       }
 
-      if ("expanded" in host) {
-        return host.expanded;
+      if (visibilityProp === "expanded") {
+        return !!host.expanded;
       }
 
-      if ("closed" in host) {
+      if (visibilityProp === "closed") {
         return !host.closed;
       }
 
