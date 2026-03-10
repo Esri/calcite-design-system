@@ -6,7 +6,7 @@ import { LitElement } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { StepperItem } from "../stepper-item/stepper-item";
-import { Stepper } from "./stepper";
+import type { Stepper } from "./stepper";
 
 describe("defaults", () => {
   defaults(
