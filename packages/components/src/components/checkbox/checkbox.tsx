@@ -43,7 +43,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   formEl: HTMLFormElement;
 
-  private formSupport = useForm<this>({ inputType: "checkbox" })(this);
+  formSupport = useForm<this>({ inputType: "checkbox" })(this);
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
