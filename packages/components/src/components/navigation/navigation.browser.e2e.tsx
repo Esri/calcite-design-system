@@ -15,9 +15,8 @@ describe("defaults", () => {
   );
 });
 
-describe("reflects", (context) => {
-  context.skip("navigationAction is incorrectly being reset when set to true dynamically");
-
+// navigationAction is incorrectly being reset when set to true dynamically - see https://github.com/Esri/calcite-design-system/issues/14057
+describe.skip("reflects", () => {
   reflects(
     () => mount("calcite-navigation"),
     [
