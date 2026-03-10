@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, openClose } from "../../tests/commonTests";
+import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import { CSS as XButtonCSS } from "../functional/XButton";
@@ -1941,6 +1941,17 @@ it("works correctly inside a shadowRoot", async () => {
   expect(await combobox.getProperty("open")).toBeFalsy();
   await input.click();
   expect(await combobox.getProperty("open")).toBe(true);
+});
+
+describe("is form-associated", () => {
+  formAssociated(
+    html`<calcite-combobox selection-mode="single">
+      <calcite-combobox-item id="one" icon="banana" value="one" heading="One"></calcite-combobox-item>
+      <calcite-combobox-item id="two" icon="beaker" value="two" heading="Two" selected></calcite-combobox-item>
+      <calcite-combobox-item id="three" value="three" heading="Three"></calcite-combobox-item>
+    </calcite-combobox>`,
+    { testValue: "two", submitsOnEnter: true, validation: true, changeValueKeys: ["Space", "Enter"] },
+  );
 });
 
 it("should have input--icon class when placeholder-icon is parsed", async () => {
