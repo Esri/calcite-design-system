@@ -450,6 +450,19 @@ export class ShellPanel extends LitElement {
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
   }
 
+  private updateContentMaxWidthFromActionBar(actionBar: ActionBar["el"]): void {
+    if (!this.contentRef.value) {
+      return;
+    }
+
+    const isExpanded = actionBar.expanded;
+    if (isExpanded) {
+      this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
+    } else {
+      this.contentRef.value.style.removeProperty("--calcite-internal-shell-panel-max-width");
+    }
+  }
+
   private setupActionBarObserver(): void {
     const actionBar = this.el.querySelector<ActionBar["el"]>(
       'calcite-action-bar[slot="action-bar"]',
@@ -460,16 +473,7 @@ export class ShellPanel extends LitElement {
     }
 
     this.actionBarObserver = new MutationObserver(() => {
-      if (!this.contentRef.value) {
-        return;
-      }
-
-      const isExpanded = actionBar.expanded;
-      if (isExpanded) {
-        this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
-      } else {
-        this.contentRef.value.style.removeProperty("--calcite-internal-shell-panel-max-width");
-      }
+      this.updateContentMaxWidthFromActionBar(actionBar);
     });
 
     this.actionBarObserver.observe(actionBar, {
@@ -478,10 +482,7 @@ export class ShellPanel extends LitElement {
     });
 
     // Set initial state
-    const isExpanded = actionBar.expanded;
-    if (isExpanded) {
-      this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
-    }
+    this.updateContentMaxWidthFromActionBar(actionBar);
   }
 
   //#endregion
