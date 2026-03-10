@@ -287,6 +287,8 @@ export class Stepper extends LitElement {
   }
 
   private updateItems(): void {
+    this.visibleItems = this.items.filter((item) => !isHidden(item));
+    this.enabledItems = this.visibleItems.filter((item) => !item.disabled);
     this.items.forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
@@ -361,21 +363,15 @@ export class Stepper extends LitElement {
     return 0;
   }
 
-  private updateFilteredItems(): void {
-    this.visibleItems = this.items.filter((item) => !isHidden(item));
-    this.enabledItems = this.visibleItems.filter((item) => !item.disabled);
-  }
-
   private handleDefaultSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements(event).filter(
       (el): el is StepperItem["el"] => el?.tagName === "CALCITE-STEPPER-ITEM",
     );
     this.items = items;
-    this.updateFilteredItems();
+    this.updateItems();
     const spacing = Array(this.visibleItems.length).fill("1fr").join(" ");
     this.containerRef.value.style.gridTemplateAreas = spacing;
     this.containerRef.value.style.gridTemplateColumns = spacing;
-    this.updateItems();
   }
 
   //#endregion
