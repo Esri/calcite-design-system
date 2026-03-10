@@ -185,7 +185,7 @@ interface UseForm {
 
 interface UseFormOptions {
   /**
-   * When set, the component will validate and behave as if it were the specified input type (e.g. "email").
+   * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
   inputType?: HTMLInputElement["type"];
 }
@@ -330,7 +330,10 @@ export const useForm = <T extends FormComponent>(
       }
       if (isCheckable(component)) {
         if (component.checked) {
-          return inputDelegate && options.inputType === "checkbox" ? inputDelegate.value : component.value;
+          // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
+          return component.defaultValue === undefined && !defaultValueDirty && component.value === undefined
+            ? "on"
+            : component.value;
         }
 
         return null;
