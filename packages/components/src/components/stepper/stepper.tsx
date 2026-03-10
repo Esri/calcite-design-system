@@ -346,7 +346,8 @@ export class Stepper extends LitElement {
     if (
       typeof this.currentActivePosition === "number" &&
       currentActivePosition !== this.currentActivePosition &&
-      !this.visibleItems[this.currentActivePosition]?.disabled
+      this.visibleItems[this.currentActivePosition] &&
+      !this.visibleItems[this.currentActivePosition].disabled
     ) {
       this.emitItemSelect();
     }
