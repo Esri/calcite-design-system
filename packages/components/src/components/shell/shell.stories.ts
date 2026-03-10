@@ -1,5 +1,6 @@
 import type { Decorator } from "@storybook/web-components-vite";
 import { ShellPanel } from "../shell-panel/shell-panel";
+import type { Position } from "../interfaces";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -2703,7 +2704,7 @@ type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom"
 
 type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
-  actionBarPosition: NonNullable<ShellPanel["actionBarPosition"]>;
+  actionBarPosition: Position;
   resizable: boolean;
 };
 
