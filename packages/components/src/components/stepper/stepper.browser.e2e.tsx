@@ -1,11 +1,12 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
+import { LitElement } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
-import { nextFrame } from "../../utils/dom";
 import type { StepperItem } from "../stepper-item/stepper-item";
+import { Stepper } from "./stepper";
 
 describe("defaults", () => {
   defaults(
@@ -113,40 +114,28 @@ describe("fixed height sizing", () => {
   );
 });
 
+class TestWrapper extends LitElement {
+  static tagName = "test-wrapper";
+
+  override render(): JsxNode {
+    return (
+      <calcite-stepper>
+        <slot />
+      </calcite-stepper>
+    );
+  }
+}
+
 describe("inheritable props in shadow DOM", () => {
   it("updates items when stepper is inside a custom element shadow root", async () => {
-    if (!customElements.get("calcite-stepper-wrapper")) {
-      customElements.define(
-        "calcite-stepper-wrapper",
-        class extends HTMLElement {
-          constructor() {
-            super();
-            const shadowRoot = this.attachShadow({ mode: "open" });
+    const { component } = await mount(TestWrapper);
 
-            shadowRoot.innerHTML = `
-              <calcite-stepper>
-                <slot></slot>
-              </calcite-stepper>
-            `;
-          }
-        },
-      );
-    }
-
-    const { container } = await mount(<div />);
-
-    const wrapper = document.createElement("calcite-stepper-wrapper");
-    wrapper.innerHTML = `
+    component.innerHTML = `
       <calcite-stepper-item heading="Step 1"></calcite-stepper-item>
       <calcite-stepper-item heading="Step 2"></calcite-stepper-item>
     `;
-    container.append(wrapper);
 
-    const shadowRoot = wrapper.shadowRoot!;
-
-    await customElements.whenDefined("calcite-stepper");
-    await customElements.whenDefined("calcite-stepper-item");
-    await nextFrame();
+    await component.updateComplete;
 
     let items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
@@ -159,7 +148,7 @@ describe("inheritable props in shadow DOM", () => {
       expect(item.numberingSystem).toBeUndefined();
     });
 
-    const stepper = shadowRoot.querySelector("calcite-stepper")!;
+    const stepper = page.getBySelector("test-wrapper calcite-stepper").element() as Stepper["el"];
 
     stepper.icon = true;
     stepper.numbered = true;
@@ -167,7 +156,7 @@ describe("inheritable props in shadow DOM", () => {
     stepper.scale = "l";
     stepper.numberingSystem = "arab";
 
-    await nextFrame();
+    await component.updateComplete;
 
     items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
