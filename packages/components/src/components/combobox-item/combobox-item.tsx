@@ -264,7 +264,7 @@ export class ComboboxItem extends LitElement {
     ) : null;
   }
 
-  private renderSelectIndicator(icon: IconName): JsxNode {
+  private renderSelectIndicator(icon: IconName): JsxNode | null {
     if (this.selectionAppearance === "highlight") {
       return null;
     }
