@@ -435,6 +435,7 @@ export class ShellPanel extends LitElement {
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
+    this.setupActionBarObserver();
 
     await this.updateComplete;
     actionBars.forEach((actionBar) => actionBar.overflowActions());
@@ -464,9 +465,9 @@ export class ShellPanel extends LitElement {
   }
 
   private setupActionBarObserver(): void {
-    const actionBar = this.el.querySelector<ActionBar["el"]>(
-      'calcite-action-bar[slot="action-bar"]',
-    );
+    this.actionBarObserver?.disconnect();
+
+    const actionBar = this.actionBars[0];
 
     if (!actionBar || !this.contentRef.value) {
       return;
