@@ -43,12 +43,12 @@ export const customBaseFontSize = (): string => html`
   <calcite-icon icon="banana" scale="l"></calcite-icon>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-icon class="calcite-mode-dark" dir="rtl" icon="${sampleIcon}" flip-rtl></calcite-icon>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const theming_TestOnly = (): string => html`
+export const theming = (): string => html`
   <style>
     .container {
         ${setCSSVariables(["--calcite-icon-color"])}

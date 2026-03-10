@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
@@ -14,6 +13,7 @@ interface ExpandToggleProps {
   expanded: boolean;
   expandText: string;
   collapseText: string;
+  direction: "ltr" | "rtl";
   expandLabel: string;
   collapseLabel: string;
   el: HTMLElement;
@@ -71,11 +71,12 @@ const setTooltipReference = ({
 };
 
 export const ExpandToggle = ({
+  collapseText,
+  collapseLabel,
+  direction,
   expanded,
   expandText,
-  collapseText,
   expandLabel,
-  collapseLabel,
   toggle,
   el,
   position,
@@ -83,7 +84,7 @@ export const ExpandToggle = ({
   ref,
   scale,
 }: ExpandToggleProps): TemplateResult => {
-  const rtl = getElementDir(el) === "rtl";
+  const rtl = direction === "rtl";
 
   const text = expanded ? collapseText : expandText;
   const label = expanded ? collapseLabel : expandLabel;

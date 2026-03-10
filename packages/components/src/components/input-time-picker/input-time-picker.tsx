@@ -10,6 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   connectForm,
@@ -27,7 +28,6 @@ import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { getElementDir } from "../../utils/dom";
 import { IconName } from "../icon/interfaces";
 import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
@@ -77,6 +77,8 @@ export class InputTimePicker
   private containerRef = createRef<HTMLDivElement>();
 
   defaultValue: InputTimePicker["value"];
+
+  private direction = useDirection();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -560,7 +562,7 @@ export class InputTimePicker
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
-    const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <this.interactiveContainer disabled={this.disabled}>

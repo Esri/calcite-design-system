@@ -2,7 +2,7 @@
   "name": "calcite-angular-starter",
   "private": true,
   "homepage": "https://developers.arcgis.com/calcite-design-system/",
-  "description": "Starter application for @esri/calcite-components-angular",
+  "description": "Starter application for @esri/calcite-components using Angular",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
@@ -43,7 +43,7 @@
     "ncp": "^2.0.0",
     "typescript": "~5.9.2"
   },
-  "volta": {
+  "engines": {
     "node": "24.11.0"
   }
 }

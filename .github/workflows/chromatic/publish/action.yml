@@ -1,0 +1,38 @@
+name: Publish to Chromatic
+description: Publish a prebuilt Storybook to Chromatic
+
+inputs:
+  project-token:
+    required: true
+  auto-accept-changes:
+    required: false
+  working-dir:
+    required: true
+  storybook-build-dir:
+    required: true
+  chromatic-diff-threshold:
+    required: false
+  chromatic-branch:
+    required: false
+  chromatic-sha:
+    required: false
+  chromatic-slug:
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - uses: chromaui/action@v13
+      with:
+        projectToken: ${{ inputs.project-token }}
+        zip: true
+        exitOnceUploaded: true
+        autoAcceptChanges: ${{ inputs.auto-accept-changes }}
+        workingDir: ${{ inputs.working-dir }}
+        storybookBuildDir: ${{ inputs.storybook-build-dir }}
+      env:
+        STORYBOOK_SCREENSHOT_TEST_BUILD: true
+        CHROMATIC_DIFF_THRESHOLD: ${{ inputs.chromatic-diff-threshold }}
+        CHROMATIC_BRANCH: ${{ inputs.chromatic-branch }}
+        CHROMATIC_SHA: ${{ inputs.chromatic-sha }}
+        CHROMATIC_SLUG: ${{ inputs.chromatic-slug }}
