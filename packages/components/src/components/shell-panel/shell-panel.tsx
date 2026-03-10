@@ -55,7 +55,9 @@ export class ShellPanel extends LitElement {
 
   private actionBarContainerEl: HTMLDivElement;
 
-  private actionBarResizeObserver = createObserver("resize", () => this.updateActionBarSize());
+  private actionBarContainerResizeObserver = createObserver("resize", () =>
+    this.updateActionBarSize(),
+  );
 
   private actionBarObserver: MutationObserver;
 
@@ -232,7 +234,7 @@ export class ShellPanel extends LitElement {
 
   override disconnectedCallback(): void {
     this.cleanupInteractions();
-    this.actionBarResizeObserver?.disconnect();
+    this.actionBarContainerResizeObserver?.disconnect();
     this.actionBarObserver?.disconnect();
   }
 
@@ -399,7 +401,7 @@ export class ShellPanel extends LitElement {
   private setActionBarContainerEl(el: HTMLDivElement): void {
     this.actionBarContainerEl = el;
     if (el) {
-      this.actionBarResizeObserver?.observe(el);
+      this.actionBarContainerResizeObserver?.observe(el);
       this.updateActionBarSize();
     }
   }
