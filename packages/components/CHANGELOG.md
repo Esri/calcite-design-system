@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.4...@esri/calcite-components@5.1.0-next.5) (2026-03-10)
+
+### Features
+
+- **combobox:** add `selectionAppearance` property ([#14043](https://github.com/Esri/calcite-design-system/issues/14043)) ([0199108](https://github.com/Esri/calcite-design-system/commit/01991085542ce7bc51ec5e322bffdffd931387e3)), closes [#13136](https://github.com/Esri/calcite-design-system/issues/13136)
+
 ## [5.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.3...@esri/calcite-components@5.1.0-next.4) (2026-03-04)
 
 ### Features
