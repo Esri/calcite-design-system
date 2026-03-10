@@ -169,6 +169,9 @@ export class StepperItem extends LitElement {
   });
 
   /** @private */
+  calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
+
+  /** @private */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** Fires when the active `calcite-stepper-item` changes. */
@@ -205,6 +208,10 @@ export class StepperItem extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
+    }
+
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.calciteInternalStepperItemUpdate.emit();
     }
 
     if (changes.has("messages")) {

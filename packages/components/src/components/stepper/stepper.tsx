@@ -10,7 +10,6 @@ import { NumberingSystem } from "../../utils/locale";
 import { useT9n } from "../../controllers/useT9n";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
-import { isHidden } from "../../utils/component";
 import { CSS, ICONS, IDS } from "./resources";
 import { StepBar } from "./functional/step-bar";
 import {
@@ -41,7 +40,7 @@ export class Stepper extends LitElement {
 
   private visibleItems: StepperItem["el"][] = [];
 
-  private enabledItems: StepperItem["el"][] = [];
+  private focusableItems: StepperItem["el"][] = [];
 
   private guid = guid();
 
@@ -183,6 +182,7 @@ export class Stepper extends LitElement {
   constructor() {
     super();
     this.listen("calciteInternalStepperItemKeyEvent", this.calciteInternalStepperItemKeyEvent);
+    this.listen("calciteInternalStepperItemUpdate", this.updateItems);
     this.listen("calciteInternalStepperItemSelect", this.updateItem);
     this.listen("calciteStepperItemSelect", this.handleItemSelect);
   }
@@ -250,17 +250,17 @@ export class Stepper extends LitElement {
     switch (item.key) {
       case "ArrowDown":
       case "ArrowRight":
-        focusElementInGroup(this.enabledItems, itemToFocus, "next");
+        focusElementInGroup(this.focusableItems, itemToFocus, "next");
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        focusElementInGroup(this.enabledItems, itemToFocus, "previous");
+        focusElementInGroup(this.focusableItems, itemToFocus, "previous");
         break;
       case "Home":
-        focusElementInGroup(this.enabledItems, itemToFocus, "first");
+        focusElementInGroup(this.focusableItems, itemToFocus, "first");
         break;
       case "End":
-        focusElementInGroup(this.enabledItems, itemToFocus, "last");
+        focusElementInGroup(this.focusableItems, itemToFocus, "last");
         break;
     }
     event.stopPropagation();
@@ -287,8 +287,8 @@ export class Stepper extends LitElement {
   }
 
   private updateItems(): void {
-    this.visibleItems = this.items.filter((item) => !isHidden(item));
-    this.enabledItems = this.visibleItems.filter((item) => !item.disabled);
+    this.visibleItems = this.items.filter((item) => !item.hidden);
+    this.focusableItems = this.visibleItems.filter((item) => !item.disabled && !item.itemHidden);
     this.items.forEach((item) => {
       item.icon = this.icon;
       item.numbered = this.numbered;
