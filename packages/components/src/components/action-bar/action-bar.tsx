@@ -520,58 +520,33 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private renderActionsStartGroup(): JsxNode {
-    const {
-      expandDisabled,
-      scale,
-      layout,
-      actionsStartGroupLabel,
-      overlayPositioning,
-      expandPosition,
-    } = this;
+  private renderActionsGroup(position: Extract<"start" | "end", Position>): JsxNode {
+    const { expandDisabled, scale, layout, overlayPositioning, expandPosition } = this;
 
-    const hasExpandToggle = !expandDisabled && expandPosition === "start";
+    const isStart = position === "start";
+    const hasExpandToggle = !expandDisabled && expandPosition === position;
+
+    const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
+    const onSlotChange = isStart
+      ? this.handleActionsStartSlotChange
+      : this.handleActionsEndSlotChange;
+    const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
+    const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
+    const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
 
     return (
       <calcite-action-group
-        class={CSS.actionGroupStart}
-        hidden={!hasExpandToggle && !this.hasActionsStart}
-        label={actionsStartGroupLabel}
+        class={className}
+        hidden={hidden}
+        label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        {hasExpandToggle ? this.renderExpandToggle() : null}
-        <slot name={SLOTS.actionsStart} onSlotChange={this.handleActionsStartSlotChange} />
+        {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
+        <slot name={slotName} onSlotChange={onSlotChange} />
         {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
-      </calcite-action-group>
-    );
-  }
-
-  private renderActionsEndGroup(): JsxNode {
-    const {
-      expandDisabled,
-      scale,
-      layout,
-      actionsEndGroupLabel,
-      overlayPositioning,
-      expandPosition,
-    } = this;
-
-    const hasExpandToggle = !expandDisabled && expandPosition === "end";
-
-    return (
-      <calcite-action-group
-        class={CSS.actionGroupEnd}
-        hidden={!hasExpandToggle && !this.hasActionsEnd}
-        label={actionsEndGroupLabel}
-        layout={layout}
-        overlayPositioning={overlayPositioning}
-        scale={scale}
-      >
-        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
-        {hasExpandToggle ? this.renderExpandToggle() : null}
+        {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );
   }
@@ -584,9 +559,9 @@ export class ActionBar extends LitElement {
         ref={this.containerRef}
         role="toolbar"
       >
-        {this.renderActionsStartGroup()}
+        {this.renderActionsGroup("start")}
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        {this.renderActionsEndGroup()}
+        {this.renderActionsGroup("end")}
       </div>
     );
   }

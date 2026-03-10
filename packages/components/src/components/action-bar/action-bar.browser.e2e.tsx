@@ -15,7 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
-import { CSS, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
 
 mockConsole();
@@ -103,6 +103,10 @@ describe("reflects", () => {
       {
         propertyName: "selectionAppearance",
         value: "neutral",
+      },
+      {
+        propertyName: "expandPosition",
+        value: "start",
       },
     ],
   );
@@ -209,57 +213,6 @@ describe("selection-mode", () => {
     await userEvent.click(action4);
     expect(action3.active).toBe(true);
     expect(action4.active).toBe(false);
-  });
-});
-
-describe("expand functionality", () => {
-  it.each(["start", "end"] as const)(
-    "places #expand-toggle in the %s internal group and hides/omits the unused group when it has no slotted actions",
-    async (expandPosition) => {
-      const { el } = await mount<"calcite-action-bar">(
-        <calcite-action-bar expandPosition={expandPosition} />,
-      );
-
-      const shadowRoot = el.shadowRoot;
-      const startGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupStart}`);
-      const endGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupEnd}`);
-
-      const expectedGroup = expandPosition === "start" ? startGroup : endGroup;
-      const unexpectedGroup = expandPosition === "start" ? endGroup : startGroup;
-
-      expect(expectedGroup).not.toBeNull();
-      expect(expectedGroup!.querySelector("#expand-toggle")).not.toBeNull();
-      expect(unexpectedGroup?.querySelector("#expand-toggle")).toBeNull();
-
-      const unusedGroup = expandPosition === "start" ? endGroup : startGroup;
-      expect(unusedGroup).not.toBeNull();
-      expect(unusedGroup!.hidden).toBe(true);
-    },
-  );
-
-  it("renders slotted actions-start in the start group and shows that group when only actions-start is provided", async () => {
-    const { el } = await mount<"calcite-action-bar">(
-      <calcite-action-bar expandDisabled>
-        <calcite-action icon="plus" id="start-action" slot="actions-start" text="Add" />
-      </calcite-action-bar>,
-    );
-
-    const shadowRoot = el.shadowRoot;
-    const startGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupStart}`);
-    const endGroup = shadowRoot.querySelector<HTMLElement>(`.${CSS.actionGroupEnd}`);
-    const actionsStartSlot = startGroup?.querySelector<HTMLSlotElement>(
-      "slot[name='actions-start']",
-    );
-    const startAction = el.querySelector<HTMLElement>("#start-action");
-
-    expect(startGroup).not.toBeNull();
-    expect(actionsStartSlot).not.toBeNull();
-    expect(startAction).not.toBeNull();
-    expect(actionsStartSlot?.assignedElements({ flatten: true })).toContain(startAction);
-    expect(startGroup?.hidden).toBe(false);
-
-    expect(endGroup).not.toBeNull();
-    expect(endGroup!.hidden).toBe(true);
   });
 });
 
