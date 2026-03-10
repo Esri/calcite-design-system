@@ -183,7 +183,6 @@ export class Stepper extends LitElement {
   constructor() {
     super();
     this.listen("calciteInternalStepperItemKeyEvent", this.calciteInternalStepperItemKeyEvent);
-    this.listen("calciteInternalStepperItemRegister", this.registerItem);
     this.listen("calciteInternalStepperItemSelect", this.updateItem);
     this.listen("calciteStepperItemSelect", this.handleItemSelect);
   }
@@ -264,11 +263,6 @@ export class Stepper extends LitElement {
         focusElementInGroup(this.enabledItems, itemToFocus, "last");
         break;
     }
-    event.stopPropagation();
-  }
-
-  private registerItem(event: CustomEvent): void {
-    this.updateFilteredItems();
     event.stopPropagation();
   }
 

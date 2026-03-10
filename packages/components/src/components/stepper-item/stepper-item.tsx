@@ -169,9 +169,6 @@ export class StepperItem extends LitElement {
   });
 
   /** @private */
-  calciteInternalStepperItemRegister = createEvent<StepperItemEventDetail>({ cancelable: false });
-
-  /** @private */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** Fires when the active `calcite-stepper-item` changes. */
@@ -195,7 +192,6 @@ export class StepperItem extends LitElement {
   async load(): Promise<void> {
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
 
     if (this.selected) {
       this.emitRequestedItem();
@@ -209,10 +205,6 @@ export class StepperItem extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
-    }
-
-    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.registerStepperItem();
     }
 
     if (changes.has("messages")) {
@@ -276,12 +268,6 @@ export class StepperItem extends LitElement {
 
   private determineSelectedItem(): void {
     this.selected = !this.disabled && this.itemPosition === this.selectedPosition;
-  }
-
-  private registerStepperItem(): void {
-    this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition,
-    });
   }
 
   private handleItemClick(event: MouseEvent): void {
