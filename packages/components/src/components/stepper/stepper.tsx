@@ -182,7 +182,10 @@ export class Stepper extends LitElement {
   constructor() {
     super();
     this.listen("calciteInternalStepperItemKeyEvent", this.calciteInternalStepperItemKeyEvent);
-    this.listen("calciteInternalStepperItemUpdate", this.updateItems);
+    this.listen("calciteInternalStepperItemUpdate", (event: Event): void => {
+      event.stopPropagation();
+      this.updateItems();
+    });
     this.listen("calciteInternalStepperItemSelect", this.updateItem);
     this.listen("calciteStepperItemSelect", this.handleItemSelect);
   }
