@@ -52,7 +52,7 @@ jobs:
       issues: write
       contents: read
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: "Create Task"
         if: github.event.action == 'opened' ||
@@ -69,7 +69,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateLabels.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Remove Label from Task"
         if: github.event.action == 'unlabeled'
@@ -77,7 +77,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/removeLabel.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Update Milestone"
         if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
@@ -85,7 +85,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateMilestone.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Update Task Title"
         if: github.event.action == 'edited'
@@ -93,7 +93,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateTitle.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Update Task Assignee"
         if: github.event.action == 'assigned' || github.event.action == 'unassigned'
@@ -101,7 +101,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateAssignee.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Update Task Status"
         if: github.event.action == 'closed' || github.event.action == 'reopened'
@@ -109,7 +109,7 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/monday/updateState.js')
-            await action({context, core})
+            await action({github, context, core})
 
       - name: "Sync Action Changes"
         if: github.event.inputs.event_type == 'SyncActionChanges'

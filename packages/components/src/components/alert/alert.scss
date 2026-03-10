@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-alert-width: Specifies the width of the component.
+ * @prop --calcite-alert-width: Specifies the component's width.
  * @prop --calcite-alert-background-color: Specifies the component's background color.
  * @prop --calcite-alert-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-alert-shadow: Specifies the component's shadow.
@@ -71,6 +71,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     transition:
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
       all var(--calcite-animation-timing) ease-in-out;
+    overflow: visible;
   }
 
   &--bottom,
@@ -221,7 +222,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([scale="l"]) {
   @include includes.slotted("title", "*") {
-    @apply text-1-wrap mb-1;
+    @apply text-1-wrap;
   }
   @include includes.slotted("message", "*") {
     @apply text-0-wrap;
@@ -314,7 +315,7 @@ $alert-durations:
   $duration: list.nth($alert-duration, 2);
 
   :host([auto-close-duration="#{$name}"]) .dismiss-progress:after {
-    animation: dismissProgress $duration ease-out;
+    animation: dismissProgress calc($duration * var(--calcite-internal-duration-factor)) ease-out;
   }
   :host(:hover[auto-close-duration="#{$name}"]) .dismiss-progress:after,
   :host(:focus[auto-close-duration="#{$name}"]) .dismiss-progress:after {
@@ -335,11 +336,13 @@ $alert-durations:
   }
 }
 
-/**
- * Conditional styles for when Alert is slotted in Shell
- */
+:host([top-layer-disabled]) .container,
 .container--embedded {
-  @apply absolute z-toast;
+  z-index: var(--calcite-z-index-toast);
+}
+
+.container--embedded {
+  position: absolute;
 }
 
 @include includes.base-component();

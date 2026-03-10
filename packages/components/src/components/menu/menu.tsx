@@ -46,7 +46,7 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -55,7 +55,7 @@ export class Menu extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Layout = "horizontal";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

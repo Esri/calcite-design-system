@@ -8,7 +8,7 @@ const { arrowType } = ATTRIBUTES;
 
 type CarouselStoryArgs = Pick<
   Carousel,
-  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType"
+  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType" | "paginationDisabled"
 >;
 
 export default {
@@ -20,6 +20,7 @@ export default {
     autoplay: false,
     label: "Example carousel label",
     arrowType: arrowType.defaultValue,
+    paginationDisabled: false,
   },
   argTypes: {
     arrowType: {
@@ -34,6 +35,7 @@ export const simple = (args: CarouselStoryArgs): string =>
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("pagination-disabled", args.paginationDisabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
@@ -77,11 +79,33 @@ export const simple = (args: CarouselStoryArgs): string =>
     </calcite-carousel>
   </div>`;
 
+export const simpleSingleItem = (args: CarouselStoryArgs): string =>
+  html` <div style="width:600px;height:400px;">
+    <calcite-carousel
+      ${boolean("control-overlay", args.controlOverlay)}
+      ${boolean("disabled", args.disabled)}
+      ${boolean("pagination-disabled", args.paginationDisabled)}
+      autoplay-duration="${args.autoplayDuration}"
+      ${args.autoplay ? "autoplay" : ""}
+      label="${args.label}"
+      arrow-type="${args.arrowType}"
+    >
+      <calcite-carousel-item label="Carousel Item 1">
+        <calcite-card>
+          <span slot="heading">Some kind of carousel item content</span>
+          <span slot="description">In this case, in a card</span>
+          <calcite-icon scale="s" slot="footer-start" icon="number-circle-1"></calcite-icon>
+        </calcite-card>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
+
 export const simpleManyItems = (args: CarouselStoryArgs): string =>
   html` <div style="width:600px;height:400px;">
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("pagination-disabled", args.paginationDisabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
@@ -158,6 +182,7 @@ export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("pagination-disabled", args.paginationDisabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
@@ -234,6 +259,7 @@ export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
     <calcite-carousel
       ${boolean("control-overlay", args.controlOverlay)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("pagination-disabled", args.paginationDisabled)}
       autoplay-duration="${args.autoplayDuration}"
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"

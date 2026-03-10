@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-ui-icons",
-  "version": "4.4.0-next.16",
+  "version": "4.5.0-next.5",
   "type": "module",
   "private": false,
   "description": "A collection of UI SVG icons created by Esri for applications.",
@@ -39,7 +39,7 @@
     "sprite-16.svg",
     "sprite-24.svg",
     "sprite-32.svg",
-    "THIRD-PARTY-LICENSES.md"
+    "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
     "build": "node bin/cli.js",
@@ -58,19 +58,16 @@
     "lint:ts": "eslint --fix && prettier --ignore-path \"../../.prettierignore\" --write \"**/*.{ts,tsx,cjs,mjs}\" >/dev/null",
     "spriter": "node bin/spriter.js",
     "start": "npm run copy-assets && node bin/server.js",
-    "util:update-3rd-party-licenses": "node ../../support/createThirdPartyLicenses.mts"
+    "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "devDependencies": {
     "browser-sync": "3.0.4",
     "calcite-web": "github:Esri/calcite-web#v1.2.5",
     "cli-progress": "^3.12.0",
     "fantasticon": "3.0.0",
-    "fs-extra": "11.3.2",
+    "fs-extra": "11.3.4",
     "svgo": "^4.0.0",
     "svgson": "5.3.1",
     "svgstore-cli": "2.0.1"
-  },
-  "volta": {
-    "extends": "../../package.json"
   }
 }

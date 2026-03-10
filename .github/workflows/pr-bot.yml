@@ -1,7 +1,10 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [main, rc, dev]
+    branches:
+      - "releases/**"
+      - rc
+      - dev
 permissions:
   pull-requests: write
   issues: write
@@ -10,7 +13,7 @@ jobs:
     if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: "Assign author"
         uses: actions/github-script@v8

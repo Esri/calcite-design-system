@@ -1,4 +1,4 @@
-import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
@@ -9,6 +9,10 @@ export const queryActions = (el: HTMLElement): Action["el"][] => {
   );
 };
 
+/**
+ * Manages action overflow by slotting actions into action menus as needed.
+ * Note: this only handles direct actions and action-groups.
+ */
 export const overflowActions = ({
   actionGroups,
   expanded,
@@ -22,9 +26,11 @@ export const overflowActions = ({
   actionGroups.reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const groupActions = queryActions(group).reverse();
+    const directGroupActions = queryActions(group)
+      .filter((action) => isActionGroup(action.parentElement))
+      .reverse();
 
-    groupActions.forEach((groupAction) => {
+    directGroupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
         groupAction.removeAttribute("slot");
         groupAction.textEnabled = expanded;
@@ -32,10 +38,14 @@ export const overflowActions = ({
     });
 
     if (needToSlotCount > 0) {
-      groupActions.some((groupAction) => {
-        const unslottedActions = groupActions.filter((action) => !action.slot);
+      directGroupActions.some((groupAction) => {
+        const unslottedActions = directGroupActions.filter((action) => !action.slot);
 
-        if (unslottedActions.length > 1 && groupActions.length > 2 && !groupAction.closest("calcite-action-menu")) {
+        if (
+          unslottedActions.length > 1 &&
+          directGroupActions.length > 2 &&
+          !groupAction.closest("calcite-action-menu")
+        ) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
           slottedWithinGroupCount++;
@@ -52,7 +62,3 @@ export const overflowActions = ({
     group.manager.component.requestUpdate();
   });
 };
-
-export function isAction(el: Element | null): el is Action["el"] {
-  return el?.tagName === "CALCITE-ACTION";
-}

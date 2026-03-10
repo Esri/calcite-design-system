@@ -1,16 +1,20 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { ResizeValues } from "../components/interfaces";
 import { useSizeOverride } from "./useSizeOverride";
 
 describe("useSizeOverride", async () => {
+  let onResizeSpy: (resizeValues: ResizeValues) => void;
+
   class Test extends LitElement {
     ref = createRef<HTMLDivElement>();
 
     sizeOverride = useSizeOverride({
       targetElement: this.ref,
       getBounds: () => ({ inline: { min: 100, max: 500 }, block: { min: 60, max: 400 } }),
+      onResize: onResizeSpy,
     });
 
     override render(): JsxNode {
@@ -21,6 +25,7 @@ describe("useSizeOverride", async () => {
   let component: Test;
 
   beforeEach(async () => {
+    onResizeSpy = vi.fn();
     const mounted = await mount(Test);
     component = mounted.component;
   });
@@ -31,6 +36,14 @@ describe("useSizeOverride", async () => {
     expect(component.ref.value!.style.blockSize).toBe("250px");
     expect(size.inline).toBe(200);
     expect(size.block).toBe(250);
+    expect(onResizeSpy).toHaveBeenCalledWith({
+      inlineSize: 200,
+      blockSize: 250,
+      minInlineSize: 100,
+      maxInlineSize: 500,
+      minBlockSize: 60,
+      maxBlockSize: 400,
+    });
   });
 
   it("clamps size below min", () => {

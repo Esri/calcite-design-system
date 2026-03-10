@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
  * @prop --calcite-action-background-color: Specifies the component's background color.
@@ -214,9 +214,10 @@
   }
 
   .button {
-    @apply bg-transparent
-      transition-shadow
+    @apply transition-shadow
       ease-in-out;
+
+    background-color: var(--calcite-action-background-color, var(--calcite-color-transparent));
 
     &:hover {
       background-color: var(--calcite-action-background-color-hover, var(--calcite-color-transparent-hover));
@@ -231,7 +232,7 @@
   }
 }
 
-:host([selection-appearance="highlight"][active]) .button {
+:host([selection-appearance="highlight"]):host([active]) .button {
   background-color: var(--calcite-color-surface-highlight);
   color: var(--calcite-color-text-highlight);
 }
@@ -273,19 +274,27 @@
 .indicator-with-icon {
   @include action-indicator();
 }
-:host([scale="s"]) {
-  .indicator-with-icon {
-    @include action-indicator(-0.075rem);
-  }
-}
 
 .indicator-without-icon {
   @apply w-4 mx-1;
   @include action-indicator();
 }
+
 :host([scale="s"]) {
+  .indicator-with-icon {
+    @include action-indicator(-0.125rem);
+    &::after {
+      block-size: 0.375rem;
+      inline-size: 0.375rem;
+    }
+  }
+
   .indicator-without-icon {
-    @include action-indicator(-0.075rem);
+    @include action-indicator(-0.175rem);
+    &::after {
+      block-size: 0.375rem;
+      inline-size: 0.375rem;
+    }
   }
 }
 

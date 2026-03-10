@@ -61,7 +61,7 @@ export const iconsAndBreadcrumb = (): string =>
     ></calcite-menu-item>
   </calcite-menu>`;
 
-export const iconsAndBreadcrumbVertical_TestOnly = (): string =>
+export const iconsAndBreadcrumbVertical = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item
       icon-start="layer"
@@ -103,7 +103,7 @@ export const withNesting = (): string =>
       <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item></calcite-menu
   ></calcite-panel>`;
 
-export const WithSubmenuOpen_TestOnly = (): string =>
+export const WithSubmenuOpen = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Item" href="#item" open>
       <calcite-menu-item text="item1" slot="submenu-item" active></calcite-menu-item>
@@ -113,7 +113,7 @@ export const WithSubmenuOpen_TestOnly = (): string =>
     <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
   </calcite-menu>`;
 
-export const WithSubmenuOpenInVerticalLayout_TestOnly = (): string =>
+export const WithSubmenuOpenInVerticalLayout = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item text="Item" href="#item" open>
       <calcite-menu-item text="item1" slot="submenu-item" active></calcite-menu-item>
@@ -123,14 +123,14 @@ export const WithSubmenuOpenInVerticalLayout_TestOnly = (): string =>
     <calcite-menu-item text="Item 3" href="#item"></calcite-menu-item>
   </calcite-menu>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-menu dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
     <calcite-menu-item text="Example item 3" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-export const verticalComplexUseCase_TestOnly = (): string =>
+export const verticalComplexUseCase = (): string =>
   html`<calcite-shell-panel width-scale="l">
     <calcite-panel heading="Extreme nested vertical menu">
       <calcite-menu layout="vertical">
@@ -192,7 +192,7 @@ export const verticalComplexUseCase_TestOnly = (): string =>
     </calcite-panel>
   </calcite-shell-panel>`;
 
-export const verticalLayoutInDarkModeRTL_TestOnly = (): string =>
+export const verticalLayoutInDarkModeRTL = (): string =>
   html`<calcite-menu layout="vertical" dir="rtl" class="calcite-mode-dark">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>

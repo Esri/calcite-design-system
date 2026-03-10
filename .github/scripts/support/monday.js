@@ -9,7 +9,7 @@ const {
     designEstimate,
     planning,
     handoff,
-    productColor
+    productColor,
   },
   milestone,
   packages,
@@ -30,9 +30,10 @@ function assertMondayEnv(env, core) {
 
 /**
  * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
- * @param {import('@actions/core')} core
+ * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
+ * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
-module.exports = function Monday(issue, core) {
+module.exports = function Monday(issue, core, updateIssueBody) {
   assertMondayEnv(process.env, core);
   const { MONDAY_KEY, MONDAY_BOARD } = process.env;
   if (!issue) {
@@ -64,7 +65,7 @@ module.exports = function Monday(issue, core) {
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
    * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality
-   * @property {"dropdown"} [type] - The type of the column, used for special handling
+   * @property {"multiMutable" | "multiAppendable"} [type] - The type of the column, used for special handling
    */
   /** @type {Record<string, MondayColumn>} */
   const mondayColumns = {
@@ -72,18 +73,31 @@ module.exports = function Monday(issue, core) {
     title: { id: "name", title: "Item" },
     issueNumber: { id: "numeric_mknk2xhh", title: "Issue Number" },
     link: { id: "link", title: "GH Link" },
-    designers: { id: "people", title: "Designer" },
-    developers: { id: "multiple_person_mkt920b0", title: "Developer" },
-    productEngineers: { id: "multiple_person_mkt9pzj9", title: "Verified by" },
+    designers: { id: "people", title: "Designer", type: "multiAppendable" },
+    developers: {
+      id: "multiple_person_mkt920b0",
+      title: "Developer",
+      type: "multiAppendable",
+    },
+    productEngineers: {
+      id: "multiple_person_mkt9pzj9",
+      title: "Verified by",
+      type: "multiAppendable",
+    },
+    allAssignees: {
+      id: "multiple_person_mm0pwfy",
+      title: "Github Assignee",
+      type: "multiAppendable",
+    },
     status: { id: "dup__of_overall_status__1", title: "Status" },
     date: { id: "date6", title: "Milestone" },
     priority: { id: "priority", title: "Priority" },
     typeDropdown: {
       id: "dropdown_mkwhjde2",
       title: "Issue Type",
-      type: "dropdown",
+      type: "multiMutable",
     },
-    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "dropdown" },
+    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "multiMutable" },
     designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
@@ -238,7 +252,7 @@ module.exports = function Monday(issue, core) {
         column: mondayColumns.typeDropdown,
         value: "i18n-l10n",
         clearable: true,
-      }
+      },
     ],
     [
       issueType.newComponent,
@@ -483,11 +497,8 @@ module.exports = function Monday(issue, core) {
       role = mondayColumns.developers;
     }
 
-    if (columnUpdates[role.id]) {
-      columnUpdates[role.id] += `, ${info.id}`;
-    } else {
-      columnUpdates[role.id] = `${info.id}`;
-    }
+    setColumnValue(role, info.id);
+    setColumnValue(mondayColumns.allAssignees, info.id);
     core.notice(
       `Added assignee "${person.login}" to "${role.title}" column.`,
       logParams,
@@ -526,25 +537,53 @@ module.exports = function Monday(issue, core) {
       }
       return { response: await response.json(), error: null };
     } catch (error) {
-      return { response: null, error: error?.message || String(error) };
+      const message = error instanceof Error ? error.message : String(error);
+      return { response: null, error: message };
     }
+  }
+
+  /**
+   * @typedef {object} UpdateError
+   * @property {boolean} expected
+   * @property {string} [message]
+   */
+  /**
+   * @typedef {object} UpdateResponse
+   * @property {UpdateError | null} error
+   */
+  /**
+   * Builds an error object for multiple column update returns
+   * @private
+   * @param {object} params
+   * @param {boolean} [params.expected] - Whether the error is expected or not
+   * @param {Array<string | null>} params.messages - Array of error messages to be joined
+   * @returns {UpdateResponse}
+   */
+  function buildUpdateError({ messages, expected }) {
+    /** @type {UpdateError} */
+    const updateError = { expected: !!expected };
+
+    const filteredMessages = messages.filter(Boolean);
+    if (filteredMessages.length) {
+      updateError.message = filteredMessages.join(" ");
+    }
+
+    return { error: updateError };
   }
 
   /**
    * Creates and runs a query to update columns in a Monday.com item
    * @private
-   * @param {string} id - The ID of the Monday.com item to update
-   * @returns {Promise<{ error: null | { message: string, expected?: boolean } }>}
+   * @param {string} syncId - The ID of the Monday.com item to update
+   * @returns {Promise<UpdateResponse>}
    */
-  async function updateMultipleColumns(id = "") {
-    const mondayId = id || (await getId())?.id;
-    if (!mondayId) {
-      return {
-        error: {
-          expected: true,
-          message: "Monday Task not found, cannot update columns.",
-        },
-      };
+  async function updateMultipleColumns(syncId = "") {
+    const id = syncId || (await getId())?.id;
+    if (!id) {
+      return buildUpdateError({
+        expected: true,
+        messages: ["Monday Task ID not found, cannot update columns."],
+      });
     }
 
     const query = `mutation ChangeMultipleColumnValues($board_id: ID!, $item_id: ID!, $column_values: JSON!) {
@@ -561,17 +600,42 @@ module.exports = function Monday(issue, core) {
     /** @type {QueryVariables} */
     const queryVariables = {
       board_id: MONDAY_BOARD,
-      item_id: mondayId,
+      item_id: id,
       column_values: JSON.stringify(columnUpdates),
     };
 
     const { response, error } = await runQuery(query, queryVariables);
     if (error || !response?.data?.change_multiple_column_values) {
-      return {
-        error: {
-          message: `Failed to update columns for item ID ${mondayId}. ${error || ""}`,
-        },
-      };
+      const baseMessage = `Failed to update columns for ID ${id}.`;
+      const errorDetail = error || JSON.stringify(response?.errors);
+      const queriedId = await queryForId();
+      if (!queriedId || queriedId === id) {
+        const skippedMessage = queriedId
+          ? `Retry skipped because the queried ID (${queriedId}) matches the current item ID.`
+          : `Retry skipped because no alternate item ID was found.`;
+        return buildUpdateError({
+          messages: [baseMessage, skippedMessage, errorDetail],
+        });
+      }
+
+      queryVariables.item_id = queriedId;
+      const { response: retryResponse, error: retryError } = await runQuery(
+        query,
+        queryVariables,
+      );
+      if (retryError || !retryResponse?.data?.change_multiple_column_values) {
+        const retryErrorDetail = retryError || JSON.stringify(retryResponse?.errors);
+        return buildUpdateError({
+          messages: [
+            baseMessage,
+            `Retry failed for queried ID ${queriedId}.`,
+            `Original error: ${error}.`,
+            `Retry error: ${retryErrorDetail}.`,
+          ],
+        });
+      }
+
+      await updateBodyWithId(queriedId);
     }
     return { error: null };
   }
@@ -625,6 +689,7 @@ module.exports = function Monday(issue, core) {
     }
 
     const [{ id }] = items;
+    await updateBodyWithId(id);
     core.info(`Found existing Monday task for Issue #${issueNumber}: ${id}.`);
     return id;
   }
@@ -640,16 +705,16 @@ module.exports = function Monday(issue, core) {
   }
 
   /**
-   * Add or remove a label from a DropdownValues object. Creates a new object if none exists.
+   * Add or remove a label from a multiMutable object. Creates a new object if none exists.
    * @private
    * @param {MondayLabel} labelInfo - The label information
    * @param {("add" | "remove")} action - The action to perform: "add" or "remove"
-   * @returns {{ labels: string[] } | string} - The updated dropdown object or an empty string if no labels remain
+   * @returns {{ labels: string[] } | string} - The updated multiMutable object or an empty string if no labels remain
    */
-  function createDropdownValues(labelInfo, action) {
+  function updateMultiMutableValue(labelInfo, action) {
     if (action !== "add" && action !== "remove") {
       throw new Error(
-        `Invalid action "${action}" in createDropdownValues. Use "add" or "remove".`,
+        `Invalid action "${action}" in updateMultiMutableValue. Use "add" or "remove".`,
       );
     }
 
@@ -672,15 +737,15 @@ module.exports = function Monday(issue, core) {
       }
     }
 
-    const dropdownSet = new Set(existingLabels);
-    const present = dropdownSet.has(labelValue);
+    const valueSet = new Set(existingLabels);
+    const present = valueSet.has(labelValue);
     if (action === "add" && !present) {
-      dropdownSet.add(labelValue);
+      valueSet.add(labelValue);
     } else if (action === "remove" && present) {
-      dropdownSet.delete(labelValue);
+      valueSet.delete(labelValue);
     }
 
-    return dropdownSet.size ? { labels: Array.from(dropdownSet) } : "";
+    return valueSet.size ? { labels: Array.from(valueSet) } : "";
   }
 
   /**
@@ -708,17 +773,17 @@ module.exports = function Monday(issue, core) {
       return;
     }
 
-    const isDropdown = info.column.type === "dropdown";
+    const isMultiMutable= info.column.type === "multiMutable";
     if (action === "add") {
       setColumnValue(
         info.column,
-        isDropdown ? createDropdownValues(info, "add") : info.value,
+        isMultiMutable ? updateMultiMutableValue(info, "add") : info.value,
         logParams,
       );
     } else if (info.clearable) {
       setColumnValue(
         info.column,
-        isDropdown ? createDropdownValues(info, "remove") : "",
+        isMultiMutable ? updateMultiMutableValue(info, "remove") : "",
         logParams,
       );
     }
@@ -727,8 +792,8 @@ module.exports = function Monday(issue, core) {
   /** Public functions */
 
   /**
-   * Find the Monday.com item ID for a issue and its source
-   * ID is parsed from the issue body or fetched based on the issue number
+   * Find the Monday.com item ID for a issue and its source.
+   * The ID is parsed from the issue body or queried from the Monday.com API based on the issue number.
    * @return {Promise<{ id: string | undefined, source: ("body" | "query")}>} - The Monday.com item ID
    */
   async function getId() {
@@ -763,11 +828,10 @@ module.exports = function Monday(issue, core) {
   }
 
   /**
-   * Create a new task in Monday.com, or update an existing one if syncId is provided
-   * @param {string} syncId - When provided, updates item in Monday instead of creating new
-   * @returns {Promise<string | undefined>} - The ID of the created Monday.com item
+   * Create a new item in Monday.com, or update an existing one if found
+   * @returns {Promise<void>}
    */
-  async function createTask(syncId = "") {
+  async function createTask() {
     const logParams = { title: "Create Task" };
     columnUpdates = {
       [mondayColumns.issueNumber.id]: `${issueNumber}`,
@@ -786,14 +850,15 @@ module.exports = function Monday(issue, core) {
     }
 
     if (assignees.length) {
-      assignees.forEach((person) => addAssignee(person));
       setAssignedStatus();
+      handleAssignees();
     }
 
     if (issueMilestone) {
       handleMilestone();
     }
 
+    const { id: syncId } = await getId();
     if (syncId) {
       core.notice(
         `Sync ID "${syncId}" provided, updating existing item instead of creating new.`,
@@ -813,10 +878,9 @@ module.exports = function Monday(issue, core) {
         } else {
           core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
         }
-        return;
       }
 
-      return syncId;
+      return;
     }
 
     const query = `mutation CreateItem($board_id: ID!, $item_name: String!, $column_values: JSON!) {
@@ -837,17 +901,18 @@ module.exports = function Monday(issue, core) {
     };
 
     const { response, error } = await runQuery(query, queryVariables);
-    const id = response?.data?.create_item?.id;
-    if (error || !id) {
+    const createdId = response?.data?.create_item?.id;
+    if (error || !createdId) {
       core.setFailed(error || `Failed creating item for issue #${issueNumber}`);
       return;
     }
 
-    return id;
+    await updateBodyWithId(createdId);
   }
 
   /**
-   * Set a specific column value in columnUpdates
+   * Set a specific column value in columnUpdates.
+   * If `column.type` is `"multiAppendable"` and `value` is not empty, the value will be appended via comma-separation to any existing values in the column.
    * @param {MondayColumn} column
    * @param {ColumnValue} value
    * @param {import('@actions/core').AnnotationProperties} [logParams] - Optional logging parameters
@@ -866,7 +931,15 @@ module.exports = function Monday(issue, core) {
       return;
     }
 
-    columnUpdates[column.id] = value;
+    const existingValue = columnUpdates[column.id];
+    const newValue =
+      column.type === "multiAppendable" && value !== ""
+        ? existingValue
+          ? `${existingValue}, ${value}`
+          : `${value}`
+        : value;
+
+    columnUpdates[column.id] = newValue;
     core.notice(
       value === ""
         ? `Cleared "${column.title}" column.`
@@ -959,6 +1032,10 @@ module.exports = function Monday(issue, core) {
       .forEach((role) => {
         setColumnValue(role, "");
       });
+
+    if (!assignees.length) {
+      setColumnValue(mondayColumns.allAssignees, "");
+    }
   }
 
   /**
@@ -1024,16 +1101,15 @@ module.exports = function Monday(issue, core) {
   /**
    * Inserts or replaces the Monday sync line in the issue body string
    * @param {string} mondayID - The Monday.com item ID
-   * @returns {string} - The updated issue body
    */
-  function addSyncLine(mondayID) {
+  async function updateBodyWithId(mondayID) {
     const syncMarkdown = `**monday.com sync:** #${mondayID}\n\n`;
-    const syncLineRegex = /^\*\*monday\.com sync:\*\* #\d+\n\n?/m;
-    if (body && syncLineRegex.test(body)) {
-      return body.replace(syncLineRegex, syncMarkdown);
-    } else {
-      return syncMarkdown + (body || "");
-    }
+    const syncLineRegex = /^\*\*monday\.com sync:\*\* ?#?\d*\n?\n?/m;
+    const updatedBody =
+      body && syncLineRegex.test(body)
+        ? body.replace(syncLineRegex, syncMarkdown)
+        : syncMarkdown + (body || "");
+    await updateIssueBody(issueNumber, updatedBody);
   }
 
   /**
@@ -1076,7 +1152,6 @@ module.exports = function Monday(issue, core) {
 
   return {
     mondayColumns,
-    getId,
     commit,
     createTask,
     setColumnValue,
@@ -1086,7 +1161,6 @@ module.exports = function Monday(issue, core) {
     handleAssignees,
     addLabel,
     clearLabel,
-    addSyncLine,
     inMilestoneStatus,
   };
 };

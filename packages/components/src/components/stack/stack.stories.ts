@@ -41,10 +41,10 @@ export const stretchSlottedContent = (): string => html`
   </calcite-stack>
 `;
 
-export const simpleDarkMode_TestOnly = (): string => simpleHTML;
-simpleDarkMode_TestOnly.parameters = { themes: modesDarkDefault };
+export const simpleDarkMode = (): string => simpleHTML;
+simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-stack disabled>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
@@ -53,7 +53,7 @@ export const disabled_TestOnly = (): string =>
     <calcite-action appearance="transparent" text="Close" icon="x" slot="actions-end"></calcite-action>
   </calcite-stack>`;
 
-export const panelFooter_TestOnly = (): string =>
+export const panelFooter = (): string =>
   html`<calcite-panel>
     <div slot="header-content">My Panel</div>
     <p>My content</p>

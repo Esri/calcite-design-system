@@ -16,11 +16,10 @@ const contentHTML = `
 const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 const nestedReferenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button title="Nested Reference Element" id="reference-element-nested">nostrud exercitation</calcite-button> ullamco laboris nisi ut aliquip ex ea commodo consequat.`;
 
-interface PopoverStoryArgs
-  extends Pick<
-    Popover,
-    "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
-  > {
+interface PopoverStoryArgs extends Pick<
+  Popover,
+  "closable" | "flipDisabled" | "pointerDisabled" | "placement" | "offsetDistance" | "offsetSkidding" | "open"
+> {
   textClose: string;
 }
 
@@ -81,7 +80,7 @@ export const smallViewport = (): string => html`
 `;
 smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html` <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -98,7 +97,7 @@ export const darkModeRTL_TestOnly = (): string =>
     </calcite-popover>
   </div>`;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const nested = (): string => html`
   <div style="width: 400px;">
@@ -127,7 +126,7 @@ nested.parameters = {
   chromatic: { delay: 1500 },
 };
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <div style="height: 100px; overflow:scroll; width: 200px;">
     <div class="my-popover-reference">
       <calcite-button title="Reference Element" id="reference-element">nostrud exercitation</calcite-button>
@@ -141,7 +140,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): string => html`
+export const scaleConsistencyPopoverHeadingActionSlottedIcon = (): string => html`
   <div style="width: 800px; height:800px;">
     <div style="width: 400px;">
       ${referenceElementHTML}
@@ -159,7 +158,7 @@ export const scaleConsistencyPopoverHeadingActionSlottedIcon_TestOnly = (): stri
   </div>
 `;
 
-export const smallScaleLayout_TestOnly = (): string => html`
+export const smallScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -175,7 +174,7 @@ export const smallScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const mediumScaleLayout_TestOnly = (): string => html`
+export const mediumScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -191,7 +190,7 @@ export const mediumScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const largeScaleLayout_TestOnly = (): string => html`
+export const largeScaleLayout = (): string => html`
   <div style="width: 400px;">
     ${referenceElementHTML}
     <calcite-popover
@@ -207,7 +206,7 @@ export const largeScaleLayout_TestOnly = (): string => html`
   </div>
 `;
 
-export const transparentBG_TestOnly = (): string => html`
+export const transparentBG = (): string => html`
   <style>
     calcite-popover {
       --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);

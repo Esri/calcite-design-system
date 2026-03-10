@@ -11,14 +11,14 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
    ```
 3. Run the snippet tool
    ```bash
-   npx snippet
+   npx snippet [component]
    ```
-4. Follow the prompts to select a component and snippet(s).
+4. If a component isn’t provided, you’ll be prompted to select one, then choose snippet(s).
 5. The `components` package demo page will be updated with the selected snippet(s).
 
 ## License
 
-COPYRIGHT © 2025 Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -30,6 +30,6 @@ For additional information, contact: Environmental Systems Research Institute, I
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

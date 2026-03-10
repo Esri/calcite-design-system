@@ -1,4 +1,4 @@
-import type { DecoratorFunction } from "@storybook/html";
+import type { Decorator } from "@storybook/web-components-vite";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
@@ -297,7 +297,7 @@ export const simple = (args: ShellStoryArgs): string => html`
   </calcite-shell>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-shell dir="rtl" class="calcite-mode-dark">
     ${headerHTML}
     <calcite-shell-panel slot="panel-start" display-mode="dock"> ${advancedLeadingPanelHTML} </calcite-shell-panel>
@@ -309,7 +309,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-shell>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 const closedPanelsHtml: string[] = [];
 ["float", "float-content"].forEach((d, i) => {
@@ -483,8 +483,8 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`;
 });
-export const endPanelFloat_TestOnly = (): string => endPanelHtml[0];
-export const endPanelFloatContent_TestOnly = (): string => endPanelHtml[1];
+export const endPanelFloat = (): string => endPanelHtml[0];
+export const endPanelFloatContent = (): string => endPanelHtml[1];
 
 export const slottedDialogAndAlert = (): string =>
   html` <main>
@@ -762,7 +762,7 @@ export const contentBehind = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const slottedPanelTop_TestOnly = (): string =>
+export const slottedPanelTop = (): string =>
   html`<calcite-shell
     style="
     width:100%;
@@ -816,7 +816,7 @@ const contentBehindPanelBottomHtml: string[] = [];
 export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
 export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
 
-export const slottedPanelBottom_TestOnly = (): string => html`
+export const slottedPanelBottom = (): string => html`
   <calcite-shell
     style="
     width:100%;
@@ -902,7 +902,7 @@ export const slottedPanelTopAndBottomAndSides = (): string => html`
   </calcite-shell>
 `;
 
-export const shellCenterRowWithActionBar_TestOnly = (): string =>
+export const shellCenterRowWithActionBar = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
     <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
@@ -912,7 +912,7 @@ export const shellCenterRowWithActionBar_TestOnly = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const shellPanelZIndex_TestOnly = (): string =>
+export const shellPanelZIndex = (): string =>
   html` <calcite-shell
       style="
 height:400px;
@@ -934,7 +934,7 @@ position:relative;
       });
     </script>`;
 
-shellPanelZIndex_TestOnly.parameters = {
+shellPanelZIndex.parameters = {
   chromatic: { delay: 800 },
 };
 
@@ -1205,7 +1205,7 @@ resizableShellPanelsRTL.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const overlayDisplayMode_TestOnly = (): string =>
+export const overlayDisplayMode = (): string =>
   html`<calcite-shell
     style="
 width:800px;
@@ -1428,11 +1428,11 @@ position:relative;
     </calcite-shell-panel>
   </calcite-shell>`;
 
-overlayDisplayMode_TestOnly.parameters = {
+overlayDisplayMode.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const panelEndWithPositionStart_TestOnly = (): string =>
+export const panelEndWithPositionStart = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
       <calcite-action-bar slot="action-bar">
@@ -1467,7 +1467,7 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatHorizontal_TestOnly = (): string =>
+export const panelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
       <calcite-action-bar slot="action-bar" expand-disabled layout="horizontal" overlay-positioning="absolute">
@@ -1513,7 +1513,7 @@ export const panelTopFloatHorizontal_TestOnly = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatVertical_TestOnly = (): string =>
+export const panelTopFloatVertical = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
       <calcite-action-bar slot="action-bar" expand-disabled layout="vertical" overlay-positioning="absolute">
@@ -2713,7 +2713,7 @@ customPanelWithOverflowingContent.parameters = {
   },
 };
 
-const embeddedSlotsShellDecorator: DecoratorFunction = (storyFn) => html`
+const embeddedSlotsShellDecorator: Decorator = (storyFn) => html`
   <style>
     calcite-shell {
       position: relative;
@@ -2890,6 +2890,35 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
     </calcite-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
+`;
+
+export const floatAllHeights = (): string => html`
+  <h3>layout="vertical" & display-mode="float-all" & height="s"</h3>
+  <div style="position:relative; height: 180px">
+    <calcite-shell>
+      <calcite-shell-panel layout="vertical" display-mode="float-all" height="s">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+  <br />
+  <h3>layout="horizontal" & display-mode="float-all" & height-scale="m"</h3>
+  <div style="position:relative; height: 280px">
+    <calcite-shell>
+      <calcite-shell-panel layout="horizontal" display-mode="float-all" height-scale="m">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
+  <br/ >
+  <h3>layout="vertical" & display-mode="float-all" & height="l"</h3>
+  <div style="position:relative; height: 350px">
+    <calcite-shell>
+      <calcite-shell-panel layout="vertical" display-mode="float-all" height="l">
+        <calcite-panel heading="Example" description="example" closable> </calcite-panel>
+      </calcite-shell-panel>
+    </calcite-shell>
+  </div>
 `;
 
 embeddedSlotsInteractive.args = {

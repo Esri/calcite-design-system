@@ -35,8 +35,8 @@ declare global {
 /**
  * @slot - A slot for adding custom content.
  * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot content-end - A slot for adding non-actionable elements after content of the component.
- * @slot content-start - A slot for adding non-actionable elements before content of the component.
+ * @slot content-end - A slot for adding non-actionable elements after the component's header text.
+ * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
  */
 export class Block extends LitElement {
@@ -86,13 +86,13 @@ export class Block extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component, which displays below the heading. */
+  /** Specifies a description for the component. Displays below the heading. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, and a parent Block Group is `dragEnabled`, the component is not draggable. */
+  /** When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
@@ -106,12 +106,12 @@ export class Block extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /**
-   * The component header text.
+   * Specifies the component's heading text.
    *
    */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
@@ -127,17 +127,17 @@ export class Block extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies an accessible name for the component.
+   * Specifies an accessible label for the component.
    */
   @property() label: string;
 
-  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -181,11 +181,11 @@ export class Block extends LitElement {
   }
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -216,7 +216,19 @@ export class Block extends LitElement {
    */
   @property({ reflect: true }) status: Status;
 
+  /**
+   * prototype
+   */
   @property() textTruncation: "wrap" | "truncate" | "clip" = "clip";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -581,6 +593,7 @@ export class Block extends LitElement {
             setPosition={setPosition}
             setSize={setSize}
             sortDisabled={sortDisabled}
+            topLayerDisabled={this.topLayerDisabled}
           />
         ) : null}
         {collapsible ? (
@@ -622,6 +635,7 @@ export class Block extends LitElement {
           overlayPositioning={this.overlayPositioning}
           placement={menuPlacement}
           scale={this.scale}
+          topLayerDisabled={this.topLayerDisabled}
         >
           <slot name={SLOTS.headerMenuActions} onSlotChange={this.menuActionsSlotChangeHandler} />
         </calcite-action-menu>
