@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   cancelable,
   defaults,
@@ -12,6 +13,9 @@ import {
   disabled,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
+import { ListItemGroup } from "../list-item-group/list-item-group";
+
+const scrollTopValue = 120;
 
 describe("cancelable", () => {
   cancelable("calcite-list");
@@ -179,14 +183,16 @@ describe("sticky group heading", () => {
     );
 
     const list = el as HTMLElement;
-    const firstGroup = list.querySelector("calcite-list-item-group")!;
-    const stickyContainer = firstGroup.shadowRoot!.querySelector<HTMLElement>(
+    const firstGroup = page
+      .getBySelector("calcite-list-item-group")
+      .element() as ListItemGroup["el"];
+    const stickyContainer = firstGroup.shadowRoot.querySelector<HTMLElement>(
       `.${listItemGroupCSS.container}`,
     )!;
 
     const initialTop = stickyContainer.getBoundingClientRect().top;
 
-    list.scrollTop = 120;
+    list.scrollTop = scrollTopValue;
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     expect(list.scrollTop).toBeGreaterThan(0);
@@ -224,16 +230,18 @@ describe("sticky group heading with filter", () => {
     const list = el as HTMLElement;
 
     // locate the filter row (input) inside the list's shadow DOM
-    const filterInput = list.shadowRoot!.querySelector("calcite-filter") as HTMLElement | null;
+    const filterInput = list.shadowRoot.querySelector("calcite-filter") as HTMLElement | null;
     expect(filterInput).toBeTruthy();
 
-    const firstGroup = list.querySelector("calcite-list-item-group")!;
-    const stickyContainer = firstGroup.shadowRoot!.querySelector<HTMLElement>(
+    const firstGroup = page
+      .getBySelector("calcite-list-item-group")
+      .element() as ListItemGroup["el"];
+    const stickyContainer = firstGroup.shadowRoot.querySelector<HTMLElement>(
       `.${listItemGroupCSS.container}`,
     )!;
 
     // scroll enough so that the group heading is in its sticky position
-    list.scrollTop = 120;
+    list.scrollTop = scrollTopValue;
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     expect(list.scrollTop).toBeGreaterThan(0);

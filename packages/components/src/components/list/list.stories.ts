@@ -6552,9 +6552,9 @@ export const emptyContent = (): string =>
       </calcite-list-item>
     </calcite-list>`;
 
-export const stickyGroupHeader = (): string =>
-  html`<div style="height:300px; overflow: auto;">
-    <calcite-list label="Park features" selection-mode="single">
+function getStickyGroupHeaderHTML(filterEnabled = false): string {
+  return html`<div style="height:300px; overflow: auto;">
+    <calcite-list label="Park features" selection-mode="single" ${filterEnabled ? "filter-enabled" : ""}>
       <calcite-list-item-group heading="Outdoor recreation">
         <calcite-list-item
           label="Hiking trails"
@@ -6616,68 +6616,8 @@ export const stickyGroupHeader = (): string =>
       </script>
     </calcite-list>
   </div>`;
+}
 
-export const stickyGroupHeaderWithFilter = (): string =>
-  html`<div style="height:300px; overflow: auto;">
-    <calcite-list filter-enabled label="Park features" selection-mode="single">
-      <calcite-list-item-group heading="Outdoor recreation">
-        <calcite-list-item
-          label="Hiking trails"
-          description="Designated routes for hikers to use."
-          value="hiking-trails"
-        >
-        </calcite-list-item>
-        <calcite-list-item label="Waterfalls" description="Vertical drops from a river." value="waterfalls">
-        </calcite-list-item>
-        <calcite-list-item label="Rivers" description="Large naturally flowing watercourses." value="rivers">
-        </calcite-list-item>
-        <calcite-list-item label="Estuaries" description="Where the river meets the sea." value="estuaries">
-        </calcite-list-item>
-        <calcite-list-item
-          label="Campgrounds"
-          description="Designated areas for overnight camping."
-          value="campgrounds"
-        >
-        </calcite-list-item>
-        <calcite-list-item
-          label="Scenic viewpoints"
-          description="Overlooks with panoramic landscape views."
-          value="scenic-viewpoints"
-        >
-        </calcite-list-item>
-        <calcite-list-item
-          label="Picnic areas"
-          description="Spots with tables and facilities for outdoor meals."
-          value="picnic-areas"
-        >
-        </calcite-list-item>
-        <calcite-list-item
-          label="Rock climbing routes"
-          description="Marked paths and walls for climbing activities."
-          value="rock-climbing-routes"
-        >
-        </calcite-list-item>
-        <calcite-list-item
-          selected
-          label="Birdwatching zones"
-          description="Habitats where visitors can observe local bird species."
-          value="birdwatching-zones"
-        >
-        </calcite-list-item>
-        <calcite-list-item
-          label="Visitor centers"
-          description="Information hubs with maps, exhibits, and guidance."
-          value="visitor-centers"
-        >
-        </calcite-list-item>
-      </calcite-list-item-group>
-      <script>
-        (async () => {
-          await customElements.whenDefined("calcite-list-item");
-          const selectedItem = document.querySelector("calcite-list-item[selected]");
-          await selectedItem.componentOnReady();
-          selectedItem.scrollIntoView({ block: "nearest" });
-        })();
-      </script>
-    </calcite-list>
-  </div>`;
+export const stickyGroupHeader = (): string => getStickyGroupHeaderHTML();
+
+export const stickyGroupHeaderFilterEnabled = (): string => getStickyGroupHeaderHTML(true);
