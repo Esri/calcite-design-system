@@ -193,24 +193,18 @@ export class Stepper extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    const hasLayoutChanged =
-      changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal");
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      hasLayoutChanged ||
+      (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("icon") && (this.hasUpdated || this.icon !== false)) ||
       (changes.has("numbered") && (this.hasUpdated || this.numbered !== false)) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
       (changes.has("numberingSystem") && (this.hasUpdated || this.numberingSystem !== undefined))
     ) {
       this.updateItems();
-    }
-
-    if (hasLayoutChanged) {
-      this.determineActiveStepper();
     }
 
     if (changes.has("currentActivePosition")) {
@@ -288,6 +282,7 @@ export class Stepper extends LitElement {
 
   private updateItems(): void {
     this.visibleItems = this.items.filter((item) => !item.hidden);
+    this.determineActiveStepper();
     this.focusableItems = this.visibleItems.filter((item) => !item.disabled && !item.itemHidden);
     this.items.forEach((item) => {
       item.icon = this.icon;
