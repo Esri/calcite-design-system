@@ -29,7 +29,7 @@ describe("is focusable", () => {
 
 describe("is form associated", () => {
   formAssociated(() => mount("calcite-checkbox"), {
-    clearable: false,
+    inputType: "checkbox",
     testValue: true,
   });
 });
