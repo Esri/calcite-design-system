@@ -110,7 +110,7 @@ export interface FormComponent<T = any>
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-export interface CheckableFormComponent<T = any> extends FormComponent<T> {
+interface CheckableFormComponent<T = any> extends FormComponent<T> {
   /** For boolean-valued components, this property defines whether the associated value is submitted to the form or not. */
   checked: boolean;
 

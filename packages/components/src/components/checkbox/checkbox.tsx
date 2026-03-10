@@ -11,7 +11,7 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { CheckableFormComponent, MutableValidityState, useForm } from "../../controllers/useForm";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -22,7 +22,7 @@ declare global {
   }
 }
 
-export class Checkbox extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class Checkbox extends LitElement implements LabelableComponent {
   //#region Static Members
 
   static formAssociated = true;
@@ -40,8 +40,6 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   defaultValue: Checkbox["checked"];
 
   private direction = useDirection();
-
-  formEl: HTMLFormElement;
 
   formSupport = useForm<this>({ inputType: "checkbox" })(this);
 
