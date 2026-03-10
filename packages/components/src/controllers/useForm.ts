@@ -90,6 +90,8 @@ export interface FormComponent<T = any>
    * The initial value for this form component.
    *
    * When the form is reset, the value will be set to this property.
+   *
+   * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
   defaultValue: T;
 
@@ -116,6 +118,8 @@ interface CheckableFormComponent<T = any> extends FormComponent<T> {
    * The initial checked value for this form component.
    *
    * When the form is reset, the checked property will be set to this value.
+   *
+   * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
   defaultChecked: boolean;
 }
@@ -181,7 +185,7 @@ interface UseForm {
 
 interface UseFormOptions {
   /**
-   * When set, the component will validate and behave as if it were the specified input type (e.g. "email").
+   * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
   inputType?: HTMLInputElement["type"];
 }
@@ -319,14 +323,16 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       if (Array.isArray(component.value)) {
         const formData = new FormData();
-        component.value.forEach((value) => {
-          formData.append(component.name, value);
-        });
+        component.value.forEach((value) => formData.append(component.name, value));
         return formData;
       }
+
       if (isCheckable(component)) {
         if (component.checked) {
-          return inputDelegate && options.inputType === "checkbox" ? inputDelegate.value : component.value;
+          // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
+          return component.defaultValue === undefined && !defaultValueDirty && component.value === undefined
+            ? "on"
+            : component.value;
         }
 
         return null;
