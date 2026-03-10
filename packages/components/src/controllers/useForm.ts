@@ -90,6 +90,8 @@ export interface FormComponent<T = any>
    * The initial value for this form component.
    *
    * When the form is reset, the value will be set to this property.
+   *
+   * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
   defaultValue: T;
 
@@ -116,6 +118,8 @@ interface CheckableFormComponent<T = any> extends FormComponent<T> {
    * The initial checked value for this form component.
    *
    * When the form is reset, the checked property will be set to this value.
+   *
+   * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
   defaultChecked: boolean;
 }
