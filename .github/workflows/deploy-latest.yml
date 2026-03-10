@@ -50,7 +50,7 @@ jobs:
 
           release_version="$(node -p "require('./packages/components/package.json').version")"
 
-          git checkout -b ci/cherry-pick-release-commit origin/dev
+          git checkout -B ci/cherry-pick-release-commit origin/dev
 
           dev_commit="$(git rev-parse HEAD)"
           dev_version="$(node -p "require('./packages/components/package.json').version")"
@@ -63,15 +63,12 @@ jobs:
           )
 
           if ! git cherry-pick --no-commit "$release_commit"; then
-            conflicts="$()"
+            conflicts="$(git diff --name-only --diff-filter=U)"
 
-            if git diff --name-only --diff-filter=U |
+            if echo "$conflicts" |
               grep -qvE 'packages/.*/(CHANGELOG\.md|package\.json)'; then
-              echo "Aborting cherry-pick due to unexpected conflicts."
-              git cherry-pick --abort
-              exit 1
-            else
-              echo "Cherry-pick failed with no detected conflicts. Investigation needed."
+              echo "Aborting cherry-pick due to unexpected conflicts:"
+              echo "$conflicts"
               git cherry-pick --abort
               exit 1
             fi
@@ -81,8 +78,8 @@ jobs:
           git checkout "$kept_commit" -- packages/*/package.json
           git add packages/*/CHANGELOG.md packages/*/package.json
 
-          if git diff --name-only --diff-filter=U then
-            echo "Aborting cherry-pick due to unexpected conflicts.
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Aborting cherry-pick, as there are still conflicts after auto-resolution."
             git cherry-pick --abort
             exit 1
           fi
