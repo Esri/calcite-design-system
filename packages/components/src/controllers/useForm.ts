@@ -323,11 +323,10 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       if (Array.isArray(component.value)) {
         const formData = new FormData();
-        component.value.forEach((value) => {
-          formData.append(component.name, value);
-        });
+        component.value.forEach((value) => formData.append(component.name, value));
         return formData;
       }
+
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
