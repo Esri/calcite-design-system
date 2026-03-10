@@ -13,7 +13,6 @@ import {
   disabled,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
-import { ListItemGroup } from "../list-item-group/list-item-group";
 
 const scrollTopValue = 120;
 
@@ -183,12 +182,10 @@ describe("sticky group heading", () => {
     );
 
     const list = el as HTMLElement;
-    const firstGroup = page
-      .getBySelector("calcite-list-item-group")
-      .element() as ListItemGroup["el"];
-    const stickyContainer = firstGroup.shadowRoot.querySelector<HTMLElement>(
-      `.${listItemGroupCSS.container}`,
-    )!;
+    const stickyContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
 
     const initialTop = stickyContainer.getBoundingClientRect().top;
 
@@ -229,16 +226,14 @@ describe("sticky group heading with filter", () => {
 
     const list = el as HTMLElement;
 
-    // locate the filter row (input) inside the list's shadow DOM
-    const filterInput = list.shadowRoot.querySelector("calcite-filter") as HTMLElement | null;
+    const filterInput = page.getBySelector("calcite-list calcite-filter").element();
+
     expect(filterInput).toBeTruthy();
 
-    const firstGroup = page
-      .getBySelector("calcite-list-item-group")
-      .element() as ListItemGroup["el"];
-    const stickyContainer = firstGroup.shadowRoot.querySelector<HTMLElement>(
-      `.${listItemGroupCSS.container}`,
-    )!;
+    const stickyContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
 
     // scroll enough so that the group heading is in its sticky position
     list.scrollTop = scrollTopValue;
@@ -246,7 +241,7 @@ describe("sticky group heading with filter", () => {
 
     expect(list.scrollTop).toBeGreaterThan(0);
 
-    const filterRect = filterInput!.getBoundingClientRect();
+    const filterRect = filterInput.getBoundingClientRect();
     const stickyRect = stickyContainer.getBoundingClientRect();
 
     // ensure the sticky group heading does not overlap the filter row
