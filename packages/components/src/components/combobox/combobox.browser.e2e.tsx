@@ -916,7 +916,7 @@ describe("filtering", () => {
     await expect.element(items.nth(2)).not.toBeVisible();
     await expect.element(items.nth(3)).not.toBeVisible();
     await expect.element(el).toHaveProperty("filterText", "value-4");
-    expect(el).toHaveProperty("filteredItems", expect.arrayContaining([]));
+    expect(el).toHaveProperty("filteredItems", []);
     expect(filterEventSpy).toHaveBeenCalledTimes(4);
 
     await clearAndType(el, "-"); // common in all values
@@ -1028,7 +1028,7 @@ describe("filtering", () => {
     const item4 = page.getBySelector("#item-4");
     const bounds = item4.element().getBoundingClientRect();
 
-    await commands.mouseMove(bounds.x, bounds.y);
+    await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
     await commands.mouseDown();
     await commands.mouseUp();
 
