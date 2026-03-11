@@ -65,7 +65,7 @@ jobs:
           if ! git cherry-pick --no-commit "$release_commit"; then
             conflicts="$(git diff --name-only --diff-filter=U)"
 
-            if echo "$conflicts" |
+            if echo [ -n "$conflicts" ] && echo "$conflicts" |
               grep -qvE 'packages/.*/(CHANGELOG\.md|package\.json)'; then
               echo "Aborting cherry-pick due to unexpected conflicts:"
               echo "$conflicts"
