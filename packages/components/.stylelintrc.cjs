@@ -86,10 +86,7 @@ scssPatternRules.forEach((rule) => {
 const config = {
   defaultSeverity: "warning",
   extends: "stylelint-config-recommended-scss",
-  plugins: [
-    "stylelint-use-logical-spec",
-    "@esri/stylelint-custom-calcite-rules/rules/require-deprecation-and-removal-versions-rule.mjs",
-  ],
+  plugins: ["stylelint-use-logical-spec", "@esri/stylelint-plugin-calcite-components"],
   rules,
 };
 
