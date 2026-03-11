@@ -35,7 +35,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
-import { Scale, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -444,6 +444,18 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, and
+   *
+   * `"highlight"` displays a background highlight.
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
+
+  /**
    * Specifies the selection mode of the component, where:
    *
    * `"multiple"` allows any number of selections,
@@ -635,7 +647,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (
+      changes.has("selectionMode") ||
+      changes.has("scale") ||
+      changes.has("selectionAppearance")
+    ) {
       this.updateItems();
     }
 
@@ -1332,6 +1348,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private updateItemProps(): void {
     this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
+      item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
     });
 
