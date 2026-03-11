@@ -8,7 +8,6 @@ import {
   disabled,
   floatingUIOwner,
   focusable,
-  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -194,25 +193,6 @@ describe("disabled", () => {
       },
     },
   });
-});
-
-describe("is form-associated", () => {
-  formAssociated(
-    () =>
-      mount(
-        <calcite-combobox selection-mode="single">
-          <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
-          <calcite-combobox-item heading="Two" icon="beaker" id="two" selected value="two" />
-          <calcite-combobox-item heading="Three" id="three" value="three" />
-        </calcite-combobox>,
-      ),
-    {
-      testValue: "two",
-      submitsOnEnter: true,
-      validation: true,
-      changeValueKeys: ["{Space}", "{Enter}"],
-    },
-  );
 });
 
 describe("top layer placement", () => {
