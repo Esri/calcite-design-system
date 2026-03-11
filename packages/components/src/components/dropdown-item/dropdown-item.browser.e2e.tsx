@@ -1,6 +1,7 @@
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { afterNextTask } from "../../tests/utils/timing";
 
 describe("is focusable", () => {
   focusable(() => mount(`calcite-dropdown-item`));
@@ -15,5 +16,37 @@ describe("renders", () => {
 });
 
 describe("disabled", () => {
-  disabled(() => mount(`calcite-dropdown-item`));
+  it("prevents selection event when disabled", async () => {
+    const { el, reRender } = await mount("calcite-dropdown-item");
+    const selectSpy = vi.fn();
+    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+
+    el.disabled = true;
+    await reRender();
+    await afterNextTask();
+
+    el.click();
+
+    expect(selectSpy).toHaveBeenCalledTimes(0);
+    expect(el.getAttribute("aria-disabled")).toBe("true");
+  });
+
+  it("allows selection event again after enabling", async () => {
+    const { el, reRender } = await mount("calcite-dropdown-item");
+    const selectSpy = vi.fn();
+    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+
+    el.disabled = true;
+    await reRender();
+    await afterNextTask();
+
+    el.disabled = false;
+    await reRender();
+    await afterNextTask();
+
+    el.click();
+
+    expect(selectSpy).toHaveBeenCalledTimes(1);
+    expect(el.getAttribute("aria-disabled")).toBeNull();
+  });
 });

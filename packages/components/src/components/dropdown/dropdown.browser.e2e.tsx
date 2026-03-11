@@ -125,7 +125,7 @@ describe("disabled", () => {
       focusTarget: {
         tab: "calcite-button",
         click: {
-          pointer: "calcite-dropdown-item",
+          pointer: "calcite-button",
           method: "body",
         },
       },

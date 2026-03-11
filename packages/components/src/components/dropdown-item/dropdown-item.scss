@@ -110,8 +110,8 @@
   }
 }
 
-//focus
-:host(:focus) {
+//focus styling
+:host([active-descendant]) {
   .container {
     @apply focus-inset no-underline;
   }
