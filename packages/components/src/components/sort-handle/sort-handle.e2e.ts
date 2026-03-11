@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, openClose } from "../../tests/commonTests";
@@ -64,9 +63,9 @@ it("fires calciteSortHandleReorder event", async () => {
 
   await page.keyboard.press("Enter");
   await page.waitForChanges();
-  expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+  expect(calciteSortHandleReorderSpy.lastEvent!.detail.reorder).toBe(REORDER_VALUES[0]);
   expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleReorderSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleMove event", async () => {
@@ -96,9 +95,9 @@ it("fires calciteSortHandleMove event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+  expect(calciteSortHandleMoveSpy.lastEvent!.detail.moveTo.id).toBe(moveToItems[1].id);
   expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleMoveSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleAdd event", async () => {
@@ -128,9 +127,9 @@ it("fires calciteSortHandleAdd event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleAddSpy.lastEvent.detail.addTo.id).toBe(addToItems[1].id);
+  expect(calciteSortHandleAddSpy.lastEvent!.detail.addTo.id).toBe(addToItems[1].id);
   expect(calciteSortHandleAddSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleAddSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize < 2", async () => {

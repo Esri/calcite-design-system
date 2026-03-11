@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -313,21 +312,21 @@ describe("focus and interaction function as intended", () => {
 
     await swatch1.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
     await selectedItemAsserter([swatch1.id]);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch2.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch3.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch3.id);
 
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch5.id);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
@@ -337,7 +336,7 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch4.id);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -353,15 +352,15 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch5.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
   });
 
   it("selectedItems property is correctly populated at load when property is set on swatches in DOM", async () => {
@@ -563,7 +562,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([swatch4.id, swatch5.id]);
 
     await page.evaluate(() => {
-      const group = document.querySelector("calcite-swatch-group");
+      const group = document.querySelector("calcite-swatch-group")!;
       const newSwatch = document.createElement("calcite-swatch");
       newSwatch.id = "swatch-6";
       newSwatch.selected = true;
@@ -607,7 +606,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([swatch4.id]);
 
     await page.evaluate(() => {
-      const group = document.querySelector("calcite-swatch-group");
+      const group = document.querySelector("calcite-swatch-group")!;
       const newSwatch = document.createElement("calcite-swatch");
       newSwatch.id = "swatch-6";
       newSwatch.selected = true;
@@ -653,7 +652,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([swatch4.id, swatch5.id]);
 
     await page.evaluate(() => {
-      document.querySelector("calcite-swatch:last-child").remove();
+      document.querySelector("calcite-swatch:last-child")!.remove();
     });
 
     await page.waitForChanges();
@@ -664,7 +663,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([swatch4.id]);
 
     await page.evaluate(() => {
-      document.querySelector("calcite-swatch:last-child").remove();
+      document.querySelector("calcite-swatch:last-child")!.remove();
     });
 
     await page.waitForChanges();

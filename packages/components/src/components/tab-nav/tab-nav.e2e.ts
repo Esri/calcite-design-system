@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement, EventSpy } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -76,19 +75,19 @@ it("focuses on keyboard interaction", async () => {
 
   const tab1 = await page.find("#tab1");
   await tab1.focus();
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("tab1");
 
   await page.keyboard.press("ArrowRight");
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("tab2");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("tab2");
 
   await page.keyboard.press("ArrowLeft");
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("tab1");
 
   await page.keyboard.press("End");
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("tab3");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("tab3");
 
   await page.keyboard.press("Home");
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("tab1");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("tab1");
 });
 
 describe("responsiveness", () => {

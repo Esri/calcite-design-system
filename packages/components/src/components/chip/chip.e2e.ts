@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -54,7 +53,7 @@ it("should receive focus when clicked", async () => {
   const chip1 = await page.find("#chip-1");
   await chip1.click();
   await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+  expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
 });
 
 describe("closing", () => {

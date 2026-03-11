@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -314,21 +313,21 @@ describe("focus and interaction function as intended", () => {
 
     await chip1.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
     expect(await element.getProperty("selectedItems")).toHaveLength(1);
     await selectedItemAsserter([chip1.id]);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip2.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip3.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip3.id);
 
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip5.id);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
@@ -338,7 +337,7 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip4.id);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -354,15 +353,15 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip5.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
   });
 
   it("when chips are selectable, and a chip is focused, using tab will focus the close button", async () => {
@@ -384,31 +383,31 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip1.id);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.$eval(`#${chip1.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIP_CSS.close);
+    expect(await page.$eval(`#${chip1.id}`, (el) => el.shadowRoot!.activeElement!.className)).toEqual(CHIP_CSS.close);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip2.id);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.$eval(`#${chip2.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIP_CSS.close);
+    expect(await page.$eval(`#${chip2.id}`, (el) => el.shadowRoot!.activeElement!.className)).toEqual(CHIP_CSS.close);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip3.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip3.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip4.id);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.$eval(`#${chip4.id}`, (el) => el.shadowRoot.activeElement.className)).toEqual(CHIP_CSS.close);
+    expect(await page.$eval(`#${chip4.id}`, (el) => el.shadowRoot!.activeElement!.className)).toEqual(CHIP_CSS.close);
   });
 
   it("when closing a chip, focus the previous chip, or if the first chip is closed, focus the 'next first chip'", async () => {
@@ -434,15 +433,15 @@ describe("focus and interaction function as intended", () => {
 
     await closeButton3.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip2.id);
 
     await closeButton1.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip2.id);
 
     await closeButton5.click();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(chip4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(chip4.id);
   });
 
   it("selectedItems property is correctly populated at load when property is set on chips in DOM", async () => {
@@ -644,7 +643,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([chip4.id, chip5.id]);
 
     await page.evaluate(() => {
-      const group = document.querySelector("calcite-chip-group");
+      const group = document.querySelector("calcite-chip-group")!;
       const newChip = document.createElement("calcite-chip");
       newChip.id = "chip-6";
       newChip.selected = true;
@@ -688,7 +687,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([chip4.id]);
 
     await page.evaluate(() => {
-      const group = document.querySelector("calcite-chip-group");
+      const group = document.querySelector("calcite-chip-group")!;
       const newChip = document.createElement("calcite-chip");
       newChip.id = "chip-6";
       newChip.selected = true;
@@ -734,7 +733,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([chip4.id, chip5.id]);
 
     await page.evaluate(() => {
-      document.querySelector("calcite-chip:last-child").remove();
+      document.querySelector("calcite-chip:last-child")!.remove();
     });
 
     await page.waitForChanges();
@@ -745,7 +744,7 @@ describe("updating component after page load", () => {
     await selectedItemAsserter([chip4.id]);
 
     await page.evaluate(() => {
-      document.querySelector("calcite-chip:last-child").remove();
+      document.querySelector("calcite-chip:last-child")!.remove();
     });
 
     await page.waitForChanges();

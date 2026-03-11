@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -130,7 +129,7 @@ describe("events", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
     expect(changeSpy).not.toHaveReceivedEvent();
     let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
     expect(selectedItem.id).toEqual("two");
@@ -608,7 +607,7 @@ describe("autoplay", () => {
     expect(stopSpy).not.toHaveReceivedEvent();
     expect(pauseSpy).not.toHaveReceivedEvent();
     expect(resumeSpy).not.toHaveReceivedEvent();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
 
     await page.waitForTimeout(customDuration);
     await page.waitForChanges();
@@ -714,7 +713,7 @@ describe("autoplay", () => {
     expect(stopSpy).not.toHaveReceivedEvent();
     expect(pauseSpy).not.toHaveReceivedEvent();
     expect(resumeSpy).not.toHaveReceivedEvent();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
 
     await page.waitForTimeout(customDuration);
     await page.waitForChanges();
@@ -833,8 +832,8 @@ describe("handling dom updates after initial render", () => {
     const carousel = await page.find("calcite-carousel");
     const newItemId = "newItem";
     await page.evaluate((newId) => {
-      const carousel = document.querySelector("calcite-carousel");
-      const newItem = carousel.querySelector("calcite-carousel-item:last-child").cloneNode(true);
+      const carousel = document.querySelector("calcite-carousel")!;
+      const newItem = carousel.querySelector("calcite-carousel-item:last-child")!.cloneNode(true);
       (newItem as HTMLElement).id = newId;
       carousel.appendChild(newItem);
     }, newItemId);
@@ -862,7 +861,7 @@ describe("handling dom updates after initial render", () => {
     const carousel = await page.find("calcite-carousel");
 
     await page.evaluate(() => {
-      document.querySelector("calcite-carousel-item:first-child").remove();
+      document.querySelector("calcite-carousel-item:first-child")!.remove();
     });
     await page.waitForChanges();
 

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/interfaces";
@@ -120,7 +119,7 @@ export function getTextWidth(text: string, font: string): number {
     return 0;
   }
   const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
+  const context = canvas.getContext("2d")!;
   context.font = font;
   return context.measureText(text).width;
 }
@@ -141,7 +140,7 @@ export function getHost(root: Document | ShadowRoot): Element | null {
  * If both an 'id' and 'selector' are supplied, 'id' will take precedence over 'selector'.
  */
 export function queryElementRoots<T extends Element = Element>(
-  el: Element,
+  el: Element | null,
   {
     selector,
     id,
@@ -154,8 +153,8 @@ export function queryElementRoots<T extends Element = Element>(
     return null;
   }
 
-  if ((el as Slottable).assignedSlot) {
-    el = (el as Slottable).assignedSlot;
+  if (el.assignedSlot) {
+    el = el.assignedSlot;
   }
 
   const rootNode = getRootNode(el);
@@ -196,9 +195,21 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   element: Element,
   selector: string,
 ): T | null {
-  return element
-    ? element.closest(selector) || closestElementCrossShadowBoundary(getHost(getRootNode(element)), selector)
-    : null;
+  if (!element) {
+    return null;
+  }
+
+  const found = element.closest<T>(selector);
+  if (found) {
+    return found;
+  }
+
+  const host = getHost(getRootNode(element));
+  if (!host) {
+    return null;
+  }
+
+  return closestElementCrossShadowBoundary(host, selector);
 }
 
 export type FocusableElement = SetFocusable | HTMLElement;
@@ -255,7 +266,7 @@ export async function focusElement(
  *
  * @returns the first tabbable element.
  */
-export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+export function getFirstTabbable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -286,7 +297,7 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  *
  * @internal
  */
-function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement {
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -480,7 +491,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @param selector The CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
   return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
@@ -491,7 +502,7 @@ export function slotChangeGetAssignedElements<T extends Element>(event: Event, s
  * @param selector CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });
@@ -575,7 +586,7 @@ export const focusElementInGroup = <T extends Element = Element>(
  * @returns true when a is before b in the DOM
  */
 export function isBefore(a: HTMLElement, b: HTMLElement): boolean {
-  if (a.parentNode !== b.parentNode) {
+  if (!a.parentNode || !b.parentNode || a.parentNode !== b.parentNode) {
     return false;
   }
 
@@ -610,7 +621,7 @@ function findAnimation(
   targetEl: HTMLElement,
   type: TransitionOrAnimation,
   transitionPropOrAnimationName: string,
-): TransitionOrAnimationInstance {
+): TransitionOrAnimationInstance | undefined {
   const targetProp = type === "transition" ? "transitionProperty" : "animationName";
   return targetEl
     .getAnimations()

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible } from "../../tests/commonTests";
@@ -319,7 +318,7 @@ describe("keyboard interaction", () => {
 
   async function assertTabAndEnterBehavior(
     hexInputChars: string,
-    expectedValue: string | undefined,
+    expectedValue: string | null,
     alphaChannel = false,
   ): Promise<void> {
     const normalizedInputHex = normalizeHex(hexInputChars);
@@ -440,7 +439,7 @@ describe("keyboard interaction", () => {
           await assertTabAndEnterBehavior("b00", "#bb0000");
           // eslint-disable-next-line @cspell/spellchecker -- test hex code
           await assertTabAndEnterBehavior("c0ffee", "#c0ffee");
-          await assertTabAndEnterBehavior("", undefined);
+          await assertTabAndEnterBehavior("", null);
         });
 
         it("prevents committing invalid hex values", async () => {
@@ -450,7 +449,7 @@ describe("keyboard interaction", () => {
           await assertTabAndEnterBehavior("aabb", startingHex);
           await assertTabAndEnterBehavior("aa", startingHex);
           await assertTabAndEnterBehavior("a", startingHex);
-          await assertTabAndEnterBehavior("", undefined);
+          await assertTabAndEnterBehavior("", null);
         });
 
         it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {

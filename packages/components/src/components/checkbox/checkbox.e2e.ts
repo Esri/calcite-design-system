@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
@@ -143,7 +142,7 @@ it("resets to initial value when form reset event is triggered", async () => {
   expect(await checked.getProperty("checked")).toBe(false);
 
   await page.evaluate(() => {
-    const form = document.querySelector("form");
+    const form = document.querySelector("form")!;
     form.reset();
   });
   await page.waitForChanges();
@@ -158,7 +157,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
     await page.setContent(html`<calcite-checkbox dir="${direction}" scale="${scale}"></calcite-checkbox>`);
     const checkbox = await page.find("calcite-checkbox");
     const { left, top, right, bottom } = await page.evaluate(() =>
-      document.querySelector("calcite-checkbox").getBoundingClientRect().toJSON(),
+      document.querySelector("calcite-checkbox")!.getBoundingClientRect().toJSON(),
     );
 
     const testClick = async (x, y, expected) => {
@@ -174,7 +173,7 @@ describe("WCAG AA recommended minimum 24px click area", () => {
     await testClick(right + maxExtraPixels + 1, bottom + maxExtraPixels + 1, false);
   };
 
-  const directions = ["ltr", "rtl"];
+  const directions = ["ltr", "rtl"] as const;
 
   directions.forEach((direction: Direction) => {
     describe(`${direction}`, () => {
