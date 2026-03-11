@@ -1,21 +1,15 @@
 import stylelint from "stylelint";
+import { meta, name, messages } from "./meta.ts";
 
 const {
-  createPlugin,
-  utils: { report, ruleMessages, validateOptions },
+  utils: { report, validateOptions },
 } = stylelint;
 
-const ruleName = "calcite/require-deprecation-and-removal-versions";
-const messages = ruleMessages(ruleName, {
-  expected:
-    "Expected both deprecation and removal target versions on a [Deprecated] token. (e.g. '[Deprecated] in v1.2.3, removal target v3').",
-});
-
 /** @type {import('stylelint').Rule} */
-const ruleFunction = (primary) => {
+export const requireDeprecationAndRemovalVersions: stylelint.Rule = (primaryOption, secondaryOption) => {
   return (root, result) => {
-    const validOptions = validateOptions(result, ruleName, {
-      actual: primary,
+    const validOptions = validateOptions(result, name, {
+      actual: primaryOption,
       possible: [true],
     });
 
@@ -32,7 +26,8 @@ const ruleFunction = (primary) => {
       }
       const text = comment.text;
 
-      if (!/\[Deprecated\]/i.test(text)) {
+      // Only enforce the rule when both a @prop declaration and a [Deprecated] marker are present
+      if (!/\@prop/i.test(text) || !/\[Deprecated\]/i.test(text)) {
         return;
       }
 
@@ -42,8 +37,8 @@ const ruleFunction = (primary) => {
       if (!hasDeprecationVersion || !hasRemovalTarget) {
         report({
           result,
-          ruleName,
-          message: messages.expected,
+          ruleName: name,
+          message: messages.rejected,
           node: comment,
         });
       }
@@ -51,7 +46,6 @@ const ruleFunction = (primary) => {
   };
 };
 
-ruleFunction.ruleName = ruleName;
-ruleFunction.messages = messages;
-
-export default createPlugin(ruleName, ruleFunction);
+requireDeprecationAndRemovalVersions.ruleName = name;
+requireDeprecationAndRemovalVersions.messages = messages;
+requireDeprecationAndRemovalVersions.meta = meta;
