@@ -175,5 +175,9 @@ ul:focus {
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
+.container--highlight-selected {
+  background-color: var(--calcite-color-surface-highlight);
+}
+
 @include includes.item-hidden();
 @include includes.text-highlight-item();
