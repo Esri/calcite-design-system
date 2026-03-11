@@ -926,15 +926,7 @@ describe("filtering", () => {
     await expect.element(items.nth(2)).toBeVisible();
     await expect.element(items.nth(3)).toBeVisible();
     await expect.element(el).toHaveProperty("filterText", "-");
-    expect(el).toHaveProperty(
-      "filteredItems",
-      expect.arrayContaining([
-        await items.nth(0).element(),
-        await items.nth(1).element(),
-        await items.nth(2).element(),
-        await items.nth(3).element(),
-      ]),
-    );
+    expect(el).toHaveProperty("filteredItems", expect.arrayContaining(items.elements()));
     expect(filterEventSpy).toHaveBeenCalledTimes(5);
 
     async function clearAndType(combobox: Combobox["el"], text: string): Promise<void> {
@@ -1091,7 +1083,7 @@ describe("filtering", () => {
 
   it("should filter on initial load", async () => {
     await mount<Combobox>(
-      <calcite-combobox filter-text="1.2"> {renderNestedComboboxChildren()}</calcite-combobox>,
+      <calcite-combobox filter-text="1.2">{renderNestedComboboxChildren()}</calcite-combobox>,
     );
     await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
 
