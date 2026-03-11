@@ -604,9 +604,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   async load(): Promise<void> {
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.handleSelectionModeWarning();
   }
 
