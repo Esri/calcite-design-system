@@ -11964,5 +11964,10 @@
     ],
     "category": "Transportation",
     "release": "5.0.0"
+  },
+  "publish": {
+    "alias": ["5.0.0", "generic", "web", "produce", "issue", "release", "public"],
+    "category": "Generic",
+    "release": "5.0.0"
   }
 }
