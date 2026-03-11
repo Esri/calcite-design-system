@@ -9,13 +9,6 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
@@ -26,6 +19,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
 import { Star } from "./interfaces";
@@ -41,8 +35,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Rating extends LitElement implements LabelableComponent, FormComponent {
+export class Rating extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -54,7 +50,9 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
 
   private emit = false;
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private guid = IDS.host(guid());
 
@@ -215,7 +213,6 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   async load(): Promise<void> {
@@ -253,7 +250,6 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -454,7 +450,6 @@ export class Rating extends LitElement implements LabelableComponent, FormCompon
               </calcite-chip>
             ) : null}
           </fieldset>
-          <HiddenFormInputSlot component={this} />
           {this.validationMessage && this.status === "invalid" ? (
             <Validation
               icon={this.validationIcon}
