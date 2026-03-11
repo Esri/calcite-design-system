@@ -2,12 +2,12 @@
 
 :host {
   display: block;
-  overflow: hidden;
   white-space: nowrap;
   overflow-wrap: break-word;
+  overflow: hidden;
 }
 
-:host([ellipsis]) {
+:host([truncate-position="end"]) {
   text-overflow: ellipsis;
 }
 
@@ -18,6 +18,6 @@
 :host([max-lines]) {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--calcite-internal-text-max-lines);
+  -webkit-line-clamp: var(--calcite-internal-text-max-lines, none);
   white-space: normal;
 }

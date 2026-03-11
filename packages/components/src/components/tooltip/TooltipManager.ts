@@ -4,6 +4,7 @@ import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
 import { getEffectiveReferenceElement } from "./utils";
 import type { Tooltip } from "./tooltip";
+import { ARIA_DESCRIBED_BY } from "./resources";
 
 export default class TooltipManager {
   // --------------------------------------------------------------------------
@@ -28,15 +29,17 @@ export default class TooltipManager {
 
   private hoveredTooltip: Tooltip["el"] = null;
 
+  private registry = new Map<ReferenceElement, Set<string>>();
+
   // --------------------------------------------------------------------------
   //
   //  Public Methods
   //
   // --------------------------------------------------------------------------
 
-  registerElement(referenceEl: ReferenceElement, tooltip: Tooltip["el"]): void {
+  registerElement(referenceEl: ReferenceElement, tooltipEl: Tooltip["el"]): void {
     this.registeredElementCount++;
-    this.registeredElements.set(referenceEl, tooltip);
+    this.registeredElements.set(referenceEl, tooltipEl);
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
@@ -46,9 +49,31 @@ export default class TooltipManager {
     if (this.registeredElementCount === 1) {
       this.addListeners();
     }
+    // if (!referenceEl || !tooltipEl) {
+    //   return;
+    // }
+
+    // const id = this.getTooltipId(tooltipEl);
+    // if (!id) {
+    //   return;
+    // }
+
+    // const set = this.registry.get(referenceEl) ?? new Set<string>();
+    // set.add(id);
+    // this.registry.set(referenceEl, set);
+
+    // // Merge with any existing aria-describedby tokens (do not clobber)
+    // const currentTokens = this.tokenize((referenceEl as Element).getAttribute(ARIA_DESCRIBED_BY));
+    // const merged = new Set(currentTokens);
+    // merged.add(id);
+
+    // this.setTokens(referenceEl as Element, Array.from(merged));
   }
 
   unregisterElement(referenceEl: ReferenceElement): void {
+    if (!referenceEl) {
+      return;
+    }
     const shadowRoot = this.getReferenceElShadowRootNode(referenceEl);
 
     if (shadowRoot) {
@@ -62,6 +87,39 @@ export default class TooltipManager {
     if (this.registeredElementCount === 0) {
       this.removeListeners();
     }
+
+    // // If tooltipEl is provided, remove only that id; otherwise remove all managed ids for the ref.
+    // const idsToRemove: Set<string> = new Set<string>();
+
+    // if (tooltipEl) {
+    //   const id = this.getTooltipId(tooltipEl);
+    //   if (id) {
+    //     idsToRemove.add(id);
+    //   }
+    // } else {
+    //   const existing = this.registry.get(referenceEl);
+    //   if (existing) {
+    //     existing.forEach((id) => idsToRemove.add(id));
+    //   }
+    // }
+
+    // if (!idsToRemove.size) {
+    //   return;
+    // }
+
+    // const set = this.registry.get(referenceEl);
+    // if (set) {
+    //   idsToRemove.forEach((id) => set.delete(id));
+    //   if (!set.size) {
+    //     this.registry.delete(referenceEl);
+    //   } else {
+    //     this.registry.set(referenceEl, set);
+    //   }
+    // }
+
+    // const currentTokens = this.tokenize((referenceEl as Element).getAttribute(ARIA_DESCRIBED_BY));
+    // const nextTokens = currentTokens.filter((t) => !idsToRemove.has(t));
+    // this.setTokens(referenceEl as Element, nextTokens);
   }
 
   // --------------------------------------------------------------------------
@@ -282,6 +340,7 @@ export default class TooltipManager {
   }
 
   private openHoveredTooltip = (tooltip: Tooltip["el"]): void => {
+    // debugger;
     this.hoverOpenTimeout = window.setTimeout(
       () => {
         if (this.hoverOpenTimeout === null || tooltip !== this.hoveredTooltip) {
@@ -334,5 +393,22 @@ export default class TooltipManager {
 
   private getReferenceElShadowRootNode(referenceEl: ReferenceElement): ShadowRoot | null {
     return referenceEl instanceof Element ? getShadowRootNode(referenceEl) : null;
+  }
+
+  private getTooltipId(tooltipEl: Element): string | null {
+    // tooltip.tsx ensures id is set to el.id || guid during render()
+    return tooltipEl?.id || null;
+  }
+
+  private tokenize(value: string | null): string[] {
+    return (value || "").split(/\s+/g).filter(Boolean);
+  }
+
+  private setTokens(el: Element, tokens: string[]): void {
+    if (tokens.length) {
+      el.setAttribute(ARIA_DESCRIBED_BY, tokens.join(" "));
+    } else {
+      el.removeAttribute(ARIA_DESCRIBED_BY);
+    }
   }
 }

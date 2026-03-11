@@ -492,7 +492,13 @@ export class Block extends LitElement {
         <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {description ? <div class={CSS.description}>{description}</div> : null}
+        {description ? (
+          <div class={CSS.description}>{description}</div>
+        ) : (
+          <div class={CSS.description}>
+            <slot name="description" />
+          </div>
+        )}
       </div>
     ) : null;
   }

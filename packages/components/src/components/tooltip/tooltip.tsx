@@ -69,13 +69,24 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     target: () => this.floatingEl,
   })(this);
 
+  /** Tracks references we've attached listeners to so we can cleanly remove them. */
+  // private listeningReferenceEls = new Set<ReferenceElement>();
+
+  // private boundOnReferencePointerEnter = (event: Event): void => this.onReferenceInteraction(event);
+
+  // private boundOnReferenceFocusIn = (event: Event): void => this.onReferenceInteraction(event);
+
   // #endregion
 
   // #region State Properties
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
+  /** Active reference used for positioning (re-anchored based on user interaction). */
   @state() referenceEl: ReferenceElement;
+
+  /** All resolved references that should be described by this tooltip. */
+  @state() private referenceEls: ReferenceElement[] = [];
 
   // #endregion
 
@@ -114,16 +125,26 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
+  // /**
+  //  * The `referenceElement` to position the component according to its `"placement"` value.
+  //  *
+  //  * Setting to the `HTMLElement` is preferred so the component does not need to query the DOM for the `referenceElement`.
+  //  *
+  //  * However, a string ID of the reference element can be used.
+  //  *
+  //  * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+  //  */
+  // @property() referenceElement: ReferenceElement | string;
+
   /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
+   * Multiple reference elements to describe and re-anchor to.
    *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   * - Prefer passing elements to avoid DOM queries.
+   * - String inputs are treated as ids (space/comma-separated) or arrays of ids.
    *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   * When provided, the tooltip will position to whichever reference was most recently interacted with (hover/focus).
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElements?: ReferenceElement[] | string | string[];
 
   /**
    * When `true` and the component is `open`, disables top layer placement.
@@ -193,14 +214,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    this.setUpReferenceElement(true);
+    this.setUpReferenceElements(true);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    /* TODO: [MIGRATION] ...existing comment... */
     if (
       (changes.has("offsetDistance") &&
         (this.hasUpdated || this.offsetDistance !== defaultOffsetDistance)) ||
@@ -213,26 +231,26 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
+      // debugger;
       this.openHandler();
     }
-
-    if (changes.has("referenceElement")) {
-      this.setUpReferenceElement();
-
-      if (!this.referenceElement && this.open) {
+    if (changes.has("referenceElements")) {
+      this.setUpReferenceElements();
+      if (this.referenceElements.length === 0 && this.open) {
         this.topLayer.hide();
       }
     }
   }
 
   loaded(): void {
-    if (this.referenceElement && !this.referenceEl) {
-      this.setUpReferenceElement();
+    if (this.referenceElements && !this.referenceEls) {
+      this.setUpReferenceElements();
     }
   }
 
   override disconnectedCallback(): void {
     this.removeReferences();
+    //this.detachReferenceListeners();
     disconnectFloatingUI(this);
   }
 
@@ -268,57 +286,219 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     this.floatingEl = el;
 
     if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
+      requestAnimationFrame(() => this.setUpReferenceElements());
     }
   }
 
-  private setUpReferenceElement(warn = true): void {
+  private setUpReferenceElements(warn = true): void {
+    // Clean up old refs (aria + listeners)
     this.removeReferences();
-    this.referenceEl = getEffectiveReferenceElement(this.el);
+    //this.detachReferenceListeners();
+
+    // Resolve refs (multi preferred)
+    const referenceEls = this.getEffectiveReferenceElements();
+    this.referenceEls = referenceEls;
+
+    // Preserve current anchor if still present, otherwise fall back to first ref
+    const current = this.referenceEl;
+    const nextActive =
+      current && referenceEls.includes(current) ? current : referenceEls[0] || undefined;
+
+    this.referenceEl = nextActive;
+
     connectFloatingUI(this);
 
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
+    if (warn) {
+      const { el, referenceElements } = this;
+      const hasAnyConfigured = !!referenceElements;
+      if (hasAnyConfigured && !this.referenceEl) {
+        console.warn(`${el.tagName}: reference element(s) could not be resolved.`, { el });
+      }
     }
 
     this.addReferences();
+    //this.attachReferenceListeners();
+
+    // if (this.open) {
+    //   this.reposition(true);
+    // }
   }
+
+  private getEffectiveReferenceElements(): ReferenceElement[] {
+    const { referenceElements } = this;
+
+    if (referenceElements != null) {
+      const normalized = this.normalizeReferenceElements(referenceElements);
+      return normalized;
+    }
+
+    const single = getEffectiveReferenceElement(this.el);
+    return single ? [single] : [];
+  }
+
+  private normalizeReferenceElements(
+    input: ReferenceElement[] | string | string[],
+  ): ReferenceElement[] {
+    const elements: ReferenceElement[] = [];
+
+    const pushIfElement = (value: unknown): void => {
+      if (!value || typeof value !== "object") {
+        return;
+      }
+      // basic node check
+      if ("nodeType" in (value as any)) {
+        elements.push(value as ReferenceElement);
+      }
+    };
+
+    const resolveById = (id: string): void => {
+      const trimmed = id.trim();
+      if (!trimmed) {
+        return;
+      }
+      const found = this.el.ownerDocument?.getElementById(trimmed);
+      if (found) {
+        elements.push(found as unknown as ReferenceElement);
+      }
+    };
+
+    if (Array.isArray(input)) {
+      for (const item of input) {
+        if (typeof item === "string") {
+          resolveById(item);
+        } else {
+          pushIfElement(item);
+        }
+      }
+    } else if (typeof input === "string") {
+      input
+        .split(/[,\s]+/g)
+        .filter(Boolean)
+        .forEach(resolveById);
+    } else {
+      pushIfElement(input);
+    }
+
+    // De-dupe while preserving order
+    return Array.from(new Set(elements));
+  }
+
+  // private onReferenceInteraction(event: Event): void {
+  //   const target = event.currentTarget as ReferenceElement;
+
+  //   if (!target || target === this.referenceEl) {
+  //     return;
+  //   }
+
+  //   // Only re-anchor if this tooltip is configured for multi-ref.
+  //   // (If single ref, interaction is irrelevant.)
+  //   if (this.referenceElements == null) {
+  //     return;
+  //   }
+
+  //   this.referenceEl = target;
+  //   this.handlePopover();
+
+  //   if (this.open) {
+  //     this.reposition(true);
+  //   }
+  // }
+
+  // private attachReferenceListeners(): void {
+  //   // Only needed to support "re-anchor to currently interacted reference"
+  //   if (this.referenceElements == null) {
+  //     return;
+  //   }
+
+  //   this.referenceEls.forEach((referenceEl) => {
+  //     if (!referenceEl || this.listeningReferenceEls.has(referenceEl)) {
+  //       return;
+  //     }
+
+  //     // ReferenceElement is usually HTMLElement; guard for addEventListener presence
+  //     if ("addEventListener" in referenceEl) {
+  //       (referenceEl as any).addEventListener("pointerenter", this.boundOnReferencePointerEnter);
+  //       (referenceEl as any).addEventListener("focusin", this.boundOnReferenceFocusIn);
+  //       this.listeningReferenceEls.add(referenceEl);
+  //     }
+  //   });
+  // }
+
+  // private detachReferenceListeners(): void {
+  //   this.listeningReferenceEls.forEach((referenceEl) => {
+  //     if ("removeEventListener" in referenceEl) {
+  //       (referenceEl as any).removeEventListener("pointerenter", this.boundOnReferencePointerEnter);
+  //       (referenceEl as any).removeEventListener("focusin", this.boundOnReferenceFocusIn);
+  //     }
+  //   });
+  //   this.listeningReferenceEls.clear();
+  // }
 
   private getId(): string {
     return this.el.id || this.guid;
   }
 
   private addReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEls } = this;
 
-    if (!referenceEl) {
+    if (!referenceEls?.length) {
       return;
     }
 
     const id = this.getId();
 
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
-    }
+    referenceEls.forEach((referenceEl) => this.addAriaDescribedBy(referenceEl, id));
 
-    manager.registerElement(referenceEl, this.el);
+    // Future: if TooltipManager is re-enabled, it should support multiple refs.
+    referenceEls.forEach((referenceEl) => manager.registerElement(referenceEl, this.el));
   }
 
   private removeReferences(): void {
-    const { referenceEl } = this;
+    const { referenceEls } = this;
 
-    if (!referenceEl) {
+    if (!referenceEls?.length) {
       return;
     }
 
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
+    const id = this.getId();
+    referenceEls.forEach((referenceEl) => this.removeAriaDescribedBy(referenceEl, id));
+
+    // Future: if TooltipManager is re-enabled, it should support multiple refs.
+    referenceEls.forEach((referenceEl) => manager.unregisterElement(referenceEl));
+  }
+
+  private addAriaDescribedBy(referenceEl: ReferenceElement, id: string): void {
+    if (!referenceEl || !("getAttribute" in referenceEl) || !("setAttribute" in referenceEl)) {
+      return;
     }
 
-    manager.unregisterElement(referenceEl);
+    const el = referenceEl;
+    const current = el.getAttribute(ARIA_DESCRIBED_BY) || "";
+    const tokens = current.split(/\s+/g).filter(Boolean);
+
+    if (!tokens.includes(id)) {
+      tokens.push(id);
+      el.setAttribute(ARIA_DESCRIBED_BY, tokens.join(" "));
+    }
+  }
+
+  private removeAriaDescribedBy(referenceEl: ReferenceElement, id: string): void {
+    if (!referenceEl || !("getAttribute" in referenceEl)) {
+      return;
+    }
+
+    const el = referenceEl;
+    const current = el.getAttribute(ARIA_DESCRIBED_BY) || "";
+    const tokens = current
+      .split(/\s+/g)
+      .filter(Boolean)
+      .filter((token) => token !== id);
+
+    if (tokens.length) {
+      el.setAttribute(ARIA_DESCRIBED_BY, tokens.join(" "));
+    } else if ("removeAttribute" in el) {
+      el.removeAttribute(ARIA_DESCRIBED_BY);
+    }
   }
 
   // #endregion
@@ -329,15 +509,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
     const { referenceEl, label, open, floatingLayout } = this;
     const displayed = referenceEl && open;
     const hidden = !displayed;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+
     this.el.inert = hidden;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "id", this.getId());
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 
     return (

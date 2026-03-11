@@ -5,7 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
-    <style></style>
+    <style>
+      calcite-block {
+        height: 100px;
+        /* width: 500px; */
+      }
+    </style>
+    <script>
+      // const typography = document.querySelector("calcite-typography");
+      // const tooltip = document.querySelector("calcite-tooltip");
+      // tooltip.referenceElements = ["description", "default"];
+      // typography.addEventListener("calciteTypographyTruncated", (event) => {
+      //   console.log("truncated:", event.target);
+      //   tooltip.referenceElements = [typography.id];
+      // });
+      // typography.addEventListener("calciteTypographyUnTruncated", (event) => {
+      //   console.log("Untruncated:", event.target);
+      //   tooltip.referenceElement = typography.id;
+      // });
+      // custom-card.js
+      class CustomCard extends HTMLElement {
+        constructor() {
+          super();
+          // Attach a shadow DOM to the component instance
+          const shadow = this.attachShadow({ mode: "open" });
+
+          // Create the component's structure and styles
+          const container = document.createElement("button");
+          container.setAttribute("title", "card");
+
+          // Add content with a named slot and a default (unnamed) slot
+          container.innerHTML = `
+
+          <slot>Default Content Paragraph</slot>
+     
+      `;
+
+          shadow.appendChild(container);
+        }
+      }
+
+      // Define the new custom element
+      window.customElements.define("custom-card", CustomCard); //
+    </script>
   </head>
 
   <body>
@@ -25,7 +67,7 @@
       </calcite-list-item>
     </calcite-list> -->
 
-    <calcite-list label="Park features">
+    <!-- <calcite-list label="Park features">
       <calcite-list-item label="Hiking trails" value="hiking-trails">
         <calcite-typography slot="description" id="tooltip-button" tooltip-enabled max-lines="2">
           Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
@@ -43,27 +85,55 @@
         switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a local favorite
         for its peaceful atmosphere and breathtaking natural beauty</span
       >
-    </calcite-tooltip>
+    </calcite-tooltip> -->
     <br />
 
-    <calcite-typography max-lines="2" ellipsis>
+    <!-- <calcite-tooltip
+      >"Adjust blur, highlight, and more to make your layers pop. Use the sliders to find the perfect balance for your
+      map, whether you want to emphasize certain features or create a specific mood. Experiment with different settings
+      to see how they can enhance your map's visual appeal and help convey your story more effectively.</calcite-tooltip
+    > -->
+
+    <calcite-block collapsible expanded heading="Layer effects" icon-start="effects">
+      <!-- <calcite-typography slot="description" id="description">
+        "Adjust blur, highlight, and more to make your layers pop. Use the sliders to find the perfect balance for your
+        map, whether you want to emphasize certain features or create a specific mood. Experiment with different
+        settings to see how they can enhance your map's visual appeal and help convey your story more effectively.
+      </calcite-typography> -->
+      <calcite-typography id="default" tooltip-enabled truncate-position="middle">
+        Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
+        from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including
+        switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a local favorite
+        for its peaceful atmosphere and breathtaking natural beauty
+      </calcite-typography>
+    </calcite-block>
+
+    <br />
+    <p>calcite-typography with text elements slotted in calcite-block</p>
+    <!-- <calcite-block collapsible expanded heading="Layer effects" icon-start="effects">
+      <calcite-typography slot="description" id="description">
+        "Adjust blur, highlight, and more to make your layers pop. Use the sliders to find the perfect balance for your
+        map, whether you want to emphasize certain features or create a specific mood. Experiment with different
+        settings to see how they can enhance your map's visual appeal and help convey your story more effectively.
+      </calcite-typography>
+      <calcite-typography id="default" tooltip-enabled ellipsis truncate-position="middle">
+        <p>
+          Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience,
+          from shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including
+          switchbacks and rocky sections, and should be prepared for some elevation gain. This trail is a local favorite
+          for its peaceful atmosphere and breathtaking natural beauty
+        </p>
+      </calcite-typography>
+    </calcite-block> -->
+
+    <!-- <calcite-typography max-lines="3" ellipsis>
       Embark on an adventure along the River. This moderately challenging route offers a diverse hiking experience, from
       shady forest tunnels to open vistas. Hikers can expect to traverse a variety of terrain, including switchbacks and
       rocky sections, and should be prepared for some elevation gain. This trail is a local favorite for its peaceful
       atmosphere and breathtaking natural beauty</calcite-typography
-    >
-
-    <script>
-      const typography = document.querySelector("calcite-typography");
-      const tooltip = document.querySelector("calcite-tooltip");
-      typography.addEventListener("calciteTypographyTruncated", (event) => {
-        console.log("truncated:", event.target);
-        tooltip.referenceElement = typography.id;
-      });
-      typography.addEventListener("calciteTypographyUnTruncated", (event) => {
-        console.log("Untruncated:", event.target);
-        tooltip.referenceElement = typography.id;
-      });
-    </script>
+    > -->
+    <!-- <custom-card>
+      <p title="slot">This paragraph goes into the default (unnamed) slot.</p>
+    </custom-card> -->
   </body>
 </html>
