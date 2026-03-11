@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.5...@esri/calcite-components@5.1.0-next.6) (2026-03-11)
+
+### Features
+
+- **action-bar:** add `expandPosition` and `actionsStartGroupLabel` properties and `actions-start` slot ([#13995](https://github.com/Esri/calcite-design-system/issues/13995)) ([56722f2](https://github.com/Esri/calcite-design-system/commit/56722f247123a4c59e887731ae84e95124896143)), closes [#9832](https://github.com/Esri/calcite-design-system/issues/9832)
+
 ## [5.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.4...@esri/calcite-components@5.1.0-next.5) (2026-03-10)
 
 ### Features
