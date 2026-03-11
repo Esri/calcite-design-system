@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible } from "../../tests/commonTests";
@@ -119,7 +118,8 @@ describe("drag and drop", () => {
     const page = await createSimpleBlockGroup();
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("calcite-block-group", (blockGroup: BlockGroup["el"]) => {
+    await page.evaluate(() => {
+      const blockGroup = document.querySelector("calcite-block-group")!;
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
       testWindow.newIndex = -1;
@@ -220,16 +220,16 @@ describe("drag and drop", () => {
     expect(letterBlocks.length).toBe(6);
 
     const moveToItemIds = await page.evaluate((letterBlockSelector) => {
-      return Array.from(document.querySelectorAll(letterBlockSelector))
-        .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
+      return Array.from(document.querySelectorAll<Block["el"]>(letterBlockSelector))
+        .map((item) => item.moveToItems.map((moveToItem) => moveToItem.id))
         .flat();
     }, letterBlockSelector);
 
     expect(moveToItemIds.length).toBe(6);
 
     const moveToItemElementIds = await page.evaluate((letterBlockSelector) => {
-      return Array.from(document.querySelectorAll(letterBlockSelector))
-        .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
+      return Array.from(document.querySelectorAll<Block["el"]>(letterBlockSelector))
+        .map((item) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
         .flat();
     }, letterBlockSelector);
 
@@ -419,7 +419,8 @@ describe("drag and drop", () => {
     let totalMoves = 0;
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("calcite-block-group", (blockGroup: BlockGroup["el"]) => {
+    await page.evaluate(() => {
+      const blockGroup = document.querySelector("calcite-block-group")!;
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
@@ -511,7 +512,8 @@ describe("drag and drop", () => {
     let componentMoves = 0;
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#component1", (blockGroup: BlockGroup["el"]) => {
+    await page.evaluate(() => {
+      const blockGroup = document.querySelector<BlockGroup["el"]>("#component1")!;
       const testWindow = window as TestWindow;
       testWindow.component1CalledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
@@ -525,7 +527,8 @@ describe("drag and drop", () => {
     });
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#component2", (blockGroup: BlockGroup["el"]) => {
+    await page.evaluate(() => {
+      const blockGroup = document.querySelector<BlockGroup["el"]>("#component2")!;
       const testWindow = window as TestWindow;
       testWindow.component2CalledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
@@ -553,8 +556,8 @@ describe("drag and drop", () => {
       const event = component.waitForEvent(eventName);
       await page.$eval(
         `#${componentItemId}`,
-        (item: Block["el"], moveToId, eventName) => {
-          const element = document.querySelector<BlockGroup["el"]>(`#${moveToId}`);
+        (item, moveToId, eventName) => {
+          const element = document.querySelector<BlockGroup["el"]>(`#${moveToId}`)!;
           item.dispatchEvent(
             new CustomEvent(eventName, {
               detail: {
@@ -641,9 +644,10 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    let moveToItems: string[] = await page.$eval("#three", (item: Block["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
-    );
+    let moveToItems: string[] = await page.evaluate(() => {
+      const item = document.querySelector<Block["el"]>("#three")!;
+      return item.moveToItems.map((moveToItem) => moveToItem.label);
+    });
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe("Group 1");
 
@@ -656,9 +660,10 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    moveToItems = await page.$eval("#three", (item: Block["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
-    );
+    moveToItems = await page.evaluate(() => {
+      const item = document.querySelector<Block["el"]>("#three")!;
+      return item.moveToItems.map((moveToItem) => moveToItem.label);
+    });
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe(newLabel);
   });

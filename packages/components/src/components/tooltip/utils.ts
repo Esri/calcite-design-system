@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { queryElementRoots } from "../../utils/dom";
 import type { Tooltip } from "./tooltip";
 
-export function getEffectiveReferenceElement(tooltip: Tooltip["el"]): ReferenceElement {
+export function getEffectiveReferenceElement(tooltip: Tooltip["el"]): ReferenceElement | null {
   const { referenceElement } = tooltip;
 
   return (

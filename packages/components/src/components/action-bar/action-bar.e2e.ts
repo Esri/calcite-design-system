@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -197,7 +196,7 @@ describe("expand functionality", () => {
     );
 
     await page.evaluate(() => {
-      const actionBar = document.querySelector("calcite-action-bar");
+      const actionBar = document.querySelector("calcite-action-bar")!;
       const newAction = document.createElement("calcite-action");
       newAction.textEnabled = false;
       newAction.id = "new-child";
@@ -242,7 +241,7 @@ describe("should focus on toggle button", () => {
     );
 
     const actionBarElRect = await page.evaluate(() => {
-      const actionBarEl = document.querySelector("calcite-action-bar");
+      const actionBarEl = document.querySelector("calcite-action-bar")!;
       return actionBarEl.getBoundingClientRect().toJSON();
     });
 
@@ -329,7 +328,7 @@ describe("overflow actions", () => {
     expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
     await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-      element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
+      element.ownerDocument.getElementById("second-action")!.insertAdjacentHTML(
         "afterend",
         `
           <calcite-action text="Styles" icon="shapes"></calcite-action>

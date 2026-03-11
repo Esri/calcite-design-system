@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
 import { ResizeValues } from "../components/interfaces";
@@ -138,8 +137,8 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         };
 
         lastResizeValues = {
-          inlineSize,
-          blockSize,
+          inlineSize: inlineSize || lastResizeValues.inlineSize,
+          blockSize: blockSize || lastResizeValues.blockSize,
           minInlineSize: bounds.inline.min,
           maxInlineSize: bounds.inline.max,
           minBlockSize: bounds.block.min,
@@ -151,10 +150,6 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
         return {
           inline: inlineSize,
           block: blockSize,
-          minInlineSize: bounds.inline.min,
-          maxInlineSize: bounds.inline.max,
-          minBlockSize: bounds.block.min,
-          maxBlockSize: bounds.block.max,
         };
       },
     };

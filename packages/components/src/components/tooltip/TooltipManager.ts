@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { getShadowRootNode } from "../../utils/dom";
 import { ReferenceElement } from "../../utils/floating-ui";
 import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_QUICK_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS } from "./resources";
@@ -16,17 +15,17 @@ export default class TooltipManager {
 
   private registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();
 
-  private hoverOpenTimeout: number = null;
+  private hoverOpenTimeout: number | undefined;
 
-  private hoverCloseTimeout: number = null;
+  private hoverCloseTimeout: number | undefined;
 
-  private activeTooltip: Tooltip["el"] = null;
+  private activeTooltip: Tooltip["el"] | null = null;
 
   private registeredElementCount = 0;
 
-  private clickedTooltip: Tooltip["el"] = null;
+  private clickedTooltip: Tooltip["el"] | null = null;
 
-  private hoveredTooltip: Tooltip["el"] = null;
+  private hoveredTooltip: Tooltip["el"] | null = null;
 
   // --------------------------------------------------------------------------
   //
@@ -70,12 +69,12 @@ export default class TooltipManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryTooltip = (composedPath: EventTarget[]): Tooltip["el"] => {
+  private queryTooltip = (composedPath: EventTarget[]): Tooltip["el"] | null => {
     const { registeredElements } = this;
 
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
 
-    return registeredElements.get(registeredElement);
+    return registeredElement !== undefined ? registeredElements.get(registeredElement) || null : null;
   };
 
   private keyDownHandler = (event: KeyboardEvent): void => {
@@ -141,11 +140,12 @@ export default class TooltipManager {
     this.clickedTooltip = null;
   };
 
-  private pathHasOpenTooltip(tooltip: Tooltip["el"], composedPath: EventTarget[]): boolean {
+  private pathHasOpenTooltip(tooltip: Tooltip["el"] | null, composedPath: EventTarget[]): boolean {
     const { activeTooltip } = this;
 
-    return (
-      (activeTooltip?.open && composedPath.includes(activeTooltip)) || (tooltip?.open && composedPath.includes(tooltip))
+    return !!(
+      (activeTooltip?.open && composedPath.includes(activeTooltip)) ||
+      (tooltip?.open && composedPath.includes(tooltip))
     );
   }
 
@@ -213,11 +213,13 @@ export default class TooltipManager {
   };
 
   private addShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.addEventListener("focusin", this.focusInHandler);
+    // bubbling types are not available - see https://github.com/whatwg/dom/issues/1097
+    (shadowRoot as unknown as Document).addEventListener("click", this.focusInHandler);
   }
 
   private removeShadowListeners(shadowRoot: ShadowRoot): void {
-    shadowRoot.removeEventListener("focusin", this.focusInHandler);
+    // bubbling types are not available - see https://github.com/whatwg/dom/issues/1097
+    (shadowRoot as unknown as Document).removeEventListener("focusin", this.focusInHandler);
   }
 
   private addListeners(): void {
@@ -240,12 +242,12 @@ export default class TooltipManager {
 
   private clearHoverOpenTimeout(): void {
     window.clearTimeout(this.hoverOpenTimeout);
-    this.hoverOpenTimeout = null;
+    this.hoverOpenTimeout = undefined;
   }
 
   private clearHoverCloseTimeout(): void {
     window.clearTimeout(this.hoverCloseTimeout);
-    this.hoverCloseTimeout = null;
+    this.hoverCloseTimeout = undefined;
   }
 
   private clearHoverTimeout(): void {
@@ -253,7 +255,7 @@ export default class TooltipManager {
     this.clearHoverCloseTimeout();
   }
 
-  private closeTooltipIfNotActive(tooltip: Tooltip["el"]): void {
+  private closeTooltipIfNotActive(tooltip: Tooltip["el"] | null): void {
     if (this.activeTooltip !== tooltip) {
       this.closeActiveTooltip();
     }

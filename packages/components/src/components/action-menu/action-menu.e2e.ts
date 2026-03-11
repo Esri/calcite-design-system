@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -55,7 +54,7 @@ it("should emit 'calciteActionMenuOpen' event", async () => {
 
 async function waitForActionMenuClose(page: E2EPage): Promise<void> {
   // replace with close event handling once https://github.com/Esri/calcite-design-system/issues/4544 lands
-  await page.waitForFunction(() => document.querySelector("calcite-action-menu").open === false);
+  await page.waitForFunction(() => document.querySelector("calcite-action-menu")!.open === false);
 }
 
 it("should close menu if clicked outside", async () => {
@@ -164,7 +163,7 @@ describe("adding/removing from DOM", () => {
 
   async function testToggle(triggerSelector: string): Promise<void> {
     await page.evaluate(() => {
-      const actionMenu = document.querySelector("calcite-action-menu");
+      const actionMenu = document.querySelector("calcite-action-menu")!;
       actionMenu.remove();
       document.body.append(actionMenu);
     });

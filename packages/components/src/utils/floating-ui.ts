@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit";
 import {
   arrow,
@@ -510,7 +509,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
   const effectiveAutoUpdate = !isServer
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+    : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -537,7 +536,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
   autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
 
-  return repositionPromise;
+  return repositionPromise!;
 }
 
 /**

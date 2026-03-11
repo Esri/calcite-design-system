@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -172,11 +171,11 @@ async function assertToggleBehavior(page: E2EPage): Promise<void> {
             // keyboard event needs to be dispatched from the action's button for it to trigger a click
             // deep shadow piercing is based on https://github.com/puppeteer/puppeteer/issues/858#issuecomment-438540596
             return document
-              .querySelector("calcite-block-section")
-              .shadowRoot.querySelector("section > calcite-action")
-              .shadowRoot.querySelector("button");
+              .querySelector("calcite-block-section")!
+              .shadowRoot!.querySelector("section > calcite-action")!
+              .shadowRoot!.querySelector("button")!;
           })
-        ).asElement()
+        ).asElement()!
       : toggle;
 
   await keyboardToggleEmitter.press(" ");

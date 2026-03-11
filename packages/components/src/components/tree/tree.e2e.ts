@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -40,7 +39,7 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#two"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#two"))).toBe(true);
   });
 
   it("to first item if none selected", async () => {
@@ -54,12 +53,12 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
 
   it("doesn't trap focus", async () => {
@@ -71,21 +70,21 @@ describe("it forwards focus", () => {
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("calcite-tree-item#one"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("calcite-tree-item#one"))).toBe(true);
 
     await page.keyboard.down("Shift");
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.matches("body"))).toBe(true);
+    expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
 });
 
@@ -1013,13 +1012,13 @@ describe("keyboard support", () => {
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(1);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(2);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
   });
 
   it("does prevent space/enter keyboard event on actions with selectionMode of none", async () => {
@@ -1045,13 +1044,13 @@ describe("keyboard support", () => {
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(1);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
 
     expect(keydownSpy).toHaveReceivedEventTimes(2);
-    expect(keydownSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(keydownSpy.lastEvent!.defaultPrevented).toBe(true);
   });
 });
 
