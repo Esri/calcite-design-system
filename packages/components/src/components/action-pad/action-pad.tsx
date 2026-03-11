@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -43,6 +44,8 @@ export class ActionPad extends LitElement {
   private actions: Action["el"][] = [];
 
   private actionGroups: ActionGroup["el"][];
+
+  private direction = useDirection();
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -310,6 +313,7 @@ export class ActionPad extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

@@ -1,7 +1,6 @@
 // @ts-strict-ignore
 import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
@@ -9,6 +8,7 @@ import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import type { ActionMenu } from "../action-menu/action-menu";
+import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -16,8 +16,9 @@ interface ExpandToggleProps {
   collapseText: string;
   expandLabel: string;
   collapseLabel: string;
+  direction: Direction;
   el: HTMLElement;
-  position: Position;
+  position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
   ref?: (el: HTMLElement) => void;
@@ -29,7 +30,7 @@ const ICONS = {
   chevronsRight: "chevrons-right",
 } as const;
 
-function getCalcitePosition(position: Position, el: HTMLElement): Position {
+function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
@@ -71,11 +72,12 @@ const setTooltipReference = ({
 };
 
 export const ExpandToggle = ({
+  collapseText,
+  collapseLabel,
+  direction,
   expanded,
   expandText,
-  collapseText,
   expandLabel,
-  collapseLabel,
   toggle,
   el,
   position,
@@ -83,7 +85,7 @@ export const ExpandToggle = ({
   ref,
   scale,
 }: ExpandToggleProps): TemplateResult => {
-  const rtl = getElementDir(el) === "rtl";
+  const rtl = direction === "rtl";
 
   const text = expanded ? collapseText : expandText;
   const label = expanded ? collapseLabel : expandLabel;
@@ -93,7 +95,7 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = getCalcitePosition(position, el) === "end";
+  const end = getCalcitePosition(el, position) === "end";
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 

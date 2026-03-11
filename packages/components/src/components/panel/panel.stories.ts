@@ -7,21 +7,20 @@ import { SLOTS } from "./resources";
 
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface PanelStoryArgs
-  extends Pick<
-    Panel,
-    | "closed"
-    | "disabled"
-    | "closable"
-    | "collapsed"
-    | "icon"
-    | "iconFlipRtl"
-    | "collapsible"
-    | "collapseDirection"
-    | "loading"
-    | "scale"
-    | "menuPlacement"
-  > {
+interface PanelStoryArgs extends Pick<
+  Panel,
+  | "closed"
+  | "disabled"
+  | "closable"
+  | "collapsed"
+  | "icon"
+  | "iconFlipRtl"
+  | "collapsible"
+  | "collapseDirection"
+  | "loading"
+  | "scale"
+  | "menuPlacement"
+> {
   heightScale: string;
 }
 

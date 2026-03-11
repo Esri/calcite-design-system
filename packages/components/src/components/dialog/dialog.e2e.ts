@@ -1079,6 +1079,14 @@ describe("theme appearance", () => {
         shadowSelector: `.${CSS.panel}`,
         targetProp: "--calcite-panel-content-space",
       },
+      "--calcite-dialog-content-top-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-top-space",
+      },
+      "--calcite-dialog-content-bottom-space": {
+        shadowSelector: `.${CSS.panel}`,
+        targetProp: "--calcite-panel-content-bottom-space",
+      },
       "--calcite-dialog-footer-space": {
         shadowSelector: `.${CSS.panel}`,
         targetProp: "--calcite-panel-footer-space",

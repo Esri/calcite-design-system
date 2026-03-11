@@ -14,6 +14,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -43,7 +44,7 @@ import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from 
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
-import { Scale, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -94,6 +95,8 @@ export class Combobox
   //#region Private Properties
 
   private closeButtonRef = createRef<HTMLButtonElement>();
+
+  private direction = useDirection();
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -446,6 +449,18 @@ export class Combobox
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, and
+   *
+   * `"highlight"` displays a background highlight.
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
+
+  /**
    * Specifies the selection mode of the component, where:
    *
    * `"multiple"` allows any number of selections,
@@ -531,6 +546,7 @@ export class Combobox
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,
@@ -638,7 +654,11 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (
+      changes.has("selectionMode") ||
+      changes.has("scale") ||
+      changes.has("selectionAppearance")
+    ) {
       this.updateItems();
     }
 
@@ -1338,6 +1358,7 @@ export class Combobox
   private updateItemProps(): void {
     this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
+      item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
     });
 

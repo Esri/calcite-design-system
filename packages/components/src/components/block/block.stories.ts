@@ -10,7 +10,8 @@ import { Block } from "./block";
 const { toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
-  extends Pick<
+  extends
+    Pick<
       Block,
       | "heading"
       | "description"
