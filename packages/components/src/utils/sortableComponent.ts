@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();
@@ -46,7 +45,7 @@ export interface SortableComponent {
   handleSelector: string;
 
   /** The Sortable instance. */
-  sortable: Sortable;
+  sortable?: Sortable;
 
   /** Whether the element can move from the list. */
   canPull: (detail: DragDetail) => boolean | "clone";
@@ -117,8 +116,8 @@ export function connectSortableComponent(component: SortableComponent): void {
               toEl: to.el,
               fromEl: from.el,
               dragEl,
-              newIndex,
-              oldIndex,
+              newIndex: newIndex!,
+              oldIndex: oldIndex!,
             }),
         }),
         ...(!!component.canPut && {
@@ -127,8 +126,8 @@ export function connectSortableComponent(component: SortableComponent): void {
               toEl: to.el,
               fromEl: from.el,
               dragEl,
-              newIndex,
-              oldIndex,
+              newIndex: newIndex!,
+              oldIndex: oldIndex!,
             }),
         }),
       },
@@ -143,17 +142,18 @@ export function connectSortableComponent(component: SortableComponent): void {
     handle,
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
+      // signature might be incorrect - https://github.com/SortableJS/Sortable/tree/master#:~:text=//%20Element%20dragging%20started%0A%09onStart%3A%20function%20(/**Event*/evt)%20%7B%0A%09%09evt.oldIndex%3B%20%20//%20element%20index%20within%20parent%0A%09%7D
       dragState.active = true;
       onGlobalDragStart();
-      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
+      component.onDragStart({ fromEl, dragEl, toEl, newIndex: newIndex!, oldIndex: oldIndex! });
     },
     onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
       dragState.active = false;
       onGlobalDragEnd();
-      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
+      component.onDragEnd({ fromEl, dragEl, toEl, newIndex: newIndex!, oldIndex: oldIndex! });
     },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
+      component.onDragSort({ fromEl, dragEl, toEl, newIndex: newIndex!, oldIndex: oldIndex! });
     },
   });
 }
@@ -171,7 +171,7 @@ export function disconnectSortableComponent(component: SortableComponent): void 
   sortableComponentSet.delete(component);
 
   component.sortable?.destroy();
-  component.sortable = null;
+  component.sortable = undefined;
 }
 
 const dragState: { active: boolean } = { active: false };
