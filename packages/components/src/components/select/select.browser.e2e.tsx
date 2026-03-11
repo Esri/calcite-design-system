@@ -6,6 +6,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -24,6 +25,15 @@ describe("defaults", () => {
       { propertyName: "validationMessage", defaultValue: undefined },
     ],
   );
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount(renderSelect()), {
+    testValue: "test",
+    submitsOnEnter: true,
+    validation: true,
+    inputType: "text",
+  });
 });
 
 function renderSelect(): TemplateResult {
