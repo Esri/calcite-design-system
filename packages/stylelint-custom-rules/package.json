@@ -1,0 +1,17 @@
+{
+  "name": "@esri/stylelint-custom-calcite-rules",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The shared Stylelint rules for Esri's Calcite Design System",
+  "homepage": "https://developers.arcgis.com/calcite-design-system/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/stylelint-custom-rules"
+  },
+  "license": "SEE LICENSE.md",
+  "files": [
+    "rules/"
+  ]
+}

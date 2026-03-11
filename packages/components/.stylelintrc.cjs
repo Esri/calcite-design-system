@@ -1,10 +1,7 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [
-  "get-trailing-text-input-padding",
-  "scale-duration"
-];
+const customFunctions = ["get-trailing-text-input-padding", "scale-duration"];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
@@ -89,7 +86,10 @@ scssPatternRules.forEach((rule) => {
 const config = {
   defaultSeverity: "warning",
   extends: "stylelint-config-recommended-scss",
-  plugins: ["stylelint-use-logical-spec", "./stylelint-rules/require-deprecation-and-removal-versions-rule.mjs"],
+  plugins: [
+    "stylelint-use-logical-spec",
+    "@esri/stylelint-custom-calcite-rules/rules/require-deprecation-and-removal-versions-rule.mjs",
+  ],
   rules,
 };
 
