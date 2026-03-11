@@ -283,7 +283,7 @@ const advancedTrailingPanelHTMl = html`
   </calcite-flow>
 `;
 
-const shellToolbarStyles = `
+const shellSetStyles = `
   <style>
     .shell-set {
       display: flex;
@@ -296,7 +296,103 @@ const shellToolbarStyles = `
       position: relative;
       height: 750px;
     }
+  </style>`;
 
+const shellDemoToolbarStyles = `
+  <style>
+    .shell-toolbar {
+      position: fixed;
+      top: 32px;
+      right: 32px;
+      z-index: 10000;
+      background: var(--calcite-color-foreground-1);
+      border: 1px solid var(--calcite-color-border-3);
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      min-width: 280px;
+      max-width: 360px;
+      user-select: none;
+    }
+
+    .shell-toolbar__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--calcite-color-border-3);
+      background: var(--calcite-color-foreground-2);
+      border-radius: 8px 8px 0 0;
+      cursor: grab;
+    }
+
+    .shell-toolbar__header:active {
+      cursor: grabbing;
+    }
+
+    .shell-toolbar__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--calcite-color-text-1);
+    }
+
+    .shell-toolbar__content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .shell-toolbar.is-collapsed .shell-toolbar__content {
+      display: none;
+    }
+
+    .shell-toolbar__group {
+      border: 1px solid var(--calcite-color-border-3);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .shell-toolbar__group-title {
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--calcite-color-foreground-2);
+      color: var(--calcite-color-text-2);
+    }
+
+    .shell-toolbar__group-body {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .shell-toolbar__buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .shell-toolbar__toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--calcite-color-text-2);
+    }
+  </style>
+`;
+
+const shellSampleContentStyles = `
+  <style>
     .panel-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3047,7 +3143,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   const isHorizontal = args.shellPanelSlot === "panel-top" || args.shellPanelSlot === "panel-bottom";
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
 
-  return html` ${shellToolbarStyles}
+  return html` ${shellSampleContentStyles}
     <calcite-shell>
       <calcite-shell-panel
         id="shellPanel"
@@ -3147,6 +3243,220 @@ shellPanelWithActionBarPositionProp.parameters = {
   },
 };
 
+export const shellPanelWithActionBarPositionPropToolbar = (): string => {
+  return html`
+    ${shellDemoToolbarStyles} ${shellSampleContentStyles}
+
+    <div class="shell-toolbar" id="shellToolbar">
+      <div class="shell-toolbar__header" id="shellToolbarHeader">
+        <div class="shell-toolbar__title">
+          <calcite-icon icon="drag" scale="s"></calcite-icon>
+          Shell Toolbar
+        </div>
+        <calcite-button
+          id="shellToolbarToggle"
+          icon-start="chevron-up"
+          scale="s"
+          appearance="transparent"
+          kind="neutral"
+          label="Toggle toolbar"
+        ></calcite-button>
+      </div>
+      <div class="shell-toolbar__content">
+        <div class="shell-toolbar__group">
+          <div class="shell-toolbar__group-title">Shell Panel Slot</div>
+          <div class="shell-toolbar__group-body">
+            <div class="shell-toolbar__buttons" data-control="slot">
+              <calcite-button scale="s" appearance="solid" data-slot="panel-start">Start</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-slot="panel-end">End</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-slot="panel-top">Top</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-slot="panel-bottom">Bottom</calcite-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell-toolbar__group">
+          <div class="shell-toolbar__group-title">Action Bar Position</div>
+          <div class="shell-toolbar__group-body">
+            <div class="shell-toolbar__buttons" data-control="action-bar-position">
+              <calcite-button scale="s" appearance="solid" data-action-bar-position="start">Start</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-action-bar-position="end">End</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-action-bar-position="top">Top</calcite-button>
+              <calcite-button scale="s" appearance="outline" data-action-bar-position="bottom">Bottom</calcite-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell-toolbar__group">
+          <div class="shell-toolbar__group-title">Resizable</div>
+          <div class="shell-toolbar__group-body">
+            <div class="shell-toolbar__toggle">
+              <span id="shellResizableLabel">Off</span>
+              <calcite-switch id="shellResizableToggle" scale="s"></calcite-switch>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <calcite-shell>
+      <calcite-shell-panel
+        id="shellPanel"
+        slot="panel-start"
+        action-bar-position="start"
+        layout="vertical"
+        position="start"
+        width="l"
+      >
+        ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
+      </calcite-shell-panel>
+      <calcite-panel>
+        <div class="panel-content">
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+        </div>
+      </calcite-panel>
+    </calcite-shell>
+
+    <script>
+      const toolbar = document.getElementById("shellToolbar");
+      const toolbarHeader = document.getElementById("shellToolbarHeader");
+      const toolbarToggle = document.getElementById("shellToolbarToggle");
+      const shellPanel = document.getElementById("shellPanel");
+      const resizableLabel = document.getElementById("shellResizableLabel");
+      const resizableToggle = document.getElementById("shellResizableToggle");
+
+      let isDragging = false;
+      let dragOffsetX = 0;
+      let dragOffsetY = 0;
+
+      toolbarHeader.addEventListener("pointerdown", (event) => {
+        if (event.target.closest("calcite-button")) {
+          return;
+        }
+
+        isDragging = true;
+        const rect = toolbar.getBoundingClientRect();
+        dragOffsetX = event.clientX - rect.left;
+        dragOffsetY = event.clientY - rect.top;
+        toolbarHeader.setPointerCapture(event.pointerId);
+      });
+
+      toolbarHeader.addEventListener("pointermove", (event) => {
+        if (!isDragging) {
+          return;
+        }
+
+        const nextLeft = Math.max(8, event.clientX - dragOffsetX);
+        const nextTop = Math.max(8, event.clientY - dragOffsetY);
+        toolbar.style.left = nextLeft + "px";
+        toolbar.style.top = nextTop + "px";
+        toolbar.style.right = "auto";
+      });
+
+      toolbarHeader.addEventListener("pointerup", (event) => {
+        isDragging = false;
+        toolbarHeader.releasePointerCapture(event.pointerId);
+      });
+
+      toolbarToggle.addEventListener("click", () => {
+        toolbar.classList.toggle("is-collapsed");
+        toolbarToggle.iconStart = toolbar.classList.contains("is-collapsed") ? "chevron-down" : "chevron-up";
+      });
+
+      const slotButtons = Array.from(document.querySelectorAll("[data-control='slot'] calcite-button"));
+      const actionBarButtons = Array.from(
+        document.querySelectorAll("[data-control='action-bar-position'] calcite-button"),
+      );
+
+      function setButtonState(buttons, activeValue, attribute) {
+        buttons.forEach((button) => {
+          const value = button.getAttribute(attribute);
+          button.appearance = value === activeValue ? "solid" : "outline";
+        });
+      }
+
+      function updateResizableLabel() {
+        resizableLabel.textContent = resizableToggle.checked ? "On" : "Off";
+      }
+
+      function reinitializeShellToolbar() {
+        setButtonState(slotButtons, shellPanel.getAttribute("slot"), "data-slot");
+        setButtonState(actionBarButtons, shellPanel.getAttribute("action-bar-position"), "data-action-bar-position");
+        resizableToggle.checked = shellPanel.hasAttribute("resizable");
+        updateResizableLabel();
+
+        if (typeof shellPanel.updateSize === "function") {
+          shellPanel.updateSize({ inline: null, block: null });
+        }
+
+        const actionBar = shellPanel.querySelector('calcite-action-bar[slot="action-bar"]');
+        if (actionBar?.overflowActions) {
+          actionBar.overflowActions();
+        }
+
+        void shellPanel.offsetWidth;
+      }
+
+      function applySlotConfiguration(slotValue) {
+        shellPanel.setAttribute("slot", slotValue);
+
+        switch (slotValue) {
+          case "panel-start":
+            shellPanel.setAttribute("position", "start");
+            shellPanel.setAttribute("layout", "vertical");
+            break;
+          case "panel-end":
+            shellPanel.setAttribute("position", "end");
+            shellPanel.setAttribute("layout", "vertical");
+            break;
+          case "panel-top":
+            shellPanel.setAttribute("position", "start");
+            shellPanel.setAttribute("layout", "horizontal");
+            break;
+          case "panel-bottom":
+            shellPanel.setAttribute("position", "end");
+            shellPanel.setAttribute("layout", "horizontal");
+            break;
+          default:
+            break;
+        }
+      }
+
+      slotButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextSlot = button.getAttribute("data-slot");
+          applySlotConfiguration(nextSlot);
+          reinitializeShellToolbar();
+        });
+      });
+
+      actionBarButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextPosition = button.getAttribute("data-action-bar-position");
+          shellPanel.setAttribute("action-bar-position", nextPosition);
+          reinitializeShellToolbar();
+        });
+      });
+
+      resizableToggle.addEventListener("calciteSwitchChange", (event) => {
+        shellPanel.toggleAttribute("resizable", event.target.checked);
+        reinitializeShellToolbar();
+      });
+
+      reinitializeShellToolbar();
+    </script>
+  `;
+};
+
+shellPanelWithActionBarPositionPropToolbar.parameters = {
+  controls: {
+    disable: true,
+  },
+};
+
 function renderActionBarPositionPanelStartItem(config: ActionBarPositionPanelStartItem): string {
   return html`
     <div class="shell-set__item">
@@ -3204,7 +3514,7 @@ function renderShellPanelWithActionBarPositionPanelSlotStory(
       })),
   );
 
-  return html` ${shellToolbarStyles}
+  return html` ${shellSetStyles} ${shellSampleContentStyles}
     <div class="shell-set">
       ${panelItemConfigs.map((itemConfig) => renderActionBarPositionPanelStartItem(itemConfig)).join("")}
     </div>`;
