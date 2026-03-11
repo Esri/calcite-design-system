@@ -53,6 +53,16 @@ describe("accessible with open selected items", () => {
   `);
 });
 
+describe("accessible with highlight selection appearance", () => {
+  accessible(html`
+    <calcite-combobox label="Trees" selection-appearance="highlight">
+      <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
+      <calcite-combobox-item value="Spruce" heading="Spruce"></calcite-combobox-item>
+      <calcite-combobox-item value="Fir" heading="Fir"></calcite-combobox-item>
+    </calcite-combobox>
+  `);
+});
+
 describe("labelable", () => {
   labelable("calcite-combobox");
 });
