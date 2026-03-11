@@ -13,14 +13,6 @@ import { createRef } from "lit/directives/ref.js";
 import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
@@ -28,6 +20,7 @@ import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS, SLOTS } from "./resources";
 import {
   createTimeZoneItems,
@@ -50,8 +43,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimeZone extends LitElement implements FormComponent, LabelableComponent {
+export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -65,7 +60,9 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
   defaultValue: InputTimeZone["value"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   labelEl: Label["el"];
 
@@ -269,7 +266,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   //#region Lifecycle
 
   override connectedCallback(): void {
-    connectForm(this);
     connectLabel(this);
   }
 
@@ -282,7 +278,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     this.updateTimeZoneSelection();
 
     const selectedValue = this.selectedTimeZoneItem ? `${this.selectedTimeZoneItem.value}` : "";
-    afterConnectDefaultValueSet(this, selectedValue);
     this.value = selectedValue;
   }
 
@@ -313,7 +308,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
   }
 
   override disconnectedCallback(): void {
-    disconnectForm(this);
     disconnectLabel(this);
   }
 
@@ -404,6 +398,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
     if (!selectedItem) {
       this._value = "";
       this.selectedTimeZoneItem = null;
+      this.requestUpdate("value");
       this.calciteInputTimeZoneChange.emit();
       return;
     }
@@ -417,6 +412,7 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
 
     this._value = selectedValue;
     this.selectedTimeZoneItem = selected;
+    this.requestUpdate("value");
     this.calciteInputTimeZoneChange.emit();
   }
 
@@ -528,7 +524,6 @@ export class InputTimeZone extends LitElement implements FormComponent, Labelabl
           {this.renderItems()}
           <slot name={SLOTS.labelContent} slot={COMBOBOX_SLOTS.labelContent} />
         </calcite-combobox>
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }
