@@ -24,6 +24,14 @@ type ShellSlottedElementsStoryArgs = {
   dialogHeight: number;
 };
 
+type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+
+type PanelWithActionBarPositionStoryArgs = {
+  shellPanelSlot: ShellPanelSlot;
+  actionBarPosition: Position;
+  resizable: boolean;
+};
+
 export default {
   title: "Components/Shell",
   args: {
@@ -264,6 +272,48 @@ const advancedTrailingPanelHTMl = html`
       <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
   </calcite-flow>
+`;
+
+const shellToolbarStyles = `
+  <style>
+    .shell-set {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background-color: white;
+    }
+
+    .shell-set__item {
+      position: relative;
+      height: 700px;
+    }
+
+    .panel-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      color: #fff;
+      background-color: #007AC2;
+    }
+
+    .panel-content > div:nth-child(2) {
+      justify-self: end;
+      align-self: start;
+    }
+
+    .panel-content > div:nth-child(3) {
+      justify-self: start;
+      align-self: end;
+    }
+
+    .panel-content > div:nth-child(4) {
+      justify-self: end;
+      align-self: end;
+    }
+  </style>
 `;
 
 export const simple = (args: ShellStoryArgs): string => html`
@@ -2700,148 +2750,6 @@ export const customPanelWithOverflowingContent = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
-
-type PanelWithActionBarPositionStoryArgs = {
-  shellPanelSlot: ShellPanelSlot;
-  actionBarPosition: Position;
-  resizable: boolean;
-};
-
-const shellToolbarStyles = `
-  <style>
-    .panel-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      color: #fff;
-      background-color: #007AC2;
-    }
-
-    .panel-content > div:nth-child(2) {
-      justify-self: end;
-      align-self: start;
-    }
-
-    .panel-content > div:nth-child(3) {
-      justify-self: start;
-      align-self: end;
-    }
-
-    .panel-content > div:nth-child(4) {
-      justify-self: end;
-      align-self: end;
-    }
-  </style>
-`;
-
-export const panelWithActionBarPositionProp = (args: PanelWithActionBarPositionStoryArgs): string => {
-  const isHorizontal = args.shellPanelSlot === "panel-top" || args.shellPanelSlot === "panel-bottom";
-  const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
-
-  return html` ${shellToolbarStyles}
-    <calcite-shell>
-      <calcite-shell-panel
-        id="shellPanel"
-        slot="${args.shellPanelSlot}"
-        action-bar-position="${args.actionBarPosition}"
-        layout="${isHorizontal ? "horizontal" : "vertical"}"
-        position="${panelPosition}"
-        width="l"
-        ${boolean("resizable", args.resizable)}
-      >
-        <calcite-action-bar slot="action-bar" overflow-actions-disabled>
-          <calcite-action-group>
-            <calcite-action text="Zip" icon="gear"> </calcite-action>
-            <calcite-action text="Zip" icon="gear"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Zap" icon="gear"> </calcite-action>
-            <calcite-action text="Zap" icon="gear"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
-          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
-        </calcite-action-bar>
-        <calcite-panel heading="Panel heading">
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-        </calcite-panel>
-      </calcite-shell-panel>
-      <calcite-panel>
-        <div class="panel-content">
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-        </div>
-        <div class="media"></div>
-      </calcite-panel>
-    </calcite-shell>`;
-};
-
-panelWithActionBarPositionProp.args = {
-  shellPanelSlot: "panel-start",
-  actionBarPosition: "start",
-  resizable: true,
-};
-
-panelWithActionBarPositionProp.argTypes = {
-  shellPanelSlot: {
-    options: ["panel-start", "panel-end", "panel-top", "panel-bottom"],
-    control: { type: "select" },
-  },
-  actionBarPosition: {
-    options: ["start", "end", "top", "bottom"],
-    control: { type: "select" },
-  },
-  resizable: {
-    control: { type: "boolean" },
-  },
-};
-
-panelWithActionBarPositionProp.parameters = {
-  chromatic: {
-    modes: {
-      specific: {
-        viewport: {
-          width: 1200,
-          height: 400,
-        },
-      },
-    },
-    cropToViewport: true,
-  },
-  controls: {
-    include: ["shellPanelSlot", "actionBarPosition", "resizable"],
-  },
-};
-
 const embeddedSlotsShellDecorator: Decorator = (storyFn) => html`
   <style>
     calcite-shell {
@@ -3068,3 +2976,388 @@ embeddedSlotsInteractive.argTypes = {
   },
 };
 embeddedSlotsInteractive.decorators = [embeddedSlotsShellDecorator];
+
+export const panelWithActionBarPositionProp = (args: PanelWithActionBarPositionStoryArgs): string => {
+  const isHorizontal = args.shellPanelSlot === "panel-top" || args.shellPanelSlot === "panel-bottom";
+  const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
+
+  return html` ${shellToolbarStyles}
+    <calcite-shell>
+      <calcite-shell-panel
+        id="shellPanel"
+        slot="${args.shellPanelSlot}"
+        action-bar-position="${args.actionBarPosition}"
+        layout="${isHorizontal ? "horizontal" : "vertical"}"
+        position="${panelPosition}"
+        width="l"
+        ${boolean("resizable", args.resizable)}
+      >
+        <calcite-action-bar slot="action-bar" overflow-actions-disabled>
+          <calcite-action-group>
+            <calcite-action text="Zip" icon="gear"> </calcite-action>
+            <calcite-action text="Zip" icon="gear"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action-group>
+            <calcite-action text="Zap" icon="gear"> </calcite-action>
+            <calcite-action text="Zap" icon="gear"> </calcite-action>
+          </calcite-action-group>
+          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+        </calcite-action-bar>
+        <calcite-panel heading="Panel heading">
+          <calcite-block collapsible heading="Block heading" description="Description">
+            <calcite-notice open>
+              <div slot="message">The viewers are going to love this</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block collapsible heading="Block heading" description="Description">
+            <calcite-notice open>
+              <div slot="message">The viewers are going to love this</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block collapsible heading="Block heading" description="Description">
+            <calcite-notice open>
+              <div slot="message">The viewers are going to love this</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block collapsible heading="Block heading" description="Description">
+            <calcite-notice open>
+              <div slot="message">The viewers are going to love this</div>
+            </calcite-notice>
+          </calcite-block>
+          <calcite-block collapsible heading="Block heading" description="Description">
+            <calcite-notice open>
+              <div slot="message">The viewers are going to love this</div>
+            </calcite-notice>
+          </calcite-block>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel>
+        <div class="panel-content">
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+          <div>ESRI</div>
+        </div>
+        <div class="media"></div>
+      </calcite-panel>
+    </calcite-shell>`;
+};
+
+panelWithActionBarPositionProp.args = {
+  shellPanelSlot: "panel-start",
+  actionBarPosition: "start",
+  resizable: true,
+};
+
+panelWithActionBarPositionProp.argTypes = {
+  shellPanelSlot: {
+    options: ["panel-start", "panel-end", "panel-top", "panel-bottom"],
+    control: { type: "select" },
+  },
+  actionBarPosition: {
+    options: ["start", "end", "top", "bottom"],
+    control: { type: "select" },
+  },
+  resizable: {
+    control: { type: "boolean" },
+  },
+};
+
+panelWithActionBarPositionProp.parameters = {
+  chromatic: {
+    modes: {
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 700,
+        },
+      },
+    },
+    cropToViewport: true,
+  },
+  controls: {
+    include: ["shellPanelSlot", "actionBarPosition", "resizable"],
+  },
+};
+
+export const panelWithActionBarPositionStart = (args: PanelWithActionBarPositionStoryArgs): string => {
+  return html` ${shellToolbarStyles}
+    <div class="shell-set">
+      <div class="shell-set__item">
+        <calcite-shell>
+          <calcite-shell-panel
+            id="shellPanel"
+            slot="panel-start"
+            action-bar-position="start"
+            layout="vertical"
+            position="start"
+            width="l"
+            ${boolean("resizable", args.resizable)}
+          >
+            <calcite-action-bar slot="action-bar" overflow-actions-disabled>
+              <calcite-action-group>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="panel-content">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+      <div class="shell-set__item">
+        <calcite-shell>
+          <calcite-shell-panel
+            id="shellPanel"
+            slot="panel-end"
+            action-bar-position="start"
+            layout="vertical"
+            position="end"
+            width="l"
+            ${boolean("resizable", args.resizable)}
+          >
+            <calcite-action-bar slot="action-bar" overflow-actions-disabled>
+              <calcite-action-group>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="panel-content">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+      <div class="shell-set__item">
+        <calcite-shell>
+          <calcite-shell-panel
+            id="shellPanel"
+            slot="panel-top"
+            action-bar-position="start"
+            layout="horizontal"
+            position="start"
+            width="l"
+            ${boolean("resizable", args.resizable)}
+          >
+            <calcite-action-bar slot="action-bar" overflow-actions-disabled>
+              <calcite-action-group>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="panel-content">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+      <div class="shell-set__item">
+        <calcite-shell>
+          <calcite-shell-panel
+            id="shellPanel"
+            slot="panel-bottom"
+            action-bar-position="start"
+            layout="horizontal"
+            position="end"
+            width="l"
+            ${boolean("resizable", args.resizable)}
+          >
+            <calcite-action-bar slot="action-bar" overflow-actions-disabled>
+              <calcite-action-group>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+                <calcite-action text="Zip" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action-group>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+                <calcite-action text="Zap" icon="gear"> </calcite-action>
+              </calcite-action-group>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+              <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
+            </calcite-action-bar>
+            <calcite-panel heading="Panel heading">
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+              <calcite-block collapsible heading="Block heading" description="Description">
+                <calcite-notice open>
+                  <div slot="message">The viewers are going to love this</div>
+                </calcite-notice>
+              </calcite-block>
+            </calcite-panel>
+          </calcite-shell-panel>
+          <calcite-panel>
+            <div class="panel-content">
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+              <div>ESRI</div>
+            </div>
+            <div class="media"></div>
+          </calcite-panel>
+        </calcite-shell>
+      </div>
+    </div>`;
+};
+
+panelWithActionBarPositionStart.args = {
+  resizable: true,
+};
+
+panelWithActionBarPositionStart.argTypes = {
+  resizable: {
+    control: { type: "boolean" },
+  },
+};
+
+panelWithActionBarPositionStart.parameters = {
+  chromatic: {
+    modes: {
+      specific: {
+        viewport: {
+          width: 1200,
+          height: 2848, // height of 4 panels plus gaps (4 * 700 + 48)
+        },
+      },
+    },
+    cropToViewport: true,
+  },
+  controls: {
+    include: ["resizable"],
+  },
+};
