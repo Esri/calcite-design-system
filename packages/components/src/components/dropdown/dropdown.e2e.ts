@@ -928,7 +928,7 @@ describe("calcite-dropdown", () => {
       expect(await dropdownWrapper.isVisible()).toBe(false);
     });
 
-    it("closes dropdown and focuses the trigger on Shift+Tab", async () => {
+    it("closes dropdown and focuses the previous focusable element on Shift+Tab", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-button id="button-0">Before</calcite-button>
