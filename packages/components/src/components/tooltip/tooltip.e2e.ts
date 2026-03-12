@@ -3,7 +3,7 @@ import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
+import { findAll, getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -131,6 +131,86 @@ describe("openClose", () => {
   describe("parent has display none", () => {
     openClose(tooltipDisplayNoneHtml, { willUseFallback: true });
   });
+});
+
+it("should honor scale styles", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(html`
+    <calcite-tooltip id="small" open reference-element="ref-small" scale="s">content</calcite-tooltip>
+    <button id="ref-small">small</button>
+    <calcite-tooltip id="medium" open reference-element="ref-medium" scale="m">content</calcite-tooltip>
+    <button id="ref-medium">medium</button>
+    <calcite-tooltip id="large" open reference-element="ref-large" scale="l">content</calcite-tooltip>
+    <button id="ref-large">large</button>
+  `);
+
+  const expectations = [
+    {
+      selector: "#small",
+      fontSize: "10px",
+      lineHeight: "13.75px",
+      paddingTop: "4px",
+      paddingRight: "8px",
+    },
+    {
+      selector: "#medium",
+      fontSize: "12px",
+      lineHeight: "16.5px",
+      paddingTop: "8px",
+      paddingRight: "12px",
+    },
+    {
+      selector: "#large",
+      fontSize: "14px",
+      lineHeight: "19.25px",
+      paddingTop: "8px",
+      paddingRight: "12px",
+    },
+  ];
+
+  for (const expectation of expectations) {
+    const container = await page.find(`${expectation.selector} >>> .${CSS.container}`);
+    const computedStyle = await container.getComputedStyle();
+
+    expect(computedStyle.fontSize).toBe(expectation.fontSize);
+    expect(computedStyle.lineHeight).toBe(expectation.lineHeight);
+    expect(computedStyle.paddingTop).toBe(expectation.paddingTop);
+    expect(computedStyle.paddingRight).toBe(expectation.paddingRight);
+  }
+});
+
+it("should honor pointerDisabled", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(html`
+    <calcite-tooltip id="default" open reference-element="ref-default">content</calcite-tooltip>
+    <button id="ref-default">default</button>
+    <calcite-tooltip id="disabled" open pointer-disabled reference-element="ref-disabled">content</calcite-tooltip>
+    <button id="ref-disabled">disabled</button>
+  `);
+
+  const defaultArrow = await findAll(page, "calcite-tooltip#default >>> .calcite-floating-ui-arrow");
+  const disabledArrow = await findAll(page, "calcite-tooltip#disabled >>> .calcite-floating-ui-arrow", {
+    allowEmpty: true,
+  });
+
+  expect(defaultArrow).toHaveLength(1);
+  expect(disabledArrow).toHaveLength(0);
+});
+
+it("should default max inline size to 352px", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(html`
+    <calcite-tooltip open reference-element="ref">content</calcite-tooltip>
+    <button id="ref">reference</button>
+  `);
+
+  const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
+  const computedStyle = await positionContainer.getComputedStyle();
+
+  expect(computedStyle.maxInlineSize).toBe("352px");
 });
 
 it("tooltip positions when referenceElement is set", async () => {

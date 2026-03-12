@@ -157,6 +157,10 @@ describe("defaults", () => {
         defaultValue: "auto",
       },
       {
+        propertyName: "pointerDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "offsetDistance",
         defaultValue: 6,
       },
