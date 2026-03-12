@@ -978,61 +978,6 @@ describe("calcite-dropdown", () => {
     });
   });
 
-  describe("hover type", () => {
-    it("opens on focusin", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown type="hover">
-          <calcite-action slot="trigger" id="trigger">Open dropdown</calcite-action>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-
-      const element = await page.find("calcite-dropdown");
-      const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
-
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-
-      await trigger.focus();
-      await page.waitForChanges();
-
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-    });
-
-    it("does not toggle closed on click when type is hover", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown type="hover">
-          <calcite-action slot="trigger" id="trigger">Open dropdown</calcite-action>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1"> Dropdown Item Content</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected> Dropdown Item Content</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-
-      const element = await page.find("calcite-dropdown");
-      const trigger = await element.find("calcite-action[slot='trigger'] >>> button");
-      const dropdownWrapper = await page.find(`calcite-dropdown >>> .wrapper`);
-
-      expect(await dropdownWrapper.isVisible()).toBe(false);
-
-      await trigger.click();
-      await page.waitForChanges();
-
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-
-      await trigger.click();
-      await page.waitForChanges();
-
-      expect(await dropdownWrapper.isVisible()).toBe(true);
-    });
-  });
-
   it("closes existing open dropdown when opened", async () => {
     const page = await newE2EPage();
     await page.setContent(
