@@ -3,6 +3,7 @@ import { slotChangeGetTextContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getTextWidth } from "../../utils/dom";
 import { styles } from "./typography.scss";
+import { ELLIPSIS_CHAR } from "./resources";
 
 /**
  *  @slot - A slot for adding text.
@@ -25,8 +26,6 @@ export class Typography extends LitElement {
 
   //#region Private Properties
 
-  private defaultText: string;
-
   private value: string;
 
   private isTruncated = false;
@@ -36,7 +35,7 @@ export class Typography extends LitElement {
    * - keeps the original text as the source of truth
    * - updates displayed slot text only when needed
    */
-  private originalText = "";
+  private truncatedValue = "";
 
   private isProgrammaticSlotWrite = false;
 
@@ -48,21 +47,17 @@ export class Typography extends LitElement {
 
     if (isOverflowing) {
       if (this.tooltipEnabled) {
-        this.title = this.originalText || this.value || "";
+        this.title = this.truncatedValue || this.value || "";
       }
       this.calciteInternalTypographyTruncated.emit();
-    } else {
-      if (this.isTruncated) {
-        this.isTruncated = false;
-        this.calciteTypographyUnTruncated.emit();
-      }
-      if (this.tooltipEnabled) {
-        this.title = "";
-      }
+    } else if (this.isTruncated) {
+      this.isTruncated = false;
+      this.calciteTypographyUnTruncated.emit();
+      this.title = "";
     }
 
     // If middle truncation is enabled, recompute the rendered text based on available width.
-    if (this.truncatePosition && this.truncatePosition === "middle") {
+    if (this.truncatePosition === "middle") {
       this.updateTruncationText();
     }
   });
@@ -71,9 +66,7 @@ export class Typography extends LitElement {
 
   //#region Public Properties
 
-  @property() ellipsis: boolean;
-
-  @property() nowrap: boolean;
+  // @property() ellipsis: boolean;
 
   @property({ type: Number, reflect: true }) maxLines: number;
 
@@ -83,6 +76,9 @@ export class Typography extends LitElement {
    */
   @property({ reflect: true }) truncatePosition: TruncatePosition;
 
+  /**
+   * Displays native tooltip with full text content when text is truncated.
+   */
   @property() tooltipEnabled = false;
 
   /**
@@ -123,18 +119,6 @@ export class Typography extends LitElement {
 
   async loaded(): Promise<void> {
     this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines?.toString());
-
-    // Ensure we have a stable "source text" to truncate from.
-    // If slot did not fire yet, try to read from current textContent.
-    // const initialText = (this.el.textContent || "").trim();
-    // if (initialText) {
-    //   this.originalText = initialText;
-    //   this.value = initialText;
-    // }
-
-    // if (this.truncatePosition !== "end") {
-    //   this.updateTruncationText();
-    // }
   }
 
   //#endregion
@@ -155,42 +139,29 @@ export class Typography extends LitElement {
       return;
     }
 
-    // let defaultText = "";
-    // if (slotChangeGetAssignedElements(event)?.length === 0) {
-    //   defaultText = slotChangeGetTextContent(event);
-    // } else if (slotChangeGetAssignedElements(event)?.length > 0) {
-    //   slotChangeGetAssignedElements(event)?.forEach((el) => {
-    //     defaultText += el.textContent;
-    //   });
-    // }
-
     const defaultText = slotChangeGetTextContent(event);
     this.value = defaultText;
 
     // Capture source of truth for JS truncation.
     if (this.value != null) {
-      this.originalText = this.value;
+      this.truncatedValue = this.value;
     }
 
-    if (this.truncatePosition === "middle" && (!this.maxLines || this.maxLines <= 1)) {
+    if (this.truncatePosition === "middle" && (!this.maxLines || this.maxLines === 1)) {
       this.updateTruncationText();
     }
   }
 
   private updateTruncationText(): void {
-    if (!this.originalText) {
-      return;
-    }
-
     // Only applies to single-line truncation behaviors.
-    if (this.maxLines > 1) {
+
+    if (!this.truncatedValue || this.maxLines > 1) {
       return;
     }
 
     // Defer until layout is stable.
     requestAnimationFrame(() => {
       const availableWidth = this.el.clientWidth;
-
       // If we can't measure, do nothing.
       if (!availableWidth) {
         return;
@@ -198,23 +169,18 @@ export class Typography extends LitElement {
 
       const computed = getComputedStyle(this.el);
       const font = computed.font || `${computed.fontSize} ${computed.fontFamily}`;
-
-      const measuredFull = getTextWidth(this.originalText, font);
+      const measuredFull = getTextWidth(this.truncatedValue, font);
 
       // If it fits, render full text.
       if (measuredFull <= availableWidth) {
-        this.setRenderedText(this.originalText);
+        this.setRenderedText(this.truncatedValue);
         return;
-      }
-
-      const ellipsisChar = "…";
-
-      if (this.truncatePosition === "middle") {
+      } else {
         const truncated = this.truncateMiddleToFit(
-          this.originalText,
+          this.truncatedValue,
           availableWidth,
           font,
-          ellipsisChar,
+          ELLIPSIS_CHAR,
         );
         this.setRenderedText(truncated);
         return;
@@ -223,13 +189,11 @@ export class Typography extends LitElement {
   }
 
   private setRenderedText(next: string): void {
-    // Avoid rewrites unless the text actually changes.
     const current = (this.el.textContent || "").trim();
     if (current === next) {
       return;
     }
 
-    // Replace *light DOM* text so slot renders it.
     // Note: this assumes the common case: plain text in default slot.
     // If consumer provides complex markup, JS truncation will not apply.
     this.isProgrammaticSlotWrite = true;
@@ -237,7 +201,7 @@ export class Typography extends LitElement {
 
     // Keep tooltip source as the original full text.
     if (this.tooltipEnabled) {
-      this.title = this.originalText;
+      this.title = this.truncatedValue;
     }
   }
 
@@ -274,7 +238,6 @@ export class Typography extends LitElement {
     if (optimalIndex <= 1) {
       return ellipsisChar;
     }
-
     return truncatedString(optimalIndex);
   }
 
