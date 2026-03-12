@@ -3,7 +3,7 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import {
   assertCaretPosition,
   findAll,
@@ -15,11 +15,7 @@ import {
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
-import {
-  testHiddenInputSyncing,
-  testPostValidationFocusing,
-  testWorkaroundForGlobalPropRemoval,
-} from "../input/common/tests";
+import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DIRECTION } from "./resources";
@@ -1772,19 +1768,6 @@ it("integer property prevents decimals and exponential notation", async () => {
   await numberHorizontalItemUp.click();
   await page.waitForChanges();
   expect(await input.getProperty("value")).toBe("-986"); // test incrementing
-});
-
-describe("is form-associated", () => {
-  formAssociated("calcite-input-number", {
-    testValue: "5",
-    submitsOnEnter: true,
-    inputType: "number",
-    validation: true,
-  });
-
-  testPostValidationFocusing("calcite-input-number");
-
-  testHiddenInputSyncing("calcite-input-number");
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input-number");

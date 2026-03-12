@@ -5,6 +5,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -102,6 +103,15 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-number"), {
+    testValue: "5",
+    submitsOnEnter: true,
+    inputType: "number",
+    validation: true,
+  });
 });
 
 describe("nudging", () => {
