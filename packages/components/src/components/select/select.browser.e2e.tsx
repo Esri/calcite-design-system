@@ -28,12 +28,22 @@ describe("defaults", () => {
 });
 
 describe("is form-associated", () => {
-  formAssociated(() => mount(renderSelect()), {
-    testValue: "test",
-    submitsOnEnter: true,
-    validation: true,
-    inputType: "text",
-  });
+  formAssociated(
+    () =>
+      mount(
+        <calcite-select>
+          <calcite-option value="1" />
+          <calcite-option value="2" />
+        </calcite-select>,
+      ),
+    {
+      testValue: "1",
+      submitsOnEnter: false,
+      inputType: "text",
+      validUserInputTestValue: "2",
+      validation: true,
+    },
+  );
 });
 
 function renderSelect(): TemplateResult {

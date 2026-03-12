@@ -66,7 +66,7 @@ export class Select extends LitElement implements LabelableComponent {
 
   formEl: HTMLFormElement;
 
-  formSupport = useForm<this>({})(this);
+  formSupport = useForm<this>({ inputType: "text" })(this);
 
   labelEl: Label["el"];
 
