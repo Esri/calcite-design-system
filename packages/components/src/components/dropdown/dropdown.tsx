@@ -245,7 +245,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   constructor() {
     super();
     this.listenOn(window, "click", this.closeCalciteDropdownOnClick);
-    this.listen("calciteInternalDropdownCloseRequest", this.closeCalciteDropdownOnEvent);
     this.listenOn(window, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
@@ -341,11 +340,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     }
 
     this.closeCalciteDropdown();
-  }
-
-  private closeCalciteDropdownOnEvent(event: Event): void {
-    this.closeCalciteDropdown();
-    event.stopPropagation();
   }
 
   private closeCalciteDropdownOnOpenEvent(event: Event): void {
@@ -704,12 +698,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#endregion
   private closeHoverDropdown(event: FocusEvent): void {
+    if (!this.open || this.disabled || this.type !== "hover") {
+      return;
+    }
+    const relatedTarget = event.relatedTarget as Node | null;
     if (
-      !this.open ||
-      this.disabled ||
-      this.type !== "hover" ||
-      event.relatedTarget === this.referenceEl ||
-      event.composedPath().includes(this.el)
+      relatedTarget &&
+      (this.el.contains(relatedTarget) ||
+        (this.referenceEl != null && this.referenceEl.contains(relatedTarget)))
     ) {
       return;
     }

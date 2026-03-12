@@ -159,7 +159,7 @@ describe("hover type", () => {
 
   it("opens on focusin", async () => {
     const { el } = await mount<Dropdown>(createHoverDropdownHTML);
-    const trigger = page.getBySelector("calcite-action[slot='trigger']");
+    const trigger = page.getByText("Open dropdown");
 
     expect(el.open).toBe(false);
 
@@ -172,7 +172,7 @@ describe("hover type", () => {
 
   it("does not toggle closed on click when type is hover", async () => {
     const { el } = await mount<Dropdown>(createHoverDropdownHTML);
-    const trigger = page.getBySelector("calcite-action[slot='trigger']");
+    const trigger = page.getByText("Open dropdown");
 
     expect(el.open).toBe(false);
 
@@ -186,12 +186,36 @@ describe("hover type", () => {
 
     expect(el.open).toBe(true);
   });
+
+  it("closes when focus leaves trigger with Tab", async () => {
+    const { el } = await mount(
+      <div>
+        {createHoverDropdownHTML()}
+        <button id="next-focus-target" type="button">
+          Next
+        </button>
+      </div>,
+    );
+    const dropdownEl = el as Dropdown["el"];
+    const trigger = page.getByText("Open dropdown");
+    const nextFocusTarget = page.getByRole("button", { name: "Next" });
+
+    await userEvent.click(trigger);
+    await afterNextTask();
+    expect(dropdownEl.open).toBe(true);
+
+    await userEvent.tab();
+    await afterNextTask();
+
+    await expect.element(nextFocusTarget).toHaveFocus();
+    expect(dropdownEl.open).toBe(false);
+  });
 });
 
 describe("ariaActiveDescendantElement", () => {
   it("sets ariaActiveDescendantElement on the trigger container when opened", async () => {
     const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
-    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+    const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
     await afterNextTask();
@@ -203,7 +227,7 @@ describe("ariaActiveDescendantElement", () => {
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
     const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
-    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+    const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
     await afterNextTask();
@@ -218,7 +242,7 @@ describe("ariaActiveDescendantElement", () => {
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
     const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
-    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+    const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
     await afterNextTask();
