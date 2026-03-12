@@ -5,4 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 1.0.0 (2026-03-11)
 
-- Initial creation of stylelint-custom-rules package
+- Initial creation of stylelint-plugin-components package

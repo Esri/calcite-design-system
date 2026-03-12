@@ -1,6 +1,7 @@
 import { messages, name } from "./meta.ts";
 
 /* Test for presence of deprecation and removal target versions in design token `@prop` comments that contain "[Deprecated]" messages. */
+// @ts-expect-error
 testRule({
   ruleName: name,
   config: true,
