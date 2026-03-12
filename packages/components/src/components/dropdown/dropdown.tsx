@@ -465,10 +465,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     updateRefObserver(this.resizeObserver, this.scrollerEl, el);
     this.scrollerEl = el;
     this.transitionEl = el;
-
-    if (this.scrollerEl) {
-      this.scrollerEl.ariaActiveDescendantElement = this.activeDescendantElement;
-    }
   }
 
   onBeforeOpen(): void {
@@ -494,6 +490,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setReferenceEl(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
+
+    if (this.referenceEl) {
+      this.referenceEl.ariaActiveDescendantElement = this.activeDescendantElement;
+    }
+
     connectFloatingUI(this);
   }
 
@@ -635,8 +636,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
     this.activeDescendantElement = activeItem || null;
 
-    if (this.scrollerEl) {
-      this.scrollerEl.ariaActiveDescendantElement = this.activeDescendantElement;
+    if (this.referenceEl) {
+      this.referenceEl.ariaActiveDescendantElement = this.activeDescendantElement;
     }
   }
 
@@ -693,13 +694,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     activeItem.activateItem();
   }
 
-  private openHoverDropdown(event: FocusEvent): void {
-    if (
-      this.open ||
-      this.disabled ||
-      this.type !== "hover" ||
-      !event.composedPath().includes(this.referenceEl)
-    ) {
+  private openHoverDropdown(): void {
+    if (this.open || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -712,7 +708,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       !this.open ||
       this.disabled ||
       this.type !== "hover" ||
-      event.composedPath().includes(this.referenceEl)
+      event.relatedTarget === this.referenceEl ||
+      event.composedPath().includes(this.el)
     ) {
       return;
     }

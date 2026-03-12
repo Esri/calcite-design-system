@@ -187,3 +187,52 @@ describe("hover type", () => {
     expect(el.open).toBe(true);
   });
 });
+
+describe("ariaActiveDescendantElement", () => {
+  it("sets ariaActiveDescendantElement on the trigger container when opened", async () => {
+    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+
+    await userEvent.click(trigger);
+    await afterNextTask();
+
+    const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+
+    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-2");
+  });
+
+  it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
+    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+
+    await userEvent.click(trigger);
+    await afterNextTask();
+
+    const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+
+    referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+    await afterNextTask();
+
+    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-3");
+  });
+
+  it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
+    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    const trigger = page.getBySelector("calcite-button[slot='trigger']");
+
+    await userEvent.click(trigger);
+    await afterNextTask();
+
+    const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+
+    referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+    await afterNextTask();
+
+    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-1");
+
+    referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+    await afterNextTask();
+
+    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-3");
+  });
+});
