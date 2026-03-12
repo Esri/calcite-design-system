@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { nextFrame } from "../../utils/dom";
 import {
@@ -61,8 +61,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   private activeItemIndex = -1;
 
-  private activeDescendantElement: DropdownItem["el"] = null;
-
   private groups: DropdownGroup["el"][] = [];
 
   private items: DropdownItem["el"][] = [];
@@ -88,6 +86,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
   })(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() activeDescendantElement?: DropdownItem["el"];
 
   //#endregion
 
@@ -486,11 +490,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setReferenceEl(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
-
-    if (this.referenceEl) {
-      this.referenceEl.ariaActiveDescendantElement = this.activeDescendantElement;
-    }
-
     connectFloatingUI(this);
   }
 
@@ -630,11 +629,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       item.activeDescendant = item === activeItem;
     });
 
-    this.activeDescendantElement = activeItem || null;
-
-    if (this.referenceEl) {
-      this.referenceEl.ariaActiveDescendantElement = this.activeDescendantElement;
-    }
+    this.activeDescendantElement = activeItem ?? null;
   }
 
   private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
@@ -698,7 +693,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     this.open = true;
   }
 
-  //#endregion
   private closeHoverDropdown(event: FocusEvent): void {
     if (!this.open || this.disabled || this.type !== "hover") {
       return;
@@ -723,6 +717,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     this.open = !this.open;
   }
 
+  //#endregion
+
   //#region Rendering
 
   override render(): JsxNode {
@@ -738,6 +734,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
           ref={this.setReferenceEl}
         >
           <slot
+            ariaActiveDescendantElement={this.activeDescendantElement ?? null}
             ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
             ariaExpanded={open}
             ariaHasPopup="menu"
