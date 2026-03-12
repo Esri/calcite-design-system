@@ -3,12 +3,6 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-} from "../../utils/form";
 import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -24,18 +18,16 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent {
+export class Meter extends LitElement {
   // #region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
   // #endregion
 
   // #region Private Properties
-
-  defaultValue: Meter["value"];
-
-  formEl: HTMLFormElement;
 
   private highLabelRef = createRef<HTMLDivElement>();
 
@@ -163,13 +155,11 @@ export class Meter extends LitElement implements FormComponent {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   load(): void {
     this.calculateValues();
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -203,7 +193,6 @@ export class Meter extends LitElement implements FormComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
