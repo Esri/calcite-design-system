@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS } from "../tooltip/resources";
-import { HOVER_OPEN_DELAY_MS } from "../../controllers/referenceElementManager";
+import { HOVER_OPEN_DELAY_MS } from "../../controllers/useReferenceElement/manager";
 import {
   findAll,
   getElementRect,

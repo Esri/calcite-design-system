@@ -27,7 +27,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { referenceElementManager } from "../../controllers/referenceElementManager";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
 import {
   ReferenceElementComponent,
   ReferenceElementType,
@@ -57,7 +57,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   referenceElementType: ReferenceElementType = "click";
 
-  referenceElementController = useReferenceElement(manager)(this);
+  referenceElementController = useReferenceElement({ manager })(this);
 
   private arrowEl: SVGSVGElement;
 

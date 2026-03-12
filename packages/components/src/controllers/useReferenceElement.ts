@@ -3,43 +3,58 @@ import { LitElement } from "@arcgis/lumina";
 import { nil } from "@arcgis/toolkit/type";
 import { ReferenceElement } from "../utils/floating-ui";
 import { queryElementRoots } from "../utils/dom";
-import { ReferenceElementComponentManager } from "./referenceElementManager";
+import type { ReferenceElementComponentManager } from "./useReferenceElement/manager";
 
 export type ReferenceElementType = "click" | "hover";
 
-/**
- * Component contract required by the reference element controller.
- */
-export interface ReferenceElementComponent extends LitElement {
+interface UseReferenceElementOptions {
+  manager: ReferenceElementComponentManager;
+}
+
+type PublicProps = {
   /**
    * If true, the component will automatically close when another component opens.
+   * Note that this prop should use the `@Prop` decorator.
    */
   autoClose?: boolean;
   /**
    * If true, the component will close when its reference element is clicked.
+   * Note that this prop should use the `@Prop` decorator.
    */
   closeOnClick?: boolean;
   /**
    * Whether the component is currently open.
+   * Note that this prop should use the `@Prop` decorator.
    */
   open: boolean;
+  /**
+   * The reference element, either as a string id or HTMLElement.
+   * Note that this prop should use the `@Prop` decorator.
+   */
+  referenceElement: string | ReferenceElement | nil;
+  /**
+   * If true, disables the trigger interaction for the component.
+   * Note that this prop should use the `@Prop` decorator.
+   */
+  triggerDisabled?: boolean;
+};
+
+type InternalProps = {
   /**
    * The resolved reference element used to trigger the component.
    */
   referenceEl: ReferenceElement | nil;
-  /**
-   * The reference element, either as a string id or HTMLElement.
-   */
-  referenceElement: string | ReferenceElement | nil;
+
   /**
    * The type of reference element interaction ("click" or "hover").
    */
   referenceElementType: ReferenceElementType | nil;
-  /**
-   * If true, disables the trigger interaction for the component.
-   */
-  triggerDisabled?: boolean;
-}
+};
+
+/**
+ * Component contract required by the reference element controller.
+ */
+export type ReferenceElementComponent = LitElement & PublicProps & InternalProps;
 
 /**
  * Creates a controller that resolves and tracks a component's reference element.
@@ -48,15 +63,13 @@ export interface ReferenceElementComponent extends LitElement {
  * synchronized when `referenceElement`, `referenceEl`, or `open` changes.
  *
  * Note: reference elements are managed automatically when the component is disconnected.
- *
- * @param manager Reference element manager used to register and update the component.
- * @returns A generic controller that manages reference-element lifecycle wiring.
  */
 export const useReferenceElement = <T extends ReferenceElementComponent>(
-  manager: ReferenceElementComponentManager,
+  options: UseReferenceElementOptions,
 ): ReturnType<typeof makeGenericController<void, T>> => {
+  const { manager } = options;
+
   return makeGenericController<void, T>((component, controller) => {
-    let hasLoaded = false;
     let animationFrameId: number | nil = null;
 
     const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | nil => {
@@ -91,14 +104,12 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
           return;
         }
 
-        setUpReferenceElement(hasLoaded);
+        setUpReferenceElement(component.manager.loadedCalled);
         manager.registerElement(component, component.referenceEl);
       });
     });
 
     controller.onLoaded(() => {
-      hasLoaded = true;
-
       if (component.referenceElement && !component.referenceEl) {
         setUpReferenceElement();
       }

@@ -1,21 +1,24 @@
 import { nil } from "@arcgis/toolkit/type";
-import { ReferenceElement } from "../utils/floating-ui";
-import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../utils/dom";
-import { isActivationKey } from "../utils/key";
-import { toAriaBoolean } from "../utils/aria";
-import { ReferenceElementComponent, ReferenceElementType } from "./useReferenceElement";
+import { ReferenceElement } from "../../utils/floating-ui";
+import { getShadowRootNode, isKeyboardTriggeredClick, isPrimaryPointerButton } from "../../utils/dom";
+import { isActivationKey } from "../../utils/key";
+import { toAriaBoolean } from "../../utils/aria";
+import type { ReferenceElementComponent, ReferenceElementType } from "../useReferenceElement";
 
-function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElementComponent[]): boolean {
-  if (a1 === a2) {
+function haveSameComponents(
+  components: ReferenceElementComponent[],
+  activeComponents: ReferenceElementComponent[],
+): boolean {
+  if (components === activeComponents) {
     return true;
   }
 
-  if (a1.length !== a2.length) {
+  if (components.length !== activeComponents.length) {
     return false;
   }
 
-  const s1 = new Set(a1);
-  const s2 = new Set(a2);
+  const s1 = new Set(components);
+  const s2 = new Set(activeComponents);
 
   if (s1.size !== s2.size) {
     return false;
@@ -31,39 +34,22 @@ function haveSameComponents(a1: ReferenceElementComponent[], a2: ReferenceElemen
 }
 
 export type ReferenceElementManagerOptions = {
-  /** Enables click and keyboard-activation interactions for registered reference elements. */
   click?: boolean;
-  /** Enables hover and focus interactions for registered reference elements. */
   hover?: boolean;
 };
 
 export interface ReferenceElementComponentManager {
-  /** Registers a component and wires global listeners when needed. */
   registerElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
-  /** Removes a component and removes global listeners when no elements remain. */
   unregisterElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
-  /** Synchronizes ARIA state from a component to its reference element. */
   updateElement: (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil) => void;
 }
 
 const clickTolerance = 5;
 
-/** Standard delay before hover-triggered components open. */
 export const HOVER_OPEN_DELAY_MS = 300;
-/** Reduced open delay used when another hover component is already open. */
 export const HOVER_QUICK_OPEN_DELAY_MS = HOVER_OPEN_DELAY_MS / 3;
-/** Delay before hover-triggered components close after pointer exit. */
 export const HOVER_CLOSE_DELAY_MS = HOVER_OPEN_DELAY_MS * 1.5;
 
-/**
- * Determines whether pointer movement between down/up events exceeded click tolerance.
- *
- * @param startX Pointer-down client X coordinate.
- * @param startY Pointer-down client Y coordinate.
- * @param endX Pointer-up client X coordinate.
- * @param endY Pointer-up client Y coordinate.
- * @returns `true` when movement distance is greater than the click tolerance.
- */
 export function isDrag({
   startX,
   startY,
@@ -79,16 +65,6 @@ export function isDrag({
   return distance > clickTolerance;
 }
 
-/**
- * Creates a controller for managing components that share a reference element trigger.
- *
- * The manager handles registration, interaction listeners, hover timing, and ARIA synchronization.
- *
- * Note: reference elements are managed automatically when the component is disconnected.
- *
- * @param options Interaction modes to enable for the manager instance.
- * @returns A manager with methods to register, unregister, and update components.
- */
 export const referenceElementManager = (options: ReferenceElementManagerOptions): ReferenceElementComponentManager => {
   const registeredElements = new Map<ReferenceElement, ReferenceElementComponent[]>();
   const registeredShadowRootCounts = new WeakMap<ShadowRoot, number>();

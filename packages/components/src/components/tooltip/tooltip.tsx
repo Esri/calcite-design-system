@@ -24,7 +24,7 @@ import {
   ReferenceElementType,
   useReferenceElement,
 } from "../../controllers/useReferenceElement";
-import { referenceElementManager } from "../../controllers/referenceElementManager";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
 import { CSS } from "./resources";
 import { styles } from "./tooltip.scss";
 
@@ -54,7 +54,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   referenceElementType: ReferenceElementType = "hover";
 
-  referenceElementController = useReferenceElement(manager)(this);
+  referenceElementController = useReferenceElement({ manager })(this);
 
   transitionProp = "opacity" as const;
 
