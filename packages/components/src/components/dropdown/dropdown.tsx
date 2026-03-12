@@ -706,7 +706,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       return;
     }
 
-    this.open = false;
+    this.closeCalciteDropdown();
   }
 
   private toggleClickDropdown(): void {
