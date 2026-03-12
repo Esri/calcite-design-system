@@ -159,12 +159,12 @@ describe("hover type", () => {
 
   it("opens on focusin", async () => {
     const { el } = await mount<Dropdown>(createHoverDropdownHTML);
-    const trigger = page.getByText("Open dropdown");
 
     expect(el.open).toBe(false);
 
-    await expect.element(trigger).toBeInTheDocument();
-    await userEvent.click(trigger);
+    await userEvent.tab();
+    await afterNextTask();
+    await userEvent.tab();
     await afterNextTask();
 
     expect(el.open).toBe(true);
