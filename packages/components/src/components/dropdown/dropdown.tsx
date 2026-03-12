@@ -376,15 +376,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     return this.items.filter((item) => !item.disabled && !item.hidden);
   }
 
-  private handleItemSelect(event: CustomEvent<RequestedItem>): void {
+  private async handleItemSelect(event: CustomEvent<RequestedItem>): Promise<void> {
     this.updateSelectedItems();
     this.syncActiveItemFromTraversableItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
+    await this.setFocus();
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
-    this.setFocus();
   }
 
   private setFilteredPlacements(): void {
@@ -693,8 +693,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     activeItem.activateItem();
   }
 
-  private openHoverDropdown(): void {
-    if (this.disabled || this.type !== "hover") {
+  private openHoverDropdown(event: FocusEvent): void {
+    if (
+      this.open ||
+      this.disabled ||
+      this.type !== "hover" ||
+      !event.composedPath().includes(this.referenceEl)
+    ) {
       return;
     }
 
@@ -702,8 +707,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   //#endregion
-  private closeHoverDropdown(): void {
-    if (this.disabled || this.type !== "hover") {
+  private closeHoverDropdown(event: FocusEvent): void {
+    if (
+      !this.open ||
+      this.disabled ||
+      this.type !== "hover" ||
+      event.composedPath().includes(this.referenceEl)
+    ) {
       return;
     }
 

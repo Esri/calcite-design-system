@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { JsxNode } from "@arcgis/lumina";
 import {
   defaults,
@@ -159,17 +159,12 @@ describe("hover type", () => {
 
   it("opens on focusin", async () => {
     const { el } = await mount<Dropdown>(createHoverDropdownHTML);
-    const triggerButton = el
-      .querySelector<HTMLElement>("calcite-action[slot='trigger']")
-      ?.shadowRoot?.querySelector<HTMLButtonElement>("button");
-
-    if (!triggerButton) {
-      throw new Error("Trigger button not found");
-    }
+    const trigger = page.getBySelector("calcite-action[slot='trigger']");
 
     expect(el.open).toBe(false);
 
-    triggerButton.focus();
+    await expect.element(trigger).toBeInTheDocument();
+    await userEvent.click(trigger);
     await afterNextTask();
 
     expect(el.open).toBe(true);
@@ -177,11 +172,7 @@ describe("hover type", () => {
 
   it("does not toggle closed on click when type is hover", async () => {
     const { el } = await mount<Dropdown>(createHoverDropdownHTML);
-    const trigger = el.querySelector<HTMLElement>("calcite-action[slot='trigger']");
-
-    if (!trigger) {
-      throw new Error("Trigger not found");
-    }
+    const trigger = page.getBySelector("calcite-action[slot='trigger']");
 
     expect(el.open).toBe(false);
 
