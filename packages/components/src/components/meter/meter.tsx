@@ -21,8 +21,6 @@ declare global {
 export class Meter extends LitElement {
   // #region Static Members
 
-  static formAssociated = true;
-
   static override styles = styles;
 
   // #endregion
