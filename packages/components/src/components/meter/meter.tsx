@@ -126,7 +126,7 @@ export class Meter extends LitElement {
   /**
    * Specifies the name of the component. Required to pass the component's `value` on form submission.
    *
-   * @deprecated since v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) name: string;
 
