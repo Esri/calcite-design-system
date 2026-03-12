@@ -96,6 +96,8 @@ export class Meter extends LitElement {
    * Specifies the `id` of the component's associated form.
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
+   *
+   * @deprecated since v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) form: string;
 
@@ -121,7 +123,11 @@ export class Meter extends LitElement {
   /** Specifies the component's lowest allowed value. */
   @property({ reflect: true }) min = 0;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /**
+   * Specifies the name of the component. Required to pass the component's `value` on form submission.
+   *
+   * @deprecated since v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+   */
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
