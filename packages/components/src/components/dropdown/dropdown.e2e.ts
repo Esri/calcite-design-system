@@ -433,7 +433,7 @@ describe("calcite-dropdown", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
             .ariaActiveDescendantElement?.id,
       ),
     ).toEqual("item-1");
@@ -460,7 +460,7 @@ describe("calcite-dropdown", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
             .ariaActiveDescendantElement?.id,
       ),
     ).toEqual("item-3");
@@ -487,7 +487,7 @@ describe("calcite-dropdown", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
             .ariaActiveDescendantElement?.id,
       ),
     ).toEqual("item-2");
@@ -554,7 +554,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toEqual("item-50");
@@ -706,7 +706,7 @@ describe("calcite-dropdown", () => {
     expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
-  it("does not close when close-on-select is disabled and a selection is made", async () => {
+  it("does not close when close-on-select is disabled and a selection is made, except selection-mode none", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html`<calcite-dropdown close-on-select-disabled>
@@ -745,7 +745,7 @@ describe("calcite-dropdown", () => {
 
     await noneGroupItem.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(true);
+    expect(await dropdownWrapper.isVisible()).toBe(false);
   });
 
   describe("toggles the dropdown with click, enter, or space", () => {
@@ -913,7 +913,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -960,7 +960,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1240,7 +1240,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1251,7 +1251,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1262,7 +1262,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1273,7 +1273,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1284,7 +1284,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1295,7 +1295,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1306,7 +1306,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1317,7 +1317,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1352,7 +1352,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1363,7 +1363,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1374,7 +1374,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1385,7 +1385,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1396,7 +1396,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1407,7 +1407,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1440,7 +1440,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1450,7 +1450,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1460,7 +1460,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1493,7 +1493,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1503,7 +1503,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1513,7 +1513,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1546,7 +1546,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1556,7 +1556,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-3");
@@ -1566,7 +1566,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1599,7 +1599,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");
@@ -1609,7 +1609,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-1");
@@ -1619,7 +1619,7 @@ describe("calcite-dropdown", () => {
       expect(
         await page.evaluate(
           () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector(".trigger-container")
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
       ).toBe("item-2");

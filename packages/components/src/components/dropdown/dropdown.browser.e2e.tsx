@@ -213,16 +213,16 @@ describe("hover type", () => {
 });
 
 describe("ariaActiveDescendantElement", () => {
-  it("sets ariaActiveDescendantElement on the trigger container when opened", async () => {
+  it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
     const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
     await afterNextTask();
 
-    const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+    const triggerSlot = el.shadowRoot.querySelector("slot[name='trigger']") as HTMLSlotElement;
 
-    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-2");
+    expect(triggerSlot.ariaActiveDescendantElement?.id).toBe("item-2");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
@@ -233,11 +233,12 @@ describe("ariaActiveDescendantElement", () => {
     await afterNextTask();
 
     const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+    const triggerSlot = el.shadowRoot.querySelector("slot[name='trigger']") as HTMLSlotElement;
 
     referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
     await afterNextTask();
 
-    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-3");
+    expect(triggerSlot.ariaActiveDescendantElement?.id).toBe("item-3");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -248,15 +249,16 @@ describe("ariaActiveDescendantElement", () => {
     await afterNextTask();
 
     const referenceEl = el.shadowRoot.querySelector(`.${CSS.triggerContainer}`) as HTMLDivElement;
+    const triggerSlot = el.shadowRoot.querySelector("slot[name='trigger']") as HTMLSlotElement;
 
     referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
     await afterNextTask();
 
-    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-1");
+    expect(triggerSlot.ariaActiveDescendantElement?.id).toBe("item-1");
 
     referenceEl.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
     await afterNextTask();
 
-    expect(referenceEl.ariaActiveDescendantElement?.id).toBe("item-3");
+    expect(triggerSlot.ariaActiveDescendantElement?.id).toBe("item-3");
   });
 });
