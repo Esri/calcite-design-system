@@ -186,6 +186,11 @@ interface UseForm {
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
+
+  /**
+   * Sets the custom validity of the component.
+   */
+  setCustomValidity: (message: string) => void;
 }
 
 interface UseFormOptions {
@@ -202,6 +207,7 @@ export const useForm = <T extends FormComponent>(
   options: UseFormOptions,
 ): ReturnType<typeof makeGenericController<UseForm, T>> => {
   return makeGenericController<UseForm, T>((component, controller) => {
+    let customValidityMessage = "";
     let defaultValueDirty = false;
     let defaultCheckedDirty = false;
     let inputDelegate: HTMLInputElement | undefined;
@@ -255,7 +261,7 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = inputDelegate?.validationMessage || "";
+      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
@@ -313,19 +319,34 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateInputDelegate();
+      updateValidity();
     });
 
-    function updateInputDelegate(): void {
-      if (inputDelegate) {
+    function updateValidity(): void {
+      const { elementInternals } = component;
+
+      let validity: ValidityStateFlags = {};
+      let validationMessage = "";
+
+      if (customValidityMessage) {
+        validity.customError = true;
+        validationMessage = customValidityMessage;
+      } else if (inputDelegate) {
         inputDelegate.type = options.inputType!;
         inputDelegate.value = component.value;
+
         syncInternalInput(component, inputDelegate);
-        inputDelegate.checkValidity();
-        component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
-        if ("validity" in component) {
-          component.validity = component.elementInternals.validity;
+
+        if (!inputDelegate.validity.valid) {
+          validity = inputDelegate.validity;
+          validationMessage = inputDelegate.validationMessage;
         }
+      }
+
+      elementInternals.setValidity(validity, validationMessage);
+
+      if ("validity" in component) {
+        component.validity = elementInternals.validity;
       }
     }
 
@@ -356,10 +377,13 @@ export const useForm = <T extends FormComponent>(
       },
       overrideInputType: (type) => {
         options.inputType = type;
-        updateInputDelegate();
+        updateValidity();
       },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();
+      },
+      setCustomValidity: (message) => {
+        customValidityMessage = message;
       },
     };
   });

@@ -10,6 +10,7 @@ import {
   internalLabel,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 
 describe("cancelable", () => {
@@ -102,4 +103,13 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-text-area"));
+});
+
+describe("is form associated", () => {
+  formAssociated(() => mount("calcite-text-area"), {
+    testValue: "zion national park",
+    expectedSubmitValue: "zion national park",
+    submitsOnEnter: false,
+    validation: true,
+  });
 });
