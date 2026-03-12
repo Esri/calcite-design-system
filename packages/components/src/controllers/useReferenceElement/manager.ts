@@ -401,9 +401,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     toggleFocusedComponents(components, true);
   };
 
-  const updateElement = (component: ReferenceElementComponent): void => {
-    const { referenceEl, open } = component;
-
+  const updateElement = (component: ReferenceElementComponent, referenceEl: ReferenceElement | nil): void => {
     if (!referenceEl || !component.referenceElementType) {
       return;
     }
@@ -411,7 +409,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     if (options.click && "ariaExpanded" in referenceEl) {
       const existingComponents = registeredElements.get(referenceEl) ?? [];
       const existingComponentOpen = existingComponents?.some((component) => component.open) ?? false;
-      referenceEl.ariaExpanded = toAriaBoolean(open || existingComponentOpen);
+      referenceEl.ariaExpanded = toAriaBoolean(component.open || existingComponentOpen);
     }
   };
 
@@ -493,7 +491,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
       addListeners();
     }
 
-    updateElement(component);
+    updateElement(component, referenceEl);
   };
 
   const decrementRegisteredElementCount = (shadowRoot: ShadowRoot | nil): void => {
