@@ -148,13 +148,12 @@ export class List extends LitElement implements SortableComponent {
 
   private filterRowResizeObserver = createObserver("resize", () => this.updateFilterRowHeight());
 
-  private setFilterContainerRef = (el: HTMLDivElement): void => {
-    this.filterContainerRef = el;
+  private setFilterContainerEl = (el: HTMLDivElement): void => {
+    this.filterContainerEl = el;
     this.observeFilterRow();
-    this.updateFilterRowHeight();
   };
 
-  private filterContainerRef?: HTMLDivElement;
+  private filterContainerEl?: HTMLDivElement;
 
   //#endregion
 
@@ -562,7 +561,7 @@ export class List extends LitElement implements SortableComponent {
   private observeFilterRow(): void {
     this.unobserveFilterRow();
 
-    const filterRowEl = this.filterContainerRef;
+    const filterRowEl = this.filterContainerEl;
 
     if (filterRowEl) {
       this.filterRowResizeObserver?.observe(filterRowEl);
@@ -570,7 +569,7 @@ export class List extends LitElement implements SortableComponent {
   }
 
   private updateFilterRowHeight(): void {
-    this.filterRowHeight = this.filterContainerRef?.clientHeight ?? 0;
+    this.filterRowHeight = this.filterContainerEl?.clientHeight ?? 0;
   }
 
   private handleListItemChange(): void {
@@ -1267,7 +1266,7 @@ export class List extends LitElement implements SortableComponent {
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <div class={CSS.sticky} ref={this.setFilterContainerRef} role="rowgroup">
+              <div class={CSS.sticky} ref={this.setFilterContainerEl} role="rowgroup">
                 <div role="row">
                   <div role="columnheader">
                     <calcite-stack class={CSS.stack}>

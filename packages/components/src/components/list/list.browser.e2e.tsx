@@ -13,6 +13,7 @@ import {
   disabled,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 const scrollTopValue = 120;
 
@@ -181,7 +182,6 @@ describe("sticky group heading", () => {
       </calcite-list>,
     );
 
-    const list = el as HTMLElement;
     const stickyContainer = page
       .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
       .first()
@@ -189,10 +189,10 @@ describe("sticky group heading", () => {
 
     const initialTop = stickyContainer.getBoundingClientRect().top;
 
-    list.scrollTop = scrollTopValue;
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    el.scrollTop = scrollTopValue;
+    await afterNextFrame();
 
-    expect(list.scrollTop).toBeGreaterThan(0);
+    expect(el.scrollTop).toBeGreaterThan(0);
 
     const scrolledTop = stickyContainer.getBoundingClientRect().top;
     expect(Math.abs(scrolledTop - initialTop)).toBeLessThanOrEqual(2);
@@ -228,8 +228,6 @@ describe("sticky group heading with filter", () => {
 
     const filterInput = page.getBySelector("calcite-list calcite-filter").element();
 
-    expect(filterInput).toBeTruthy();
-
     const stickyContainer = page
       .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
       .first()
@@ -237,7 +235,7 @@ describe("sticky group heading with filter", () => {
 
     // scroll enough so that the group heading is in its sticky position
     list.scrollTop = scrollTopValue;
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await afterNextFrame();
 
     expect(list.scrollTop).toBeGreaterThan(0);
 
