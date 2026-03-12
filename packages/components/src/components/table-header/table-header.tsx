@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
@@ -58,10 +58,10 @@ export class TableHeader extends LitElement {
   /** Specifies the number of columns the component should span. */
   @property({ reflect: true }) colSpan: number;
 
-  /** A description to display beneath heading content. */
+  /** Specifies a description for the component. Displays below the `heading`. */
   @property({ reflect: true }) description: string;
 
-  /** A heading to display above description content. */
+  /** Specifies the component's heading text. Displays above the `description`. */
   @property({ reflect: true }) heading: string;
 
   /** @private */
@@ -70,7 +70,7 @@ export class TableHeader extends LitElement {
   /** @private */
   @property() lastCell: boolean;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */

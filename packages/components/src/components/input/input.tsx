@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -12,8 +12,8 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import {
   connectForm,
@@ -46,7 +46,15 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
-import { CSS, IDS, INPUT_TYPE_ICONS, SLOTS, ICONS, DIRECTION } from "./resources";
+import {
+  CSS,
+  IDS,
+  INPUT_TYPE_ICONS,
+  SLOTS,
+  ICONS,
+  DIRECTION,
+  NUDGE_DELAY_IN_MS,
+} from "./resources";
 import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
@@ -57,7 +65,7 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a `calcite-button` next to the component.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class Input
@@ -86,6 +94,8 @@ export class Input
   private childNumberRef = createRef<HTMLInputElement>();
 
   defaultValue: Input["value"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -136,6 +146,10 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
+  get isClearable(): boolean {
+    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  }
+
   //#endregion
 
   //#region State Properties
@@ -149,15 +163,14 @@ export class Input
   //#region Public Properties
 
   /**
-   * Specifies a comma separated list of unique file type specifiers for limiting accepted file types.
-   * This property only has an effect when `type` is "file".
+   * When `type` is `"file"`, specifies a comma separated list of unique file type specifiers for limiting accepted file types.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() accept: string;
 
-  /** Specifies the text alignment of the component's value. */
+  /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
@@ -168,11 +181,11 @@ export class Input
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
+  /** When `true` and the component has a `value`, a clear button is displayed. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -189,25 +202,25 @@ export class Input
   @property() files: FileList | undefined;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /** When `true`, displays a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */
@@ -230,13 +243,13 @@ export class Input
 
   /**
    * When the component resides in a form,
-   * specifies the maximum length of text for the component's value.
+   * specifies the maximum length of text for the component's `value`.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @property({ reflect: true }) maxLength: number;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -249,15 +262,14 @@ export class Input
 
   /**
    * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
+   * specifies the minimum length of text for the component's `value`.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength: number;
 
   /**
-   * When `true`, the component can accept more than one value.
-   * This property only has an effect when `type` is "email" or "file".
+   * When `true` and `type` is `"email"` or `"file"`, the component can accept more than one value.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
@@ -273,7 +285,7 @@ export class Input
    */
   @property({ reflect: true }) name: string;
 
-  /** Specifies the placement of the buttons for `type="number"`. */
+  /** When `type="number"`, specifies the placement of the buttons. */
   @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -289,17 +301,17 @@ export class Input
   @property() pattern: string;
 
   /**
-   * Specifies placeholder text for the component.
+   * Specifies the component's placeholder text.
    *
    * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
-  /** Adds text to the start of the component. */
+  /** Specifies text to display at the start of the component. */
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -307,14 +319,14 @@ export class Input
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -324,7 +336,7 @@ export class Input
    */
   @property({ reflect: true }) step: number | "any";
 
-  /** Adds text to the end of the component. */
+  /** Specifies text to display at the end of the component. */
   @property() suffixText: string;
 
   /**
@@ -358,7 +370,7 @@ export class Input
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -498,11 +510,16 @@ export class Input
     if (changes.has("icon") || (changes.has("type") && (this.hasUpdated || this.type !== "text"))) {
       this.requestedIcon = setRequestedIcon(INPUT_TYPE_ICONS, this.icon, this.type);
     }
+
+    if (changes.has("readOnly")) {
+      this.stopNudging();
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
     disconnectForm(this);
+    this.stopNudging();
     this.el.removeEventListener(
       internalHiddenInputInputEvent,
       this.onHiddenFormInputInput,
@@ -513,8 +530,8 @@ export class Input
 
   //#region Private Methods
 
-  get isClearable(): boolean {
-    return (this.clearable || this.type === "search") && this.value?.length > 0;
+  private stopNudging() {
+    window.clearInterval(this.nudgeNumberValueIntervalId);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -624,7 +641,7 @@ export class Input
   }
 
   private inputBlurHandler() {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
     this.calciteInternalInputBlur.emit();
     this.emitChangeIfUserModified();
   }
@@ -799,12 +816,11 @@ export class Input
 
     const inputMax = this.maxString ? parseFloat(this.maxString) : null;
     const inputMin = this.minString ? parseFloat(this.minString) : null;
-    const valueNudgeDelayInMs = 150;
 
     this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
 
     if (this.nudgeNumberValueIntervalId) {
-      window.clearInterval(this.nudgeNumberValueIntervalId);
+      this.stopNudging();
     }
     let firstValueNudge = true;
     this.nudgeNumberValueIntervalId = window.setInterval(() => {
@@ -814,11 +830,11 @@ export class Input
       }
 
       this.incrementOrDecrementNumberValue(direction, inputMax, inputMin, nativeEvent);
-    }, valueNudgeDelayInMs);
+    }, NUDGE_DELAY_IN_MS);
   }
 
   private numberButtonPointerUpAndOutHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private numberButtonPointerDownHandler(event: PointerEvent): void {
@@ -938,7 +954,7 @@ export class Input
   }
 
   private inputKeyUpHandler(): void {
-    window.clearInterval(this.nudgeNumberValueIntervalId);
+    this.stopNudging();
   }
 
   private warnAboutInvalidNumberValue(value: string): void {
@@ -952,7 +968,7 @@ export class Input
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
@@ -991,6 +1007,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.up}
+        data-testid="number-button-up"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
@@ -1010,6 +1027,7 @@ export class Input
           [CSS.buttonItemHorizontal]: isHorizontalNumberButton,
         }}
         data-adjustment={DIRECTION.down}
+        data-testid="number-button-down"
         disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}

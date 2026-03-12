@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
@@ -68,13 +68,13 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
   @property() afterConfirm: () => Promise<void>;
 
-  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls on the component. */
+  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls. */
   @property({ reflect: true }) controls = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, inline editing is enabled on the component. */
+  /** When `true`, inline editing is enabled. */
   @property({ reflect: true })
   get editingEnabled(): boolean {
     return this._editingEnabled;
@@ -90,7 +90,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the size of the component. */
@@ -116,10 +116,10 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Emits when the component's "cancel editing" button is pressed. */
+  /** Fires when the component's "cancel editing" button is pressed. */
   calciteInlineEditableEditCancel = createEvent({ cancelable: false });
 
-  /** Emits when the component's "confirm edits" button is pressed. */
+  /** Fires when the component's "confirm edits" button is pressed. */
   calciteInlineEditableEditConfirm = createEvent({ cancelable: false });
 
   /** @private */

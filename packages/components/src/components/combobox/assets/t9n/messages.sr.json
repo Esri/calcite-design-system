@@ -8,5 +8,5 @@
   "required": "Obavezno",
   "selectAll": "Izaberi sve",
   "selected": "selektovano",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Samo za čitanje {value}"
 }

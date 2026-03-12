@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -109,7 +109,7 @@ export class Panel extends LitElement {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the header. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
@@ -133,16 +133,16 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies the component's description text. */
+  /** Specifies a description for the component. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display. */
@@ -154,7 +154,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
@@ -167,16 +167,25 @@ export class Panel extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -192,7 +201,7 @@ export class Panel extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -525,7 +534,7 @@ export class Panel extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
 
     return (
       <calcite-action-menu
@@ -536,11 +545,13 @@ export class Panel extends LitElement {
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
+        scale={scale}
+        topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
           class={CSS.menuAction}
           icon={ICONS.menu}
-          scale={this.scale}
+          scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />

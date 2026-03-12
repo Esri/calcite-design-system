@@ -11,6 +11,7 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   connectFloatingUI,
   defaultOffsetDistance,
@@ -26,7 +27,8 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
+import { queryElementRoots } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -61,6 +63,8 @@ export class Popover extends LitElement implements FloatingUIComponent {
   //#region Private Properties
 
   private arrowEl: SVGSVGElement;
+
+  private direction = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -122,13 +126,13 @@ export class Popover extends LitElement implements FloatingUIComponent {
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
 
-  /** When `true`, displays a close button within the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
   @property({ reflect: true }) flipDisabled = false;
 
-  /** Specifies the component's fallback `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
@@ -145,14 +149,14 @@ export class Popover extends LitElement implements FloatingUIComponent {
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -162,24 +166,22 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Offsets the position of the popover away from the `referenceElement`.
-   *
-   * @default 6
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Offsets the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` value should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
@@ -190,9 +192,9 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` used to position the component according to its `placement` value.
+   * The `referenceElement` is used to position the component according to its `placement` value.
    *
-   * Setting to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
    *
    * However, a string `id` of the reference element can also be used.
    *
@@ -206,7 +208,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When true, disables top layer placement when the component is open.
+   * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
@@ -246,6 +248,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,
@@ -273,9 +276,16 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the component's focus-trap.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
     this.focusTrap.updateContainerElements();
   }
 

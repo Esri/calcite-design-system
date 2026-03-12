@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -9,11 +10,11 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
-import { isAction } from "../action-bar/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -43,6 +44,8 @@ export class ActionPad extends LitElement {
   private actions: Action["el"][] = [];
 
   private actionGroups: ActionGroup["el"][];
+
+  private direction = useDirection();
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -79,23 +82,23 @@ export class ActionPad extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Indicates the layout of the component. */
+  /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Arranges the component depending on the element's `dir` property. */
+  /** Specifies the position of the component depending on the element's `dir` property. */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
@@ -310,6 +313,7 @@ export class ActionPad extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}

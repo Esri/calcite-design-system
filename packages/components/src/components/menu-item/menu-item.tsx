@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -10,8 +10,9 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { FlipContext, Layout } from "../interfaces";
-import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,6 +40,8 @@ export class MenuItem extends LitElement {
   //#region Private Properties
 
   private anchorRef = createRef<HTMLAnchorElement>();
+
+  private direction = useDirection();
 
   private dropdownActionRef = createRef<Action["el"]>();
 
@@ -87,7 +90,7 @@ export class MenuItem extends LitElement {
   @property() isTopLevelItem = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -406,7 +409,7 @@ export class MenuItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     return (
       <li
         class={{

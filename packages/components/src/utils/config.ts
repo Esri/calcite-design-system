@@ -1,5 +1,5 @@
-import { isServer } from "lit-html/is-server.js";
-import { FocusTrap } from "../controllers/useFocusTrap";
+import { isServer } from "lit";
+import { FocusTrap } from "focus-trap";
 import { LogLevel } from "./logger";
 
 export interface CalciteConfig {

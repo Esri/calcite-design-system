@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-dropdown-item-background-color-hover: Specifies the item's background color when hovered.
- * @prop --calcite-dropdown-item-background-color-press: Specifies the item's background color when selected or active.
- * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the item's icon selection color when hovered.
- * @prop --calcite-dropdown-item-icon-color-press: Specifies the item's icon selection color when selected or active.
- * @prop --calcite-dropdown-item-text-color-press: Specifies the item's text when selected or active.
- * @prop --calcite-dropdown-item-text-color: Specifies the item's text color.
+ * @prop --calcite-dropdown-item-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-dropdown-item-background-color-press: Specifies the component's background color when `selected` or active.
+ * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] Specifies the color of the component's selection icon when hovered.
+ * @prop --calcite-dropdown-item-icon-color-press: Specifies the color of the component's selection icon when `selected` or active.
+ * @prop --calcite-dropdown-item-text-color-press: Specifies the component's text color when `selected` or active.
+ * @prop --calcite-dropdown-item-text-color: Specifies the component's text color.
 */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -62,7 +62,7 @@
 
 .icon--start,
 .icon--end {
-  --calcite-icon-color: var(--calcite-color-text-3);
+  --calcite-icon-color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-3));
 }
 
 :host([scale="s"]) {
@@ -134,6 +134,11 @@
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
+  .icon--start,
+  .icon--end {
+    --calcite-icon-color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
+  }
+
   .link {
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
@@ -160,7 +165,7 @@
 }
 
 :host(:hover:not([disabled])) .icon {
-  color: var(--calcite-dropdown-item-icon-color-hover);
+  --calcite-icon-color: var(--calcite-dropdown-item-icon-color-hover);
 }
 
 :host([selected]) .icon {

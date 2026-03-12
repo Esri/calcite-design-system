@@ -8,5 +8,5 @@
   "required": "Povinné",
   "selectAll": "Vybrat vše",
   "selected": "vybraný",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Pouze pro čtení {value}"
 }

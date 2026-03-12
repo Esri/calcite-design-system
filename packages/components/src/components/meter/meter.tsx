@@ -1,14 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-} from "../../utils/form";
 import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -24,7 +18,7 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent {
+export class Meter extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -32,10 +26,6 @@ export class Meter extends LitElement implements FormComponent {
   // #endregion
 
   // #region Private Properties
-
-  defaultValue: Meter["value"];
-
-  formEl: HTMLFormElement;
 
   private highLabelRef = createRef<HTMLDivElement>();
 
@@ -103,9 +93,11 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
+   *
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) form: string;
 
@@ -116,7 +108,7 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) high: number;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -132,9 +124,9 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) min = 0;
 
   /**
-   * Specifies the name of the component.
+   * Specifies the name of the component. Required to pass the component's `value` on form submission.
    *
-   * Required to pass the component's `value` on form submission.
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) name: string;
 
@@ -167,13 +159,11 @@ export class Meter extends LitElement implements FormComponent {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   load(): void {
     this.calculateValues();
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -207,7 +197,6 @@ export class Meter extends LitElement implements FormComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 

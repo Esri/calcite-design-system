@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered or focused.
+ * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
  * @prop --calcite-action-background-color: Specifies the component's background color.
@@ -206,7 +206,7 @@
 }
 
 :host([appearance="transparent"]) {
-  &[active] .button {
+  &:host([active]) .button {
     background-color: var(
       --calcite-action-background-color-press,
       var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
@@ -232,7 +232,7 @@
   }
 }
 
-:host([selection-appearance="highlight"][active]) .button {
+:host([selection-appearance="highlight"]):host([active]) .button {
   background-color: var(--calcite-color-surface-highlight);
   color: var(--calcite-color-text-highlight);
 }

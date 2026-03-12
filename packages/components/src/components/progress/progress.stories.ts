@@ -29,7 +29,7 @@ export const simple = (args: ProgressStoryArgs): string => html`
   <calcite-progress type="${args.type}" value="${args.value}" text="${args.text}"></calcite-progress>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-progress
     class="calcite-mode-dark"
     type="determinate"
@@ -38,4 +38,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-progress>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

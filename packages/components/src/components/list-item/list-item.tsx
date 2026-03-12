@@ -1,8 +1,9 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
@@ -56,6 +57,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   private contentRef = createRef<HTMLDivElement>();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private direction = useDirection();
 
   private handleGridRef = createRef<HTMLDivElement>();
 
@@ -119,13 +122,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() sortDisabled = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component, displays below the `label`. */
+  /** Specifies a description for the component. Displays below the `label`. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -158,7 +161,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() interactionMode: InteractionMode = null;
 
-  /** Specifies the label of the component, displays above the `description`. */
+  /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label: string;
 
   /** Overrides individual strings used by the component. */
@@ -268,6 +271,15 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -802,19 +814,20 @@ export class ListItem extends LitElement implements SortableComponentItem {
           setPosition={setPosition}
           setSize={setSize}
           sortDisabled={sortDisabled}
+          topLayerDisabled={this.topLayerDisabled}
         />
       </div>
     ) : null;
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale } = this;
+    const { expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
     }
 
-    const dir = getElementDir(el);
+    const dir = this.direction;
 
     const icon = expandable
       ? expanded
@@ -986,8 +999,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
     const hasCenterContent = hasCustomContent || !!label || !!description;
     const content = [
       this.renderContentStart(),
-      this.renderCustomContent(),
       this.renderIconStart(),
+      this.renderCustomContent(),
       this.renderContentProperties(),
       this.renderIconEnd(),
       this.renderContentEnd(),

@@ -3,6 +3,7 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   getStylePixelValue,
   slotChangeGetAssignedElements,
@@ -19,11 +20,12 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions, isAction } from "./utils";
+import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -35,6 +37,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+ * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
@@ -50,6 +53,8 @@ export class ActionBar extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private direction = useDirection();
+
   private expandToggleEl: Action["el"];
 
   private actionGroups: ActionGroup["el"][];
@@ -59,7 +64,7 @@ export class ActionBar extends LitElement {
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
 
     if (
       overflowActionsDisabled ||
@@ -69,12 +74,19 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const itemSizes = this.getItemSizes();
-
     this.updateGroups();
 
-    const groupCount: number =
-      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+    const itemSizes = this.getItemSizes();
+
+    const { actionGroups } = this;
+
+    const actionsEndCount =
+      this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
+
+    const actionsStartCount =
+      this.hasActionsStart || (!expandDisabled && expandPosition === "start") ? 1 : 0;
+
+    const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
 
     let bufferSize = groupCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
@@ -166,12 +178,17 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsEnd = false;
 
+  @state() hasActionsStart = false;
+
   //#endregion
 
   //#region Public Properties
 
-  /** Specifies the accessible label for the last `calcite-action-group`. */
+  /** Specifies an accessible name for the last `calcite-action-group`. */
   @property() actionsEndGroupLabel: string;
+
+  /** Specifies an accessible name for the first `calcite-action-group`. */
+  @property() actionsStartGroupLabel: string;
 
   /**
    * When `true`, the component is in a floating state.
@@ -181,29 +198,42 @@ export class ActionBar extends LitElement {
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
+   */
   @property({ reflect: true }) expanded = false;
+
+  /** Specifies the position of the expand `calcite-action`. */
+  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Arranges the component depending on the element's `dir` property. */
+  /**
+   * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   *
+   * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
+   * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
+   *
+   * When `expanded` is `true`, the chevron direction is reversed.
+   */
   @property({ reflect: true }) position: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
@@ -278,7 +308,10 @@ export class ActionBar extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
+    if (
+      (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
+      (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
+    ) {
       this.overflowActions();
     }
 
@@ -392,6 +425,12 @@ export class ActionBar extends LitElement {
 
   private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.overflowActions();
+  }
+
+  private handleActionsStartSlotChange(event: Event): void {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+    this.overflowActions();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -456,24 +495,18 @@ export class ActionBar extends LitElement {
 
   //#region Rendering
 
-  private renderBottomActionGroup(): JsxNode {
-    const {
-      expanded,
-      expandDisabled,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout,
-      messages,
-      actionsEndGroupLabel,
-      overlayPositioning,
-    } = this;
+  private renderExpandTooltipSlot(): JsxNode {
+    return <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />;
+  }
 
-    const expandToggleNode = !expandDisabled ? (
+  private renderExpandToggle(): JsxNode {
+    const { el, expanded, toggleExpand, messages, position, scale } = this;
+
+    return (
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}
@@ -484,20 +517,36 @@ export class ActionBar extends LitElement {
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
       />
-    ) : null;
+    );
+  }
+
+  private renderActionsGroup(position: Extract<"start" | "end", Position>): JsxNode {
+    const { expandDisabled, scale, layout, overlayPositioning, expandPosition } = this;
+
+    const isStart = position === "start";
+    const hasExpandToggle = !expandDisabled && expandPosition === position;
+
+    const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
+    const onSlotChange = isStart
+      ? this.handleActionsStartSlotChange
+      : this.handleActionsEndSlotChange;
+    const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
+    const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
+    const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
 
     return (
       <calcite-action-group
-        class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !this.hasActionsEnd}
-        label={actionsEndGroupLabel}
+        class={className}
+        hidden={hidden}
+        label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
-        {expandToggleNode}
+        {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
+        <slot name={slotName} onSlotChange={onSlotChange} />
+        {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
+        {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );
   }
@@ -510,8 +559,9 @@ export class ActionBar extends LitElement {
         ref={this.containerRef}
         role="toolbar"
       >
+        {this.renderActionsGroup("start")}
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        {this.renderBottomActionGroup()}
+        {this.renderActionsGroup("end")}
       </div>
     );
   }
