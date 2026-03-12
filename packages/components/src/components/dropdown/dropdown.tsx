@@ -659,7 +659,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
     const activeItem = traversableItems[index];
     this.setActiveItemByIndex(index);
-    this.scrollActiveItemIntoView(activeItem);
+    void this.scrollActiveItemIntoView(activeItem);
   }
 
   private async scrollActiveItemIntoView(target: DropdownItem["el"]): Promise<void> {
