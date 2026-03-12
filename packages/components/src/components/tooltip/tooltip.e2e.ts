@@ -199,7 +199,7 @@ it("should honor pointerDisabled", async () => {
   expect(disabledArrow).toHaveLength(0);
 });
 
-it("should default max inline size to 352px", async () => {
+it("should default max inline size to 320px", async () => {
   const page = await newE2EPage();
 
   await page.setContent(html`
@@ -210,7 +210,7 @@ it("should default max inline size to 352px", async () => {
   const positionContainer = await page.find(`calcite-tooltip >>> .${CSS.positionContainer}`);
   const computedStyle = await positionContainer.getComputedStyle();
 
-  expect(computedStyle.maxInlineSize).toBe("352px");
+  expect(computedStyle.maxInlineSize).toBe("320px");
 });
 
 it("tooltip positions when referenceElement is set", async () => {
