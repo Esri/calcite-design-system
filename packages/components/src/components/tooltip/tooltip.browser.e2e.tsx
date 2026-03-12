@@ -161,6 +161,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
         propertyName: "offsetDistance",
         defaultValue: 6,
       },
