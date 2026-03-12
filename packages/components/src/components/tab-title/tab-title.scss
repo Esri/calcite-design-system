@@ -4,16 +4,20 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-tab-text-color: Specifies the component's text color.
+ * @prop --calcite-tab-text-color-press: Specifies the component's text color when hovered, pressed, or selected.
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-background-color-hover: When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
- * @prop --calcite-tab-accent-color-press: Specifies the component's accent color when selected or active.
- * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color. Fallback to `--calcite-icon-color`.
- * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color. Fallback to `--calcite-icon-color`.
+ * @prop --calcite-tab-accent-color-press: When `selected` or active, specifies the component's accent color.
+ * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color.
+ * @prop --calcite-tab-icon-color-start-press:  When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
+ * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color.
+ * @prop --calcite-tab-icon-color-end-press: When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
  * @prop --calcite-tab-close-icon-color: Specifies the component's close element icon color.
  * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when hovered, focused, and active.
  * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
- * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when hovered, focused, and active.
+ * @prop --calcite-tab-close-icon-background-color-press: Specifies the component's close element icon background color when pressed.
+ * @prop --calcite-tab-close-icon-background-color-hover: Specifies the component's close element icon background color when hovered.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -149,13 +153,6 @@
   inset-block-start: 0;
 }
 
-:host(:not([bordered])) .container {
-  &:hover,
-  &:active {
-    @apply text-color-1;
-  }
-}
-
 :host([bordered]:not([selected]):hover:not(:focus)) {
   .selected-indicator {
     background-color: var(--calcite-color-foreground-2);
@@ -184,21 +181,30 @@
   }
 }
 
-.content--has-text {
+.container {
+  color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
+
   .icon-start {
-    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color));
+    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
-}
 
-.content--has-text .calcite-tab-title--icon.icon-start {
-  color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color));
   .icon-end {
-    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color));
+    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
-}
 
-.content--has-text .calcite-tab-title--icon.icon-end {
-  color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color));
+  &:hover,
+  &:active,
+  :host([selected]) & {
+    color: var(--calcite-tab-text-color-press, var(--calcite-color-text-1));
+
+    .icon-start {
+      color: var(--calcite-tab-icon-color-start-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
+    }
+
+    .icon-end {
+      color: var(--calcite-tab-icon-color-end-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
+    }
+  }
 }
 
 .content--has-text {
@@ -220,11 +226,6 @@
   border-color: transparent;
   border-inline-width: var(--calcite-spacing-px);
   border-inline-style: solid;
-
-  &:hover,
-  &:active {
-    @apply text-color-1;
-  }
 
   .x-button {
     & calcite-icon {
@@ -326,11 +327,6 @@
   @apply hidden;
 }
 
-:host([selected]) .container {
-  @apply border-color-transparent;
-  color: var(--calcite-tab-text-color, var(--calcite-color-text-1));
-}
-
 :host([selected][bordered]) .container {
   border-inline-color: var(--calcite-tab-border-color, var(--calcite-color-border-1));
 
@@ -397,6 +393,7 @@
   --calcite-action-text-color-press: var(--calcite-tab-close-icon-color-press);
   --calcite-action-background-color: var(--calcite-tab-close-icon-background-color);
   --calcite-action-background-color-press: var(--calcite-tab-close-icon-background-color-press);
+  --calcite-action-background-color-hover: var(--calcite-tab-close-icon-background-color-hover);
 
   margin: auto;
   margin-inline: var(--calcite-spacing-sm) var(--calcite-internal-tab-title-close-margin-start);

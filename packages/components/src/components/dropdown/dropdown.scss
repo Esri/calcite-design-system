@@ -24,6 +24,10 @@
   @include floating-ui.floating-ui-container();
 }
 
+:host([top-layer-disabled]) .wrapper {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
+}
+
 @include floating-ui.floating-ui-elem-anim(".wrapper");
 
 .content {

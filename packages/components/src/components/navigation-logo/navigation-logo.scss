@@ -1,10 +1,10 @@
 /*
 * These properties can be overridden using the component's tag as selector.
 *
-* @prop --calcite-navigation-accent-color: Specifies the component's border color when `active`.
+* @prop --calcite-navigation-accent-color: When `active`, specifies the component's border color.
 * @prop --calcite-navigation-background-color: Specifies the component's background color.
-* @prop --calcite-navigation-logo-heading-text-color: Specifies the component's default color for heading text.
-* @prop --calcite-navigation-logo-text-color: Specifies the component's default color for icon and description text.
+* @prop --calcite-navigation-logo-heading-text-color: Specifies the component's `heading` text color.
+* @prop --calcite-navigation-logo-text-color: Specifies the component's `description` text color.
 */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -51,7 +51,7 @@
   @apply flex h-7 m-0 px-4;
   color: var(
     --calcite-navigation-logo-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, inherit))
+    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, var(--calcite-ui-icon-color, inherit)))
   );
 }
 

@@ -1,21 +1,18 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import {
-  closestElementCrossShadowBoundary,
-  getElementDir,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { createRef } from "lit/directives/ref.js";
+import { closestElementCrossShadowBoundary, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { FlipContext, Position, Scale, SelectionMode, IconType, Appearance } from "../interfaces";
+import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { SLOTS, CSS, IDS, ICONS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { RequestedItem } from "./interfaces";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -42,7 +39,9 @@ export class AccordionItem extends LitElement {
 
   //#region Private Properties
 
-  private headerRef = createRef<HTMLDivElement>();
+  private direction = useDirection();
+
+  private headerRef = createRef<HTMLButtonElement>();
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -82,7 +81,7 @@ export class AccordionItem extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies heading text for the component. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /** Specifies an icon to display at the end of the component. */
@@ -98,7 +97,7 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /**
@@ -125,7 +124,7 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale: Scale;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -339,7 +338,6 @@ export class AccordionItem extends LitElement {
 
   override render(): JsxNode {
     const { iconFlipRtl, heading, headingLevel, messages, expanded } = this;
-    const dir = getElementDir(this.el);
     const expandIconTitle = expanded ? messages.collapse : messages.expand;
 
     const iconStartEl = this.iconStart ? (
@@ -371,20 +369,19 @@ export class AccordionItem extends LitElement {
         <div
           class={{
             [CSS.header]: true,
-            [CSS_UTILITY.rtl]: dir === "rtl",
+            [CSS_UTILITY.rtl]: this.direction === "rtl",
             [CSS.headerAppearance(this.appearance)]: true,
           }}
         >
           {this.renderActionsStart()}
-          <div
+          <button
             aria-controls={IDS.section}
             ariaExpanded={expanded}
             class={CSS.headerContent}
             id={IDS.sectionToggle}
             onClick={this.itemHeaderClickHandler}
             ref={this.headerRef}
-            role="button"
-            tabIndex="0"
+            type="button"
           >
             <div class={CSS.headerContainer}>
               {this.renderContentStart()}
@@ -412,7 +409,7 @@ export class AccordionItem extends LitElement {
               scale={getIconScale(this.scale)}
               title={expandIconTitle}
             />
-          </div>
+          </button>
           {this.renderActionsEnd()}
         </div>
         <section aria-labelledby={IDS.sectionToggle} class={CSS.content} id={IDS.section}>

@@ -4,5 +4,6 @@
   "play": "Reproduzir",
   "pause": "Pausa",
   "carousel": "Carrossel",
-  "carouselItemProgress": "Indicador de progresso para item de Carrossel"
+  "carouselItemProgress": "Indicador de progresso para item de Carrossel",
+  "paginationStatus": "Item {current} de {total}"
 }

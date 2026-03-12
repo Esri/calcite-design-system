@@ -22,6 +22,9 @@ Users can help most by:<a href="#users-help" id="users-help" />
 
 Contributors require additional permissions to gain access to the Chromatic test integration suite, where visual changes can be reviewed by the team prior to merging PRs.
 
+> [!WARNING]
+> **Pull requests must come from a cloned repo with a feature branch**. GitHub forks are not supported since workflows triggered from forks cannot access repository secrets (e.g., Chromatic tokens), causing visual snapshot and CI checks to fail. Refer to [GitHub's documentation on security guidelines](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#security-hardening-with-open-source-workflows).
+
 To become a contributor, you must:
 
 - Be a current Esri employee
@@ -53,7 +56,7 @@ Have you found a new bug? Want to request a new feature? We'd love to hear from 
 
 If something isn't working the way you expect, take a look at the [existing issues](https://github.com/Esri/calcite-design-system/issues) before logging a new one. You can also report a bug or request an enhancement with [Esri Support](https://support.esri.com/en-us/contact), or ask questions, share ideas, and collaborate with others on [Esri Community](https://community.esri.com/t5/calcite-design-system/ct-p/calcite-design-system).
 
-When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [CodePen](https://codepen.io/pen?template=GgoGbEL), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
+When filing an issue, provide all of the requested info from the appropriate [issue template](https://github.com/Esri/calcite-design-system/issues/new/choose) so we can work on resolving the issue as soon as possible. A sample that reproduces the issue is required for logging bugs - we created templates in [CodePen](https://codepen.io/pen?template=emzLWmy), [codesandbox](https://codesandbox.io/s/calcite-template-p95kp?file=/src/App.js), and [jsbin](https://jsbin.com/qecewik/edit?html,output) (with the ArcGIS Maps SDK for JavaScript) to get you started. Alternatively, a [documentation](https://developers.arcgis.com/calcite-design-system/components/) sample can be used if the issue is reproducible. Some other considerations:
 
 - Use a clear and descriptive title
 - Describe what is happening now vs what should happen
@@ -147,7 +150,7 @@ Our code base is written in TypeScript and must adhere to specific conventions a
 
 ## Getting a development environment set up
 
-An installation of Node is required for development. If you don't have Node installed, we recommend [Volta](https://docs.volta.sh/guide/getting-started), which will automatically use the Node/NPM versions pinned at the bottom of [`package.json`](./package.json). If you prefer a different Node version manager, make sure to use the major versions of Node/NPM specified under the "volta" key in [`package.json`](./package.json).
+An installation of [Node](https://nodejs.org/en) is required for development. It is recommended to use [Mise](https://mise.jdx.dev/), which automatically uses the Node and npm versions defined in the [`engines`](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#engines) field of [`package.json`](./package.json). You'll need to follow steps 1–3 from the [Getting Started page](https://mise.jdx.dev/getting-started.html). If you use a different Node version manager, ensure it matches the major Node and npm versions specified in `engines`.
 
 We also recommend installing the following extensions in your editor of choice: TypeScript, TailwindCSS, ESLint, Stylelint, and Prettier. If you use VS Code, you will see a pop up in the bottom right corner prompting you to install or view the workspaces's recommended extensions. Here are instructions for manually installing the extensions in a variety of editors:
 
@@ -176,7 +179,7 @@ Next, start the local Vite development server on localhost:
 npm run start:components
 ```
 
-This will open main demo page in the browser. You can edit `index.html` under [`packages/components/src/demos`](packages/components/src/demos) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
+This will open main demo page in the browser. You can edit `index.html` under [`packages/components`](packages/components) as needed. Any changes to component code in [`packages/components/src/components/`](packages/components/src/components/) will be reflected on the page automatically.
 
 By default, the page is blank with a few controls for common test scenarios, such as toggling between dark and light modes. You can add a documentation snippet by running `npx snippet` and following the prompts. You can also paste code from an issue repro case or a Storybook story.
 
@@ -318,7 +321,7 @@ Related Issue: <Issue number>
 Provide additional context for assistive technology users when the component's character limit exceeds the `maxLength` property. Assistive technology users recieve an error message as soon as the character limit is exceeded.
 ```
 
-For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/main).
+For additional examples, you can explore [Calcite's recent commits](https://github.com/Esri/calcite-design-system/commits/dev).
 
 ## Breaking changes
 
@@ -332,7 +335,7 @@ The PR's details should be comprehensive, and when possible, include the followi
 - Why the breaking change is proposed
 - An example to support users migrating from the previous major version (e.g., `1.x` to `2.x`)
 
-For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/main/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/main/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
+For PR examples, refer to previous changelog entries from the `2.0` major releases for [calcite-components](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/CHANGELOG.md#200-2023-12-02) and [calcite-design-tokens](https://github.com/Esri/calcite-design-system/blob/dev/packages/design-tokens/CHANGELOG.md#200-2023-12-02). Also explore the breaking change structure below:
 
 ```text
 <type>(<scope>)!: <descriptive summary>

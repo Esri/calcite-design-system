@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
-import { createRef, Ref } from "lit-html/directives/ref.js";
+import { createRef, Ref } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -11,6 +11,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
 import {
   dateFromISO,
@@ -113,6 +114,8 @@ export class InputDatePicker
 
   private dialogId = IDS.dialog(guid());
 
+  private direction = useDirection();
+
   private endInputRef = createRef<InputText["el"]>();
 
   private endWrapper: HTMLDivElement;
@@ -196,35 +199,35 @@ export class InputDatePicker
 
   //#region Public Properties
 
-  /** Specifies the number of calendars displayed when `range` is `true`. */
+  /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `calcite-date-picker` `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Defines the layout of the component. */
+  /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
@@ -236,7 +239,7 @@ export class InputDatePicker
   /** Specifies the latest allowed date as a full date object. */
   @property() maxAsDate: Date;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
@@ -248,14 +251,10 @@ export class InputDatePicker
   /** Specifies the earliest allowed date as a full date object. */
   @property() minAsDate: Date;
 
-  /** Specifies the monthStyle used by the component. */
+  /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
@@ -265,18 +264,16 @@ export class InputDatePicker
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Specifies the placement of the `calcite-date-picker` relative to the component.
-   *
-   * @default "bottom-start"
+   * Determines the `calcite-date-picker`'s placement relative to the input.
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
@@ -290,7 +287,7 @@ export class InputDatePicker
   @property({ reflect: true }) range = false;
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -298,15 +295,24 @@ export class InputDatePicker
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
@@ -317,7 +323,7 @@ export class InputDatePicker
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -353,7 +359,7 @@ export class InputDatePicker
     }
   }
 
-  /** The component's value as a full date object. */
+  /** The component's `value` as a full date object. */
   @property() valueAsDate: Date | Date[];
 
   //#endregion
@@ -361,7 +367,7 @@ export class InputDatePicker
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed If true, the repositioning is delayed.
    * @returns void
@@ -373,6 +379,7 @@ export class InputDatePicker
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,
@@ -412,7 +419,7 @@ export class InputDatePicker
   /** Fires when the component is closed and animation is complete. */
   calciteInputDatePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
   //#endregion

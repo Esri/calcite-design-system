@@ -1,10 +1,10 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { Alignment, Scale } from "../interfaces";
 import { RowType, TableInteractionMode } from "../table/interfaces";
-import { getElementDir } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -31,6 +31,8 @@ export class TableCell extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
+  private direction = useDirection();
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -56,7 +58,12 @@ export class TableCell extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component. */
+  /**
+   * Specifies the horizontal alignment of content within the component, where:
+   * `"start"` positions content at the start of the component,
+   * `"center"` positions content in the middle of the component, and
+   * `"end"` positions content at the end of the component.
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the number of columns the component should span. */
@@ -71,7 +78,7 @@ export class TableCell extends LitElement {
   /** @private */
   @property() lastCell: boolean;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
@@ -162,7 +169,7 @@ export class TableCell extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const staticCell =
       this.disabled ||
       (this.interactionMode === "static" &&

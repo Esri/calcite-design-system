@@ -78,7 +78,7 @@ export const rangeOneCalendar = (): string => html`
   </div>
 `;
 
-export const rangeHighlighted_TestOnly = (): string => html`
+export const rangeHighlighted = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker range></calcite-date-picker>
   </div>
@@ -104,7 +104,7 @@ export const rangeOneCalendarWithValue = (): string => html`
   </script>
 `;
 
-export const rangeValuesNotInSameMonthAndYear_TestOnly = (): string => html`
+export const rangeValuesNotInSameMonthAndYear = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker range></calcite-date-picker>
   </div>
@@ -147,13 +147,13 @@ Focus.parameters = {
   chromatic: { delay: 2000 },
 };
 
-export const rangeRTL_TestOnly = (): string => html`
+export const rangeRTL = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker value="2020-02-28" dir="rtl" range></calcite-date-picker>
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width: 400px">
     <calcite-date-picker
       dir="rtl"
@@ -165,7 +165,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const localized = (): string => {
   const locales = [
@@ -207,16 +207,16 @@ localized.parameters = {
   },
 };
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`<calcite-date-picker scale="{scale}" value="2000-11-27"></calcite-date-picker>`);
 
-export const defaultWidthAllScales_TestOnly = (): string => html`
+export const defaultWidthAllScales = (): string => html`
   <calcite-date-picker scale="s" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
 
-export const smallerThanMinWidthAllScales_TestOnly = (): string => html`
+export const smallerThanMinWidthAllScales = (): string => html`
   <style>
     calcite-date-picker {
       width: 50px;
@@ -227,7 +227,7 @@ export const smallerThanMinWidthAllScales_TestOnly = (): string => html`
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
 
-export const greaterThanMaxWidthAllScales_TestOnly = (): string => html`
+export const greaterThanMaxWidthAllScales = (): string => html`
   <style>
     calcite-date-picker {
       width: 1000px;

@@ -119,7 +119,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -138,11 +138,11 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-label>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const Infinity_TestOnly = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
+export const infinityAsValue = (): string => html`<calcite-input-number value="Infinity"></calcite-input-number>`;
 
-export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
+export const mediumIconForLargeInputStyling = (): string => html`
   <calcite-input-number number-button-type="vertical" lang="ar-EG" value="123456" scale="l"></calcite-input-number
   ><calcite-input-number
     number-button-type="vertical"
@@ -161,10 +161,10 @@ export const mediumIconForLargeInputStyling_TestOnly = (): string => html`
   ></calcite-input-number>
 `;
 
-export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html`<calcite-input-number lang="ar-EG" numbering-system="latn" value="123456"></calcite-input-number>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -198,7 +198,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {

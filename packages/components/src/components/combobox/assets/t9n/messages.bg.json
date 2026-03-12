@@ -8,5 +8,5 @@
   "required": "Необходими",
   "selectAll": "Селектиране на всички",
   "selected": "избрани",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "Само за четене {value}"
 }

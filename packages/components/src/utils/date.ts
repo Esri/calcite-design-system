@@ -292,8 +292,8 @@ export function getDaysDiff(date1: Date, date2: Date): number {
 /**
  * Set time of the day to the end.
  *
- * @param {Date} date Date.
- * @returns {Date} Date with time set to end of day .
+ * @param date Date.
+ * @returns Date with time set to end of day .
  */
 export function setEndOfDay(date: Date): Date {
   date.setHours(23, 59, 59, 999);
@@ -305,7 +305,6 @@ export function setEndOfDay(date: Date): Date {
  *
  * @param date1
  * @param date2
- * @returns {boolean}
  */
 export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
   return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();

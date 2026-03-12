@@ -4,7 +4,7 @@ import { page } from "vitest/browser";
 import { css } from "../../../../support/formatting";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import { FlipPlacement } from "../../../utils/floating-ui";
-import { waitForAnimationFrame } from "../../utils/timing";
+import { afterNextFrame } from "../../utils/timing";
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
@@ -67,7 +67,7 @@ export function floatingUIOwner(
 
     try {
       el[togglePropName] = false;
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       const initialClosedTransform = getTransform();
 
@@ -75,33 +75,33 @@ export function floatingUIOwner(
 
       scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
       await waitForScrollEvent();
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(getTransform()).toBe(initialClosedTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       scrollTo(0, 0);
       await waitForScrollEvent();
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(getTransform()).toBe(initialClosedTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       el[togglePropName] = true;
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       const initialOpenTransform = getTransform();
 
       scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
       await waitForScrollEvent();
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(getTransform()).not.toBe(initialOpenTransform);
       await expect.element(floatingUIEl).not.toBeVisible();
 
       scrollTo(0, 0);
       await waitForScrollEvent();
-      await waitForAnimationFrame();
+      await afterNextFrame();
 
       expect(getTransform()).toBe(initialOpenTransform);
       await expect.element(floatingUIEl).toBeVisible();

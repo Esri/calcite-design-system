@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { ReferenceElement } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { isKeyboardTriggeredClick, isPrimaryPointerButton } from "../../utils/dom";
@@ -66,10 +65,10 @@ export default class PopoverManager {
   //
   // --------------------------------------------------------------------------
 
-  private queryPopover = (composedPath: EventTarget[]): Popover["el"] => {
+  private queryPopover = (composedPath: EventTarget[]): Popover["el"] | undefined => {
     const { registeredElements } = this;
 
-    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
+    const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl))!;
 
     return registeredElements.get(registeredElement);
   };

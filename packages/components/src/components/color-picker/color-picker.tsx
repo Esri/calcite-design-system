@@ -4,7 +4,8 @@ import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { Direction, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
@@ -87,6 +88,8 @@ export class ColorPicker extends LitElement {
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
+
+  private direction = useDirection();
 
   private hueScopeRef = createRef<HTMLDivElement>();
 
@@ -320,15 +323,13 @@ export class ColorPicker extends LitElement {
    * The format of `value`.
    *
    * When `"auto"`, the format will be inferred from `value` when set.
-   *
-   * @default "auto"
    */
   @property({ reflect: true }) format: Format = "auto";
 
   /** When `true`, hides the hex input. */
   @property() hexDisabled = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -347,8 +348,6 @@ export class ColorPicker extends LitElement {
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.
    *
    * The type will be preserved as the color is updated.
-   *
-   * @default
    *
    * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
@@ -1667,7 +1666,7 @@ export class ColorPicker extends LitElement {
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
-    const direction = getElementDir(this.el);
+    const direction = this.direction;
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (

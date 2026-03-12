@@ -17,6 +17,10 @@
   @apply contents;
 }
 
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-tooltip);
+}
+
 .position-container {
   @include floating-ui.floating-ui-container();
   max-inline-size: var(--calcite-tooltip-max-size-x, 20rem);

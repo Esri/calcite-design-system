@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -11,7 +11,9 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean, nodeListToArray } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { nodeListToArray } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { FlipContext, Scale } from "../interfaces";
@@ -51,6 +53,8 @@ export class TabTitle extends LitElement {
 
   private containerEl: HTMLDivElement;
 
+  private direction = useDirection();
+
   private guid = IDS.host(guid());
 
   /** watches for changing text content */
@@ -89,10 +93,10 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, a close button is added to the component. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, does not display or position the component. */
+  /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -110,13 +114,13 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
    *
-   *  `@internal`
+   *  @internal
    */
   @property() position: TabPosition = "top";
 
@@ -341,7 +345,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowRight":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusNext.emit();
         } else {
           this.calciteInternalTabsFocusPrevious.emit();
@@ -349,7 +353,7 @@ export class TabTitle extends LitElement {
         break;
       case "ArrowLeft":
         event.preventDefault();
-        if (getElementDir(this.el) === "ltr") {
+        if (this.direction === "ltr") {
           this.calciteInternalTabsFocusPrevious.emit();
         } else {
           this.calciteInternalTabsFocusNext.emit();
