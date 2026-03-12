@@ -109,6 +109,35 @@ describe("useReferenceElement", () => {
       expect(referenceElement.ariaControlsElements).toBeNull();
       expect(referenceElement.ariaExpanded).toBeNull();
     });
+
+    it("removes previously registered reference element when disconnected before referenceEl update flushes", async () => {
+      await mount(
+        html`<div>
+          <div id="my-ref-1">My Reference Element 1</div>
+          <div id="my-ref-2">My Reference Element 2</div>
+          <test-click-component></test-click-component>
+        </div>`,
+        { dynamicComponents: [TestClickComponent] },
+      );
+
+      const referenceElement1 = page.getByText("My Reference Element 1").element() as HTMLElement;
+      const referenceElement2 = page.getByText("My Reference Element 2").element() as HTMLElement;
+      const componentTextEl = page.getByText("Hello world!").element() as HTMLElement;
+      const component = (componentTextEl.getRootNode() as ShadowRoot).host as TestClickComponent;
+
+      component.referenceElement = "my-ref-1";
+      await component.updateComplete;
+
+      expect(referenceElement1.ariaControlsElements).toContain(component);
+      expect(referenceElement1.ariaExpanded).toBe("false");
+
+      component.referenceElement = referenceElement2;
+      component.el.remove();
+      await Promise.resolve();
+
+      expect(referenceElement1.ariaControlsElements).toBeNull();
+      expect(referenceElement1.ariaExpanded).toBeNull();
+    });
   });
 
   describe("hover manager", () => {

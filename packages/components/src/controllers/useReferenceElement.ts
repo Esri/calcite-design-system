@@ -71,6 +71,32 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
 
   return makeGenericController<void, T>((component, controller) => {
     let animationFrameId: number | nil = null;
+    let lastRegisteredReferenceEl: ReferenceElement | nil = null;
+
+    const canManageReferenceElement = (referenceEl: ReferenceElement | nil): referenceEl is ReferenceElement => {
+      return Boolean(referenceEl && component.referenceElementType);
+    };
+
+    const registerReferenceElement = (referenceEl: ReferenceElement | nil): void => {
+      if (!canManageReferenceElement(referenceEl)) {
+        return;
+      }
+
+      manager.registerElement(component, referenceEl);
+      lastRegisteredReferenceEl = referenceEl;
+    };
+
+    const unregisterReferenceElement = (referenceEl: ReferenceElement | nil): void => {
+      if (!canManageReferenceElement(referenceEl)) {
+        return;
+      }
+
+      manager.unregisterElement(component, referenceEl);
+
+      if (lastRegisteredReferenceEl === referenceEl) {
+        lastRegisteredReferenceEl = null;
+      }
+    };
 
     const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | nil => {
       const { referenceElement, el } = component;
@@ -105,7 +131,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
         }
 
         setUpReferenceElement(component.manager.loadedCalled);
-        manager.registerElement(component, component.referenceEl);
+        registerReferenceElement(component.referenceEl);
       });
     });
 
@@ -125,8 +151,8 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       }
 
       if (changes.has("referenceEl")) {
-        manager.unregisterElement(component, changes.get("referenceEl"));
-        manager.registerElement(component, component.referenceEl);
+        unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | nil);
+        registerReferenceElement(component.referenceEl);
       } else if (changes.has("open")) {
         manager.updateElement(component, component.referenceEl);
       }
@@ -137,7 +163,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
       }
-      manager.unregisterElement(component, component.referenceEl);
+      unregisterReferenceElement(lastRegisteredReferenceEl);
     });
   });
 };
