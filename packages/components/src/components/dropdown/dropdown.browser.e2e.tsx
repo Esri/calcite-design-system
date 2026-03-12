@@ -15,6 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { afterNextTask } from "../../tests/utils/timing";
 import { CSS } from "./resources";
+import { Dropdown } from "./dropdown";
 
 describe("defaults", () => {
   defaults(() => mount("calcite-dropdown"), {
@@ -157,7 +158,7 @@ describe("hover type", () => {
   }
 
   it("opens on focusin", async () => {
-    const { el } = await mount(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
     const triggerButton = el
       .querySelector<HTMLElement>("calcite-action[slot='trigger']")
       ?.shadowRoot?.querySelector<HTMLButtonElement>("button");
@@ -175,7 +176,7 @@ describe("hover type", () => {
   });
 
   it("does not toggle closed on click when type is hover", async () => {
-    const { el } = await mount(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
     const trigger = el.querySelector<HTMLElement>("calcite-action[slot='trigger']");
 
     if (!trigger) {
