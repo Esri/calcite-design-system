@@ -2,6 +2,7 @@
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
+import { nil } from "@arcgis/toolkit/type";
 import { nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -509,7 +510,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       return;
     }
 
-    if (key === "Escape") {
+    if (this.open && key === "Escape") {
       this.closeCalciteDropdown();
       event.preventDefault();
       return;
@@ -624,7 +625,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     this.updateActiveDescendantElement(activeItem);
   }
 
-  private updateActiveDescendantElement(activeItem: DropdownItem["el"]): void {
+  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | nil): void {
     this.items.forEach((item) => {
       item.activeDescendant = item === activeItem;
     });
