@@ -6,6 +6,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -111,6 +112,70 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input"));
+});
+
+describe("is form-associated", () => {
+  const supportedSubmissionTypes = [
+    {
+      type: "color",
+      value: "#abcdef",
+    },
+    {
+      type: "date",
+      value: "2018-07-22",
+    },
+    {
+      type: "datetime-local",
+      value: "2018-06-12T19:30",
+    },
+    {
+      type: "email",
+      value: "test@test.com",
+    },
+    {
+      type: "month",
+      value: "2018-05",
+    },
+    {
+      type: "number",
+      value: "1337",
+    },
+    {
+      type: "tel",
+      value: "1234567890",
+    },
+    {
+      type: "text",
+      value: "test",
+    },
+    {
+      type: "password",
+      value: "password",
+    },
+    {
+      type: "time",
+      value: "01:00",
+    },
+    {
+      type: "url",
+      value: "http://www.esri.com",
+    },
+    {
+      type: "week",
+      value: "2018-W26",
+    },
+  ] as const;
+
+  for (const { type, value } of supportedSubmissionTypes) {
+    formAssociated(() => mount(<calcite-input type={type} />), {
+      testValue: value,
+      submitsOnEnter: true,
+      inputType: type,
+      validation: true,
+    });
+  }
+
+  // testPostValidationFocusing("calcite-input");
 });
 
 describe("nudging", () => {

@@ -178,6 +178,11 @@ interface UseForm {
   active: boolean;
 
   /**
+   * For components that support multiple input types (e.g. "text", "email", etc.), this method allows changing the input type.
+   */
+  overrideInputType: (type: HTMLInputElement["type"]) => void;
+
+  /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
@@ -203,9 +208,8 @@ export const useForm = <T extends FormComponent>(
     let lastAssociatedForm: HTMLFormElement | null = null;
 
     if (options.inputType) {
-      inputDelegate = document.createElement("input");
-      inputDelegate.type = options.inputType;
       // intentionally not appended to the DOM, we just need it for validation
+      inputDelegate = document.createElement("input");
     }
 
     function invalidFormHandler(event: Event): void {
@@ -309,7 +313,12 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
+      updateInputDelegate();
+    });
+
+    function updateInputDelegate(): void {
       if (inputDelegate) {
+        inputDelegate.type = options.inputType!;
         inputDelegate.value = component.value;
         syncInternalInput(component, inputDelegate);
         inputDelegate.checkValidity();
@@ -318,7 +327,7 @@ export const useForm = <T extends FormComponent>(
           component.validity = component.elementInternals.validity;
         }
       }
-    });
+    }
 
     function getFormValue(): any {
       if (Array.isArray(component.value)) {
@@ -344,6 +353,10 @@ export const useForm = <T extends FormComponent>(
     return {
       get active() {
         return !!component.elementInternals.form;
+      },
+      overrideInputType: (type) => {
+        options.inputType = type;
+        updateInputDelegate();
       },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();

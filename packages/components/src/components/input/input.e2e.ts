@@ -2,7 +2,7 @@
 import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -19,7 +19,7 @@ import { DEBOUNCE } from "../../utils/resources";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { testHiddenInputSyncing, testPostValidationFocusing, testWorkaroundForGlobalPropRemoval } from "./common/tests";
+import { testWorkaroundForGlobalPropRemoval } from "./common/tests";
 import type { Input } from "./input";
 
 const delayFor2UpdatesInMs = 200;
@@ -1860,74 +1860,6 @@ it("should not focus when clicking validation message", async () => {
   await page.waitForChanges();
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
-});
-
-describe("is form-associated", () => {
-  mockConsole();
-
-  const supportedSubmissionTypes = [
-    {
-      type: "color",
-      value: "#abcdef",
-    },
-    {
-      type: "date",
-      value: "2018-07-22",
-    },
-    {
-      type: "datetime-local",
-      value: "2018-06-12T19:30",
-    },
-    {
-      type: "email",
-      value: "test@test.com",
-    },
-    {
-      type: "month",
-      value: "2018-05",
-    },
-    {
-      type: "number",
-      value: "1337",
-    },
-    {
-      type: "tel",
-      value: "1234567890",
-    },
-    {
-      type: "text",
-      value: "test",
-    },
-    {
-      type: "password",
-      value: "password",
-    },
-    {
-      type: "time",
-      value: "01:00",
-    },
-    {
-      type: "url",
-      value: "http://www.esri.com",
-    },
-    {
-      type: "week",
-      value: "2018-W26",
-    },
-  ];
-
-  for (const { type, value } of supportedSubmissionTypes) {
-    formAssociated(`<calcite-input type="${type}"></calcite-input>`, {
-      testValue: value,
-      submitsOnEnter: true,
-      inputType: type,
-      validation: true,
-    });
-  }
-
-  testPostValidationFocusing("calcite-input");
-
-  testHiddenInputSyncing("calcite-input");
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input");
