@@ -1,6 +1,6 @@
 {
   "name": "@esri/stylelint-plugin-calcite-components",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Stylelint rules for @esri/calcite-components",
   "type": "module",
   "private": true,
