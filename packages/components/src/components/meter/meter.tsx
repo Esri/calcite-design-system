@@ -97,7 +97,7 @@ export class Meter extends LitElement {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    *
-   * @deprecated since v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) form: string;
 
