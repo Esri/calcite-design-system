@@ -1,6 +1,8 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { html } from "lit";
+import { page } from "vitest/browser";
 import {
   ReferenceElementComponentManager,
   referenceElementManager,
@@ -40,12 +42,42 @@ describe("useReferenceElement", () => {
     }
   }
 
+  function getReferenceAndComponent<T extends HTMLElement>(): {
+    referenceElement: HTMLElement;
+    component: T;
+  } {
+    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
+
+    if (!referenceElement) {
+      throw new Error("Expected reference element to be present");
+    }
+
+    const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
+
+    if (!componentTextEl) {
+      throw new Error("Expected test component text to be present");
+    }
+
+    const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+
+    if (!component) {
+      throw new Error("Expected test component to be present");
+    }
+
+    return { referenceElement, component };
+  }
+
   describe("click manager", () => {
     it("register and resolves reference element", async () => {
-      const { component: referenceElement } = await mount(<div>My Reference Element</div>);
-      await referenceElement.updateComplete;
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-click-component></test-click-component>
+        </div>`,
+        { dynamicComponents: [TestClickComponent] },
+      );
+      const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
 
-      const { component } = await mount(TestClickComponent);
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
@@ -58,11 +90,15 @@ describe("useReferenceElement", () => {
     });
 
     it("register and resolves string reference element", async () => {
-      const { component: referenceElement } = await mount(<div>My Reference Element</div>);
-      referenceElement.el.id = "my-ref";
-      await referenceElement.updateComplete;
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-click-component></test-click-component>
+        </div>`,
+        { dynamicComponents: [TestClickComponent] },
+      );
+      const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
 
-      const { component } = await mount(TestClickComponent);
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
@@ -77,10 +113,15 @@ describe("useReferenceElement", () => {
 
   describe("hover manager", () => {
     it("register and resolves reference element", async () => {
-      const { component: referenceElement } = await mount(<div>My Reference Element</div>);
-      await referenceElement.updateComplete;
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-hover-component></test-hover-component>
+        </div>`,
+        { dynamicComponents: [TestHoverComponent] },
+      );
+      const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
 
-      const { component } = await mount(TestHoverComponent);
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
@@ -91,11 +132,15 @@ describe("useReferenceElement", () => {
     });
 
     it("register and resolves string reference element", async () => {
-      const { component: referenceElement } = await mount(<div>My Reference Element</div>);
-      referenceElement.el.id = "my-ref";
-      await referenceElement.updateComplete;
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-hover-component></test-hover-component>
+        </div>`,
+        { dynamicComponents: [TestHoverComponent] },
+      );
+      const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
 
-      const { component } = await mount(TestHoverComponent);
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
