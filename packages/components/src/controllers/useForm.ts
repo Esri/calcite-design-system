@@ -336,7 +336,8 @@ export const useForm = <T extends FormComponent>(
         syncInternalInput(component, inputDelegate);
 
         if (!inputDelegate.validity.valid) {
-          validity = { ...inputDelegate.validity };
+          const { valid, ...delegateValidity } = inputDelegate.validity;
+          validity = delegateValidity;
           validationMessage = inputDelegate.validationMessage;
         }
       }
