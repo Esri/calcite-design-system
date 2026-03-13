@@ -362,9 +362,10 @@ export const useForm = <T extends FormComponent>(
         return !!component.elementInternals.form;
       },
       overrideInputType: (type) => {
-        if (!inputDelegate) {
+        if (import.meta.env.DEV && !inputDelegate) {
           throw new Error("Cannot override input type because no input delegate is configured.");
         }
+
         options.inputType = type;
         updateInputDelegate();
       },
