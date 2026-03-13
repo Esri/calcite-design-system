@@ -174,8 +174,6 @@ describe("is form-associated", () => {
       validation: true,
     });
   }
-
-  // testPostValidationFocusing("calcite-input");
 });
 
 describe("nudging", () => {

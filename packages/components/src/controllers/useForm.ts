@@ -212,8 +212,9 @@ export const useForm = <T extends FormComponent>(
     let defaultCheckedDirty = false;
     let inputDelegate: HTMLInputElement | undefined;
     let lastAssociatedForm: HTMLFormElement | null = null;
+    let effectiveInputType = options.inputType;
 
-    if (options.inputType) {
+    if (effectiveInputType) {
       // intentionally not appended to the DOM, we just need it for validation
       inputDelegate = document.createElement("input");
     }
@@ -332,8 +333,16 @@ export const useForm = <T extends FormComponent>(
         validity.customError = true;
         validationMessage = customValidityMessage;
       } else if (inputDelegate) {
-        inputDelegate.type = options.inputType!;
-        inputDelegate.value = component.value;
+        inputDelegate.type = effectiveInputType!;
+        const { value } = component;
+        const normalizedValue =
+          value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
+            ? ``
+            : Array.isArray(value)
+              ? value.join(",")
+              : `${value}`;
+
+        inputDelegate.value = normalizedValue;
 
         syncInternalInput(component, inputDelegate);
 
@@ -376,7 +385,11 @@ export const useForm = <T extends FormComponent>(
         return !!component.elementInternals.form;
       },
       overrideInputType: (type) => {
-        options.inputType = type;
+        if (import.meta.env.DEV && !inputDelegate) {
+          throw new Error("Cannot override input type because no input delegate is configured.");
+        }
+
+        effectiveInputType = type;
         updateValidity();
       },
       requestSubmit: () => {
