@@ -335,11 +335,18 @@ export class TextArea
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("messages")) {
+    let numberFormatOptionsChanged = false;
+
+    if (
+      changes.has("messages") ||
+      changes.has("numberingSystem") ||
+      changes.has("groupSeparator")
+    ) {
       this.effectiveLocaleChange();
+      numberFormatOptionsChanged = true;
     }
 
-    if (changes.has("value") || changes.has("maxLength") || changes.has("messages")) {
+    if (changes.has("value") || changes.has("maxLength") || numberFormatOptionsChanged) {
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       this.formSupport.setCustomValidity(
         this.isCharacterLimitExceeded() ? this.replacePlaceholdersInMessages() : "",
