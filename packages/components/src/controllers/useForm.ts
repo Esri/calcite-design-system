@@ -316,9 +316,11 @@ export const useForm = <T extends FormComponent>(
       updateInputDelegate();
     });
 
+    let currentInputType = options.inputType;
+
     function updateInputDelegate(): void {
       if (inputDelegate) {
-        inputDelegate.type = options.inputType!;
+        inputDelegate.type = currentInputType!;
 
         inputDelegate.value =
           inputDelegate.type === "file" /* type=file only accepts empty string as a value */ ? "" : component.value;
@@ -361,7 +363,7 @@ export const useForm = <T extends FormComponent>(
           throw new Error("Cannot override input type because no input delegate is configured.");
         }
 
-        options.inputType = type;
+        currentInputType = type;
         updateInputDelegate();
       },
       requestSubmit: () => {
