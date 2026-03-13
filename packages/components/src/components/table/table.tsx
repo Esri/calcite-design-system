@@ -59,6 +59,10 @@ export class Table extends LitElement {
 
   private stickyHeaderOffsetAnimationFrame: number | null = null;
 
+  private stickyHeaderViewportAnimationFrame: number | null = null;
+
+  private stickyHeaderTotalHeight = 0;
+
   private stickyHeaderResizeObserver: ResizeObserver | null =
     typeof ResizeObserver !== "undefined"
       ? new ResizeObserver(() => this.scheduleStickyHeaderOffsetUpdate())
@@ -68,6 +72,10 @@ export class Table extends LitElement {
     typeof MutationObserver !== "undefined"
       ? new MutationObserver(() => this.scheduleStickyHeaderOffsetUpdate())
       : null;
+
+  private handleViewportChange = (): void => {
+    this.scheduleStickyHeaderViewportUpdate();
+  };
 
   /**
    * Made into a prop for testing purposes only
@@ -192,6 +200,9 @@ export class Table extends LitElement {
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
 
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
+
+    window.addEventListener("scroll", this.handleViewportChange, { passive: true });
+    window.addEventListener("resize", this.handleViewportChange);
   }
 
   override disconnectedCallback(): void {
@@ -199,6 +210,14 @@ export class Table extends LitElement {
       cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
       this.stickyHeaderOffsetAnimationFrame = null;
     }
+
+    if (this.stickyHeaderViewportAnimationFrame !== null) {
+      cancelAnimationFrame(this.stickyHeaderViewportAnimationFrame);
+      this.stickyHeaderViewportAnimationFrame = null;
+    }
+
+    window.removeEventListener("scroll", this.handleViewportChange);
+    window.removeEventListener("resize", this.handleViewportChange);
 
     this.stickyHeaderResizeObserver?.disconnect();
     this.stickyHeaderMutationObserver?.disconnect();
@@ -360,21 +379,57 @@ export class Table extends LitElement {
     });
   }
 
+  private scheduleStickyHeaderViewportUpdate(): void {
+    if (this.stickyHeaderViewportAnimationFrame !== null) {
+      cancelAnimationFrame(this.stickyHeaderViewportAnimationFrame);
+    }
+
+    this.stickyHeaderViewportAnimationFrame = requestAnimationFrame(() => {
+      this.stickyHeaderViewportAnimationFrame = null;
+      this.updateStickyHeaderStackShift();
+    });
+  }
+
+  private updateStickyHeaderStackShift(): void {
+    if (!this.el.hasAttribute("sticky-header") || this.stickyHeaderTotalHeight <= 0) {
+      this.el.style.setProperty("--calcite-internal-table-header-stack-shift", "0px");
+      return;
+    }
+
+    const table = this.el.shadowRoot?.querySelector("table");
+    const tableBottom = table?.getBoundingClientRect()?.bottom;
+
+    if (tableBottom == null) {
+      return;
+    }
+
+    const shift = Math.min(0, tableBottom - this.stickyHeaderTotalHeight);
+    this.el.style.setProperty("--calcite-internal-table-header-stack-shift", `${shift}px`);
+  }
+
   private updateStickyHeaderOffsets(): void {
     let stickyOffset = 0;
+    const headerCount = this.headRows?.length || 0;
 
-    this.headRows?.forEach((row) => {
+    this.headRows?.forEach((row, index) => {
       const tableRow = row.shadowRoot?.querySelector("tr");
 
       row.style.setProperty("--calcite-internal-table-header-offset", `${stickyOffset}px`);
+      row.style.setProperty(
+        "--calcite-internal-table-header-z-index",
+        `${headerCount - index + 1}`,
+      );
 
       stickyOffset += tableRow?.getBoundingClientRect().height || 0;
     });
 
+    this.stickyHeaderTotalHeight = stickyOffset;
     this.el.style.setProperty(
       "--calcite-internal-table-sticky-header-total-height",
       `${stickyOffset}px`,
     );
+
+    this.updateStickyHeaderStackShift();
   }
 
   private updateRows(): void {

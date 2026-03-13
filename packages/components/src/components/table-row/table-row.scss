@@ -40,8 +40,10 @@ calcite-table-cell {
 
 :host([slot="table-header"]) tr {
   position: var(--calcite-internal-table-header-position, static);
-  inset-block-start: var(--calcite-internal-table-header-offset, 0);
-  z-index: 2;
+  inset-block-start: calc(
+    var(--calcite-internal-table-header-offset, 0px) + var(--calcite-internal-table-header-stack-shift, 0px)
+  );
+  z-index: var(--calcite-internal-table-header-z-index, 2);
 }
 
 :host([selected]) calcite-table-cell {
