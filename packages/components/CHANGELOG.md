@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.9...@esri/calcite-components@5.1.0-next.10) (2026-03-13)
+
+### Bug Fixes
+
+- **tree-item:** smooth out expanding items transition ([#13712](https://github.com/Esri/calcite-design-system/issues/13712)) ([f00f58c](https://github.com/Esri/calcite-design-system/commit/f00f58c4487a711962fcd7a7a1b2541722ecd0ff)), closes [#12669](https://github.com/Esri/calcite-design-system/issues/12669)
+
 ## [5.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.8...@esri/calcite-components@5.1.0-next.9) (2026-03-13)
 
 ### Features
