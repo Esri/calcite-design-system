@@ -172,7 +172,7 @@
 
 .item--expanded > .children-container {
   opacity: 1;
-  max-block-size: 100dvh;
+  max-block-size: 100dvb;
   transition:
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
     max-block-size calc(2 * var(--calcite-internal-animation-timing-slow)) animation.$easing-function;
