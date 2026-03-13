@@ -397,6 +397,7 @@ export const useForm = <T extends FormComponent>(
       },
       setCustomValidity: (message) => {
         customValidityMessage = message;
+        updateValidity();
       },
     };
   });
