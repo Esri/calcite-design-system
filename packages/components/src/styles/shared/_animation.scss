@@ -5,7 +5,6 @@
 // --calcite-internal-animation-timing-fast
 // --calcite-internal-animation-timing-medium
 // --calcite-internal-animation-timing-slow
-// --calcite-internal-animation-timing-slowest
 // --calcite-internal-duration-factor
 
 $easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
@@ -16,7 +15,6 @@ $easing-function: cubic-bezier(0.215, 0.44, 0.42, 0.88);
   --calcite-internal-animation-timing-fast: calc(100ms * var(--calcite-internal-duration-factor));
   --calcite-internal-animation-timing-medium: calc(200ms * var(--calcite-internal-duration-factor));
   --calcite-internal-animation-timing-slow: calc(300ms * var(--calcite-internal-duration-factor));
-  --calcite-internal-animation-timing-slowest: calc(600ms * var(--calcite-internal-duration-factor));
 }
 
 @mixin animation-reduced-motion() {
