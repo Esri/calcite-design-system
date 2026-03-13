@@ -320,13 +320,8 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = options.inputType!;
 
-        if (inputDelegate.type === "file") {
-          // For file inputs, assigning a non-empty value throws InvalidStateError.
-          // Always clear the value and rely on validity logic instead.
-          inputDelegate.value = "";
-        } else {
-          inputDelegate.value = component.value;
-        }
+        inputDelegate.value =
+          inputDelegate.type === "file" /* type=file only accepts empty string as a value */ ? "" : component.value;
         syncInternalInput(component, inputDelegate);
         inputDelegate.checkValidity();
         component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
