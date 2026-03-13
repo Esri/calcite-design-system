@@ -1019,19 +1019,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
   /**
    * Handle assignment and removal of assignees. Add all assignees to their respective roles.
-   * If there are no more developers or product engineers assigned, clear those columns.
+   * If there are no more assignees, clears the `allAssignees` column.
    * @returns {void}
    */
   function handleAssignees() {
     assignees.forEach((assignee) => {
       addAssignee(assignee);
     });
-
-    [mondayColumns.developers, mondayColumns.productEngineers]
-      .filter((role) => !(role.id in columnUpdates))
-      .forEach((role) => {
-        setColumnValue(role, "");
-      });
 
     if (!assignees.length) {
       setColumnValue(mondayColumns.allAssignees, "");
