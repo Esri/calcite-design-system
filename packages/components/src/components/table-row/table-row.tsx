@@ -236,9 +236,63 @@ export class TableRow extends LitElement {
 
         if (cellPosition) {
           cellPosition.setFocus();
+
+          if (this.rowType === "body") {
+            this.ensureFocusedCellVisibleBelowStickyHeaders(cellPosition);
+          }
         }
       }
     }
+  }
+
+  private ensureFocusedCellVisibleBelowStickyHeaders(
+    cell: TableCell["el"] | TableHeader["el"],
+  ): void {
+    const table = this.el.closest("calcite-table") as HTMLElement;
+
+    if (!table?.hasAttribute("sticky-header")) {
+      return;
+    }
+
+    const stickyHeaderHeight = parseFloat(
+      getComputedStyle(table).getPropertyValue(
+        "--calcite-internal-table-sticky-header-total-height",
+      ),
+    );
+
+    if (!stickyHeaderHeight) {
+      return;
+    }
+
+    const cellElement = cell.shadowRoot?.querySelector("td, th") as HTMLElement;
+
+    if (!cellElement) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      if (this.positionSection === 0) {
+        const tableTop = table.getBoundingClientRect().top;
+
+        if (tableTop !== 0) {
+          window.scrollBy({
+            top: tableTop,
+          });
+        }
+
+        return;
+      }
+
+      const headerOffsetBuffer = 4;
+      const targetTop = stickyHeaderHeight + headerOffsetBuffer;
+      const cellTop = cellElement.getBoundingClientRect().top;
+
+      if (cellTop < targetTop) {
+        window.scrollBy({
+          top: cellTop - targetTop,
+        });
+      }
+    });
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

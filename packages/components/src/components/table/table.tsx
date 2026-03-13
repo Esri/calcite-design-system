@@ -370,6 +370,11 @@ export class Table extends LitElement {
 
       stickyOffset += tableRow?.getBoundingClientRect().height || 0;
     });
+
+    this.el.style.setProperty(
+      "--calcite-internal-table-sticky-header-total-height",
+      `${stickyOffset}px`,
+    );
   }
 
   private updateRows(): void {
