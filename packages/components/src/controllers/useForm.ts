@@ -208,8 +208,6 @@ export const useForm = <T extends FormComponent>(
 ): ReturnType<typeof makeGenericController<UseForm, T>> => {
   return makeGenericController<UseForm, T>((component, controller) => {
     let customValidityMessage = "";
-    let defaultValueDirty = false;
-    let defaultCheckedDirty = false;
     let inputDelegate: HTMLInputElement | undefined;
     let lastAssociatedForm: HTMLFormElement | null = null;
     let effectiveInputType = options.inputType;
@@ -238,13 +236,10 @@ export const useForm = <T extends FormComponent>(
       }
 
       if (isCheckable(component)) {
-        component.checked = defaultCheckedDirty ? component.defaultChecked : component.checked;
+        component.checked = component.defaultChecked;
       }
 
-      component.value = defaultValueDirty ? component.defaultValue : component.value;
-
-      defaultValueDirty = false;
-      defaultCheckedDirty = false;
+      component.value = component.defaultValue;
     }
 
     component.listen("luminaFormResetCallback", () => {
@@ -306,14 +301,12 @@ export const useForm = <T extends FormComponent>(
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
-      if (changes.has("value") && !defaultValueDirty) {
-        defaultValueDirty = true;
+      if (!component.hasUpdated) {
         component.defaultValue = component.value;
-      }
 
-      if (isCheckable(component) && changes.has("checked") && !defaultCheckedDirty) {
-        defaultCheckedDirty = true;
-        component.defaultChecked = component.checked;
+        if (isCheckable(component)) {
+          component.defaultChecked = component.checked;
+        }
       }
 
       if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
@@ -371,9 +364,7 @@ export const useForm = <T extends FormComponent>(
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.defaultValue === undefined && !defaultValueDirty && component.value === undefined
-            ? "on"
-            : component.value;
+          return component.defaultValue !== null ? "on" : component.value;
         }
 
         return null;
