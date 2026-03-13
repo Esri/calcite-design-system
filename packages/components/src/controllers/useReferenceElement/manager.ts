@@ -134,12 +134,16 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const clearHoverOpenTimeout = (): void => {
-    window.clearTimeout(hoverOpenTimeout);
+    if (hoverOpenTimeout != null) {
+      window.clearTimeout(hoverOpenTimeout);
+    }
     hoverOpenTimeout = null;
   };
 
   const clearHoverCloseTimeout = (): void => {
-    window.clearTimeout(hoverCloseTimeout);
+    if (hoverCloseTimeout != null) {
+      window.clearTimeout(hoverCloseTimeout);
+    }
     hoverCloseTimeout = null;
   };
 
