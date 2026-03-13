@@ -342,11 +342,14 @@ export class TextArea
       changes.has("numberingSystem") ||
       changes.has("groupSeparator")
     ) {
-      this.effectiveLocaleChange();
       numberFormatOptionsChanged = true;
     }
 
     if (changes.has("value") || changes.has("maxLength") || numberFormatOptionsChanged) {
+      if (numberFormatOptionsChanged) {
+        this.updateNumberFormatter();
+      }
+
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       this.formSupport.setCustomValidity(
         this.isCharacterLimitExceeded() ? this.replacePlaceholdersInMessages() : "",
@@ -367,7 +370,7 @@ export class TextArea
 
   //#region Private Methods
 
-  private effectiveLocaleChange(): void {
+  private updateNumberFormatter(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
