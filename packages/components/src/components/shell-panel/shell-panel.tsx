@@ -4,8 +4,8 @@ import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  getElementDir,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -43,6 +43,8 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  private direction = useDirection();
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -226,7 +228,6 @@ export class ShellPanel extends LitElement {
       layout,
       resizable,
       contentRef,
-      el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
@@ -240,7 +241,7 @@ export class ShellPanel extends LitElement {
     }
 
     const rect = this.getContentElDOMRect();
-    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
@@ -318,7 +319,7 @@ export class ShellPanel extends LitElement {
 
     this.resizeValues = values;
 
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = this.direction === "rtl";
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -400,7 +401,7 @@ export class ShellPanel extends LitElement {
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const isBlockPosition = layout === "horizontal";
 
     const separatorNode =

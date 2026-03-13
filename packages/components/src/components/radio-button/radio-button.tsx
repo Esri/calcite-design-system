@@ -2,8 +2,8 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import { getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -39,6 +39,8 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   defaultChecked: boolean;
 
   defaultValue: RadioButton["value"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -376,7 +378,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   private handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
-    const { el } = this;
 
     if (keys.indexOf(key) === -1) {
       return;
@@ -390,7 +391,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
     let adjustedKey = key;
 
-    if (getElementDir(el) === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

@@ -1,14 +1,7 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
@@ -18,6 +11,7 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -28,8 +22,10 @@ declare global {
   }
 }
 
-export class Checkbox extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class Checkbox extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -43,7 +39,9 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   defaultValue: Checkbox["checked"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm<this>({ inputType: "checkbox" })(this);
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
@@ -195,21 +193,15 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
 
   //#region Private Methods
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "checkbox";
-  }
 
   private getPath(): string {
     return this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
@@ -248,7 +240,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const rtl = this.direction === "rtl";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -280,7 +272,6 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
             tooltipText={this.messages.required}
           />
         )}
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }
