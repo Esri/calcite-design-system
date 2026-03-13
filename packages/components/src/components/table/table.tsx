@@ -57,6 +57,18 @@ export class Table extends LitElement {
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
 
+  private stickyHeaderOffsetAnimationFrame: number | null = null;
+
+  private stickyHeaderResizeObserver: ResizeObserver | null =
+    typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(() => this.scheduleStickyHeaderOffsetUpdate())
+      : null;
+
+  private stickyHeaderMutationObserver: MutationObserver | null =
+    typeof MutationObserver !== "undefined"
+      ? new MutationObserver(() => this.scheduleStickyHeaderOffsetUpdate())
+      : null;
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -182,6 +194,17 @@ export class Table extends LitElement {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
+  override disconnectedCallback(): void {
+    if (this.stickyHeaderOffsetAnimationFrame !== null) {
+      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
+      this.stickyHeaderOffsetAnimationFrame = null;
+    }
+
+    this.stickyHeaderResizeObserver?.disconnect();
+    this.stickyHeaderMutationObserver?.disconnect();
+    super.disconnectedCallback();
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -284,6 +307,71 @@ export class Table extends LitElement {
       ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
   }
 
+  private observeStickyHeaderRows(): void {
+    this.stickyHeaderResizeObserver?.disconnect();
+    this.stickyHeaderMutationObserver?.disconnect();
+
+    this.headRows?.forEach((row) => {
+      const tableRow = row.shadowRoot?.querySelector("tr");
+
+      if (tableRow) {
+        this.stickyHeaderResizeObserver?.observe(tableRow);
+      }
+
+      this.stickyHeaderMutationObserver?.observe(row, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true,
+      });
+
+      const headers = row.querySelectorAll("calcite-table-header");
+
+      headers.forEach((header) => {
+        const headerCell = header.shadowRoot?.querySelector("th");
+
+        if (headerCell) {
+          this.stickyHeaderResizeObserver?.observe(headerCell);
+        }
+
+        if (header.shadowRoot) {
+          this.stickyHeaderMutationObserver?.observe(header.shadowRoot, {
+            childList: true,
+            subtree: true,
+            characterData: true,
+            attributes: true,
+          });
+        }
+      });
+    });
+  }
+
+  private scheduleStickyHeaderOffsetUpdate(): void {
+    if (this.stickyHeaderOffsetAnimationFrame !== null) {
+      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
+    }
+
+    // Wait for nested component renders so height/position measurements are current.
+    this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
+      this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
+        this.stickyHeaderOffsetAnimationFrame = null;
+        this.updateStickyHeaderOffsets();
+      });
+    });
+  }
+
+  private updateStickyHeaderOffsets(): void {
+    let stickyOffset = 0;
+
+    this.headRows?.forEach((row) => {
+      const tableRow = row.shadowRoot?.querySelector("tr");
+
+      row.style.setProperty("--calcite-internal-table-header-offset", `${stickyOffset}px`);
+
+      stickyOffset += tableRow?.getBoundingClientRect().height || 0;
+    });
+  }
+
   private updateRows(): void {
     const headRows = this.getSlottedRows(this.tableHeadSlotRef.value) || [];
     const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value) || [];
@@ -330,6 +418,9 @@ export class Table extends LitElement {
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.observeStickyHeaderRows();
+    this.scheduleStickyHeaderOffsetUpdate();
 
     this.handleCurrentPageRange();
     this.updateSelectedItems();

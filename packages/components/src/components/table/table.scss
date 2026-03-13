@@ -87,6 +87,11 @@
 
 :host([sticky-header]) {
   --calcite-internal-table-header-position: sticky;
+
+  table {
+    @apply border-separate;
+    border-spacing: 0;
+  }
 }
 
 :host {
@@ -118,15 +123,6 @@ table {
   @apply border-collapse;
   overflow-x: scroll;
   inline-size: var(--calcite-container-size-content-fluid);
-}
-
-/* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
-/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
-@-moz-document url-prefix() {
-  table {
-    @apply border-separate;
-    border-spacing: 0;
-  }
 }
 
 .table--fixed {
