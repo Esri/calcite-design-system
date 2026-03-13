@@ -32,16 +32,18 @@ describe("is form-associated", () => {
     () =>
       mount(
         <calcite-select>
-          <calcite-option value="1" />
-          <calcite-option value="2" />
+          <calcite-option id="0" />
+          <calcite-option id="1">uno</calcite-option>
+          <calcite-option id="2">dos</calcite-option>
+          <calcite-option id="3">tres</calcite-option>
         </calcite-select>,
       ),
     {
-      testValue: "1",
-      submitsOnEnter: false,
-      inputType: "text",
-      validUserInputTestValue: "2",
+      testValue: "dos",
       validation: true,
+      // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
+      // due to the context menu not being accessible in the browser rendering environment
+      changeValueKeys: ["t"],
     },
   );
 });
