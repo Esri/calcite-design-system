@@ -133,6 +133,10 @@ export class DropdownItem extends LitElement {
    */
   @method()
   async activateItem(): Promise<void> {
+    if (this.disabled) {
+      return;
+    }
+
     this.emitRequestedItem();
 
     if (this.href) {
