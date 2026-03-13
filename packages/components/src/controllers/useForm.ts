@@ -320,9 +320,15 @@ export const useForm = <T extends FormComponent>(
     function updateInputDelegate(): void {
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
+        const { value } = component;
+        const normalizedValue =
+          value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
+            ? ``
+            : Array.isArray(value)
+              ? value.join(",")
+              : `${value}`;
 
-        inputDelegate.value =
-          inputDelegate.type === "file" /* type=file only accepts empty string as a value */ ? "" : component.value;
+        inputDelegate.value = normalizedValue;
         syncInternalInput(component, inputDelegate);
         inputDelegate.checkValidity();
         component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
