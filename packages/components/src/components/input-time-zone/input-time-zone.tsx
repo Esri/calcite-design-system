@@ -398,6 +398,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     if (!selectedItem) {
       this._value = "";
       this.selectedTimeZoneItem = null;
+      this.requestUpdate("value");
       this.calciteInputTimeZoneChange.emit();
       return;
     }
@@ -411,6 +412,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
     this._value = selectedValue;
     this.selectedTimeZoneItem = selected;
+    this.requestUpdate("value");
     this.calciteInputTimeZoneChange.emit();
   }
 
