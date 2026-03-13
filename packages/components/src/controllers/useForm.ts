@@ -329,10 +329,7 @@ export const useForm = <T extends FormComponent>(
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
 
-      if (customValidityMessage) {
-        validity.customError = true;
-        validationMessage = customValidityMessage;
-      } else if (inputDelegate) {
+      if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         const { value } = component;
         const normalizedValue =
@@ -343,13 +340,18 @@ export const useForm = <T extends FormComponent>(
               : `${value}`;
 
         inputDelegate.value = normalizedValue;
-
         syncInternalInput(component, inputDelegate);
 
         if (!inputDelegate.validity.valid) {
-          validity = inputDelegate.validity;
+          validity = { ...inputDelegate.validity };
           validationMessage = inputDelegate.validationMessage;
         }
+      }
+
+      // custom error has higher precedence
+      if (customValidityMessage) {
+        validity = { ...validity, customError: true };
+        validationMessage = customValidityMessage;
       }
 
       elementInternals.setValidity(validity, validationMessage);
