@@ -319,7 +319,14 @@ export const useForm = <T extends FormComponent>(
     function updateInputDelegate(): void {
       if (inputDelegate) {
         inputDelegate.type = options.inputType!;
-        inputDelegate.value = component.value;
+
+        if (inputDelegate.type === "file") {
+          // For file inputs, assigning a non-empty value throws InvalidStateError.
+          // Always clear the value and rely on validity logic instead.
+          inputDelegate.value = "";
+        } else {
+          inputDelegate.value = component.value;
+        }
         syncInternalInput(component, inputDelegate);
         inputDelegate.checkValidity();
         component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
@@ -355,6 +362,9 @@ export const useForm = <T extends FormComponent>(
         return !!component.elementInternals.form;
       },
       overrideInputType: (type) => {
+        if (!inputDelegate) {
+          throw new Error("Cannot override input type because no input delegate is configured.");
+        }
         options.inputType = type;
         updateInputDelegate();
       },
