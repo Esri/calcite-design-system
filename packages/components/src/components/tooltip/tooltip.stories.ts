@@ -237,3 +237,12 @@ export const withInteractiveContent = (): string =>
       ><img width="100%" src="${placeholderImage({ width: 360, height: 90 })}" /> <p>${contentHTML}</p> <calcite-button>Click me</calcite-button
     </calcite-tooltip>
   </div>`;
+
+export const sharedReferenceElement = (): string =>
+  html`<p style="margin:200px">
+      Some text
+      <button id="ref1">Button</button>
+    </p>
+    <calcite-tooltip placement="leading-start" reference-element="ref1" open>Content 1</calcite-tooltip>
+    <calcite-tooltip placement="top-start" reference-element="ref1" open>Content 2</calcite-tooltip>
+    <calcite-tooltip placement="bottom-start" reference-element="ref1" open>Content 3</calcite-tooltip>`;

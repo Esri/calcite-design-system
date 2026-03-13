@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.9...@esri/calcite-components@5.1.0-next.10) (2026-03-13)
+
+### Bug Fixes
+
+- **tree-item:** smooth out expanding items transition ([#13712](https://github.com/Esri/calcite-design-system/issues/13712)) ([f00f58c](https://github.com/Esri/calcite-design-system/commit/f00f58c4487a711962fcd7a7a1b2541722ecd0ff)), closes [#12669](https://github.com/Esri/calcite-design-system/issues/12669)
+
+## [5.1.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.8...@esri/calcite-components@5.1.0-next.9) (2026-03-13)
+
+### Features
+
+- support one `referenceElement` having multiple popovers or tooltips ([#13960](https://github.com/Esri/calcite-design-system/issues/13960)) ([af02a90](https://github.com/Esri/calcite-design-system/commit/af02a90145166f2b093806dfbe1dd9ea2e1da68d)), closes [#13961](https://github.com/Esri/calcite-design-system/issues/13961) [#13242](https://github.com/Esri/calcite-design-system/issues/13242) [#13242](https://github.com/Esri/calcite-design-system/issues/13242)
+
+## [5.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.7...@esri/calcite-components@5.1.0-next.8) (2026-03-12)
+
+### Features
+
+- **list, list-item-group:** stick list item group header to the top of the list ([#14030](https://github.com/Esri/calcite-design-system/issues/14030)) ([2cce8ce](https://github.com/Esri/calcite-design-system/commit/2cce8ce2072ea7f90fa92797aacd1df5809d074a)), closes [#6466](https://github.com/Esri/calcite-design-system/issues/6466)
+
+## [5.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.6...@esri/calcite-components@5.1.0-next.7) (2026-03-11)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.5...@esri/calcite-components@5.1.0-next.6) (2026-03-11)
+
+### Features
+
+- **action-bar:** add `expandPosition` and `actionsStartGroupLabel` properties and `actions-start` slot ([#13995](https://github.com/Esri/calcite-design-system/issues/13995)) ([56722f2](https://github.com/Esri/calcite-design-system/commit/56722f247123a4c59e887731ae84e95124896143)), closes [#9832](https://github.com/Esri/calcite-design-system/issues/9832)
+
+## [5.1.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.4...@esri/calcite-components@5.1.0-next.5) (2026-03-10)
+
+### Features
+
+- **combobox:** add `selectionAppearance` property ([#14043](https://github.com/Esri/calcite-design-system/issues/14043)) ([0199108](https://github.com/Esri/calcite-design-system/commit/01991085542ce7bc51ec5e322bffdffd931387e3)), closes [#13136](https://github.com/Esri/calcite-design-system/issues/13136)
+
 ## [5.1.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.3...@esri/calcite-components@5.1.0-next.4) (2026-03-04)
 
 ### Features
