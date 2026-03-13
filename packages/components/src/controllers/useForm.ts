@@ -364,7 +364,7 @@ export const useForm = <T extends FormComponent>(
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.defaultValue !== null ? "on" : component.value;
+          return component.value || "on";
         }
 
         return null;
