@@ -118,9 +118,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
   /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale = "m";
-
   /**
    * The `referenceElement` is used to position the component according to its `placement` value.
    *
@@ -131,6 +128,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent {
    * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
   @property() referenceElement: ReferenceElement | string;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true` and the component is `open`, disables top layer placement.

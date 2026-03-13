@@ -53,19 +53,60 @@ export const simple = (args: TooltipStoryArgs): string => html`
 `;
 
 export const scaleVariants = (): string => html`
-  <div style="display: flex; flex-direction: column; gap: 56px; padding: 24px 24px 96px;">
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 32px; align-items: start;">
-      <div style="font-weight: 600; text-align: center;">pointer</div>
-      <div style="font-weight: 600; text-align: center;">pointer disabled</div>
+  <style>
+    .tooltip-scale-variants {
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      padding: 24px 24px 96px;
+    }
+
+    .tooltip-scale-variants__row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 32px;
+    }
+
+    .tooltip-scale-variants__row--header {
+      align-items: start;
+    }
+
+    .tooltip-scale-variants__heading {
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .tooltip-scale-variants__example {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .tooltip-scale-variants__example--s {
+      min-height: 96px;
+    }
+
+    .tooltip-scale-variants__example--m {
+      min-height: 112px;
+    }
+
+    .tooltip-scale-variants__example--l {
+      min-height: 128px;
+    }
+  </style>
+  <div class="tooltip-scale-variants">
+    <div class="tooltip-scale-variants__row tooltip-scale-variants__row--header">
+      <div class="tooltip-scale-variants__heading">pointer</div>
+      <div class="tooltip-scale-variants__heading">pointer disabled</div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 32px;">
-      <div style="display: flex; min-height: 96px; align-items: flex-start; justify-content: center;">
+    <div class="tooltip-scale-variants__row">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--s">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-s">small</calcite-button>
         <calcite-tooltip open placement="bottom" reference-element="reference-element-s" scale="s"
           >Tooltip content</calcite-tooltip
         >
       </div>
-      <div style="display: flex; min-height: 96px; align-items: flex-start; justify-content: center;">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--s">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-s-no-pointer"
           >small</calcite-button
         >
@@ -79,14 +120,14 @@ export const scaleVariants = (): string => html`
         >
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 32px;">
-      <div style="display: flex; min-height: 112px; align-items: flex-start; justify-content: center;">
+    <div class="tooltip-scale-variants__row">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--m">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-m">medium</calcite-button>
         <calcite-tooltip open placement="bottom" reference-element="reference-element-m" scale="m"
           >Tooltip content</calcite-tooltip
         >
       </div>
-      <div style="display: flex; min-height: 112px; align-items: flex-start; justify-content: center;">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--m">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-m-no-pointer"
           >medium</calcite-button
         >
@@ -100,14 +141,14 @@ export const scaleVariants = (): string => html`
         >
       </div>
     </div>
-    <div style="display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 32px;">
-      <div style="display: flex; min-height: 128px; align-items: flex-start; justify-content: center;">
+    <div class="tooltip-scale-variants__row">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--l">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-l">large</calcite-button>
         <calcite-tooltip open placement="bottom" reference-element="reference-element-l" scale="l"
           >Tooltip content</calcite-tooltip
         >
       </div>
-      <div style="display: flex; min-height: 128px; align-items: flex-start; justify-content: center;">
+      <div class="tooltip-scale-variants__example tooltip-scale-variants__example--l">
         <calcite-button appearance="transparent" kind="neutral" id="reference-element-l-no-pointer"
           >large</calcite-button
         >

@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
 import {
   defaults,
+  reflects,
   hidden,
   renders,
   floatingUIOwner,
@@ -144,6 +145,29 @@ describe("pointer movement toggling", () => {
   });
 });
 
+it("should honor pointerDisabled", async () => {
+  const { el, reRender } = await mount<Tooltip>(<calcite-tooltip />, {
+    afterConnect: (tooltip: Tooltip["el"]) => {
+      const referenceElement = document.createElement("button");
+      referenceElement.id = "ref";
+      referenceElement.textContent = "Button";
+      document.body.append(referenceElement);
+      tooltip.referenceElement = "ref";
+      tooltip.open = true;
+      tooltip.textContent = "Content";
+    },
+  });
+
+  const tooltip = el as Tooltip["el"];
+
+  expect(tooltip.shadowRoot.querySelector(".calcite-floating-ui-arrow")).not.toBeNull();
+
+  tooltip.pointerDisabled = true;
+  await reRender();
+
+  expect(tooltip.shadowRoot.querySelector(".calcite-floating-ui-arrow")).toBeNull();
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-tooltip"),
@@ -179,6 +203,22 @@ describe("defaults", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-tooltip"),
+    [
+      {
+        propertyName: "pointerDisabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "l",
       },
     ],
   );
