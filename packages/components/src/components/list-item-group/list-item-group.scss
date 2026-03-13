@@ -24,6 +24,9 @@
 
 .container {
   @apply m-0 flex flex-1;
+  position: sticky;
+  inset-block-start: var(--calcite-internal-filter-enabled-offset, 0);
+  z-index: var(--calcite-z-index-sticky);
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-list-color, var(--calcite-color-text-1));
 }
