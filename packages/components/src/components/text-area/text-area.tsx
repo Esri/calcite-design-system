@@ -399,7 +399,7 @@ export class TextArea
 
   private getLocalizedCharacterLength(): CharacterLengthObj {
     const currentLength = this.value ? this.value.length.toString() : "0";
-    const maxLength = this.maxLength.toString();
+    const maxLength = this.maxLength?.toString();
     if (this.numberingSystem === "latn") {
       return { currentLength, maxLength };
     }
