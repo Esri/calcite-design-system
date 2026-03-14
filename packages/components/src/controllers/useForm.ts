@@ -211,6 +211,21 @@ export const useForm = <T extends FormComponent>(
     function invalidFormHandler(event: Event): void {
       // prevent the browser from showing the native validation popover
       event?.preventDefault();
+
+      const form = event.currentTarget as HTMLFormElement;
+      const formElements = Array.from(form.elements);
+
+      requestAnimationFrame(() => {
+        const invalidEls = formElements.filter((el): el is FormComponent["el"] => el.matches("[status=invalid]"));
+
+        // focus the first invalid element that has a validation message
+        for (const el of invalidEls) {
+          if (el.validationMessage) {
+            el.setFocus();
+            break;
+          }
+        }
+      });
     }
 
     function onFormReset(): void {
