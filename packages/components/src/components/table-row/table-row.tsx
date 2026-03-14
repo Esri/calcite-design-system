@@ -221,6 +221,13 @@ export class TableRow extends LitElement {
     }
   }
 
+  private isStickyHeaderActive(table: HTMLElement): boolean {
+    return (
+      getComputedStyle(table).getPropertyValue("--calcite-internal-table-header-active").trim() ===
+      "1"
+    );
+  }
+
   private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
     if ((event.target as Element).contains(this.el)) {
       const position = event.detail.cellPosition;
@@ -240,7 +247,18 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          cellPosition.setFocus();
+          const table = this.el.closest("calcite-table") as HTMLElement;
+
+          if (
+            this.rowType === "body" &&
+            this.positionSection === 0 &&
+            table &&
+            !this.isStickyHeaderActive(table)
+          ) {
+            cellPosition.setFocus({ preventScroll: true });
+          } else {
+            cellPosition.setFocus();
+          }
 
           if (this.rowType === "body") {
             this.ensureFocusedCellVisibleBelowStickyHeaders(cellPosition);
@@ -262,7 +280,9 @@ export class TableRow extends LitElement {
     const tableStyles = getComputedStyle(table);
 
     if (
-      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !== "sticky"
+      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !==
+        "sticky" ||
+      tableStyles.getPropertyValue("--calcite-internal-table-header-active").trim() !== "1"
     ) {
       return;
     }

@@ -393,21 +393,26 @@ export class Table extends LitElement {
   private updateStickyHeaderPosition(): void {
     if (!this.el.hasAttribute("sticky-header") || this.stickyHeaderTotalHeight <= 0) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
+      this.el.style.setProperty("--calcite-internal-table-header-active", "0");
       return;
     }
 
     const table = this.el.shadowRoot?.querySelector("table");
-    const tableBottom = table?.getBoundingClientRect()?.bottom;
+    const tableRect = table?.getBoundingClientRect();
+    const tableBottom = tableRect?.bottom;
 
     if (tableBottom == null) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
+      this.el.style.setProperty("--calcite-internal-table-header-active", "0");
       return;
     }
 
-    this.el.style.setProperty(
-      "--calcite-internal-table-header-position",
-      tableBottom > this.stickyHeaderTotalHeight ? "sticky" : "static",
-    );
+    const stickyHeaderPosition = tableBottom > this.stickyHeaderTotalHeight ? "sticky" : "static";
+    const stickyHeaderActive =
+      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= 0 ? "1" : "0";
+
+    this.el.style.setProperty("--calcite-internal-table-header-position", stickyHeaderPosition);
+    this.el.style.setProperty("--calcite-internal-table-header-active", stickyHeaderActive);
   }
 
   private updateStickyHeaderOffsets(): void {
