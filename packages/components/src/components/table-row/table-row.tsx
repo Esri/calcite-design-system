@@ -259,10 +259,16 @@ export class TableRow extends LitElement {
       return;
     }
 
+    const tableStyles = getComputedStyle(table);
+
+    if (
+      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !== "sticky"
+    ) {
+      return;
+    }
+
     const stickyHeaderHeight = parseFloat(
-      getComputedStyle(table).getPropertyValue(
-        "--calcite-internal-table-sticky-header-total-height",
-      ),
+      tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
     );
 
     if (!stickyHeaderHeight) {

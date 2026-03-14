@@ -386,13 +386,13 @@ export class Table extends LitElement {
 
     this.stickyHeaderViewportAnimationFrame = requestAnimationFrame(() => {
       this.stickyHeaderViewportAnimationFrame = null;
-      this.updateStickyHeaderStackShift();
+      this.updateStickyHeaderPosition();
     });
   }
 
-  private updateStickyHeaderStackShift(): void {
+  private updateStickyHeaderPosition(): void {
     if (!this.el.hasAttribute("sticky-header") || this.stickyHeaderTotalHeight <= 0) {
-      this.el.style.setProperty("--calcite-internal-table-header-stack-shift", "0px");
+      this.el.style.setProperty("--calcite-internal-table-header-position", "static");
       return;
     }
 
@@ -400,11 +400,14 @@ export class Table extends LitElement {
     const tableBottom = table?.getBoundingClientRect()?.bottom;
 
     if (tableBottom == null) {
+      this.el.style.setProperty("--calcite-internal-table-header-position", "static");
       return;
     }
 
-    const shift = Math.min(0, tableBottom - this.stickyHeaderTotalHeight);
-    this.el.style.setProperty("--calcite-internal-table-header-stack-shift", `${shift}px`);
+    this.el.style.setProperty(
+      "--calcite-internal-table-header-position",
+      tableBottom > this.stickyHeaderTotalHeight ? "sticky" : "static",
+    );
   }
 
   private updateStickyHeaderOffsets(): void {
@@ -429,7 +432,7 @@ export class Table extends LitElement {
       `${stickyOffset}px`,
     );
 
-    this.updateStickyHeaderStackShift();
+    this.updateStickyHeaderPosition();
   }
 
   private updateRows(): void {
