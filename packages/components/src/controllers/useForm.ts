@@ -231,8 +231,12 @@ export const useForm = <T extends FormComponent>(
     }
 
     function invalidFormHandler(event: Event): void {
+      if (event.defaultPrevented) {
+        return;
+      }
+
       // prevent the browser from showing the native validation popover
-      event?.preventDefault();
+      event.preventDefault();
 
       const form = event.currentTarget as HTMLFormElement;
       focusFirstInvalidFormElement(form);
