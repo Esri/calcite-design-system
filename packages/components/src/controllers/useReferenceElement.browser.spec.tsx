@@ -67,6 +67,24 @@ describe("useReferenceElement", () => {
     return { referenceElement, component };
   }
 
+  function getComponentsByText<T extends HTMLElement>(expectedCount: number): T[] {
+    const componentTextEls = page.getByText("Hello world!").elements() as HTMLElement[];
+
+    if (componentTextEls.length !== expectedCount) {
+      throw new Error(`Expected ${expectedCount} test component instances to be present`);
+    }
+
+    return componentTextEls.map((componentTextEl, index) => {
+      const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+
+      if (!component) {
+        throw new Error(`Expected test component ${index + 1} to be present`);
+      }
+
+      return component;
+    });
+  }
+
   describe("click manager", () => {
     it("register and resolves reference element", async () => {
       await mount(
@@ -149,21 +167,15 @@ describe("useReferenceElement", () => {
         { dynamicComponents: [TestClickComponent] },
       );
 
-      const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
+      const referenceElement = page
+        .getByText("My Reference Element")
+        .element() as HTMLElement | null;
 
       if (!referenceElement) {
         throw new Error("Expected reference element to be present");
       }
 
-      const components = Array.from(
-        document.querySelectorAll("test-click-component"),
-      ) as TestClickComponent[];
-
-      if (components.length !== 2) {
-        throw new Error("Expected two test-click-component instances to be present");
-      }
-
-      const [component1, component2] = components;
+      const [component1, component2] = getComponentsByText<TestClickComponent>(2);
 
       component1.referenceElement = referenceElement;
       component2.referenceElement = referenceElement;
@@ -231,21 +243,15 @@ describe("useReferenceElement", () => {
         { dynamicComponents: [TestHoverComponent] },
       );
 
-      const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
+      const referenceElement = page
+        .getByText("My Reference Element")
+        .element() as HTMLElement | null;
 
       if (!referenceElement) {
         throw new Error("Expected reference element to be present");
       }
 
-      const components = Array.from(
-        document.querySelectorAll("test-hover-component"),
-      ) as TestHoverComponent[];
-
-      if (components.length !== 2) {
-        throw new Error("Expected two test-hover-component instances to be present");
-      }
-
-      const [component1, component2] = components;
+      const [component1, component2] = getComponentsByText<TestHoverComponent>(2);
 
       component1.referenceElement = referenceElement;
       component2.referenceElement = referenceElement;
