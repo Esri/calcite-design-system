@@ -1242,12 +1242,15 @@ describe("l10n", () => {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
 
           if (localeHourFormat === "12") {
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
           } else {
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(meridiemEl).toBeNull();
           }
         });
@@ -1305,6 +1308,7 @@ describe("l10n", () => {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
           expect(meridiemEl).toEqualText(expectedLocalizedMeridiem);
@@ -1389,6 +1393,7 @@ describe("l10n", () => {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(secondSuffixEl).toEqualText(expectedLocalizedSecondSuffix);
           }
           expect(meridiemEl).toBeNull();
