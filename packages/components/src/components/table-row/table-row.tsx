@@ -304,9 +304,21 @@ export class TableRow extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      if (this.positionSection === 0) {
+      const parentRows = Array.from(this.el.parentElement?.children || []) as TableRow["el"][];
+      const currentRowIndex = parentRows.indexOf(this.el);
+      const hasVisibleBodyRowAbove =
+        currentRowIndex > 0 &&
+        parentRows
+          .slice(0, currentRowIndex)
+          .some((row) => row.rowType === "body" && !row.itemHidden);
+      const isFirstVisibleBodyRow =
+        this.rowType === "body" && !this.itemHidden && !hasVisibleBodyRowAbove;
+
+      if (isFirstVisibleBodyRow) {
         const correctFirstBodyRowPosition = (): void => {
-          const tableTop = table.getBoundingClientRect().top;
+          const tableElement = table.shadowRoot?.querySelector("table") as HTMLElement;
+          const tableTop =
+            tableElement?.getBoundingClientRect().top ?? table.getBoundingClientRect().top;
 
           // Keep sticky header block pinned to viewport top.
           // Positive tableTop means the table shifted down and needs a downward page scroll.
@@ -326,8 +338,7 @@ export class TableRow extends LitElement {
         return;
       }
 
-      const headerOffsetBuffer = 4;
-      const targetTop = stickyHeaderHeight + headerOffsetBuffer;
+      const targetTop = stickyHeaderHeight;
       const cellTop = cellElement.getBoundingClientRect().top;
 
       if (cellTop < targetTop) {

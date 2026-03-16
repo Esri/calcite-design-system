@@ -513,6 +513,69 @@ export class Table extends LitElement {
     this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
+    this.ensureFirstVisibleBodyRowBelowStickyHeaders();
+  }
+
+  private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
+    if (!this.el.hasAttribute("sticky-header")) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const tableStyles = getComputedStyle(this.el);
+
+        if (
+          tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !==
+            "sticky" ||
+          tableStyles.getPropertyValue("--calcite-internal-table-header-active").trim() !== "1"
+        ) {
+          return;
+        }
+
+        const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
+        const firstVisibleCell = firstVisibleBodyRow?.querySelector(
+          "calcite-table-cell, calcite-table-header",
+        ) as TableRow["el"];
+        const firstVisibleCellElement = firstVisibleCell?.shadowRoot?.querySelector(
+          "td, th",
+        ) as HTMLElement;
+
+        if (!firstVisibleCellElement) {
+          return;
+        }
+
+        const stickyHeaderHeight = parseFloat(
+          tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
+        );
+
+        if (!stickyHeaderHeight) {
+          return;
+        }
+
+        const pinTableToViewportTop = (): void => {
+          const tableElement = this.el.shadowRoot?.querySelector("table") as HTMLElement;
+          const tableTop = tableElement?.getBoundingClientRect().top ?? 0;
+
+          if (Math.abs(tableTop) > 0.5) {
+            window.scrollTo({ top: window.scrollY + tableTop, left: window.scrollX });
+          }
+        };
+
+        const targetTop = stickyHeaderHeight;
+
+        pinTableToViewportTop();
+
+        const cellTop = firstVisibleCellElement.getBoundingClientRect().top;
+
+        if (cellTop < targetTop) {
+          window.scrollBy({ top: cellTop - targetTop });
+        }
+
+        // Keep the sticky table block flush with the viewport after any reveal scroll.
+        pinTableToViewportTop();
+      });
+    });
   }
 
   private paginateRows(): void {
