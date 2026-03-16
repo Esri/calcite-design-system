@@ -430,6 +430,7 @@ export class TableRow extends LitElement {
     if (cells.length > 0) {
       cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
         cell.interactionMode = this.interactionMode;
+        cell.firstCell = index === 0;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
         cell.parentRowIsSelected = this.selected;

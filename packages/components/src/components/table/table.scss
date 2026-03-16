@@ -58,7 +58,9 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
+// --calcite-internal-table-first-header-row-border-block-start
 // --calcite-internal-table-header-position
+// --calcite-internal-table-last-row-cell-border-block-end
 // --calcite-internal-table-selection-action-spacing
 
 @use "../../styles/includes";
@@ -98,6 +100,16 @@
   @apply flex;
 }
 
+::slotted(calcite-table-row[slot="table-header"]:first-child) {
+  --calcite-internal-table-first-header-row-border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-table-border-color, var(--calcite-color-border-2));
+}
+
+::slotted(calcite-table-row:last-child) {
+  --calcite-internal-table-last-row-cell-border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-table-border-color, var(--calcite-color-border-2));
+}
+
 .container {
   @apply flex flex-col;
   inline-size: var(--calcite-container-size-content-fluid);
@@ -110,7 +122,6 @@
 }
 
 .table-container {
-  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
 }

@@ -68,6 +68,9 @@ export class TableHeader extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
+  @property() firstCell: boolean;
+
+  /** @private */
   @property() lastCell: boolean;
 
   /** Overrides individual strings used by the component. */
@@ -197,6 +200,7 @@ export class TableHeader extends LitElement {
           [CSS.selectedCell]: this.parentRowIsSelected,
           [CSS.multipleSelectionCell]: this.selectionMode === "multiple",
           [CSS.staticCell]: staticCell,
+          [CSS.firstCell]: this.firstCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
           [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
           [this.parentRowAlignment]:
             this.parentRowAlignment === "center" || this.parentRowAlignment === "end",

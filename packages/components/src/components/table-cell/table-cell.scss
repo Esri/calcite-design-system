@@ -31,6 +31,7 @@
 td {
   @apply text-start align-middle  whitespace-normal;
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
+  border-block-end: var(--calcite-internal-table-last-row-cell-border-block-end, 0);
 
   background-color: var(
     --calcite-internal-table-cell-background-color,
@@ -57,8 +58,9 @@ td.end.content-cell {
   @apply align-bottom;
 }
 
-td.last-cell {
-  border-inline-end: 0;
+td.first-cell {
+  border-inline-start: var(--calcite-border-width-sm) solid
+    var(--calcite-table-border-color, var(--calcite-color-border-2));
 }
 
 .footer-cell {

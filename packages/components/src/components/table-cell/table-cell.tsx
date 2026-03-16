@@ -76,6 +76,9 @@ export class TableCell extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
+  @property() firstCell: boolean;
+
+  /** @private */
   @property() lastCell: boolean;
 
   /** Overrides individual strings used by the component. */
@@ -184,6 +187,7 @@ export class TableCell extends LitElement {
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
+            [CSS.firstCell]: this.firstCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.staticCell]: staticCell,
