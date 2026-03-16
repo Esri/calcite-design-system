@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 5.1.0-next.11 (2026-03-16)
+
+- fix(input-text): restore focus when it is the first invalid element on form submit (#14086) ([ac8f0db](https://github.com/Esri/calcite-design-system/commit/ac8f0db)), closes [#14086](https://github.com/Esri/calcite-design-system/issues/14086)
+- chore: fix linting errors (#14089) ([6052938](https://github.com/Esri/calcite-design-system/commit/6052938)), closes [#14089](https://github.com/Esri/calcite-design-system/issues/14089)
+
 ## [5.1.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.9...@esri/calcite-components@5.1.0-next.10) (2026-03-13)
 
 ### Bug Fixes
