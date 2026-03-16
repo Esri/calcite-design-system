@@ -170,6 +170,9 @@ export class Table extends LitElement {
   /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
 
+  /** When `true`, displays the table header as sticky while the table remains in view. */
+  @property({ attribute: "sticky-header", reflect: true }) stickyHeader = false;
+
   //#endregion
 
   //#region Events
@@ -241,6 +244,10 @@ export class Table extends LitElement {
       (changes.has("currentPage") && (this.hasUpdated || this.currentPage > 1) && this.pageSize > 0)
     ) {
       this.updateRows();
+    }
+
+    if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
+      this.scheduleStickyHeaderOffsetUpdate();
     }
   }
 
@@ -391,7 +398,7 @@ export class Table extends LitElement {
   }
 
   private updateStickyHeaderPosition(): void {
-    if (!this.el.hasAttribute("sticky-header") || this.stickyHeaderTotalHeight <= 0) {
+    if (!this.stickyHeader || this.stickyHeaderTotalHeight <= 0) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
       this.el.style.setProperty("--calcite-internal-table-header-active", "0");
       return;
@@ -517,7 +524,7 @@ export class Table extends LitElement {
   }
 
   private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
-    if (!this.el.hasAttribute("sticky-header")) {
+    if (!this.stickyHeader) {
       return;
     }
 

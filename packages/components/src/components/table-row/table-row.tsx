@@ -247,8 +247,10 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          const table = this.el.closest("calcite-table") as HTMLElement;
-          const hasStickyHeader = table?.hasAttribute("sticky-header");
+          const table = this.el.closest("calcite-table") as HTMLElement & {
+            stickyHeader?: boolean;
+          };
+          const hasStickyHeader = !!table?.stickyHeader;
           const stickyHeaderActive = hasStickyHeader && this.isStickyHeaderActive(table);
           const firstBodyRow = this.rowType === "body" && this.positionSection === 0;
 
@@ -273,9 +275,11 @@ export class TableRow extends LitElement {
   private ensureFocusedCellVisibleBelowStickyHeaders(
     cell: TableCell["el"] | TableHeader["el"],
   ): void {
-    const table = this.el.closest("calcite-table") as HTMLElement;
+    const table = this.el.closest("calcite-table") as HTMLElement & {
+      stickyHeader?: boolean;
+    };
 
-    if (!table?.hasAttribute("sticky-header")) {
+    if (!table?.stickyHeader) {
       return;
     }
 
