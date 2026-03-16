@@ -466,7 +466,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     if (options.click && "ariaControlsElements" in referenceEl) {
       const currentElements = referenceEl.ariaControlsElements ?? [];
 
-      if (!currentElements.includes(component)) {
+      if (!currentElements.includes(component.el)) {
         const updatedElements = [...currentElements, component.el];
         referenceEl.ariaControlsElements = updatedElements;
       }
@@ -475,7 +475,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     if (options.hover && "ariaDescribedByElements" in referenceEl) {
       const currentElements = referenceEl.ariaDescribedByElements ?? [];
 
-      if (!currentElements.includes(component)) {
+      if (!currentElements.includes(component.el)) {
         const updatedElements = [...currentElements, component.el];
         referenceEl.ariaDescribedByElements = updatedElements;
       }
