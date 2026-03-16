@@ -20,6 +20,7 @@
 // --calcite-internal-close-size
 // --calcite-internal-combobox-input-margin-block
 // --calcite-internal-combobox-no-matches-spacing-unit-s
+// --calcite-internal-combobox-padding-inline-end
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
@@ -34,53 +35,39 @@
   @apply text-n2;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-padding-inline-end: var(--calcite-space-2xs);
   --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing.1");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 1rem;
-
-  .x-button {
-    margin-inline: theme("spacing.2");
-  }
 }
 
 :host([scale="m"]) {
   @apply text-n1;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm);
   --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[1.5]");
   --calcite-combobox-input-height: theme("spacing.4");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 1.5rem;
-
-  .x-button {
-    margin-inline-end: theme("spacing.3");
-  }
 }
 
 :host([scale="l"]) {
   @apply text-0;
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm-plus);
   --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[2.5]");
   --calcite-combobox-input-height: theme("spacing.6");
   --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
   --calcite-internal-close-size: 2rem;
-
-  .x-button {
-    margin-inline-end: theme("spacing.4");
-  }
-}
-
-.x-button {
-  align-self: center;
 }
 
 .wrapper {
   @apply focus-base flex border border-solid;
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
-  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
-
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
   background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));
@@ -117,7 +104,7 @@
 
 .wrapper--single {
   padding-block: 0;
-  padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
+  padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
   @apply cursor-pointer flex-nowrap;
 }
 
@@ -284,11 +271,7 @@ calcite-chip {
 }
 
 @include includes.disabled();
-@include includes.x-button(
-  $background-color: "var(--calcite-close-background-color, var(--calcite-color-foreground-2))",
-  $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-foreground-3))",
-  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-3))"
-);
+@include includes.input-clear-button();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();

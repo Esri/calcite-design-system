@@ -16,6 +16,9 @@
  * @prop --calcite-action-text-color-press: Specifies the component's text color when pressed or hovered.
  * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
+ * @prop --calcite-action-height: Specifies the component's height.
+ * @prop --calcite-action-content-space-x: Specifies the inline padding of the component's content.
+ * @prop --calcite-action-content-space-y: Specifies the block padding of the component's content.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -118,9 +121,15 @@
   font-size: var(--calcite-internal-action-font-size);
   font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-internal-action-line-height);
-  min-block-size: var(--calcite-internal-action-height);
-  padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
-  padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
+  block-size: var(--calcite-action-height, var(--calcite-internal-action-height));
+  padding-block: var(
+    --calcite-action-content-space-y,
+    var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing))
+  );
+  padding-inline: var(
+    --calcite-action-content-space-x,
+    var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing))
+  );
   text-align: start;
 
   &:hover {

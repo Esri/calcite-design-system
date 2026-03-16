@@ -28,6 +28,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { InputClearButton } from "../functional/InputClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
@@ -551,24 +552,24 @@ export class InputText
     );
 
     const inputClearButton = (
-      <button
-        ariaLabel={this.messages.clear}
-        class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputTextValue}
-        tabIndex={-1}
-        type="button"
-      >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+      <div class={CSS.clearButton} onClick={this.clearInputTextValue}>
+        <InputClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
     );
+
     const iconEl = (
-      <calcite-icon
-        class={CSS.inputIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.requestedIcon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
@@ -627,17 +628,18 @@ export class InputText
           }}
           ref={this.inputWrapperRef}
         >
-          {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
+            {this.loading ? loader : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
             {childEl}
             {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+            {this.suffixText ? suffixText : null}
           </div>
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-          {this.suffixText ? suffixText : null}
+
           <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (

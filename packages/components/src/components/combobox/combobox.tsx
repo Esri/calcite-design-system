@@ -44,8 +44,8 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
-import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
+import { CSS as InputClearButtonCSS, InputClearButton } from "../functional/InputClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
@@ -92,8 +92,6 @@ export class Combobox
   //#endregion
 
   //#region Private Properties
-
-  private closeButtonRef = createRef<HTMLButtonElement>();
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -1039,7 +1037,11 @@ export class Combobox
       return;
     }
 
-    if (composedPath.some((node: HTMLElement) => node.classList?.contains(XButtonCSS.button))) {
+    if (
+      composedPath.some((node: HTMLElement) =>
+        node.classList?.contains(InputClearButtonCSS.container),
+      )
+    ) {
       this.clearValue();
       event.preventDefault();
       return;
@@ -1963,12 +1965,12 @@ export class Combobox
             {this.renderInput()}
           </div>
           {!readOnly && isClearable ? (
-            <XButton
+            <InputClearButton
+              ariaLabel={this.messages.clear}
               disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
-              ref={this.closeButtonRef}
+              onClick={() => this.clearValue()}
               scale={this.scale}
+              title={this.messages.clear}
             />
           ) : null}
           {!readOnly && this.renderChevronIcon()}

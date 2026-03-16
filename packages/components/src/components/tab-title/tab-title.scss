@@ -227,18 +227,6 @@
   border-inline-width: var(--calcite-spacing-px);
   border-inline-style: solid;
 
-  .x-button {
-    & calcite-icon {
-      margin-block-start: var(--calcite-spacing-px);
-    }
-
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
-    }
-  }
-
   &.container--bottom {
     border-block-start-style: solid;
     border-block-start-width: 1px;
@@ -247,30 +235,11 @@
       inset-block-start: unset;
       inset-block-end: 0;
     }
-
-    .x-button {
-      box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
-
-      &:focus,
-      &:hover,
-      &:active {
-        box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
-      }
-
-      calcite-icon {
-        margin-block-end: var(--calcite-spacing-px);
-      }
-    }
   }
 
   &:not(.container--bottom) {
     border-block-end-style: solid;
     border-block-end-width: 1px;
-
-    .x-button {
-      block-size: calc(100% - var(--calcite-spacing-px));
-      margin-block-start: -1px;
-    }
   }
 
   .selected-indicator {
@@ -282,7 +251,7 @@
   }
 
   &:host(:not([selected])) {
-    .container .x-button {
+    .container {
       box-shadow: 0 2px 0 0 transparent;
     }
 

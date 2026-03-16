@@ -199,3 +199,10 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input-text icon="check-square-f"></calcite-input-text>
     <div class="overlay"></div>`;
+
+export const withLoader = (): string => html`
+  <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-input-text id="input-text-with-loader" placeholder="Placeholder text" scale="m" loading icon="search">
+    </calcite-input-text>
+  </div>
+`;

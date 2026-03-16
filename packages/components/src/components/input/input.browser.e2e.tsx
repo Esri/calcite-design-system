@@ -114,6 +114,187 @@ describe("calcite-input", () => {
     disabled(() => mount("calcite-input"));
   });
 
+  describe("clearable", () => {
+    it("renders clear button", async () => {
+      const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+      const clearButton = el.shadowRoot?.querySelector('calcite-action[aria-label="Clear value"]');
+
+      expect(clearButton).not.toBe(null);
+      expect(clearButton?.getAttribute("title")).toBe("Clear value");
+    });
+
+    it("does not render clear button when clearable is not requested", async () => {
+      const { el } = await mount<Input>(<calcite-input />);
+
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as Input["el"];
+      expect(clearButton).toBe(null);
+    });
+
+    it("does not render clear button when clearable is requested and value is not populated", async () => {
+      const { el } = await mount<Input>(<calcite-input clearable value="" />);
+
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as Input["el"];
+      expect(clearButton).toBe(null);
+    });
+
+    it("clears value on clear button click", async () => {
+      const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as Input["el"];
+
+      input.focus();
+      await component.updateComplete;
+      clearButton.click();
+      await component.updateComplete;
+      expect(el.value).toBe("");
+    });
+
+    it("clears value on escape key press", async () => {
+      const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      input.focus();
+      await component.updateComplete;
+      await userEvent.keyboard("{Escape}");
+      await component.updateComplete;
+
+      expect(el.value).toBe("");
+    });
+
+    it("receives event when clear button is clicked", async () => {
+      const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+      let calciteInputInputCount = 0;
+
+      el.addEventListener("calciteInputInput", () => {
+        calciteInputInputCount++;
+      });
+
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as HTMLElement;
+
+      clearButton.click();
+      await component.updateComplete;
+
+      expect(el.value).toBe("");
+      expect(calciteInputInputCount).toBe(1);
+    });
+
+    it("receives event when input is cleared via escape key", async () => {
+      const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+      let calciteInputInputCount = 0;
+
+      el.addEventListener("calciteInputInput", () => {
+        calciteInputInputCount++;
+      });
+
+      input.focus();
+      await component.updateComplete;
+
+      expect(calciteInputInputCount).toBe(0);
+
+      await userEvent.keyboard("{Escape}");
+      await component.updateComplete;
+
+      expect(el.value).toBe("");
+      expect(calciteInputInputCount).toBe(1);
+    });
+
+    it("receives event when type is search and clear button is clicked", async () => {
+      const { el, component } = await mount<Input>(
+        <calcite-input type="search" value="John Doe" />,
+      );
+      let calciteInputInputCount = 0;
+
+      el.addEventListener("calciteInputInput", () => {
+        calciteInputInputCount++;
+      });
+
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as HTMLElement;
+
+      expect(calciteInputInputCount).toBe(0);
+
+      clearButton.click();
+      await component.updateComplete;
+
+      expect(el.value).toBe("");
+      expect(calciteInputInputCount).toBe(1);
+    });
+
+    it("receives event when type is search and input is cleared via escape key", async () => {
+      const { el, component } = await mount<Input>(
+        <calcite-input type="search" value="John Doe" />,
+      );
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+      let calciteInputInputCount = 0;
+
+      el.addEventListener("calciteInputInput", () => {
+        calciteInputInputCount++;
+      });
+
+      input.focus();
+      await component.updateComplete;
+
+      expect(calciteInputInputCount).toBe(0);
+
+      await userEvent.keyboard("{Escape}");
+      await component.updateComplete;
+
+      expect(el.value).toBe("");
+      expect(calciteInputInputCount).toBe(1);
+    });
+
+    it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
+      const { el, component } = await mount<Input>(<calcite-input value="John Doe" />);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+      let calciteInputInputCount = 0;
+
+      el.addEventListener("calciteInputInput", () => {
+        calciteInputInputCount++;
+      });
+
+      input.focus();
+      await component.updateComplete;
+
+      expect(calciteInputInputCount).toBe(0);
+
+      await userEvent.keyboard("{Escape}");
+      await component.updateComplete;
+
+      expect(el.value).toBe("John Doe");
+      expect(calciteInputInputCount).toBe(0);
+    });
+
+    it("disables clear button when input is disabled", async () => {
+      const { el } = await mount<Input>(<calcite-input clearable disabled value="John Doe" />);
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as Input["el"];
+
+      expect(clearButton).toBeTruthy();
+      expect((clearButton as any).disabled).toBe(true);
+    });
+
+    it("disables clear button when input is readOnly", async () => {
+      const { el } = await mount<Input>(<calcite-input clearable readOnly value="John Doe" />);
+      const clearButton = el.shadowRoot?.querySelector(
+        'calcite-action[aria-label="Clear value"]',
+      ) as Input["el"];
+
+      expect(clearButton).toBeTruthy();
+      expect((clearButton as any).disabled).toBe(true);
+    });
+  });
+
   describe("nudging", () => {
     function nudgeReadOnlyToggle(el: Input["el"]): Promise<void> {
       return new Promise<void>((resolve) => {
@@ -148,6 +329,36 @@ describe("calcite-input", () => {
       await nudgeDownReadOnlyToggle;
 
       expect(el.value).toBe("0");
+    });
+
+    it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+      const { el } = await mount<Input>(<calcite-input type="number" />);
+      const nudgeUpButton = page.getByTestId("number-button-up");
+
+      expect(el.value).toBe("");
+
+      function dispatchPointerEvent(type: "pointerdown" | "pointerout" | "pointerup"): void {
+        nudgeUpButton.element().dispatchEvent(
+          new PointerEvent(type, {
+            button: 0,
+            isPrimary: true,
+          }),
+        );
+      }
+
+      dispatchPointerEvent("pointerdown");
+      await new Promise((resolve) => window.setTimeout(resolve, NUDGE_DELAY_IN_MS * 4));
+      expect(el.value).not.toBe("");
+
+      const value = el.value;
+      dispatchPointerEvent("pointerout");
+
+      await new Promise((resolve) => window.setTimeout(resolve, NUDGE_DELAY_IN_MS * 4));
+      expect(el.value).toBe(value);
+
+      dispatchPointerEvent("pointerup");
+      await new Promise((resolve) => window.setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      expect(el.value).toBe(value);
     });
   });
 });

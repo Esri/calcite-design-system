@@ -29,11 +29,17 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-input-text-alignment
+// --calcite-internal-input-text-focus-outline-color
 
 @use "../../styles/includes";
 
 :host {
   @apply block;
+
+  --calcite-internal-input-text-focus-outline-color: var(
+    --calcite-color-focus,
+    var(--calcite-ui-focus-color, var(--calcite-color-brand))
+  );
 }
 
 @mixin input-affix-spacing($main-padding, $affix-padding, $custom-padding) {
@@ -53,6 +59,9 @@
 
 // scales
 :host([scale="s"]) {
+  & .icon {
+    padding-inline-start: var(--calcite-spacing-fixed-sm);
+  }
   & input {
     padding-inline-start: var(--calcite-spacing-sm);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
@@ -75,12 +84,14 @@
   }
 
   & .clear-button {
-    min-block-size: theme("spacing.6");
-    min-inline-size: theme("spacing.6");
+    block-size: var(--calcite-spacing-xxl);
   }
 }
 
 :host([scale="m"]) {
+  & .icon {
+    padding-inline-start: var(--calcite-spacing-fixed-md);
+  }
   & input {
     padding-inline-start: var(--calcite-spacing-md);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
@@ -101,14 +112,12 @@
   & .action-wrapper {
     @apply h-8;
   }
-
-  & .clear-button {
-    min-block-size: theme("spacing.8");
-    min-inline-size: theme("spacing.8");
-  }
 }
 
 :host([scale="l"]) {
+  & .icon {
+    padding-inline-start: var(--calcite-spacing-fixed-lg);
+  }
   & input {
     padding-inline-start: var(--calcite-spacing-lg);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
@@ -128,11 +137,6 @@
 
   & .action-wrapper {
     @apply h-11;
-  }
-
-  & .clear-button {
-    min-block-size: theme("spacing.11");
-    min-inline-size: theme("spacing.11");
   }
 }
 
@@ -157,9 +161,9 @@ input {
     relative
     text-ellipsis
     w-full;
+  outline: none;
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
-  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
   text-align: var(--calcite-internal-input-text-alignment);
 
@@ -168,14 +172,40 @@ input {
   }
 }
 
-:host(:not([status="invalid"])) {
-  .has-prefix input {
-    border-inline-start-width: 0;
-  }
+.element-wrapper,
+input {
+  border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
 
-  .has-suffix input {
-    border-inline-end-width: 0;
-  }
+.has-prefix input,
+.element-wrapper:has(.icon) input {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-inline-start-width: 0;
+}
+
+.element-wrapper:has(.clear-button) input,
+.has-suffix input {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-inline-end-width: 0;
+}
+
+.has-prefix .prefix,
+.element-wrapper:not(:has(.prefix)):has(.icon) .icon {
+  border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+.has-suffix .suffix,
+:host([clearable]) .clear-button {
+  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
+}
+
+:host([clearable]) .has-suffix .clear-button {
+  border-end-end-radius: 0;
+  border-start-end-radius: 0;
 }
 
 // states
@@ -210,72 +240,51 @@ calcite-icon {
   color: var(--calcite-input-action-icon-color, var(--calcite-color-text-3));
 }
 
-//focus
-
-input {
-  @apply focus-base;
-}
-input:focus {
-  @apply focus-inset;
-}
-
-:host([status="invalid"]) {
-  & input {
-    @apply border-color-danger;
-  }
-  & input:focus {
-    @apply focus-inset-danger;
-  }
-}
-
-// ICONS
-
-// position icons
-
-:host([scale="s"]) .icon {
-  inset-inline-start: theme("spacing.2");
-}
-
-:host([scale="m"]) .icon {
-  inset-inline-start: theme("spacing.3");
-}
-
-:host([scale="l"]) .icon {
-  inset-inline-start: theme("spacing.4");
-}
-
-// position placeholder/value text in relation to icons
-
-:host([icon][scale="s"]) input {
-  padding-inline-start: theme("padding.8");
-}
-
-:host([icon][scale="m"]) input {
-  padding-inline-start: theme("padding.10");
-}
-
-:host([icon][scale="l"]) input {
-  padding-inline-start: theme("padding.14");
-}
-
-// positioning wrapper for icon and loader
-
 .element-wrapper {
   @apply relative
-    order-3
     inline-flex
     flex-1
     items-center;
   isolation: isolate;
+  order: 3;
+}
+
+.element-wrapper:has(input:focus) {
+  outline: var(--calcite-border-width-md) solid var(--calcite-internal-input-text-focus-outline-color);
+  outline-offset: calc(var(--calcite-border-width-sm) * -2);
+
+  input {
+    z-index: calc(var(--calcite-z-index) * -1);
+  }
+}
+
+:host([status="invalid"]) {
+  & .prefix,
+  & .icon,
+  & input,
+  & .clear-button,
+  & .suffix {
+    border-color: var(--calcite-color-status-danger);
+  }
+
+  --calcite-internal-input-text-focus-outline-color: var(--calcite-color-status-danger);
 }
 
 .icon {
-  @apply transition-default
-    pointer-events-none
-    absolute
-    block
-    z-default; // needed for firefox to display the icon properly
+  box-sizing: border-box;
+  display: flex;
+  align-self: stretch;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
+  border-inline-end-width: var(--calcite-border-width-none);
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
+  align-items: center;
+}
+
+.has-prefix .icon {
+  border-inline-start-width: 0;
 }
 
 // hide browser default clear
@@ -288,44 +297,15 @@ input[type="text"]::-ms-reveal {
 }
 
 .clear-button {
-  pointer-events: initial;
-  @apply focus-base
-    order-4
-    m-0
-    box-border
-    flex
-    min-h-full
-    cursor-pointer
-    items-center
-    justify-center
-    self-stretch
-    border
-    border-solid;
-
+  box-sizing: border-box;
+  display: flex;
+  align-self: stretch;
+  order: 4;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-input-action-background-color, var(--calcite-color-foreground-1));
-  border-inline-start-width: theme("borderWidth.0");
-
-  &:hover {
-    @apply transition-default;
-    background-color: var(--calcite-input-action-background-color-hover, var(--calcite-color-foreground-2));
-    calcite-icon {
-      @apply transition-default;
-      color: var(--calcite-input-action-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
-  &:active {
-    background-color: var(--calcite-input-action-background-color-press, var(--calcite-color-foreground-3));
-    calcite-icon {
-      color: var(--calcite-input-action-icon-color-press, (--calcite-color-text-1));
-    }
-  }
-  &:focus {
-    @apply focus-inset;
-  }
-  &:disabled {
-    @apply opacity-disabled;
-  }
+  border-inline-start-width: var(--calcite-border-width-none);
+  background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
 }
 
 .has-suffix .clear-button {
@@ -347,7 +327,8 @@ input[type="text"]::-ms-reveal {
 
 // slotted action
 .action-wrapper {
-  @apply order-7 flex;
+  order: 7;
+  display: flex;
 }
 
 // prefix and suffix
@@ -369,39 +350,18 @@ input[type="text"]::-ms-reveal {
 }
 
 .prefix {
-  @apply order-2;
+  order: 0;
   border-inline-end-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-prefix-size-x, auto);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-prefix-text-color, var(--calcite-color-text-2));
-  border-start-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-start-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 .suffix {
-  @apply order-5;
+  order: 5;
   border-inline-start-width: theme("borderWidth.0");
   inline-size: var(--calcite-input-suffix-size-x, auto);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-suffix-text-color, var(--calcite-color-text-2));
-  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-}
-
-:host([prefix-text]:not([prefix-text=""])) input {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
-}
-
-:host([suffix-text]:not([suffix-text=""])) input,
-:host .clearable input {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
-}
-
-:host(:not([suffix-text])) .clear-button,
-:host([suffix-text=""]) .clear-button {
-  border-start-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
-  border-end-end-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 // alignment type
@@ -466,3 +426,11 @@ input {
 @include includes.hidden-form-input();
 @include includes.base-component();
 @include includes.input-placeholder-text();
+@include includes.input-clear-button(
+  $background-color: "--calcite-input-action-background-color",
+  $background-color-hover: "--calcite-input-action-background-color-hover",
+  $background-color-press: "--calcite-input-action-background-color-press",
+  $icon-color: "--calcite-input-action-icon-color",
+  $icon-color-hover: "--calcite-input-action-icon-color-hover",
+  $icon-color-press: "--calcite-input-action-icon-color-press"
+);
