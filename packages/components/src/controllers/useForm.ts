@@ -133,6 +133,10 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+function isFormComponentEl(el: Element): el is FormComponent["el"] {
+  return "form" in el && "name" in el && !!el.form && !!el.name;
+}
+
 function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
   if ("status" in component) {
     component.status = status;
@@ -171,6 +175,24 @@ function isInputComponent(
   return component && isSupportedType(input.type);
 }
 
+export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
+  const formElements = Array.from(form.elements);
+
+  requestAnimationFrame(() => {
+    const invalidEls = formElements.filter(
+      (el): el is FormComponent["el"] => el.matches("[status=invalid]") && isFormComponentEl(el),
+    );
+
+    // focus the first invalid element that has a validation message
+    for (const el of invalidEls) {
+      if (el.validationMessage) {
+        el.setFocus();
+        break;
+      }
+    }
+  });
+}
+
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
@@ -206,22 +228,6 @@ export const useForm = <T extends FormComponent>(
       inputDelegate = document.createElement("input");
       inputDelegate.type = options.inputType;
       // intentionally not appended to the DOM, we just need it for validation
-    }
-
-    function focusFirstInvalidFormElement(form: HTMLFormElement): void {
-      const formElements = Array.from(form.elements);
-
-      requestAnimationFrame(() => {
-        const invalidEls = formElements.filter((el): el is FormComponent["el"] => el.matches("[status=invalid]"));
-
-        // focus the first invalid element that has a validation message
-        for (const el of invalidEls) {
-          if (el.validationMessage) {
-            el.setFocus();
-            break;
-          }
-        }
-      });
     }
 
     function invalidFormHandler(event: Event): void {
