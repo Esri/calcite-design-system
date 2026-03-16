@@ -305,22 +305,23 @@ export class TableRow extends LitElement {
 
     requestAnimationFrame(() => {
       if (this.positionSection === 0) {
-        // Safari can apply native focus scrolling in a later frame.
-        requestAnimationFrame(() => {
-          const headerOffsetBuffer = 4;
-          const targetTop = stickyHeaderHeight + headerOffsetBuffer;
+        const correctFirstBodyRowPosition = (): void => {
           const tableTop = table.getBoundingClientRect().top;
-          const cellTop = cellElement.getBoundingClientRect().top;
 
-          const pinDelta = tableTop > 0 ? -tableTop : 0;
-          const revealDelta = cellTop < targetTop ? cellTop - targetTop : 0;
-
-          // Single correction step avoids cumulative over-scroll and never scrolls down.
-          const delta = Math.min(0, pinDelta, revealDelta);
-
-          if (delta !== 0) {
-            window.scrollTo({ top: window.scrollY + delta, left: window.scrollX });
+          // Keep sticky header block pinned to viewport top.
+          // Positive tableTop means the table shifted down and needs a downward page scroll.
+          if (Math.abs(tableTop) > 0.5) {
+            window.scrollTo({ top: window.scrollY + tableTop, left: window.scrollX });
           }
+        };
+
+        // Safari can apply native focus scrolling in later frames.
+        requestAnimationFrame(() => {
+          correctFirstBodyRowPosition();
+          requestAnimationFrame(() => {
+            correctFirstBodyRowPosition();
+            requestAnimationFrame(correctFirstBodyRowPosition);
+          });
         });
         return;
       }
