@@ -133,7 +133,7 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
-function isFormComponentEl(el: Element): el is FormComponent["el"] {
+function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
   return "form" in el && "name" in el && !!el.form && !!el.name && isCalciteFocusable(el);
 }
 
@@ -180,7 +180,7 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
 
   requestAnimationFrame(() => {
     const invalidEls = formElements.filter(
-      (el): el is FormComponent["el"] => el.matches("[status=invalid]") && isFormComponentEl(el),
+      (el): el is FormComponent["el"] => el.matches("[status=invalid]") && isFormComponentEl(el as HTMLElement),
     );
 
     // focus the first invalid element that has a validation message
