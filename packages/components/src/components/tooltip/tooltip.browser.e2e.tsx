@@ -154,10 +154,9 @@ it("should honor pointerDisabled", async () => {
   const { el, reRender } = await mount<Tooltip>(<calcite-tooltip />, {
     afterConnect: (tooltip: Tooltip["el"]) => {
       const referenceElement = document.createElement("button");
-      referenceElement.id = "ref";
       referenceElement.textContent = "Button";
-      document.body.append(referenceElement);
-      tooltip.referenceElement = "ref";
+      tooltip.insertAdjacentElement("afterend", referenceElement);
+      tooltip.referenceElement = referenceElement;
       tooltip.open = true;
       tooltip.textContent = "Content";
     },
