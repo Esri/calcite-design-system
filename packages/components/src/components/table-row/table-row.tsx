@@ -248,12 +248,14 @@ export class TableRow extends LitElement {
 
         if (cellPosition) {
           const table = this.el.closest("calcite-table") as HTMLElement;
+          const hasStickyHeader = table?.hasAttribute("sticky-header");
+          const stickyHeaderActive = hasStickyHeader && this.isStickyHeaderActive(table);
+          const firstBodyRow = this.rowType === "body" && this.positionSection === 0;
 
           if (
-            this.rowType === "body" &&
-            this.positionSection === 0 &&
-            table &&
-            !this.isStickyHeaderActive(table)
+            stickyHeaderActive ||
+            (firstBodyRow && hasStickyHeader) ||
+            (this.rowType === "head" && hasStickyHeader)
           ) {
             cellPosition.setFocus({ preventScroll: true });
           } else {
@@ -303,14 +305,23 @@ export class TableRow extends LitElement {
 
     requestAnimationFrame(() => {
       if (this.positionSection === 0) {
-        const tableTop = table.getBoundingClientRect().top;
+        // Safari can apply native focus scrolling in a later frame.
+        requestAnimationFrame(() => {
+          const headerOffsetBuffer = 4;
+          const targetTop = stickyHeaderHeight + headerOffsetBuffer;
+          const tableTop = table.getBoundingClientRect().top;
+          const cellTop = cellElement.getBoundingClientRect().top;
 
-        if (tableTop !== 0) {
-          window.scrollBy({
-            top: tableTop,
-          });
-        }
+          const pinDelta = tableTop > 0 ? -tableTop : 0;
+          const revealDelta = cellTop < targetTop ? cellTop - targetTop : 0;
 
+          // Single correction step avoids cumulative over-scroll and never scrolls down.
+          const delta = Math.min(0, pinDelta, revealDelta);
+
+          if (delta !== 0) {
+            window.scrollTo({ top: window.scrollY + delta, left: window.scrollX });
+          }
+        });
         return;
       }
 
