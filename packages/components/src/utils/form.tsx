@@ -7,7 +7,6 @@ import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import type { Input } from "../components/input/input";
 import type { RadioButtonGroup } from "../components/radio-button-group/radio-button-group";
-import { focusFirstInvalidFormElement } from "../controllers/useForm";
 import { closestElementCrossShadowBoundary, queryElementRoots } from "./dom";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
@@ -325,7 +324,17 @@ export function submitForm(component: FormOwner): boolean {
   formEl.requestSubmit();
   formEl.removeEventListener("invalid", invalidHandler, true);
 
-  focusFirstInvalidFormElement(formEl);
+  requestAnimationFrame(() => {
+    const invalidEls = formEl.querySelectorAll<Input["el"]>("[status=invalid]");
+
+    // focus the first invalid element that has a validation message
+    for (const el of invalidEls) {
+      if (el?.validationMessage) {
+        el?.setFocus();
+        break;
+      }
+    }
+  });
 
   return true;
 }
