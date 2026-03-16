@@ -134,7 +134,7 @@ export interface ValidationProps {
 }
 
 function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
-  return "form" in el && "name" in el && !!el.form && !!el.name && isCalciteFocusable(el);
+  return "form" in el && "name" in el && isCalciteFocusable(el);
 }
 
 function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
