@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  setAttribute,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -16,6 +25,7 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
+import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { Scale } from "../interfaces";
@@ -52,6 +62,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   private direction = useDirection();
 
   floatingEl: HTMLDivElement;
+
+  private guid = `calcite-tooltip-${guid()}`;
 
   referenceElementType: ReferenceElementType = "hover";
 
@@ -222,11 +234,13 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
+      this.updateReferenceDescription(changes.get("referenceEl") as ReferenceElement);
       connectFloatingUI(this);
     }
   }
 
   override disconnectedCallback(): void {
+    this.updateReferenceDescription(this.referenceEl, true);
     disconnectFloatingUI(this);
   }
 
@@ -260,10 +274,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
-    }
   }
 
   private setArrowEl(el: SVGSVGElement): void {
@@ -271,53 +281,20 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.reposition(true);
   }
 
-  private setUpReferenceElement(warn = true): void {
-    this.removeReferences();
-    this.referenceEl = getEffectiveReferenceElement(this.el);
-    connectFloatingUI(this);
-
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
-    }
-
-    this.addReferences();
-  }
-
   private getId(): string {
     return this.el.id || this.guid;
   }
 
-  private addReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
+  private updateReferenceDescription(referenceEl: ReferenceElement, removeOnly = false): void {
     const id = this.getId();
 
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_DESCRIBED_BY, id);
+    if (referenceEl instanceof Element) {
+      referenceEl.removeAttribute("aria-describedby");
+
+      if (!removeOnly) {
+        referenceEl.setAttribute("aria-describedby", id);
+      }
     }
-
-    manager.registerElement(referenceEl, this.el);
-  }
-
-  private removeReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_DESCRIBED_BY);
-    }
-
-    manager.unregisterElement(referenceEl);
   }
 
   // #endregion
@@ -337,6 +314,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
+    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 
