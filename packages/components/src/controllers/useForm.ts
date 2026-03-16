@@ -6,7 +6,7 @@ import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
-import { SetFocusable } from "../utils/dom";
+import { isCalciteFocusable, SetFocusable } from "../utils/dom";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -134,7 +134,7 @@ export interface ValidationProps {
 }
 
 function isFormComponentEl(el: Element): el is FormComponent["el"] {
-  return "form" in el && "name" in el && !!el.form && !!el.name;
+  return "form" in el && "name" in el && !!el.form && !!el.name && isCalciteFocusable(el);
 }
 
 function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
