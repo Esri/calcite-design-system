@@ -81,7 +81,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaControlsElements).toContain(component.el);
       expect(component.referenceEl.ariaExpanded).toBe("false");
       component.referenceElement = null;
       await component.updateComplete;
@@ -102,7 +102,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaControlsElements).toContain(component.el);
       expect(component.referenceEl.ariaExpanded).toBe("false");
       component.referenceElement = null;
       await component.updateComplete;
@@ -128,7 +128,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref-1";
       await component.updateComplete;
 
-      expect(referenceElement1.ariaControlsElements).toContain(component);
+      expect(referenceElement1.ariaControlsElements).toContain(component.el);
       expect(referenceElement1.ariaExpanded).toBe("false");
 
       component.referenceElement = referenceElement2;
@@ -154,7 +154,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
       component.referenceElement = null;
       await component.updateComplete;
       expect(referenceElement.ariaDescribedByElements).toBeNull();
@@ -173,7 +173,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
       component.referenceElement = null;
       await component.updateComplete;
       expect(referenceElement.ariaDescribedByElements).toBeNull();
