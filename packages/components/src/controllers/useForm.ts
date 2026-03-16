@@ -208,11 +208,7 @@ export const useForm = <T extends FormComponent>(
       // intentionally not appended to the DOM, we just need it for validation
     }
 
-    function invalidFormHandler(event: Event): void {
-      // prevent the browser from showing the native validation popover
-      event?.preventDefault();
-
-      const form = event.currentTarget as HTMLFormElement;
+    function focusFirstInvalidFormElement(form: HTMLFormElement): void {
       const formElements = Array.from(form.elements);
 
       requestAnimationFrame(() => {
@@ -226,6 +222,14 @@ export const useForm = <T extends FormComponent>(
           }
         }
       });
+    }
+
+    function invalidFormHandler(event: Event): void {
+      // prevent the browser from showing the native validation popover
+      event?.preventDefault();
+
+      const form = event.currentTarget as HTMLFormElement;
+      focusFirstInvalidFormElement(form);
     }
 
     function onFormReset(): void {
