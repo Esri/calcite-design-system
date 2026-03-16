@@ -97,7 +97,7 @@
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.11",
     "playwright": "1.58.2",
     "sass-embedded": "1.97.3",
-    "vitest": "4.0.18"
+    "vitest": "4.1.0"
   },
   "css.customData": [
     "dist/docs/vscode.css-custom-data.json"
