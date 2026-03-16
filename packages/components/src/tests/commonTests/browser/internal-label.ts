@@ -70,6 +70,7 @@ export function internalLabel(setup: () => ReturnType<typeof mount>): void {
       await expectLabelText("Test Label Start");
       await expectLabelText("Test Label End");
     } else {
+      // eslint-disable-next-line vitest/no-conditional-expect -- we want to fail the test if has no matching label prop
       expect.fail("component does not have an internal label");
     }
 
