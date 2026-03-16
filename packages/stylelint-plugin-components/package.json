@@ -19,7 +19,7 @@
     "test:watch": "vitest"
   },
   "peerDependencies": {
-    "stylelint": "16.25.0"
+    "stylelint": ">=16.26.1"
   },
   "devDependencies": {
     "vitest": "3.2.4",
