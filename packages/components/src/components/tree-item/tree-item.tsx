@@ -469,7 +469,6 @@ export class TreeItem extends LitElement {
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
         : undefined;
-    this.el.toggleAttribute("calcite-hydrated-hidden", hidden);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

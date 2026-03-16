@@ -6,7 +6,7 @@ import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
-import { SetFocusable } from "../utils/dom";
+import { isCalciteFocusable, SetFocusable } from "../utils/dom";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -133,6 +133,10 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
+  return "form" in el && "name" in el && isCalciteFocusable(el);
+}
+
 function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
   if ("status" in component) {
     component.status = status;
@@ -169,6 +173,24 @@ function isInputComponent(
   input: HTMLInputElement,
 ): component is FormComponent & InputComponent {
   return component && isSupportedType(input.type);
+}
+
+export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
+  const formElements = Array.from(form.elements);
+
+  requestAnimationFrame(() => {
+    const invalidEls = formElements.filter(
+      (el): el is FormComponent["el"] => el.matches("[status=invalid]") && isFormComponentEl(el as HTMLElement),
+    );
+
+    // focus the first invalid element that has a validation message
+    for (const el of invalidEls) {
+      if (el.validationMessage) {
+        el.setFocus();
+        break;
+      }
+    }
+  });
 }
 
 interface UseForm {
@@ -209,8 +231,15 @@ export const useForm = <T extends FormComponent>(
     }
 
     function invalidFormHandler(event: Event): void {
+      if (event.defaultPrevented) {
+        return;
+      }
+
       // prevent the browser from showing the native validation popover
-      event?.preventDefault();
+      event.preventDefault();
+
+      const form = event.currentTarget as HTMLFormElement;
+      focusFirstInvalidFormElement(form);
     }
 
     function onFormReset(): void {

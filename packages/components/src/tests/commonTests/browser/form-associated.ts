@@ -351,6 +351,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   ): Promise<void> {
     await userEvent.click(submitter);
     expectValidationProps(el, { message, icon: true, status: "invalid" });
+    await expect.element(el).toHaveFocus();
   }
 
   async function assertClearsValidationOnValueChange(
