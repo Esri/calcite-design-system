@@ -138,6 +138,56 @@ describe("useReferenceElement", () => {
       expect(referenceElement1.ariaControlsElements).toBeNull();
       expect(referenceElement1.ariaExpanded).toBeNull();
     });
+
+    it("registers multiple components with same reference element and unregisters independently", async () => {
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-click-component></test-click-component>
+          <test-click-component></test-click-component>
+        </div>`,
+        { dynamicComponents: [TestClickComponent] },
+      );
+
+      const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
+
+      if (!referenceElement) {
+        throw new Error("Expected reference element to be present");
+      }
+
+      const components = Array.from(
+        document.querySelectorAll("test-click-component"),
+      ) as TestClickComponent[];
+
+      if (components.length !== 2) {
+        throw new Error("Expected two test-click-component instances to be present");
+      }
+
+      const [component1, component2] = components;
+
+      component1.referenceElement = referenceElement;
+      component2.referenceElement = referenceElement;
+      await Promise.all([component1.updateComplete, component2.updateComplete]);
+
+      expect(referenceElement.ariaControlsElements).not.toBeNull();
+      expect(referenceElement.ariaControlsElements).toContain(component1.el);
+      expect(referenceElement.ariaControlsElements).toContain(component2.el);
+
+      expect(referenceElement.ariaDescribedByElements).not.toBeNull();
+      expect(referenceElement.ariaDescribedByElements).toContain(component1.el);
+      expect(referenceElement.ariaDescribedByElements).toContain(component2.el);
+
+      component1.referenceElement = null;
+      await component1.updateComplete;
+
+      expect(referenceElement.ariaControlsElements).not.toBeNull();
+      expect(referenceElement.ariaControlsElements).not.toContain(component1.el);
+      expect(referenceElement.ariaControlsElements).toContain(component2.el);
+
+      expect(referenceElement.ariaDescribedByElements).not.toBeNull();
+      expect(referenceElement.ariaDescribedByElements).not.toContain(component1.el);
+      expect(referenceElement.ariaDescribedByElements).toContain(component2.el);
+    });
   });
 
   describe("hover manager", () => {
