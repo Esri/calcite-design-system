@@ -6,7 +6,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       formats: ["cjs"],
-      fileName: () => "index.js",
+      fileName: () => "index.cjs",
     },
     rollupOptions: {
       external: ["stylelint"],

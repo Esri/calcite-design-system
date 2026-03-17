@@ -4,7 +4,7 @@
   "description": "Stylelint rules for @esri/calcite-components",
   "type": "module",
   "private": true,
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
