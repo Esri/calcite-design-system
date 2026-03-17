@@ -252,7 +252,7 @@ describe("sticky group heading with filter", () => {
   });
 });
 
-describe.only("group filtering", () => {
+describe("group filtering", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
