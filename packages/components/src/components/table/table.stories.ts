@@ -16,6 +16,7 @@ type TableStoryArgs = Pick<
   | "caption"
   | "numbered"
   | "bordered"
+  | "stickyHeader"
   | "striped"
 >;
 
@@ -32,6 +33,7 @@ export default {
     numbered: false,
     bordered: false,
     striped: false,
+    stickyHeader: false,
   },
   argTypes: {
     interactionMode: {
@@ -1683,5 +1685,115 @@ export const darkModeRTLWithSelection = (): string =>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
   </calcite-table>`;
+
+const stickyHeaderBodyRow = html`
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+`;
+
+const stickyHeaderBodyRowCount = 50;
+
+const stickyHeaderBodyRows = Array.from({ length: stickyHeaderBodyRowCount }, () => stickyHeaderBodyRow).join("\n");
+
+const getParentDocument = (): Document | null => {
+  try {
+    return window.parent && window.parent !== window ? window.parent.document : null;
+  } catch {
+    return null;
+  }
+};
+
+const scrollStorybookMainToBottom = (attempt = 0): void => {
+  const parentDocument = getParentDocument();
+  const localStoryMain = document.querySelector(".sb-show-main");
+  const parentStoryMain = parentDocument?.querySelector(".sb-show-main");
+  const localScrollingElement = document.scrollingElement;
+  const parentScrollingElement = parentDocument?.scrollingElement;
+
+  const targets = [localStoryMain, parentStoryMain, localScrollingElement, parentScrollingElement].filter(
+    (el): el is Element => !!el,
+  );
+
+  let scrolled = false;
+
+  targets.forEach((target) => {
+    if (target instanceof HTMLElement) {
+      target.scrollTop = target.scrollHeight;
+      scrolled = true;
+    }
+  });
+
+  if (scrolled) {
+    return;
+  }
+
+  if (attempt < 12) {
+    requestAnimationFrame(() => scrollStorybookMainToBottom(attempt + 1));
+  }
+};
+
+const stickyHeaderSingleTable = html`<calcite-table bordered caption="Sticky header table" sticky-header>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderTwoHead = html`<calcite-table bordered caption="Sticky multiple header table" sticky-header>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderThreeHead = html`<calcite-table bordered caption="Sticky multiple header table" sticky-header>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+export const stickyHeader = (): string =>
+  html`<div style="display: flex; gap: 1rem; align-items: flex-start;">
+    ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
+  </div>`;
+
+export const stickerHeaderScrolledToBottom = (): string => {
+  requestAnimationFrame(() => scrollStorybookMainToBottom());
+  setTimeout(() => scrollStorybookMainToBottom(), 75);
+
+  return stickyHeader();
+};
 
 darkModeRTLWithSelection.parameters = { themes: modesDarkDefault };
