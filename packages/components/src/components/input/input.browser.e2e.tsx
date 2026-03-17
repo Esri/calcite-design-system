@@ -16,7 +16,7 @@ import { letterKeys, numberKeys } from "../../utils/key";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 import { Input } from "./input";
 
-const delayFor2UpdatesInMs = 200;
+const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
 
 describe("defaults", () => {
   defaults(
