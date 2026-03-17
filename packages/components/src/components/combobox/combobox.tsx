@@ -1968,7 +1968,6 @@ export class Combobox
             <InputClearButton
               ariaLabel={this.messages.clear}
               disabled={this.disabled}
-              onClick={() => this.clearValue()}
               scale={this.scale}
               title={this.messages.clear}
             />

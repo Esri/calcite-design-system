@@ -274,6 +274,8 @@ input[readonly]:focus {
 
 :host([read-only]) {
   .prefix,
+  .icon,
+  .clear-button,
   .suffix {
     background-color: var(--calcite-input-background-color, var(--calcite-color-background));
   }
@@ -536,10 +538,6 @@ input[type="number"] {
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
   border-inline-start-width: var(--calcite-border-width-none);
-
-  &:disabled {
-    pointer-events: none;
-  }
 
   &:hover calcite-action {
     --calcite-action-background-color: var(

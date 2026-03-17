@@ -231,6 +231,8 @@ input[readonly]:focus {
 
 :host([read-only]) {
   .prefix,
+  .icon,
+  .clear-button,
   .suffix {
     background-color: var(--calcite-input-text-background-color, var(--calcite-color-background));
   }

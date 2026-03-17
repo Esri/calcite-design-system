@@ -189,6 +189,10 @@
     cursor: pointer;
     align-items: center;
 
+    &.input-clear-button--container--disabled {
+      pointer-events: none;
+    }
+
     &:hover calcite-action {
       --calcite-action-background-color: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
       --calcite-action-text-color: var(#{$icon-color-hover}, var(--calcite-color-text-1));

@@ -552,7 +552,10 @@ export class InputText
     );
 
     const inputClearButton = (
-      <div class={CSS.clearButton} onClick={this.clearInputTextValue}>
+      <div
+        class={CSS.clearButton}
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputTextValue}
+      >
         <InputClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}

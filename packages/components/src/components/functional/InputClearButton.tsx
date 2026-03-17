@@ -13,6 +13,7 @@ interface InputClearButtonProps {
 
 export const CSS = {
   container: "input-clear-button--container",
+  containerDisabled: "input-clear-button--container--disabled",
 };
 
 export const InputClearButton = ({
@@ -23,11 +24,16 @@ export const InputClearButton = ({
   scale,
   title,
 }: InputClearButtonProps): TemplateResult => (
-  <div class={CSS.container}>
+  <div
+    class={{
+      [CSS.container]: true,
+      [CSS.containerDisabled]: disabled,
+    }}
+  >
     <calcite-action
-      aria-label={ariaLabel}
       disabled={disabled}
       icon="x"
+      label={ariaLabel}
       onClick={onClick}
       scale={scale}
       tabIndex={focusable ? undefined : -1}
