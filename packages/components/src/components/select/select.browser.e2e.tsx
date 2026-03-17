@@ -31,11 +31,11 @@ describe("is form-associated", () => {
   formAssociated(
     () =>
       mount(
-        <calcite-select>
-          <calcite-option id="0" />
-          <calcite-option id="1">uno</calcite-option>
-          <calcite-option id="2">dos</calcite-option>
-          <calcite-option id="3">tres</calcite-option>
+        <calcite-select name="calciteSelect">
+          <calcite-option />
+          <calcite-option>uno</calcite-option>
+          <calcite-option>dos</calcite-option>
+          <calcite-option>tres</calcite-option>
         </calcite-select>,
       ),
     {

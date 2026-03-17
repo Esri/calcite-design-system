@@ -193,6 +193,19 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
   });
 }
 
+/**
+ * Helper for setting the default value on initialization after connectedCallback.
+ *
+ * Note that this is only needed if the default value cannot be determined on connectedCallback.
+ * Be careful not to call this more than once, or form reset behavior might be incorrect.
+ *
+ * @param component
+ * @param value
+ */
+export function overrideDefaultValue<T>(component: FormComponent<T>, value: any): void {
+  component.defaultValue = value;
+}
+
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
@@ -330,12 +343,12 @@ export const useForm = <T extends FormComponent>(
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
-      if (!component.defaultValue && component.value) {
+      if (!component.hasUpdated) {
         component.defaultValue = component.value;
-      }
 
-      if (!component.hasUpdated && isCheckable(component)) {
-        component.defaultChecked = component.checked;
+        if (isCheckable(component)) {
+          component.defaultChecked = component.checked;
+        }
       }
 
       if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
