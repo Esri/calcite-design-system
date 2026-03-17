@@ -2,11 +2,21 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, openClose } from "../../tests/commonTests";
-import { skipAnimations } from "../../tests/utils/puppeteer";
+import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
+
+async function openSortHandle(page): Promise<void> {
+  const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
+  await action.callMethod("setFocus");
+
+  const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
+  await page.keyboard.press("ArrowDown");
+  await page.waitForChanges();
+  await openEventSpy.next();
+}
 
 describe("accessible", () => {
   accessible(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
@@ -53,13 +63,7 @@ it("fires calciteSortHandleReorder event", async () => {
 
   const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteSortHandleReorder");
 
-  const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
-  await action.callMethod("setFocus");
-
-  const openEventSpy = await page.spyOnEvent("calciteSortHandleOpen");
-  await page.keyboard.press("ArrowDown");
-  await page.waitForChanges();
-  await openEventSpy.next();
+  await openSortHandle(page);
   expect(await sortHandle.getProperty("open")).toBe(true);
 
   await page.keyboard.press("Enter");
@@ -133,7 +137,7 @@ it("fires calciteSortHandleAdd event", async () => {
   expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
 });
 
-it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize < 2", async () => {
+it("is disabled when no items are available, sort is disabled, or set info is invalid", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-sort-handle label="test"></calcite-sort-handle>`);
   await skipAnimations(page);
@@ -171,7 +175,7 @@ it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize
   sortHandle.setProperty("moveToItems", []);
   await page.waitForChanges();
 
-  expect(await dropdown.getProperty("disabled")).toBe(true);
+  expect(await dropdown.getProperty("disabled")).toBe(false);
 
   sortHandle.setProperty("moveToItems", moveToItems);
   sortHandle.setProperty("setSize", 2);
@@ -189,6 +193,79 @@ it("is disabled when no moveToItems and sortDisabled, setPosition < 1 or setSize
   await page.waitForChanges();
 
   expect(await dropdown.getProperty("disabled")).toBe(false);
+});
+
+it("renders boundary reorder items disabled instead of hiding them", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="4"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+
+  expect(reorderItems).toHaveLength(4);
+  expect(await reorderItems[0].getProperty("disabled")).toBe(true);
+  expect(await reorderItems[1].getProperty("disabled")).toBe(true);
+  expect(await reorderItems[2].getProperty("disabled")).toBe(false);
+  expect(await reorderItems[3].getProperty("disabled")).toBe(false);
+});
+
+it("does not emit reorder from disabled boundary items and still allows enabled actions", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="4"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const calciteSortHandleReorderSpy = await page.spyOnEvent<ReorderEventDetail>("calciteSortHandleReorder");
+
+  await openSortHandle(page);
+
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+  await reorderItems[0].click();
+  await page.waitForChanges();
+
+  expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(0);
+
+  await reorderItems[2].click();
+  await page.waitForChanges();
+  expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[2]);
+});
+
+it("hides reorder group title when it is the only visible group", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="2" set-size="4"></calcite-sort-handle>`);
+  await page.waitForChanges();
+
+  const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBeUndefined();
+});
+
+it("shows reorder group title when moveTo items are present", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="2" set-size="4"></calcite-sort-handle>`);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("moveToItems", [{ label: "List 2", id: "list2" }]);
+  await page.waitForChanges();
+
+  const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
+
+  expect(await reorderGroup.getProperty("groupTitle")).toBe(T9nStrings.reorder);
+});
+
+it("keeps single-item sets enabled and renders disabled reorder actions", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="1"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
+  const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
+
+  expect(await dropdown.getProperty("disabled")).toBe(false);
+  expect(reorderItems).toHaveLength(4);
+
+  for (const item of reorderItems) {
+    expect(await item.getProperty("disabled")).toBe(true);
+  }
 });
 
 it("doesn't render reorder group when sortDisabled is true", async () => {

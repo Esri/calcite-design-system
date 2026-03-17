@@ -47,15 +47,29 @@ export class SortHandle extends LitElement {
   }
 
   get hasValidSetInfo(): boolean {
-    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
+    return this.hasSetInfo
+      ? this.setPosition > 0 && this.setPosition <= this.setSize && this.setSize > 0
+      : true;
   }
 
   get hasReorderItems(): boolean {
     return !this.sortDisabled && this.hasValidSetInfo;
   }
 
+  get hasMoveToItems(): boolean {
+    return this.moveToItems.length > 0;
+  }
+
+  get hasAddToItems(): boolean {
+    return this.addToItems.length > 0;
+  }
+
+  get reorderGroupTitle(): string {
+    return this.hasMoveToItems || this.hasAddToItems ? this.messages.reorder : null;
+  }
+
   get hasNoItems(): boolean {
-    return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
+    return !this.hasReorderItems && !this.hasMoveToItems && !this.hasAddToItems;
   }
 
   private interactiveContainer = useInteractive(this);
@@ -353,7 +367,7 @@ export class SortHandle extends LitElement {
   private renderReorderGroup(): JsxNode {
     return this.hasReorderItems ? (
       <calcite-dropdown-group
-        groupTitle={this.messages.reorder}
+        groupTitle={this.reorderGroupTitle}
         id={IDS.reorder}
         key="reorder"
         scale={this.scale}
@@ -368,9 +382,9 @@ export class SortHandle extends LitElement {
   }
 
   private renderAddToGroup(): JsxNode {
-    const { messages, addToItems, scale } = this;
+    const { messages, addToItems, scale, hasAddToItems } = this;
 
-    return addToItems.length ? (
+    return hasAddToItems ? (
       <calcite-dropdown-group
         groupTitle={messages.addTo}
         id={IDS.add}
@@ -384,9 +398,9 @@ export class SortHandle extends LitElement {
   }
 
   private renderMoveToGroup(): JsxNode {
-    const { messages, moveToItems, scale } = this;
+    const { messages, moveToItems, scale, hasMoveToItems } = this;
 
-    return moveToItems.length ? (
+    return hasMoveToItems ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
         id={IDS.move}
@@ -399,10 +413,11 @@ export class SortHandle extends LitElement {
     ) : null;
   }
 
-  private renderDropdownItem(positionIndex: number, label: string): JsxNode {
+  private renderDropdownItem(positionIndex: number, label: string, disabled = false): JsxNode {
     return (
       <calcite-dropdown-item
         data-value={REORDER_VALUES[positionIndex]}
+        disabled={disabled}
         key={REORDER_VALUES[positionIndex]}
         label={label}
         oncalciteDropdownItemSelect={this.handleReorder}
@@ -412,30 +427,32 @@ export class SortHandle extends LitElement {
     );
   }
 
-  private renderTop(): JsxNode | null {
+  private renderTop(): JsxNode {
     const { setPosition } = this;
 
-    return setPosition !== 1 && setPosition !== 2
-      ? this.renderDropdownItem(0, this.messages.moveToTop)
-      : null;
+    return this.renderDropdownItem(
+      0,
+      this.messages.moveToTop,
+      setPosition === 1 || setPosition === 2,
+    );
   }
 
-  private renderUp(): JsxNode | null {
-    return this.setPosition !== 1 ? this.renderDropdownItem(1, this.messages.moveUp) : null;
+  private renderUp(): JsxNode {
+    return this.renderDropdownItem(1, this.messages.moveUp, this.setPosition === 1);
   }
 
-  private renderDown(): JsxNode | null {
-    return this.setPosition !== this.setSize
-      ? this.renderDropdownItem(2, this.messages.moveDown)
-      : null;
+  private renderDown(): JsxNode {
+    return this.renderDropdownItem(2, this.messages.moveDown, this.setPosition === this.setSize);
   }
 
-  private renderBottom(): JsxNode | null {
+  private renderBottom(): JsxNode {
     const { setPosition, setSize } = this;
 
-    return setPosition !== setSize && setPosition !== setSize - 1
-      ? this.renderDropdownItem(3, this.messages.moveToBottom)
-      : null;
+    return this.renderDropdownItem(
+      3,
+      this.messages.moveToBottom,
+      setPosition === setSize || setPosition === setSize - 1,
+    );
   }
 
   //#endregion
