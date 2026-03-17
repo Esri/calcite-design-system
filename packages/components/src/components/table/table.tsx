@@ -73,7 +73,13 @@ export class Table extends LitElement {
       ? new MutationObserver(() => this.scheduleStickyHeaderOffsetUpdate())
       : null;
 
+  private stickyHeaderListenersAttached = false;
+
   private handleViewportChange = (): void => {
+    if (!this.stickyHeader) {
+      return;
+    }
+
     this.scheduleStickyHeaderViewportUpdate();
   };
 
@@ -204,8 +210,7 @@ export class Table extends LitElement {
 
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
 
-    window.addEventListener("scroll", this.handleViewportChange, { passive: true });
-    window.addEventListener("resize", this.handleViewportChange);
+    this.setStickyHeaderListeners(this.stickyHeader);
   }
 
   override disconnectedCallback(): void {
@@ -219,8 +224,7 @@ export class Table extends LitElement {
       this.stickyHeaderViewportAnimationFrame = null;
     }
 
-    window.removeEventListener("scroll", this.handleViewportChange);
-    window.removeEventListener("resize", this.handleViewportChange);
+    this.setStickyHeaderListeners(false);
 
     this.stickyHeaderResizeObserver?.disconnect();
     this.stickyHeaderMutationObserver?.disconnect();
@@ -247,7 +251,18 @@ export class Table extends LitElement {
     }
 
     if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
-      this.scheduleStickyHeaderOffsetUpdate();
+      this.setStickyHeaderListeners(this.stickyHeader);
+
+      if (this.stickyHeader) {
+        this.scheduleStickyHeaderOffsetUpdate();
+      } else {
+        this.stickyHeaderResizeObserver?.disconnect();
+        this.stickyHeaderMutationObserver?.disconnect();
+        this.stickyHeaderTotalHeight = 0;
+        this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
+        this.el.style.setProperty("--calcite-internal-table-header-position", "static");
+        this.el.style.setProperty("--calcite-internal-table-header-active", "0");
+      }
     }
   }
 
@@ -333,9 +348,28 @@ export class Table extends LitElement {
       ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
   }
 
+  private setStickyHeaderListeners(active: boolean): void {
+    if (active && !this.stickyHeaderListenersAttached) {
+      window.addEventListener("scroll", this.handleViewportChange, { passive: true });
+      window.addEventListener("resize", this.handleViewportChange);
+      this.stickyHeaderListenersAttached = true;
+      return;
+    }
+
+    if (!active && this.stickyHeaderListenersAttached) {
+      window.removeEventListener("scroll", this.handleViewportChange);
+      window.removeEventListener("resize", this.handleViewportChange);
+      this.stickyHeaderListenersAttached = false;
+    }
+  }
+
   private observeStickyHeaderRows(): void {
     this.stickyHeaderResizeObserver?.disconnect();
     this.stickyHeaderMutationObserver?.disconnect();
+
+    if (!this.stickyHeader) {
+      return;
+    }
 
     this.headRows?.forEach((row) => {
       const tableRow = row.shadowRoot?.querySelector("tr");
@@ -373,6 +407,10 @@ export class Table extends LitElement {
   }
 
   private scheduleStickyHeaderOffsetUpdate(): void {
+    if (!this.stickyHeader) {
+      return;
+    }
+
     if (this.stickyHeaderOffsetAnimationFrame !== null) {
       cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
     }
@@ -494,8 +532,10 @@ export class Table extends LitElement {
     this.footRows = footRows;
     this.allRows = allRows;
 
-    this.observeStickyHeaderRows();
-    this.scheduleStickyHeaderOffsetUpdate();
+    if (this.stickyHeader) {
+      this.observeStickyHeaderRows();
+      this.scheduleStickyHeaderOffsetUpdate();
+    }
 
     this.handleCurrentPageRange();
     this.updateSelectedItems();
