@@ -200,6 +200,11 @@ interface UseForm {
   active: boolean;
 
   /**
+   * For components that support multiple input types (e.g. "text", "email", etc.), this method allows changing the input type.
+   */
+  overrideInputType: (type: HTMLInputElement["type"]) => void;
+
+  /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
@@ -219,15 +224,13 @@ export const useForm = <T extends FormComponent>(
   options: UseFormOptions,
 ): ReturnType<typeof makeGenericController<UseForm, T>> => {
   return makeGenericController<UseForm, T>((component, controller) => {
-    let defaultValueDirty = false;
-    let defaultCheckedDirty = false;
     let inputDelegate: HTMLInputElement | undefined;
     let lastAssociatedForm: HTMLFormElement | null = null;
+    let effectiveInputType = options.inputType;
 
-    if (options.inputType) {
-      inputDelegate = document.createElement("input");
-      inputDelegate.type = options.inputType;
+    if (effectiveInputType) {
       // intentionally not appended to the DOM, we just need it for validation
+      inputDelegate = document.createElement("input");
     }
 
     function invalidFormHandler(event: Event): void {
@@ -256,13 +259,10 @@ export const useForm = <T extends FormComponent>(
       }
 
       if (isCheckable(component)) {
-        component.checked = defaultCheckedDirty ? component.defaultChecked : component.checked;
+        component.checked = component.defaultChecked;
       }
 
-      component.value = defaultValueDirty ? component.defaultValue : component.value;
-
-      defaultValueDirty = false;
-      defaultCheckedDirty = false;
+      component.value = component.defaultValue;
     }
 
     component.listen("luminaFormResetCallback", () => {
@@ -324,22 +324,33 @@ export const useForm = <T extends FormComponent>(
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
-      if (changes.has("value") && !defaultValueDirty) {
-        defaultValueDirty = true;
+      if (!component.hasUpdated) {
         component.defaultValue = component.value;
-      }
 
-      if (isCheckable(component) && changes.has("checked") && !defaultCheckedDirty) {
-        defaultCheckedDirty = true;
-        component.defaultChecked = component.checked;
+        if (isCheckable(component)) {
+          component.defaultChecked = component.checked;
+        }
       }
 
       if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
+      updateInputDelegate();
+    });
+
+    function updateInputDelegate(): void {
       if (inputDelegate) {
-        inputDelegate.value = component.value;
+        inputDelegate.type = effectiveInputType!;
+        const { value } = component;
+        const normalizedValue =
+          value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
+            ? ``
+            : Array.isArray(value)
+              ? value.join(",")
+              : `${value}`;
+
+        inputDelegate.value = normalizedValue;
         syncInternalInput(component, inputDelegate);
         inputDelegate.checkValidity();
         component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
@@ -347,7 +358,7 @@ export const useForm = <T extends FormComponent>(
           component.validity = component.elementInternals.validity;
         }
       }
-    });
+    }
 
     function getFormValue(): any {
       if (Array.isArray(component.value)) {
@@ -359,9 +370,7 @@ export const useForm = <T extends FormComponent>(
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.defaultValue === undefined && !defaultValueDirty && component.value === undefined
-            ? "on"
-            : component.value;
+          return component.value || "on";
         }
 
         return null;
@@ -373,6 +382,14 @@ export const useForm = <T extends FormComponent>(
     return {
       get active() {
         return !!component.elementInternals.form;
+      },
+      overrideInputType: (type) => {
+        if (import.meta.env.DEV && !inputDelegate) {
+          throw new Error("Cannot override input type because no input delegate is configured.");
+        }
+
+        effectiveInputType = type;
+        updateInputDelegate();
       },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();
