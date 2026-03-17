@@ -908,7 +908,7 @@ describe("number type", () => {
     await el.setFocus();
 
     for (let i = 0; i < nonELetterKeys.length; i++) {
-      await userEvent.keyboard(`{Shift>}${nonELetterKeys[i]}}{/Shift}`);
+      await userEvent.keyboard(`{Shift>}${nonELetterKeys[i]}{/Shift}`);
 
       expect(el).toHaveProperty("value", "");
       expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("");
