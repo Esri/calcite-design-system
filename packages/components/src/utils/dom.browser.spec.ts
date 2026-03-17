@@ -2,7 +2,7 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { IconName } from "../components/icon/interfaces";
 import { guidPattern } from "./guid.browser.spec";
@@ -29,7 +29,6 @@ import {
   slotChangeHasAssignedNode,
   slotChangeHasContent,
   slotChangeHasTextContent,
-  toAriaBoolean,
   viewportUnitToPixel,
   whenAnimationDone,
   whenTransitionDone,
@@ -206,18 +205,6 @@ describe("dom", () => {
     });
   });
 
-  describe("toAriaBoolean()", () => {
-    it("handles truthy values", () => {
-      expect(toAriaBoolean(true)).toBe("true");
-    });
-
-    it("handles falsy values", () => {
-      expect(toAriaBoolean(false)).toBe("false");
-      expect(toAriaBoolean(null)).toBe("false");
-      expect(toAriaBoolean(undefined)).toBe("false");
-    });
-  });
-
   describe("isPrimaryPointerButton()", () => {
     it("handles pointer events", () => {
       expect(isPrimaryPointerButton({ button: 0, isPrimary: true } as PointerEvent)).toBe(true);
@@ -306,13 +293,13 @@ describe("dom", () => {
         const slottedEls = [createEl("div"), createEl("div")];
 
         appendChildren(testEl, slottedEls);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual(slottedEls);
 
         assigned = null;
         slottedEls.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual([]);
       });
@@ -349,7 +336,7 @@ describe("dom", () => {
         ];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [nodes[1]],
@@ -360,7 +347,7 @@ describe("dom", () => {
 
         Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
         nodes.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [],
@@ -409,13 +396,13 @@ describe("dom", () => {
         const nodes = [document.createTextNode("hello"), createEl("div"), document.createTextNode("world")];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual(nodes);
 
         assigned = null;
         nodes.forEach((el) => el.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(assigned).toEqual([]);
       });
@@ -452,7 +439,7 @@ describe("dom", () => {
         ];
 
         appendChildren(testEl, nodes);
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [nodes[0], nodes[1]],
@@ -463,7 +450,7 @@ describe("dom", () => {
 
         Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
         nodes.forEach((node) => node.remove());
-        await waitForAnimationFrame();
+        await afterNextFrame();
 
         expect(slotToAssigned).toEqual({
           "": [],
@@ -642,6 +629,7 @@ describe("dom", () => {
         await el.setFocus();
         expect.unreachable("should not reach here, setFocus should throw an error");
       } catch (error) {
+        // eslint-disable-next-line vitest/no-conditional-expect -- we use expect.unreachable() above to properly fail the test if no error is thrown
         expect(error).toBeInstanceOf(RangeError);
       }
     });
@@ -981,7 +969,7 @@ describe("dom", () => {
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
-          await waitForAnimationFrame();
+          await afterNextFrame();
 
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
@@ -999,7 +987,7 @@ describe("dom", () => {
           const promise = helper(element, testTransitionOrAnimationName);
           expect(await promiseState(promise)).toHaveProperty("status", "pending");
 
-          await waitForAnimationFrame();
+          await afterNextFrame();
 
           expect(await promiseState(promise)).toHaveProperty("status", "fulfilled");
         });

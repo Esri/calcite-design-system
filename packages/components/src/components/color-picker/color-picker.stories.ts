@@ -47,32 +47,32 @@ export const alphaChannelAllScales = (): string => html`
   <calcite-color-picker scale="l" alpha-channel value="#b33f3333"></calcite-color-picker>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
+export const disabled = (): string => html`<calcite-color-picker disabled></calcite-color-picker>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-color-picker scale="m" dir="rtl" class="calcite-mode-dark" value="#b33f33"></calcite-color-picker>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const thumbsOnEdgeDoNotOverflowContainer_TestOnly = (): string =>
+export const thumbsOnEdgeDoNotOverflowContainer = (): string =>
   html`<div style="overflow: auto; width: 274px;">
     <calcite-color-picker value="#04006e"></calcite-color-picker>
   </div>`;
 
-export const ArabicLocale_TestOnly = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
+export const ArabicLocale = (): string => html`<calcite-color-picker lang="ar"></calcite-color-picker>`;
 
-export const NorwegianLocale_TestOnly = (): string => html`<calcite-color-picker lang="no"></calcite-color-picker>`;
+export const NorwegianLocale = (): string => html`<calcite-color-picker lang="no"></calcite-color-picker>`;
 
-export const SpanishLocale_TestOnly = (): string => html`<calcite-color-picker lang="es"></calcite-color-picker>`;
+export const SpanishLocale = (): string => html`<calcite-color-picker lang="es"></calcite-color-picker>`;
 
-export const JapaneseLocale_TestOnly = (): string => html`<calcite-color-picker lang="ja"></calcite-color-picker>`;
+export const JapaneseLocale = (): string => html`<calcite-color-picker lang="ja"></calcite-color-picker>`;
 
-export const RussianLocale_TestOnly = (): string => html`<calcite-color-picker lang="ru"></calcite-color-picker>`;
+export const RussianLocale = (): string => html`<calcite-color-picker lang="ru"></calcite-color-picker>`;
 
-export const ThaiLocale_TestOnly = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
+export const ThaiLocale = (): string => html`<calcite-color-picker lang="th"></calcite-color-picker>`;
 
-export const Focus_TestOnly = (): string =>
+export const Focus = (): string =>
   html`<calcite-color-picker value="#97a7b0"></calcite-color-picker>
     <script>
       (async () => {
@@ -82,7 +82,7 @@ export const Focus_TestOnly = (): string =>
       })();
     </script>`;
 
-Focus_TestOnly.parameters = {
+Focus.parameters = {
   chromatic: { delay: 2000 },
 };
 

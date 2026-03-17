@@ -12,17 +12,9 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, setRequestedIcon } from "../../utils/dom";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { setRequestedIcon } from "../../utils/dom";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
@@ -31,7 +23,7 @@ import { getIconScale } from "../../utils/component";
 import { InputClearButton } from "../functional/InputClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
@@ -49,14 +41,13 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a button next to the component.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputText
-  extends LitElement
-  implements LabelableComponent, FormComponent, TextualInputComponent
-{
+export class InputText extends LitElement implements LabelableComponent, TextualInputComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -75,24 +66,13 @@ export class InputText
 
   defaultValue: InputText["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
 
   private inlineEditableEl: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl: Label["el"];
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedValue: string;
 
@@ -116,6 +96,10 @@ export class InputText
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
+
   private interactiveContainer = useInteractive(this);
 
   get isClearable(): boolean {
@@ -132,7 +116,7 @@ export class InputText
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's value. */
+  /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
@@ -143,11 +127,11 @@ export class InputText
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. */
+  /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -170,7 +154,7 @@ export class InputText
    */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible label for the component's button or hyperlink. */
@@ -179,7 +163,7 @@ export class InputText
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -220,17 +204,17 @@ export class InputText
   @property() pattern: string;
 
   /**
-   * Specifies placeholder text for the component.
+   * Specifies the component's placeholder text.
    *
    * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
-  /** Adds text to the start of the component. */
+  /** Specifies text to display at the start of the component. */
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -238,17 +222,17 @@ export class InputText
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Adds text to the end of the component. */
+  /** Specifies text to display at the end of the component. */
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
@@ -318,10 +302,10 @@ export class InputText
 
   //#region Events
 
-  /** Fires each time a new value is typed and committed. */
+  /** Fires each time a new `value` is typed and committed. */
   calciteInputTextChange = createEvent();
 
-  /** Fires each time a new value is typed. */
+  /** Fires each time a new `value` is typed. */
   calciteInputTextInput = createEvent();
 
   /** @private */
@@ -350,11 +334,6 @@ export class InputText
     }
 
     connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -371,11 +350,6 @@ export class InputText
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -406,10 +380,9 @@ export class InputText
       this.clearInputTextValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 
@@ -486,10 +459,6 @@ export class InputText
     }
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("text", this, input);
-  }
-
   private setInputValue(newInputValue: string): void {
     if (!this.childRef.value) {
       return;
@@ -544,7 +513,7 @@ export class InputText
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
@@ -642,8 +611,6 @@ export class InputText
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

@@ -11669,5 +11669,305 @@
     "alias": ["4.4.0", "knowledge graph", "information", "graph", "knowledge", "history", "data-lineage"],
     "category": "Knowledge Graph",
     "release": "4.4.0"
+  },
+  "show-oriented-imagery": {
+    "alias": ["4.4.0", "gis", "layer", "map", "point", "view", "interactive"],
+    "category": "GIS",
+    "release": "4.4.0"
+  },
+  "3d-search": {
+    "alias": ["4.4.0", "generic", "algorithm", "data", "points", "space", "location"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "group-off-set-start-of-line": {
+    "alias": ["4.4.0", "template group", "tool", "point", "feature", "distance", "place"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "multiple-polygon-feature": {
+    "alias": ["4.4.0", "template group", "feature", "attributes", "state", "merge", "data"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "oriented-imagery-overlays": {
+    "alias": ["4.4.0", "generic", "data", "points", "lines", "polygons", "images", "view", "map", "2d", "3d"],
+    "category": "Generic",
+    "release": "4.4.0"
+  },
+  "point-at-every-intersection": {
+    "alias": ["4.4.0", "template group", "tools", "feature", "analyze", "identify", "points"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "radial-lines": {
+    "alias": ["4.4.0", "template group", "linear-features", "point", "analysis", "mapping"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "single-line-feature": {
+    "alias": ["4.4.0", "template group", "linear", "feature", "length", "vertices", "segments"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-along-line": {
+    "alias": ["4.4.0", "template group", "features", "points", "vertices", "intervals"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-all-vertices": {
+    "alias": ["4.4.0", "template group", "vertex", "linear-network", "boundary"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-all-vertices-but-end": {
+    "alias": ["4.4.0", "template group", "segment", "feature", "data", "points", "tool"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-all-vertices-but-start": {
+    "alias": ["4.4.0", "template group", "feature", "points", "line", "connection", "layer"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-all-vertices-but-start-and-end": {
+    "alias": ["4.4.0", "template group", "feature", "polyline", "nodes", "polygon"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-end-of-line": {
+    "alias": ["4.4.0", "template group", "configuration", "point", "feature", "data", "action"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-at-start-of-line": {
+    "alias": ["4.4.0", "template group", "function", "setting", "features", "point", "vertex"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-coincident-points": {
+    "alias": ["4.4.0", "template group", "edit", "tool", "features", "coordinates", "model", "location"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-line-buffer": {
+    "alias": ["4.4.0", "template group", "edit", "tool", "polygon", "buffer", "workflow"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-multiple-lines": {
+    "alias": ["4.4.0", "template group", "features", "sketch", "workflows", "infrastructure"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-multiple-two-point-lines": {
+    "alias": ["4.4.0", "template group", "feature", "map", "layers", "tool"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-point-at-centroid": {
+    "alias": ["4.4.0", "template group", "feature", "polygon", "action", "mass", "boundary"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-point-at-every-vertex": {
+    "alias": ["4.4.0", "template group", "features", "map", "line-builder", "tools"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-point-at-every-vertex-but-start": {
+    "alias": ["4.4.0", "template group", "feature", "line", "offset", "tool", "attribute"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-point-at-start": {
+    "alias": ["4.4.0", "template group", "feature", "vertex", "line", "distance"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-point-buffer": {
+    "alias": ["4.4.0", "template group", "edit", "tool", "polygon", "distance", "feature"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-polygon-buffer": {
+    "alias": ["4.4.0", "template group", "distance", "feature", "tool", "map"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "template-group-single-line-boundary": {
+    "alias": ["4.4.0", "template group", "boundary", "tool", "feature", "component"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "tools": {
+    "alias": ["4.4.0", "objects", "analyze", "wrench", "screwdriver", "instrument", "gadget", "device"],
+    "category": "Objects",
+    "release": "4.4.0"
+  },
+  "two-point-lines": {
+    "alias": ["4.4.0", "template group", "features", "boundaries", "map", "distance"],
+    "category": "Template Group",
+    "release": "4.4.0"
+  },
+  "conditional-rules-down": {
+    "alias": ["5.0.0", "charts and graphs", "automation", "data", "management", "analysis", "visualization"],
+    "category": "Charts and Graphs",
+    "release": "5.0.0"
+  },
+  "feature-details-set": {
+    "alias": ["5.0.0", "lists", "collection", "spatial-data", "points", "lines", "polygons", "edit", "multi-value"],
+    "category": "Lists",
+    "release": "5.0.0"
+  },
+  "add-to-livestream-video-layer": {
+    "alias": ["5.0.0", "layers", "web", "publish", "ingest", "connection-address", "protocol", "insert"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "add-to-video-layer": {
+    "alias": ["5.0.0", "layers", "insert", "publish", "data", "telemetry", "tool"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "gradient": {
+    "alias": ["5.0.0", "media", "slope-analysis", "transition", "map-features", "visualize"],
+    "category": "Media",
+    "release": "5.0.0"
+  },
+  "file-bim": {
+    "alias": ["5.0.0", "files", "direct-read", "coordinates", "geodatabase", "analysis", "tools"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-dwg": {
+    "alias": ["5.0.0", "files", "map", "geodatabase", "points", "polylines", "annotation"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "file-rvt": {
+    "alias": ["5.0.0", "files", "geodatabase", "3d", "feature", "data"],
+    "category": "Files",
+    "release": "5.0.0"
+  },
+  "bicycle-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "two-wheeler",
+      "ride",
+      "pedal",
+      "wheel",
+      "bike",
+      "bicycling",
+      "commute",
+      "exercise",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "bus-travel-mode": {
+    "alias": ["5.0.0", "transportation", "motor", "vehicle", "automobile", "public-transit", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "car-travel-mode": {
+    "alias": ["5.0.0", "transportation", "automobile", "vehicle", "wheels", "ride", "commute", "commuting", "vehicle"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "emergency": {
+    "alias": ["5.0.0", "objects", "urgency", "disaster", "catastrophe", "crisis"],
+    "category": "Objects",
+    "release": "5.0.0"
+  },
+  "moped-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "bike",
+      "motorized",
+      "automobile",
+      "two-wheeler",
+      "scooter",
+      "commute",
+      "commuting",
+      "vehicle"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "motorcycle-travel-mode": {
+    "alias": ["5.0.0", "transportation", "two-wheeler", "motor", "ride", "bike", "commute", "commuting", "vehicle"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "scooter-travel-mode": {
+    "alias": ["5.0.0", "transportation", "two-wheeler", "bike", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "shuttle-travel-mode": {
+    "alias": ["5.0.0", "transportation", "bus", "automobile", "vehicle", "ride", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "stroller-travel-mode": {
+    "alias": ["5.0.0", "transportation", "pushchair", "baby-carriage", "buggy", "pram", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "train-travel-mode": {
+    "alias": ["5.0.0", "transportation", "train-station", "lightspeed-rail", "public-transit", "vehicle", "engine"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "tram-travel-mode": {
+    "alias": ["5.0.0", "transportation", "streetcar", "trolley", "vehicle", "track", "commute", "commuting"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "truck-travel-mode": {
+    "alias": ["5.0.0", "transportation", "pickup", "commute", "commuting", "semi-rig", "deliver"],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "walking-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "stroll",
+      "stride",
+      "hike",
+      "step",
+      "person",
+      "commute",
+      "commuting",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "wheelchair-travel-mode": {
+    "alias": [
+      "5.0.0",
+      "transportation",
+      "commute",
+      "commuting",
+      "pushchair",
+      "sport",
+      "hadicapped",
+      "person",
+      "disabiltiy",
+      "activity"
+    ],
+    "category": "Transportation",
+    "release": "5.0.0"
+  },
+  "publish": {
+    "alias": ["5.0.0", "generic", "web", "produce", "issue", "release", "public"],
+    "category": "Generic",
+    "release": "5.0.0"
   }
 }

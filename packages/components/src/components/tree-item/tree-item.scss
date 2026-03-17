@@ -162,24 +162,30 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  transform: scaleY(0);
+  opacity: 0;
+  max-block-size: 0;
+  overflow: hidden;
   transition:
-    var(--calcite-animation-timing) animation.$easing-function,
-    opacity var(--calcite-animation-timing) animation.$easing-function,
-    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
+}
 
-  .item--expanded > & {
-    @apply overflow-visible opacity-100;
-    transform: none;
-    block-size: auto;
+.item--expanded > .children-container {
+  opacity: 1;
+  max-block-size: 100dvb;
+  transition:
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size calc(2 * var(--calcite-internal-animation-timing-slow)) animation.$easing-function;
+
+  @starting-style {
+    opacity: 0;
+    max-block-size: 0;
   }
 }
 
 .node-container {
   @apply relative flex grow items-center min-w-0;
-
-  .checkmark {
+  .selection-icon {
     @apply transition-default opacity-0;
     color: var(--calcite-color-border-1);
   }
@@ -188,7 +194,7 @@
 .node-container:hover,
 :host([selected]) .node-container:hover,
 :host(:focus:not([disabled])) .node-container {
-  .checkmark {
+  .selection-icon {
     @apply opacity-100;
   }
 }
@@ -204,7 +210,7 @@
     --calcite-icon-color: var(--calcite-internal-tree-item-text-color);
   }
 
-  .checkmark {
+  .selection-icon {
     @apply opacity-100;
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
@@ -212,7 +218,7 @@
 
 // dropdown with children
 :host([has-children]) .node-container {
-  .checkmark {
+  .selection-icon {
     @apply hidden;
   }
 }
@@ -235,7 +241,7 @@
 }
 
 :host([selected]) {
-  .checkmark {
+  .selection-icon {
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
   }
   .checkbox {

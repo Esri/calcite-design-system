@@ -9,20 +9,20 @@
  * @prop --calcite-input-actions-icon-color: Specifies the icon color of the component's `clearable` and `number-button-type` elements.
  * @prop --calcite-input-actions-icon-color-hover: Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
  * @prop --calcite-input-actions-icon-color-press: Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
- * @prop --calcite-input-loading-background-color: Specifies the background color of the `loading` element.
- * @prop --calcite-input-loading-fill-color: Specifies the fill color of the `loading` element.
- * @prop --calcite-input-number-background-color: Specifies the background color of the component.
- * @prop --calcite-input-number-border-color: Specifies the border color of the component.
- * @prop --calcite-input-number-corner-radius: Specifies the border radius of the component.
+ * @prop --calcite-input-loading-background-color: When `loading`, specifies the background color of the component's `loading` element.
+ * @prop --calcite-input-loading-fill-color: When `loading`, specifies the fill color of the component's `loading` element.
+ * @prop --calcite-input-number-background-color: Specifies the component's background color.
+ * @prop --calcite-input-number-border-color: Specifies the component's border color.
+ * @prop --calcite-input-number-corner-radius: Specifies the component's border radius.
  * @prop --calcite-input-number-icon-color: Specifies the component's icon color.
- * @prop --calcite-input-number-height: Specifies the height of the component.
- * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the placeholder in the component.
- * @prop --calcite-input-number-text-color: Specifies the text color of the component.
- * @prop --calcite-input-number-text-color-focus: Specifies the text color of the component when focused.
- * @prop --calcite-input-prefix-size: Specifies the width of the prefix element.
- * @prop --calcite-input-prefix-text-color: Specifies the text color of the prefix element.
- * @prop --calcite-input-suffix-size: Specifies the width of the suffix element.
- * @prop --calcite-input-suffix-text-color: Specifies the text color of the suffix element.
+ * @prop --calcite-input-number-height: Specifies the component's height.
+ * @prop --calcite-input-number-placeholder-text-color: Specifies the text color of the component's placeholder.
+ * @prop --calcite-input-number-text-color: Specifies the component's text color.
+ * @prop --calcite-input-number-text-color-focus: Specifies the component's text color when focused.
+ * @prop --calcite-input-prefix-size: When `prefixText` is provided, specifies the width of the component's prefix element.
+ * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
+ * @prop --calcite-input-suffix-size: When `suffixText` is provided, specifies the width of the component's suffix element.
+ * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the text color of the component's suffix element.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.

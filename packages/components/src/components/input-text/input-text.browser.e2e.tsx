@@ -11,90 +11,81 @@ import {
   renders,
   reflects,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { InputText } from "./input-text";
 
-describe("calcite-input-text", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-input-text"),
-      [
-        {
-          propertyName: "status",
-          defaultValue: "idle",
-        },
-        {
-          propertyName: "alignment",
-          defaultValue: "start",
-        },
-        {
-          propertyName: "scale",
-          defaultValue: "m",
-        },
-        {
-          propertyName: "value",
-          defaultValue: "",
-        },
-        {
-          propertyName: "validationIcon",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "validationMessage",
-          defaultValue: undefined,
-        },
-      ],
-    );
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-input-text"),
+    [
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "alignment",
+        defaultValue: "start",
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+      {
+        propertyName: "value",
+        defaultValue: "",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
+    ],
+  );
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-input-text"),
-      [
-        {
-          propertyName: "status",
-          value: "valid",
-        },
-        {
-          propertyName: "alignment",
-          value: "center",
-        },
-        {
-          propertyName: "scale",
-          value: "s",
-        },
-        {
-          propertyName: "validationIcon",
-          value: true,
-        },
-      ],
-    );
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-input-text"),
+    [
+      {
+        propertyName: "status",
+        value: "valid",
+      },
+      {
+        propertyName: "alignment",
+        value: "center",
+      },
+      {
+        propertyName: "scale",
+        value: "s",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
+    ],
+  );
+});
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-input-text"));
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-input-text"));
+});
 
-  describe("internal label", () => {
-    internalLabel(() => mount(`calcite-input-text`));
-  });
+describe("internal label", () => {
+  internalLabel(() => mount(`calcite-input-text`));
+});
 
-  describe("renders", () => {
-    renders(() => mount("calcite-input-text"), { display: "block" });
-  });
+describe("renders", () => {
+  renders(() => mount("calcite-input-text"), { display: "block" });
+});
 
-  describe("is focusable", () => {
-    focusable(() => mount(`calcite-input-text`), {
-      shadowFocusTargetSelector: "input",
-    });
-  });
-
-  describe("translation support", () => {
-    t9n(() => mount("calcite-input-text"));
-  });
-
-  describe("disabled", () => {
-    disabled(() => mount("calcite-input-text"));
+describe("is focusable", () => {
+  focusable(() => mount(`calcite-input-text`), {
+    shadowFocusTargetSelector: "input",
   });
 
   describe("clearable", () => {
@@ -244,4 +235,21 @@ describe("calcite-input-text", () => {
       expect((clearButton as any).disabled).toBe(true);
     });
   });
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-text"), {
+    testValue: "test",
+    submitsOnEnter: true,
+    validation: true,
+    inputType: "text",
+  });
+});
+
+describe("translation support", () => {
+  t9n(() => mount("calcite-input-text"));
+});
+
+describe("disabled", () => {
+  disabled(() => mount("calcite-input-text"));
 });

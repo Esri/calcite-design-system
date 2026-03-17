@@ -625,6 +625,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
+            this.userChangedValue = true;
             this.component.value = "";
             break;
         }
@@ -686,4 +687,5 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
+/** @public */
 export const useTime = toFunction(TimeController);

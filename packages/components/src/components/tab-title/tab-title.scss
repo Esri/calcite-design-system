@@ -185,11 +185,11 @@
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
 
   .icon-start {
-    color: var(--calcite-tab-icon-color-start, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   .icon-end {
-    color: var(--calcite-tab-icon-color-end, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   &:hover,
@@ -198,11 +198,11 @@
     color: var(--calcite-tab-text-color-press, var(--calcite-color-text-1));
 
     .icon-start {
-      color: var(--calcite-tab-icon-color-start-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-start-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
 
     .icon-end {
-      color: var(--calcite-tab-icon-color-end-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-end-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
   }
 }

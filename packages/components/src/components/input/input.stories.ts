@@ -128,9 +128,9 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
+export const disabled = (): string => html`<calcite-input disabled value="disabled"></calcite-input>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:300px;max-width:100%;text-align:center;">
     <calcite-label class="calcite-mode-dark" status="idle" for="input-dark-mode">
       My great label
@@ -151,15 +151,14 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const negativeInfinity_TestOnly = (): string =>
-  html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
+export const negativeInfinity = (): string => html` <calcite-input type="number" value="-Infinity"></calcite-input>`;
 
-export const arabicLocaleWithLatinNumberingSystem_TestOnly = (): string =>
+export const arabicLocaleWithLatinNumberingSystem = (): string =>
   html` <calcite-input type="number" lang="ar-EG" value="123456"></calcite-input>`;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -196,7 +195,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {

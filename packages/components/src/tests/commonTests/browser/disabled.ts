@@ -2,7 +2,7 @@ import { SetFieldType } from "type-fest";
 import { expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForAnimationFrame, waitForNextTick } from "../../utils/timing";
+import { afterNextFrame, afterNextTask } from "../../utils/timing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
 /** This interface is used to specify focus targets for different interactions. */
@@ -165,11 +165,13 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
       await userEvent.click(target, { force: true });
       expectToBeFocused("body", "none+click");
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       assertOnMouseAndPointerEvents(eventSpies, (spy) => expect(spy).toHaveBeenCalledTimes(1));
 
       target.disabled = true;
       await reRender();
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(target.getAttribute("aria-disabled")).toBe("true");
 
       await userEvent.click(target, { force: true });
@@ -179,6 +181,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
       expectToBeFocused("body", "none+disabled+click()");
 
       assertOnMouseAndPointerEvents(eventSpies, (spy) => {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy).toHaveBeenCalledTimes(eventsExpectedToBubble.includes(spy.getMockName()) ? 2 : 1);
       });
 
@@ -210,7 +213,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
     });
 
     // wait to ensure focus has been applied and browser has flushed layout
-    await waitForAnimationFrame();
+    await afterNextFrame();
 
     expectToBeFocused(effectiveFocusTarget.click.pointer, "click");
 
@@ -224,8 +227,10 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
       if (spy.getMockName() === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy.mock.calls.length).toBeGreaterThanOrEqual(2);
       } else {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy).toHaveBeenCalledTimes(1);
       }
     });
@@ -234,7 +239,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
     await reRender();
 
     // ensure focus has been applied and browser has flushed layout
-    await waitForAnimationFrame();
+    await afterNextFrame();
 
     expect(target.getAttribute("aria-disabled")).toBe("true");
 
@@ -254,8 +259,10 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
       if (spy.getMockName() === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy.mock.calls.length).toBeGreaterThanOrEqual(2);
       } else {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy).toHaveBeenCalledTimes(eventsExpectedToBubble.includes(spy.getMockName()) ? 2 : 1);
       }
     });
@@ -271,7 +278,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
 
     target.disabled = true;
     await reRender();
-    await waitForNextTick();
+    await afterNextTask();
 
     expect(target.getAttribute("aria-disabled")).toBe("true");
 
@@ -284,7 +291,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
     // this ensures disabling and events fire immediately after being set
     target.disabled = false;
     await reRender();
-    await waitForNextTick();
+    await afterNextTask();
 
     const [clientX, clientY] = getShadowFocusableCenterCoordinates(target.tagName);
 
@@ -302,7 +309,7 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
 
     target.disabled = true;
     await reRender();
-    await waitForNextTick();
+    await afterNextTask();
     allExpectedEvents.forEach((event) =>
       target.dispatchEvent(
         new MouseEvent(event, {
@@ -319,8 +326,10 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
       if (spy.getMockName() === "click") {
         // some components emit more than one click event (e.g., from calling `click()`),
         // so we check if at least one event is received
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy.mock.calls.length).toBeGreaterThanOrEqual(1);
       } else {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on event type
         expect(spy).toHaveBeenCalledTimes(eventsExpectedToBubble.includes(spy.getMockName()) ? 3 : 1);
       }
     });

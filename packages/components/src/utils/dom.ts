@@ -201,34 +201,6 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
     : null;
 }
 
-/**
- * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
- *
- * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
- *
- * @param element An element.
- * @param onVisit The callback.
- * @returns The result.
- */
-export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
-  return visit(element, onVisit);
-}
-
-function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
-  if (!node) {
-    return;
-  }
-
-  const result = onVisit(node);
-  if (result !== undefined) {
-    return result;
-  }
-
-  const { parentNode } = node;
-
-  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
-}
-
 export type FocusableElement = SetFocusable | HTMLElement;
 
 export interface SetFocusable extends LitElement {
@@ -390,18 +362,6 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
-}
-
-/**
- * This helper makes sure that boolean aria attributes are properly converted to a string.
- *
- * It should only be used for aria attributes that require a string value of "true" or "false".
- *
- * @param value The value.
- * @returns The string conversion of a boolean value ("true" | "false").
- */
-export function toAriaBoolean(value: boolean): string {
-  return Boolean(value).toString();
 }
 
 /**

@@ -32,15 +32,15 @@ export const simple = (args: SwitchStoryArgs): string => html`
   ></calcite-switch>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-switch class="calcite-mode-dark" name="setting" value="enabled" checked scale="m"></calcite-switch>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
+export const disabled = (): string => html`<calcite-switch disabled checked></calcite-switch>`;
 
-export const Focus_TestOnly = (): string => html`
+export const Focus = (): string => html`
   <div style="width:300px;height:300px; padding: 20px">
     <calcite-switch></calcite-switch>
   </div>
@@ -52,11 +52,11 @@ export const Focus_TestOnly = (): string => html`
   </script>
 `;
 
-Focus_TestOnly.parameters = {
+Focus.parameters = {
   chromatic: { delay: 1000 },
 };
 
-export const FocusLabel_TestOnly = (): string => html`
+export const FocusLabel = (): string => html`
   <div style="width:300px;height:300px; padding: 20px">
     <calcite-label>Switch label<calcite-switch></calcite-switch></calcite-label>
   </div>
@@ -68,6 +68,6 @@ export const FocusLabel_TestOnly = (): string => html`
   </script>
 `;
 
-FocusLabel_TestOnly.parameters = {
+FocusLabel.parameters = {
   chromatic: { delay: 1000 },
 };
