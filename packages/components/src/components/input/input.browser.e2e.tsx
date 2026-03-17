@@ -401,12 +401,18 @@ describe("input type number increment/decrement functionality", () => {
       `calcite-input .${CSS.numberButtonItem}[data-adjustment='up']`,
     );
 
-    await userEvent.click(numberHorizontalItemUp, { delay: delayFor2UpdatesInMs + 1 });
+    await userEvent.hover(numberHorizontalItemUp);
+    await commands.mouseDown();
+    vi.advanceTimersByTime(delayFor2UpdatesInMs);
+    await commands.mouseUp();
 
     const totalNudgesUp = inputEventHandler.mock.calls.length;
     expect(el).toHaveProperty("value", `0.0${totalNudgesUp}`);
 
-    await userEvent.click(numberHorizontalItemDown, { delay: delayFor2UpdatesInMs });
+    await userEvent.hover(numberHorizontalItemDown);
+    await commands.mouseDown();
+    vi.advanceTimersByTime(delayFor2UpdatesInMs);
+    await commands.mouseUp();
 
     const totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
     const finalNudgedValue = totalNudgesUp - totalNudgesDown;
