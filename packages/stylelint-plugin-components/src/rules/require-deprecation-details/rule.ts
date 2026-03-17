@@ -6,7 +6,7 @@ const {
 } = stylelint;
 
 /** @type {import('stylelint').Rule} */
-export const requireDeprecationAndRemovalVersions: stylelint.Rule = (primaryOption, secondaryOption) => {
+export const requireDeprecationDetails: stylelint.Rule = (primaryOption, secondaryOption) => {
   return (root, result) => {
     const validOptions = validateOptions(result, name, {
       actual: primaryOption,
@@ -46,6 +46,6 @@ export const requireDeprecationAndRemovalVersions: stylelint.Rule = (primaryOpti
   };
 };
 
-requireDeprecationAndRemovalVersions.ruleName = name;
-requireDeprecationAndRemovalVersions.messages = messages;
-requireDeprecationAndRemovalVersions.meta = meta;
+requireDeprecationDetails.ruleName = name;
+requireDeprecationDetails.messages = messages;
+requireDeprecationDetails.meta = meta;

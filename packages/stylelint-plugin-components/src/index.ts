@@ -1,3 +1,3 @@
-import requireDeprecationAndRemovalVersions from "./rules/require-deprecation-and-removal-versions/index.ts";
+import requireDeprecationDetails from "./rules/require-deprecation-details/index.ts";
 
-export default [requireDeprecationAndRemovalVersions];
+export default [requireDeprecationDetails];

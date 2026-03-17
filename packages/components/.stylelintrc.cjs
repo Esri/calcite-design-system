@@ -60,7 +60,7 @@ const rules = {
       severity: "error",
     },
   ],
-  "calcite/require-deprecation-and-removal-versions": [
+  "@esri/calcite-components/deprecation-format": [
     true,
     {
       severity: "error",
