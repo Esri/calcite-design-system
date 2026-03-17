@@ -185,10 +185,10 @@ it("renders number buttons in default vertical alignment when type=number", asyn
   await mount<Input>(<calcite-input type="number" />);
   const numberVerticalWrapper = page.getBySelector(`calcite-input .${CSS.numberButtonWrapper}`);
   const numberHorizontalItemUp = page.getBySelector(
-    `calcite-input .${CSS.numberButtonItem}[data-adjustment='up']`,
+    `calcite-input .${CSS.buttonItemHorizontal}[data-adjustment='up']`,
   );
   const numberHorizontalItemDown = page.getBySelector(
-    `calcite-input .${CSS.numberButtonItem}[data-adjustment='down']`,
+    `calcite-input .${CSS.buttonItemHorizontal}[data-adjustment='down']`,
   );
 
   await expect.element(numberVerticalWrapper).toBeVisible();
@@ -200,10 +200,10 @@ it("renders number buttons in horizontal vertical alignment when type=number and
   await mount<Input>(<calcite-input numberButtonType={"horizontal"} type="number" />);
   const numberVerticalWrapper = page.getBySelector(`calcite-input .${CSS.numberButtonWrapper}`);
   const numberHorizontalItemUp = page.getBySelector(
-    `calcite-input .${CSS.numberButtonItem}[data-adjustment='up']`,
+    `calcite-input .${CSS.buttonItemHorizontal}[data-adjustment='up']`,
   );
   const numberHorizontalItemDown = page.getBySelector(
-    `calcite-input .${CSS.numberButtonItem}[data-adjustment='down']`,
+    `calcite-input .${CSS.buttonItemHorizontal}[data-adjustment='down']`,
   );
 
   await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
