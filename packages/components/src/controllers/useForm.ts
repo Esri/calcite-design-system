@@ -365,9 +365,16 @@ export const useForm = <T extends FormComponent>(
         syncInternalInput(component, inputDelegate);
 
         if (!inputDelegate.validity.valid) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars -- we want to exclude `valid` from the validity object
-          const { valid, ...delegateValidity } = inputDelegate.validity;
-          validity = delegateValidity;
+          // copy flags since ValidityState is not a plain object and cannot be spread or assigned
+          for (const key in inputDelegate.validity) {
+            if (
+              // see https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags
+              key !== "valid"
+            ) {
+              validity[key] = inputDelegate.validity[key];
+            }
+          }
+
           validationMessage = inputDelegate.validationMessage;
         }
       }
