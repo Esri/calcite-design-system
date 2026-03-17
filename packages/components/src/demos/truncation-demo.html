@@ -74,7 +74,7 @@
           <calcite-dropdown width="m" class="dropdown" open placement="bottom-start" open>
             <calcite-button slot="trigger"> dropdown menu</calcite-button>
             <calcite-dropdown-group group-title="Natural places">
-              <calcite-dropdown-item class="text--wrap">
+              <calcite-dropdown-item class="calcite-text-wrap">
                 Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu
               </calcite-dropdown-item>
               <calcite-dropdown-item>
@@ -94,14 +94,15 @@
       <div class="demo-child">
         <p><strong>Code</strong> comparing multiple ways to configure wrapping text</p>
         <pre>
-          <code>&lt;calcite-dropdown-item class="text--wrap"&gt;</code><code>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</code><code>&lt;/calcite-dropdown-item&gt;</code>
+          <code>&lt;calcite-dropdown-item class="calcite-text-wrap"&gt;</code><code>Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu</code><code>&lt;/calcite-dropdown-item&gt;</code>
           <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography wrap&gt;Lake Chaubunagungamaug&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
           <code>&lt;calcite-dropdown-item&gt;</code><code>&lt;calcite-typography ellipsis &gt;Pistyll Rhaeadr in Wales&lt;/calcite-typography&gt;</code><code>&lt;/calcite-dropdown-item&gt;</code>
         </pre>
 
         <div class="notes">
           <p>
-            In the dropdown demo, the first item is using global CSS class <code>text--wrap</code> to achieve word-wrap.
+            In the dropdown demo, the first item is using global CSS class <code>calcite-text-wrap</code> to achieve
+            word-wrap.
           </p>
 
           <p>
@@ -110,8 +111,8 @@
           </p>
           <p>
             Example: block component which allows users to slot text and parse heading & description. To wrap text in
-            block, users would need to add both <code>heading--text--wrap</code> and
-            <code>description--text--wrap</code> classes.
+            block, users would need to add both <code>heading--calcite-text-wrap</code> and
+            <code>description--calcite-text-wrap</code> classes.
           </p>
           <p>
             This is because users may want to truncate description but wrap slotted text or vice-versa. Future

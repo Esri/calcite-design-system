@@ -11,9 +11,9 @@
   text-overflow: ellipsis;
 }
 
-:host([wrap]) {
-  white-space: wrap;
-}
+// :host([wrap]) {
+//   white-space: wrap;
+// }
 
 :host([max-lines]) {
   display: -webkit-box;
