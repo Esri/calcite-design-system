@@ -346,9 +346,7 @@ export class TextArea
     }
 
     if (changes.has("value") || changes.has("maxLength") || numberFormatOptionsChanged) {
-      if (numberFormatOptionsChanged) {
-        this.updateNumberFormatter();
-      }
+      this.updateNumberFormatter();
 
       this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       this.formSupport.setCustomValidity(
