@@ -255,8 +255,8 @@ it("renders number buttons in default vertical alignment when type=number", asyn
   );
 
   await expect.element(numberVerticalWrapper).toBeVisible();
-  await expect.element(numberHorizontalItemDown).toBeVisible();
-  await expect.element(numberHorizontalItemUp).toBeVisible();
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
 });
 
 it("renders number buttons in horizontal vertical alignment when type=number and number button type is horizontal", async () => {
