@@ -154,7 +154,7 @@ describe("expand functionality", () => {
     expect(textEnabled).toBe(true);
   });
 
-  it("should not have bottomGroup when not expandable", async () => {
+  it("should not have end group when not expandable", async () => {
     const page = await newE2EPage();
 
     await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
