@@ -118,8 +118,7 @@
 }
 
 .table-container {
-  // @apply overflow-auto whitespace-nowrap;
-  @apply whitespace-nowrap overflow-visible;
+  @apply whitespace-nowrap;
 }
 
 .table-container {
