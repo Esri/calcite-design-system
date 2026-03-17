@@ -1,0 +1,28 @@
+{
+  "name": "@esri/stylelint-plugin-calcite-components",
+  "version": "0.0.1",
+  "description": "Stylelint rules for @esri/calcite-components",
+  "type": "module",
+  "private": true,
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/stylelint-plugin-components"
+  },
+  "license": "SEE LICENSE.md",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "stylelint": ">=16.26.1"
+  },
+  "devDependencies": {
+    "vitest": "3.2.4",
+    "vitest-stylelint-utils": "2.0.0"
+  }
+}

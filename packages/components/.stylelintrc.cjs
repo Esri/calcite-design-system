@@ -60,6 +60,12 @@ const rules = {
       severity: "error",
     },
   ],
+  "@esri/calcite-components/deprecation-format": [
+    true,
+    {
+      severity: "error",
+    },
+  ],
 };
 
 scssPatternRules.forEach((rule) => {
@@ -80,7 +86,7 @@ scssPatternRules.forEach((rule) => {
 const config = {
   defaultSeverity: "warning",
   extends: "stylelint-config-recommended-scss",
-  plugins: ["stylelint-use-logical-spec"],
+  plugins: ["stylelint-use-logical-spec", "@esri/stylelint-plugin-calcite-components"],
   rules,
 };
 
