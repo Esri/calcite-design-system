@@ -7,7 +7,8 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
+import { OpenCloseComponentWithEl } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -86,8 +87,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   private _open = false;
 
-  openProp = "opened";
-
   transitionProp = "opacity" as const;
 
   private panelRef = createRef<Panel["el"]>();
@@ -122,6 +121,11 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
     target: this.popoverRef,
+  })(this);
+
+  openCloseController = useOpenClose<this>({
+    customVisibilityProps: ["opened"],
+    isOpen: (host) => host.opened,
   })(this);
 
   //#endregion
@@ -391,10 +395,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     ) {
       this.updateAssistiveText();
     }
-
-    if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange();
-    }
   }
 
   override disconnectedCallback(): void {
@@ -459,10 +459,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
 
     this.opened = value;
-  }
-
-  private handleOpenedChange(): void {
-    toggleOpenClose(this);
   }
 
   private async triggerInteractModifiers(): Promise<void> {

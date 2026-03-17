@@ -6,15 +6,15 @@ import { ReactiveElement } from "lit";
 import { whenTransitionDone } from "../utils/dom";
 
 type VisibilityProp = "open" | "closed" | "expanded" | "collapsed";
-
 /** One or more props used to derive whether a component is open. */
 type VisibilityPropList = readonly [VisibilityProp, ...VisibilityProp[]];
+type CustomVisibilityPropList = readonly [string, ...string[]];
 
 type VisibilityState = Partial<Record<VisibilityProp, boolean>> &
   ({ open: boolean } | { closed: boolean } | { expanded: boolean } | { collapsed: boolean });
 
 /**
- * Components supported by the open/close controller.
+ * Interface for open/close event-emitting components.
  */
 type UseOpenCloseComponent = LitElement &
   VisibilityState & {
@@ -39,10 +39,16 @@ type UseOpenCloseComponent = LitElement &
  *   shouldToggle: (host) => !host.disabled && !host.readOnly,
  * });
  */
-export interface UseOpenCloseOptions<T extends UseOpenCloseComponent> {
-  visibilityProps: VisibilityPropList;
-  shouldToggle?: (host: T, isOpen: boolean) => boolean;
-}
+type UseOpenCloseOptions<T extends UseOpenCloseComponent> =
+  | {
+      visibilityProps: VisibilityPropList;
+      shouldToggle?: (host: T, isOpen: boolean) => boolean;
+    }
+  | {
+      customVisibilityProps: CustomVisibilityPropList;
+      isOpen: (host: T) => boolean;
+      shouldToggle?: (host: T, isOpen: boolean) => boolean;
+    };
 
 /**
  * Controller for managing open/close-related events.
@@ -51,11 +57,12 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(
   options: UseOpenCloseOptions<T>,
 ): ReturnType<typeof makeGenericController<void, T>> =>
   makeGenericController<void, T>((component, controller) => {
-    const { visibilityProps, shouldToggle } = options;
+    const watchedProps = "visibilityProps" in options ? options.visibilityProps : options.customVisibilityProps;
+
     let previousOpenState = getOpenState(component);
 
     controller.onUpdate((changes) => {
-      const visibilityPropChanged = visibilityProps.some((visibilityProp) => changes.has(visibilityProp));
+      const visibilityPropChanged = watchedProps.some((visibilityProp) => changes.has(visibilityProp));
 
       if (!visibilityPropChanged) {
         return;
@@ -67,15 +74,19 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(
         return;
       }
 
-      if (shouldToggle?.(component, currentOpenState) ?? true) {
-        void handleOpenClose(component, currentOpenState);
+      if (options.shouldToggle?.(component, currentOpenState) ?? true) {
+        void emitOpenCloseEventsAfterUpdate(component, currentOpenState);
       }
 
       previousOpenState = currentOpenState;
     });
 
     function getOpenState(host: UseOpenCloseComponent): boolean {
-      return visibilityProps.every((visibilityProp) => getOpenStateForProp(host, visibilityProp));
+      if ("visibilityProps" in options) {
+        return options.visibilityProps.every((visibilityProp) => getOpenStateForProp(host, visibilityProp));
+      }
+
+      return !!options.isOpen(host as T);
     }
 
     function getOpenStateForProp(host: UseOpenCloseComponent, visibilityProp: VisibilityProp): boolean {
@@ -94,7 +105,7 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(
       return !host.collapsed;
     }
 
-    async function handleOpenClose(host: UseOpenCloseComponent, isOpen: boolean): Promise<void> {
+    async function emitOpenCloseEventsAfterUpdate(host: UseOpenCloseComponent, isOpen: boolean): Promise<void> {
       await host.updateComplete;
 
       if (isOpen) {
