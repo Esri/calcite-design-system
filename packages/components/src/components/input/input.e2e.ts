@@ -1701,6 +1701,9 @@ it("input event fires when number ends with a decimal", async () => {
   await element.callMethod("setFocus");
   await page.waitForChanges();
 
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("ArrowRight");
   await page.keyboard.press("Backspace");
   await page.waitForChanges();
   expect(await element.getProperty("value")).toBe("1.");
