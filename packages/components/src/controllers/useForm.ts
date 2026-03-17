@@ -324,12 +324,12 @@ export const useForm = <T extends FormComponent>(
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
-      if (!component.hasUpdated) {
+      if (!component.defaultValue && component.value) {
         component.defaultValue = component.value;
+      }
 
-        if (isCheckable(component)) {
-          component.defaultChecked = component.checked;
-        }
+      if (!component.hasUpdated && isCheckable(component)) {
+        component.defaultChecked = component.checked;
       }
 
       if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
