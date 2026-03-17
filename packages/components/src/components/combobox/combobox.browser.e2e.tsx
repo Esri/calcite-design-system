@@ -916,7 +916,7 @@ describe("keyboard interactions", async () => {
 
       if (mode === "mouse") {
         const clearButton = el.shadowRoot?.querySelector<HTMLElement>(
-          'calcite-action[aria-label="Clear value"]',
+          ".input-clear-button--container calcite-action",
         );
 
         if (expectedBehavior === "clear") {

@@ -108,7 +108,9 @@ describe("disabled", () => {
 describe("clearable", () => {
   it("renders clear button", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
-    const clearButton = el.shadowRoot?.querySelector('calcite-action[aria-label="Clear value"]');
+    const clearButton = el.shadowRoot?.querySelector(
+      ".input-clear-button--container calcite-action",
+    );
 
     expect(clearButton).not.toBe(null);
     expect(clearButton?.getAttribute("title")).toBe("Clear value");
@@ -118,7 +120,7 @@ describe("clearable", () => {
     const { el } = await mount<InputNumber>(<calcite-input-number />);
 
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
     expect(clearButton).toBe(null);
   });
@@ -127,7 +129,7 @@ describe("clearable", () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable value="" />);
 
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
     expect(clearButton).toBe(null);
   });
@@ -138,7 +140,7 @@ describe("clearable", () => {
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
 
     input.focus();
@@ -173,7 +175,7 @@ describe("clearable", () => {
     });
 
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as HTMLElement;
 
     clearButton.click();
@@ -244,7 +246,7 @@ describe("clearable", () => {
     expect(el.value).toBe("49.173126");
 
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as HTMLElement;
 
     clearButton.click();
@@ -259,7 +261,7 @@ describe("clearable", () => {
       <calcite-input-number clearable disabled value="123" />,
     );
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
 
     expect(clearButton).toBeTruthy();
@@ -271,7 +273,7 @@ describe("clearable", () => {
       <calcite-input-number clearable readOnly value="123" />,
     );
     const clearButton = el.shadowRoot?.querySelector(
-      'calcite-action[aria-label="Clear value"]',
+      ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
 
     expect(clearButton).toBeTruthy();

@@ -92,7 +92,9 @@ describe("is focusable", () => {
     it("renders clear button", async () => {
       const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
 
-      const clearButton = el.shadowRoot?.querySelector('calcite-action[aria-label="Clear value"]');
+      const clearButton = el.shadowRoot?.querySelector(
+        ".input-clear-button--container calcite-action",
+      );
 
       expect(clearButton).not.toBe(null);
       expect(clearButton?.getAttribute("title")).toBe("Clear value");
@@ -102,7 +104,7 @@ describe("is focusable", () => {
       const { el } = await mount<InputText>(<calcite-input-text />);
 
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as InputText["el"];
       expect(clearButton).toBe(null);
     });
@@ -111,7 +113,7 @@ describe("is focusable", () => {
       const { el } = await mount<InputText>(<calcite-input-text clearable value="" />);
 
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as InputText["el"];
       expect(clearButton).toBe(null);
     });
@@ -122,7 +124,7 @@ describe("is focusable", () => {
       );
       const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as InputText["el"];
 
       input.focus();
@@ -157,7 +159,7 @@ describe("is focusable", () => {
       });
 
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as HTMLElement;
 
       clearButton.click();
@@ -216,7 +218,7 @@ describe("is focusable", () => {
         <calcite-input-text clearable disabled value="John Doe" />,
       );
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as InputText["el"];
 
       expect(clearButton).toBeTruthy();
@@ -228,7 +230,7 @@ describe("is focusable", () => {
         <calcite-input-text clearable readOnly value="John Doe" />,
       );
       const clearButton = el.shadowRoot?.querySelector(
-        'calcite-action[aria-label="Clear value"]',
+        ".input-clear-button--container calcite-action",
       ) as InputText["el"];
 
       expect(clearButton).toBeTruthy();
