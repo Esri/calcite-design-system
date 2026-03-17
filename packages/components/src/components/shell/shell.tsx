@@ -36,6 +36,8 @@ export class Shell extends LitElement {
 
   //#region Private Properties
 
+  private readonly panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
+
   private panelSlotElements: Record<
     "panel-start" | "panel-end" | "panel-top" | "panel-bottom",
     ShellPanel["el"][]
@@ -44,6 +46,16 @@ export class Shell extends LitElement {
     "panel-end": [],
     "panel-top": [],
     "panel-bottom": [],
+  };
+
+  private resizableSlots: Record<
+    "panel-start" | "panel-end" | "panel-top" | "panel-bottom",
+    boolean
+  > = {
+    "panel-start": false,
+    "panel-end": false,
+    "panel-top": false,
+    "panel-bottom": false,
   };
 
   //#endregion
@@ -115,7 +127,16 @@ export class Shell extends LitElement {
   //#region Private Methods
 
   private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
-    this.updateShellPanelConfig();
+    const panel = event
+      .composedPath()
+      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
+      | ShellPanel["el"]
+      | undefined;
+
+    if (panel?.slot && this.panelSlots.includes(panel.slot as (typeof this.panelSlots)[number])) {
+      this.updateResizableSlotState(panel.slot as (typeof this.panelSlots)[number]);
+    }
+
     event.stopPropagation();
   }
 
@@ -175,7 +196,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "start";
     });
-    this.updateShellPanelConfig();
+    this.updateResizableSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -189,7 +210,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "end";
     });
-    this.updateShellPanelConfig();
+    this.updateResizableSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -202,7 +223,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "start";
     });
-    this.updateShellPanelConfig();
+    this.updateResizableSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -215,7 +236,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "end";
     });
-    this.updateShellPanelConfig();
+    this.updateResizableSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -227,21 +248,28 @@ export class Shell extends LitElement {
       });
   }
 
-  private updateShellPanelConfig(): void {
-    const shellPanels = [
-      ...this.panelSlotElements["panel-start"],
-      ...this.panelSlotElements["panel-end"],
-      ...this.panelSlotElements["panel-top"],
-      ...this.panelSlotElements["panel-bottom"],
-    ];
+  private updateResizableSlotState(
+    slot: (typeof this.panelSlots)[number],
+    panelElements = this.panelSlotElements[slot],
+  ): void {
+    this.resizableSlots[slot] = panelElements.some((panel) => panel.resizable);
+    this.syncResizableAttribute();
+  }
 
-    shellPanels.forEach((panel) => {
-      const { slot, resizable } = panel;
+  private syncResizableAttribute(): void {
+    // Keep existing precedence so top/bottom can control shell border styling.
+    const nextResizableSlot =
+      (this.resizableSlots["panel-bottom"] && "panel-bottom") ||
+      (this.resizableSlots["panel-top"] && "panel-top") ||
+      (this.resizableSlots["panel-end"] && "panel-end") ||
+      (this.resizableSlots["panel-start"] && "panel-start");
 
-      if (slot && resizable) {
-        this.el.setAttribute(`data-resizable`, `${slot}`);
-      }
-    });
+    if (nextResizableSlot) {
+      this.el.setAttribute("data-resizable", nextResizableSlot);
+      return;
+    }
+
+    this.el.removeAttribute("data-resizable");
   }
 
   //#endregion
