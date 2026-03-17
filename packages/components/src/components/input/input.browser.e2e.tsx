@@ -1,4 +1,4 @@
-import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands, page, userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
@@ -737,6 +737,74 @@ describe("input type number increment/decrement functionality", () => {
     expect(el).toHaveProperty("value", `${totalNudgesUp}`);
     await userEvent.keyboard("{/ArrowUp}");
   });
+});
+
+describe("direct changes to the value", () => {
+  it("incrementing correctly updates the value after focus and blur events", async () => {
+    const { el } = await mount<Input>(<calcite-input type="number" value="1" />);
+    const input = page.getBySelector(`calcite-input input`);
+
+    await userEvent.click(el);
+    el.blur();
+    el.value = "2";
+
+    expect(el).toHaveProperty("value", "2");
+    expect(input).toHaveDisplayValue("2");
+  });
+
+  it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
+    const { el } = await mount<Input>(<calcite-input />);
+    const inputEventHandler = vi.fn();
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+    el.addEventListener("calciteInputChange", changeEventHandler);
+
+    expect(inputEventHandler).not.toHaveBeenCalled();
+    expect(changeEventHandler).not.toHaveBeenCalled();
+
+    await el.setFocus();
+    el.value = "not a random value";
+    await userEvent.keyboard("{Tab}");
+
+    expect(inputEventHandler).not.toHaveBeenCalled();
+    expect(changeEventHandler).not.toHaveBeenCalled();
+  });
+
+  it("Setting the value to Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+    const { el } = await mount<Input>(<calcite-input type="number" />);
+
+    await el.setFocus();
+    el.value = "Infinity";
+
+    expect(el).toHaveProperty("value", "Infinity");
+
+    await userEvent.keyboard("123");
+
+    expect(el).toHaveProperty("value", "Infinity");
+
+    await userEvent.keyboard("{Backspace}");
+
+    expect(el).toHaveProperty("value", "");
+  });
+});
+
+it("number input value stays in sync when value property is controlled with javascript", async () => {
+  const { el } = await mount<Input>(<calcite-input type="number" value="1" />);
+  const input = page.getBySelector(`calcite-input input`);
+  el.addEventListener("calciteInputInput", () => {
+    el.value = "5";
+  });
+
+  await userEvent.click(el);
+  await userEvent.keyboard("1");
+
+  expect(el).toHaveProperty("value", "5");
+  expect(input).toHaveDisplayValue("5");
+
+  await userEvent.keyboard("2");
+
+  expect(el).toHaveProperty("value", "5");
+  expect(input).toHaveDisplayValue("5");
 });
 
 describe("number type", () => {
