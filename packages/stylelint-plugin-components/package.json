@@ -4,7 +4,7 @@
   "description": "Stylelint rules for @esri/calcite-components",
   "type": "module",
   "private": true,
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/calcite-design-system.git",
@@ -16,14 +16,12 @@
   ],
   "scripts": {
     "build": "vite build",
+    "clean": "rimraf dist node_modules",
+    "lint": "concurrently npm:lint:*",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "peerDependencies": {
     "stylelint": ">=16.26.1"
-  },
-  "devDependencies": {
-    "vitest": "3.2.4",
-    "vitest-stylelint-utils": "2.0.0"
   }
 }

@@ -1,7 +1,10 @@
-import { messages, name } from "./meta.ts";
+import { requireDeprecationDetails } from "./rule.ts";
+
+const { ruleName, messages } = requireDeprecationDetails;
+const testRule = createTestRule({ ruleName });
 
 testRule({
-  ruleName: name,
+  ruleName: ruleName,
   config: true,
   fix: false,
   accept: [
@@ -12,6 +15,15 @@ testRule({
     },
   ],
   reject: [
+    {
+      code: "/* @prop --test-example-token: [Deprecated] - Use `--test-alternative-token` instead. */",
+      description: "Missing both deprecation and removal target versions on [Deprecated] token.",
+      message: messages.rejected,
+      line: 1,
+      column: 1,
+      endLine: 1,
+      endColumn: 89,
+    },
     {
       code: "/* @prop --test-example-token: [Deprecated] in v3.3.0 - Use `--test-alternative-token` instead. */",
       description: "Missing removal target version on [Deprecated] token.",

@@ -6,7 +6,7 @@ const {
 } = stylelint;
 
 /** @type {import('stylelint').Rule} */
-export const requireDeprecationDetails: stylelint.Rule = (primaryOption, secondaryOption) => {
+export const requireDeprecationDetails: stylelint.Rule = (primaryOption) => {
   return (root, result) => {
     const validOptions = validateOptions(result, name, {
       actual: primaryOption,
@@ -27,7 +27,7 @@ export const requireDeprecationDetails: stylelint.Rule = (primaryOption, seconda
       const text = comment.text;
 
       // Only enforce the rule when both a @prop declaration and a [Deprecated] marker are present
-      if (!/\@prop/i.test(text) || !/\[Deprecated\]/i.test(text)) {
+      if (!/@prop/i.test(text) || !/\[Deprecated\]/i.test(text)) {
         return;
       }
 

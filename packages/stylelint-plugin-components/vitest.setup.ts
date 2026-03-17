@@ -1,9 +1,17 @@
-import { getTestRule, type TestRule } from "vitest-stylelint-utils";
+import { assert, describe, expect, it } from "vitest";
+import { createTestUtils } from "@morev/stylelint-testing-library";
+import plugins from "./src/index";
+import type { CreateTestRule, CreateTestRuleConfig } from "@morev/stylelint-testing-library";
 
-import plugins from "./src/index.ts";
+const { createTestRule, createTestRuleConfig } = createTestUtils({
+  testFunctions: { assert, describe, expect, it },
+  plugins,
+});
 
-globalThis.testRule = getTestRule({ plugins });
+globalThis.createTestRule = createTestRule;
+globalThis.createTestRuleConfig = createTestRuleConfig;
 
 declare global {
-  var testRule: TestRule;
+  var createTestRule: CreateTestRule;
+  var createTestRuleConfig: CreateTestRuleConfig;
 }
