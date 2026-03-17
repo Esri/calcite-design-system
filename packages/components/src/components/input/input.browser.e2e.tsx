@@ -633,7 +633,7 @@ describe("input type number increment/decrement functionality", () => {
 
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
     expect(el).toHaveProperty("value", `${totalNudgesUp}`);
-    userEvent.keyboard("{/ArrowUp}");
+    await userEvent.keyboard("{/ArrowUp}");
   });
 });
 
