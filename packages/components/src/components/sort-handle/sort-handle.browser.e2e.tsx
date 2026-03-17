@@ -11,6 +11,11 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { IDS } from "./resources";
+import { SortHandle } from "./sort-handle";
+
+type DropdownLike = HTMLElement & { disabled: boolean };
+type DropdownGroupLike = HTMLElement & { groupTitle?: string };
+type DropdownItemLike = HTMLElement & { disabled: boolean };
 
 describe("defaults", () => {
   defaults(
@@ -73,12 +78,14 @@ describe("disabled", () => {
 });
 
 it("renders disabled boundary reorder items instead of hiding them", async () => {
-  const { el } = await mount(<calcite-sort-handle label="test" set-position="1" set-size="4" />);
-  await el.updateComplete;
+  const { el, reRender } = await mount(
+    <calcite-sort-handle label="test" set-position="1" set-size="4" />,
+  );
+  await reRender();
 
   const reorderGroup = el.shadowRoot.querySelector<HTMLElement>(`#${IDS.reorder}`);
   const reorderItems = Array.from(
-    reorderGroup.querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item"),
+    reorderGroup.querySelectorAll<DropdownItemLike>("calcite-dropdown-item"),
   );
 
   expect(reorderItems).toHaveLength(4);
@@ -86,12 +93,12 @@ it("renders disabled boundary reorder items instead of hiding them", async () =>
 });
 
 it("omits the reorder group title when it is the only visible group", async () => {
-  const { el } = await mount(<calcite-sort-handle label="test" set-position="2" set-size="4" />);
-  await el.updateComplete;
-
-  const reorderGroup = el.shadowRoot.querySelector<HTMLCalciteDropdownGroupElement>(
-    `#${IDS.reorder}`,
+  const { el, reRender } = await mount(
+    <calcite-sort-handle label="test" set-position="2" set-size="4" />,
   );
+  await reRender();
+
+  const reorderGroup = el.shadowRoot.querySelector<DropdownGroupLike>(`#${IDS.reorder}`);
 
   expect(reorderGroup.groupTitle).toBeUndefined();
 });
@@ -101,25 +108,29 @@ it("shows the reorder group title when move-to items are present", async () => {
     <calcite-sort-handle label="test" set-position="2" set-size="4" />,
   );
 
-  el.moveToItems = [{ label: "List 2", id: "list2" }];
+  const sortHandle = el as SortHandle;
+
+  sortHandle.moveToItems = [
+    { element: document.createElement("div"), label: "List 2", id: "list2" },
+  ];
   await reRender();
 
-  const reorderGroup = el.shadowRoot.querySelector<HTMLCalciteDropdownGroupElement>(
-    `#${IDS.reorder}`,
-  );
+  const reorderGroup = el.shadowRoot.querySelector<DropdownGroupLike>(`#${IDS.reorder}`);
 
   expect(reorderGroup.groupTitle).toBe("Reorder");
 });
 
 it("keeps single-item sets enabled and renders disabled reorder actions", async () => {
-  const { el } = await mount(<calcite-sort-handle label="test" set-position="1" set-size="1" />);
-  await el.updateComplete;
+  const { el, reRender } = await mount(
+    <calcite-sort-handle label="test" set-position="1" set-size="1" />,
+  );
+  await reRender();
 
-  const dropdown = el.shadowRoot.querySelector<HTMLCalciteDropdownElement>("calcite-dropdown");
+  const dropdown = el.shadowRoot.querySelector<DropdownLike>("calcite-dropdown");
   const reorderItems = Array.from(
     el.shadowRoot
       .querySelector(`#${IDS.reorder}`)
-      .querySelectorAll<HTMLCalciteDropdownItemElement>("calcite-dropdown-item"),
+      .querySelectorAll<DropdownItemLike>("calcite-dropdown-item"),
   );
 
   expect(dropdown.disabled).toBe(false);
