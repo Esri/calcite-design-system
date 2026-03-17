@@ -721,7 +721,6 @@ describe("input type number increment/decrement functionality", () => {
     el.addEventListener("calciteInputInput", inputEventHandler);
 
     await userEvent.keyboard("{Tab}{ArrowUp>}");
-    // simulate long press.
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
     await userEvent.keyboard("{Tab}");
 
