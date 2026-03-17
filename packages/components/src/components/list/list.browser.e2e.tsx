@@ -1,19 +1,22 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
   defaults,
-  reflects,
-  hidden,
-  renders,
-  focusable,
-  t9n,
   disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import { afterNextFrame } from "../../tests/utils/timing";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
+import { DEBOUNCE } from "../../utils/resources";
+import { List } from "./list";
 
 const scrollTopValue = 120;
 
@@ -246,5 +249,133 @@ describe("sticky group heading with filter", () => {
     // allow a small tolerance for sub-pixel differences
     const tolerance = 2;
     expect(stickyRect.top).toBeGreaterThanOrEqual(filterRect.bottom - tolerance);
+  });
+});
+
+describe.only("group filtering", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  async function assertDescendantItems(groupSelector: string, visibility: boolean): Promise<void> {
+    const items = page.getBySelector(`calcite-list-item-group${groupSelector} > calcite-list-item`);
+
+    for (const item of items.elements()) {
+      await (visibility
+        ? expect.element(item).toBeVisible()
+        : expect.element(item).not.toBeVisible());
+    }
+  }
+
+  it("should include groups while filtering", async () => {
+    const { el } = await mount<List>(
+      <calcite-list
+        filter-enabled
+        filter-placeholder="typing 'recreation' should show 1st group with all items"
+      >
+        <calcite-list-item-group heading="Outdoor recreation" id="recreation">
+          <calcite-list-item
+            description="Designated routes for hikers to use."
+            label="Hiking trails"
+            value="hiking-trails"
+          />
+          <calcite-list-item
+            description="Vertical drops from a river."
+            label="Waterfalls"
+            value="waterfalls"
+          />
+          <calcite-list-item-group heading="Beaches" id="beaches">
+            <calcite-list-item description="Surfing" label="Surfing" value="Surfing" />
+            <calcite-list-item description="Paragliding" label="Paragliding" value="Paragliding" />
+            <calcite-list-item-group heading="Underwater" id="underwater">
+              <calcite-list-item description="Snorkeling" label="Snorkeling" value="Snorkeling" />
+              <calcite-list-item
+                description="Scuba diving"
+                label="Scuba diving"
+                value="Scuba diving"
+              />
+            </calcite-list-item-group>
+          </calcite-list-item-group>
+        </calcite-list-item-group>
+        <calcite-list-item-group heading="Buildings" id="buildings">
+          <calcite-list-item
+            description="Home base for park staff to converse with visitors."
+            label="Park offices"
+            value="offices"
+          />
+          <calcite-list-item
+            description="Small houses available for visitors to book for stays."
+            label="Guest lodges"
+            value="lodges"
+          />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    await el.setFocus();
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+
+    const group1 = page.getBySelector("#recreation");
+    const group2 = page.getBySelector("#buildings");
+    const group3 = page.getBySelector("#beaches");
+    const group4 = page.getBySelector("#underwater");
+
+    expect(el.filteredItems).toHaveLength(8);
+
+    const filterEvent = waitForEvent(el, "calciteListFilter");
+    await userEvent.keyboard("Bui");
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    await filterEvent;
+
+    expect(el).toHaveProperty("filterText", "Bui");
+    expect(el.filteredItems).toHaveLength(2);
+
+    await expect.element(group1).not.toBeVisible();
+    await assertDescendantItems("#recreation", false);
+    await expect.element(group2).toBeVisible();
+    await assertDescendantItems(`#buildings`, true);
+    await expect.element(group3).not.toBeVisible();
+    await assertDescendantItems(`#beaches`, false);
+    await expect.element(group4).not.toBeVisible();
+    await assertDescendantItems("#underwater", false);
+
+    await userEvent.keyboard("{Escape}");
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    expect(el).toHaveProperty("filterText", "");
+
+    expect(el.filteredItems).toHaveLength(8);
+
+    await expect.element(group1).toBeVisible();
+    await assertDescendantItems("#recreation", true);
+    await expect.element(group2).toBeVisible();
+    await assertDescendantItems("#buildings", true);
+    await expect.element(group3).toBeVisible();
+    await assertDescendantItems("#beaches", true);
+    await expect.element(group4).toBeVisible();
+    await assertDescendantItems("#underwater", true);
+
+    await userEvent.keyboard("Bea");
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    expect(el).toHaveProperty("filterText", "Bea");
+    expect(el.filteredItems).toHaveLength(4);
+
+    await expect.element(group1).toBeVisible();
+    await assertDescendantItems("#recreation", false);
+    await expect.element(group2).not.toBeVisible();
+    await assertDescendantItems("#buildings", false);
+    await expect.element(group3).toBeVisible();
+    await assertDescendantItems("#beaches", true);
+    await expect.element(group4).toBeVisible();
+    await assertDescendantItems("#underwater", true);
+
+    await userEvent.keyboard("{Backspace}");
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+
+    expect(el).toHaveProperty("filterText", "Be");
+    expect(el.filteredItems).toHaveLength(4);
   });
 });
