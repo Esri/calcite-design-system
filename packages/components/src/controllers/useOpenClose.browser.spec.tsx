@@ -16,7 +16,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["expanded"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["expanded"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -95,7 +97,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["closed"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["closed"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -174,7 +178,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["open"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["open"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -248,7 +254,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["collapsed"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["collapsed"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -322,7 +330,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionRef = createRef<HTMLDivElement>();
 
-      openCloseController = useOpenClose<this>(["open"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["open"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -373,7 +383,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["open"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["open"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");
@@ -426,7 +438,9 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>(["collapsed", "closed"])(this);
+      openCloseController = useOpenClose<this>({
+        visibilityProps: ["collapsed", "closed"],
+      })(this);
 
       onBeforeOpen(): void {
         emitted.push("beforeOpen");

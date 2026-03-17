@@ -15,6 +15,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -42,7 +43,6 @@ import {
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
@@ -293,6 +293,11 @@ export class Combobox
 
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
+  })(this);
+
+  openCloseController = useOpenClose<this>({
+    visibilityProps: ["open"],
+    shouldToggle: (host) => !host.disabled,
   })(this);
 
   //#endregion
@@ -683,8 +688,6 @@ export class Combobox
     if (this.disabled) {
       return;
     }
-
-    toggleOpenClose(this);
   }
 
   private handleDisabledChange(value: boolean): void {

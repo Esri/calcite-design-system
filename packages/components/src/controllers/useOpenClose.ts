@@ -6,15 +6,17 @@ import { ReactiveElement } from "lit";
 import { whenTransitionDone } from "../utils/dom";
 
 type VisibilityProp = "open" | "closed" | "expanded" | "collapsed";
+
+/** One or more props used to derive whether a component is open. */
 type VisibilityPropList = readonly [VisibilityProp, ...VisibilityProp[]];
 
 type VisibilityState = Partial<Record<VisibilityProp, boolean>> &
   ({ open: boolean } | { closed: boolean } | { expanded: boolean } | { collapsed: boolean });
 
 /**
- * Interface for components using the open/close controller.
+ * Components supported by the open/close controller.
  */
-export type UseOpenCloseComponent = LitElement &
+type UseOpenCloseComponent = LitElement &
   VisibilityState & {
     transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
     onBeforeOpen: () => void;
@@ -27,21 +29,49 @@ export type UseOpenCloseComponent = LitElement &
   };
 
 /**
- * Controller for managing open/close lifecycle and transitions.
+ * Configuration for the open/close controller.
+ * - `visibilityProps`: Props used to derive the open state.
+ * - `shouldToggle`: Optional guard for suppressing lifecycle emission.
+ *
+ * Example:
+ * useOpenClose({
+ *   visibilityProps: ["open"],
+ *   shouldToggle: (host) => !host.disabled && !host.readOnly,
+ * });
+ */
+export interface UseOpenCloseOptions<T extends UseOpenCloseComponent> {
+  visibilityProps: VisibilityPropList;
+  shouldToggle?: (host: T, isOpen: boolean) => boolean;
+}
+
+/**
+ * Controller for managing open/close-related events.
  */
 export const useOpenClose = <T extends UseOpenCloseComponent>(
-  visibilityProps: VisibilityPropList,
+  options: UseOpenCloseOptions<T>,
 ): ReturnType<typeof makeGenericController<void, T>> =>
   makeGenericController<void, T>((component, controller) => {
+    const { visibilityProps, shouldToggle } = options;
     let previousOpenState = getOpenState(component);
 
-    controller.onUpdate(() => {
+    controller.onUpdate((changes) => {
+      const visibilityPropChanged = visibilityProps.some((visibilityProp) => changes.has(visibilityProp));
+
+      if (!visibilityPropChanged) {
+        return;
+      }
+
       const currentOpenState = getOpenState(component);
 
-      if (previousOpenState !== currentOpenState) {
-        handleOpenClose(component, currentOpenState);
-        previousOpenState = currentOpenState;
+      if (previousOpenState === currentOpenState) {
+        return;
       }
+
+      if (shouldToggle?.(component, currentOpenState) ?? true) {
+        void handleOpenClose(component, currentOpenState);
+      }
+
+      previousOpenState = currentOpenState;
     });
 
     function getOpenState(host: UseOpenCloseComponent): boolean {

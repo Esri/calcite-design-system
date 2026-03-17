@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { useFocusTrap } from "../../controllers/useFocusTrap";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import {
   dateFromISO,
   dateFromLocalizedString,
@@ -52,7 +53,6 @@ import {
   NumberingSystem,
   numberStringFormatter,
 } from "../../utils/locale";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   DateLocaleData,
   getLocaleData,
@@ -183,6 +183,11 @@ export class InputDatePicker
 
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
+  })(this);
+
+  openCloseController = useOpenClose<this>({
+    visibilityProps: ["open"],
+    shouldToggle: (host) => !host.disabled && !host.readOnly,
   })(this);
 
   //#endregion
@@ -606,7 +611,6 @@ export class InputDatePicker
       return;
     }
 
-    toggleOpenClose(this);
     this.reposition(true);
   }
 
