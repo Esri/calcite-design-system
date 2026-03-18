@@ -174,8 +174,8 @@ describe("number locale support", () => {
       );
       const input = page.getBySelector("calcite-input-number input");
 
-      expect(el.value).toBe(expectedValue);
-      expect((input.element() as HTMLInputElement).value).toBe(expectedFormattedValue);
+      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(input).toHaveProperty("value", expectedFormattedValue);
     });
 
     it(`allows typing valid decimal characters for ${locale} locale`, async () => {
