@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands, page, userEvent } from "vitest/browser";
-import { h } from "@arcgis/lumina";
 import {
   defaults,
   disabled,
@@ -14,8 +14,10 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { letterKeys, numberKeys } from "../../utils/key";
-import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
+import { numberStringFormatter } from "../../utils/locale";
+import { supportedNlsLocales } from "../date-picker/utils";
 import { Input } from "./input";
+import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
 
@@ -1062,4 +1064,171 @@ it("input event fires when number ends with a decimal", async () => {
 
   expect(el).toHaveProperty("value", "1.");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
+});
+
+describe("number locale support", () => {
+  supportedNlsLocales.forEach((locale) => {
+    it(`displays decimal separator on initial load for ${locale} locale`, async () => {
+      const expectedValue = "1234.56";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
+      const { el } = await mount(
+        <calcite-input lang={locale} type="number" value={expectedValue} />,
+      );
+      const input = page.getBySelector("calcite-input input");
+
+      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(input).toHaveProperty("value", expectedFormattedValue);
+    });
+
+    it(`displays group and decimal separator on initial load for ${locale} locale using opt-in prop`, async () => {
+      const expectedValue = "1234.56";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: true,
+      };
+      const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
+      const { el } = await mount<Input>(
+        <calcite-input group-separator lang={locale} type="number" value={expectedValue} />,
+      );
+      const input = page.getBySelector("calcite-input input");
+
+      expect(el.value).toBe(expectedValue);
+      expect((input.element() as HTMLInputElement).value).toBe(expectedFormattedValue);
+    });
+
+    it(`allows typing valid decimal characters for ${locale} locale`, async () => {
+      const expectedValue = "1234.56";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
+      const decimalSeparator = numberStringFormatter.decimal;
+      const { el } = await mount(<calcite-input lang={locale} type="number" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.keyboard(`{Tab}`);
+      await userEvent.keyboard(`1234${decimalSeparator}56`);
+
+      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(input).toHaveProperty("value", expectedFormattedValue);
+    });
+
+    it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
+      const expectedValue = "1.5e-6";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
+      const decimalSeparator = numberStringFormatter.decimal;
+      const { el } = await mount(<calcite-input lang={locale} type="number" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.keyboard(`{Tab}1${decimalSeparator}5e-6`);
+
+      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(input).toHaveProperty("value", expectedFormattedValue);
+    });
+
+    it(`displays correct formatted value when the value is changed programmatically for ${locale} locale`, async () => {
+      const expectedValue = "1234567.891011";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
+      const { el } = await mount<Input>(
+        <div>
+          <calcite-input lang={locale} type="number" />
+          <input id="external" />
+        </div>,
+      );
+
+      const external = page.getBySelector("#external");
+      external.element().addEventListener("input", (event) => {
+        const value = (event.target as HTMLInputElement).value;
+        if (value.endsWith(".")) {
+          return;
+        }
+        el.value = value;
+      });
+
+      const internalInput = page.getBySelector("calcite-input input");
+
+      await userEvent.click(external);
+      await userEvent.keyboard(expectedValue);
+
+      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(internalInput).toHaveProperty("value", expectedFormattedValue);
+    });
+
+    it(`should be able to append values after Backspace for ${locale} locale`, async () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const decimalSeparator = numberStringFormatter.decimal;
+      const { el } = await mount<Input>(<calcite-input lang={locale} type="number" />);
+
+      const input = page.getBySelector("calcite-input input");
+      await el.setFocus();
+
+      await userEvent.keyboard(`0${decimalSeparator}0000`);
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}0000`);
+
+      await userEvent.keyboard("{ArrowRight>6/}{Backspace}1");
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}0001`);
+
+      await userEvent.keyboard("01");
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}000101`);
+    });
+
+    it(`should keep leading decimal separator while input is focused on Backspace ${locale} locale `, async () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const decimalSeparator = numberStringFormatter.decimal;
+      const { el } = await mount<Input>(<calcite-input lang={locale} type="number" />);
+      const input = page.getBySelector("calcite-input input");
+      await el.setFocus();
+
+      await userEvent.keyboard(`0${decimalSeparator}01`);
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
+
+      await userEvent.keyboard("{Backspace}");
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}0`);
+
+      await userEvent.keyboard("{Backspace}");
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}`);
+
+      await userEvent.keyboard("01");
+
+      await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
+    });
+
+    it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
+      await mount(<calcite-input lang={locale} type="number" value="0.0000" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await expect.element(input).toHaveProperty("value", "0");
+    });
+  });
 });
