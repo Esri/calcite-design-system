@@ -146,6 +146,15 @@ export class List extends LitElement implements SortableComponent {
     return this.filterProps.filter((prop) => prop !== "el");
   }
 
+  private filterRowResizeObserver = createObserver("resize", () => this.updateFilterRowHeight());
+
+  private setFilterContainerEl = (el: HTMLDivElement): void => {
+    this.filterContainerEl = el;
+    this.observeFilterRow();
+  };
+
+  private filterContainerEl?: HTMLDivElement;
+
   //#endregion
 
   //#region State Properties
@@ -165,6 +174,8 @@ export class List extends LitElement implements SortableComponent {
   @state() hasContent = false;
 
   @state() hasEmptyContent = false;
+
+  @state() filterRowHeight = 0;
 
   //#endregion
 
@@ -457,6 +468,7 @@ export class List extends LitElement implements SortableComponent {
 
   override disconnectedCallback(): void {
     this.disconnectObserver();
+    this.unobserveFilterRow();
     disconnectSortableComponent(this);
   }
 
@@ -540,6 +552,24 @@ export class List extends LitElement implements SortableComponent {
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
+  }
+
+  private unobserveFilterRow(): void {
+    this.filterRowResizeObserver?.disconnect();
+  }
+
+  private observeFilterRow(): void {
+    this.unobserveFilterRow();
+
+    const filterRowEl = this.filterContainerEl;
+
+    if (filterRowEl) {
+      this.filterRowResizeObserver?.observe(filterRowEl);
+    }
+  }
+
+  private updateFilterRowHeight(): void {
+    this.filterRowHeight = this.filterContainerEl?.clientHeight ?? 0;
   }
 
   private handleListItemChange(): void {
@@ -1217,6 +1247,9 @@ export class List extends LitElement implements SortableComponent {
             [CSS.container]: true,
             [CSS.containerHeight]: this.listItems.length < 1 && loading,
           }}
+          style={{
+            ["--calcite-internal-filter-enabled-offset"]: `${this.filterRowHeight}px`,
+          }}
         >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
@@ -1233,7 +1266,7 @@ export class List extends LitElement implements SortableComponent {
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <div class={CSS.sticky} role="rowgroup">
+              <div class={CSS.sticky} ref={this.setFilterContainerEl} role="rowgroup">
                 <div role="row">
                   <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
