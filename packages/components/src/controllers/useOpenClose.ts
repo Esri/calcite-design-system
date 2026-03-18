@@ -30,14 +30,29 @@ type UseOpenCloseComponent = LitElement &
 
 /**
  * Configuration for the open/close controller.
- * - `visibilityProps`: Props used to derive the open state.
- * - `shouldToggle`: Optional guard for suppressing lifecycle emission.
  *
- * Example:
+ * Use ONE of the following configuration modes:
+ *
+ * STANDARD VISIBILITY CONTRACT
+ * Use `visibilityProps` when the component uses one or more of the built-in
+ * visibility props: `open`, `closed`, `expanded`, or `collapsed`.
+ *
  * useOpenClose({
  *   visibilityProps: ["open"],
  *   shouldToggle: (host) => !host.disabled && !host.readOnly,
  * });
+ *
+ * CUSTOM VISIBILITY CONTRACT
+ * Use `customVisibilityProps` when the component uses component-specific
+ * visibility props not covered by the built-in set. In this mode, `isOpen`
+ * defines how to derive whether the component is currently open.
+ *
+ * useOpenClose({
+ *   customVisibilityProps: ["opened"],
+ *   isOpen: (host) => host.opened,
+ * });
+ *
+ * `shouldToggle` optionally suppresses lifecycle emission for either mode.
  */
 type UseOpenCloseOptions<T extends UseOpenCloseComponent> =
   | {
