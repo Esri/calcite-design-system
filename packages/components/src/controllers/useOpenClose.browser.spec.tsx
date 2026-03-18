@@ -17,6 +17,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["expanded"],
       })(this);
 
@@ -98,6 +104,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["closed"],
       })(this);
 
@@ -179,6 +191,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["open"],
       })(this);
 
@@ -255,6 +273,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["collapsed"],
       })(this);
 
@@ -331,6 +355,12 @@ describe("useOpenClose", () => {
       transitionRef = createRef<HTMLDivElement>();
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["open"],
       })(this);
 
@@ -384,6 +414,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["open"],
       })(this);
 
@@ -439,6 +475,12 @@ describe("useOpenClose", () => {
       transitionEl!: HTMLDivElement;
 
       openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
         visibilityProps: ["collapsed", "closed"],
       })(this);
 

@@ -68,6 +68,12 @@ export class Block extends LitElement {
   private interactiveContainer = useInteractive(this);
 
   openCloseController = useOpenClose<this>({
+    lifecycle: {
+      onBeforeOpen: (host) => host.onBeforeOpen(),
+      onOpen: (host) => host.onOpen(),
+      onBeforeClose: (host) => host.onBeforeClose(),
+      onClose: (host) => host.onClose(),
+    },
     visibilityProps: ["expanded"],
   })(this);
 

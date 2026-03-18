@@ -13,31 +13,53 @@ type CustomVisibilityPropList = readonly [string, ...string[]];
 type VisibilityState = Partial<Record<VisibilityProp, boolean>> &
   ({ open: boolean } | { closed: boolean } | { expanded: boolean } | { collapsed: boolean });
 
+type UseOpenCloseLifecycleHooks<T extends UseOpenCloseComponent> = {
+  onBeforeOpen: (host: T) => void;
+  onOpen: (host: T) => void;
+  onBeforeClose: (host: T) => void;
+  onClose: (host: T) => void;
+};
 /**
  * Interface for open/close event-emitting components.
  */
 type UseOpenCloseComponent = LitElement &
   VisibilityState & {
     transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
-    onBeforeOpen: () => void;
-    onOpen: () => void;
-    onBeforeClose: () => void;
-    onClose: () => void;
     transitionEl?: HTMLElement;
     transitionRef?: Ref<HTMLElement>;
     updateComplete: ReactiveElement["updateComplete"];
   };
 
 /**
+ * Shared configuration for the open/close controller.
+ *
+ * - `lifecycle`: Required lifecycle hooks invoked before and after the
+ *   visibility transition completes.
+ * - `shouldToggle`: Optional guard for suppressing lifecycle emission after
+ *   open-state evaluation.
+ */
+type UseOpenCloseBaseOptions<T extends UseOpenCloseComponent> = {
+  lifecycle: UseOpenCloseLifecycleHooks<T>;
+  shouldToggle?: (host: T, isOpen: boolean) => boolean;
+};
+
+/**
  * Configuration for the open/close controller.
  *
- * Use ONE of the following configuration modes:
+ * Use ONE of the following visibility configuration modes in addition to the
+ * shared base options:
  *
  * STANDARD VISIBILITY CONTRACT
  * Use `visibilityProps` when the component uses one or more of the built-in
  * visibility props: `open`, `closed`, `expanded`, or `collapsed`.
  *
  * useOpenClose({
+ *   lifecycle: {
+ *     onBeforeOpen: (host) => host.onBeforeOpen(),
+ *     onOpen: (host) => host.onOpen(),
+ *     onBeforeClose: (host) => host.onBeforeClose(),
+ *     onClose: (host) => host.onClose(),
+ *   },
  *   visibilityProps: ["open"],
  *   shouldToggle: (host) => !host.disabled && !host.readOnly,
  * });
@@ -48,22 +70,24 @@ type UseOpenCloseComponent = LitElement &
  * defines how to derive whether the component is currently open.
  *
  * useOpenClose({
+ *   lifecycle: {
+ *     onBeforeOpen: (host) => host.onBeforeOpen(),
+ *     onOpen: (host) => host.onOpen(),
+ *     onBeforeClose: (host) => host.onBeforeClose(),
+ *     onClose: (host) => host.onClose(),
+ *   },
  *   customVisibilityProps: ["opened"],
  *   isOpen: (host) => host.opened,
  * });
- *
- * `shouldToggle` optionally suppresses lifecycle emission for either mode.
  */
 type UseOpenCloseOptions<T extends UseOpenCloseComponent> =
-  | {
+  | (UseOpenCloseBaseOptions<T> & {
       visibilityProps: VisibilityPropList;
-      shouldToggle?: (host: T, isOpen: boolean) => boolean;
-    }
-  | {
+    })
+  | (UseOpenCloseBaseOptions<T> & {
       customVisibilityProps: CustomVisibilityPropList;
       isOpen: (host: T) => boolean;
-      shouldToggle?: (host: T, isOpen: boolean) => boolean;
-    };
+    });
 
 /**
  * Controller for managing open/close-related events.
@@ -124,9 +148,9 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(
       await host.updateComplete;
 
       if (isOpen) {
-        host.onBeforeOpen();
+        options.lifecycle.onBeforeOpen(host as T);
       } else {
-        host.onBeforeClose();
+        options.lifecycle.onBeforeClose(host as T);
       }
 
       await host.updateComplete;
@@ -137,9 +161,9 @@ export const useOpenClose = <T extends UseOpenCloseComponent>(
       }
 
       if (isOpen) {
-        host.onOpen();
+        options.lifecycle.onOpen(host as T);
       } else {
-        host.onClose();
+        options.lifecycle.onClose(host as T);
       }
     }
   });
