@@ -568,22 +568,6 @@ describe("resizing", () => {
   });
 });
 
-it("click event should pass through host element", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-shell content-behind>
-        <calcite-shell-panel slot="panel-start" position="start" display-mode="float-content"></calcite-shell-panel>
-        <calcite-action text="test" style="height: 100%; width: 100%;" text-enabled></calcite-action>
-      </calcite-shell>`,
-  );
-
-  await page.waitForChanges();
-  const shellPanel = await page.find("calcite-shell-panel");
-  await shellPanel.click();
-  await page.waitForChanges();
-  expect(await page.evaluate((selector) => document.activeElement.matches(selector), "calcite-action")).toBe(true);
-});
-
 it("should emit expanded/collapsed events when toggled", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-shell-panel heading="Test"></calcite-shell-panel>`);

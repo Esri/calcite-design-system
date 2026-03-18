@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, describe } from "vitest";
+import { it, expect, describe, vi } from "vitest";
 import { commands, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -205,5 +205,39 @@ describe("shell-panel updateSize public method", () => {
       await component.updateComplete;
       expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
     });
+  });
+});
+
+describe("click", () => {
+  it("click event should pass through host element", async () => {
+    const onActionClick = vi.fn();
+
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell contentBehind>
+        <calcite-shell-panel displayMode="float-content" position="start" slot="panel-start" />
+        <calcite-action style={{ blockSize: "100%", inlineSize: "100%" }} text="test" textEnabled />
+      </calcite-shell>,
+    );
+
+    await component.updateComplete;
+
+    const shellPanel = el.querySelector("calcite-shell-panel");
+    const action = el.querySelector("calcite-action");
+
+    expect(shellPanel).toBeTruthy();
+    expect(action).toBeTruthy();
+
+    action?.addEventListener("click", onActionClick);
+
+    const panelRect = shellPanel!.getBoundingClientRect();
+
+    await commands.mouseMove(
+      panelRect.left + panelRect.width / 2,
+      panelRect.top + panelRect.height / 2,
+    );
+    await commands.mouseDown();
+    await commands.mouseUp();
+
+    expect(onActionClick).toHaveBeenCalledTimes(1);
   });
 });
