@@ -830,6 +830,7 @@ describe("l10n", () => {
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
           }
 
@@ -857,6 +858,7 @@ describe("l10n", () => {
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
           }
 

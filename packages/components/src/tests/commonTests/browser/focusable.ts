@@ -34,6 +34,7 @@ export function focusable(setup: () => ReturnType<typeof mount>, options?: Focus
     const { el } = await setup();
 
     if (!isCalciteFocusable(el)) {
+      // eslint-disable-next-line vitest/no-conditional-expect -- we want to fail the test if the component is not focusable
       expect.fail("Element does not implement `setFocus` method from CalciteFocusable interface.");
     }
 
@@ -44,6 +45,7 @@ export function focusable(setup: () => ReturnType<typeof mount>, options?: Focus
     const focusTargetSelector = options?.focusTargetSelector || el.tagName;
 
     if (options?.shadowFocusTargetSelector) {
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(el.shadowRoot.activeElement?.matches(options.shadowFocusTargetSelector)).toBe(true);
     }
 
