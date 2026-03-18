@@ -1231,4 +1231,13 @@ describe("number locale support", () => {
       await expect.element(input).toHaveProperty("value", "0");
     });
   });
+
+  it(`allows negative, decimal numbers for ar locale`, async () => {
+    const value = "-0001.0001";
+    const { el } = await mount<Input>(<calcite-input lang="ar" type="number" />);
+
+    await userEvent.keyboard(`{Tab}${value}{Tab}`);
+
+    expect(el).toHaveProperty("value", "-1.0001");
+  });
 });
