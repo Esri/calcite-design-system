@@ -1,12 +1,12 @@
+import { messages } from "./meta.ts";
 import { requireDeprecationDetails } from "./rule.ts";
 
-const { ruleName, messages } = requireDeprecationDetails;
+const { ruleName } = requireDeprecationDetails;
 const testRule = createTestRule({ ruleName });
 
 testRule({
   ruleName: ruleName,
   config: true,
-  fix: false,
   accept: [
     {
       code: "/* @prop --test-example-token: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--test-alternative-token` instead. */",
