@@ -120,9 +120,9 @@ Estimates are used to determine how much effort needs to go into an issue. The t
 
 ### Design estimates
 
-- `estimate - design - sm`: No more than a few days of design expertise.
-- `estimate - design - md`: One to two weeks of design efforts and collaboration.
-- `estimate - design - lg`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
+- `estimate - design - 5`: No more than a few days of design expertise.
+- `estimate - design - 13`: One to two weeks of design efforts and collaboration.
+- `estimate - design - 21`: Two to four weeks of design expertise, collaboration, and discussion. Usually requires all hands on deck.
 
 ### Development estimates
 
