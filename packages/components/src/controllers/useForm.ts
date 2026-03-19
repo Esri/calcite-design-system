@@ -24,7 +24,6 @@ export const componentsWithInputEvent = [
  *
  * Exported for testing purposes.
  *
- * @param componentTag the tag of the component, e.g. "calcite-input"
  * @returns the event name
  */
 export function getClearValidationEventName(componentTag: string): string {
@@ -193,6 +192,19 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
   });
 }
 
+/**
+ * Helper for setting the initial default value on the first update pass.
+ *
+ * Note that this is only needed if the default value cannot be determined on connectedCallback.
+ * Be careful not to call this more than once, or form reset behavior might be incorrect.
+ *
+ * @param component
+ * @param value
+ */
+export function overrideDefaultValue<T>(component: FormComponent<T>, value: any): void {
+  component.defaultValue = value;
+}
+
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
@@ -208,6 +220,11 @@ interface UseForm {
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
+
+  /**
+   * Sets the custom validity of the component.
+   */
+  setCustomValidity: (message: string) => void;
 }
 
 interface UseFormOptions {
@@ -224,6 +241,7 @@ export const useForm = <T extends FormComponent>(
   options: UseFormOptions,
 ): ReturnType<typeof makeGenericController<UseForm, T>> => {
   return makeGenericController<UseForm, T>((component, controller) => {
+    let customValidityMessage = "";
     let inputDelegate: HTMLInputElement | undefined;
     let lastAssociatedForm: HTMLFormElement | null = null;
     let effectiveInputType = options.inputType;
@@ -280,7 +298,7 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = inputDelegate?.validationMessage || "";
+      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
@@ -336,10 +354,15 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateInputDelegate();
+      updateValidity();
     });
 
-    function updateInputDelegate(): void {
+    function updateValidity(): void {
+      const { elementInternals } = component;
+
+      let validity: ValidityStateFlags = {};
+      let validationMessage = "";
+
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         const { value } = component;
@@ -352,11 +375,32 @@ export const useForm = <T extends FormComponent>(
 
         inputDelegate.value = normalizedValue;
         syncInternalInput(component, inputDelegate);
-        inputDelegate.checkValidity();
-        component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
-        if ("validity" in component) {
-          component.validity = component.elementInternals.validity;
+
+        if (!inputDelegate.validity.valid) {
+          // copy flags since ValidityState is not a plain object and cannot be spread or assigned
+          for (const key in inputDelegate.validity) {
+            if (
+              // see https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags
+              key !== "valid"
+            ) {
+              validity[key] = inputDelegate.validity[key];
+            }
+          }
+
+          validationMessage = inputDelegate.validationMessage;
         }
+      }
+
+      // custom error has higher precedence
+      if (customValidityMessage) {
+        validity = { ...validity, customError: true };
+        validationMessage = customValidityMessage;
+      }
+
+      elementInternals.setValidity(validity, validationMessage);
+
+      if ("validity" in component) {
+        component.validity = elementInternals.validity;
       }
     }
 
@@ -389,10 +433,14 @@ export const useForm = <T extends FormComponent>(
         }
 
         effectiveInputType = type;
-        updateInputDelegate();
+        updateValidity();
       },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();
+      },
+      setCustomValidity: (message) => {
+        customValidityMessage = message;
+        updateValidity();
       },
     };
   });

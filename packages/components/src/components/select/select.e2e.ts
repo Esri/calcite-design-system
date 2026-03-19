@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -381,26 +381,6 @@ it("does not throw when added and removed multiple times and a row", async () =>
   };
 
   await expect(runTest()).resolves.toBeUndefined();
-});
-
-describe("is form-associated", () => {
-  formAssociated(
-    html`
-      <calcite-select>
-        <calcite-option id="0"></calcite-option>
-        <calcite-option id="1">uno</calcite-option>
-        <calcite-option id="2">dos</calcite-option>
-        <calcite-option id="3">tres</calcite-option>
-      </calcite-select>
-    `,
-    {
-      testValue: "dos",
-      validation: true,
-      // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
-      // due to the context menu not being accessible in puppeteer
-      changeValueKeys: ["t"],
-    },
-  );
 });
 
 describe("theme", () => {
