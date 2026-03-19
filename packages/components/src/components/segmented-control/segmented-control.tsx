@@ -12,14 +12,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
+import { MutableValidityState } from "../../utils/form";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -30,6 +23,7 @@ import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { overrideDefaultValue, useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
@@ -44,8 +38,10 @@ declare global {
  * @slot - A slot for adding `calcite-segmented-control-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class SegmentedControl extends LitElement implements LabelableComponent, FormComponent {
+export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -57,7 +53,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
 
   private direction = useDirection();
 
-  formEl: HTMLFormElement;
+  formSupport = useForm({ inputType: "text" })(this);
 
   private items: SegmentedControlItem["el"][] = [];
 
@@ -195,7 +191,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -221,12 +216,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
   }
 
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.value);
+    overrideDefaultValue(this, this.value);
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -425,7 +419,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent, 
         >
           <this.interactiveContainer disabled={this.disabled}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
-            <HiddenFormInputSlot component={this} />
           </this.interactiveContainer>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
