@@ -16,7 +16,6 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { ensureId, getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -30,6 +29,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { ResizeValues } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -124,6 +124,17 @@ export class Sheet extends LitElement {
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
     target: this.transitionRef,
+  })(this);
+
+  openCloseController = useOpenClose<Sheet>({
+    lifecycle: {
+      onBeforeOpen: (host) => host.onBeforeOpen(),
+      onOpen: (host) => host.onOpen(),
+      onBeforeClose: (host) => host.onBeforeClose(),
+      onClose: (host) => host.onClose(),
+    },
+    watchedProps: ["opened"],
+    isOpen: (host) => host.opened,
   })(this);
 
   //#endregion
@@ -325,13 +336,6 @@ export class Sheet extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (
-      changes.has("opened") &&
-      (this.hasUpdated || this.opened !== false) &&
-      this.transitionRef.value
-    ) {
-      toggleOpenClose(this);
-    }
 
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
