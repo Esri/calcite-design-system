@@ -271,7 +271,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   }
 
   private updateReferenceDescription(referenceEl: ReferenceElement, removeOnly = false): void {
-    if (!(referenceEl instanceof Element) || !("ariaDescribedByElements" in referenceEl)) {
+    if (!(referenceEl instanceof Element)) {
       return;
     }
 

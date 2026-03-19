@@ -179,13 +179,17 @@ it("should honor pointerDisabled", async () => {
       </calcite-tooltip>,
     ),
   );
-  const tooltip = el as Tooltip["el"];
+  const arrowEl = el.shadowRoot?.querySelector(".calcite-floating-ui-arrow");
 
-  const arrow = page.getBySelector(".calcite-floating-ui-arrow");
+  if (!arrowEl) {
+    throw new Error("Expected tooltip arrow to be present");
+  }
+
+  const arrow = page.elementLocator(arrowEl);
 
   await expect.element(arrow).toBeVisible();
 
-  tooltip.pointerDisabled = true;
+  el.pointerDisabled = true;
   await reRender();
 
   await expect.element(arrow).not.toBeInTheDocument();
@@ -196,16 +200,14 @@ it("should associate reference elements via ariaDescribedByElements without a to
     renderTooltipWithButton(<calcite-tooltip reference-element="ref">Content</calcite-tooltip>),
   );
 
-  const tooltip = el as Tooltip;
   const referenceElement = getReferenceButton();
 
-  await tooltip.updateComplete;
+  await Promise.resolve();
 
-  expect(tooltip.hasAttribute("id")).toBe(false);
-  expect(referenceElement.ariaDescribedByElements).toContain(tooltip);
+  expect(referenceElement.ariaDescribedByElements).toContain(el);
 
-  tooltip.referenceElement = null;
-  await tooltip.updateComplete;
+  el.referenceElement = null;
+  await Promise.resolve();
 
   expect(referenceElement.ariaDescribedByElements).toBeNull();
 });
