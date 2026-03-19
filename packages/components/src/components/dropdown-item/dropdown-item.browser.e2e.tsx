@@ -2,7 +2,6 @@ import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import { focusable, hidden, renders } from "../../tests/commonTests/browser";
-import { afterNextTask } from "../../tests/utils/timing";
 
 describe("is focusable", () => {
   focusable(() => mount(`calcite-dropdown-item`));
@@ -24,11 +23,7 @@ describe("disabled", () => {
 
     el.disabled = true;
     await reRender();
-    await afterNextTask();
-
-    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    await afterNextTask();
-
+    await userEvent.click(el, { force: true });
     expect(selectSpy).toHaveBeenCalledTimes(0);
     expect(el).toHaveAttribute("aria-disabled", "true");
   });
@@ -40,11 +35,9 @@ describe("disabled", () => {
 
     el.disabled = true;
     await reRender();
-    await afterNextTask();
 
     el.disabled = false;
     await reRender();
-    await afterNextTask();
 
     await userEvent.click(el);
 

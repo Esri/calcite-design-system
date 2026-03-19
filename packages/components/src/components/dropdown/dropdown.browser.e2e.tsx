@@ -13,7 +13,6 @@ import {
   disabled,
   topLayer,
 } from "../../tests/commonTests/browser";
-import { afterNextTask } from "../../tests/utils/timing";
 import { CSS } from "./resources";
 import { Dropdown } from "./dropdown";
 
@@ -163,9 +162,7 @@ describe("hover type", () => {
     expect(el.open).toBe(false);
 
     await userEvent.tab();
-    await afterNextTask();
     await userEvent.tab();
-    await afterNextTask();
 
     expect(el.open).toBe(true);
   });
@@ -177,12 +174,10 @@ describe("hover type", () => {
     expect(el.open).toBe(false);
 
     await userEvent.click(trigger);
-    await afterNextTask();
 
     expect(el.open).toBe(true);
 
     await userEvent.click(trigger);
-    await afterNextTask();
 
     expect(el.open).toBe(true);
   });
@@ -201,11 +196,9 @@ describe("hover type", () => {
     const nextFocusTarget = page.getByRole("button", { name: "Next" });
 
     await userEvent.click(trigger);
-    await afterNextTask();
     expect(el.open).toBe(true);
 
     await userEvent.tab();
-    await afterNextTask();
 
     await expect.element(nextFocusTarget).toHaveFocus();
     expect(el.open).toBe(false);
@@ -213,88 +206,56 @@ describe("hover type", () => {
 });
 
 describe("ariaActiveDescendantElement", () => {
-  type DropdownTestEl = HTMLElement & { shadowRoot: ShadowRoot };
-
-  function getWrapperEl(el: DropdownTestEl): HTMLElement {
-    return el.shadowRoot?.children.item(0) as HTMLElement;
+  function getTriggerSlotLocator() {
+    return page.getBySelector("calcite-dropdown slot").first();
   }
 
-  function getTriggerSlotLocator(el: DropdownTestEl) {
-    return page.elementLocator(
-      getWrapperEl(el).getElementsByTagName("slot").item(0) as HTMLSlotElement,
-    );
+  function getSlottedTriggerLocator() {
+    return page.getBySelector("calcite-dropdown [slot=trigger]");
   }
 
-  function getSlottedTriggerLocator(el: DropdownTestEl) {
-    const slottedTrigger = Array.from(el.children).find(
-      (child) => child.getAttribute("slot") === "trigger",
-    ) as HTMLElement;
-
-    return page.elementLocator(slottedTrigger);
-  }
-
-  function getActiveDescendantId(el: DropdownTestEl): string | undefined {
-    return (getTriggerSlotLocator(el).element() as HTMLSlotElement | null)
+  function getActiveDescendantId(): string | undefined {
+    return (getTriggerSlotLocator().element() as HTMLSlotElement | null)
       ?.ariaActiveDescendantElement?.id;
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
-    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(createSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
-    await afterNextTask();
 
-    expect(getActiveDescendantId(el)).toBe("item-2");
+    expect(getActiveDescendantId()).toBe("item-2");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
-    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(createSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
-    await afterNextTask();
 
-    const triggerEl = getSlottedTriggerLocator(el);
+    const triggerEl = getSlottedTriggerLocator();
+    await userEvent.type(triggerEl, "{ArrowDown}");
 
-    triggerEl
-      .element()
-      ?.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, composed: true }),
-      );
-    await afterNextTask();
-
-    expect(getActiveDescendantId(el)).toBe("item-3");
+    expect(getActiveDescendantId()).toBe("item-3");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
-    const { el } = await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(createSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
-    await afterNextTask();
 
-    const triggerEl = getSlottedTriggerLocator(el);
+    const triggerEl = getSlottedTriggerLocator();
+    await userEvent.type(triggerEl, "{ArrowUp}");
 
-    triggerEl
-      .element()
-      ?.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true, composed: true }),
-      );
-    await afterNextTask();
-
-    let activeDescendantId = getActiveDescendantId(el);
+    let activeDescendantId = getActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-1");
 
-    triggerEl
-      .element()
-      ?.dispatchEvent(
-        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true, composed: true }),
-      );
-    await afterNextTask();
+    await userEvent.type(triggerEl, "{ArrowUp}");
 
-    activeDescendantId = getActiveDescendantId(el);
+    activeDescendantId = getActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-3");
   });
