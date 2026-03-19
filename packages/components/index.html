@@ -6,28 +6,61 @@
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
     <script src="/src/demos/_assets/demo-form.ts"></script>
+    <style>
+      body {
+        padding: 2em;
+      }
+    </style>
   </head>
 
   <body>
     <demo-form>
       <form style="display: flex; flex-direction: column; gap: 0.5rem">
-        <input type="text" name="nativeText" value="I'm a native text input" />
-        <calcite-input-text name="calciteText" value="I'm a calcite text input"></calcite-input-text>
-        <calcite-button type="submit">Submit</calcite-button>
-        <calcite-button disabled type="submit">Disabled Submit</calcite-button>
-        <calcite-button type="reset">Reset</calcite-button>
-        <calcite-button disabled type="reset">Disabled Reset</calcite-button>
-        <calcite-action icon="submit" text="Submit Action" text-enabled type="submit"></calcite-action>
+        <calcite-input name="calciteInput"></calcite-input>
+        <calcite-input name="requiredCalciteInput" required></calcite-input>
+        <calcite-input-date-picker name="calciteInputDatePicker" required></calcite-input-date-picker>
+        <calcite-input-number name="calciteInputNumber" required></calcite-input-number>
+        <calcite-text-area name="calciteTextArea" required></calcite-text-area>
+        <calcite-input-text name="calciteInputText" required></calcite-input-text>
+        <calcite-button name="calciteSubmitButton" type="submit" value="I'm a calcite submit button"
+          >Submit</calcite-button
+        >
+        <calcite-button disabled name="disabledCalciteSubmitButton" type="submit">Disabled Submit</calcite-button>
+        <calcite-button name="calciteResetButton" type="reset">Reset</calcite-button>
+        <calcite-button disabled name="disabledCalciteResetButton" type="reset">Disabled Reset</calcite-button>
+        <calcite-action
+          name="calciteSubmitAction"
+          icon="submit"
+          text="Submit Action"
+          text-enabled
+          type="submit"
+        ></calcite-action>
         <calcite-action
           disabled
           icon="submit"
+          name="disabledCalciteSubmitAction"
           text="Disabled Submit Action"
           text-enabled
           type="submit"
         ></calcite-action>
-        <calcite-action icon="reset" text="Reset Action" text-enabled type="reset"></calcite-action>
-        <calcite-action disabled icon="reset" text="Disabled Reset Action" text-enabled type="reset"></calcite-action>
-        <calcite-button href="http://localhost:5173/" type="submit">I'm a Calcite Link Button</calcite-button>
+        <calcite-action
+          name="calciteResetAction"
+          icon="reset"
+          text="Reset Action"
+          text-enabled
+          type="reset"
+        ></calcite-action>
+        <calcite-action
+          name="disabledCalciteResetAction"
+          disabled
+          icon="reset"
+          text="Disabled Reset Action"
+          text-enabled
+          type="reset"
+        ></calcite-action>
+        <calcite-button name="calciteLinkButton" href="http://localhost:5173/" type="submit"
+          >I'm a Calcite Link Button</calcite-button
+        >
       </form>
     </demo-form>
   </body>
