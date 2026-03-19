@@ -1,15 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -25,7 +16,6 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { Scale } from "../interfaces";
@@ -62,8 +52,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   private direction = useDirection();
 
   floatingEl: HTMLDivElement;
-
-  private guid = `calcite-tooltip-${guid()}`;
 
   referenceElementType: ReferenceElementType = "hover";
 
@@ -232,11 +220,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     }
   }
 
-  override connectedCallback(): void {
-    setAttribute(this.el, "id", this.getId());
-    super.connectedCallback();
-  }
-
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
       this.updateReferenceDescription(changes.get("referenceEl") as ReferenceElement, true);
@@ -285,10 +268,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   private setArrowEl(el: SVGSVGElement): void {
     this.arrowEl = el;
     this.reposition(true);
-  }
-
-  private getId(): string {
-    return this.el.id || this.guid;
   }
 
   private updateReferenceDescription(referenceEl: ReferenceElement, removeOnly = false): void {

@@ -1,4 +1,4 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -19,6 +19,27 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
+
+function renderTooltipWithButton(tooltip: JsxNode): () => JsxNode {
+  return () => (
+    <div>
+      {tooltip}
+      <button id="ref">Button</button>
+    </div>
+  );
+}
+
+function getReferenceButton(): HTMLButtonElement {
+  const referenceElement = page
+    .getByRole("button", { name: "Button" })
+    .element() as HTMLButtonElement | null;
+
+  if (!referenceElement) {
+    throw new Error("Expected reference element to be present");
+  }
+
+  return referenceElement;
+}
 
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {
@@ -151,25 +172,42 @@ describe("pointer movement toggling", () => {
 });
 
 it("should honor pointerDisabled", async () => {
-  const { el, reRender } = await mount<Tooltip>(<calcite-tooltip />, {
-    afterConnect: (tooltip: Tooltip["el"]) => {
-      const referenceElement = document.createElement("button");
-      referenceElement.textContent = "Button";
-      tooltip.insertAdjacentElement("afterend", referenceElement);
-      tooltip.referenceElement = referenceElement;
-      tooltip.open = true;
-      tooltip.textContent = "Content";
-    },
-  });
-
+  const { el, reRender } = await mount<Tooltip>(
+    renderTooltipWithButton(
+      <calcite-tooltip open reference-element="ref">
+        Content
+      </calcite-tooltip>,
+    ),
+  );
   const tooltip = el as Tooltip["el"];
 
-  expect(tooltip.shadowRoot.querySelector(".calcite-floating-ui-arrow")).not.toBeNull();
+  const arrow = page.getBySelector(".calcite-floating-ui-arrow");
+
+  await expect.element(arrow).toBeVisible();
 
   tooltip.pointerDisabled = true;
   await reRender();
 
-  expect(tooltip.shadowRoot.querySelector(".calcite-floating-ui-arrow")).toBeNull();
+  await expect.element(arrow).not.toBeInTheDocument();
+});
+
+it("should associate reference elements via ariaDescribedByElements without a tooltip id", async () => {
+  const { el } = await mount<Tooltip>(
+    renderTooltipWithButton(<calcite-tooltip reference-element="ref">Content</calcite-tooltip>),
+  );
+
+  const tooltip = el as Tooltip;
+  const referenceElement = getReferenceButton();
+
+  await tooltip.updateComplete;
+
+  expect(tooltip.hasAttribute("id")).toBe(false);
+  expect(referenceElement.ariaDescribedByElements).toContain(tooltip);
+
+  tooltip.referenceElement = null;
+  await tooltip.updateComplete;
+
+  expect(referenceElement.ariaDescribedByElements).toBeNull();
 });
 
 describe("defaults", () => {
