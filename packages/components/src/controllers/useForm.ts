@@ -338,7 +338,7 @@ export const useForm = <T extends FormComponent>(
         }
       }
 
-      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
+      if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
