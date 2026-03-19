@@ -232,9 +232,15 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     }
   }
 
+  override connectedCallback(): void {
+    setAttribute(this.el, "id", this.getId());
+    super.connectedCallback();
+  }
+
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
-      this.updateReferenceDescription(changes.get("referenceEl") as ReferenceElement);
+      this.updateReferenceDescription(changes.get("referenceEl") as ReferenceElement, true);
+      this.updateReferenceDescription(this.referenceEl);
       connectFloatingUI(this);
     }
   }
@@ -286,15 +292,19 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   }
 
   private updateReferenceDescription(referenceEl: ReferenceElement, removeOnly = false): void {
-    const id = this.getId();
-
-    if (referenceEl instanceof Element) {
-      referenceEl.removeAttribute("aria-describedby");
-
-      if (!removeOnly) {
-        referenceEl.setAttribute("aria-describedby", id);
-      }
+    if (!(referenceEl instanceof Element) || !("ariaDescribedByElements" in referenceEl)) {
+      return;
     }
+
+    const nextElements = (referenceEl.ariaDescribedByElements ?? []).filter(
+      (element) => element !== this.el,
+    );
+
+    if (!removeOnly) {
+      nextElements.push(this.el);
+    }
+
+    referenceEl.ariaDescribedByElements = nextElements.length > 0 ? nextElements : null;
   }
 
   // #endregion
@@ -314,8 +324,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 
