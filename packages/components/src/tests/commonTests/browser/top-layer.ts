@@ -61,6 +61,7 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
       await componentOpen;
       await afterNextTask();
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on optional component feature
       expect(isInTopLayer(topLayerEl)).toBe(false);
     }
   });

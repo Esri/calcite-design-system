@@ -233,3 +233,16 @@ export const closedShouldNotCauseScrollbars = (): string =>
       <div style="width:10000px; height:10000px;">Popover</div>
     </calcite-popover>
     <calcite-button id="button">Button</calcite-button>`;
+
+export const sharedReferenceElement = (): string =>
+  html`<p>
+      Some text
+      <button id="ref1">Button</button>
+    </p>
+    <calcite-popover placement="trailing-start" reference-element="ref1" open>Content 1</calcite-popover>
+    <calcite-popover placement="trailing-start" offset-skidding="30" reference-element="ref1" open
+      >Content 2</calcite-popover
+    >
+    <calcite-popover placement="trailing-start" offset-skidding="60" reference-element="ref1" open
+      >Content 3</calcite-popover
+    >`;
