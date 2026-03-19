@@ -67,7 +67,7 @@ describe("is form-associated", () => {
             </calcite-segmented-control-item>
           </calcite-segmented-control>,
         ),
-      { testValue: 2, validation: true, changeValueKeys: ["Space"] },
+      { testValue: 2, validation: true, changeValueKeys: ["{Space}"] },
     );
   });
 
