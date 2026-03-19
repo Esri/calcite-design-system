@@ -192,7 +192,7 @@ export class InputDatePicker
       onBeforeClose: (host) => host.onBeforeClose(),
       onClose: (host) => host.onClose(),
     },
-    visibilityProps: ["open"],
+    watchedProps: ["open"],
     shouldToggle: (host) => !host.disabled && !host.readOnly,
   })(this);
 

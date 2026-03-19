@@ -302,7 +302,7 @@ export class Combobox
       onBeforeClose: (host) => host.onBeforeClose(),
       onClose: (host) => host.onClose(),
     },
-    visibilityProps: ["open"],
+    watchedProps: ["open"],
     shouldToggle: (host) => !host.disabled,
   })(this);
 

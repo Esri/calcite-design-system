@@ -16,14 +16,14 @@ describe("useOpenClose", () => {
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
 
-      openCloseController = useOpenClose<this>({
+      openCloseController = useOpenClose<Test>({
         lifecycle: {
           onBeforeOpen: () => this.onBeforeOpen(),
           onOpen: () => this.onOpen(),
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["expanded"],
+        watchedProps: ["expanded"],
       })(this);
 
       onBeforeOpen(): void {
@@ -110,7 +110,7 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["closed"],
+        watchedProps: ["closed"],
       })(this);
 
       onBeforeOpen(): void {
@@ -197,7 +197,7 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["open"],
+        watchedProps: ["open"],
       })(this);
 
       onBeforeOpen(): void {
@@ -279,7 +279,7 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["collapsed"],
+        watchedProps: ["collapsed"],
       })(this);
 
       onBeforeOpen(): void {
@@ -361,7 +361,7 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["open"],
+        watchedProps: ["open"],
       })(this);
 
       onBeforeOpen(): void {
@@ -420,7 +420,7 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["open"],
+        watchedProps: ["open"],
       })(this);
 
       onBeforeOpen(): void {
@@ -464,12 +464,12 @@ describe("useOpenClose", () => {
     expect(emitted).toEqual(["beforeOpen", "open"]);
   });
 
-  it("supports multiple configured visibility props in one controller", async () => {
+  it("supports cross-axis props: open + expanded", async () => {
     const emitted: string[] = [];
 
     class Test extends LitElement {
-      @property() collapsed = false;
-      @property() closed = false;
+      @property() open = false;
+      @property() expanded = false;
 
       transitionProp = "opacity" as const;
       transitionEl!: HTMLDivElement;
@@ -481,7 +481,8 @@ describe("useOpenClose", () => {
           onBeforeClose: () => this.onBeforeClose(),
           onClose: () => this.onClose(),
         },
-        visibilityProps: ["collapsed", "closed"],
+        watchedProps: ["open", "expanded"],
+        isOpen: (host) => host.open && host.expanded,
       })(this);
 
       onBeforeOpen(): void {
@@ -518,23 +519,6 @@ describe("useOpenClose", () => {
 
     const getAnimationsSpy = vi.spyOn(component.transitionEl, "getAnimations");
 
-    const closingControlledPromise = createControlledPromise<void>();
-    getAnimationsSpy.mockImplementation(() => [
-      {
-        transitionProperty: "opacity",
-        finished: closingControlledPromise.promise,
-      } as unknown as CSSTransition,
-    ]);
-
-    component.closed = true;
-    await component.updateComplete;
-    await afterNextFrame();
-    expect(emitted).toEqual(["beforeClose"]);
-
-    closingControlledPromise.resolve();
-    await afterNextFrame();
-    expect(emitted).toEqual(["beforeClose", "close"]);
-
     const openingControlledPromise = createControlledPromise<void>();
     getAnimationsSpy.mockImplementation(() => [
       {
@@ -543,20 +527,132 @@ describe("useOpenClose", () => {
       } as unknown as CSSTransition,
     ]);
 
+    component.open = true;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual([]);
+
+    component.expanded = true;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen"]);
+
+    openingControlledPromise.resolve();
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open"]);
+
+    const closingControlledPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: closingControlledPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
+    component.open = false;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open", "beforeClose"]);
+
+    closingControlledPromise.resolve();
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
+  });
+
+  it("supports cross-axis props: closed + collapsed", async () => {
+    const emitted: string[] = [];
+
+    class Test extends LitElement {
+      @property() closed = false;
+      @property() collapsed = false;
+
+      transitionProp = "opacity" as const;
+      transitionEl!: HTMLDivElement;
+
+      openCloseController = useOpenClose<this>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
+        watchedProps: ["closed", "collapsed"],
+        isOpen: (host) => !host.closed && !host.collapsed,
+      })(this);
+
+      onBeforeOpen(): void {
+        emitted.push("beforeOpen");
+      }
+
+      onOpen(): void {
+        emitted.push("open");
+      }
+
+      onBeforeClose(): void {
+        emitted.push("beforeClose");
+      }
+
+      onClose(): void {
+        emitted.push("close");
+      }
+
+      override render(): JsxNode {
+        return (
+          <div
+            ref={(el) => {
+              if (el) {
+                this.transitionEl = el;
+              }
+            }}
+          />
+        );
+      }
+    }
+
+    const { component } = await mount(Test);
+    await component.updateComplete;
+
+    const getAnimationsSpy = vi.spyOn(component.transitionEl, "getAnimations");
+
+    const closeFromClosedPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: closeFromClosedPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
+    component.closed = true;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeClose"]);
+
+    closeFromClosedPromise.resolve();
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeClose", "close"]);
+
+    const openFromClosedPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: openFromClosedPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
     component.closed = false;
     await component.updateComplete;
     await afterNextFrame();
     expect(emitted).toEqual(["beforeClose", "close", "beforeOpen"]);
 
-    openingControlledPromise.resolve();
+    openFromClosedPromise.resolve();
     await afterNextFrame();
     expect(emitted).toEqual(["beforeClose", "close", "beforeOpen", "open"]);
 
-    const closeFromCollapsedControlledPromise = createControlledPromise<void>();
+    const closeFromCollapsedPromise = createControlledPromise<void>();
     getAnimationsSpy.mockImplementation(() => [
       {
         transitionProperty: "opacity",
-        finished: closeFromCollapsedControlledPromise.promise,
+        finished: closeFromCollapsedPromise.promise,
       } as unknown as CSSTransition,
     ]);
 
@@ -565,15 +661,15 @@ describe("useOpenClose", () => {
     await afterNextFrame();
     expect(emitted).toEqual(["beforeClose", "close", "beforeOpen", "open", "beforeClose"]);
 
-    closeFromCollapsedControlledPromise.resolve();
+    closeFromCollapsedPromise.resolve();
     await afterNextFrame();
     expect(emitted).toEqual(["beforeClose", "close", "beforeOpen", "open", "beforeClose", "close"]);
 
-    const openFromCollapsedControlledPromise = createControlledPromise<void>();
+    const openFromCollapsedPromise = createControlledPromise<void>();
     getAnimationsSpy.mockImplementation(() => [
       {
         transitionProperty: "opacity",
-        finished: openFromCollapsedControlledPromise.promise,
+        finished: openFromCollapsedPromise.promise,
       } as unknown as CSSTransition,
     ]);
 
@@ -590,7 +686,7 @@ describe("useOpenClose", () => {
       "beforeOpen",
     ]);
 
-    openFromCollapsedControlledPromise.resolve();
+    openFromCollapsedPromise.resolve();
     await afterNextFrame();
     expect(emitted).toEqual([
       "beforeClose",
@@ -602,5 +698,94 @@ describe("useOpenClose", () => {
       "beforeOpen",
       "open",
     ]);
+  });
+
+  it("supports custom props: opened", async () => {
+    const emitted: string[] = [];
+
+    class Test extends LitElement {
+      @property() opened = false;
+
+      transitionProp = "opacity" as const;
+      transitionEl!: HTMLDivElement;
+
+      openCloseController = useOpenClose<Test>({
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
+        watchedProps: ["opened"],
+        isOpen: (host) => host.opened,
+      })(this);
+
+      onBeforeOpen(): void {
+        emitted.push("beforeOpen");
+      }
+
+      onOpen(): void {
+        emitted.push("open");
+      }
+
+      onBeforeClose(): void {
+        emitted.push("beforeClose");
+      }
+
+      onClose(): void {
+        emitted.push("close");
+      }
+
+      override render(): JsxNode {
+        return (
+          <div
+            ref={(el) => {
+              if (el) {
+                this.transitionEl = el;
+              }
+            }}
+          />
+        );
+      }
+    }
+
+    const { component } = await mount(Test);
+    await component.updateComplete;
+
+    const getAnimationsSpy = vi.spyOn(component.transitionEl, "getAnimations");
+
+    const openingControlledPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: openingControlledPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
+    component.opened = true;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen"]);
+
+    openingControlledPromise.resolve();
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open"]);
+
+    const closingControlledPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: closingControlledPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
+    component.opened = false;
+    await component.updateComplete;
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open", "beforeClose"]);
+
+    closingControlledPromise.resolve();
+    await afterNextFrame();
+    expect(emitted).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
   });
 });

@@ -74,7 +74,7 @@ export class Block extends LitElement {
       onBeforeClose: (host) => host.onBeforeClose(),
       onClose: (host) => host.onClose(),
     },
-    visibilityProps: ["expanded"],
+    watchedProps: ["expanded"],
   })(this);
 
   //#endregion
