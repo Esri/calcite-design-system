@@ -46,11 +46,7 @@ describe("useReferenceElement", () => {
     referenceElement: HTMLElement;
     component: T;
   } {
-    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
-
-    if (!referenceElement) {
-      throw new Error("Expected reference element to be present");
-    }
+    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
 
     const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
 
@@ -67,7 +63,7 @@ describe("useReferenceElement", () => {
     return { referenceElement, component };
   }
 
-  function getComponentsByText<T extends HTMLElement>(expectedCount: number): T[] {
+  function getComponentElsByText<T extends HTMLElement>(expectedCount: number): T[] {
     const componentTextEls = page.getByText("Hello world!").elements() as HTMLElement[];
 
     if (componentTextEls.length !== expectedCount) {
@@ -83,6 +79,35 @@ describe("useReferenceElement", () => {
 
       return component;
     });
+  }
+
+  type TestReferenceComponent = HTMLElement &
+    Pick<ReferenceElementComponent, "referenceElement"> & {
+      updateComplete: Promise<unknown>;
+      el: HTMLElement;
+    };
+
+  async function assertSharedReferenceElementRegistration<T extends TestReferenceComponent>(
+    getAssociatedElements: (referenceElement: HTMLElement) => readonly Element[] | null,
+  ): Promise<void> {
+    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
+
+    const [component1, component2] = getComponentElsByText<T>(2);
+
+    component1.referenceElement = referenceElement;
+    component2.referenceElement = referenceElement;
+    await Promise.all([component1.updateComplete, component2.updateComplete]);
+
+    expect(getAssociatedElements(referenceElement)).not.toBeNull();
+    expect(getAssociatedElements(referenceElement)).toContain(component1.el);
+    expect(getAssociatedElements(referenceElement)).toContain(component2.el);
+
+    component1.referenceElement = null;
+    await component1.updateComplete;
+
+    expect(getAssociatedElements(referenceElement)).not.toBeNull();
+    expect(getAssociatedElements(referenceElement)).not.toContain(component1.el);
+    expect(getAssociatedElements(referenceElement)).toContain(component2.el);
   }
 
   describe("click manager", () => {
@@ -167,30 +192,9 @@ describe("useReferenceElement", () => {
         { dynamicComponents: [TestClickComponent] },
       );
 
-      const referenceElement = page
-        .getByText("My Reference Element")
-        .element() as HTMLElement | null;
-
-      if (!referenceElement) {
-        throw new Error("Expected reference element to be present");
-      }
-
-      const [component1, component2] = getComponentsByText<TestClickComponent>(2);
-
-      component1.referenceElement = referenceElement;
-      component2.referenceElement = referenceElement;
-      await Promise.all([component1.updateComplete, component2.updateComplete]);
-
-      expect(referenceElement.ariaControlsElements).not.toBeNull();
-      expect(referenceElement.ariaControlsElements).toContain(component1.el);
-      expect(referenceElement.ariaControlsElements).toContain(component2.el);
-
-      component1.referenceElement = null;
-      await component1.updateComplete;
-
-      expect(referenceElement.ariaControlsElements).not.toBeNull();
-      expect(referenceElement.ariaControlsElements).not.toContain(component1.el);
-      expect(referenceElement.ariaControlsElements).toContain(component2.el);
+      await assertSharedReferenceElementRegistration<TestClickComponent>(
+        (referenceElement) => referenceElement.ariaControlsElements,
+      );
     });
   });
 
@@ -243,30 +247,9 @@ describe("useReferenceElement", () => {
         { dynamicComponents: [TestHoverComponent] },
       );
 
-      const referenceElement = page
-        .getByText("My Reference Element")
-        .element() as HTMLElement | null;
-
-      if (!referenceElement) {
-        throw new Error("Expected reference element to be present");
-      }
-
-      const [component1, component2] = getComponentsByText<TestHoverComponent>(2);
-
-      component1.referenceElement = referenceElement;
-      component2.referenceElement = referenceElement;
-      await Promise.all([component1.updateComplete, component2.updateComplete]);
-
-      expect(referenceElement.ariaDescribedByElements).not.toBeNull();
-      expect(referenceElement.ariaDescribedByElements).toContain(component1.el);
-      expect(referenceElement.ariaDescribedByElements).toContain(component2.el);
-
-      component1.referenceElement = null;
-      await component1.updateComplete;
-
-      expect(referenceElement.ariaDescribedByElements).not.toBeNull();
-      expect(referenceElement.ariaDescribedByElements).not.toContain(component1.el);
-      expect(referenceElement.ariaDescribedByElements).toContain(component2.el);
+      await assertSharedReferenceElementRegistration<TestHoverComponent>(
+        (referenceElement) => referenceElement.ariaDescribedByElements,
+      );
     });
   });
 });
