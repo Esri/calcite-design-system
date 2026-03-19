@@ -24,7 +24,6 @@ export const componentsWithInputEvent = [
  *
  * Exported for testing purposes.
  *
- * @param componentTag the tag of the component, e.g. "calcite-input"
  * @returns the event name
  */
 export function getClearValidationEventName(componentTag: string): string {
@@ -191,6 +190,19 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
       }
     }
   });
+}
+
+/**
+ * Helper for setting the initial default value on the first update pass.
+ *
+ * Note that this is only needed if the default value cannot be determined on connectedCallback.
+ * Be careful not to call this more than once, or form reset behavior might be incorrect.
+ *
+ * @param component
+ * @param value
+ */
+export function overrideDefaultValue<T>(component: FormComponent<T>, value: any): void {
+  component.defaultValue = value;
 }
 
 interface UseForm {
