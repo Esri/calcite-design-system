@@ -767,14 +767,23 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       const preCommitValue = this.value;
       this.commitValue();
 
-      if (this.open) {
+      const focusRangeEnd = this.shouldFocusRangeEnd();
+      const focusRangeStart = !focusRangeEnd && this.shouldFocusRangeStart();
+
+      if (focusRangeEnd || focusRangeStart) {
         event.preventDefault();
 
-        if (this.shouldFocusRangeEnd()) {
+        if (focusRangeEnd) {
           this.endInputRef.value?.setFocus();
-        } else if (this.shouldFocusRangeStart()) {
+        } else if (focusRangeStart) {
           this.startInputRef.value?.setFocus();
         }
+
+        return;
+      }
+
+      if (this.open) {
+        event.preventDefault();
       } else {
         const formActive = this.formSupport.active;
         const handledKey = preCommitValue !== this.value || formActive;
