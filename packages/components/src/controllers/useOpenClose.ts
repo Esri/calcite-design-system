@@ -12,6 +12,11 @@ export type OpenCloseState = ExclusiveState<"open", "closed">;
 
 export type ExpandedCollapseState = ExclusiveState<"expanded", "collapsed">;
 
+/**
+ * Components may expose one prop from each axis:
+ * - open/closed
+ * - expanded/collapsed
+ */
 export type OpenCloseExpandedCollapseState = OpenCloseState & ExpandedCollapseState;
 
 type OpenCloseVisibilityProp = keyof OpenCloseState & string;
@@ -20,12 +25,24 @@ type ExpandedCollapseVisibilityProp = keyof ExpandedCollapseState & string;
 
 type VisibilityProp = keyof OpenCloseExpandedCollapseState & string;
 
+/**
+ * Standard mode watches a single built-in visibility prop and lets the controller
+ * infer whether the host is open or closed.
+ */
 type StandardWatchedProps = readonly [VisibilityProp];
 
+/**
+ * Derived built-in mode supports only cross-axis pairs. Same-axis pairs are
+ * intentionally excluded by typing.
+ */
 type DerivedBuiltInWatchedProps =
   | readonly [OpenCloseVisibilityProp, ExpandedCollapseVisibilityProp]
   | readonly [ExpandedCollapseVisibilityProp, OpenCloseVisibilityProp];
 
+/**
+ * Custom watched props are host string keys that are not built-in visibility props.
+ * Example: "opened"
+ */
 type CustomWatchedProp<T extends UseOpenCloseComponent> = Exclude<Extract<keyof T, string>, VisibilityProp>;
 
 type DerivedCustomWatchedProps<T extends UseOpenCloseComponent> = readonly [
@@ -33,6 +50,11 @@ type DerivedCustomWatchedProps<T extends UseOpenCloseComponent> = readonly [
   ...CustomWatchedProp<T>[],
 ];
 
+/**
+ * Derived mode supports:
+ * - cross-axis built-in watched props, or
+ * - one or more custom watched props with an explicit `isOpen` resolver.
+ */
 type DerivedWatchedProps<T extends UseOpenCloseComponent> = DerivedBuiltInWatchedProps | DerivedCustomWatchedProps<T>;
 
 type UseOpenCloseLifecycleHooks<T extends UseOpenCloseComponent> = {
@@ -42,6 +64,11 @@ type UseOpenCloseLifecycleHooks<T extends UseOpenCloseComponent> = {
   onClose: (host: T) => void;
 };
 
+/**
+ * Minimum host surface expected by the controller.
+ * Components may optionally provide a transition target through `transitionEl`,
+ * `transitionRef`, along with the CSS transition property to observe.
+ */
 type UseOpenCloseComponent = LitElement &
   OpenCloseExpandedCollapseState & {
     transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
@@ -50,7 +77,17 @@ type UseOpenCloseComponent = LitElement &
   };
 
 type UseOpenCloseBaseOptions<T extends UseOpenCloseComponent> = {
+  /**
+   * Hooks invoked when the controller detects an open/close state transition.
+   */
   lifecycle: UseOpenCloseLifecycleHooks<T>;
+  /**
+   * Use `shouldToggle` to suppress open/close lifecycle events when host state
+   * such as `disabled` or `readOnly` should prevent toggling.
+   *
+   * @example
+   * shouldToggle: (host) => !host.disabled && !host.readOnly
+   */
   shouldToggle?: (host: T, isOpen: boolean) => boolean;
 };
 
@@ -90,38 +127,58 @@ function getOpenStateForBuiltInProp(host: OpenCloseExpandedCollapseState, visibi
   return !host.collapsed;
 }
 
+/**
+ * Standard mode:
+ * - watches exactly one built-in prop
+ * - infers open state automatically
+ * - does not allow `isOpen`
+ *
+ * Valid examples:
+ * - `watchedProps: ["open"]`
+ * - `watchedProps: ["closed"]`
+ * - `watchedProps: ["expanded"]`
+ * - `watchedProps: ["collapsed"]`
+ */
 export function useOpenClose<
   T extends UseOpenCloseComponent,
   const TWatchedProps extends StandardWatchedProps = StandardWatchedProps,
 >(
   options: UseOpenCloseBaseOptions<T> & {
-    /**
-     * Use a single built-in visibility prop when the controller can infer open state.
-     * Valid values: "open", "closed", "expanded", or "collapsed".
-     */
     watchedProps: TWatchedProps;
     isOpen?: never;
   },
 ): ReturnType<typeof makeGenericController<void, T>>;
 
+/**
+ * Derived mode:
+ * - watches cross-axis built-in props or custom props
+ * - requires `isOpen` to resolve the effective open state
+ *
+ * Valid examples:
+ * - `watchedProps: ["open", "expanded"]`
+ * - `watchedProps: ["closed", "collapsed"]`
+ * - `watchedProps: ["opened"]`
+ *
+ * Invalid same-axis combinations such as `["open", "closed"]` and
+ * `["expanded", "collapsed"]` are intentionally rejected by typing.
+ */
 export function useOpenClose<
   T extends UseOpenCloseComponent,
   const TWatchedProps extends DerivedWatchedProps<T> = DerivedWatchedProps<T>,
 >(
   options: UseOpenCloseBaseOptions<T> & {
-    /**
-     * Use either:
-     * - a CROSS-AXIS built-in pair such as ["open", "expanded"], or
-     * - one or more CUSTOM watched props such as ["opened"].
-     *
-     * Same-axis built-in pairs such as ["open", "closed"] and
-     * ["expanded", "collapsed"] are intentionally rejected by typing.
-     */
     watchedProps: TWatchedProps;
     isOpen: (host: T) => boolean;
   },
 ): ReturnType<typeof makeGenericController<void, T>>;
 
+/**
+ * Creates a generic open/close controller that:
+ * - watches configured visibility props
+ * - resolves the current open state
+ * - emits before/open and beforeClose/close lifecycle hooks
+ * - waits for the configured CSS transition to finish before final open/close hooks
+ */
 export function useOpenClose<T extends UseOpenCloseComponent>(
   options: UseOpenCloseOptions<T>,
 ): ReturnType<typeof makeGenericController<void, T>> {
