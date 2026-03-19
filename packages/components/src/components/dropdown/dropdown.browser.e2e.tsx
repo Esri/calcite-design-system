@@ -259,7 +259,9 @@ describe("ariaActiveDescendantElement", () => {
 
     triggerEl
       .element()
-      ?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+      ?.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, composed: true }),
+      );
     await afterNextTask();
 
     expect(getActiveDescendantId(el)).toBe("item-3");
@@ -276,7 +278,9 @@ describe("ariaActiveDescendantElement", () => {
 
     triggerEl
       .element()
-      ?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+      ?.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true, composed: true }),
+      );
     await afterNextTask();
 
     let activeDescendantId = getActiveDescendantId(el);
@@ -285,7 +289,9 @@ describe("ariaActiveDescendantElement", () => {
 
     triggerEl
       .element()
-      ?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true }));
+      ?.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowUp", bubbles: true, composed: true }),
+      );
     await afterNextTask();
 
     activeDescendantId = getActiveDescendantId(el);
