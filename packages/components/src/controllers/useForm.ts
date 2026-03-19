@@ -357,6 +357,8 @@ export const useForm = <T extends FormComponent>(
       updateValidity();
     });
 
+    const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
+
     function updateValidity(): void {
       const { elementInternals } = component;
 
@@ -366,14 +368,21 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         const { value } = component;
-        const normalizedValue =
-          value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
-            ? ``
+        const { type } = inputDelegate;
+
+        // Normalize value for input delegate compatibility:
+        // - file or nullish -> "" (file will throw if non-empty string is provided)
+        // - arrays -> join if allowed, else first value or ""
+        // - otherwise -> stringified value
+        inputDelegate.value =
+          type === "file" || value == null
+            ? ""
             : Array.isArray(value)
-              ? value.join(",")
+              ? joinableValueTypes.includes(type)
+                ? value.join(",")
+                : `${value[0] ?? ""}`
               : `${value}`;
 
-        inputDelegate.value = normalizedValue;
         syncInternalInput(component, inputDelegate);
 
         if (!inputDelegate.validity.valid) {
