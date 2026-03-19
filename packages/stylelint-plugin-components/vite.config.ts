@@ -5,8 +5,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: "src/index.ts",
-      formats: ["cjs"],
-      fileName: () => "index.cjs",
+      formats: ["es"],
+      fileName: () => "index.js",
     },
     rollupOptions: {
       external: ["stylelint"],
