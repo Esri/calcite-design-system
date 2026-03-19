@@ -173,12 +173,14 @@ describe("pointer movement toggling", () => {
 
 it("should honor pointerDisabled", async () => {
   const { el, reRender } = await mount<Tooltip>(
-    renderTooltipWithButton(
+    <div>
       <calcite-tooltip open reference-element="ref">
         Content
-      </calcite-tooltip>,
-    ),
+      </calcite-tooltip>
+      <button id="ref">Button</button>
+    </div>,
   );
+
   const arrowEl = el.shadowRoot?.querySelector(".calcite-floating-ui-arrow");
 
   if (!arrowEl) {
@@ -186,7 +188,6 @@ it("should honor pointerDisabled", async () => {
   }
 
   const arrow = page.elementLocator(arrowEl);
-
   await expect.element(arrow).toBeVisible();
 
   el.pointerDisabled = true;
