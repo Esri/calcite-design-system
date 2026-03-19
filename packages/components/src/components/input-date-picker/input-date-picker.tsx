@@ -764,18 +764,28 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
     if (key === "Enter") {
-      event.preventDefault();
+      const preCommitValue = this.value;
       this.commitValue();
 
-      if (this.shouldFocusRangeEnd()) {
-        this.endInputRef.value?.setFocus();
-      } else if (this.shouldFocusRangeStart()) {
-        this.startInputRef.value?.setFocus();
-      }
+      if (this.open) {
+        event.preventDefault();
 
-      if (this.formSupport.active) {
-        this.formSupport.requestSubmit();
-        this.restoreInputFocus(true);
+        if (this.shouldFocusRangeEnd()) {
+          this.endInputRef.value?.setFocus();
+        } else if (this.shouldFocusRangeStart()) {
+          this.startInputRef.value?.setFocus();
+        }
+      } else {
+        const formActive = this.formSupport.active;
+        const handledKey = preCommitValue !== this.value || formActive;
+
+        if (handledKey) {
+          event.preventDefault();
+        }
+
+        if (formActive) {
+          this.formSupport.requestSubmit();
+        }
       }
     } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
