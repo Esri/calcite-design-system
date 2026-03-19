@@ -137,11 +137,12 @@ export class DropdownItem extends LitElement {
       return;
     }
 
-    this.emitRequestedItem();
-
     if (this.href) {
       this.childLinkRef.value?.click();
+      return;
     }
+
+    this.emitRequestedItem();
   }
 
   //#endregion
