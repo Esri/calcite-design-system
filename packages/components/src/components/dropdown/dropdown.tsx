@@ -381,9 +381,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
     await this.setFocus();
-    const requestedDropdownGroup = event.detail.requestedDropdownGroup;
-    const selectionModeIsNone = requestedDropdownGroup?.selectionMode === "none";
-    if (!this.closeOnSelectDisabled || selectionModeIsNone) {
+    if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
   }

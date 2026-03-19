@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { userEvent } from "vitest/browser";
 import { focusable, hidden, renders } from "../../tests/commonTests/browser";
 import { afterNextTask } from "../../tests/utils/timing";
 
@@ -25,10 +26,11 @@ describe("disabled", () => {
     await reRender();
     await afterNextTask();
 
-    el.click();
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await afterNextTask();
 
     expect(selectSpy).toHaveBeenCalledTimes(0);
-    expect(el.getAttribute("aria-disabled")).toBe("true");
+    expect(el).toHaveAttribute("aria-disabled", "true");
   });
 
   it("allows selection event again after enabling", async () => {
@@ -44,9 +46,9 @@ describe("disabled", () => {
     await reRender();
     await afterNextTask();
 
-    el.click();
+    await userEvent.click(el);
 
     expect(selectSpy).toHaveBeenCalledTimes(1);
-    expect(el.getAttribute("aria-disabled")).toBeNull();
+    expect(el).not.toHaveAttribute("aria-disabled");
   });
 });

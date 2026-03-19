@@ -745,7 +745,7 @@ describe("calcite-dropdown", () => {
 
     await noneGroupItem.click();
     await page.waitForChanges();
-    expect(await dropdownWrapper.isVisible()).toBe(false);
+    expect(await dropdownWrapper.isVisible()).toBe(true);
   });
 
   describe("toggles the dropdown with click, enter, or space", () => {
