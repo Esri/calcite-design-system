@@ -3163,56 +3163,9 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         width="l"
         ${boolean("resizable", args.resizable)}
       >
-        <calcite-action-bar slot="action-bar" overflow-actions-disabled>
-          <calcite-action-group>
-            <calcite-action text="Zip" icon="gear"> </calcite-action>
-            <calcite-action text="Zip" icon="gear"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action-group>
-            <calcite-action text="Zap" icon="gear"> </calcite-action>
-            <calcite-action text="Zap" icon="gear"> </calcite-action>
-          </calcite-action-group>
-          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
-          <calcite-action slot="actions-end" text="Zoom" icon="gear"> </calcite-action>
-        </calcite-action-bar>
-        ${actionBarPositionActionBarHTML}
-        <calcite-panel heading="Panel heading">
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block collapsible heading="Block heading" description="Description">
-            <calcite-notice open>
-              <div slot="message">The viewers are going to love this</div>
-            </calcite-notice>
-          </calcite-block>
-        </calcite-panel>
+        ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
       </calcite-shell-panel>
-      <calcite-panel>
-        <div class="panel-content">
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-        </div>
-        <div class="media"></div>
-      </calcite-panel>
+      ${actionBarPositionPanelHTML}
     </calcite-shell>`;
 };
 
@@ -3320,14 +3273,7 @@ export const shellPanelWithActionBarPositionPropToolbar = (): string => {
       >
         ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
       </calcite-shell-panel>
-      <calcite-panel>
-        <div class="panel-content">
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-          <div>ESRI</div>
-        </div>
-      </calcite-panel>
+      ${actionBarPositionPanelHTML}
     </calcite-shell>
 
     <script>
