@@ -51,7 +51,10 @@ export class Rating extends LitElement implements LabelableComponent {
   private emit = false;
 
   formSupport = useForm<this>({
-    inputType: "text",
+    inputType: "number",
+    getValue: () => {
+      return this.value === 0 ? "" : this.value;
+    },
   })(this);
 
   private guid = IDS.host(guid());
