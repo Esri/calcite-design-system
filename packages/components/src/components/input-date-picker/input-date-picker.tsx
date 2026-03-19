@@ -783,6 +783,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (this.open) {
+        this.restoreInputFocus(true);
         event.preventDefault();
       } else {
         const formActive = this.formSupport.active;
