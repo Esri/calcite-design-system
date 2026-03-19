@@ -10,7 +10,5 @@ export const messages = ruleMessages(name, {
 });
 
 export const meta: stylelint.RuleMeta = {
-  deprecated: false,
-  fixable: false,
   url: "https://github.com/Esri/calcite-design-system/tree/dev/packages/stylelint-plugin-components",
 };
