@@ -232,13 +232,13 @@
   :host([scale="m"]) {
     .input-clear-button--container {
       padding: var(--calcite-spacing-xxs);
-      margin-inline-end: var(--calcite-spacing-xxs);
+      padding-inline-end: var(--calcite-space-sm);
     }
   }
 
   :host([scale="l"]) {
     .input-clear-button--container {
-      margin-inline-end: var(--calcite-spacing-sm-plus);
+      padding-inline-end: var(--calcite-spacing-sm-plus);
     }
   }
 }
