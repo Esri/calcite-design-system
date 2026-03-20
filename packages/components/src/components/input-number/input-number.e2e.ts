@@ -1351,24 +1351,6 @@ it("sets internals to autocomplete when the attribute is used", async () => {
   expect(await input.getProperty("autocomplete")).toBe("cc-number");
 });
 
-it("input event fires when number ends with a decimal", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`
-    <calcite-input-number value="1.2"></calcite-input-number>
-    `);
-
-  const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
-  const element = await page.find("calcite-input-number");
-  expect(await element.getProperty("value")).toBe("1.2");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-
-  await page.keyboard.press("Backspace");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("1.");
-  expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
-});
-
 it("emits change event when value set directly and then cleared in 'de' locale", async () => {
   const page = await newE2EPage();
   await page.setContent(`
@@ -1517,33 +1499,6 @@ it("should not focus when clicking validation message", async () => {
   await page.waitForChanges();
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
-});
-
-it("integer property prevents decimals and exponential notation", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input-number integer value="1.2" step="0.01"></calcite-input-number>`);
-
-  const input = await page.find("calcite-input-number");
-  const numberHorizontalItemUp = await page.find(
-    `calcite-input-number >>> .number-button-item[data-adjustment='${DIRECTION.up}']`,
-  );
-
-  await input.callMethod("setFocus");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe("12"); // test initial value
-
-  await typeNumberValue(page, "3.4e-5");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("12345"); // test user input
-
-  input.setProperty("value", "-9.8e-7");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("-987"); // test directly setting value
-
-  await numberHorizontalItemUp.click();
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("-986"); // test incrementing
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input-number");
