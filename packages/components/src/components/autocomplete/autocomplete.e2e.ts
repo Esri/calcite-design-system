@@ -247,7 +247,7 @@ it("should set screen reader list attribute 'aria-live' to 'polite'", async () =
 
 it("should expose and update listbox option aria-selected from item selected state", async () => {
   const page = await newE2EPage();
-  await page.setContent(simpleHTML);
+  await page.setContent(simpleHTMLSelectedItem);
 
   const autocomplete = await page.find("calcite-autocomplete");
   autocomplete.setProperty("open", true);
@@ -267,7 +267,7 @@ it("should expose and update listbox option aria-selected from item selected sta
   };
 
   let optionSelectionState = await getOptionSelectionState();
-  expect(optionSelectionState).toContainEqual({ label: "Item one", selected: "false" });
+  expect(optionSelectionState).toContainEqual({ label: "Item one", selected: "true" });
   expect(optionSelectionState).toContainEqual({ label: "Item two", selected: "false" });
 
   const item = await page.find("calcite-autocomplete-item[value='two']");
