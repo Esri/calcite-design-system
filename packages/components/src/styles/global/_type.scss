@@ -1,25 +1,25 @@
 %type-vars {
   --calcite-code-family:
-    "Consolas", "Andale Mono", "Lucida Console", "Monaco", monospace; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-family-code` instead.
+    "Consolas", "Andale Mono", "Lucida Console", "Monaco", monospace; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-family-code` instead.
   --calcite-sans-family:
-    "Avenir Next", "Avenir", "Helvetica Neue", sans-serif; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-family` instead.
+    "Avenir Next", "Avenir", "Helvetica Neue", sans-serif; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-family` instead.
 
   /* Component type variables */
-  --calcite-font-size--3: 0.625rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-xs` instead.
-  --calcite-font-size--2: 0.75rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-sm` instead.
-  --calcite-font-size--1: 0.875rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-base` instead.
-  --calcite-font-size-0: 1rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-md` instead.
-  --calcite-font-size-1: 1.125rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-lg` instead.
-  --calcite-font-size-2: 1.25rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-xl` instead.
-  --calcite-font-size-3: 1.625rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-2xl` instead.
-  --calcite-font-size-4: 2rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-3xl` instead.
-  --calcite-font-size-5: 2.5rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-4xl` instead.
-  --calcite-font-size-6: 3rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-5xl` instead.
-  --calcite-font-size-7: 3.5rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-6xl` instead.
-  --calcite-font-size-8: 4rem; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-size-relative-7xl` instead.
+  --calcite-font-size--3: 0.625rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-xs` instead.
+  --calcite-font-size--2: 0.75rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-sm` instead.
+  --calcite-font-size--1: 0.875rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-base` instead.
+  --calcite-font-size-0: 1rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-md` instead.
+  --calcite-font-size-1: 1.125rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-lg` instead.
+  --calcite-font-size-2: 1.25rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-xl` instead.
+  --calcite-font-size-3: 1.625rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-2xl` instead.
+  --calcite-font-size-4: 2rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-3xl` instead.
+  --calcite-font-size-5: 2.5rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-4xl` instead.
+  --calcite-font-size-6: 3rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-5xl` instead.
+  --calcite-font-size-7: 3.5rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-6xl` instead.
+  --calcite-font-size-8: 4rem; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained, use `--calcite-font-size-relative-7xl` instead.
 
-  --calcite-font-weight-light: 300; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-weight-light` instead.
+  --calcite-font-weight-light: 300; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained and replaced by a semantic token of the same name, use `--calcite-font-weight-light` instead.
   --calcite-font-weight-normal: 400; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-weight-regular` instead.
-  --calcite-font-weight-medium: 500; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-weight-medium` instead.
-  --calcite-font-weight-bold: 600; // Deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-font-weight-bold` instead.
+  --calcite-font-weight-medium: 500; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained and replaced by a semantic token of the same name, use `--calcite-font-weight-medium` instead.
+  --calcite-font-weight-bold: 600; // Deprecated in v5.1.0, removal target v7.0.0 - Unmaintained and replaced by a semantic token of the same name, use `--calcite-font-weight-bold` instead.
 }
