@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.16...@esri/calcite-components@5.1.0-next.17) (2026-03-20)
+
+### Features
+
+- **tooltip:** add `pointerDisabled` and `scale` properties ([#14078](https://github.com/Esri/calcite-design-system/issues/14078)), closes [#5334](https://github.com/Esri/calcite-design-system/issues/5334)
+
 ## [5.1.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.15...@esri/calcite-components@5.1.0-next.16) (2026-03-20)
 
 ### Features
