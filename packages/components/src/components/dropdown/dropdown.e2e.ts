@@ -540,15 +540,19 @@ describe("calcite-dropdown", () => {
             <calcite-dropdown-item id="item-47">47</calcite-dropdown-item>
             <calcite-dropdown-item id="item-48">48</calcite-dropdown-item>
             <calcite-dropdown-item id="item-49">49</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-50" selected>50</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-50">50</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>`,
       );
       await page.waitForChanges();
 
       const element = await page.find("calcite-dropdown");
+      await element.callMethod("setFocus");
+      await page.waitForChanges();
+
       const dropdownOpenEventSpy = await page.spyOnEvent("calciteDropdownOpen");
-      await element.click();
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
       await dropdownOpenEventSpy.next();
 
       expect(
@@ -557,9 +561,9 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toEqual("item-1");
+      ).toEqual("item-50");
 
-      const item = await page.find("#item-1");
+      const item = await page.find("#item-50");
 
       expect(await item.isIntersectingViewport()).toBe(true);
     });
