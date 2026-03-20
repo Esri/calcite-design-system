@@ -714,7 +714,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{Tab}");
 
           await expect
-            .element(page.getBySelector(`calcite-input-time-picker .s${hour}`).first())
+            .element(page.getBySelector(`calcite-input-time-picker .${hour}`).first())
             .toHaveFocus();
 
           await userEvent.keyboard("{ArrowRight}");

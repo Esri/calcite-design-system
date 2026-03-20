@@ -281,7 +281,7 @@ describe("l10n", () => {
             await expect.element(secondSuffixEl).toHaveTextContent(expectedLocalizedSecondSuffix);
           }
 
-          await expect(meridiemEl).not.toBeInTheDocument();
+          await expect.element(meridiemEl).not.toBeInTheDocument();
         });
 
         it("always displays hour in 24 hour format when nudging and no value is set", async () => {
