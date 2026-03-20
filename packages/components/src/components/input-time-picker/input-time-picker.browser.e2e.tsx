@@ -155,7 +155,7 @@ describe("l10n", () => {
       date.setMinutes(59);
       date.setSeconds(59);
 
-      const expectedValue = date.toISOString().substr(11, 8);
+      const expectedValue = date.toISOString().slice(11, 19);
       const expectedInputValue = localizeTimeString({
         value: expectedValue,
         locale,
