@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -91,6 +92,16 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-picker"));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-time-picker"), {
+    testValue: "03:23",
+    submitsOnEnter: true,
+    validation: true,
+    validUserInputTestValue: "03:23 AM",
+    inputType: "time",
+  });
 });
 
 function getDisplayedValue(): string {
