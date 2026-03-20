@@ -13,7 +13,7 @@ import {
   FloatingCSS,
   FloatingUIComponent,
   hideFloatingUI,
-  MenuPlacement,
+  LogicalPlacement,
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
@@ -140,7 +140,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   /**
    * Determines the component's placement relative to the container element.
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
