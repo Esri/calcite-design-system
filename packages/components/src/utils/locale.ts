@@ -186,22 +186,21 @@ export class NumberStringFormat {
     this._getDigitIndex = (d: string) => index.get(d);
   }
 
-  delocalize = (numberString: string): string =>
+  delocalize = (numberString: string): string => {
     // For performance, (de)localization is skipped if the formatter isn't initialized.
     // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
     // `numberFormatOptions` must be set in a component to create and cache the formatter.
-    this._numberFormatOptions
-      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-          nonExpoNumString
-            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-            .replace(new RegExp(`[${this._group}]`, "g"), "")
-            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex),
-        )
-      : numberString;
+    if (!this._numberFormatOptions) {
+      return numberString;
+    }
 
-  localize = (numberString: string): string =>
-    this._numberFormatOptions
+    return sanitizeExponentialNumberString(numberString, (nonExponentialNumberString) =>
+      this.#normalizeDigitsAndSign(this.#normalizeSeparators(nonExponentialNumberString)),
+    );
+  };
+
+  localize = (numberString: string): string => {
+    return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
@@ -210,6 +209,30 @@ export class NumberStringFormat {
             : nonExpoNumString,
         )
       : numberString;
+  };
+
+  #normalizeDigitsAndSign(value: string): string {
+    return value
+      .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+      .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex);
+  }
+
+  #normalizeSeparators(value: string): string {
+    if (this._group !== this._decimal) {
+      return value.replace(new RegExp(`[${this._group}]`, "g"), "").replace(new RegExp(`[${this._decimal}]`, "g"), ".");
+    }
+
+    const lastSeparatorIndex = value.lastIndexOf(this._decimal);
+
+    if (lastSeparatorIndex === -1) {
+      return value;
+    }
+
+    const wholePart = value.slice(0, lastSeparatorIndex).replace(new RegExp(`[${this._group}]`, "g"), "");
+    const fractionalPart = value.slice(lastSeparatorIndex + 1);
+
+    return `${wholePart}.${fractionalPart}`;
+  }
 }
 
 export const numberStringFormatter = new NumberStringFormat();

@@ -11,14 +11,6 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
@@ -31,6 +23,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, overrideDefaultValue, useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -56,8 +49,10 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
  * @slot - A slot for adding `calcite-option`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Select extends LitElement implements LabelableComponent, FormComponent {
+export class Select extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -70,6 +65,8 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   defaultValue: Select["value"];
 
   formEl: HTMLFormElement;
+
+  formSupport = useForm<this>({ inputType: "text" })(this);
 
   labelEl: Label["el"];
 
@@ -211,7 +208,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
     });
 
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -237,13 +233,12 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
     const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
-    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+    overrideDefaultValue(this, this.selectedOption?.value ?? "");
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -421,7 +416,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
             <slot />
           </select>
           {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

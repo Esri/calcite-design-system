@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.13...@esri/calcite-components@5.1.0-next.14) (2026-03-20)
+
+### Bug Fixes
+
+- **dropdown:** keep focus on trigger with single-component keyboard navigation ([#14079](https://github.com/Esri/calcite-design-system/issues/14079)), closes [#8206](https://github.com/Esri/calcite-design-system/issues/8206) [#13997](https://github.com/Esri/calcite-design-system/issues/13997) [#8206](https://github.com/Esri/calcite-design-system/issues/8206)
+
+## [5.1.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.12...@esri/calcite-components@5.1.0-next.13) (2026-03-19)
+
+### Bug Fixes
+
+- **date-picker:** show adjacent-month days in single-calendar range ([#14111](https://github.com/Esri/calcite-design-system/issues/14111)), closes [#14110](https://github.com/Esri/calcite-design-system/issues/14110)
+- **popover, tooltip:** correctly assign aria properties ([#14098](https://github.com/Esri/calcite-design-system/issues/14098)), closes [#13242](https://github.com/Esri/calcite-design-system/issues/13242) [#13242](https://github.com/Esri/calcite-design-system/issues/13242)
+
+## 5.1.0-next.12 (2026-03-19)
+
+- fix(stepper): fix updating items when component is used within a shadow dom and items are slotted (# ([bc7a74a](https://github.com/Esri/calcite-design-system/commit/bc7a74a)), closes [#14021](https://github.com/Esri/calcite-design-system/issues/14021) [#11737](https://github.com/Esri/calcite-design-system/issues/11737) [#11737](https://github.com/Esri/calcite-design-system/issues/11737)
+- fix(input, input-number): fix handling of input for locales with same group and decimal separators ( ([2dae3be](https://github.com/Esri/calcite-design-system/commit/2dae3be)), closes [#14112](https://github.com/Esri/calcite-design-system/issues/14112) [#14100](https://github.com/Esri/calcite-design-system/issues/14100)
+- refactor(alert, dialog, sheet, tree-item): swap to a unified animation curve (#14038) ([6ba56e0](https://github.com/Esri/calcite-design-system/commit/6ba56e0)), closes [#14038](https://github.com/Esri/calcite-design-system/issues/14038) [#12669](https://github.com/Esri/calcite-design-system/issues/12669)
+- refactor(input): port tests to browser mode (#14104) ([09d8ff9](https://github.com/Esri/calcite-design-system/commit/09d8ff9)), closes [#14104](https://github.com/Esri/calcite-design-system/issues/14104) [#11268](https://github.com/Esri/calcite-design-system/issues/11268)
+- refactor(input): wire up `useForm` (#14073) ([0d37d77](https://github.com/Esri/calcite-design-system/commit/0d37d77)), closes [#14073](https://github.com/Esri/calcite-design-system/issues/14073) [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+- refactor(text-area): wire up `useForm` (#14074) ([5ba8b04](https://github.com/Esri/calcite-design-system/commit/5ba8b04)), closes [#14074](https://github.com/Esri/calcite-design-system/issues/14074) [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+- test(list): unskip test (#14102) ([31216a4](https://github.com/Esri/calcite-design-system/commit/31216a4)), closes [#14102](https://github.com/Esri/calcite-design-system/issues/14102) [#11292](https://github.com/Esri/calcite-design-system/issues/11292)
+- docs: deprecate --calcite-stepper-bar-inactive-fill-color and --calcite-stepper-bar-active-fill-colo ([1b3c47d](https://github.com/Esri/calcite-design-system/commit/1b3c47d)), closes [#14096](https://github.com/Esri/calcite-design-system/issues/14096) [#13720](https://github.com/Esri/calcite-design-system/issues/13720)
+
 ## 5.1.0-next.11 (2026-03-16)
 
 - fix(input-text): restore focus when it is the first invalid element on form submit (#14086) ([ac8f0db](https://github.com/Esri/calcite-design-system/commit/ac8f0db)), closes [#14086](https://github.com/Esri/calcite-design-system/issues/14086)

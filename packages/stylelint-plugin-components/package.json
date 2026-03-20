@@ -1,0 +1,29 @@
+{
+  "name": "@esri/stylelint-plugin-calcite-components",
+  "version": "0.0.1",
+  "description": "Stylelint rules for @esri/calcite-components",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/calcite-design-system.git",
+    "directory": "packages/stylelint-plugin-components"
+  },
+  "license": "SEE LICENSE.md",
+  "files": [
+    "dist/index.js",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "clean": "rimraf dist node_modules",
+    "lint": "concurrently npm:lint:*",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
+  },
+  "peerDependencies": {
+    "stylelint": ">=16.26.1"
+  }
+}
