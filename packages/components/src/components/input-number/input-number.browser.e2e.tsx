@@ -142,7 +142,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeUpButton);
     await nudgeUpReadOnlyToggle;
 
-    expect(el.value).toBe("1");
+    expect(el).toHaveProperty("value", "1");
 
     const nudgeDownReadOnlyToggle = nudgeReadOnlyToggle(el);
 
@@ -150,7 +150,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeDownButton);
     await nudgeDownReadOnlyToggle;
 
-    expect(el.value).toBe("0");
+    expect(el).toHaveProperty("value", "0");
   });
 });
 
