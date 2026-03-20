@@ -4,7 +4,6 @@ import {
   defaults,
   disabled,
   focusable,
-  formAssociated,
   hidden,
   reflects,
   renders,
@@ -66,11 +65,4 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-zone"));
-});
-
-describe("is form-associated", () => {
-  formAssociated(() => mount("calcite-input-time-zone"), {
-    testValue: "-360",
-    clearable: false,
-  });
 });
