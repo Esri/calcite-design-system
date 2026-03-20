@@ -162,17 +162,24 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  transform: scaleY(0);
+  opacity: 0;
+  max-block-size: 0;
+  overflow: hidden;
   transition:
-    var(--calcite-animation-timing) animation.$easing-function,
-    opacity var(--calcite-animation-timing) animation.$easing-function,
-    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
+}
 
-  .item--expanded > & {
-    @apply overflow-visible opacity-100;
-    transform: none;
-    block-size: auto;
+.item--expanded > .children-container {
+  opacity: 1;
+  max-block-size: 100dvb;
+  transition:
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    max-block-size calc(2 * var(--calcite-internal-animation-timing-slow)) animation.$easing-function;
+
+  @starting-style {
+    opacity: 0;
+    max-block-size: 0;
   }
 }
 

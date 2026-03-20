@@ -54,6 +54,7 @@ export function slots(
       const defaultSlotted = document.querySelector(`.${defaultSlotTestClass}`)!;
       const hasDefaultSlotted = defaultSlotted.assignedSlot?.name === "" && defaultSlotted.slot === "";
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(hasDefaultSlotted).toBe(true);
     }
   });

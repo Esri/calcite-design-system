@@ -1,16 +1,6 @@
 // @ts-check
 const {
-  labels: {
-    bug,
-    issueWorkflow,
-    issueType,
-    priority,
-    devEstimate,
-    designEstimate,
-    planning,
-    handoff,
-    productColor,
-  },
+  labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff, productColor },
   milestone,
   packages,
 } = require("./resources");
@@ -41,16 +31,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     process.exit(1);
   }
 
-  const {
-    title,
-    body,
-    number: issueNumber,
-    milestone: issueMilestone,
-    labels,
-    assignee,
-    assignees,
-    html_url,
-  } = issue;
+  const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;
@@ -98,7 +79,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       type: "multiMutable",
     },
     product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "multiMutable" },
-    designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
+    designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
     stalled: { id: "color_mkv79bbx", title: "Stalled" },
@@ -390,21 +371,21 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       designEstimate.small,
       {
         column: mondayColumns.designEstimate,
-        value: "Small",
+        value: 5,
       },
     ],
     [
       designEstimate.medium,
       {
         column: mondayColumns.designEstimate,
-        value: "Medium",
+        value: 13,
       },
     ],
     [
       designEstimate.large,
       {
         column: mondayColumns.designEstimate,
-        value: "Large",
+        value: 21,
       },
     ],
     [
@@ -477,32 +458,21 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     const info = peopleMap.get(person.login);
     if (!info) {
-      core.warning(
-        `Assignee "${person.login}" not found in peopleMap.`,
-        logParams,
-      );
+      core.warning(`Assignee "${person.login}" not found in peopleMap.`, logParams);
       return;
     }
 
     let role = info.role;
     const notInstalledOrVerified = labels?.every(
-      (label) =>
-        label.name !== issueWorkflow.installed &&
-        label.name !== issueWorkflow.verified,
+      (label) => label.name !== issueWorkflow.installed && label.name !== issueWorkflow.verified,
     );
-    if (
-      role.id === mondayColumns.productEngineers.id &&
-      notInstalledOrVerified
-    ) {
+    if (role.id === mondayColumns.productEngineers.id && notInstalledOrVerified) {
       role = mondayColumns.developers;
     }
 
     setColumnValue(role, info.id);
     setColumnValue(mondayColumns.allAssignees, info.id);
-    core.notice(
-      `Added assignee "${person.login}" to "${role.title}" column.`,
-      logParams,
-    );
+    core.notice(`Added assignee "${person.login}" to "${role.title}" column.`, logParams);
   }
 
   /** @typedef {Record<string, string | string[]>} QueryVariables
@@ -619,10 +589,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       }
 
       queryVariables.item_id = queriedId;
-      const { response: retryResponse, error: retryError } = await runQuery(
-        query,
-        queryVariables,
-      );
+      const { response: retryResponse, error: retryError } = await runQuery(query, queryVariables);
       if (retryError || !retryResponse?.data?.change_multiple_column_values) {
         const retryErrorDetail = retryError || JSON.stringify(retryResponse?.errors);
         return buildUpdateError({
@@ -682,9 +649,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     }
 
     if (items.length > 1) {
-      core.setFailed(
-        `Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`,
-      );
+      core.setFailed(`Multiple Monday items found for Issue #${issueNumber}. Requires manual review.`);
       return;
     }
 
@@ -713,19 +678,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   function updateMultiMutableValue(labelInfo, action) {
     if (action !== "add" && action !== "remove") {
-      throw new Error(
-        `Invalid action "${action}" in updateMultiMutableValue. Use "add" or "remove".`,
-      );
+      throw new Error(`Invalid action "${action}" in updateMultiMutableValue. Use "add" or "remove".`);
     }
 
     const labelValue = `${labelInfo.value}`;
     const currentValue = columnUpdates[labelInfo.column.id];
     const existingLabels =
-      currentValue &&
-      typeof currentValue === "object" &&
-      "labels" in currentValue
-        ? currentValue.labels
-        : [];
+      currentValue && typeof currentValue === "object" && "labels" in currentValue ? currentValue.labels : [];
 
     if (existingLabels.length === 0 && labels?.length) {
       for (const { name, color } of labels) {
@@ -757,35 +716,21 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   function updateLabel(label, action) {
     const logParams = { title: "Update Label" };
     if (!labelMap.has(label)) {
-      core.notice(
-        `Label "${label}" not found in Monday Labels map.`,
-        logParams,
-      );
+      core.notice(`Label "${label}" not found in Monday Labels map.`, logParams);
       return;
     }
 
     const info = labelMap.get(label);
     if (!info?.column || !info?.value) {
-      core.warning(
-        `Label "${label}" is missing column or title information.`,
-        logParams,
-      );
+      core.warning(`Label "${label}" is missing column or title information.`, logParams);
       return;
     }
 
-    const isMultiMutable= info.column.type === "multiMutable";
+    const isMultiMutable = info.column.type === "multiMutable";
     if (action === "add") {
-      setColumnValue(
-        info.column,
-        isMultiMutable ? updateMultiMutableValue(info, "add") : info.value,
-        logParams,
-      );
+      setColumnValue(info.column, isMultiMutable ? updateMultiMutableValue(info, "add") : info.value, logParams);
     } else if (info.clearable) {
-      setColumnValue(
-        info.column,
-        isMultiMutable ? updateMultiMutableValue(info, "remove") : "",
-        logParams,
-      );
+      setColumnValue(info.column, isMultiMutable ? updateMultiMutableValue(info, "remove") : "", logParams);
     }
   }
 
@@ -860,10 +805,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     const { id: syncId } = await getId();
     if (syncId) {
-      core.notice(
-        `Sync ID "${syncId}" provided, updating existing item instead of creating new.`,
-        logParams,
-      );
+      core.notice(`Sync ID "${syncId}" provided, updating existing item instead of creating new.`, logParams);
       setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
@@ -871,10 +813,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
       if (error) {
         if (error.expected) {
-          core.warning(
-            `Expected error syncing item ${syncId}: ${error.message}`,
-            logParams,
-          );
+          core.warning(`Expected error syncing item ${syncId}: ${error.message}`, logParams);
         } else {
           core.setFailed(`Error syncing item ${syncId}: ${error.message}`);
         }
@@ -917,11 +856,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    * @param {ColumnValue} value
    * @param {import('@actions/core').AnnotationProperties} [logParams] - Optional logging parameters
    */
-  function setColumnValue(
-    column,
-    value,
-    logParams = { title: "Set Column Value" },
-  ) {
+  function setColumnValue(column, value, logParams = { title: "Set Column Value" }) {
     if (!column) {
       core.warning("No column provided.", logParams);
       return;
@@ -941,9 +876,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     columnUpdates[column.id] = newValue;
     core.notice(
-      value === ""
-        ? `Cleared "${column.title}" column.`
-        : `Set "${column.title}" column to: ${JSON.stringify(value)}.`,
+      value === "" ? `Cleared "${column.title}" column.` : `Set "${column.title}" column to: ${JSON.stringify(value)}.`,
       logParams,
     );
   }
@@ -965,16 +898,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     if (milestoneDate) {
       setColumnValue(mondayColumns.date, milestoneDate, logParams);
       clearLabel(milestone.stalled);
-      const { needsTriage, needsMilestone, installed, readyForDev } =
-        issueWorkflow;
+      const { needsTriage, needsMilestone, installed, readyForDev } = issueWorkflow;
       setAssignedStatus({
         assignedCondition: notInLifecycle({
           labels,
           skip: [needsTriage, needsMilestone],
         }),
-        unassignedCondition:
-          !includesLabel(labels, installed) &&
-          !includesLabel(labels, readyForDev),
+        unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
       });
     } else {
       setColumnValue(mondayColumns.date, "", logParams);
@@ -1019,19 +949,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
   /**
    * Handle assignment and removal of assignees. Add all assignees to their respective roles.
-   * If there are no more developers or product engineers assigned, clear those columns.
+   * If there are no more assignees, clears the `allAssignees` column.
    * @returns {void}
    */
   function handleAssignees() {
     assignees.forEach((assignee) => {
       addAssignee(assignee);
     });
-
-    [mondayColumns.developers, mondayColumns.productEngineers]
-      .filter((role) => !(role.id in columnUpdates))
-      .forEach((role) => {
-        setColumnValue(role, "");
-      });
 
     if (!assignees.length) {
       setColumnValue(mondayColumns.allAssignees, "");
@@ -1050,10 +974,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     const { needsMilestone, readyForDev } = issueWorkflow;
     if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      core.notice(
-        `Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`,
-        { title: "Add Label" },
-      );
+      core.notice(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`, { title: "Add Label" });
       return;
     }
 
@@ -1106,9 +1027,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const syncMarkdown = `**monday.com sync:** #${mondayID}\n\n`;
     const syncLineRegex = /^\*\*monday\.com sync:\*\* ?#?\d*\n?\n?/m;
     const updatedBody =
-      body && syncLineRegex.test(body)
-        ? body.replace(syncLineRegex, syncMarkdown)
-        : syncMarkdown + (body || "");
+      body && syncLineRegex.test(body) ? body.replace(syncLineRegex, syncMarkdown) : syncMarkdown + (body || "");
     await updateIssueBody(issueNumber, updatedBody);
   }
 
@@ -1117,9 +1036,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    * @returns {boolean} - True if in a status milestone, false otherwise
    */
   function inMilestoneStatus() {
-    return [milestone.backlog, milestone.freezer].includes(
-      issueMilestone?.title || "",
-    );
+    return [milestone.backlog, milestone.freezer].includes(issueMilestone?.title || "");
   }
 
   /**
@@ -1134,10 +1051,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const ASSIGNED = "Assigned";
     const UNASSIGNED = "Unassigned";
     const logParams = { title: "Set Assigned Status" };
-    const defaultCondition =
-      issue.state === "open" &&
-      notInLifecycle({ labels }) &&
-      !inMilestoneStatus();
+    const defaultCondition = issue.state === "open" && notInLifecycle({ labels }) && !inMilestoneStatus();
     const shouldSetAssigned = assignedCondition ?? defaultCondition;
     const shouldSetUnassigned = unassignedCondition ?? defaultCondition;
 
