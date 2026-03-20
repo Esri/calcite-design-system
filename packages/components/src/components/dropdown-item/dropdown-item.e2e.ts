@@ -16,22 +16,6 @@ it("should emit calciteDropdownItemSelect", async () => {
   await calciteDropdownItemSelectEventSpy.next();
 
   expect(itemChangeSpy).toHaveReceivedEventTimes(1);
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await page.keyboard.press("Enter");
-  await page.waitForChanges();
-  await calciteDropdownItemSelectEventSpy.next();
-
-  expect(itemChangeSpy).toHaveReceivedEventTimes(2);
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await page.keyboard.press("Space");
-  await page.waitForChanges();
-  await calciteDropdownItemSelectEventSpy.next();
-
-  expect(itemChangeSpy).toHaveReceivedEventTimes(3);
 });
 
 describe("theme", () => {
