@@ -439,7 +439,7 @@ describe("calcite-dropdown", () => {
     ).toEqual("item-1");
   });
 
-  it("should focus the first selected item on open", async () => {
+  it("should focus the first item on open when an item is selected", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -463,10 +463,10 @@ describe("calcite-dropdown", () => {
           document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
             .ariaActiveDescendantElement?.id,
       ),
-    ).toEqual("item-3");
+    ).toEqual("item-1");
   });
 
-  it("should focus the first selected item on open (multi)", async () => {
+  it("should focus the first item on open (multi) when items are selected", async () => {
     const page = await newE2EPage({
       html: html`<calcite-dropdown>
         <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -490,7 +490,7 @@ describe("calcite-dropdown", () => {
           document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
             .ariaActiveDescendantElement?.id,
       ),
-    ).toEqual("item-2");
+    ).toEqual("item-1");
   });
 
   describe("scrolling", () => {
@@ -557,9 +557,9 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toEqual("item-50");
+      ).toEqual("item-1");
 
-      const item = await page.find("#item-50");
+      const item = await page.find("#item-1");
 
       expect(await item.isIntersectingViewport()).toBe(true);
     });
@@ -621,7 +621,7 @@ describe("calcite-dropdown", () => {
         expect(await scroller.getProperty("scrollHeight")).toBe(await scroller.getProperty("clientHeight"));
       });
 
-      it("shows selected item on open when max-items causes selected item to be beyond scroller", async () => {
+      it("does not scroll to selected item on open when max-items causes selected item to be beyond scroller", async () => {
         const page = await newE2EPage();
         await page.setContent(
           html` <calcite-dropdown max-items="${maxItems}">
@@ -649,7 +649,7 @@ describe("calcite-dropdown", () => {
         await element.click();
         await dropdownOpenEventSpy.next();
 
-        expect(await selectedItem.isIntersectingViewport()).toBe(true);
+        expect(await selectedItem.isIntersectingViewport()).toBe(false);
       });
     });
   });
@@ -916,7 +916,7 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toBe("item-2");
+      ).toBe("item-1");
 
       const closeEventSpy = await page.spyOnEvent("calciteDropdownClose");
       await element.press("Tab");
@@ -963,7 +963,7 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toBe("item-2");
+      ).toBe("item-1");
 
       const closeEventSpy = await page.spyOnEvent("calciteDropdownClose");
       await page.keyboard.down("Shift");
@@ -1413,7 +1413,7 @@ describe("calcite-dropdown", () => {
       ).toBe("item-3");
     });
 
-    it("should open the dropdown and focus the first item with ArrowDown", async () => {
+    it("should open the dropdown and focus the first item with ArrowDown when a selected item exists", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dropdown>
@@ -1421,6 +1421,112 @@ describe("calcite-dropdown", () => {
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      await openEventSpy.next();
+
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-1");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-2");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-1");
+    });
+
+    it("should open the dropdown and focus the last item with ArrowUp when a selected item exists", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      `);
+      await skipAnimations(page);
+
+      const dropdown = await page.find("calcite-dropdown");
+      await dropdown.callMethod("setFocus");
+      await page.waitForChanges();
+
+      const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      await openEventSpy.next();
+
+      expect(await dropdown.getProperty("open")).toBe(true);
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-3");
+
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-1");
+
+      await page.keyboard.press("ArrowUp");
+      await page.waitForChanges();
+      expect(
+        await page.evaluate(
+          () =>
+            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+              .ariaActiveDescendantElement?.id,
+        ),
+      ).toBe("item-3");
+    });
+
+    it("should open the dropdown and focus the first item with ArrowDown", async () => {
+      const page = await newE2EPage();
+      await page.setContent(html`
+        <calcite-dropdown>
+          <calcite-button slot="trigger">Open</calcite-button>
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
             <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
@@ -1473,112 +1579,6 @@ describe("calcite-dropdown", () => {
           <calcite-button slot="trigger">Open</calcite-button>
           <calcite-dropdown-group selection-mode="single">
             <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2">2</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-      await skipAnimations(page);
-
-      const dropdown = await page.find("calcite-dropdown");
-      await dropdown.callMethod("setFocus");
-      await page.waitForChanges();
-
-      const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await dropdown.getProperty("open")).toBe(true);
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-3");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-1");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-3");
-    });
-
-    it("should open the dropdown and focus the selected item with ArrowDown", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open</calcite-button>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-      await skipAnimations(page);
-
-      const dropdown = await page.find("calcite-dropdown");
-      await dropdown.callMethod("setFocus");
-      await page.waitForChanges();
-
-      const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await dropdown.getProperty("open")).toBe(true);
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-2");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-3");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-2");
-    });
-
-    it("should open the dropdown and focus the selected item with ArrowUp", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open</calcite-button>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
             <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
             <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
           </calcite-dropdown-group>
@@ -1602,7 +1602,7 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toBe("item-2");
+      ).toBe("item-3");
 
       await page.keyboard.press("ArrowUp");
       await page.waitForChanges();
@@ -1612,7 +1612,7 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toBe("item-1");
+      ).toBe("item-2");
 
       await page.keyboard.press("ArrowDown");
       await page.waitForChanges();
@@ -1622,7 +1622,7 @@ describe("calcite-dropdown", () => {
             document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
               .ariaActiveDescendantElement?.id,
         ),
-      ).toBe("item-2");
+      ).toBe("item-3");
     });
   });
 
