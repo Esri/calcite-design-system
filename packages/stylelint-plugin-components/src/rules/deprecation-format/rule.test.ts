@@ -1,7 +1,7 @@
 import { messages } from "./meta.ts";
-import { requireDeprecationDetails } from "./rule.ts";
+import { deprecationFormat } from "./rule.ts";
 
-const { ruleName } = requireDeprecationDetails;
+const { ruleName } = deprecationFormat;
 const testRule = createTestRule({ ruleName });
 
 testRule({

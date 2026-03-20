@@ -1,3 +1,3 @@
-import requireDeprecationDetails from "./rules/require-deprecation-details/index.ts";
+import deprecationFormat from "./rules/deprecation-format/index.ts";
 
-export default [requireDeprecationDetails];
+export default [deprecationFormat];
