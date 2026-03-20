@@ -1,11 +1,12 @@
-import { describe, expect, it } from "vitest";
-import { page, userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -14,7 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
-import { NUDGE_DELAY_IN_MS } from "./resources";
+import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
 
 describe("defaults", () => {
@@ -107,6 +108,15 @@ describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
 });
 
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-number"), {
+    testValue: "5",
+    submitsOnEnter: true,
+    inputType: "number",
+    validation: true,
+  });
+});
+
 describe("nudging", () => {
   function nudgeReadOnlyToggle(el: InputNumber["el"]): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -132,7 +142,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeUpButton);
     await nudgeUpReadOnlyToggle;
 
-    expect(el.value).toBe("1");
+    expect(el).toHaveProperty("value", "1");
 
     const nudgeDownReadOnlyToggle = nudgeReadOnlyToggle(el);
 
@@ -140,8 +150,19 @@ describe("nudging", () => {
     await userEvent.click(nudgeDownButton);
     await nudgeDownReadOnlyToggle;
 
-    expect(el.value).toBe("0");
+    expect(el).toHaveProperty("value", "0");
   });
+});
+
+it("input event fires when number ends with a decimal", async () => {
+  const { el } = await mount<InputNumber>(<calcite-input-number value="1.2" />);
+  const inputEventHandler = vi.fn();
+  el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+  await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
+
+  expect(el).toHaveProperty("value", "1.");
+  expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
 describe("number locale support", () => {
@@ -311,4 +332,24 @@ describe("number locale support", () => {
 
     expect(el).toHaveProperty("value", "-1.0001");
   });
+});
+
+it("integer property prevents decimals and exponential notation", async () => {
+  const { el } = await mount<InputNumber>(<calcite-input-number integer step={0.01} value="1.2" />);
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonItem}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await userEvent.click(el);
+
+  expect(el).toHaveProperty("value", "12"); // test initial value
+
+  await userEvent.keyboard("3.4e-5");
+  expect(el).toHaveProperty("value", "12345"); // test user input
+
+  el.value = "-9.8e-7";
+  expect(el).toHaveProperty("value", "-987"); // test directly setting value
+
+  await userEvent.click(numberHorizontalItemUp);
+  expect(el).toHaveProperty("value", "-986"); // test incrementing
 });

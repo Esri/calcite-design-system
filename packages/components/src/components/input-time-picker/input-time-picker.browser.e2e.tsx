@@ -10,6 +10,7 @@ import {
   internalLabel,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -87,4 +88,14 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-picker"));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-time-picker"), {
+    testValue: "03:23",
+    submitsOnEnter: true,
+    validation: true,
+    validUserInputTestValue: "03:23 AM",
+    inputType: "time",
+  });
 });
