@@ -394,11 +394,12 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     event.stopPropagation();
     const combobox = event.target as Combobox["el"];
     const selectedItem = combobox.selectedItems[0];
+    const previousValue = this._value;
 
     if (!selectedItem) {
       this._value = "";
+      this.requestUpdate("value", previousValue);
       this.selectedTimeZoneItem = null;
-      this.requestUpdate("value");
       this.calciteInputTimeZoneChange.emit();
       return;
     }
@@ -411,8 +412,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     }
 
     this._value = selectedValue;
+    this.requestUpdate("value", previousValue);
     this.selectedTimeZoneItem = selected;
-    this.requestUpdate("value");
     this.calciteInputTimeZoneChange.emit();
   }
 
