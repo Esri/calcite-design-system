@@ -441,7 +441,12 @@ export class Autocomplete
   }
 
   override connectedCallback(): void {
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, {
+      attributes: true,
+      attributeFilter: ["selected"],
+      childList: true,
+      subtree: true,
+    });
     connectLabel(this);
     connectForm(this);
     this.defaultInputValue = this.inputValue || "";
@@ -890,6 +895,7 @@ export class Autocomplete
         <li
           ariaDisabled={item.disabled}
           ariaLabel={item.label}
+          ariaSelected={item.selected}
           id={item.guid}
           key={item.guid}
           role="option"
