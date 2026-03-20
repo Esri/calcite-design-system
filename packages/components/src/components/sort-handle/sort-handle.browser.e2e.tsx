@@ -35,6 +35,10 @@ describe("defaults", () => {
         propertyName: "addToItems",
         defaultValue: [],
       },
+      {
+        propertyName: "placement",
+        defaultValue: "bottom-start",
+      },
     ],
   );
 });
@@ -46,6 +50,10 @@ describe("reflects", () => {
       {
         propertyName: "sortDisabled",
         value: true,
+      },
+      {
+        propertyName: "placement",
+        value: "leading-start",
       },
     ],
   );
