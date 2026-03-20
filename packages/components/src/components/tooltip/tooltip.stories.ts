@@ -24,7 +24,7 @@ export default {
     scale: "m",
   },
   argTypes: {
-    placements: {
+    placement: {
       options: placements,
       control: { type: "select" },
     },
