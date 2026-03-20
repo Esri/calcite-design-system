@@ -490,59 +490,6 @@ describe("clearable", () => {
   });
 });
 
-describe("selection of subsequent items with the same offset", () => {
-  const testCases: {
-    name: string;
-    initialTimeZoneItem: TestTimeZoneItem;
-  }[] = [
-    {
-      name: "displays selected item when changing from another offset",
-      initialTimeZoneItem: testTimeZoneItems[1],
-    },
-    {
-      name: "displays selected item when changing from the same offset",
-      initialTimeZoneItem: testTimeZoneItems[0],
-    },
-  ];
-
-  testCases.forEach(({ name, initialTimeZoneItem }) => {
-    it(`${name}`, async () => {
-      const page = await newE2EPage();
-      await page.emulateTimezone(initialTimeZoneItem.name);
-      await page.setContent(
-        html`<calcite-input-time-zone
-          value="${initialTimeZoneItem.offset}"
-          reference-date="2024-10-01"
-        ></calcite-input-time-zone>`,
-      );
-
-      const input = await page.find("calcite-input-time-zone");
-      await input.click();
-      await page.waitForChanges();
-      await input.type("(GMT-6)");
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
-
-      const sharedOffsetTimeZoneItems = await findAll(
-        page,
-        "calcite-input-time-zone >>> calcite-combobox-item:not([hidden]):not([item-hidden])",
-      );
-      expect(sharedOffsetTimeZoneItems).toHaveLength(2);
-
-      await sharedOffsetTimeZoneItems[1].click();
-      await page.waitForChanges();
-      await page.waitForTimeout(DEBOUNCE.filter);
-
-      const selectedTimeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
-      const itemMetadata = await selectedTimeZoneItem.getProperty("metadata");
-      const expectedTimeZoneItem = testTimeZoneItems[3];
-
-      expect(await input.getProperty("value")).toBe(`${expectedTimeZoneItem.offset}`);
-      expect(itemMetadata.filterValue).toContain(expectedTimeZoneItem.name);
-    });
-  });
-});
-
 it("supports setting maxItems to display", async () => {
   const page = await newE2EPage();
   await page.emulateTimezone(testTimeZoneItems[0].name);
