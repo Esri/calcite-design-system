@@ -47,7 +47,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   // #region Private Properties
 
-  private arrowEl: SVGSVGElement;
+  private arrowEl: SVGSVGElement | null;
 
   private direction = useDirection();
 
@@ -123,7 +123,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -265,7 +265,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.floatingEl = el;
   }
 
-  private setArrowEl(el: SVGSVGElement): void {
+  private setArrowEl(el: SVGSVGElement | null): void {
     this.arrowEl = el;
     this.reposition(true);
   }

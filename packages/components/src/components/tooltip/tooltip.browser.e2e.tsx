@@ -29,18 +29,6 @@ function renderTooltipWithButton(tooltip: JsxNode): () => JsxNode {
   );
 }
 
-function getReferenceButton(): HTMLButtonElement {
-  const referenceElement = page
-    .getByRole("button", { name: "Button" })
-    .element() as HTMLButtonElement | null;
-
-  if (!referenceElement) {
-    throw new Error("Expected reference element to be present");
-  }
-
-  return referenceElement;
-}
-
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {
     const eventOptions = { bubbles: true, cancelable: true };
@@ -181,13 +169,7 @@ it("should honor pointerDisabled", async () => {
     </div>,
   );
 
-  const arrowEl = el.shadowRoot?.querySelector(".calcite-floating-ui-arrow");
-
-  if (!arrowEl) {
-    throw new Error("Expected tooltip arrow to be present");
-  }
-
-  const arrow = page.elementLocator(arrowEl);
+  const arrow = page.getBySelector("calcite-tooltip .calcite-floating-ui-arrow");
   await expect.element(arrow).toBeVisible();
 
   el.pointerDisabled = true;
@@ -197,20 +179,21 @@ it("should honor pointerDisabled", async () => {
 });
 
 it("should associate reference elements via ariaDescribedByElements without a tooltip id", async () => {
-  const { el } = await mount<Tooltip>(
+  const { el, reRender } = await mount<Tooltip>(
     renderTooltipWithButton(<calcite-tooltip reference-element="ref">Content</calcite-tooltip>),
   );
+  const referenceElement = page.getByRole("button", { name: "Button" });
 
-  const referenceElement = getReferenceButton();
-
-  await Promise.resolve();
-
-  expect(referenceElement.ariaDescribedByElements).toContain(el);
+  await expect
+    .element(referenceElement)
+    .toHaveProperty("ariaDescribedByElements", expect.arrayContaining([el]));
 
   el.referenceElement = null;
-  await Promise.resolve();
+  await reRender();
 
-  expect(referenceElement.ariaDescribedByElements).toBeNull();
+  await expect
+    .element(referenceElement)
+    .toHaveProperty("ariaDescribedByElements", expect.arrayContaining([]));
 });
 
 describe("defaults", () => {
