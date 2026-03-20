@@ -7,6 +7,7 @@ import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
 import { isCalciteFocusable, SetFocusable } from "../utils/dom";
+import { validate } from "./useForm/validation";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -227,7 +228,7 @@ interface UseForm {
   setCustomValidity: (message: string) => void;
 }
 
-interface UseFormOptions {
+export interface UseFormOptions {
   /**
    * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
@@ -357,8 +358,6 @@ export const useForm = <T extends FormComponent>(
       updateValidity();
     });
 
-    const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
-
     function updateValidity(): void {
       const { elementInternals } = component;
 
@@ -367,40 +366,10 @@ export const useForm = <T extends FormComponent>(
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
-        const { value } = component;
-        const { type } = inputDelegate;
-
-        // Normalize value for input delegate compatibility:
-        // - file or nullish -> "" (file will throw if non-empty string is provided)
-        // - arrays -> join if allowed, else first value or ""
-        // - otherwise -> stringified value
-        inputDelegate.value =
-          type === "file" || value == null
-            ? ""
-            : Array.isArray(value)
-              ? joinableValueTypes.includes(type)
-                ? value.join(",")
-                : `${value[0] ?? ""}`
-              : `${value}`;
-
         syncInternalInput(component, inputDelegate);
-
-        if (!inputDelegate.validity.valid) {
-          // copy flags since ValidityState is not a plain object and cannot be spread or assigned
-          for (const key in inputDelegate.validity) {
-            if (
-              // see https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags
-              key !== "valid"
-            ) {
-              validity[key] = inputDelegate.validity[key];
-            }
-          }
-
-          validationMessage = inputDelegate.validationMessage;
-        }
+        ({ validity, validationMessage } = validate(inputDelegate, component.value));
       }
 
-      // custom error has higher precedence
       if (customValidityMessage) {
         validity = { ...validity, customError: true };
         validationMessage = customValidityMessage;
