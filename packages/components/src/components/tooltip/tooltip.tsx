@@ -222,14 +222,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("referenceEl")) {
-      this.updateReferenceDescription(changes.get("referenceEl") as ReferenceElement, true);
-      this.updateReferenceDescription(this.referenceEl);
       connectFloatingUI(this);
     }
   }
 
   override disconnectedCallback(): void {
-    this.updateReferenceDescription(this.referenceEl, true);
     disconnectFloatingUI(this);
   }
 
@@ -268,22 +265,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   private setArrowEl(el: SVGSVGElement | null): void {
     this.arrowEl = el;
     this.reposition(true);
-  }
-
-  private updateReferenceDescription(referenceEl: ReferenceElement, removeOnly = false): void {
-    if (!(referenceEl instanceof Element)) {
-      return;
-    }
-
-    const nextElements = (referenceEl.ariaDescribedByElements ?? []).filter(
-      (element) => element !== this.el,
-    );
-
-    if (!removeOnly) {
-      nextElements.push(this.el);
-    }
-
-    referenceEl.ariaDescribedByElements = nextElements.length > 0 ? nextElements : null;
   }
 
   // #endregion

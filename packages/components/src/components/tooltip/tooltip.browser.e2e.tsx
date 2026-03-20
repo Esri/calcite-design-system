@@ -1,4 +1,4 @@
-import { h, Fragment, JsxNode } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -19,15 +19,6 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
-
-function renderTooltipWithButton(tooltip: JsxNode): () => JsxNode {
-  return () => (
-    <div>
-      {tooltip}
-      <button id="ref">Button</button>
-    </div>
-  );
-}
 
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {
@@ -176,24 +167,6 @@ it("should honor pointerDisabled", async () => {
   await reRender();
 
   await expect.element(arrow).not.toBeInTheDocument();
-});
-
-it("should associate reference elements via ariaDescribedByElements without a tooltip id", async () => {
-  const { el, reRender } = await mount<Tooltip>(
-    renderTooltipWithButton(<calcite-tooltip reference-element="ref">Content</calcite-tooltip>),
-  );
-  const referenceElement = page.getByRole("button", { name: "Button" });
-
-  await expect
-    .element(referenceElement)
-    .toHaveProperty("ariaDescribedByElements", expect.arrayContaining([el]));
-
-  el.referenceElement = null;
-  await reRender();
-
-  await expect
-    .element(referenceElement)
-    .toHaveProperty("ariaDescribedByElements", expect.arrayContaining([]));
 });
 
 describe("defaults", () => {
