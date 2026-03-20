@@ -87,6 +87,9 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
+
   /** Specifies the component's value. */
   @property() value: string;
 

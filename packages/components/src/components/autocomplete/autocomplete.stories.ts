@@ -183,6 +183,27 @@ export const matchResults = (): string =>
     </calcite-autocomplete>
   </div>`;
 
+export const selectedItem = (): string =>
+  html`<div style="width:350px; height: 280px;">
+    <calcite-autocomplete label="Item list" open>
+      <calcite-autocomplete-item-group heading="Items">
+        <calcite-autocomplete-item
+          selected
+          label="Selected item"
+          value="selected-item"
+          heading="Selected item"
+          description="This item demonstrates selected styling"
+        ></calcite-autocomplete-item>
+        <calcite-autocomplete-item
+          label="Unselected item"
+          value="unselected-item"
+          heading="Unselected item"
+          description="This item remains unselected"
+        ></calcite-autocomplete-item>
+      </calcite-autocomplete-item-group>
+    </calcite-autocomplete>
+  </div>`;
+
 const kitchenSinkHTML = html`
   <style>
     .container {

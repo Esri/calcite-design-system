@@ -23,6 +23,7 @@ describe("defaults", () => {
       { propertyName: "iconStart", defaultValue: undefined },
       { propertyName: "label", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "selected", defaultValue: false },
       { propertyName: "value", defaultValue: undefined },
     ],
   );
@@ -36,6 +37,7 @@ describe("reflects", () => {
       { propertyName: "iconEnd", value: "banana" },
       { propertyName: "iconFlipRtl", value: "end" },
       { propertyName: "iconStart", value: "banana" },
+      { propertyName: "selected", value: true },
     ],
   );
 });

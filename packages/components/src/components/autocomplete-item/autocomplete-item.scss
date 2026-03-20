@@ -76,6 +76,19 @@
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
+:host([selected]) .container {
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-surface-highlight);
+
+  .description {
+    color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));
+  }
+}
+
+:host([selected]) .heading {
+  @apply font-medium;
+}
+
 :host(:hover:not([disabled])) .container {
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-2));
 
