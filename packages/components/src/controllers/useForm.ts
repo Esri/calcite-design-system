@@ -229,6 +229,13 @@ interface UseForm {
 
 interface UseFormOptions {
   /**
+   * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
+   *
+   * Note: this is mostly intended for components that need to map their value differently
+   */
+  getValue?: () => any;
+
+  /**
    * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
   inputType?: HTMLInputElement["type"];
@@ -350,7 +357,7 @@ export const useForm = <T extends FormComponent>(
         }
       }
 
-      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
+      if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
@@ -365,7 +372,7 @@ export const useForm = <T extends FormComponent>(
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
-        const { value } = component;
+        const value = getComponentValue();
         const normalizedValue =
           value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
             ? ``
@@ -404,23 +411,33 @@ export const useForm = <T extends FormComponent>(
       }
     }
 
+    function getComponentValue(): any {
+      if (options.getValue) {
+        return options.getValue();
+      }
+
+      return component.value;
+    }
+
     function getFormValue(): any {
-      if (Array.isArray(component.value)) {
+      const value = getComponentValue();
+
+      if (Array.isArray(value)) {
         const formData = new FormData();
-        component.value.forEach((value) => formData.append(component.name, value));
+        value.forEach((value) => formData.append(component.name, value));
         return formData;
       }
 
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.value || "on";
+          return value || "on";
         }
 
         return null;
       }
 
-      return component.value;
+      return value;
     }
 
     return {

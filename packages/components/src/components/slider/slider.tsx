@@ -16,14 +16,6 @@ import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -36,6 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -56,8 +49,10 @@ const defaultValue = 0;
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Slider extends LitElement implements LabelableComponent, FormComponent {
+export class Slider extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -136,8 +131,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     }
   };
 
-  formEl: HTMLFormElement;
-
   /**
    * Returns a string representing the localized label value based if the groupSeparator prop is parsed.
    *
@@ -152,6 +145,10 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
     return numberStringFormatter.localize(value.toString());
   };
+
+  formSupport = useForm<this>({
+    inputType: "range",
+  })(this);
 
   private guid = IDS.host(guid());
 
@@ -421,13 +418,11 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     connectLabel(this);
-    connectForm(this);
     this.previousEmittedValue = this.value;
   }
 
   load(): void {
     this.setInitialValue();
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -467,7 +462,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.removeDragListeners();
   }
 
@@ -1236,7 +1230,6 @@ export class Slider extends LitElement implements LabelableComponent, FormCompon
           <div class={CSS.thumbContainer}>
             {minThumb}
             {thumb}
-            <HiddenFormInputSlot component={this} />
           </div>
         </div>
         {this.validationMessage && this.status === "invalid" ? (
