@@ -5,6 +5,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -47,6 +48,48 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("is form-associated", () => {
+  describe("unselected value", () => {
+    formAssociated(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item id="child-1" value="1">
+              one
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-2" value="2">
+              two
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-3" value="3">
+              three
+            </calcite-segmented-control-item>
+          </calcite-segmented-control>,
+        ),
+      { testValue: 2, validation: true, changeValueKeys: ["{Space}"] },
+    );
+  });
+
+  describe("selected-value", () => {
+    formAssociated(
+      () =>
+        mount(
+          <calcite-segmented-control>
+            <calcite-segmented-control-item id="child-1" value="1">
+              one
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item checked id="child-2" value="2">
+              two
+            </calcite-segmented-control-item>
+            <calcite-segmented-control-item id="child-3" value="3">
+              three
+            </calcite-segmented-control-item>
+          </calcite-segmented-control>,
+        ),
+      { testValue: 2 },
+    );
+  });
 });
 
 describe("is focusable", () => {
