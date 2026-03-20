@@ -1470,7 +1470,7 @@ describe("calcite-dropdown", () => {
       ).toBe("item-1");
     });
 
-    it("should open the dropdown and focus the last item with ArrowUp when a selected item exists", async () => {
+    it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dropdown>
