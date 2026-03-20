@@ -169,7 +169,7 @@ export class StepperItem extends LitElement {
   });
 
   /** @private */
-  calciteInternalStepperItemRegister = createEvent<StepperItemEventDetail>({ cancelable: false });
+  calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /** @private */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
@@ -195,7 +195,6 @@ export class StepperItem extends LitElement {
   async load(): Promise<void> {
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
 
     if (this.selected) {
       this.emitRequestedItem();
@@ -212,7 +211,7 @@ export class StepperItem extends LitElement {
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.registerStepperItem();
+      this.calciteInternalStepperItemUpdate.emit();
     }
 
     if (changes.has("messages")) {
@@ -276,12 +275,6 @@ export class StepperItem extends LitElement {
 
   private determineSelectedItem(): void {
     this.selected = !this.disabled && this.itemPosition === this.selectedPosition;
-  }
-
-  private registerStepperItem(): void {
-    this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition,
-    });
   }
 
   private handleItemClick(event: MouseEvent): void {

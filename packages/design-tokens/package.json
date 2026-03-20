@@ -1,6 +1,6 @@
 {
   "name": "@esri/calcite-design-tokens",
-  "version": "4.1.0-next.1",
+  "version": "4.1.0-next.2",
   "description": "Esri's Calcite Design System Tokens",
   "keywords": [
     "Calcite",
@@ -42,6 +42,6 @@
     "util:update-test-snapshots": "vitest --update"
   },
   "devDependencies": {
-    "vitest": "4.0.18"
+    "vitest": "4.1.0"
   }
 }

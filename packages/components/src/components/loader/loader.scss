@@ -5,7 +5,7 @@
  *
  * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
  * @prop --calcite-loader-size: Specifies the component's width and height.
- * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
+ * @prop --calcite-loader-size-inline: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-loader-size` instead. Specifies the width and height of the component when set to inline.
  * @prop --calcite-loader-spacing: Specifies the the component's padding.
  * @prop --calcite-loader-progress-color-inline: When `inline`, specifies the component's progress ring color.
  * @prop --calcite-loader-text-spacing: When not `inline`, specifies the component's `text` margin.
