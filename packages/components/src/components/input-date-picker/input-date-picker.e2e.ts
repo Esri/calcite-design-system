@@ -224,7 +224,7 @@ it("should clear active date properly when deleted and committed via keyboard", 
   await page.waitForChanges();
 
   for (let i = 0; i < 10; i++) {
-    await input.press("Backspace");
+    await input.press("Delete");
   }
   await input.press("Enter");
 

@@ -22,7 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: chromaui/action@v13
+    - uses: chromaui/action@v15
       with:
         projectToken: ${{ inputs.project-token }}
         zip: true
