@@ -104,16 +104,23 @@ describe("is form-associated", () => {
   });
 });
 
-function getDisplayedValue(): string {
+function normalizeWhitespace(value: string): string {
   const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
-  return page
-    .getBySelector("calcite-input-time-picker")
-    .element()
-    .shadowRoot!.textContent.replaceAll(whitespaceRegexPattern, "");
+  return value.replaceAll(whitespaceRegexPattern, "");
+}
+
+function getDisplayedValue(): string {
+  return normalizeWhitespace(
+    page
+      .getBySelector("calcite-input-time-picker")
+      .element()
+      .shadowRoot!.textContent,
+  );
 }
 
 async function assertDisplayedTime(value: string): Promise<void> {
-  expect(getDisplayedValue()).toBe(value.replaceAll(/\s/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
+  // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
+  expect(getDisplayedValue()).toBe(normalizeWhitespace(value));
 }
 
 describe("l10n", () => {
