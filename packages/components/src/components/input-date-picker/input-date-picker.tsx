@@ -35,14 +35,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -65,7 +57,6 @@ import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -74,6 +65,7 @@ import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -88,11 +80,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputDatePicker
-  extends LitElement
-  implements FloatingUIComponent, FormComponent, LabelableComponent
-{
+export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -146,7 +137,9 @@ export class InputDatePicker
     },
   })(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "date",
+  })(this);
 
   labelEl: Label["el"];
 
@@ -468,7 +461,6 @@ export class InputDatePicker
     }
 
     connectLabel(this);
-    connectForm(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
   }
@@ -540,7 +532,6 @@ export class InputDatePicker
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -715,10 +706,6 @@ export class InputDatePicker
     this.topLayer.hide();
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("date", this, input);
-  }
-
   private blurHandler(): void {
     this.open = false;
   }
@@ -777,17 +764,38 @@ export class InputDatePicker
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
     if (key === "Enter") {
-      event.preventDefault();
+      const preCommitValue = this.value;
       this.commitValue();
 
-      if (this.shouldFocusRangeEnd()) {
-        this.endInputRef.value?.setFocus();
-      } else if (this.shouldFocusRangeStart()) {
-        this.startInputRef.value?.setFocus();
+      const focusRangeEnd = this.shouldFocusRangeEnd();
+      const focusRangeStart = !focusRangeEnd && this.shouldFocusRangeStart();
+
+      if (focusRangeEnd || focusRangeStart) {
+        event.preventDefault();
+
+        if (focusRangeEnd) {
+          this.endInputRef.value?.setFocus();
+        } else if (focusRangeStart) {
+          this.startInputRef.value?.setFocus();
+        }
+
+        return;
       }
 
-      if (submitForm(this)) {
+      if (this.open) {
         this.restoreInputFocus(true);
+        event.preventDefault();
+      } else {
+        const formActive = this.formSupport.active;
+        const handledKey = preCommitValue !== this.value || formActive;
+
+        if (handledKey) {
+          event.preventDefault();
+        }
+
+        if (formActive) {
+          this.formSupport.requestSubmit();
+        }
       }
     } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
@@ -1239,7 +1247,6 @@ export class InputDatePicker
             </div>
           )}
         </div>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
