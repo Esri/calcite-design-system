@@ -450,7 +450,7 @@ export const longItemsAllSelectionModes = (): string => html`
   <div>
 `;
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-combobox disabled>
     <calcite-combobox-item value="Trees" heading="Trees">
       <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
@@ -471,7 +471,7 @@ export const placement = (): string =>
     <calcite-combobox-item value="3" heading="three" icon="number-circle-3"></calcite-combobox-item>
   </calcite-combobox>`;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <style>
     .my-combobox {
       position: unset;
@@ -509,7 +509,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const flipPositioning_TestOnly = (): string => html`
+export const flipPositioning = (): string => html`
   <div style="position: absolute; bottom: 10px; left: 10px;">
     <calcite-combobox max-items="6" placeholder="placeholder" label="demo" selection-mode="multiple" scale="m" open>
       <calcite-combobox-item value="Trees" heading="Trees">
@@ -533,11 +533,69 @@ export const flipPositioning_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-flipPositioning_TestOnly.parameters = {
+flipPositioning.parameters = {
   layout: "fullscreen",
 };
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const selectionAppearanceHighlight = (): string => html`
+  <style>
+    .selection-appearance-group {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 250px;
+    }
+    .selection-appearance-group > div {
+      flex: 1;
+    }
+  </style>
+  <div class="selection-appearance-group">
+    <div>
+      <h3>single</h3>
+      <calcite-combobox
+        open
+        selection-mode="single"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+    <div>
+      <h3>multiple</h3>
+      <calcite-combobox
+        open
+        selection-mode="multiple"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+    <div>
+      <h3>ancestors</h3>
+      <calcite-combobox
+        open
+        selection-mode="ancestors"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Trees" heading="Trees" selected>
+          <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+  </div>
+`;
+
+export const darkModeRTL = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox
       label="demo combobox"
@@ -568,9 +626,9 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-combobox>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const singleLongLabel_TestOnly = (): string => html`
+export const singleLongLabel = (): string => html`
   <calcite-combobox open selection-mode="single" allow-custom-values>
     <calcite-combobox-item value="Trees" heading="Trees">
       <calcite-combobox-item
@@ -584,7 +642,7 @@ export const singleLongLabel_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const withPlaceholderIcon_TestOnly = (): string =>
+export const withPlaceholderIcon = (): string =>
   html` <calcite-combobox
     id="labelFour"
     label="test"
@@ -599,7 +657,7 @@ export const withPlaceholderIcon_TestOnly = (): string =>
     <calcite-combobox-item value="2" heading="Folder 2" icon="folder"></calcite-combobox-item>
   </calcite-combobox>`;
 
-export const withoutPlaceholderIcon_TestOnly = (): string =>
+export const withoutPlaceholderIcon = (): string =>
   html` <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox placeholder="select folder" selection-mode="multiple" open>
       <calcite-combobox-item value="root" heading="username" icon="home" selected></calcite-combobox-item>
@@ -608,7 +666,7 @@ export const withoutPlaceholderIcon_TestOnly = (): string =>
     </calcite-combobox>
   </div>`;
 
-export const scrollingWithoutMaxItems_TestOnly = (): string => html`
+export const scrollingWithoutMaxItems = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <calcite-combobox label="demo combobox" open>
       <calcite-combobox-item value="Trees" heading="Trees" selected>
@@ -651,7 +709,7 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   </div>
 `;
 
-export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnly = (): string => html`
+export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed = (): string => html`
   <style>
     .wrapper {
       display: flex;
@@ -691,7 +749,7 @@ export const optionListMinWidthMatchesInputWhenOverlayPositioningIsFixed_TestOnl
   </div>
 `;
 
-export const mediumIconForLargeComboboxItem_TestOnly = (): string => html`
+export const mediumIconForLargeComboboxItem = (): string => html`
   <calcite-combobox open scale="l">
     <calcite-combobox-item
       icon="altitude"
@@ -706,7 +764,7 @@ export const mediumIconForLargeComboboxItem_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
+export const withSelectorIndicatorAndIcons = (): string => html`
   <calcite-combobox-item heading="Folder 1" icon="folder" selected>
     <calcite-combobox-item heading="Sub Folder 1" icon="folder" selected>
       <calcite-combobox-item heading="Sub Folder 2 " icon="folder" selected></calcite-combobox-item>
@@ -722,12 +780,12 @@ export const withSelectorIndicatorAndIcons_TestOnly = (): string => html`
   </calcite-combobox-item-group>
 `;
 
-withSelectorIndicatorAndIcons_TestOnly.args = {
+withSelectorIndicatorAndIcons.args = {
   selectionMode: "multiple",
 };
-withSelectorIndicatorAndIcons_TestOnly.decorators = [allScaleComboboxBuilder];
+withSelectorIndicatorAndIcons.decorators = [allScaleComboboxBuilder];
 
-export const nestedGroups_TestOnly = (): string => html`
+export const nestedGroups = (): string => html`
   <calcite-combobox-item-group label="First item group">
     <calcite-combobox-item value="Pikachu" heading="Pikachu"></calcite-combobox-item>
     <calcite-combobox-item value="Charizard" heading="Charizard"></calcite-combobox-item>
@@ -751,12 +809,12 @@ export const nestedGroups_TestOnly = (): string => html`
   </calcite-combobox-item-group>
 `;
 
-nestedGroups_TestOnly.args = {
+nestedGroups.args = {
   selectionMode: "multiple",
 };
-nestedGroups_TestOnly.decorators = [allScaleComboboxBuilder];
+nestedGroups.decorators = [allScaleComboboxBuilder];
 
-export const clearDisabled_TestOnly = (): string => html`
+export const clearDisabled = (): string => html`
   <calcite-combobox clear-disabled selection-mode="single" style="width:400px">
     <calcite-combobox-item selected id="one" value="one" heading="one"></calcite-combobox-item>
     <calcite-combobox-item id="two" value="two" heading="two"></calcite-combobox-item>
@@ -777,7 +835,7 @@ export const clearDisabled_TestOnly = (): string => html`
   </calcite-combobox>
 `;
 
-export const openInAllScales_TestOnly = (): string => html`
+export const openInAllScales = (): string => html`
   <div style="display: flex">
     <calcite-combobox open placeholder="choose a number" scale="s">
       <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
@@ -799,7 +857,7 @@ export const openInAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const openWithPlaceholderIconInAllScales_TestOnly = (): string => html`
+export const openWithPlaceholderIconInAllScales = (): string => html`
   <div style="display: flex">
     <calcite-combobox open placeholder="choose a number" placeholder-icon="number" scale="s">
       <calcite-combobox-item value="one" heading="one"></calcite-combobox-item>
@@ -821,7 +879,7 @@ export const openWithPlaceholderIconInAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const validationMessageInAllScales_TestOnly = (): string => html`
+export const validationMessageInAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -1068,3 +1126,25 @@ withDescriptionShortLabelAndContentSlots.decorators = [allScaleComboboxBuilder];
 withDescriptionShortLabelAndContentSlots.parameters = {
   chromatic: { delay: 1000 },
 };
+
+export const maxItems = (): string =>
+  html` <calcite-combobox placeholder="Select a field" max-items="5" open>
+    <calcite-combobox-item-group label="First item group">
+      <calcite-combobox-item value="Pikachu" text-label="Pikachu"></calcite-combobox-item>
+      <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+      <calcite-combobox-item-group label="Cutest Pokémon">
+        <calcite-combobox-item value="Bulbasaur" text-label="Bulbasaur"></calcite-combobox-item>
+        <calcite-combobox-item-group label="No Pokémon 🙃"></calcite-combobox-item-group>
+        <calcite-combobox-item-group label="Cutest Pokémon">
+          <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+            <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+          </calcite-combobox-item>
+        </calcite-combobox-item-group>
+      </calcite-combobox-item-group>
+    </calcite-combobox-item-group>
+    <calcite-combobox-item-group label="Last item group">
+      <calcite-combobox-item value="Squirtle" text-label="Squirtle">
+        <calcite-combobox-item value="Charizard" text-label="Charizard"></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox-item-group>
+  </calcite-combobox>`;

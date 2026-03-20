@@ -5,5 +5,5 @@
   "pause": "一時停止",
   "carousel": "カルーセル",
   "carouselItemProgress": "カルーセル アイテムの進行状況インジケーター",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "アイテム {current}/{total}"
 }

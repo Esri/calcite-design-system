@@ -1,8 +1,9 @@
 {
-  "packages/components": "5.0.0",
-  "packages/components-react": "5.0.0",
+  "packages/components": "5.0.2",
+  "packages/components-react": "5.0.2",
   "packages/design-tokens": "4.0.0",
   "packages/ui-icons": "4.4.0",
   "packages/eslint-plugin-components": "2.0.3",
-  "packages/tailwind-preset": "1.1.0"
+  "packages/tailwind-preset": "1.1.0",
+  "packages/stylelint-plugin-components": "0.0.1"
 }

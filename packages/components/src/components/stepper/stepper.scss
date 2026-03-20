@@ -4,8 +4,8 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-stepper-bar-gap: Specifies the space between the component's `calcite-stepper-item`s.
- * @prop --calcite-stepper-bar-inactive-fill-color: Specifies the `calcite-stepper-item`s' bar fill color of the component's `calcite-stepper-item`s.
- * @prop --calcite-stepper-bar-active-fill-color: Specifies the `calcite-stepper-item`s' bar fill color of the component's active `calcite-stepper-item`s.
+ * @prop --calcite-stepper-bar-inactive-fill-color: [Deprecated] Use `--calcite-stepper-bar-fill-color`. Specifies the `calcite-stepper-item`s' bar fill color of the component's `calcite-stepper-item`s.
+ * @prop --calcite-stepper-bar-active-fill-color: [Deprecated] Use `--calcite-stepper-bar-selected-fill-color`. Specifies the `calcite-stepper-item`s' bar fill color of the component's active `calcite-stepper-item`s.
  * @prop --calcite-stepper-bar-complete-fill-color: When `calcite-stepper-item`s are `complete`, specifies the component's `calcite-stepper-item`s' bar fill color.
  * @prop --calcite-stepper-bar-error-fill-color: When `calcite-stepper-item`s contain an `error`, specifies the component's `calcite-stepper-item`s' bar fill color.
  */
@@ -65,11 +65,12 @@
   .container {
     display: grid;
     // grid-templates-columns are dynamically generated
-    // grid-templates-rows are dynamically generated
+    // grid-templates-areas are dynamically generated
     grid-template-areas:
       "items"
       "content";
     gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    grid-template-rows: auto 1fr;
   }
 }
 

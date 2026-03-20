@@ -6,6 +6,7 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -14,74 +15,93 @@ import {
 } from "../../tests/commonTests/browser";
 import { Select } from "./select";
 
-describe("calcite-select", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-select"),
-      [
-        { propertyName: "scale", defaultValue: "m" },
-        { propertyName: "status", defaultValue: "idle" },
-        { propertyName: "validationIcon", defaultValue: undefined },
-        { propertyName: "validationMessage", defaultValue: undefined },
-      ],
-    );
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-select"),
+    [
+      { propertyName: "scale", defaultValue: "m" },
+      { propertyName: "status", defaultValue: "idle" },
+      { propertyName: "validationIcon", defaultValue: undefined },
+      { propertyName: "validationMessage", defaultValue: undefined },
+    ],
+  );
+});
 
-  function renderSelect(): TemplateResult {
-    return (
-      <calcite-select label="required-for-a11y-test">
-        <calcite-option>uno</calcite-option>
-        <calcite-option>dos</calcite-option>
-        <calcite-option>tres</calcite-option>
-      </calcite-select>
-    );
-  }
+describe("is form-associated", () => {
+  formAssociated(
+    () =>
+      mount(
+        <calcite-select name="calciteSelect">
+          <calcite-option />
+          <calcite-option>uno</calcite-option>
+          <calcite-option>dos</calcite-option>
+          <calcite-option>tres</calcite-option>
+        </calcite-select>,
+      ),
+    {
+      testValue: "dos",
+      validation: true,
+      // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
+      // due to the context menu not being accessible in the browser rendering environment
+      changeValueKeys: ["t"],
+    },
+  );
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount<Select>(renderSelect()),
-      [
-        {
-          propertyName: "disabled",
-          value: true,
-        },
-        {
-          propertyName: "scale",
-          value: "m",
-        },
-        {
-          propertyName: "status",
-          value: "invalid",
-        },
-        {
-          propertyName: "validationIcon",
-          value: true,
-        },
-      ],
-    );
-  });
+function renderSelect(): TemplateResult {
+  return (
+    <calcite-select label="required-for-a11y-test">
+      <calcite-option>uno</calcite-option>
+      <calcite-option>dos</calcite-option>
+      <calcite-option>tres</calcite-option>
+    </calcite-select>
+  );
+}
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-select"));
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount<Select>(renderSelect()),
+    [
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
+        propertyName: "status",
+        value: "invalid",
+      },
+      {
+        propertyName: "validationIcon",
+        value: true,
+      },
+    ],
+  );
+});
 
-  describe("internal label", () => {
-    internalLabel(() => mount(`calcite-select`));
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-select"));
+});
 
-  describe("renders", () => {
-    renders(() => mount(renderSelect()), { display: "flex" });
-  });
+describe("internal label", () => {
+  internalLabel(() => mount(`calcite-select`));
+});
 
-  describe("is focusable", () => {
-    focusable(() => mount(renderSelect()));
-  });
+describe("renders", () => {
+  renders(() => mount(renderSelect()), { display: "flex" });
+});
 
-  describe("translation support", () => {
-    t9n(() => mount("calcite-select"));
-  });
+describe("is focusable", () => {
+  focusable(() => mount(renderSelect()));
+});
 
-  describe("disabled", () => {
-    disabled(() => mount("calcite-select"));
-  });
+describe("translation support", () => {
+  t9n(() => mount("calcite-select"));
+});
+
+describe("disabled", () => {
+  disabled(() => mount("calcite-select"));
 });

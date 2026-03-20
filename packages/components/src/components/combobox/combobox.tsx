@@ -14,6 +14,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -29,21 +30,12 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
-import { Scale, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -59,6 +51,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -81,11 +74,10 @@ declare global {
  * @slot - A slot for adding `calcite-combobox-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Combobox
-  extends LitElement
-  implements LabelableComponent, FormComponent, FloatingUIComponent
-{
+export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -94,6 +86,12 @@ export class Combobox
   //#region Private Properties
 
   private closeButtonRef = createRef<HTMLButtonElement>();
+
+  private direction = useDirection();
+
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -370,7 +368,7 @@ export class Combobox
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
   /** Overrides individual strings used by the component. */
@@ -444,6 +442,18 @@ export class Combobox
    * `"single"` displays one `calcite-chip` with the total number of selections.
    */
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
+
+  /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, and
+   *
+   * `"highlight"` displays a background highlight.
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
 
   /**
    * Specifies the selection mode of the component, where:
@@ -531,6 +541,7 @@ export class Combobox
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,
@@ -597,11 +608,6 @@ export class Combobox
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
-
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -638,7 +644,11 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (
+      changes.has("selectionMode") ||
+      changes.has("scale") ||
+      changes.has("selectionAppearance")
+    ) {
       this.updateItems();
     }
 
@@ -648,7 +658,6 @@ export class Combobox
   }
 
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
@@ -658,7 +667,6 @@ export class Combobox
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -941,10 +949,9 @@ export class Combobox
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
-        } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+        } else if (!event.defaultPrevented && this.formSupport.active) {
+          event.preventDefault();
+          this.formSupport.requestSubmit();
         }
         break;
       case "Delete":
@@ -1207,7 +1214,7 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const allItemsAndGroups = this.getItemsAndGroups(true);
     const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
@@ -1248,8 +1255,16 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(): ComboboxChildElement[] {
-    return [...this.groupItems, ...this.items];
+  private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
+    if (!preserveOrder) {
+      return [...this.groupItems, ...this.items];
+    }
+
+    return Array.from(
+      this.el.querySelectorAll<ComboboxChildElement>(
+        `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`,
+      ),
+    );
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
@@ -1330,6 +1345,7 @@ export class Combobox
   private updateItemProps(): void {
     this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
+      item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
     });
 
@@ -1976,7 +1992,6 @@ export class Combobox
           {this.renderListBoxOptions()}
         </ul>
         {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

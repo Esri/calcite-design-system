@@ -2,7 +2,7 @@ import { expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { GlobalTestProps } from "../../utils/interfaces";
 import { ComponentTag, WithBeforeContent } from "../interfaces";
-import { waitForNextTick } from "../../utils/timing";
+import { afterNextTask  } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 
 type CollapseAxis = "horizontal" | "vertical";
@@ -187,8 +187,8 @@ async function testOpenCloseEvents({
     );
   }
 
-  await waitForNextTick(); // wait for next task for transitions to properly start
-  await waitForNextTick(); // wait for next task for transitions to properly start
+  await afterNextTask(); // wait for next task for transitions to properly start
+  await afterNextTask(); // wait for next task for transitions to properly start
 
   function assertEventSequence(expectedTimesPerEvent: [number, number, number, number]): void {
     expect(beforeOpenEvent.listener).toHaveBeenCalledTimes(expectedTimesPerEvent[0]);

@@ -10,8 +10,9 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { FlipContext, Layout } from "../interfaces";
-import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,6 +40,8 @@ export class MenuItem extends LitElement {
   //#region Private Properties
 
   private anchorRef = createRef<HTMLAnchorElement>();
+
+  private direction = useDirection();
 
   private dropdownActionRef = createRef<Action["el"]>();
 
@@ -406,7 +409,7 @@ export class MenuItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     return (
       <li
         class={{

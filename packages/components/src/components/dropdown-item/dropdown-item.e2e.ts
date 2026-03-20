@@ -4,155 +4,137 @@ import { themed } from "../../tests/commonTests";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
 
-describe("calcite-dropdown-item", () => {
-  it("should emit calciteDropdownItemSelect", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>`);
+it("should emit calciteDropdownItemSelect", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>`);
 
-    const element = await page.find("calcite-dropdown-item");
-    const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemSelect");
+  const element = await page.find("calcite-dropdown-item");
+  const itemChangeSpy = await element.spyOnEvent("calciteDropdownItemSelect");
 
-    const calciteDropdownItemSelectEventSpy = await page.spyOnEvent("calciteDropdownItemSelect");
-    await element.click();
-    await calciteDropdownItemSelectEventSpy.next();
+  const calciteDropdownItemSelectEventSpy = await page.spyOnEvent("calciteDropdownItemSelect");
+  await element.click();
+  await calciteDropdownItemSelectEventSpy.next();
 
-    expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+  expect(itemChangeSpy).toHaveReceivedEventTimes(1);
+});
 
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-    await calciteDropdownItemSelectEventSpy.next();
-
-    expect(itemChangeSpy).toHaveReceivedEventTimes(2);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Space");
-    await page.waitForChanges();
-    await calciteDropdownItemSelectEventSpy.next();
-
-    expect(itemChangeSpy).toHaveReceivedEventTimes(3);
-  });
-
-  describe("theme", () => {
-    describe("default", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-dropdown-item-text-color": [
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.container}`,
-            selector: `calcite-dropdown-item`,
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconStart}`,
-            selector: `calcite-dropdown-item`,
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconEnd}`,
-            selector: `calcite-dropdown-item`,
-          },
-        ],
-        "--calcite-dropdown-item-background-color-hover": {
-          targetProp: "backgroundColor",
-          shadowSelector: `.${CSS.container}`,
-          state: "hover",
-          selector: `calcite-dropdown-item`,
-        },
-        "--calcite-dropdown-item-background-color-press": {
-          targetProp: "backgroundColor",
-          shadowSelector: `.${CSS.container}`,
-          state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
-          selector: `calcite-dropdown-item`,
-        },
-        "--calcite-dropdown-item-icon-color-hover": {
+describe("theme", () => {
+  describe("default", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-item-text-color": [
+        {
           targetProp: "color",
-          shadowSelector: `.${CSS.icon}`,
-          state: "hover",
-          selector: "calcite-dropdown-item",
+          shadowSelector: `.${CSS.container}`,
+          selector: `calcite-dropdown-item`,
         },
-        "--calcite-dropdown-item-text-color-press": [
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.container}`,
-            selector: "calcite-dropdown-item",
-            state: "hover",
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.link}`,
-            selector: "calcite-dropdown-item",
-            state: "hover",
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.container}`,
-            selector: "calcite-dropdown-item",
-            state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.link}`,
-            selector: "calcite-dropdown-item",
-            state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconStart}`,
-            selector: "calcite-dropdown-item",
-            state: "hover",
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconEnd}`,
-            selector: "calcite-dropdown-item",
-            state: "hover",
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconStart}`,
-            selector: "calcite-dropdown-item",
-            state: { press: `calcite-dropdown-item >>> .${CSS.iconStart}` },
-          },
-          {
-            targetProp: "color",
-            shadowSelector: `.${CSS.iconEnd}`,
-            selector: "calcite-dropdown-item",
-            state: { press: `calcite-dropdown-item >>> .${CSS.iconEnd}` },
-          },
-        ],
-      };
-      themed(
-        `<calcite-dropdown open>
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconStart}`,
+          selector: `calcite-dropdown-item`,
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconEnd}`,
+          selector: `calcite-dropdown-item`,
+        },
+      ],
+      "--calcite-dropdown-item-background-color-hover": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.container}`,
+        state: "hover",
+        selector: `calcite-dropdown-item`,
+      },
+      "--calcite-dropdown-item-background-color-press": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.container}`,
+        state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
+        selector: `calcite-dropdown-item`,
+      },
+      "--calcite-dropdown-item-icon-color-hover": {
+        targetProp: "color",
+        shadowSelector: `.${CSS.icon}`,
+        state: "hover",
+        selector: "calcite-dropdown-item",
+      },
+      "--calcite-dropdown-item-text-color-press": [
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.container}`,
+          selector: "calcite-dropdown-item",
+          state: "hover",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.link}`,
+          selector: "calcite-dropdown-item",
+          state: "hover",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.container}`,
+          selector: "calcite-dropdown-item",
+          state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.link}`,
+          selector: "calcite-dropdown-item",
+          state: { press: `calcite-dropdown-item >>> .${CSS.container}` },
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconStart}`,
+          selector: "calcite-dropdown-item",
+          state: "hover",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconEnd}`,
+          selector: "calcite-dropdown-item",
+          state: "hover",
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconStart}`,
+          selector: "calcite-dropdown-item",
+          state: { press: `calcite-dropdown-item >>> .${CSS.iconStart}` },
+        },
+        {
+          targetProp: "color",
+          shadowSelector: `.${CSS.iconEnd}`,
+          selector: "calcite-dropdown-item",
+          state: { press: `calcite-dropdown-item >>> .${CSS.iconEnd}` },
+        },
+      ],
+    };
+    themed(
+      `<calcite-dropdown open>
           <calcite-dropdown-item icon-start="trash" icon-end="trash" href="esri.com">1</calcite-dropdown-item>
           <calcite-dropdown-item>2</calcite-dropdown-item>
         </calcite-dropdown>`,
-        tokens,
-      );
-    });
-    describe("selected", () => {
-      const tokens: ComponentTestTokens = {
-        "--calcite-dropdown-item-icon-color-press": {
-          targetProp: "color",
-          shadowSelector: `calcite-icon`,
-          selector: `calcite-dropdown-item`,
-        },
-        "--calcite-dropdown-item-text-color-press": {
-          targetProp: "color",
-          shadowSelector: `.${CSS.container}`,
-          selector: `calcite-dropdown-item`,
-        },
-      };
-      themed(
-        `<calcite-dropdown selectionMode="multiple" open>
+      tokens,
+    );
+  });
+  describe("selected", () => {
+    const tokens: ComponentTestTokens = {
+      "--calcite-dropdown-item-icon-color-press": {
+        targetProp: "color",
+        shadowSelector: `calcite-icon`,
+        selector: `calcite-dropdown-item`,
+      },
+      "--calcite-dropdown-item-text-color-press": {
+        targetProp: "color",
+        shadowSelector: `.${CSS.container}`,
+        selector: `calcite-dropdown-item`,
+      },
+    };
+    themed(
+      `<calcite-dropdown selectionMode="multiple" open>
           <calcite-dropdown-item href="esri.com" selected icon-start="home">1</calcite-dropdown-item>
           <calcite-dropdown-item href="esri.com" selected>2</calcite-dropdown-item>
           <calcite-dropdown-item selected class="selected">3</calcite-dropdown-item>
         </calcite-dropdown>`,
-        tokens,
-      );
-    });
+      tokens,
+    );
   });
 });

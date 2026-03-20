@@ -11,6 +11,8 @@
  * @prop --calcite-dialog-min-size-y: Specifies the component's minimum height, using `px`, `em`, `rem`, `vh`, or `%`.
  * @prop --calcite-dialog-max-size-y: Specifies the component's maximum height, using `px`, `em`, `rem`, `vh`, or `%`.
  * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
+ * @prop --calcite-dialog-content-top-space: Specifies the padding of the component's `content-top` slot.
+ * @prop --calcite-dialog-content-bottom-space: Specifies the padding of the component's `content-bottom` slot.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
  * @prop --calcite-dialog-offset-x: Specifies the component's horizontal offset.
@@ -159,6 +161,14 @@
 
 calcite-panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
+  --calcite-panel-content-top-space: var(
+    --calcite-dialog-content-top-space,
+    var(--calcite-internal-dialog-content-padding)
+  );
+  --calcite-panel-content-bottom-space: var(
+    --calcite-dialog-content-bottom-space,
+    var(--calcite-internal-dialog-content-padding)
+  );
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
   --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
@@ -228,7 +238,7 @@ calcite-panel {
   visibility: hidden;
 
   transition:
-    inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
@@ -245,12 +255,6 @@ calcite-panel {
 
   inset-inline-start: var(--calcite-dialog-offset-x, 0);
   inset-block-start: var(--calcite-internal-dialog-hidden-position);
-
-  &--opening {
-    &-active {
-      inset-block-start: var(--calcite-internal-dialog-shown-position);
-    }
-  }
 }
 
 :host([top-layer-disabled]) .dialog,
@@ -290,7 +294,7 @@ calcite-panel {
       visible
       opacity-100;
     transition:
-      inset-block var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+      inset-block-start var(--calcite-internal-animation-timing-slow) animation.$easing-function allow-discrete,
       opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
     transition-delay: 0ms;
   }
@@ -314,13 +318,6 @@ calcite-panel {
             max-w-full;
         inset-inline-start: 0;
         inset-block-start: var(--calcite-internal-dialog-animation-offset);
-      }
-    }
-    .width-#{$size}.dialog {
-      &--opening {
-        &-active {
-          inset-block-start: 0;
-        }
       }
     }
   }
@@ -380,6 +377,16 @@ calcite-panel {
 
 :host([kind="warning"]) .dialog {
   border-color: var(--calcite-dialog-accent-color, var(--calcite-color-status-warning));
+}
+
+:host([open]) {
+  .dialog {
+    inset-block-start: var(--calcite-internal-dialog-shown-position);
+
+    @starting-style {
+      inset-block-start: var(--calcite-internal-dialog-hidden-position);
+    }
+  }
 }
 
 :host([kind="brand"][open]),

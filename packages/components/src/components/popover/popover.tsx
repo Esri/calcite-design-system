@@ -1,19 +1,11 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  connectFloatingUI,
   defaultOffsetDistance,
+  connectFloatingUI,
   disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
@@ -26,8 +18,6 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -37,9 +27,14 @@ import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import PopoverManager from "./PopoverManager";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
+import { CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 
 declare global {
@@ -48,10 +43,10 @@ declare global {
   }
 }
 
-const manager = new PopoverManager();
+const manager = referenceElementManager({ click: true });
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent {
+export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -60,7 +55,13 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   //#region Private Properties
 
+  referenceElementType: ReferenceElementType = "click";
+
+  referenceElementController = useReferenceElement({ manager })(this);
+
   private arrowEl: SVGSVGElement;
+
+  private direction = useDirection();
 
   private filteredFlipPlacements: FlipPlacement[];
 
@@ -80,10 +81,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
       },
     },
   })(this);
-
-  private guid = `calcite-popover-${guid()}`;
-
-  private hasLoaded = false;
 
   private mutationObserver: MutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
@@ -244,6 +241,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl: referenceEl,
         overlayPositioning,
@@ -271,9 +269,16 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return this.focusSetter(() => this.el, options);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the component's focus-trap.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
     this.focusTrap.updateContainerElements();
   }
 
@@ -300,10 +305,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-
-    // we set up the ref element in the next frame to ensure PopoverManager
-    // event handlers are invoked after connect (mainly for `components` output target)
-    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -330,26 +331,19 @@ export class Popover extends LitElement implements FloatingUIComponent {
       this.reposition(true);
     }
 
-    if (changes.has("referenceElement")) {
-      this.referenceElementHandler();
-
-      if (!this.referenceElement && this.open) {
-        this.topLayer.hide();
-      }
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
     }
   }
 
-  loaded(): void {
-    if (this.referenceElement && !this.referenceEl) {
-      this.setUpReferenceElement();
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl")) {
+      connectFloatingUI(this);
     }
-
-    this.hasLoaded = true;
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    this.removeReferences();
     disconnectFloatingUI(this);
   }
 
@@ -365,20 +359,10 @@ export class Popover extends LitElement implements FloatingUIComponent {
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
-    this.setExpandedAttr();
-  }
-
-  private referenceElementHandler(): void {
-    this.setUpReferenceElement();
-    this.reposition(true);
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
-    }
   }
 
   private setFilteredPlacements(): void {
@@ -387,79 +371,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
       : null;
-  }
-
-  private setUpReferenceElement(warn = true): void {
-    this.removeReferences();
-    this.referenceEl = this.getReferenceElement();
-    connectFloatingUI(this);
-
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
-    }
-
-    this.addReferences();
-  }
-
-  private getId(): string {
-    return this.el.id || this.guid;
-  }
-
-  private setExpandedAttr(): void {
-    const { referenceEl, open } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
-    }
-  }
-
-  private addReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    const id = this.getId();
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_CONTROLS, id);
-    }
-
-    manager.registerElement(referenceEl, this.el);
-    this.setExpandedAttr();
-  }
-
-  private removeReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_CONTROLS);
-      referenceEl.removeAttribute(ARIA_EXPANDED);
-    }
-
-    manager.unregisterElement(referenceEl);
-  }
-
-  private getReferenceElement(): ReferenceElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
   }
 
   private hide(): void {
@@ -540,8 +451,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 

@@ -11,56 +11,54 @@ import {
   openClose,
 } from "../../tests/commonTests/browser";
 
-describe("calcite-alert", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-alert"),
-      [
-        {
-          propertyName: "autoCloseDuration",
-          defaultValue: "medium",
-        },
-        {
-          propertyName: "embedded",
-          defaultValue: false,
-        },
-        {
-          propertyName: "queue",
-          defaultValue: "last",
-        },
-      ],
-    );
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-alert"),
+    [
+      {
+        propertyName: "autoCloseDuration",
+        defaultValue: "medium",
+      },
+      {
+        propertyName: "embedded",
+        defaultValue: false,
+      },
+      {
+        propertyName: "queue",
+        defaultValue: "last",
+      },
+    ],
+  );
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-alert"),
-      [
-        {
-          propertyName: "queue",
-          value: "last",
-        },
-      ],
-    );
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-alert"),
+    [
+      {
+        propertyName: "queue",
+        value: "last",
+      },
+    ],
+  );
+});
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount(<calcite-alert open />));
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount(<calcite-alert open />));
+});
 
-  describe("renders", () => {
-    renders(() => mount("calcite-alert"), { visible: false, display: "block" });
-  });
+describe("openClose", () => {
+  openClose(() => mount("calcite-alert"));
+});
 
-  describe("top layer placement", () => {
-    topLayer(() => mount("calcite-alert"));
-  });
+describe("renders", () => {
+  renders(() => mount("calcite-alert"), { visible: false, display: "block" });
+});
 
-  describe("translation support", () => {
-    t9n(() => mount("calcite-alert"));
-  });
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-alert"));
+});
 
-  describe("openClose", () => {
-    openClose(() => mount("calcite-alert"));
-  });
+describe("translation support", () => {
+  t9n(() => mount("calcite-alert"));
 });

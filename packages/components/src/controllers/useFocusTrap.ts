@@ -74,6 +74,7 @@ interface FocusTrapComponent extends LitElement {
   focusTrapOptions?: Partial<FocusTrapOptions>;
 }
 
+/** @public */
 export type FocusTrapOptions =
   /**
    * @see https://github.com/focus-trap/focus-trap#createoptions
