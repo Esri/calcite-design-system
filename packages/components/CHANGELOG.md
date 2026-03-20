@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.14...@esri/calcite-components@5.1.0-next.15) (2026-03-20)
+
+### Features
+
+- add custom Stylelint plugin as private package ([#14107](https://github.com/Esri/calcite-design-system/issues/14107)), closes [#13677](https://github.com/Esri/calcite-design-system/issues/13677)
+
+## [5.1.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.13...@esri/calcite-components@5.1.0-next.14) (2026-03-20)
+
+### Bug Fixes
+
+- **dropdown:** keep focus on trigger with single-component keyboard navigation ([#14079](https://github.com/Esri/calcite-design-system/issues/14079)), closes [#8206](https://github.com/Esri/calcite-design-system/issues/8206) [#13997](https://github.com/Esri/calcite-design-system/issues/13997) [#8206](https://github.com/Esri/calcite-design-system/issues/8206)
+
+## [5.1.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.12...@esri/calcite-components@5.1.0-next.13) (2026-03-19)
+
+### Bug Fixes
+
+- **date-picker:** show adjacent-month days in single-calendar range ([#14111](https://github.com/Esri/calcite-design-system/issues/14111)), closes [#14110](https://github.com/Esri/calcite-design-system/issues/14110)
+- **popover, tooltip:** correctly assign aria properties ([#14098](https://github.com/Esri/calcite-design-system/issues/14098)), closes [#13242](https://github.com/Esri/calcite-design-system/issues/13242) [#13242](https://github.com/Esri/calcite-design-system/issues/13242)
+
 ## 5.1.0-next.12 (2026-03-19)
 
 - fix(stepper): fix updating items when component is used within a shadow dom and items are slotted (# ([bc7a74a](https://github.com/Esri/calcite-design-system/commit/bc7a74a)), closes [#14021](https://github.com/Esri/calcite-design-system/issues/14021) [#11737](https://github.com/Esri/calcite-design-system/issues/11737) [#11737](https://github.com/Esri/calcite-design-system/issues/11737)
