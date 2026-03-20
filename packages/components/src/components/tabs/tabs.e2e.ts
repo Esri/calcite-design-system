@@ -132,7 +132,7 @@ function testTabsScaleAndPosition(scale: Scale, position: TabPosition) {
   });
 }
 
-describe("calcite-tabs inheritable props", () => {
+describe("inheritable props", () => {
   const scales: Scale[] = ["s", "m", "l"];
   const positions: TabPosition[] = ["top", "bottom"];
 

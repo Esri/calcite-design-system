@@ -380,7 +380,7 @@ describe("beforeClose()", () => {
   });
 });
 
-describe("calcite-dialog accessibility checks", () => {
+describe("accessibility checks", () => {
   it("traps focus within the dialog when open", async () => {
     const button1Id = "button1";
     const button2Id = "button2";
