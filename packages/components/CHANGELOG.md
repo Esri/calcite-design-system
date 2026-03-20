@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.13...@esri/calcite-components@5.1.0-next.14) (2026-03-20)
+
+### Bug Fixes
+
+- **dropdown:** keep focus on trigger with single-component keyboard navigation ([#14079](https://github.com/Esri/calcite-design-system/issues/14079)), closes [#8206](https://github.com/Esri/calcite-design-system/issues/8206) [#13997](https://github.com/Esri/calcite-design-system/issues/13997) [#8206](https://github.com/Esri/calcite-design-system/issues/8206)
+
 ## [5.1.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.12...@esri/calcite-components@5.1.0-next.13) (2026-03-19)
 
 ### Bug Fixes
