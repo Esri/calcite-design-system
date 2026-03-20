@@ -4,18 +4,13 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -25,8 +20,10 @@ declare global {
   }
 }
 
-export class RadioButton extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -42,7 +39,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   private direction = useDirection();
 
-  formEl: HTMLFormElement;
+  formSupport = useForm({ inputType: "radio" })(this);
 
   labelEl: Label["el"];
 
@@ -186,7 +183,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
       this.checkLastRadioButton();
     }
     connectLabel(this);
-    connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
     super.connectedCallback();
   }
@@ -217,7 +213,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
@@ -231,10 +226,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
     }
 
     this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "radio";
   }
 
   private selectItem(items: RadioButton["el"][], selectedIndex: number): void {
@@ -482,7 +473,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
           <div class={CSS.radio} />
           {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }
