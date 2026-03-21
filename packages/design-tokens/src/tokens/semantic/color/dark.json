@@ -2,462 +2,462 @@
   "color": {
     "surface": {
       "1": {
-        "value": "{core.color.neutral.blk-210}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-210}"
       },
       "2": {
-        "value": "{core.color.neutral.blk-200}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-200}"
       },
       "3": {
-        "value": "{core.color.neutral.blk-190}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-190}"
       },
       "4": {
-        "value": "{core.color.neutral.blk-180}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-180}"
       },
       "highlight": {
-        "value": "{core.color.medium-saturation.blue.m-bb-090}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.medium-saturation.blue.m-bb-090}"
       }
     },
     "background": {
       "default": {
-        "value": "{core.color.neutral.blk-210}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "background",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-1` instead."
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-210}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-1` instead."
       },
       "none": {
-        "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "background",
           "docs": "unlisted"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       }
     },
     "foreground": {
       "1": {
-        "value": "{core.color.neutral.blk-200}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-2` instead."
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-200}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-2` instead."
       },
       "2": {
-        "value": "{core.color.neutral.blk-190}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-3` instead."
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-190}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-3` instead."
       },
       "3": {
-        "value": "{core.color.neutral.blk-180}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-4` instead."
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-180}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-color-surface-4` instead."
       },
       "current": {
-        "value": "{core.color.medium-saturation.blue.m-bb-090}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "foreground",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
+        "$type": "color",
+        "$value": "{core.color.medium-saturation.blue.m-bb-090}",
+        "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-color-surface-highlight` instead."
       }
     },
     "text": {
       "1": {
-        "value": "{core.color.neutral.blk-000}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-000}"
       },
       "2": {
-        "value": "{core.color.neutral.blk-060}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-060}"
       },
       "3": {
-        "value": "{core.color.neutral.blk-090}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-090}"
       },
       "inverse": {
-        "value": "{core.color.neutral.blk-220}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-220}"
       },
       "link": {
-        "value": "{core.color.dark.blue.d-bb-420}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.dark.blue.d-bb-420}"
       },
       "highlight": {
-        "value": "{core.color.high-saturation.blue.h-bb-010}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "text"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.high-saturation.blue.h-bb-010}"
       }
     },
     "border": {
       "1": {
-        "value": "{core.color.neutral.blk-160}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-160}"
       },
       "2": {
-        "value": "{core.color.neutral.blk-170}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-170}"
       },
       "3": {
-        "value": "{core.color.neutral.blk-180}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-180}"
       },
       "input": {
-        "value": "{core.color.neutral.blk-130}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-130}"
       },
       "ghost": {
-        "value": "rgba({core.color.neutral.blk-130}, {core.opacity.30})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border",
           "docs": "unlisted"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-130}, {core.opacity.30})",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       },
       "white": {
-        "value": "{core.color.neutral.blk-005}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "border",
           "docs": "unlisted"
         },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-005}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed."
       }
     },
     "brand": {
       "default": {
-        "value": "{core.color.vibrant.blue.v-bb-160}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "brand"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.vibrant.blue.v-bb-160}"
       },
       "hover": {
-        "value": "{core.color.dark.blue.d-bb-410}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "brand"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.dark.blue.d-bb-410}"
       },
       "press": {
-        "value": "{core.color.vibrant.blue.v-bb-110}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "brand"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.vibrant.blue.v-bb-110}"
       },
       "underline": {
-        "type": "color",
-        "value": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})",
         "attributes": {
           "category": "color",
           "group": "brand"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.dark.blue.d-bb-420}, {core.opacity.40})"
       }
     },
     "inverse": {
       "default": {
-        "value": "{core.color.neutral.blk-005}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "inverse"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-005}"
       },
       "hover": {
-        "value": "{core.color.neutral.blk-010}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "inverse"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-010}"
       },
       "press": {
-        "value": "{core.color.neutral.blk-020}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "inverse"
-        }
+        },
+        "$type": "color",
+        "$value": "{core.color.neutral.blk-020}"
       }
     },
     "status": {
       "info": {
         "default": {
-          "value": "{core.color.dark.blue.d-bb-420}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "info"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.dark.blue.d-bb-420}"
         },
         "hover": {
-          "value": "{core.color.dark.blue.d-bb-410}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "info"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.dark.blue.d-bb-410}"
         },
         "press": {
-          "value": "{core.color.vibrant.blue.v-bb-110}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "info"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.vibrant.blue.v-bb-110}"
         }
       },
       "success": {
         "default": {
-          "value": "{core.color.dark.green.d-gg-420}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "success"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.dark.green.d-gg-420}"
         },
         "hover": {
-          "value": "{core.color.vibrant.green.v-gg-120}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "success"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.vibrant.green.v-gg-120}"
         },
         "press": {
-          "value": "{core.color.vibrant.green.v-gg-110}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "success"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.vibrant.green.v-gg-110}"
         }
       },
       "warning": {
         "default": {
-          "value": "{core.color.high-saturation.orange-yellow.h-oy-060}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "warning"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.high-saturation.orange-yellow.h-oy-060}"
         },
         "hover": {
-          "value": "{core.color.high-saturation.orange-yellow.h-oy-050}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "warning"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.high-saturation.orange-yellow.h-oy-050}"
         },
         "press": {
-          "value": "{core.color.high-saturation.orange-yellow.h-oy-030}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "warning"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.high-saturation.orange-yellow.h-oy-030}"
         }
       },
       "danger": {
         "default": {
-          "value": "{core.color.dark.red.d-rr-420}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "danger"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.dark.red.d-rr-420}"
         },
         "hover": {
-          "value": "{core.color.dark.red.d-rr-410}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "danger"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.dark.red.d-rr-410}"
         },
         "press": {
-          "value": "{core.color.vibrant.red.v-rr-110}",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "status",
             "kind": "danger"
-          }
+          },
+          "$type": "color",
+          "$value": "{core.color.vibrant.red.v-rr-110}"
         }
       }
     },
     "transparent": {
       "default": {
-        "value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "transparent"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.0})"
       },
       "hover": {
-        "value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "transparent"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.12})"
       },
       "press": {
-        "value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "transparent"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-000}, {core.opacity.16})"
       },
       "scrim": {
-        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "transparent"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.85})"
       },
       "tint": {
-        "value": "rgba({core.color.neutral.blk-200}, {core.opacity.80})",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "transparent"
-        }
+        },
+        "$type": "color",
+        "$value": "rgba({core.color.neutral.blk-200}, {core.opacity.80})"
       },
       "inverse": {
         "hover": {
-          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "transparent",
             "kind": "inverse"
-          }
+          },
+          "$type": "color",
+          "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
         },
         "press": {
-          "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
-          "type": "color",
           "attributes": {
             "category": "color",
             "group": "transparent",
             "kind": "inverse"
-          }
+          },
+          "$type": "color",
+          "$value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})"
         }
       }
     },
     "focus": {
       "default": {
-        "value": "{color.brand.default}",
-        "type": "color",
         "attributes": {
           "category": "color",
           "group": "focus"
-        }
+        },
+        "$type": "color",
+        "$value": "{color.brand.default}"
       }
     }
   }
