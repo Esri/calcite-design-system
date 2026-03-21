@@ -270,11 +270,19 @@ export class Combobox
   };
 
   get allSelected(): boolean {
-    return this.selectedItems.length === this.items.length;
+    const enabledItems = this.getItems(true).filter((item) => !item.disabled);
+    return enabledItems.length > 0 && enabledItems.every((item) => item.selected);
   }
 
   get indeterminate(): boolean {
-    return this.selectedItems.length > 0 && !this.allSelected;
+    const hasDisabledSelected = this.getItems(true).some((item) => item.disabled && item.selected);
+    const hasAnySelected = this.selectedItems.length > 0 || hasDisabledSelected;
+
+    if (!this.selectAllEnabled) {
+      return this.selectedItems.length > 0 && !this.allSelected;
+    }
+
+    return hasAnySelected && (!this.allSelected || hasDisabledSelected);
   }
 
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
@@ -841,8 +849,13 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.items.forEach((item) => (item.selected = toggledValue));
-    this.selectedItems = toggledValue ? this.items : [];
+    this.getItems(true).forEach((item) => {
+      if (item.disabled) {
+        return;
+      }
+      item.selected = toggledValue;
+    });
+    this.selectedItems = this.getSelectedItems();
     this.emitComboboxChange();
   }
 
@@ -1334,7 +1347,12 @@ export class Combobox
         el.selected = true;
       });
     } else {
-      children.forEach((el) => (el.selected = false));
+      children.forEach((el) => {
+        if (el.disabled) {
+          return;
+        }
+        el.selected = false;
+      });
       [...ancestors].forEach((el) => {
         if (!hasActiveChildren(el)) {
           el.selected = false;
@@ -1573,50 +1591,177 @@ export class Combobox
     return this.readOnly ? this.messages.nonEditable?.replace("{value}", `${value}`) : value;
   }
 
+  private getChipLabel(item: HTMLCalciteComboboxItemElement["el"], isAncestors: boolean): string {
+    if (!isAncestors) {
+      return getLabel(item);
+    }
+
+    const ancestors = [...getItemAncestors(item)].reverse();
+    return [...ancestors, item].map((el) => getLabel(el)).join(" / ");
+  }
+
   //#endregion
 
   //#region Rendering
 
+  private renderChip({
+    activeChipIndex,
+    disabled,
+    index,
+    item,
+    messages,
+    readOnly,
+    scale,
+    isAncestors,
+  }: {
+    activeChipIndex: number;
+    disabled: boolean;
+    index: number;
+    item: HTMLCalciteComboboxItemElement["el"];
+    messages: Combobox["messages"];
+    readOnly: boolean;
+    scale: Scale;
+    isAncestors: boolean;
+  }): JsxNode {
+    const label = this.getChipLabel(item, isAncestors);
+
+    return (
+      <calcite-chip
+        appearance={readOnly ? "outline" : "solid"}
+        class={{
+          [CSS.chip]: true,
+          [CSS.disabled]: disabled,
+        }}
+        closable={!disabled && !readOnly}
+        data-test-id={`${disabled ? "disabled-chip" : "chip"}-${index}`}
+        icon={item.icon}
+        iconFlipRtl={item.iconFlipRtl}
+        id={!disabled && item.guid ? `${IDS.chip(item.guid)}` : null}
+        key={label}
+        label={label}
+        messageOverrides={!disabled ? { dismissLabel: messages.removeTag } : null}
+        onFocusIn={!disabled ? () => (this.activeChipIndex = index) : null}
+        oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : null}
+        scale={scale}
+        selected={item.selected}
+        tabIndex={!disabled && activeChipIndex === index ? 0 : -1}
+        title={label}
+        value={item.value}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
+  private renderDisabledChipCount(count: number, scale: Scale): JsxNode {
+    const label = `+${count}`;
+
+    return (
+      <calcite-chip
+        appearance="solid"
+        class={{
+          [CSS.chip]: true,
+        }}
+        closable={false}
+        data-test-id="disabled-chip-count"
+        label={label}
+        scale={scale}
+        tabIndex={-1}
+        title={label}
+      >
+        {label}
+      </calcite-chip>
+    );
+  }
+
   private renderChips(): JsxNode {
-    const { activeChipIndex, readOnly, scale, selectionMode, messages } = this;
+    const { activeChipIndex, readOnly, scale, selectionDisplay, selectionMode, messages } = this;
+    const chips: JsxNode[] = [];
+    const disabledItems = this.getItems(true).filter((item) => item.disabled);
+    const preserveOrder = selectionDisplay === "all";
+    const isAncestors = selectionMode === "ancestors";
 
     if (this.selectAllEnabled && this.allSelected) {
       return null;
     }
 
-    return this.selectedItems.map((item, i) => {
-      const chipClasses = {
-        [CSS.chip]: true,
-      };
-      const ancestors = [...getItemAncestors(item)].reverse();
-      const itemLabel = getLabel(item);
-      const pathLabel = [...ancestors, item].map((el) => getLabel(el));
-      const label = selectionMode !== "ancestors" ? itemLabel : pathLabel.join(" / ");
+    let selectedIndex = 0;
+    let disabledIndex = 0;
 
-      return (
-        <calcite-chip
-          appearance={readOnly ? "outline" : "solid"}
-          class={chipClasses}
-          closable={!readOnly}
-          data-test-id={`chip-${i}`}
-          icon={item.icon}
-          iconFlipRtl={item.iconFlipRtl}
-          id={item.guid ? `${IDS.chip(item.guid)}` : null}
-          key={itemLabel}
-          label={label}
-          messageOverrides={{ dismissLabel: messages.removeTag }}
-          onFocusIn={() => (this.activeChipIndex = i)}
-          oncalciteChipClose={() => this.calciteChipCloseHandler(item)}
-          scale={scale}
-          selected={item.selected}
-          tabIndex={activeChipIndex === i ? 0 : -1}
-          title={label}
-          value={item.value}
-        >
-          {label}
-        </calcite-chip>
-      );
-    });
+    if (preserveOrder) {
+      this.getItems(true).forEach((item) => {
+        if (item.disabled) {
+          chips.push(
+            this.renderChip({
+              activeChipIndex,
+              disabled: true,
+              index: disabledIndex++,
+              item,
+              messages,
+              readOnly,
+              scale,
+              isAncestors,
+            }),
+          );
+          return;
+        }
+
+        if (!this.selectAllEnabled || !this.allSelected) {
+          if (item.selected && (!isAncestors || !hasActiveChildren(item))) {
+            chips.push(
+              this.renderChip({
+                activeChipIndex,
+                disabled: false,
+                index: selectedIndex++,
+                item,
+                messages,
+                readOnly,
+                scale,
+                isAncestors,
+              }),
+            );
+          }
+        }
+      });
+    } else if (!this.selectAllEnabled || !this.allSelected) {
+      this.selectedItems.forEach((item) => {
+        chips.push(
+          this.renderChip({
+            activeChipIndex,
+            disabled: false,
+            index: selectedIndex++,
+            item,
+            messages,
+            readOnly,
+            scale,
+            isAncestors,
+          }),
+        );
+      });
+    }
+
+    if (selectionDisplay === "all" && this.isMulti() && disabledItems.length && !preserveOrder) {
+      disabledItems.forEach((item) => {
+        chips.push(
+          this.renderChip({
+            activeChipIndex,
+            disabled: true,
+            index: disabledIndex++,
+            item,
+            messages,
+            readOnly,
+            scale,
+            isAncestors,
+          }),
+        );
+      });
+    }
+
+    if (selectionDisplay === "fit" && disabledItems.length) {
+      chips.push(this.renderDisabledChipCount(disabledItems.length, scale));
+    }
+
+    return chips.length ? chips : null;
   }
 
   private renderAllSelectedIndicatorChip(): JsxNode {
@@ -1651,7 +1796,6 @@ export class Combobox
     const {
       compactSelectionDisplay,
       selectionDisplay,
-      getSelectedItems,
       scale,
       selectedHiddenChipsCount,
       selectedVisibleChipsCount,
@@ -1664,7 +1808,10 @@ export class Combobox
       chipInvisible = true;
     } else {
       if (selectionDisplay === "single") {
-        const selectedItemsCount = getSelectedItems().length;
+        const selectedItemsCount = this.getItems(true).filter(
+          (item) =>
+            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
+        ).length;
         if (this.allSelected) {
           chipInvisible = true;
         } else if (selectedItemsCount > 0) {
@@ -1702,18 +1849,14 @@ export class Combobox
   }
 
   private renderSelectedIndicatorChipCompact(): JsxNode {
-    const {
-      compactSelectionDisplay,
-      selectionDisplay,
-      getSelectedItems,
-      scale,
-      selectedHiddenChipsCount,
-    } = this;
+    const { compactSelectionDisplay, selectionDisplay, scale, selectedHiddenChipsCount } = this;
     let chipInvisible: boolean;
     let label: string;
 
     if (compactSelectionDisplay) {
-      const selectedItemsCount = getSelectedItems().length;
+      const selectedItemsCount = this.getItems(true).filter(
+        (item) => item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
+      ).length;
       if (this.allSelected) {
         chipInvisible = true;
       } else if (selectionDisplay === "fit") {
@@ -1967,6 +2110,7 @@ export class Combobox
             {!singleSelectionMode &&
               !singleSelectionDisplay &&
               this.selectAllEnabled &&
+              allSelectionDisplay &&
               this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
