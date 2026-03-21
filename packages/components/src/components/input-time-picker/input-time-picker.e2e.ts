@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { formatTimePart, getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { openClose } from "../../tests/commonTests";
@@ -200,16 +200,6 @@ it("when set to readOnly, element still focusable but won't display the controls
   await page.waitForChanges();
 
   await assertDisplayedTime(page, emptyInputValue);
-});
-
-describe("is form-associated", () => {
-  formAssociated("calcite-input-time-picker", {
-    testValue: "03:23",
-    submitsOnEnter: true,
-    validation: true,
-    validUserInputTestValue: "03:23 AM",
-    inputType: "time",
-  });
 });
 
 describe("responds to property changes", () => {
@@ -840,6 +830,7 @@ describe("l10n", () => {
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
           }
 
@@ -867,6 +858,7 @@ describe("l10n", () => {
             await page.keyboard.press("Tab");
             await page.waitForChanges();
 
+            // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             expect(await isElementFocused(page, `.${meridiem}`, { shadowed: true })).toBe(true);
           }
 

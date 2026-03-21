@@ -67,11 +67,13 @@ export function reflects<
       el[propertyName] = negated;
       await reRender();
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(el.getAttribute(attrName)).toBe(getExpectedValue(negated));
 
       el[propertyName] = value;
       await reRender();
 
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
       expect(el.getAttribute(attrName)).toBe(getExpectedValue(value));
     }
   });

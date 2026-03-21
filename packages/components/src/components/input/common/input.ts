@@ -47,33 +47,52 @@ function updateConstraintValidation(
  * Synchronizes the hidden form input with the validation-related input properties.
  *
  * Note: loss of precision is expected due to the hidden input's value and validation-constraint props being strings.
- *
- * @param type - The input type.
- * @param inputComponent
- * @param hiddenFormInput
  */
 export function syncHiddenFormInput(
   type: HTMLInputElement["type"] | "textarea",
   inputComponent: InputComponent,
   hiddenFormInput: HTMLInputElement,
 ): void {
-  hiddenFormInput.type = type === "textarea" ? "text" : type;
+  const effectiveType = type === "textarea" ? "text" : type;
+  syncInputDelegate(effectiveType, inputComponent, hiddenFormInput);
+}
+
+/**
+ * Synchronizes a form input delegate with the validation-related input properties.
+ *
+ * Note: loss of precision is expected due to the input's value and validation-constraint props being strings.
+ */
+export function syncInputDelegate(
+  type: HTMLInputElement["type"],
+  inputComponent: InputComponent,
+  input: HTMLInputElement,
+): void {
+  input.type = type;
 
   const isMinMaxStepType = minMaxStepTypes.includes(type);
   const numericInputComponent = inputComponent as NumericInputComponent;
 
-  updateConstraintValidation(numericInputComponent, hiddenFormInput, "min", isMinMaxStepType);
-  updateConstraintValidation(numericInputComponent, hiddenFormInput, "max", isMinMaxStepType);
-  updateConstraintValidation(numericInputComponent, hiddenFormInput, "step", isMinMaxStepType);
+  updateConstraintValidation(numericInputComponent, input, "min", isMinMaxStepType);
+  updateConstraintValidation(numericInputComponent, input, "max", isMinMaxStepType);
+  updateConstraintValidation(numericInputComponent, input, "step", isMinMaxStepType);
 
   const isMinMaxLengthType = minMaxLengthTypes.includes(type);
 
   const textualInputComponent = inputComponent as TextualInputComponent;
 
-  updateConstraintValidation(textualInputComponent, hiddenFormInput, "minLength", isMinMaxLengthType);
-  updateConstraintValidation(textualInputComponent, hiddenFormInput, "maxLength", isMinMaxLengthType);
+  updateConstraintValidation(textualInputComponent, input, "minLength", isMinMaxLengthType);
+  updateConstraintValidation(textualInputComponent, input, "maxLength", isMinMaxLengthType);
 
   const isPatternType = patternTypes.includes(type);
 
-  updateConstraintValidation(textualInputComponent, hiddenFormInput, "pattern", isPatternType);
+  updateConstraintValidation(textualInputComponent, input, "pattern", isPatternType);
+}
+
+export function isSupportedType(type: HTMLInputElement["type"] | "textarea"): boolean {
+  const effectiveType = type === "textarea" ? "text" : type;
+  return (
+    minMaxStepTypes.includes(effectiveType) ||
+    patternTypes.includes(effectiveType) ||
+    minMaxLengthTypes.includes(effectiveType)
+  );
 }
