@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { accessible, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Switch } from "./switch";
 import { CSS } from "./resources";
@@ -25,10 +25,6 @@ describe("accessible: checked", () => {
 
 describe("labelable", () => {
   labelable("calcite-switch", { propertyToToggle: "checked" });
-});
-
-describe("is form-associated", () => {
-  formAssociated("calcite-switch", { testValue: true, inputType: "checkbox" });
 });
 
 it("toggles the checked attributes appropriately when clicked", async () => {

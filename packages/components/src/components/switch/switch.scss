@@ -5,11 +5,11 @@
  *
  * @prop --calcite-switch-background-color: Specifies the component's background color.
  * @prop --calcite-switch-background-color-hover: Specifies the component's background color when hovered or pressed.
- * @prop --calcite-switch-border-color: [Deprecated] No longer necessary. Specifies the component's border color.
+ * @prop --calcite-switch-border-color: [Deprecated] in v3.2.0, removal target v6.0.0 - No longer necessary. Specifies the component's border color.
  * @prop --calcite-switch-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-switch-handle-background-color: Specifies the handle's background color.
- * @prop --calcite-switch-handle-border-color: [Deprecated] No longer necessary. Specifies the handle's border color.
- * @prop --calcite-switch-handle-shadow: [Deprecated] No longer necessary. Specifies the handle's shadow.
+ * @prop --calcite-switch-handle-border-color: [Deprecated] in v3.2.0, removal target v6.0.0 - No longer necessary. Specifies the handle's border color.
+ * @prop --calcite-switch-handle-shadow: [Deprecated] in v3.2.0, removal target v6.0.0 - No longer necessary. Specifies the handle's shadow.
  */
 
 @use "../../styles/includes";

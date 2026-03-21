@@ -7,10 +7,3 @@ export const CSS = {
   wrapper: "wrapper",
   triggerContainer: "trigger-container",
 };
-
-const idPrefix = "calcite-dropdown";
-
-export const IDS = {
-  menuButton: (id: string) => `${idPrefix}-${id}-menubutton`,
-  menu: (id: string) => `${idPrefix}-${id}-menu`,
-} as const;

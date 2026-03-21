@@ -10,6 +10,7 @@ import {
   renders,
   t9n,
   disabled,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { Slider } from "./slider";
 
@@ -110,6 +111,16 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-slider"));
+});
+
+describe("is form-associated", () => {
+  describe("single value", () => {
+    formAssociated(() => mount("calcite-slider"), { testValue: 5 });
+  });
+
+  describe("range", () => {
+    formAssociated(() => mount("calcite-slider"), { testValue: [5, 10] });
+  });
 });
 
 describe("interactions", () => {

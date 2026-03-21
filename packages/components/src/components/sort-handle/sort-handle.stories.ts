@@ -16,6 +16,15 @@ export const closed = (): string => html`
 export const open = (): string =>
   html`<calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>`;
 
+export const logicalPlacement = (): string =>
+  html`<calcite-sort-handle
+    label="test"
+    placement="leading-start"
+    set-position="4"
+    set-size="10"
+    open
+  ></calcite-sort-handle>`;
+
 export const positions = (): string => html`
   <style>
     .wrapper {
