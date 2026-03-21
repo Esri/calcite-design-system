@@ -1,18 +1,22 @@
+import { it, expect, describe } from "vitest";
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
   defaults,
-  reflects,
-  hidden,
-  renders,
-  focusable,
-  t9n,
   disabled,
+  focusable,
+  hidden,
+  reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
+import { afterNextTask } from "../../tests/utils/timing";
+import { CSS, SCOPE_SIZE, STATIC_DIMENSIONS } from "./resources";
+import { ColorPicker } from "./color-picker";
+import { getColorFieldDimensions } from "./utils";
 
 mockConsole();
 
@@ -99,7 +103,220 @@ describe("translation support", () => {
 });
 
 const centerColorFieldColor = "#408047";
+const defaultMediumWidthInPx = 240;
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-color-picker value={centerColorFieldColor} />));
+});
+
+describe("scope interaction", () => {
+  describe("keyboard", () => {
+    it("allows editing color field via keyboard", async () => {
+      const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
+
+      await userEvent.keyboard("{Tab}");
+      expect(el.value).toBeFalsy();
+      await userEvent.keyboard("{ArrowDown}");
+      await afterNextTask();
+      expect(el.value).toBe("#ffffff");
+      await userEvent.keyboard("{ArrowDown}");
+      await afterNextTask();
+      expect(el.value).toBe("#ebebeb");
+      await userEvent.keyboard("{ArrowDown}");
+      await afterNextTask();
+      expect(el.value).toBe("#ebebeb");
+      // expect(el.value).toBe("#d6d6d6");
+      await userEvent.keyboard("{ArrowUp}");
+      await afterNextTask();
+      expect(el.value).toBe("#ffffff");
+      await userEvent.keyboard("{ArrowRight}");
+      await afterNextTask();
+      expect(el.value).toBe("#e1e7eb");
+      await userEvent.keyboard("{ArrowLeft}");
+      await afterNextTask();
+      expect(el.value).toBe("#ebebeb");
+    });
+
+    it("allows nudging color's saturation even if it does not change RGB value", async () => {
+      await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      const scope = page.getBySelector(`calcite-color-picker .${CSS.colorFieldScope}`);
+
+      const initialStyle = window.getComputedStyle(scope.element());
+      expect(initialStyle.left).toBe("-0.5px");
+
+      await userEvent.type(scope, "{Tab}");
+      await afterNextTask();
+
+      let nudgesToTheEdge = 25;
+
+      while (nudgesToTheEdge--) {
+        await userEvent.type(scope, "{ArrowRight}");
+        await afterNextTask();
+      }
+
+      const finalStyle = window.getComputedStyle(scope.element());
+      const mediumScaleColorFieldDimensions = await getColorFieldDimensions(defaultMediumWidthInPx);
+      expect(finalStyle.left).toBe(`${mediumScaleColorFieldDimensions.width - SCOPE_SIZE / 2}px`);
+    });
+
+    it("allows nudging color's hue even if it does not change RGB value", async () => {
+      await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      const scope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+
+      const nudgeAThirdOfSlider = async () => {
+        let totalNudgesByTen = 12;
+
+        while (totalNudgesByTen--) {
+          await userEvent.keyboard("{Shift>}");
+          await userEvent.type(scope, "{ArrowRight}");
+          await userEvent.keyboard("{/Shift}");
+          await afterNextTask();
+        }
+      };
+
+      const getScopeLeftOffset = async () =>
+        parseFloat(window.getComputedStyle(scope.element()).left);
+      expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
+
+      await nudgeAThirdOfSlider();
+      await afterNextTask();
+      expect(await getScopeLeftOffset()).toBeCloseTo(58.9, 0);
+
+      await nudgeAThirdOfSlider();
+      await afterNextTask();
+      expect(await getScopeLeftOffset()).toBeCloseTo(118.5, 0);
+
+      await nudgeAThirdOfSlider();
+      await afterNextTask();
+      // hue wraps around, so we nudge it back to assert position at the edge
+      await userEvent.type(scope, "{ArrowLeft}");
+      await afterNextTask();
+      expect(await getScopeLeftOffset()).toBeCloseTo(170.5, 0);
+
+      // nudge it to wrap around
+      await userEvent.type(scope, "{ArrowRight}");
+      await afterNextTask();
+      expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
+    });
+
+    it("allows editing hue slider via keyboard", async () => {
+      const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
+      const hueScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+
+      await userEvent.type(hueScope, "{ArrowDown}");
+      await afterNextTask();
+      expect(el.value).toBe("#007ec2");
+      await userEvent.type(hueScope, "{ArrowUp}");
+      await afterNextTask();
+      expect(el.value).toBe("#007bc2");
+      await userEvent.type(hueScope, "{ArrowLeft}");
+      await afterNextTask();
+      expect(el.value).toBe("#007ec2");
+      await userEvent.type(hueScope, "{ArrowRight}");
+      await afterNextTask();
+      expect(el.value).toBe("#007bc2");
+
+      await userEvent.keyboard("{Shift>}");
+      await userEvent.type(hueScope, "{ArrowDown}");
+      await afterNextTask();
+      expect(el.value).toBe("#009bc2");
+      await userEvent.type(hueScope, "{ArrowUp}");
+      await afterNextTask();
+      expect(el.value).toBe("#007bc2");
+      await userEvent.type(hueScope, "{ArrowLeft}");
+      await afterNextTask();
+      expect(el.value).toBe("#009bc2");
+      await userEvent.type(hueScope, "{ArrowRight}");
+      await afterNextTask();
+      expect(el.value).toBe("#007bc2");
+      await userEvent.keyboard("{Shift/}");
+    });
+
+    it("positions the scope correctly when the color is 000", async () => {
+      await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      const hueSliderScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+
+      expect(window.getComputedStyle(hueSliderScope.element())).toMatchObject({
+        top: "6.5px",
+        left: `${STATIC_DIMENSIONS.m.thumb.radius - 0.5}px`,
+      });
+    });
+
+    describe("alpha channel", () => {
+      it("allows editing alpha value via keyboard", async () => {
+        const { el } = await mount<ColorPicker>(
+          <calcite-color-picker alpha-channel value="#ffffffff" />,
+        );
+
+        const scope = page.getBySelector(`calcite-color-picker .${CSS.opacityScope}`);
+
+        await userEvent.type(scope, "{ArrowDown}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffffc");
+
+        await userEvent.type(scope, "{ArrowDown}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffffa");
+
+        await userEvent.type(scope, "{ArrowDown}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffff7");
+
+        await userEvent.type(scope, "{ArrowUp}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffffa");
+
+        await userEvent.type(scope, "{ArrowRight}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffffc");
+
+        await userEvent.type(scope, "{ArrowLeft}");
+        await afterNextTask();
+        expect(el.value).toBe("#fffffffa");
+      });
+    });
+  });
+
+  describe("mouse", () => {
+    const moveByInPx = 2;
+
+    it("should update value when color field scope is moved", async () => {
+      const { el } = await mount<ColorPicker>(
+        <calcite-color-picker value={centerColorFieldColor} />,
+      );
+      const colorFieldScope = page.getBySelector(`calcite-color-picker .${CSS.colorFieldScope}`);
+      const initialValue = el.value;
+
+      await colorFieldScope.click({ position: { x: -moveByInPx, y: 0 }, force: true });
+      await afterNextTask();
+
+      expect(el.value).not.toBe(initialValue);
+    });
+
+    it("should update value when hue scope is moved", async () => {
+      const { el } = await mount<ColorPicker>(
+        <calcite-color-picker value={centerColorFieldColor} />,
+      );
+      const hueScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+      const initialValue = el.value;
+
+      await userEvent.click(hueScope, { position: { x: -moveByInPx, y: 0 }, force: true });
+      await afterNextTask();
+
+      expect(el.value).not.toBe(initialValue);
+    });
+
+    it("should update value when opacity scope is moved", async () => {
+      const { el } = await mount<ColorPicker>(
+        <calcite-color-picker alpha-channel value={centerColorFieldColor} />,
+      );
+      const opacityScope = page.getBySelector(`calcite-color-picker .${CSS.opacityScope}`);
+      const initialValue = el.value;
+
+      await userEvent.click(opacityScope, { position: { x: -moveByInPx, y: 0 }, force: true });
+      await afterNextTask();
+
+      expect(el.value).not.toBe(initialValue);
+    });
+  });
 });
