@@ -109,15 +109,13 @@ function normalizeWhitespace(value: string): string {
   return value.replaceAll(whitespaceRegexPattern, "");
 }
 
-function getDisplayedValue(): string {
-  return normalizeWhitespace(
-    page.getBySelector("calcite-input-time-picker").element().shadowRoot!.textContent,
-  );
-}
-
 async function assertDisplayedTime(value: string): Promise<void> {
+  const el = page.getBySelector("calcite-input-time-picker").element() as InputTimePicker["el"];
+  await el.manager.component.updateComplete;
+  const displayedValue = normalizeWhitespace(el.shadowRoot!.textContent);
+
   // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
-  expect(getDisplayedValue()).toBe(normalizeWhitespace(value));
+  expect(displayedValue).toBe(normalizeWhitespace(value));
 }
 
 describe("l10n", () => {
