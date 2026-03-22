@@ -435,13 +435,15 @@ describe("l10n", () => {
           // does not wrap
           assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
 
-          for (const partSelector of expectedPartSelectorFocusOrder.toReversed()) {
+          const expectedOrderReversed = expectedPartSelectorFocusOrder.toReversed();
+
+          for (const partSelector of expectedOrderReversed) {
             assertPartIsFocused(partSelector);
             await userEvent.keyboard("{ArrowLeft}");
           }
 
           // does not wrap
-          assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
+          assertPartIsFocused(expectedOrderReversed.at(-1)!);
         });
 
         describe("24-hour format", () => {
@@ -618,13 +620,15 @@ describe("l10n", () => {
             // does not wrap
             assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
 
-            for (const partSelector of expectedPartSelectorFocusOrder.toReversed()) {
+            const expectedOrderReversed = expectedPartSelectorFocusOrder.toReversed();
+
+            for (const partSelector of expectedOrderReversed) {
               assertPartIsFocused(partSelector);
               await userEvent.keyboard("{ArrowLeft}");
             }
 
             // does not wrap
-            assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
+            assertPartIsFocused(expectedOrderReversed.at(-1)!);
           });
         });
 
