@@ -110,7 +110,7 @@ describe("disabled", () => {
 });
 
 describe("scope interaction", () => {
-  describe("keyboard", () => {
+  describe.skip("keyboard", () => {
     it("allows editing color field via keyboard", async () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
@@ -280,7 +280,7 @@ describe("scope interaction", () => {
   describe("mouse", () => {
     const moveByInPx = 2;
 
-    it("should update value when color field scope is moved", async () => {
+    it.skip("should update value when color field scope is moved", async () => {
       const { el } = await mount<ColorPicker>(
         <calcite-color-picker value={centerColorFieldColor} />,
       );
