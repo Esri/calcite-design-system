@@ -7,6 +7,7 @@ import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
 import { isCalciteFocusable, SetFocusable } from "../utils/dom";
+import { logger } from "../utils/logger";
 import { validate } from "./useForm/validation";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
@@ -193,24 +194,16 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
   });
 }
 
-/**
- * Helper for setting the initial default value on the first update pass.
- *
- * Note that this is only needed if the default value cannot be determined on connectedCallback.
- * Be careful not to call this more than once, or form reset behavior might be incorrect.
- *
- * @param component
- * @param value
- */
-export function overrideDefaultValue<T>(component: FormComponent<T>, value: any): void {
-  component.defaultValue = value;
-}
-
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
    */
   active: boolean;
+
+  /**
+   * Helper for overriding the initial default value if not finalized by the first `willUpdate` pass.
+   */
+  overrideDefaultValue: (value: any) => void;
 
   /**
    * For components that support multiple input types (e.g. "text", "email", etc.), this method allows changing the input type.
@@ -418,9 +411,27 @@ export const useForm = <T extends FormComponent>(
       return value;
     }
 
+    let defaultValueOverridden = false;
+
     return {
       get active() {
         return !!component.elementInternals.form;
+      },
+      overrideDefaultValue: (value) => {
+        if (import.meta.env.DEV) {
+          if (defaultValueOverridden) {
+            logger.warn("Default value override has already been set.");
+            return;
+          }
+
+          if (!component.hasUpdated) {
+            logger.warn("Overriding before first update is not necessary.");
+            return;
+          }
+        }
+
+        component.defaultValue = value;
+        defaultValueOverridden = true;
       },
       overrideInputType: (type) => {
         if (import.meta.env.DEV && !inputDelegate) {
