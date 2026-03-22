@@ -115,26 +115,25 @@ describe("scope interaction", () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      expect(el.value).toBeFalsy();
+      await expect.element(el).toHaveProperty("value", "");
       await userEvent.keyboard("{ArrowDown}");
       await afterNextTask();
-      expect(el.value).toBe("#ffffff");
+      await expect.element(el).toHaveProperty("value", "#ffffff");
       await userEvent.keyboard("{ArrowDown}");
       await afterNextTask();
-      expect(el.value).toBe("#ebebeb");
+      await expect.element(el).toHaveProperty("value", "#ebebeb");
       await userEvent.keyboard("{ArrowDown}");
       await afterNextTask();
-      expect(el.value).toBe("#ebebeb");
-      // expect(el.value).toBe("#d6d6d6");
+      await expect.element(el).toHaveProperty("value", "#ebebeb");
       await userEvent.keyboard("{ArrowUp}");
       await afterNextTask();
-      expect(el.value).toBe("#ffffff");
+      await expect.element(el).toHaveProperty("value", "#ffffff");
       await userEvent.keyboard("{ArrowRight}");
       await afterNextTask();
-      expect(el.value).toBe("#e1e7eb");
+      await expect.element(el).toHaveProperty("value", "#e1e7eb");
       await userEvent.keyboard("{ArrowLeft}");
       await afterNextTask();
-      expect(el.value).toBe("#ebebeb");
+      await expect.element(el).toHaveProperty("value", "#ebebeb");
     });
 
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
@@ -144,13 +143,12 @@ describe("scope interaction", () => {
       const initialStyle = window.getComputedStyle(scope.element());
       expect(initialStyle.left).toBe("-0.5px");
 
-      await userEvent.type(scope, "{Tab}");
-      await afterNextTask();
+      await userEvent.keyboard("{Tab}");
 
       let nudgesToTheEdge = 25;
 
       while (nudgesToTheEdge--) {
-        await userEvent.type(scope, "{ArrowRight}");
+        await userEvent.keyboard("{ArrowRight}");
         await afterNextTask();
       }
 
@@ -166,17 +164,20 @@ describe("scope interaction", () => {
       const nudgeAThirdOfSlider = async () => {
         let totalNudgesByTen = 12;
 
+        await userEvent.keyboard("{Shift>}");
         while (totalNudgesByTen--) {
-          await userEvent.keyboard("{Shift>}");
-          await userEvent.type(scope, "{ArrowRight}");
-          await userEvent.keyboard("{/Shift}");
+          await userEvent.keyboard("{ArrowRight}");
           await afterNextTask();
         }
+        await userEvent.keyboard("{/Shift}");
       };
 
       const getScopeLeftOffset = async () =>
         parseFloat(window.getComputedStyle(scope.element()).left);
+
       expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
+
+      await userEvent.keyboard("{Tab}{Tab}");
 
       await nudgeAThirdOfSlider();
       await afterNextTask();
@@ -189,46 +190,46 @@ describe("scope interaction", () => {
       await nudgeAThirdOfSlider();
       await afterNextTask();
       // hue wraps around, so we nudge it back to assert position at the edge
-      await userEvent.type(scope, "{ArrowLeft}");
+      await userEvent.keyboard("{ArrowLeft}");
       await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(170.5, 0);
 
       // nudge it to wrap around
-      await userEvent.type(scope, "{ArrowRight}");
+      await userEvent.keyboard("{ArrowRight}");
       await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
     });
 
     it("allows editing hue slider via keyboard", async () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
-      const hueScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
 
-      await userEvent.type(hueScope, "{ArrowDown}");
+      await userEvent.keyboard("{Tab}{Tab}");
+      await userEvent.keyboard("{ArrowDown}");
       await afterNextTask();
-      expect(el.value).toBe("#007ec2");
-      await userEvent.type(hueScope, "{ArrowUp}");
+      await expect.element(el).toHaveProperty("value", "#007ec2");
+      await userEvent.keyboard("{ArrowUp}");
       await afterNextTask();
-      expect(el.value).toBe("#007bc2");
-      await userEvent.type(hueScope, "{ArrowLeft}");
+      await expect.element(el).toHaveProperty("value", "#007bc2");
+      await userEvent.keyboard("{ArrowLeft}");
       await afterNextTask();
-      expect(el.value).toBe("#007ec2");
-      await userEvent.type(hueScope, "{ArrowRight}");
+      await expect.element(el).toHaveProperty("value", "#007ec2");
+      await userEvent.keyboard("{ArrowRight}");
       await afterNextTask();
-      expect(el.value).toBe("#007bc2");
+      await expect.element(el).toHaveProperty("value", "#007bc2");
 
       await userEvent.keyboard("{Shift>}");
-      await userEvent.type(hueScope, "{ArrowDown}");
+      await userEvent.keyboard("{ArrowDown}");
       await afterNextTask();
-      expect(el.value).toBe("#009bc2");
-      await userEvent.type(hueScope, "{ArrowUp}");
+      await expect.element(el).toHaveProperty("value", "#009bc2");
+      await userEvent.keyboard("{ArrowUp}");
       await afterNextTask();
-      expect(el.value).toBe("#007bc2");
-      await userEvent.type(hueScope, "{ArrowLeft}");
+      await expect.element(el).toHaveProperty("value", "#007bc2");
+      await userEvent.keyboard("{ArrowLeft}");
       await afterNextTask();
-      expect(el.value).toBe("#009bc2");
-      await userEvent.type(hueScope, "{ArrowRight}");
+      await expect.element(el).toHaveProperty("value", "#009bc2");
+      await userEvent.keyboard("{ArrowRight}");
       await afterNextTask();
-      expect(el.value).toBe("#007bc2");
+      await expect.element(el).toHaveProperty("value", "#007bc2");
       await userEvent.keyboard("{Shift/}");
     });
 
@@ -248,31 +249,30 @@ describe("scope interaction", () => {
           <calcite-color-picker alpha-channel value="#ffffffff" />,
         );
 
-        const scope = page.getBySelector(`calcite-color-picker .${CSS.opacityScope}`);
-
-        await userEvent.type(scope, "{ArrowDown}");
+        await userEvent.keyboard("{Tab}{Tab}{Tab}");
+        await userEvent.keyboard("{ArrowDown}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffffc");
+        await expect.element(el).toHaveProperty("value", "#fffffffc");
 
-        await userEvent.type(scope, "{ArrowDown}");
+        await userEvent.keyboard("{ArrowDown}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffffa");
+        await expect.element(el).toHaveProperty("value", "#fffffffa");
 
-        await userEvent.type(scope, "{ArrowDown}");
+        await userEvent.keyboard("{ArrowDown}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffff7");
+        await expect.element(el).toHaveProperty("value", "#fffffff7");
 
-        await userEvent.type(scope, "{ArrowUp}");
+        await userEvent.keyboard("{ArrowUp}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffffa");
+        await expect.element(el).toHaveProperty("value", "#fffffffa");
 
-        await userEvent.type(scope, "{ArrowRight}");
+        await userEvent.keyboard("{ArrowRight}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffffc");
+        await expect.element(el).toHaveProperty("value", "#fffffffc");
 
-        await userEvent.type(scope, "{ArrowLeft}");
+        await userEvent.keyboard("{ArrowLeft}");
         await afterNextTask();
-        expect(el.value).toBe("#fffffffa");
+        await expect.element(el).toHaveProperty("value", "#fffffffa");
       });
     });
   });
@@ -287,10 +287,10 @@ describe("scope interaction", () => {
       const colorFieldScope = page.getBySelector(`calcite-color-picker .${CSS.colorFieldScope}`);
       const initialValue = el.value;
 
-      await colorFieldScope.click({ position: { x: -moveByInPx, y: 0 }, force: true });
+      await userEvent.click(colorFieldScope, { position: { x: -moveByInPx, y: 0 }, force: true });
       await afterNextTask();
 
-      expect(el.value).not.toBe(initialValue);
+      await expect.element(el).not.toHaveProperty("value", initialValue);
     });
 
     it("should update value when hue scope is moved", async () => {
@@ -303,7 +303,7 @@ describe("scope interaction", () => {
       await userEvent.click(hueScope, { position: { x: -moveByInPx, y: 0 }, force: true });
       await afterNextTask();
 
-      expect(el.value).not.toBe(initialValue);
+      await expect.element(el).not.toHaveProperty("value", initialValue);
     });
 
     it("should update value when opacity scope is moved", async () => {
@@ -316,7 +316,7 @@ describe("scope interaction", () => {
       await userEvent.click(opacityScope, { position: { x: -moveByInPx, y: 0 }, force: true });
       await afterNextTask();
 
-      expect(el.value).not.toBe(initialValue);
+      await expect.element(el).not.toHaveProperty("value", initialValue);
     });
   });
 });
