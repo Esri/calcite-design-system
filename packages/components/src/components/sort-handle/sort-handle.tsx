@@ -4,7 +4,7 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { Scale } from "../interfaces";
 import {
   FlipPlacement,
-  MenuPlacement,
+  LogicalPlacement,
   OverlayPositioning,
   defaultMenuPlacement,
 } from "../../utils/floating-ui";
@@ -104,7 +104,7 @@ export class SortHandle extends LitElement {
   /**
    * Determines where the component will be positioned relative to the container element.
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";

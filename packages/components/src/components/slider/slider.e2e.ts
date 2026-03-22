@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { findAll, getElementRect, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import type { Slider } from "./slider";
@@ -804,16 +804,6 @@ describe("when a range has 0 for both minValue and maxValue", () => {
     const maxHandleRight = await (await maxValueThumb.getComputedStyle()).right;
     expect(minHandleLeft).toBe("260px");
     expect(maxHandleRight).toBe("26px");
-  });
-});
-
-describe("is form-associated", () => {
-  describe("single value", () => {
-    formAssociated("calcite-slider", { testValue: 5 });
-  });
-
-  describe("range", () => {
-    formAssociated("calcite-slider", { testValue: [5, 10] });
   });
 });
 

@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 
 describe("defaults", () => {
@@ -68,4 +69,8 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-rating value={3} />));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-rating"), { testValue: 3 });
 });

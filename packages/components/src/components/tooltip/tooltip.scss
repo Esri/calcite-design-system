@@ -10,11 +10,20 @@
  * @prop --calcite-tooltip-text-color: Specifies the component's text color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-tooltip-padding-block
+// --calcite-internal-tooltip-padding-inline
+
 @use "../../styles/includes";
 @use "../../styles/shared/floating-ui";
 
 :host {
   @apply contents;
+  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-sm);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-md);
 }
 
 :host([top-layer-disabled]) {
@@ -31,14 +40,29 @@
 
 @include floating-ui.floating-ui-arrow();
 
+:host([scale="s"]) {
+  --calcite-internal-tooltip-padding-block: var(--calcite-spacing-xxs);
+  --calcite-internal-tooltip-padding-inline: var(--calcite-spacing-sm);
+
+  .container {
+    @apply text-n3-wrap;
+  }
+}
+
+:host([scale="l"]) {
+  .container {
+    @apply text-n1-wrap;
+  }
+}
+
 .container {
   @apply text-n2-wrap
     relative
     overflow-hidden
-    py-3
-    px-4
     font-medium
     word-break;
+  padding-block: var(--calcite-internal-tooltip-padding-block);
+  padding-inline: var(--calcite-internal-tooltip-padding-inline);
   border-radius: var(--calcite-tooltip-corner-radius, var(--calcite-corner-radius-round));
   color: var(--calcite-tooltip-text-color, var(--calcite-color-text-1));
   text-align: start;

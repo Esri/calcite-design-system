@@ -2,7 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { menuPlacements } from "../../utils/floating-ui";
+import { placements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
 
 const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
@@ -57,7 +57,7 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: placements,
       control: { type: "select" },
     },
     primaryIconStart: {
