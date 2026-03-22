@@ -435,7 +435,7 @@ describe("l10n", () => {
           // does not wrap
           assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
 
-          for (const partSelector of expectedPartSelectorFocusOrder.reverse()) {
+          for (const partSelector of expectedPartSelectorFocusOrder.toReversed()) {
             assertPartIsFocused(partSelector);
             await userEvent.keyboard("{ArrowLeft}");
           }
@@ -618,7 +618,7 @@ describe("l10n", () => {
             // does not wrap
             assertPartIsFocused(expectedPartSelectorFocusOrder.at(-1)!);
 
-            for (const partSelector of expectedPartSelectorFocusOrder.reverse()) {
+            for (const partSelector of expectedPartSelectorFocusOrder.toReversed()) {
               assertPartIsFocused(partSelector);
               await userEvent.keyboard("{ArrowLeft}");
             }
