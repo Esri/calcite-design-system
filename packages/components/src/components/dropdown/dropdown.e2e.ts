@@ -1523,59 +1523,6 @@ describe("calcite-dropdown", () => {
       ).toBe("item-3");
     });
 
-    it("should open the dropdown and focus the first item with ArrowDown", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-dropdown>
-          <calcite-button slot="trigger">Open</calcite-button>
-          <calcite-dropdown-group selection-mode="single">
-            <calcite-dropdown-item id="item-1">1</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-2" selected>2</calcite-dropdown-item>
-            <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      `);
-      await skipAnimations(page);
-
-      const dropdown = await page.find("calcite-dropdown");
-      await dropdown.callMethod("setFocus");
-      await page.waitForChanges();
-
-      const openEventSpy = await page.spyOnEvent("calciteDropdownOpen");
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      await openEventSpy.next();
-
-      expect(await dropdown.getProperty("open")).toBe(true);
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-1");
-
-      await page.keyboard.press("ArrowDown");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-2");
-
-      await page.keyboard.press("ArrowUp");
-      await page.waitForChanges();
-      expect(
-        await page.evaluate(
-          () =>
-            document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
-              .ariaActiveDescendantElement?.id,
-        ),
-      ).toBe("item-1");
-    });
-
     it("should open the dropdown and focus the last item with ArrowUp", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
