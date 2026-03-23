@@ -137,7 +137,7 @@ it("fires calciteSortHandleAdd event", async () => {
   expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
 });
 
-it("is disabled when no items are available, sort is disabled, or set info is invalid", async () => {
+it("is disabled when no items are available, sort is disabled, set info is invalid, or all reorder actions are disabled", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-sort-handle label="test"></calcite-sort-handle>`);
   await skipAnimations(page);
@@ -175,9 +175,13 @@ it("is disabled when no items are available, sort is disabled, or set info is in
   sortHandle.setProperty("moveToItems", []);
   await page.waitForChanges();
 
-  expect(await dropdown.getProperty("disabled")).toBe(false);
+  expect(await dropdown.getProperty("disabled")).toBe(true);
 
   sortHandle.setProperty("moveToItems", moveToItems);
+  await page.waitForChanges();
+
+  expect(await dropdown.getProperty("disabled")).toBe(false);
+
   sortHandle.setProperty("setSize", 2);
   await page.waitForChanges();
 
@@ -252,7 +256,7 @@ it("shows reorder group title when moveTo items are present", async () => {
   expect(await reorderGroup.getProperty("groupTitle")).toBe(T9nStrings.reorder);
 });
 
-it("keeps single-item sets enabled and renders disabled reorder actions", async () => {
+it("disables single-item sets and renders disabled reorder actions", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="1"></calcite-sort-handle>`);
   await skipAnimations(page);
@@ -260,12 +264,29 @@ it("keeps single-item sets enabled and renders disabled reorder actions", async 
   const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
   const reorderItems = await findAll(page, `calcite-sort-handle >>> #${IDS.reorder} calcite-dropdown-item`);
 
-  expect(await dropdown.getProperty("disabled")).toBe(false);
+  expect(await dropdown.getProperty("disabled")).toBe(true);
   expect(reorderItems).toHaveLength(4);
 
   for (const item of reorderItems) {
     expect(await item.getProperty("disabled")).toBe(true);
   }
+});
+
+it("keeps single-item sets enabled when move-to items are available", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-sort-handle label="test" set-position="1" set-size="1"></calcite-sort-handle>`);
+  await skipAnimations(page);
+
+  const sortHandle = await page.find("calcite-sort-handle");
+  sortHandle.setProperty("moveToItems", [
+    { label: "List 2", id: "list2" },
+    { label: "List 3", id: "list3" },
+  ]);
+  await page.waitForChanges();
+
+  const dropdown = await page.find("calcite-sort-handle >>> calcite-dropdown");
+
+  expect(await dropdown.getProperty("disabled")).toBe(false);
 });
 
 it("doesn't render reorder group when sortDisabled is true", async () => {

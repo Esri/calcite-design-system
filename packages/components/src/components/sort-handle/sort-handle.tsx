@@ -72,6 +72,25 @@ export class SortHandle extends LitElement {
     return !this.hasReorderItems && !this.hasMoveToItems && !this.hasAddToItems;
   }
 
+  get hasAllReorderItemsDisabled(): boolean {
+    return (
+      this.hasReorderItems &&
+      this.isTopReorderDisabled() &&
+      this.isUpReorderDisabled() &&
+      this.isDownReorderDisabled() &&
+      this.isBottomReorderDisabled()
+    );
+  }
+
+  get hasOnlyDisabledReorderItems(): boolean {
+    return (
+      this.hasReorderItems &&
+      !this.hasMoveToItems &&
+      !this.hasAddToItems &&
+      this.hasAllReorderItemsDisabled
+    );
+  }
+
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -282,6 +301,26 @@ export class SortHandle extends LitElement {
     this.calciteSortHandleAdd.emit({ addTo });
   }
 
+  private isTopReorderDisabled(): boolean {
+    const { setPosition } = this;
+
+    return setPosition === 1 || setPosition === 2;
+  }
+
+  private isUpReorderDisabled(): boolean {
+    return this.setPosition === 1;
+  }
+
+  private isDownReorderDisabled(): boolean {
+    return this.setPosition === this.setSize;
+  }
+
+  private isBottomReorderDisabled(): boolean {
+    const { setPosition, setSize } = this;
+
+    return setPosition === setSize || setPosition === setSize - 1;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -290,6 +329,7 @@ export class SortHandle extends LitElement {
     const {
       disabled,
       flipPlacements,
+      hasOnlyDisabledReorderItems,
       open,
       overlayPositioning,
       placement,
@@ -299,7 +339,7 @@ export class SortHandle extends LitElement {
     } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || hasNoItems;
+    const isDisabled = disabled || hasNoItems || hasOnlyDisabledReorderItems;
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -428,31 +468,19 @@ export class SortHandle extends LitElement {
   }
 
   private renderTop(): JsxNode {
-    const { setPosition } = this;
-
-    return this.renderDropdownItem(
-      0,
-      this.messages.moveToTop,
-      setPosition === 1 || setPosition === 2,
-    );
+    return this.renderDropdownItem(0, this.messages.moveToTop, this.isTopReorderDisabled());
   }
 
   private renderUp(): JsxNode {
-    return this.renderDropdownItem(1, this.messages.moveUp, this.setPosition === 1);
+    return this.renderDropdownItem(1, this.messages.moveUp, this.isUpReorderDisabled());
   }
 
   private renderDown(): JsxNode {
-    return this.renderDropdownItem(2, this.messages.moveDown, this.setPosition === this.setSize);
+    return this.renderDropdownItem(2, this.messages.moveDown, this.isDownReorderDisabled());
   }
 
   private renderBottom(): JsxNode {
-    const { setPosition, setSize } = this;
-
-    return this.renderDropdownItem(
-      3,
-      this.messages.moveToBottom,
-      setPosition === setSize || setPosition === setSize - 1,
-    );
+    return this.renderDropdownItem(3, this.messages.moveToBottom, this.isBottomReorderDisabled());
   }
 
   //#endregion

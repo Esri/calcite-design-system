@@ -120,7 +120,7 @@ it("shows the reorder group title when move-to items are present", async () => {
   expect(reorderGroup.groupTitle).toBe("Reorder");
 });
 
-it("keeps single-item sets enabled and renders disabled reorder actions", async () => {
+it("disables single-item sets and renders disabled reorder actions", async () => {
   const { el, reRender } = await mount(
     <calcite-sort-handle label="test" set-position="1" set-size="1" />,
   );
@@ -133,6 +133,24 @@ it("keeps single-item sets enabled and renders disabled reorder actions", async 
       .querySelectorAll<DropdownItemLike>("calcite-dropdown-item"),
   );
 
-  expect(dropdown.disabled).toBe(false);
+  expect(dropdown.disabled).toBe(true);
   expect(reorderItems.map((item) => item.disabled)).toEqual([true, true, true, true]);
+});
+
+it("keeps single-item sets enabled when move-to items are available", async () => {
+  const { el, reRender } = await mount(
+    <calcite-sort-handle label="test" set-position="1" set-size="1" />,
+  );
+
+  const sortHandle = el as SortHandle;
+
+  sortHandle.moveToItems = [
+    { element: document.createElement("div"), label: "List 2", id: "list2" },
+    { element: document.createElement("div"), label: "List 3", id: "list3" },
+  ];
+  await reRender();
+
+  const dropdown = el.shadowRoot.querySelector<DropdownLike>("calcite-dropdown");
+
+  expect(dropdown.disabled).toBe(false);
 });
