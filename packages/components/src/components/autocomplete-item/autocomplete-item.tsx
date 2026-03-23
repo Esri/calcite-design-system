@@ -98,7 +98,7 @@ export class AutocompleteItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Emits the `calciteAutocompleteItemSelect` event.
+    * Toggles selection and emits the `calciteAutocompleteItemSelect` event.
    *
    * @private
    */
