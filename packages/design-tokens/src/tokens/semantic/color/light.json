@@ -450,6 +450,32 @@
         }
       }
     },
+    "shadow": {
+      "1": {
+        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.4})",
+        "type": "color",
+        "attributes": {
+          "category": "color",
+          "group": "shadow"
+        }
+      },
+      "2": {
+        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.8})",
+        "type": "color",
+        "attributes": {
+          "category": "color",
+          "group": "shadow"
+        }
+      },
+      "3": {
+        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.16})",
+        "type": "color",
+        "attributes": {
+          "category": "color",
+          "group": "shadow"
+        }
+      }
+    },
     "focus": {
       "default": {
         "value": "{color.brand.default}",
