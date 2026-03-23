@@ -149,9 +149,10 @@ describe("scope interaction", () => {
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
       const scope = page.getBySelector(`calcite-color-picker .${CSS.colorFieldScope}`);
+      await afterNextFrame(); // wait for canvas controls to render
 
       const initialStyle = window.getComputedStyle(scope.element());
-      expect(initialStyle.left).toBe("0px");
+      expect(initialStyle.left).toBe("-0.5px");
 
       await userEvent.keyboard("{Tab}");
 
@@ -169,7 +170,7 @@ describe("scope interaction", () => {
     it("allows nudging color's hue even if it does not change RGB value", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
       const scope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
-      await afterNextFrame();
+      await afterNextFrame(); // wait for canvas controls to render
 
       const nudgeAThirdOfSlider = async () => {
         let totalNudgesByTen = 12;
@@ -232,7 +233,7 @@ describe("scope interaction", () => {
     it("positions the scope correctly when the color is #000", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
       const hueSliderScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
-      await afterNextFrame();
+      await afterNextFrame(); // wait for canvas controls to render
 
       expect(window.getComputedStyle(hueSliderScope.element())).toMatchObject({
         top: "6.5px",
