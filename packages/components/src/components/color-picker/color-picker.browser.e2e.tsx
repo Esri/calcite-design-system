@@ -226,7 +226,7 @@ describe("scope interaction", () => {
       await expect.element(el).toHaveProperty("value", "#009bc2");
       await userEvent.keyboard("{ArrowRight}");
       await expect.element(el).toHaveProperty("value", "#007bc2");
-      await userEvent.keyboard("{Shift/}");
+      await userEvent.keyboard("{/Shift}");
     });
 
     it("positions the scope correctly when the color is #000", async () => {
