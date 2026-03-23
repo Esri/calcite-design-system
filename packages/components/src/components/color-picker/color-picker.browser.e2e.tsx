@@ -1,7 +1,8 @@
-import { it, expect, describe } from "vitest";
+import { beforeEach, afterEach, it, expect, describe, vi } from "vitest";
 import { h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import * as esToolkit from "es-toolkit";
 import {
   cancelable,
   defaults,
@@ -13,12 +14,18 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { afterNextTask } from "../../tests/utils/timing";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { CSS, SCOPE_SIZE, STATIC_DIMENSIONS } from "./resources";
 import { ColorPicker } from "./color-picker";
 import { getColorFieldDimensions } from "./utils";
 
+vi.mock("es-toolkit", { spy: true });
+
 mockConsole();
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("cancelable", () => {
   cancelable("calcite-color-picker");
@@ -110,30 +117,50 @@ describe("disabled", () => {
 });
 
 describe("scope interaction", () => {
-  describe.skip("keyboard", () => {
+  beforeEach(() => {
+    vi.mocked(esToolkit.throttle).mockImplementation((toThrottle) => {
+      const fakeThrottled = (...args: any[]) => toThrottle(...args);
+      fakeThrottled.cancel = vi.fn();
+      fakeThrottled.flush = vi.fn();
+      return fakeThrottled;
+    });
+  });
+
+  describe("keyboard", () => {
     it("allows editing color field via keyboard", async () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      await expect.element(el).toHaveProperty("value", "");
+      // await expect.element(el).toHaveProperty("value", "");
+
+      const expectedColors = [
+        undefined,
+        "#ffffff",
+        "#ebebeb",
+        "#d6d6d6",
+        "#ebebeb",
+        "#e1e7eb",
+        "#ebebeb",
+      ] as const;
+
+      const receivedColors: string[] = [];
+
+      receivedColors.push(el.value as string);
+
       await userEvent.keyboard("{ArrowDown}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#ffffff");
+      receivedColors.push(el.value as string);
       await userEvent.keyboard("{ArrowDown}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#ebebeb");
+      receivedColors.push(el.value as string);
       await userEvent.keyboard("{ArrowDown}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#ebebeb");
+      receivedColors.push(el.value as string);
       await userEvent.keyboard("{ArrowUp}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#ffffff");
+      receivedColors.push(el.value as string);
       await userEvent.keyboard("{ArrowRight}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#e1e7eb");
+      receivedColors.push(el.value as string);
       await userEvent.keyboard("{ArrowLeft}");
-      await afterNextTask();
-      await expect.element(el).toHaveProperty("value", "#ebebeb");
+      receivedColors.push(el.value as string);
+
+      expect(receivedColors).toEqual(expectedColors);
     });
 
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
@@ -141,7 +168,7 @@ describe("scope interaction", () => {
       const scope = page.getBySelector(`calcite-color-picker .${CSS.colorFieldScope}`);
 
       const initialStyle = window.getComputedStyle(scope.element());
-      expect(initialStyle.left).toBe("-0.5px");
+      expect(initialStyle.left).toBe("0px");
 
       await userEvent.keyboard("{Tab}");
 
@@ -149,7 +176,6 @@ describe("scope interaction", () => {
 
       while (nudgesToTheEdge--) {
         await userEvent.keyboard("{ArrowRight}");
-        await afterNextTask();
       }
 
       const finalStyle = window.getComputedStyle(scope.element());
@@ -160,6 +186,7 @@ describe("scope interaction", () => {
     it("allows nudging color's hue even if it does not change RGB value", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
       const scope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+      await afterNextFrame();
 
       const nudgeAThirdOfSlider = async () => {
         let totalNudgesByTen = 12;
@@ -167,7 +194,6 @@ describe("scope interaction", () => {
         await userEvent.keyboard("{Shift>}");
         while (totalNudgesByTen--) {
           await userEvent.keyboard("{ArrowRight}");
-          await afterNextTask();
         }
         await userEvent.keyboard("{/Shift}");
       };
@@ -180,23 +206,18 @@ describe("scope interaction", () => {
       await userEvent.keyboard("{Tab}{Tab}");
 
       await nudgeAThirdOfSlider();
-      await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(58.9, 0);
 
       await nudgeAThirdOfSlider();
-      await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(118.5, 0);
 
       await nudgeAThirdOfSlider();
-      await afterNextTask();
       // hue wraps around, so we nudge it back to assert position at the edge
       await userEvent.keyboard("{ArrowLeft}");
-      await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(170.5, 0);
 
       // nudge it to wrap around
       await userEvent.keyboard("{ArrowRight}");
-      await afterNextTask();
       expect(await getScopeLeftOffset()).toBeCloseTo(STATIC_DIMENSIONS.m.thumb.radius - 0.5, 0);
     });
 
@@ -205,37 +226,30 @@ describe("scope interaction", () => {
 
       await userEvent.keyboard("{Tab}{Tab}");
       await userEvent.keyboard("{ArrowDown}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007ec2");
       await userEvent.keyboard("{ArrowUp}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007bc2");
       await userEvent.keyboard("{ArrowLeft}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007ec2");
       await userEvent.keyboard("{ArrowRight}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007bc2");
 
       await userEvent.keyboard("{Shift>}");
       await userEvent.keyboard("{ArrowDown}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#009bc2");
       await userEvent.keyboard("{ArrowUp}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007bc2");
       await userEvent.keyboard("{ArrowLeft}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#009bc2");
       await userEvent.keyboard("{ArrowRight}");
-      await afterNextTask();
       await expect.element(el).toHaveProperty("value", "#007bc2");
       await userEvent.keyboard("{Shift/}");
     });
 
-    it("positions the scope correctly when the color is 000", async () => {
+    it("positions the scope correctly when the color is #000", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
       const hueSliderScope = page.getBySelector(`calcite-color-picker .${CSS.hueScope}`);
+      await afterNextFrame();
 
       expect(window.getComputedStyle(hueSliderScope.element())).toMatchObject({
         top: "6.5px",
@@ -251,27 +265,21 @@ describe("scope interaction", () => {
 
         await userEvent.keyboard("{Tab}{Tab}{Tab}");
         await userEvent.keyboard("{ArrowDown}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffffc");
 
         await userEvent.keyboard("{ArrowDown}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffffa");
 
         await userEvent.keyboard("{ArrowDown}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffff7");
 
         await userEvent.keyboard("{ArrowUp}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffffa");
 
         await userEvent.keyboard("{ArrowRight}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffffc");
 
         await userEvent.keyboard("{ArrowLeft}");
-        await afterNextTask();
         await expect.element(el).toHaveProperty("value", "#fffffffa");
       });
     });
@@ -280,7 +288,7 @@ describe("scope interaction", () => {
   describe("mouse", () => {
     const moveByInPx = 2;
 
-    it.skip("should update value when color field scope is moved", async () => {
+    it("should update value when color field scope is moved", async () => {
       const { el } = await mount<ColorPicker>(
         <calcite-color-picker value={centerColorFieldColor} />,
       );
@@ -288,7 +296,6 @@ describe("scope interaction", () => {
       const initialValue = el.value;
 
       await userEvent.click(colorFieldScope, { position: { x: -moveByInPx, y: 0 }, force: true });
-      await afterNextTask();
 
       await expect.element(el).not.toHaveProperty("value", initialValue);
     });
@@ -301,7 +308,6 @@ describe("scope interaction", () => {
       const initialValue = el.value;
 
       await userEvent.click(hueScope, { position: { x: -moveByInPx, y: 0 }, force: true });
-      await afterNextTask();
 
       await expect.element(el).not.toHaveProperty("value", initialValue);
     });
@@ -314,7 +320,6 @@ describe("scope interaction", () => {
       const initialValue = el.value;
 
       await userEvent.click(opacityScope, { position: { x: -moveByInPx, y: 0 }, force: true });
-      await afterNextTask();
 
       await expect.element(el).not.toHaveProperty("value", initialValue);
     });
