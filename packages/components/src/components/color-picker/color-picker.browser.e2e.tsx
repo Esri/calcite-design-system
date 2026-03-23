@@ -131,36 +131,19 @@ describe("scope interaction", () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      // await expect.element(el).toHaveProperty("value", "");
-
-      const expectedColors = [
-        undefined,
-        "#ffffff",
-        "#ebebeb",
-        "#d6d6d6",
-        "#ebebeb",
-        "#e1e7eb",
-        "#ebebeb",
-      ] as const;
-
-      const receivedColors: string[] = [];
-
-      receivedColors.push(el.value as string);
-
+      expect(el.value).toBeFalsy();
       await userEvent.keyboard("{ArrowDown}");
-      receivedColors.push(el.value as string);
+      expect(el.value).toBe("#ffffff");
       await userEvent.keyboard("{ArrowDown}");
-      receivedColors.push(el.value as string);
+      expect(el.value).toBe("#ebebeb");
       await userEvent.keyboard("{ArrowDown}");
-      receivedColors.push(el.value as string);
+      expect(el.value).toBe("#d6d6d6");
       await userEvent.keyboard("{ArrowUp}");
-      receivedColors.push(el.value as string);
+      expect(el.value).toBe("#ebebeb");
       await userEvent.keyboard("{ArrowRight}");
-      receivedColors.push(el.value as string);
+      expect(el.value).toBe("#e1e7eb");
       await userEvent.keyboard("{ArrowLeft}");
-      receivedColors.push(el.value as string);
-
-      expect(receivedColors).toEqual(expectedColors);
+      expect(el.value).toBe("#ebebeb");
     });
 
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
