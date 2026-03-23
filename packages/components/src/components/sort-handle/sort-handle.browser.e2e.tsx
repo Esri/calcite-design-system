@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -10,12 +11,18 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
-import { IDS } from "./resources";
+import T9nStrings from "./assets/t9n/messages.en.json";
 import { SortHandle } from "./sort-handle";
 
-type DropdownLike = HTMLElement & { disabled: boolean };
-type DropdownGroupLike = HTMLElement & { groupTitle?: string };
-type DropdownItemLike = HTMLElement & { disabled: boolean };
+function getDropdownFromItemText(text: string) {
+  const dropdown = page.getByText(text).element()?.closest("calcite-dropdown");
+
+  if (!dropdown) {
+    throw new Error(`Expected calcite-dropdown for item text: ${text}`);
+  }
+
+  return page.elementLocator(dropdown);
+}
 
 describe("defaults", () => {
   defaults(
@@ -78,29 +85,29 @@ describe("disabled", () => {
 });
 
 it("renders disabled boundary reorder items instead of hiding them", async () => {
-  const { el, reRender } = await mount(
+  const { reRender } = await mount(
     <calcite-sort-handle label="test" set-position="1" set-size="4" />,
   );
   await reRender();
 
-  const reorderGroup = el.shadowRoot.querySelector<HTMLElement>(`#${IDS.reorder}`);
-  const reorderItems = Array.from(
-    reorderGroup.querySelectorAll<DropdownItemLike>("calcite-dropdown-item"),
-  );
+  const firstReorderItem = page.getByText(T9nStrings.moveToTop);
+  const secondReorderItem = page.getByText(T9nStrings.moveUp);
+  const thirdReorderItem = page.getByText(T9nStrings.moveDown);
+  const fourthReorderItem = page.getByText(T9nStrings.moveToBottom);
 
-  expect(reorderItems).toHaveLength(4);
-  expect(reorderItems.map((item) => item.disabled)).toEqual([true, true, false, false]);
+  await expect.element(firstReorderItem).toHaveProperty("disabled", true);
+  await expect.element(secondReorderItem).toHaveProperty("disabled", true);
+  await expect.element(thirdReorderItem).toHaveProperty("disabled", false);
+  await expect.element(fourthReorderItem).toHaveProperty("disabled", false);
 });
 
 it("omits the reorder group title when it is the only visible group", async () => {
-  const { el, reRender } = await mount(
+  const { reRender } = await mount(
     <calcite-sort-handle label="test" set-position="2" set-size="4" />,
   );
   await reRender();
 
-  const reorderGroup = el.shadowRoot.querySelector<DropdownGroupLike>(`#${IDS.reorder}`);
-
-  expect(reorderGroup.groupTitle).toBe("");
+  await expect.element(page.getByText(T9nStrings.reorder)).not.toBeInTheDocument();
 });
 
 it("shows the reorder group title when move-to items are present", async () => {
@@ -115,26 +122,26 @@ it("shows the reorder group title when move-to items are present", async () => {
   ];
   await reRender();
 
-  const reorderGroup = el.shadowRoot.querySelector<DropdownGroupLike>(`#${IDS.reorder}`);
-
-  expect(reorderGroup.groupTitle).toBe("Reorder");
+  await expect.element(page.getByText(T9nStrings.reorder)).toBeInTheDocument();
 });
 
 it("disables single-item sets and renders disabled reorder actions", async () => {
-  const { el, reRender } = await mount(
+  const { reRender } = await mount(
     <calcite-sort-handle label="test" set-position="1" set-size="1" />,
   );
   await reRender();
 
-  const dropdown = el.shadowRoot.querySelector<DropdownLike>("calcite-dropdown");
-  const reorderItems = Array.from(
-    el.shadowRoot
-      .querySelector(`#${IDS.reorder}`)
-      .querySelectorAll<DropdownItemLike>("calcite-dropdown-item"),
-  );
+  const dropdown = getDropdownFromItemText(T9nStrings.moveToTop);
+  const firstReorderItem = page.getByText(T9nStrings.moveToTop);
+  const secondReorderItem = page.getByText(T9nStrings.moveUp);
+  const thirdReorderItem = page.getByText(T9nStrings.moveDown);
+  const fourthReorderItem = page.getByText(T9nStrings.moveToBottom);
 
-  expect(dropdown.disabled).toBe(true);
-  expect(reorderItems.map((item) => item.disabled)).toEqual([true, true, true, true]);
+  await expect.element(dropdown).toHaveProperty("disabled", true);
+  await expect.element(firstReorderItem).toHaveProperty("disabled", true);
+  await expect.element(secondReorderItem).toHaveProperty("disabled", true);
+  await expect.element(thirdReorderItem).toHaveProperty("disabled", true);
+  await expect.element(fourthReorderItem).toHaveProperty("disabled", true);
 });
 
 it("keeps single-item sets enabled when move-to items are available", async () => {
@@ -150,7 +157,7 @@ it("keeps single-item sets enabled when move-to items are available", async () =
   ];
   await reRender();
 
-  const dropdown = el.shadowRoot.querySelector<DropdownLike>("calcite-dropdown");
+  const dropdown = getDropdownFromItemText(T9nStrings.moveToTop);
 
-  expect(dropdown.disabled).toBe(false);
+  await expect.element(dropdown).toHaveProperty("disabled", false);
 });

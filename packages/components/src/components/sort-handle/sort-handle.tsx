@@ -75,10 +75,10 @@ export class SortHandle extends LitElement {
   get hasAllReorderItemsDisabled(): boolean {
     return (
       this.hasReorderItems &&
-      this.isTopReorderDisabled() &&
-      this.isUpReorderDisabled() &&
-      this.isDownReorderDisabled() &&
-      this.isBottomReorderDisabled()
+      this.isTopReorderDisabled &&
+      this.isUpReorderDisabled &&
+      this.isDownReorderDisabled &&
+      this.isBottomReorderDisabled
     );
   }
 
@@ -89,6 +89,26 @@ export class SortHandle extends LitElement {
       !this.hasAddToItems &&
       this.hasAllReorderItemsDisabled
     );
+  }
+
+  get isTopReorderDisabled(): boolean {
+    const { setPosition } = this;
+
+    return setPosition === 1 || setPosition === 2;
+  }
+
+  get isUpReorderDisabled(): boolean {
+    return this.setPosition === 1;
+  }
+
+  get isDownReorderDisabled(): boolean {
+    return this.setPosition === this.setSize;
+  }
+
+  get isBottomReorderDisabled(): boolean {
+    const { setPosition, setSize } = this;
+
+    return setPosition === setSize || setPosition === setSize - 1;
   }
 
   private interactiveContainer = useInteractive(this);
@@ -301,26 +321,6 @@ export class SortHandle extends LitElement {
     this.calciteSortHandleAdd.emit({ addTo });
   }
 
-  private isTopReorderDisabled(): boolean {
-    const { setPosition } = this;
-
-    return setPosition === 1 || setPosition === 2;
-  }
-
-  private isUpReorderDisabled(): boolean {
-    return this.setPosition === 1;
-  }
-
-  private isDownReorderDisabled(): boolean {
-    return this.setPosition === this.setSize;
-  }
-
-  private isBottomReorderDisabled(): boolean {
-    const { setPosition, setSize } = this;
-
-    return setPosition === setSize || setPosition === setSize - 1;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -468,19 +468,19 @@ export class SortHandle extends LitElement {
   }
 
   private renderTop(): JsxNode {
-    return this.renderDropdownItem(0, this.messages.moveToTop, this.isTopReorderDisabled());
+    return this.renderDropdownItem(0, this.messages.moveToTop, this.isTopReorderDisabled);
   }
 
   private renderUp(): JsxNode {
-    return this.renderDropdownItem(1, this.messages.moveUp, this.isUpReorderDisabled());
+    return this.renderDropdownItem(1, this.messages.moveUp, this.isUpReorderDisabled);
   }
 
   private renderDown(): JsxNode {
-    return this.renderDropdownItem(2, this.messages.moveDown, this.isDownReorderDisabled());
+    return this.renderDropdownItem(2, this.messages.moveDown, this.isDownReorderDisabled);
   }
 
   private renderBottom(): JsxNode {
-    return this.renderDropdownItem(3, this.messages.moveToBottom, this.isBottomReorderDisabled());
+    return this.renderDropdownItem(3, this.messages.moveToBottom, this.isBottomReorderDisabled);
   }
 
   //#endregion
