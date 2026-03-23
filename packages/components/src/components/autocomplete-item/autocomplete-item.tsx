@@ -103,7 +103,8 @@ export class AutocompleteItem extends LitElement {
    * @private
    */
   @method()
-  emitSelectEvent(): void {
+  toggleSelection(): void {
+    this.selected = !this.selected;
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -122,7 +123,12 @@ export class AutocompleteItem extends LitElement {
 
   private handleClick(event: MouseEvent): void {
     event.preventDefault();
-    this.emitSelectEvent();
+
+    if (this.disabled) {
+      return;
+    }
+
+    this.toggleSelection();
   }
 
   //#endregion

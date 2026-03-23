@@ -1,4 +1,5 @@
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -56,4 +57,42 @@ describe("slots", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-autocomplete-item"), { focusTarget: "none" });
+
+  it("does not emit or toggle selected when clicked", async () => {
+    const { el, reRender } = await mount("calcite-autocomplete-item");
+    const selectSpy = vi.fn();
+    el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
+
+    el.disabled = true;
+    await reRender();
+
+    await userEvent.click(el, { force: true });
+    await reRender();
+
+    expect(el.selected).toBe(false);
+    expect(selectSpy).toHaveBeenCalledTimes(0);
+  });
+});
+
+describe("toggleSelection", () => {
+  it("toggles selected and emits calciteAutocompleteItemSelect", async () => {
+    const { el, reRender } = await mount("calcite-autocomplete-item");
+    const selectSpy = vi.fn();
+    el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
+
+    expect(el.selected).toBe(false);
+    expect(typeof (el as any).emitSelectEvent).toBe("undefined");
+
+    (el as any).toggleSelection();
+    await reRender();
+
+    expect(el.selected).toBe(true);
+    expect(selectSpy).toHaveBeenCalledTimes(1);
+
+    (el as any).toggleSelection();
+    await reRender();
+
+    expect(el.selected).toBe(false);
+    expect(selectSpy).toHaveBeenCalledTimes(2);
+  });
 });
