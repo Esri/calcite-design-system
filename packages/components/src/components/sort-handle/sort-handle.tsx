@@ -65,7 +65,7 @@ export class SortHandle extends LitElement {
   }
 
   get reorderGroupTitle(): string {
-    return this.hasMoveToItems || this.hasAddToItems ? this.messages.reorder : null;
+    return this.hasMoveToItems || this.hasAddToItems ? this.messages.reorder : "";
   }
 
   get hasNoItems(): boolean {
