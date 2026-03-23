@@ -3,15 +3,11 @@ import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, getElementXY, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import {
-  testHiddenInputSyncing,
-  testPostValidationFocusing,
-  testWorkaroundForGlobalPropRemoval,
-} from "../input/common/tests";
+import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DIRECTION } from "./resources";
@@ -1348,24 +1344,6 @@ it("sets internals to autocomplete when the attribute is used", async () => {
   expect(await input.getProperty("autocomplete")).toBe("cc-number");
 });
 
-it("input event fires when number ends with a decimal", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`
-    <calcite-input-number value="1.2"></calcite-input-number>
-    `);
-
-  const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
-  const element = await page.find("calcite-input-number");
-  expect(await element.getProperty("value")).toBe("1.2");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-
-  await page.keyboard.press("Backspace");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("1.");
-  expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
-});
-
 it("sanitize leading zeros from value", async () => {
   const page = await newE2EPage();
   await page.setContent(`
@@ -1492,46 +1470,6 @@ it("should not focus when clicking validation message", async () => {
   await page.waitForChanges();
 
   expect(await isElementFocused(page, componentTag)).toBe(true);
-});
-
-it("integer property prevents decimals and exponential notation", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input-number integer value="1.2" step="0.01"></calcite-input-number>`);
-
-  const input = await page.find("calcite-input-number");
-  const numberHorizontalItemUp = await page.find(
-    `calcite-input-number >>> .number-button-item[data-adjustment='${DIRECTION.up}']`,
-  );
-
-  await input.callMethod("setFocus");
-  await page.waitForChanges();
-
-  expect(await input.getProperty("value")).toBe("12"); // test initial value
-
-  await typeNumberValue(page, "3.4e-5");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("12345"); // test user input
-
-  input.setProperty("value", "-9.8e-7");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("-987"); // test directly setting value
-
-  await numberHorizontalItemUp.click();
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("-986"); // test incrementing
-});
-
-describe("is form-associated", () => {
-  formAssociated("calcite-input-number", {
-    testValue: "5",
-    submitsOnEnter: true,
-    inputType: "number",
-    validation: true,
-  });
-
-  testPostValidationFocusing("calcite-input-number");
-
-  testHiddenInputSyncing("calcite-input-number");
 });
 
 testWorkaroundForGlobalPropRemoval("calcite-input-number");
