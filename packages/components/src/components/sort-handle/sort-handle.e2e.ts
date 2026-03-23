@@ -236,7 +236,7 @@ it("hides reorder group title when it is the only visible group", async () => {
 
   const reorderGroup = await page.find(`calcite-sort-handle >>> #${IDS.reorder}`);
 
-  expect(await reorderGroup.getProperty("groupTitle")).toBeUndefined();
+  expect(await reorderGroup.getProperty("groupTitle")).toBe("");
 });
 
 it("shows reorder group title when moveTo items are present", async () => {

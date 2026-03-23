@@ -100,7 +100,7 @@ it("omits the reorder group title when it is the only visible group", async () =
 
   const reorderGroup = el.shadowRoot.querySelector<DropdownGroupLike>(`#${IDS.reorder}`);
 
-  expect(reorderGroup.groupTitle).toBeUndefined();
+  expect(reorderGroup.groupTitle).toBe("");
 });
 
 it("shows the reorder group title when move-to items are present", async () => {
