@@ -1417,7 +1417,7 @@ describe("calcite-dropdown", () => {
       ).toBe("item-3");
     });
 
-    it("should open the dropdown and focus the first item with ArrowDown when an item is preselected", async () => {
+    it("should open the dropdown and focus the first item with ArrowDown", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dropdown>
@@ -1523,7 +1523,7 @@ describe("calcite-dropdown", () => {
       ).toBe("item-3");
     });
 
-    it("should open the dropdown and focus the first item with ArrowDown", async () => {
+    it("should open the dropdown and focus the first item with ArrowDown when an item is preselected", async () => {
       const page = await newE2EPage();
       await page.setContent(html`
         <calcite-dropdown>
