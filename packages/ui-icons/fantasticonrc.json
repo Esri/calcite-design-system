@@ -1375,6 +1375,8 @@
     "bus-travel-mode-f": 61912,
     "bicycle-travel-mode": 61913,
     "bicycle-travel-mode-f": 61914,
-    "publish": 61915
+    "publish": 61915,
+    "velocity-server": 61916,
+    "layer-stream-setting": 61917
   }
 }

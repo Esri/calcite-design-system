@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.7...@esri/calcite-ui-icons@4.5.0-next.8) (2026-03-23)
+
+### Features
+
+- add layer stream setting and velocity server ([#14139](https://github.com/Esri/calcite-design-system/issues/14139))
+
 ## [4.5.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.6...@esri/calcite-ui-icons@4.5.0-next.7) (2026-03-11)
 
 ### Features
