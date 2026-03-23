@@ -18,6 +18,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -289,7 +290,7 @@ describe("disabled", () => {
 
 describe("keyboard selection", () => {
   it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
-    const { el, reRender } = await mount(renderAutocomplete);
+    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     const firstItem = el.querySelector("calcite-autocomplete-item");
     const itemSelectSpy = vi.fn();
 
