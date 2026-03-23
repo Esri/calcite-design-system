@@ -227,7 +227,7 @@ const config: Omit<Config, "content"> = {
         disabled: "var(--calcite-opacity-disabled)",
       },
       spacing: {
-        2.5: "var(--calcite-space-sm-plus)", // Deprecated in v1.1.1, removal target v2.0.0 - use `--calcite-space-sm-plus` instead.
+        2.5: "var(--calcite-space-sm-plus)", // Deprecated in v1.1.1, removal target v2.0.0 - Use `--calcite-space-sm-plus` instead.
         4.5: "1.125rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
         11: "2.75rem", // Deprecated in v1.1.1, removal target v2.0.0 - Not intended for sizing, use `--calcite-size-lg` instead.
         13: "3.25rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
