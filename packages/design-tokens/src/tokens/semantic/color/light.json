@@ -468,7 +468,7 @@
         }
       },
       "3": {
-        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.16})",
+        "value": "rgba({core.color.neutral.blk-240}, {core.opacity.10})",
         "type": "color",
         "attributes": {
           "category": "color",
