@@ -6,9 +6,7 @@ module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
   const logParams = { title: "Add Priority Label" };
 
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (
-    context.payload
-  );
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
     issue: { body, number: issue_number },
   } = payload;

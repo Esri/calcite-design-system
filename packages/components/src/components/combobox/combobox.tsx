@@ -30,15 +30,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -60,6 +51,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -82,11 +74,10 @@ declare global {
  * @slot - A slot for adding `calcite-combobox-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Combobox
-  extends LitElement
-  implements LabelableComponent, FormComponent, FloatingUIComponent
-{
+export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -97,6 +88,10 @@ export class Combobox
   private closeButtonRef = createRef<HTMLButtonElement>();
 
   private direction = useDirection();
+
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -621,11 +616,6 @@ export class Combobox
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
-
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -676,7 +666,6 @@ export class Combobox
   }
 
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
@@ -686,7 +675,6 @@ export class Combobox
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -974,10 +962,9 @@ export class Combobox
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
-        } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+        } else if (!event.defaultPrevented && this.formSupport.active) {
+          event.preventDefault();
+          this.formSupport.requestSubmit();
         }
         break;
       case "Delete":
@@ -2149,7 +2136,6 @@ export class Combobox
           {this.renderListBoxOptions()}
         </ul>
         {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

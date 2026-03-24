@@ -48,18 +48,43 @@ jobs:
           npm run publish:latest
           npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
 
-          git checkout -b ci/cherry-pick-release-commit origin/dev
+          release_version="$(node -p "require('./packages/components/package.json').version")"
 
-          if ! git cherry-pick "$release_commit"; then
-            git checkout --theirs \
-              ${{github.workspace}}/packages/*/CHANGELOG.md
+          git checkout -B ci/cherry-pick-release-commit origin/dev
 
-            git checkout --theirs \
-              ${{github.workspace}}/packages/*/package.json
+          dev_commit="$(git rev-parse HEAD)"
+          dev_version="$(node -p "require('./packages/components/package.json').version")"
 
-            git cherry-pick --continue
+          kept_commit=$(
+            node -p "
+              const semver=require('semver');
+              semver.gt('$dev_version','$release_version') ? '$dev_commit' : '$release_commit'
+            "
+          )
+
+          if ! git cherry-pick --no-commit "$release_commit"; then
+            conflicts="$(git diff --name-only --diff-filter=U)"
+
+            if [ -n "$conflicts" ] && echo "$conflicts" |
+              grep -qvE 'packages/.*/(CHANGELOG\.md|package\.json)'; then
+              echo "Aborting cherry-pick due to unexpected conflicts:"
+              echo "$conflicts"
+              git cherry-pick --abort
+              exit 1
+            fi
           fi
 
+          git checkout "$release_commit" -- packages/*/CHANGELOG.md
+          git checkout "$kept_commit" -- packages/*/package.json
+          git add packages/*/CHANGELOG.md packages/*/package.json
+
+          if git diff --name-only --diff-filter=U | grep -q .; then
+            echo "Aborting cherry-pick, as there are still conflicts after auto-resolution."
+            git cherry-pick --abort
+            exit 1
+          fi
+
+          git commit -C "$release_commit"
           git push -u origin HEAD
           gh pr create --fill --head "ci/cherry-pick-release-commit" --base "dev" \
             --label "skip visual snapshots"

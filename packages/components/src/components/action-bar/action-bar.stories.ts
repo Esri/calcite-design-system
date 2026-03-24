@@ -8,7 +8,7 @@ const { position, selectionAppearance } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<
   ActionBar,
-  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance"
+  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance" | "expandPosition"
 >;
 
 export default {
@@ -17,11 +17,16 @@ export default {
     expandDisabled: false,
     expanded: false,
     position: position.defaultValue,
+    expandPosition: "end",
     floating: false,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
     position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    expandPosition: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
@@ -38,6 +43,7 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
     position="${args.position}"
+    expand-position="${args.expandPosition}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
@@ -104,6 +110,90 @@ export const floatingWithGroups = (): string =>
       >
     </calcite-action-bar>
   </div>`;
+
+const expandPositionActions = html`<calcite-action text-enabled text="Add" icon="plus"></calcite-action>
+  <calcite-action text-enabled text="Save" icon="save"></calcite-action>
+  <calcite-action slot="actions-start" text-enabled text="Layers" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text-enabled text="Basemaps" icon="layer-basemap"></calcite-action>
+  <calcite-tooltip slot="expand-tooltip">Toggle Action Bar</calcite-tooltip>`;
+
+export const expandPositionHorizontal = (): string =>
+  html`<style>
+      calcite-action-bar[layout="horizontal"] {
+        width: 600px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
+export const expandPositionVertical = (): string =>
+  html`<style>
+      calcite-action-bar[layout="vertical"] {
+        height: 300px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
 
 export const floatingDarkModeRTL = (): string =>
   html`<div style="padding:20px;">
