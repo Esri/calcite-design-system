@@ -22,6 +22,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-shell-panel-action-bar-container-overflow
 // --calcite-internal-shell-panel-action-bar-thickness
 // --calcite-internal-shell-panel-border
 // --calcite-internal-shell-panel-container-flex-direction
@@ -313,8 +314,11 @@
 .action-bar-container {
   @apply pointer-events-auto
   flex
-  flex-auto
   box-border;
+
+  flex: 0 1 auto;
+  min-inline-size: var(--calcite-internal-shell-panel-action-bar-container-overflo, auto);
+  overflow: var(--calcite-internal-shell-panel-action-bar-container-overflow, visible);
 }
 
 .content-container {
@@ -604,12 +608,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 :host([action-bar-position="top"][slot="panel-start"]) {
   --calcite-internal-shell-panel-container-flex-direction: column;
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
+  --calcite-internal-shell-panel-action-bar-container-overflow: hidden;
 
   ::slotted(calcite-action-bar) {
     max-inline-size: 100%;
@@ -629,12 +628,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([action-bar-position="top"][slot="panel-start"][resizable]) {
   .container {
     padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   .content {
@@ -663,12 +656,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 :host([action-bar-position="bottom"][slot="panel-start"]) {
   --calcite-internal-shell-panel-container-flex-direction: column;
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
+  --calcite-internal-shell-panel-action-bar-container-overflow: hidden;
 
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
@@ -687,12 +675,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([action-bar-position="bottom"][slot="panel-start"][resizable]) {
   .container {
     padding-inline-end: var(--calcite-internal-shell-panel-resize-handle-placeholder);
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   .content {
@@ -740,6 +722,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
         ) - var(--calcite-internal-shell-panel-resize-handle-placeholder)
     );
   }
+
   .resize-handle-bar {
     border-inline-end: 0;
   }
@@ -756,12 +739,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 :host([action-bar-position="top"][slot="panel-end"]) {
   --calcite-internal-shell-panel-container-flex-direction: column;
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
+  --calcite-internal-shell-panel-action-bar-container-overflow: hidden;
 
   ::slotted(calcite-action-bar) {
     display: flex;
@@ -786,12 +764,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     padding-inline-start: 0;
   }
 
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
-
   .resize-handle {
     block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-thickness));
     inset-block-start: calc(var(--calcite-internal-shell-panel-action-bar-thickness) * -1);
@@ -814,12 +786,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 :host([action-bar-position="bottom"][slot="panel-end"]) {
   --calcite-internal-shell-panel-container-flex-direction: column;
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
+  --calcite-internal-shell-panel-action-bar-container-overflow: hidden;
 
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
@@ -842,12 +809,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
   .content {
     padding-inline-start: 0;
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   .resize-handle {
@@ -915,12 +876,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-start: 0;
       border-block-end: var(--calcite-internal-shell-panel-border);
     }
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   ::slotted(calcite-action-bar) {
@@ -994,12 +949,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     border-block-end: 0;
   }
 
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
-  }
-
   ::slotted(calcite-action-bar) {
     max-block-size: 100%;
     border-inline-end: var(--calcite-internal-shell-panel-border);
@@ -1066,12 +1015,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
     border-inline-start: var(--calcite-internal-shell-panel-border);
     block-size: 100%;
     border-block-end: 0;
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   ::slotted(calcite-action-bar) {
@@ -1168,12 +1111,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
       border-block-start: 0;
       border-block-end: var(--calcite-internal-shell-panel-border);
     }
-  }
-
-  .action-bar-container {
-    overflow: hidden;
-    min-inline-size: 0;
-    flex: 0 1 auto;
   }
 
   ::slotted(calcite-action-bar) {
