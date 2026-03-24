@@ -68,14 +68,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private normalizer: (timeZone: TimeZone) => TimeZone;
 
-  private _selectedTimeZoneItem: TimeZoneItem;
-
-  private get selectedTimeZoneItem(): TimeZoneItem {
-    return this._selectedTimeZoneItem;
-  }
-  private set selectedTimeZoneItem(value: TimeZoneItem) {
-    this._selectedTimeZoneItem = value;
-  }
+  private selectedTimeZoneItem: TimeZoneItem;
 
   private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
