@@ -270,19 +270,19 @@ export class Combobox
   };
 
   get allSelected(): boolean {
-    const enabledItems = this.getItems(true).filter((item) => !item.disabled);
+    const enabledItems = this.allItems.filter((item) => !item.disabled);
     return enabledItems.length > 0 && enabledItems.every((item) => item.selected);
   }
 
   get indeterminate(): boolean {
-    const hasDisabledSelected = this.getItems(true).some((item) => item.disabled && item.selected);
+    const hasDisabledSelected = this.allItems.some((item) => item.disabled && item.selected);
     const hasAnySelected = this.selectedItems.length > 0 || hasDisabledSelected;
 
     if (!this.selectAllEnabled) {
       return this.selectedItems.length > 0 && !this.allSelected;
     }
 
-    return hasAnySelected && (!this.allSelected || hasDisabledSelected);
+    return !this.allSelected && hasAnySelected;
   }
 
   get keyboardNavItems(): HTMLCalciteComboboxItemElement["el"][] {
@@ -318,6 +318,8 @@ export class Combobox
   @state() selectedHiddenChipsCount = 0;
 
   @state() selectedVisibleChipsCount = 0;
+
+  @state() allItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
@@ -719,7 +721,7 @@ export class Combobox
 
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
-      this.getItems().forEach((item) => {
+      this.items.forEach((item) => {
         item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
       });
 
@@ -849,7 +851,7 @@ export class Combobox
 
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.getItems(true).forEach((item) => {
+    this.allItems.forEach((item) => {
       if (item.disabled) {
         return;
       }
@@ -1362,7 +1364,8 @@ export class Combobox
   }
 
   private updateItems(): void {
-    this.items = this.getItems();
+    this.allItems = this.getItems(true);
+    this.items = this.allItems.filter((item) => !item.disabled);
     this.groupItems = this.getGroupItems();
 
     this.data = this.getData();
@@ -1374,7 +1377,7 @@ export class Combobox
   }
 
   private updateItemProps(): void {
-    this.getItems(true).forEach((item) => {
+    this.allItems.forEach((item) => {
       item.selectionMode = this.selectionMode;
       item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
@@ -1634,10 +1637,11 @@ export class Combobox
         }}
         closable={!disabled && !readOnly}
         data-test-id={`${disabled ? "disabled-chip" : "chip"}-${index}`}
+        disabled={disabled}
         icon={item.icon}
         iconFlipRtl={item.iconFlipRtl}
         id={!disabled && item.guid ? `${IDS.chip(item.guid)}` : null}
-        key={label}
+        key={item.guid || item.value || label}
         label={label}
         messageOverrides={!disabled ? { dismissLabel: messages.removeTag } : null}
         onFocusIn={!disabled ? () => (this.activeChipIndex = index) : null}
@@ -1677,9 +1681,11 @@ export class Combobox
   private renderChips(): JsxNode {
     const { activeChipIndex, readOnly, scale, selectionDisplay, selectionMode, messages } = this;
     const chips: JsxNode[] = [];
-    const disabledItems = this.getItems(true).filter((item) => item.disabled);
-    const preserveOrder = selectionDisplay === "all";
     const isAncestors = selectionMode === "ancestors";
+    const disabledItems = this.allItems.filter(
+      (item) => item.disabled && item.selected && (!isAncestors || !hasActiveChildren(item)),
+    );
+    const preserveOrder = selectionDisplay === "all";
 
     if (this.selectAllEnabled && this.allSelected) {
       return null;
@@ -1689,20 +1695,22 @@ export class Combobox
     let disabledIndex = 0;
 
     if (preserveOrder) {
-      this.getItems(true).forEach((item) => {
+      this.allItems.forEach((item) => {
         if (item.disabled) {
-          chips.push(
-            this.renderChip({
-              activeChipIndex,
-              disabled: true,
-              index: disabledIndex++,
-              item,
-              messages,
-              readOnly,
-              scale,
-              isAncestors,
-            }),
-          );
+          if (item.selected && (!isAncestors || !hasActiveChildren(item))) {
+            chips.push(
+              this.renderChip({
+                activeChipIndex,
+                disabled: true,
+                index: disabledIndex++,
+                item,
+                messages,
+                readOnly,
+                scale,
+                isAncestors,
+              }),
+            );
+          }
           return;
         }
 
@@ -1730,23 +1738,6 @@ export class Combobox
             activeChipIndex,
             disabled: false,
             index: selectedIndex++,
-            item,
-            messages,
-            readOnly,
-            scale,
-            isAncestors,
-          }),
-        );
-      });
-    }
-
-    if (selectionDisplay === "all" && this.isMulti() && disabledItems.length && !preserveOrder) {
-      disabledItems.forEach((item) => {
-        chips.push(
-          this.renderChip({
-            activeChipIndex,
-            disabled: true,
-            index: disabledIndex++,
             item,
             messages,
             readOnly,
@@ -1808,7 +1799,7 @@ export class Combobox
       chipInvisible = true;
     } else {
       if (selectionDisplay === "single") {
-        const selectedItemsCount = this.getItems(true).filter(
+        const selectedItemsCount = this.allItems.filter(
           (item) =>
             item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
         ).length;
@@ -1854,7 +1845,7 @@ export class Combobox
     let label: string;
 
     if (compactSelectionDisplay) {
-      const selectedItemsCount = this.getItems(true).filter(
+      const selectedItemsCount = this.allItems.filter(
         (item) => item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
       ).length;
       if (this.allSelected) {

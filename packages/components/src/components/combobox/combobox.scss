@@ -285,8 +285,6 @@ calcite-chip {
 
 .disabled {
   @apply opacity-50;
-  background-color: var(--calcite-close-background-color, var(--calcite-color-foreground-2));
-  color: var(--calcite-close-icon-color, var(--calcite-color-text-3));
 }
 
 @include includes.disabled();
