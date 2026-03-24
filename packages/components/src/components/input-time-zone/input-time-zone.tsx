@@ -68,7 +68,14 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private normalizer: (timeZone: TimeZone) => TimeZone;
 
-  private selectedTimeZoneItem: TimeZoneItem;
+  private _selectedTimeZoneItem: TimeZoneItem;
+
+  private get selectedTimeZoneItem(): TimeZoneItem {
+    return this._selectedTimeZoneItem;
+  }
+  private set selectedTimeZoneItem(value: TimeZoneItem) {
+    this._selectedTimeZoneItem = value;
+  }
 
   private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
@@ -84,6 +91,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  #valueUpdateContext: "user" | "internal" | null = null;
 
   //#endregion
 
@@ -223,6 +232,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     return this._value;
   }
   set value(value: string) {
+    this.#valueUpdateContext = "internal";
     this._value = value;
   }
 
@@ -332,6 +342,13 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   }
 
   private async handleValueChange(value: string, oldValue: string): Promise<void> {
+    const userUpdated = this.#valueUpdateContext === "user";
+    this.#valueUpdateContext = null;
+
+    if (userUpdated) {
+      return;
+    }
+
     const normalized = this.normalizeValue(value);
 
     if (!normalized) {
@@ -407,13 +424,17 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     const selected = this.findTimeZoneItemByLabel(selectedItem.getAttribute("data-label"));
     const selectedValue = `${selected.value}`;
 
-    if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
-      return;
+    if (this.value === selectedValue) {
+      if (selected.label === this.selectedTimeZoneItem.label) {
+        this.requestUpdate("value", previousValue);
+        return;
+      }
     }
 
     this._value = selectedValue;
     this.requestUpdate("value", previousValue);
     this.selectedTimeZoneItem = selected;
+    this.#valueUpdateContext = "user";
     this.calciteInputTimeZoneChange.emit();
   }
 
