@@ -24,6 +24,7 @@
 //
 // --calcite-internal-shell-panel-action-bar-thickness
 // --calcite-internal-shell-panel-border
+// --calcite-internal-shell-panel-container-flex-direction
 // --calcite-internal-shell-panel-height
 // --calcite-internal-shell-panel-max-height
 // --calcite-internal-shell-panel-max-width
@@ -157,6 +158,7 @@
   h-full;
 
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
+  flex-direction: var(--calcite-internal-shell-panel-container-flex-direction);
 
   * {
     @apply box-border;
@@ -192,7 +194,7 @@
 
 :host([layout="horizontal"]) .container {
   @apply w-full h-auto;
-  flex-direction: column;
+  // flex-direction: column; // TODO: do we need this?
 }
 
 .resize-handle {
@@ -601,9 +603,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-start"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .action-bar-container {
     overflow: hidden;
@@ -662,9 +662,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-start"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .action-bar-container {
     overflow: hidden;
@@ -757,9 +755,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-end"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .action-bar-container {
     overflow: hidden;
@@ -817,9 +813,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-end"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .action-bar-container {
     overflow: hidden;
@@ -876,6 +870,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-bottom"]) {
+  --calcite-internal-shell-panel-container-flex-direction: column;
+
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
   }
@@ -889,6 +885,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="start"][slot="panel-bottom"]) {
+  --calcite-internal-shell-panel-container-flex-direction: row;
+
   &:host([width="s"]) {
     .container {
       --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
@@ -908,7 +906,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .container {
-    flex-direction: row;
     block-size: 100%;
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
@@ -960,6 +957,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="start"][slot="panel-top"]) {
+  --calcite-internal-shell-panel-container-flex-direction: row;
+
   &:host([width="s"]) {
     .container {
       --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
@@ -979,7 +978,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .container {
-    flex-direction: row;
     block-size: 100%;
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
@@ -1032,6 +1030,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="end"][slot="panel-top"]) {
+  --calcite-internal-shell-panel-container-flex-direction: row;
+
   &:host([width="s"]) {
     .container {
       --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
@@ -1051,7 +1051,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .container {
-    flex-direction: row;
     block-size: 100%;
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
@@ -1096,9 +1095,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-top"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .content {
     ::slotted(calcite-panel) {
@@ -1108,9 +1105,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="bottom"][slot="panel-top"]) {
-  .container {
-    flex-direction: column;
-  }
+  --calcite-internal-shell-panel-container-flex-direction: column;
 
   .content {
     ::slotted(calcite-panel) {
@@ -1143,6 +1138,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="end"][slot="panel-bottom"]) {
+  --calcite-internal-shell-panel-container-flex-direction: row;
+
   &:host([width="s"]) {
     .container {
       --calcite-internal-shell-panel-max-width: var(--calcite-shell-panel-max-width, 300px);
@@ -1162,7 +1159,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   }
 
   .container {
-    flex-direction: row;
     block-size: 100%;
     max-block-size: var(--calcite-internal-shell-panel-max-width);
   }
@@ -1212,6 +1208,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([action-bar-position="top"][slot="panel-bottom"]) {
+  --calcite-internal-shell-panel-container-flex-direction: column;
+
   ::slotted(calcite-action-bar) {
     border-block-start: 0;
   }
