@@ -1,3 +1,11 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
+
 @use "sass:list";
 @use "@esri/calcite-design-tokens/dist/scss";
 @use "@esri/calcite-design-tokens/dist/scss/core";
@@ -204,9 +212,9 @@
     }
 
     calcite-action {
-      --calcite-action-height: 100%;
-      --calcite-action-content-space-x: var(--calcite-spacing-none);
-      --calcite-action-content-space-y: var(--calcite-spacing-none);
+      --calcite-internal-action-height: 100%;
+      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
 
       --calcite-action-background-color: var(#{$background-color}, var(--calcite-color-foreground-2));
       --calcite-action-text-color: var(#{$icon-color});

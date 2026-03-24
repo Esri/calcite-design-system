@@ -33,6 +33,9 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
 // --calcite-internal-input-focus-outline-color
 // --calcite-internal-input-number-button-item-height
 // --calcite-internal-input-number-button-item-horizontal-padding
@@ -554,9 +557,9 @@ input[type="number"] {
   }
 
   calcite-action {
-    --calcite-action-height: var(--calcite-internal-input-number-button-item-height);
-    --calcite-action-content-space-x: var(--calcite-spacing-none);
-    --calcite-action-content-space-y: var(--calcite-spacing-none);
+    --calcite-internal-action-height: var(--calcite-internal-input-number-button-item-height);
+    --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+    --calcite-internal-action-padding-block: var(--calcite-spacing-none);
 
     --calcite-action-background-color: var(--calcite-input-actions-background-color);
     --calcite-action-text-color: var(--calcite-input-actions-icon-color);

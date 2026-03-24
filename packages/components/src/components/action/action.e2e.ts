@@ -203,25 +203,6 @@ it("should have a indicator live region", async () => {
 });
 
 describe("themed", () => {
-  describe("default", () => {
-    themed(html`<calcite-action></calcite-action>`, {
-      "--calcite-action-height": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "blockSize",
-      },
-    });
-
-    themed(html`<calcite-action></calcite-action>`, {
-      "--calcite-action-content-space-x": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "paddingInline",
-      },
-      "--calcite-action-content-space-y": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "paddingBlock",
-      },
-    });
-  });
   describe("background color", () => {
     themed(html`<calcite-action></calcite-action>`, {
       "--calcite-action-background-color": {
