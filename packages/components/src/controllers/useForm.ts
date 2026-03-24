@@ -6,7 +6,9 @@ import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
-import { SetFocusable } from "../utils/dom";
+import { isCalciteFocusable, SetFocusable } from "../utils/dom";
+import { logger } from "../utils/logger";
+import { validate } from "./useForm/validation";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -24,7 +26,6 @@ export const componentsWithInputEvent = [
  *
  * Exported for testing purposes.
  *
- * @param componentTag the tag of the component, e.g. "calcite-input"
  * @returns the event name
  */
 export function getClearValidationEventName(componentTag: string): string {
@@ -133,6 +134,10 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
+  return "form" in el && "name" in el && isCalciteFocusable(el);
+}
+
 function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
   if ("status" in component) {
     component.status = status;
@@ -171,6 +176,24 @@ function isInputComponent(
   return component && isSupportedType(input.type);
 }
 
+export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
+  const formElements = Array.from(form.elements);
+
+  requestAnimationFrame(() => {
+    const invalidEls = formElements.filter(
+      (el): el is FormComponent["el"] => el.matches("[status=invalid]") && isFormComponentEl(el as HTMLElement),
+    );
+
+    // focus the first invalid element that has a validation message
+    for (const el of invalidEls) {
+      if (el.validationMessage) {
+        el.setFocus();
+        break;
+      }
+    }
+  });
+}
+
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
@@ -178,12 +201,34 @@ interface UseForm {
   active: boolean;
 
   /**
+   * Helper for overriding the initial default value if not finalized by the first `willUpdate` pass.
+   */
+  overrideDefaultValue: (value: any) => void;
+
+  /**
+   * For components that support multiple input types (e.g. "text", "email", etc.), this method allows changing the input type.
+   */
+  overrideInputType: (type: HTMLInputElement["type"]) => void;
+
+  /**
    * Calls `requestSubmit()` on the associated form, if there is one.
    */
   requestSubmit: () => void;
+
+  /**
+   * Sets the custom validity of the component.
+   */
+  setCustomValidity: (message: string) => void;
 }
 
-interface UseFormOptions {
+export interface UseFormOptions {
+  /**
+   * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
+   *
+   * Note: this is mostly intended for components that need to map their value differently
+   */
+  getValue?: () => any;
+
   /**
    * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
@@ -197,20 +242,26 @@ export const useForm = <T extends FormComponent>(
   options: UseFormOptions,
 ): ReturnType<typeof makeGenericController<UseForm, T>> => {
   return makeGenericController<UseForm, T>((component, controller) => {
-    let defaultValueDirty = false;
-    let defaultCheckedDirty = false;
+    let customValidityMessage = "";
     let inputDelegate: HTMLInputElement | undefined;
     let lastAssociatedForm: HTMLFormElement | null = null;
+    let effectiveInputType = options.inputType;
 
-    if (options.inputType) {
-      inputDelegate = document.createElement("input");
-      inputDelegate.type = options.inputType;
+    if (effectiveInputType) {
       // intentionally not appended to the DOM, we just need it for validation
+      inputDelegate = document.createElement("input");
     }
 
     function invalidFormHandler(event: Event): void {
+      if (event.defaultPrevented) {
+        return;
+      }
+
       // prevent the browser from showing the native validation popover
-      event?.preventDefault();
+      event.preventDefault();
+
+      const form = event.currentTarget as HTMLFormElement;
+      focusFirstInvalidFormElement(form);
     }
 
     function onFormReset(): void {
@@ -227,13 +278,10 @@ export const useForm = <T extends FormComponent>(
       }
 
       if (isCheckable(component)) {
-        component.checked = defaultCheckedDirty ? component.defaultChecked : component.checked;
+        component.checked = component.defaultChecked;
       }
 
-      component.value = defaultValueDirty ? component.defaultValue : component.value;
-
-      defaultValueDirty = false;
-      defaultCheckedDirty = false;
+      component.value = component.defaultValue;
     }
 
     component.listen("luminaFormResetCallback", () => {
@@ -251,7 +299,7 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = inputDelegate?.validationMessage || "";
+      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
@@ -295,58 +343,110 @@ export const useForm = <T extends FormComponent>(
     });
 
     controller.onUpdate((changes: PropertyValues<typeof component>) => {
-      if (changes.has("value") && !defaultValueDirty) {
-        defaultValueDirty = true;
+      if (!component.hasUpdated) {
         component.defaultValue = component.value;
+
+        if (isCheckable(component)) {
+          component.defaultChecked = component.checked;
+        }
       }
 
-      if (isCheckable(component) && changes.has("checked") && !defaultCheckedDirty) {
-        defaultCheckedDirty = true;
-        component.defaultChecked = component.checked;
-      }
-
-      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
+      if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      if (inputDelegate) {
-        inputDelegate.value = component.value;
-        syncInternalInput(component, inputDelegate);
-        inputDelegate.checkValidity();
-        component.elementInternals.setValidity(inputDelegate.validity, inputDelegate.validationMessage);
-        if ("validity" in component) {
-          component.validity = component.elementInternals.validity;
-        }
-      }
+      updateValidity();
     });
 
+    function updateValidity(): void {
+      const { elementInternals } = component;
+
+      let validity: ValidityStateFlags = {};
+      let validationMessage = "";
+
+      if (inputDelegate) {
+        inputDelegate.type = effectiveInputType!;
+        syncInternalInput(component, inputDelegate);
+        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+      }
+
+      if (customValidityMessage) {
+        validity = { ...validity, customError: true };
+        validationMessage = customValidityMessage;
+      }
+
+      elementInternals.setValidity(validity, validationMessage);
+
+      if ("validity" in component) {
+        component.validity = elementInternals.validity;
+      }
+    }
+
+    function getComponentValue(): any {
+      if (options.getValue) {
+        return options.getValue();
+      }
+
+      return component.value;
+    }
+
     function getFormValue(): any {
-      if (Array.isArray(component.value)) {
+      const value = getComponentValue();
+
+      if (Array.isArray(value)) {
         const formData = new FormData();
-        component.value.forEach((value) => formData.append(component.name, value));
+        value.forEach((value) => formData.append(component.name, value));
         return formData;
       }
 
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.defaultValue === undefined && !defaultValueDirty && component.value === undefined
-            ? "on"
-            : component.value;
+          return value || "on";
         }
 
         return null;
       }
 
-      return component.value;
+      return value;
     }
+
+    let defaultValueOverridden = false;
 
     return {
       get active() {
         return !!component.elementInternals.form;
       },
+      overrideDefaultValue: (value) => {
+        if (import.meta.env.DEV) {
+          if (defaultValueOverridden) {
+            logger.warn("Default value override has already been set.");
+            return;
+          }
+
+          if (!component.hasUpdated) {
+            logger.warn("Overriding before first update is not necessary.");
+            return;
+          }
+        }
+
+        component.defaultValue = value;
+        defaultValueOverridden = true;
+      },
+      overrideInputType: (type) => {
+        if (import.meta.env.DEV && !inputDelegate) {
+          throw new Error("Cannot override input type because no input delegate is configured.");
+        }
+
+        effectiveInputType = type;
+        updateValidity();
+      },
       requestSubmit: () => {
         component.elementInternals.form?.requestSubmit();
+      },
+      setCustomValidity: (message) => {
+        customValidityMessage = message;
+        updateValidity();
       },
     };
   });
