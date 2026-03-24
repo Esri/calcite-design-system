@@ -1,7 +1,7 @@
 import { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { defaultMenuPlacement, placements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
 
@@ -26,7 +26,7 @@ export default {
   },
   argTypes: {
     placement: {
-      options: menuPlacements,
+      options: placements,
       control: { type: "select" },
     },
     scale: {
@@ -182,7 +182,7 @@ export const itemsAsLinks = (): string => html`
   </calcite-dropdown>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-dropdown
     dir="rtl"
     open
@@ -220,7 +220,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
   <calcite-dropdown
@@ -254,7 +254,7 @@ export const itemsAsLinksDarkMode = (): string => html`
 
 itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
-export const scrollingAfterCertainItems_TestOnly = (): string => html`
+export const scrollingAfterCertainItems = (): string => html`
   <!-- we use large scale to test max viewport height-->
   <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" width-scale="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -282,11 +282,11 @@ export const scrollingAfterCertainItems_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-scrollingAfterCertainItems_TestOnly.parameters = {
+scrollingAfterCertainItems.parameters = {
   chromatic: { delay: 1500 },
 };
 
-export const scrollingWithoutMaxItems_TestOnly = (): string => html`
+export const scrollingWithoutMaxItems = (): string => html`
   <!-- we use large scale to test max viewport height-->
   <calcite-dropdown open>
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -319,7 +319,7 @@ export const scrollingWithoutMaxItems_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string =>
+export const noScrollingWhenMaxItemsEqualsItems = (): string =>
   html` <calcite-dropdown max-items="3" open>
     <calcite-button slot="trigger">Activate Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="single" group-title="Selection Mode: Single">
@@ -329,7 +329,7 @@ export const noScrollingWhenMaxItemsEqualsItems_TestOnly = (): string =>
     </calcite-dropdown-group>
   </calcite-dropdown>`;
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-dropdown disabled>
     <calcite-button slot="trigger">Disabled dropdown</calcite-button>
     <calcite-dropdown-group group-title="First group">
@@ -367,7 +367,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-export const flipPositioning_TestOnly = (): string => html`
+export const flipPositioning = (): string => html`
   <div style="margin:10px;">
     <calcite-dropdown width-scale="m" placement="top" open>
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -381,11 +381,11 @@ export const flipPositioning_TestOnly = (): string => html`
     </calcite-dropdown>
   </div>
 `;
-flipPositioning_TestOnly.parameters = {
+flipPositioning.parameters = {
   layout: "fullscreen",
 };
 
-export const alignedCenter_TestOnly = (): string => html`
+export const alignedCenter = (): string => html`
   <div style="text-align:center">
     <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -398,7 +398,7 @@ export const alignedCenter_TestOnly = (): string => html`
   </div>
 `;
 
-export const alignedCenterRTL_TestOnly = (): string => html`
+export const alignedCenterRTL = (): string => html`
   <div dir="rtl" style="text-align:center">
     <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -411,7 +411,7 @@ export const alignedCenterRTL_TestOnly = (): string => html`
   </div>
 `;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <style>
     .my-dropdown {
       margin-top: 50px;
@@ -442,7 +442,7 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
+export const mediumIconForLargeDropdownItem = (): string => html`
   <calcite-dropdown scale="l" width-scale="m" open>
     <calcite-dropdown-group group-title="View">
       <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
@@ -452,7 +452,7 @@ export const mediumIconForLargeDropdownItem_TestOnly = (): string => html`
   </calcite-dropdown>
 `;
 
-export const triggerWordBreak_TestOnly = (): string => html`<div style="width:300px;">
+export const triggerWordBreak = (): string => html`<div style="width:300px;">
 <calcite-dropdown scale="m">
   <calcite-button slot="trigger" alignment="icon-end-space-between" appearance="transparent" icon-end="chevronDown"
     scale="m" type="button" width="full">BirdObservationCommentBirdObservationComment</calcite-button>
@@ -467,7 +467,7 @@ export const triggerWordBreak_TestOnly = (): string => html`<div style="width:30
 </calcite-dropdown>
 </div>`;
 
-export const settingFullWidthEnablesTriggerTruncation_TestOnly = (): string =>
+export const settingFullWidthEnablesTriggerTruncation = (): string =>
   html`<div style="width: 300px; border: solid">
     <calcite-dropdown style="width: 100%;">
       <calcite-button width="full" slot="trigger"

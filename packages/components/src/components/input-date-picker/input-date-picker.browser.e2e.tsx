@@ -11,77 +11,97 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 
-describe("calcite-input-date-picker", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-input-date-picker"),
-      [
-        {
-          propertyName: "overlayPositioning",
-          defaultValue: "absolute",
-        },
-        {
-          propertyName: "flipPlacements",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "status",
-          defaultValue: "idle",
-        },
-        {
-          propertyName: "validationIcon",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "validationMessage",
-          defaultValue: undefined,
-        },
-        {
-          propertyName: "calendars",
-          defaultValue: 2,
-        },
-      ],
-    );
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-input-date-picker"),
+    [
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
+        propertyName: "flipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "status",
+        defaultValue: "idle",
+      },
+      {
+        propertyName: "validationIcon",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "validationMessage",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "calendars",
+        defaultValue: 2,
+      },
+    ],
+  );
+});
 
-  describe("is focusable", () => {
-    focusable(() => mount(`calcite-input-date-picker`), {
-      shadowFocusTargetSelector: "calcite-input-text",
+describe("is focusable", () => {
+  focusable(() => mount(`calcite-input-date-picker`), {
+    shadowFocusTargetSelector: "calcite-input-text",
+  });
+});
+
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-input-date-picker"));
+});
+
+describe("internal label", () => {
+  internalLabel(() => mount(`calcite-input-date-picker`));
+});
+
+describe("renders", () => {
+  renders(() => mount("calcite-input-date-picker"), { display: "inline-block" });
+});
+
+describe("owns a floating-ui", () => {
+  floatingUIOwner(
+    () => mount(<calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />),
+    "open",
+    { shadowSelector: ".menu-container" },
+  );
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-input-date-picker"));
+});
+
+describe("translation support", () => {
+  t9n(() => mount("calcite-input-date-picker"));
+});
+
+describe.skip("disabled", () => {
+  disabled(() => mount("calcite-input-date-picker"));
+});
+
+describe("is form-associated", () => {
+  describe("supports single value", () => {
+    formAssociated(() => mount("calcite-input-date-picker"), {
+      testValue: "1985-03-23",
+      submitsOnEnter: true,
+      validation: true,
+      inputType: "date",
     });
   });
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-input-date-picker"));
-  });
-
-  describe("internal label", () => {
-    internalLabel(() => mount(`calcite-input-date-picker`));
-  });
-
-  describe("renders", () => {
-    renders(() => mount("calcite-input-date-picker"), { display: "inline-block" });
-  });
-
-  describe("owns a floating-ui", () => {
-    floatingUIOwner(
-      () =>
-        mount(<calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />),
-      "open",
-      { shadowSelector: ".menu-container" },
+  describe("supports range", () => {
+    formAssociated(
+      () => mount(<calcite-input-date-picker name="calcite-input-date-picker" range />),
+      {
+        testValue: ["1985-03-23", "1985-10-30"],
+        submitsOnEnter: true,
+        inputType: "date",
+      },
     );
-  });
-
-  describe("top layer placement", () => {
-    topLayer(() => mount("calcite-input-date-picker"));
-  });
-
-  describe("translation support", () => {
-    t9n(() => mount("calcite-input-date-picker"));
-  });
-
-  describe.skip("disabled", () => {
-    disabled(() => mount("calcite-input-date-picker"));
   });
 });

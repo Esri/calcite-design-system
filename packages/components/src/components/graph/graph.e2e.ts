@@ -27,32 +27,30 @@ async function createGraphWithData(): Promise<E2EPage> {
   return page;
 }
 
-describe("calcite-graph", () => {
-  describe("accessible", () => {
-    accessible("calcite-graph");
+describe("accessible", () => {
+  accessible("calcite-graph");
+});
+
+describe("accessible: with data", () => {
+  let page: E2EPage;
+
+  beforeEach(async () => {
+    page = await createGraphWithData();
   });
 
-  describe("accessible: with data", () => {
-    let page: E2EPage;
+  accessible(() => ({ tag: "calcite-graph", page }));
+});
 
-    beforeEach(async () => {
-      page = await createGraphWithData();
-    });
-
-    accessible(() => ({ tag: "calcite-graph", page }));
-  });
-
-  describe("theme", () => {
-    themed(
-      async () => {
-        return { tag: "calcite-graph", page: await createGraphWithData() };
+describe("theme", () => {
+  themed(
+    async () => {
+      return { tag: "calcite-graph", page: await createGraphWithData() };
+    },
+    {
+      "--calcite-graph-highlight-fill-color": {
+        shadowSelector: `.${CSS.graphPathHighlight}`,
+        targetProp: "fill",
       },
-      {
-        "--calcite-graph-highlight-fill-color": {
-          shadowSelector: `.${CSS.graphPathHighlight}`,
-          targetProp: "fill",
-        },
-      },
-    );
-  });
+    },
+  );
 });

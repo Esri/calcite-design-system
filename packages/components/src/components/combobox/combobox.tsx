@@ -14,6 +14,7 @@ import {
   state,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
 import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
 import {
@@ -29,21 +30,12 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
-import { Scale, SelectionMode, Status } from "../interfaces";
+import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
@@ -59,6 +51,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -81,11 +74,10 @@ declare global {
  * @slot - A slot for adding `calcite-combobox-item`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Combobox
-  extends LitElement
-  implements LabelableComponent, FormComponent, FloatingUIComponent
-{
+export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -94,6 +86,12 @@ export class Combobox
   //#region Private Properties
 
   private closeButtonRef = createRef<HTMLButtonElement>();
+
+  private direction = useDirection();
+
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
@@ -200,8 +198,6 @@ export class Combobox
   private guid = guid();
 
   private ignoreSelectedEventsFlag = false;
-
-  private inputHeight = 0;
 
   private internalValueChangeFlag = false;
 
@@ -321,13 +317,13 @@ export class Combobox
   /** When `true`, allows entry of custom values, which are not in the original set of items. */
   @property({ reflect: true }) allowCustomValues: boolean;
 
-  /** When `true`, the value-clearing will be disabled. */
+  /** When `true`, disables value-clearing. */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Text for the component's filter input field. */
+  /** The component's filter input field text. */
   @property({ reflect: true })
   get filterText(): string {
     return this._filterText;
@@ -344,7 +340,7 @@ export class Combobox
   @property() filterProps: string[];
 
   /**
-   * Specifies the component's filtered items.
+   * The component's filtered items.
    *
    * @readonly
    */
@@ -372,7 +368,7 @@ export class Combobox
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
   /** Overrides individual strings used by the component. */
@@ -393,16 +389,16 @@ export class Combobox
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placeholder text for the input. */
+  /** Specifies the input's placeholder text. */
   @property() placeholder: string;
 
-  /** Specifies the placeholder icon for the input. */
+  /** Specifies the input's placeholder icon. */
   @property({ reflect: true, type: String }) placeholderIcon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  /** Specifies the component's position relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
@@ -417,11 +413,11 @@ export class Combobox
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, provides a checkbox for selecting all `calcite-combobox-item`s. */
+  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, displays a checkbox for selecting all `calcite-combobox-item`s. */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
-   * Specifies the component's selected items.
+   * The component's selected items.
    *
    * @readonly
    */
@@ -448,6 +444,18 @@ export class Combobox
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
+   * Specifies the selection appearance, where
+   *
+   * `"icon"` displays a checkmark or dot, and
+   *
+   * `"highlight"` displays a background highlight.
+   */
+  @property({ reflect: true }) selectionAppearance: Extract<
+    "icon" | "highlight",
+    SelectionAppearance
+  > = "icon";
+
+  /**
    * Specifies the selection mode of the component, where:
    *
    * `"multiple"` allows any number of selections,
@@ -463,7 +471,7 @@ export class Combobox
     SelectionMode
   > = "multiple";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -521,7 +529,7 @@ export class Combobox
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed Reposition the component after a delay
    * @returns Promise
@@ -533,6 +541,7 @@ export class Combobox
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         overlayPositioning,
@@ -599,11 +608,6 @@ export class Combobox
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
-
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -640,7 +644,11 @@ export class Combobox
       this.reposition(true);
     }
 
-    if (changes.has("selectionMode") || changes.has("scale")) {
+    if (
+      changes.has("selectionMode") ||
+      changes.has("scale") ||
+      changes.has("selectionAppearance")
+    ) {
       this.updateItems();
     }
 
@@ -649,17 +657,7 @@ export class Combobox
     }
   }
 
-  override updated(): void {
-    if (this.el.offsetHeight !== this.inputHeight) {
-      this.reposition(true);
-      this.inputHeight = this.el.offsetHeight;
-    }
-
-    this.refreshSelectionDisplay();
-  }
-
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.getValue());
     connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
@@ -669,7 +667,6 @@ export class Combobox
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -692,7 +689,6 @@ export class Combobox
     }
 
     toggleOpenClose(this);
-    this.setMaxScrollerHeight();
   }
 
   private handleDisabledChange(value: boolean): void {
@@ -948,15 +944,14 @@ export class Combobox
           item.toggleSelection();
           event.preventDefault();
         } else if (this.activeChipIndex > -1) {
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
           event.preventDefault();
         } else if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
-        } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+        } else if (!event.defaultPrevented && this.formSupport.active) {
+          event.preventDefault();
+          this.formSupport.requestSubmit();
         }
         break;
       case "Delete":
@@ -969,7 +964,7 @@ export class Combobox
         }
         if (this.activeChipIndex > -1) {
           event.preventDefault();
-          this.removeActiveChip();
+          this.removeActiveChip(event.target as Chip["el"]);
         } else if (!this.filterText && this.isMulti()) {
           event.preventDefault();
           this.removeLastChip();
@@ -980,13 +975,16 @@ export class Combobox
   }
 
   onBeforeOpen(): void {
-    this.scrollToActiveOrSelectedItem();
-    this.calciteComboboxBeforeOpen.emit();
     this.topLayer.show();
+    this.reposition();
+    this.calciteComboboxBeforeOpen.emit();
+
+    // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
+    // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
+    setTimeout(() => this.scrollToActiveOrSelectedItem(true), 0);
   }
 
   onOpen(): void {
-    this.scrollToActiveOrSelectedItem(true);
     this.calciteComboboxOpen.emit();
   }
 
@@ -1007,11 +1005,9 @@ export class Combobox
       return;
     }
 
-    await this.reposition(true);
     const maxScrollerHeight = this.getMaxScrollerHeight();
     listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
-    await this.reposition(true);
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
@@ -1218,7 +1214,7 @@ export class Combobox
   }
 
   private getMaxScrollerHeight(): number {
-    const allItemsAndGroups = [...this.groupItems, ...this.getItems(true)];
+    const allItemsAndGroups = this.getItemsAndGroups(true);
     const items = allItemsAndGroups.filter((item) => !isHidden(item));
 
     const { maxItems } = this;
@@ -1259,8 +1255,16 @@ export class Combobox
     this.filterText = value;
   }
 
-  private getItemsAndGroups(): ComboboxChildElement[] {
-    return [...this.groupItems, ...this.items];
+  private getItemsAndGroups(preserveOrder = false): ComboboxChildElement[] {
+    if (!preserveOrder) {
+      return [...this.groupItems, ...this.items];
+    }
+
+    return Array.from(
+      this.el.querySelectorAll<ComboboxChildElement>(
+        `${ComboboxItemSelector}, ${ComboboxItemGroupSelector}`,
+      ),
+    );
   }
 
   private toggleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
@@ -1341,6 +1345,7 @@ export class Combobox
   private updateItemProps(): void {
     this.getItems(true).forEach((item) => {
       item.selectionMode = this.selectionMode;
+      item.selectionAppearance = this.selectionAppearance;
       item.scale = this.scale;
     });
 
@@ -1423,8 +1428,11 @@ export class Combobox
     }
   }
 
-  private removeActiveChip(): void {
-    this.toggleSelection(this.selectedItems[this.activeChipIndex], false);
+  private removeActiveChip(chip: Chip["el"]): void {
+    const activeItem = this.selectedItems[this.activeChipIndex];
+    if (activeItem && `${IDS.chip(activeItem.guid)}` === chip.id) {
+      this.toggleSelection(activeItem, false);
+    }
     this.setFocus();
   }
 
@@ -1984,7 +1992,6 @@ export class Combobox
           {this.renderListBoxOptions()}
         </ul>
         {this.renderFloatingUIContainer()}
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

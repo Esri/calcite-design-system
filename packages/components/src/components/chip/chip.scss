@@ -9,7 +9,7 @@
  * @prop --calcite-chip-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-chip-icon-color: Specifies the component's icon color.
  * @prop --calcite-chip-select-icon-color-press: Specifies the component's selection element icon color when active.
- * @prop --calcite-chip-select-icon-color-pressed: [Deprecated] Use `--calcite-chip-select-icon-color-press`. Specifies the component's selection element icon color when active.
+ * @prop --calcite-chip-select-icon-color-pressed: [Deprecated] in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead. Specifies the component's selection element icon color when active.
  * @prop --calcite-chip-select-icon-color: Specifies the component's selection element icon color.
  * @prop --calcite-chip-text-color: Specifies the component's text color.
  *
@@ -449,7 +449,10 @@
 
 .chip-icon {
   @apply relative my-0 inline-flex ease-in-out;
-  color: var(--calcite-chip-icon-color, var(--calcite-chip-text-color, var(--calcite-icon-color, currentColor)));
+  color: var(
+    --calcite-chip-icon-color,
+    var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
+  );
   padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
 }
 

@@ -8,7 +8,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";
@@ -114,10 +114,8 @@ export class SplitButton extends LitElement {
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-end"
    */
-  @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
+  @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
   @property({ reflect: true, type: String }) primaryIconEnd: IconName;
@@ -128,13 +126,13 @@ export class SplitButton extends LitElement {
   /** Specifies an icon to display at the start of the primary button. */
   @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
-  /** Accessible name for the primary button. */
+  /** Specifies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;
 
-  /** Text displayed in the primary button. */
+  /** Specifies the text displayed in the primary button. */
   @property({ reflect: true }) primaryText: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**

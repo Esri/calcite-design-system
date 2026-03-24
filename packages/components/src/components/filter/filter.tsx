@@ -58,10 +58,10 @@ export class Filter extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
+  /** When `value` is an object, specifies the properties to match against when filtering. If not set, all properties will be matched. */
   @property() filterProps?: string[];
 
   /**
@@ -72,7 +72,7 @@ export class Filter extends LitElement {
   @property() filteredItems: object[] = [];
 
   /**
-   * Defines the items to filter. The component uses the values as the starting point, and returns items
+   * Specifies the items to filter. The component uses the values as the starting point, and returns items
    *
    * that contain the string entered in the input, using a partial match and recursive search.
    *
@@ -88,7 +88,7 @@ export class Filter extends LitElement {
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies placeholder text for the input element. */
+  /** Specifies the component's input placeholder text. */
   @property() placeholder?: string;
 
   /** Specifies the size of the component. */
@@ -191,8 +191,10 @@ export class Filter extends LitElement {
     }
 
     if (event.key === "Escape") {
-      this.clear();
-      event.preventDefault();
+      if (this.value.length > 0) {
+        this.clear();
+        event.preventDefault();
+      }
     }
 
     if (event.key === "Enter") {

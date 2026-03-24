@@ -9,8 +9,7 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
-import { ItemKeyboardEvent } from "../dropdown/interfaces";
+import { toAriaBoolean } from "../../utils/aria";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -56,8 +55,15 @@ export class DropdownItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
+
+  /**
+   * When `true`, the component appears as if it is focused.
+   *
+   * @private
+   */
+  @property({ reflect: true }) activeDescendant = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
@@ -69,7 +75,7 @@ export class DropdownItem extends LitElement {
   /** Specifies an icon to display at the end of the component. */
   @property({ reflect: true, type: String }) iconEnd: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
@@ -78,7 +84,7 @@ export class DropdownItem extends LitElement {
   /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** Specifies the relationship to the linked document defined in `href`. */
+  /** Specifies the relationship to the linked resource defined in `href`. */
   @property({ reflect: true }) rel: string;
 
   /**
@@ -101,7 +107,7 @@ export class DropdownItem extends LitElement {
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /** Specifies the frame or window to open the linked document. */
+  /** Specifies the frame or window to open the linked resource. */
   @property({ reflect: true }) target: string;
 
   //#endregion
@@ -120,18 +126,31 @@ export class DropdownItem extends LitElement {
     return this.focusSetter(() => this.el, options);
   }
 
+  /**
+   * Activates the component as if it were clicked.
+   *
+   * @private
+   */
+  @method()
+  async activateItem(): Promise<void> {
+    if (this.disabled) {
+      return;
+    }
+
+    if (this.href) {
+      this.childLinkRef.value?.click();
+      return;
+    }
+
+    this.emitRequestedItem();
+  }
+
   //#endregion
 
   //#region Events
 
   /** Fires when the component is selected. */
   calciteDropdownItemSelect = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalDropdownCloseRequest = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalDropdownItemKeyEvent = createEvent<ItemKeyboardEvent>({ cancelable: false });
 
   /** @private */
   calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
@@ -143,7 +162,6 @@ export class DropdownItem extends LitElement {
   constructor() {
     super();
     this.listen("click", this.onClick);
-    this.listen("keydown", this.keyDownHandler);
     this.listenOn<CustomEvent>(
       document.body,
       "calciteInternalDropdownItemChange",
@@ -165,33 +183,6 @@ export class DropdownItem extends LitElement {
 
   private onClick(): void {
     this.emitRequestedItem();
-  }
-
-  private keyDownHandler(event: KeyboardEvent): void {
-    switch (event.key) {
-      case " ":
-      case "Enter":
-        this.emitRequestedItem();
-        if (this.href) {
-          this.childLinkRef.value.click();
-        }
-        event.preventDefault();
-        break;
-      case "Escape":
-        this.calciteInternalDropdownCloseRequest.emit();
-        event.preventDefault();
-        break;
-      case "Tab":
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
-        event.preventDefault();
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
-        break;
-    }
   }
 
   private updateActiveItemOnChange(event: CustomEvent): void {
@@ -313,7 +304,7 @@ export class DropdownItem extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", disabled ? -1 : 0);
+    setAttribute(this.el, "tabIndex", -1);
 
     return (
       <this.interactiveContainer disabled={disabled}>

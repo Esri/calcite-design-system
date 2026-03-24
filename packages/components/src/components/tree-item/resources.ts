@@ -5,13 +5,13 @@ export const CSS = {
   checkbox: "checkbox",
   checkboxContainer: "checkbox-container",
   checkboxLabel: "checkbox-label",
-  checkmarkIcon: "checkmark",
   chevron: "chevron",
   childrenContainer: "children-container",
   iconStart: "icon-start",
   itemExpanded: "item--expanded",
   nodeAndActionsContainer: "node-actions-container",
   nodeContainer: "node-container",
+  selectionIcon: "selection-icon",
 };
 
 export const SLOTS = {
@@ -21,6 +21,7 @@ export const SLOTS = {
 
 export const ICONS: Record<string, IconName> = {
   blank: "blank",
+  bulletPoint: "bullet-point",
   checkmark: "check",
   checkSquareF: "check-square-f",
   chevronRight: "chevron-right",

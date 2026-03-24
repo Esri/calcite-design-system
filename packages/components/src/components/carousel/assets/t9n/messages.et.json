@@ -5,5 +5,5 @@
   "pause": "Peata",
   "carousel": "Karussell",
   "carouselItemProgress": "Karuselli üksuse edenemisnäidik",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Üksus {current}/{total}"
 }

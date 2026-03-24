@@ -3,14 +3,14 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-combobox-item-border-color: [Deprecated] Specifies the component's border color.
+ * @prop --calcite-combobox-item-border-color: [Deprecated] in v3.3.0, removal target v6.0.0 - Specifies the component's border color.
  * @prop --calcite-combobox-text-color: Specifies the component's text and `icon` color.
  * @prop --calcite-combobox-text-color-hover: Specifies the component's text and `icon` color when hovered.
- * @prop --calcite-combobox-item-background-color-active: Specifies the component's background color when active.
+ * @prop --calcite-combobox-item-background-color-active: When `active`, specifies the component's background color.
  * @prop --calcite-combobox-item-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-combobox-item-shadow: Specifies the component's shadow.
 
- * @prop --calcite-combobox-selected-icon-color: Specifies the component's selected indicator icon color.
+ * @prop --calcite-combobox-selected-icon-color: Specifies the component's `selected` indicator icon color.
  * @prop --calcite-combobox-description-text-color: Specifies the component's `description` and `shortHeading` text color.
  * @prop --calcite-combobox-description-text-color-press: Specifies the component's `description` and `shortHeading` text color when hovered.
  * @prop --calcite-combobox-heading-text-color: Specifies the component's `heading` text color.
@@ -173,6 +173,10 @@ ul:focus {
 .description,
 .short-text {
   line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+.container--highlight-selected {
+  background-color: var(--calcite-color-surface-highlight);
 }
 
 @include includes.item-hidden();

@@ -11,12 +11,13 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { getRoundRobinIndex } from "../../utils/array";
-import { toAriaBoolean } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -121,8 +122,11 @@ export class ActionMenu extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private actionMouseDownHandler = (event): void => {
-    event.stopPropagation();
+  private mouseDownHandler = (event: MouseEvent): void => {
+    if (!event.composedPath().some(isAction)) {
+      return;
+    }
+
     this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
   };
 
@@ -226,7 +230,7 @@ export class ActionMenu extends LitElement {
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
-    this.el.addEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
+    this.listen("mousedown", this.mouseDownHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -256,7 +260,6 @@ export class ActionMenu extends LitElement {
 
   override disconnectedCallback(): void {
     this.disconnectMenuButtonEl();
-    this.el.removeEventListener("calciteInternalActionMouseDown", this.actionMouseDownHandler);
   }
 
   //#endregion

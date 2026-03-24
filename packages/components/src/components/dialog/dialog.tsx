@@ -7,7 +7,7 @@ import { createEvent, h, JsxNode, LitElement, method, property, state } from "@a
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { OpenCloseComponentWithEl, toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale, Width } from "../interfaces";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
@@ -18,7 +18,9 @@ import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { IconName } from "../icon/interfaces";
+import { ResizeValues } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
@@ -33,7 +35,7 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -43,11 +45,11 @@ declare global {
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
  */
-export class Dialog extends LitElement {
+export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   //#region Static Members
 
   static override styles = styles;
@@ -94,7 +96,7 @@ export class Dialog extends LitElement {
 
   private resizePosition: DialogResizePosition = { ...initialResizePosition };
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLDivElement | null = null;
 
   /**
    * Made into a prop for testing purposes only
@@ -104,6 +106,18 @@ export class Dialog extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private sizeOverride = useSizeOverride({
+    targetElement: () => ({ value: this.transitionEl }),
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    }),
+    fullscreenDisabled: () => this.fullscreenDisabled,
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
+  });
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
@@ -124,6 +138,15 @@ export class Dialog extends LitElement {
 
   @state() opened = false;
 
+  @state() resizeValues: ResizeValues = {
+    inlineSize: null,
+    blockSize: null,
+    minInlineSize: null,
+    minBlockSize: null,
+    maxInlineSize: null,
+    maxBlockSize: null,
+  };
+
   get preventDocumentScroll(): boolean {
     return !this.embedded && this.modal;
   }
@@ -132,13 +155,13 @@ export class Dialog extends LitElement {
 
   //#region Public Properties
 
-  /** Passes a function to run before the component closes. */
+  /** Specifies a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** Specifies a description for the component. */
+  /** Specifies the component's description. */
   @property() description: string;
 
   /** When `true`, the component is draggable. */
@@ -166,11 +189,14 @@ export class Dialog extends LitElement {
    *
    * `"allowOutsideClick`" allows outside clicks,
    * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active, and
-   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * `"returnFocusOnDeactivate"` returns focus when not active,
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
   @property() focusTrapOptions: Partial<FocusTrapOptions>;
+
+  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
   /** Specifies the component's heading text. */
   @property() heading: string;
@@ -178,7 +204,7 @@ export class Dialog extends LitElement {
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies the kind of the component, which will style the top border. */
+  /** Specifies the component's kind, which determines the top border styling. */
   @property({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
@@ -187,7 +213,7 @@ export class Dialog extends LitElement {
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, a busy indicator is displayed. */
@@ -229,7 +255,7 @@ export class Dialog extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the placement of the dialog. */
+  /** Specifies the component's placement. */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
   /** When `true`, the component is resizable. */
@@ -248,13 +274,13 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
-   * Specifies the width of the component.
+   * Specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /** Specifies the component's width. */
   @property({ reflect: true }) width: Extract<Width, Scale>;
 
   //#endregion
@@ -304,6 +330,17 @@ export class Dialog extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /**
+   * Updates the component's size by setting its inline and/or block dimensions.
+   *
+   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
+   */
+  @method()
+  async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
+    this.updateSizeInternal(size);
+  }
+
   //#endregion
 
   //#region Events
@@ -317,10 +354,10 @@ export class Dialog extends LitElement {
   /** Fires when the component is closed and animation is complete. */
   calciteDialogClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteDialogOpen = createEvent({ cancelable: false });
 
-  /** Fires when the content is scrolled. */
+  /** Fires when the component's content is scrolled. */
   calciteDialogScroll = createEvent({ cancelable: false });
 
   //#endregion
@@ -356,7 +393,7 @@ export class Dialog extends LitElement {
     }
 
     if (changes.has("opened") && (this.hasUpdated || this.opened !== false)) {
-      this.handleOpenedChange(this.opened);
+      this.handleOpenedChange();
     }
   }
 
@@ -424,14 +461,7 @@ export class Dialog extends LitElement {
     this.opened = value;
   }
 
-  private handleOpenedChange(value: boolean): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.classList.toggle(CSS.openingActive, value);
+  private handleOpenedChange(): void {
     toggleOpenClose(this);
   }
 
@@ -451,7 +481,7 @@ export class Dialog extends LitElement {
     });
   }
 
-  private getTransitionElDOMRect(): DOMRect {
+  private getTransitionRefDOMRect(): DOMRect {
     return this.transitionEl.getBoundingClientRect();
   }
 
@@ -470,15 +500,14 @@ export class Dialog extends LitElement {
         if (shiftKey && resizable && transitionEl) {
           const { minBlockSize } = window.getComputedStyle(transitionEl);
           const minHeight = getStylePixelValue(minBlockSize);
-          const height = this.getTransitionElDOMRect().height;
+          const height = this.getTransitionRefDOMRect().height;
 
           if (height <= minHeight) {
             return;
           }
 
-          this.updateSize({
-            size: height - resizeShiftStep,
-            type: "blockSize",
+          this.updateSizeInternal({
+            block: height - resizeShiftStep,
           });
           resizePosition.bottom -= resizeShiftStep;
           this.updateTransform();
@@ -493,9 +522,8 @@ export class Dialog extends LitElement {
         break;
       case "ArrowDown":
         if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().height + resizeShiftStep,
-            type: "blockSize",
+          this.updateSizeInternal({
+            block: this.getTransitionRefDOMRect().height + resizeShiftStep,
           });
           resizePosition.bottom += resizeShiftStep;
           this.updateTransform();
@@ -512,15 +540,14 @@ export class Dialog extends LitElement {
         if (shiftKey && resizable && transitionEl) {
           const { minInlineSize } = window.getComputedStyle(transitionEl);
           const minWidth = getStylePixelValue(minInlineSize);
-          const width = this.getTransitionElDOMRect().width;
+          const width = this.getTransitionRefDOMRect().width;
 
           if (width <= minWidth) {
             return;
           }
 
-          this.updateSize({
-            size: width - resizeShiftStep,
-            type: "inlineSize",
+          this.updateSizeInternal({
+            inline: width - resizeShiftStep,
           });
           resizePosition.right -= resizeShiftStep;
           this.updateTransform();
@@ -535,9 +562,8 @@ export class Dialog extends LitElement {
         break;
       case "ArrowRight":
         if (shiftKey && resizable && transitionEl) {
-          this.updateSize({
-            size: this.getTransitionElDOMRect().width + resizeShiftStep,
-            type: "inlineSize",
+          this.updateSizeInternal({
+            inline: this.getTransitionRefDOMRect().width + resizeShiftStep,
           });
           resizePosition.right += resizeShiftStep;
           this.updateTransform();
@@ -576,30 +602,16 @@ export class Dialog extends LitElement {
     const translateX = Math.round(x + left + right);
     const translateY = Math.round(y + top + bottom);
 
-    transitionEl.style.transform =
+    this.transitionEl.style.transform =
       translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
-  }
-
-  private updateSize({
-    type,
-    size,
-  }: {
-    type: "inlineSize" | "blockSize";
-    size: number | null;
-  }): void {
-    const { transitionEl } = this;
-
-    if (!transitionEl) {
-      return;
-    }
-
-    transitionEl.style[type] = size !== null ? `${Math.round(size)}px` : null;
   }
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSize({ size: null, type: "inlineSize" });
-    this.updateSize({ size: null, type: "blockSize" });
+    this.updateSizeInternal({
+      inline: null,
+      block: null,
+    });
     this.dragPosition = { ...initialDragPosition };
     this.resizePosition = { ...initialResizePosition };
     this.updateTransform();
@@ -621,8 +633,9 @@ export class Dialog extends LitElement {
     if (resizable) {
       await this.el.componentOnReady();
 
-      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } =
-        window.getComputedStyle(transitionEl);
+      const { minInlineSize, minBlockSize, maxInlineSize, maxBlockSize } = window.getComputedStyle(
+        this.transitionEl,
+      );
 
       this.interaction.resizable({
         edges: {
@@ -654,8 +667,10 @@ export class Dialog extends LitElement {
               resizePosition.bottom += deltaRect.bottom;
               resizePosition.left += deltaRect.left;
             }
-            this.updateSize({ size: rect.width, type: "inlineSize" });
-            this.updateSize({ size: rect.height, type: "blockSize" });
+            this.updateSizeInternal({
+              inline: rect.width,
+              block: rect.height,
+            });
             this.updateTransform();
           },
         },
@@ -760,6 +775,16 @@ export class Dialog extends LitElement {
 
   private handleMutationObserver(): void {
     this.focusTrap.updateContainerElements();
+  }
+
+  /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
+  private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
+    const dialogElement = this.transitionEl;
+    if (!dialogElement) {
+      return;
+    }
+
+    this.sizeOverride.resize(size);
   }
 
   //#endregion

@@ -42,13 +42,13 @@ export const simple = (args: RadioButtonStoryArgs): string => html`
   </calcite-label>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-label layout="inline" class="calcite-mode-dark" dir="rtl">
     <calcite-radio-button name="dark" scale="m" value="value"> </calcite-radio-button>
     Radio Button
   </calcite-label>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;
+export const disabled = (): string => html`<calcite-radio-button checked disabled></calcite-radio-button>`;

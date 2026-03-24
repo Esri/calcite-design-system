@@ -1,15 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
-import {
-  LitElement,
-  property,
-  h,
-  method,
-  JsxNode,
-  Fragment,
-  LuminaJsx,
-  createEvent,
-} from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -76,9 +67,7 @@ export class Action extends LitElement implements FormOwner {
   //#region Public Properties
 
   /**
-   * Use this property to override or extend ARIA properties and attributes on the component's button.
-   *
-   * @internal
+   * When specified, overrides or extends ARIA properties and attributes on the component's button. Refer to the component's accessibility section for configuration considerations.
    */
   @property() aria?: Partial<
     Pick<
@@ -174,7 +163,7 @@ export class Action extends LitElement implements FormOwner {
    */
   @property() text: string;
 
-  /** When `true`, indicates whether the text is displayed. */
+  /** When `true`, displays `text` adjacent to the `icon`. */
   @property({ reflect: true }) textEnabled = false;
 
   /**
@@ -212,16 +201,6 @@ export class Action extends LitElement implements FormOwner {
 
   //#endregion
 
-  //#region Events
-
-  /**
-   * Fires when the action's button is being pressed down.
-   * @internal
-   */
-  calciteInternalActionMouseDown = createEvent({ cancelable: false });
-
-  //#endregion
-
   //#region Lifecycle
 
   override connectedCallback(): void {
@@ -245,10 +224,6 @@ export class Action extends LitElement implements FormOwner {
     } else if (type === "reset") {
       resetForm(this);
     }
-  }
-
-  private handleMouseDown(): void {
-    this.calciteInternalActionMouseDown.emit();
   }
 
   //#endregion
@@ -402,7 +377,6 @@ export class Action extends LitElement implements FormOwner {
         disabled={disabled}
         id={buttonId}
         onClick={this.handleClick}
-        onMouseDown={this.handleMouseDown}
         ref={this.buttonRef}
         role={this.aria?.role}
       >

@@ -3,6 +3,8 @@ const {
   labels: { issueWorkflow },
 } = require("./resources");
 
+/** @typedef {(issueNumber: number, updatedBody: string) => Promise<void>} UpdateBodyCallback */
+
 module.exports = {
   /**
    * @typedef {object} removeLabelParam
@@ -99,10 +101,32 @@ module.exports = {
    */
   assertRequired: (array, core, errorMessage) => {
     if (array.some((item) => item === undefined || item === null)) {
-      core.warning(errorMessage || `One or more required items are not defined, exiting.`, { title: "Assert Required" });
+      core.warning(errorMessage || `One or more required items are not defined, exiting.`, {
+        title: "Assert Required",
+      });
       process.exit(0);
     }
 
     return /** @type {{ [K in keyof T]: NonNullable<T[K]> }} */ (array);
+  },
+  /**
+   * Creates a callback to update the body of an issue
+   * @param {Pick<import('github-script').AsyncFunctionArguments, "github" | "context" | "core">} params
+   * @returns {UpdateBodyCallback}
+   */
+  createBodyUpdater: ({ github, context, core }) => {
+    return async (issueNumber, updatedBody) => {
+      try {
+        await github.rest.issues.update({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          issue_number: issueNumber,
+          body: updatedBody,
+        });
+      } catch (error) {
+        core.setFailed(`Error updating issue body: ${error}`);
+        return;
+      }
+    };
   },
 };

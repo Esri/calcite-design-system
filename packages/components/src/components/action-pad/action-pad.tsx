@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
@@ -9,11 +10,11 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Action } from "../action/action";
+import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
-import { isAction } from "../action-bar/utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -43,6 +44,8 @@ export class ActionPad extends LitElement {
   private actions: Action["el"][] = [];
 
   private actionGroups: ActionGroup["el"][];
+
+  private direction = useDirection();
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -106,15 +109,6 @@ export class ActionPad extends LitElement {
     "neutral" | "highlight",
     SelectionAppearance
   > = "neutral";
-
-  /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
-   */
-  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -319,6 +313,7 @@ export class ActionPad extends LitElement {
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
+        direction={this.direction}
         el={el}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}
@@ -337,7 +332,6 @@ export class ActionPad extends LitElement {
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
-        topLayerDisabled={this.topLayerDisabled}
       >
         <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
         {expandToggleNode}

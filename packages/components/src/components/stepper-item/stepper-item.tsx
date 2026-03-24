@@ -78,13 +78,13 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
   /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
@@ -169,7 +169,7 @@ export class StepperItem extends LitElement {
   });
 
   /** @private */
-  calciteInternalStepperItemRegister = createEvent<StepperItemEventDetail>({ cancelable: false });
+  calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /** @private */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
@@ -195,7 +195,6 @@ export class StepperItem extends LitElement {
   async load(): Promise<void> {
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
 
     if (this.selected) {
       this.emitRequestedItem();
@@ -212,7 +211,7 @@ export class StepperItem extends LitElement {
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.registerStepperItem();
+      this.calciteInternalStepperItemUpdate.emit();
     }
 
     if (changes.has("messages")) {
@@ -276,12 +275,6 @@ export class StepperItem extends LitElement {
 
   private determineSelectedItem(): void {
     this.selected = !this.disabled && this.itemPosition === this.selectedPosition;
-  }
-
-  private registerStepperItem(): void {
-    this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition,
-    });
   }
 
   private handleItemClick(event: MouseEvent): void {

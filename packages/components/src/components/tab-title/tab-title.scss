@@ -8,11 +8,11 @@
  * @prop --calcite-tab-border-color: Specifies the component's border color.
  * @prop --calcite-tab-background-color: Specifies the component's background color.
  * @prop --calcite-tab-background-color-hover: When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
- * @prop --calcite-tab-accent-color-press: Specifies the component's accent color when selected or active.
+ * @prop --calcite-tab-accent-color-press: When `selected` or active, specifies the component's accent color.
  * @prop --calcite-tab-icon-color-start: Specifies the component's `iconStart` color.
- * @prop --calcite-tab-icon-color-start-press: Specifies the component's `iconStart` color when hovered, pressed, or selected.
+ * @prop --calcite-tab-icon-color-start-press:  When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
  * @prop --calcite-tab-icon-color-end: Specifies the component's `iconEnd` color.
- * @prop --calcite-tab-icon-color-end-press: Specifies the component's `iconEnd` color when hovered, pressed, or selected.
+ * @prop --calcite-tab-icon-color-end-press: When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
  * @prop --calcite-tab-close-icon-color: Specifies the component's close element icon color.
  * @prop --calcite-tab-close-icon-color-press: Specifies the component's close element icon color when hovered, focused, and active.
  * @prop --calcite-tab-close-icon-background-color: Specifies the component's close element icon background color.
@@ -185,11 +185,11 @@
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
 
   .icon-start {
-    color: var(--calcite-tab-icon-color-start, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   .icon-end {
-    color: var(--calcite-tab-icon-color-end, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   &:hover,
@@ -198,11 +198,11 @@
     color: var(--calcite-tab-text-color-press, var(--calcite-color-text-1));
 
     .icon-start {
-      color: var(--calcite-tab-icon-color-start-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-start-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
 
     .icon-end {
-      color: var(--calcite-tab-icon-color-end-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-end-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
   }
 }

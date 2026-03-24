@@ -8,13 +8,14 @@
  * @prop --calcite-notice-corner-radius: Specifies the component's border radius. 
  * @prop --calcite-notice-close-background-color: Specifies the background color of the component's close element.
  * @prop --calcite-notice-close-background-color-hover: Specifies the background color of the component's close element when hovered.
- * @prop --calcite-notice-close-background-color-focus: [Deprecated] Specifies the background color of the component's close element when hovered. Use `--calcite-notice-close-background-color-hover` instead.
+ * @prop --calcite-notice-close-background-color-focus: [Deprecated] in v5.0.0, removal target v6.0.0 - Use `--calcite-notice-close-background-color-hover` instead. Specifies the background color of the component's close element when hovered.
  * @prop --calcite-notice-close-background-color-press: Specifies the background color of the component's close element when active.
  * @prop --calcite-notice-close-icon-color-hover: Specifies the icon color of the component's close element when hovered or active.
  * @prop --calcite-notice-close-icon-color: Specifies the icon color of the component's close element.
  * @prop --calcite-notice-title-text-color: Specifies the component's slotted `"title"` content text color.
  * @prop --calcite-notice-content-text-color: Specifies the component's slotted `"message"` content text color.
- * @prop --calcite-notice-width: [Deprecated] Specifies the component's width.
+ * @prop --calcite-notice-width: [Deprecated] in v3.0.0, removal target v6.0.0 - Specifies the component's width.
+ * @prop --calcite-notice-shadow: Specifies the component's shadow.
  */
 
 @use "sass:list";
@@ -101,6 +102,7 @@
   transition-duration: var(--calcite-animation-timing);
   text-align: start;
   border-radius: var(--calcite-notice-corner-radius, var(--calcite-corner-radius-sm));
+  box-shadow: var(--calcite-notice-shadow, var(--calcite-shadow-none));
 }
 
 :host {

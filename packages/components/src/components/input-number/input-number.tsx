@@ -12,18 +12,9 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -39,17 +30,14 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import {
-  NumericInputComponent,
-  syncHiddenFormInput,
-  TextualInputComponent,
-} from "../input/common/input";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -61,14 +49,16 @@ declare global {
 }
 
 /**
- * @slot action - A slot for positioning a `calcite-action` or other interactive content.
+ * @slot action - A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
 export class InputNumber
   extends LitElement
-  implements LabelableComponent, FormComponent, NumericInputComponent, TextualInputComponent
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -88,7 +78,11 @@ export class InputNumber
 
   defaultValue: InputNumber["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm<this>({
+    inputType: "number",
+  })(this);
 
   private inlineEditableEl: InlineEditable["el"];
 
@@ -101,17 +95,6 @@ export class InputNumber
   private minString?: string;
 
   private nudgeNumberValueIntervalId: number;
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedNumberValue: string;
 
@@ -131,7 +114,7 @@ export class InputNumber
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -153,7 +136,7 @@ export class InputNumber
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's value. */
+  /** Specifies the text alignment of the component's `value`. */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
@@ -164,11 +147,11 @@ export class InputNumber
    */
   @property() autocomplete: AutoFill;
 
-  /** When `true`, a clear button is displayed when the component has a value. */
+  /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
    * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
@@ -194,7 +177,7 @@ export class InputNumber
    */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
@@ -206,7 +189,7 @@ export class InputNumber
   /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /** When `true`, the component is in the loading state and `calcite-progress` is displayed. */
+  /** When `true`, displays a busy indicator. */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -218,7 +201,7 @@ export class InputNumber
 
   /**
    * When the component resides in a form,
-   * specifies the maximum value.
+   * specifies the maximum `value`.
    *
    * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
@@ -226,7 +209,7 @@ export class InputNumber
 
   /**
    * When the component resides in a form,
-   * specifies the maximum length of text for the component's value.
+   * specifies the maximum length of text for the component's `value`.
    *
    * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
@@ -238,7 +221,7 @@ export class InputNumber
 
   /**
    * When the component resides in a form,
-   * specifies the minimum value.
+   * specifies the minimum `value`.
    *
    * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
@@ -246,7 +229,7 @@ export class InputNumber
 
   /**
    * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
+   * specifies the minimum length of text for the component's `value`.
    *
    * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
@@ -269,17 +252,17 @@ export class InputNumber
   @property({ reflect: true }) numberingSystem: NumberingSystem;
 
   /**
-   * Specifies placeholder text for the component.
+   * Specifies the component's placeholder text.
    *
    * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
-  /** Adds text to the start of the component. */
+  /** Specifies text to display at the start of the component. */
   @property() prefixText: string;
 
   /**
-   * When `true`, the component's value can be read, but cannot be modified.
+   * When `true`, the component's `value` can be read, but cannot be modified.
    *
    * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
@@ -287,24 +270,24 @@ export class InputNumber
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's value must adhere to.
+   * Specifies the granularity that the component's `value` must adhere to.
    *
    * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @property({ reflect: true }) step: number | "any";
 
-  /** Adds text to the end of the component. */
+  /** Specifies text to display at the end of the component. */
   @property() suffixText: string;
 
   /** Specifies the validation icon to display under the component. */
@@ -380,10 +363,10 @@ export class InputNumber
 
   //#region Events
 
-  /** Fires each time a new value is typed and committed. */
+  /** Fires each time a new `value` is typed and committed. */
   calciteInputNumberChange = createEvent({ cancelable: false });
 
-  /** Fires each time a new value is typed. */
+  /** Fires each time a new `value` is typed. */
   calciteInputNumberInput = createEvent();
 
   /** @private */
@@ -408,11 +391,6 @@ export class InputNumber
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -463,12 +441,7 @@ export class InputNumber
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.stopNudging();
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -515,10 +488,9 @@ export class InputNumber
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 
@@ -782,10 +754,6 @@ export class InputNumber
     }
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("number", this, input);
-  }
-
   private setInputNumberValue(newInputValue: string): void {
     if (!this.childNumberRef.value) {
       return;
@@ -932,7 +900,7 @@ export class InputNumber
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
@@ -1083,7 +1051,6 @@ export class InputNumber
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

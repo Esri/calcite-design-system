@@ -12,13 +12,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
+import { PropertyValues } from "lit";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -27,13 +21,14 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
@@ -53,9 +48,11 @@ declare global {
  */
 export class TextArea
   extends LitElement
-  implements FormComponent, LabelableComponent, Omit<TextualInputComponent, "pattern">
+  implements LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -74,7 +71,9 @@ export class TextArea
 
   private validationMessageEl: HTMLDivElement;
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private guid = guid();
 
@@ -207,7 +206,11 @@ export class TextArea
    */
   @property({ reflect: true }) minLength: number;
 
-  /** Specifies the name of the component.*/
+  /**
+   * Specifies the name of the component. Required to pass the component's value on form submission.
+   *
+   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
+   */
   @property({ reflect: true }) name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -328,8 +331,28 @@ export class TextArea
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
     this.cancelable.add(this.updateSizeToAuto);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    let numberFormatOptionsChanged = false;
+
+    if (
+      changes.has("messages") ||
+      changes.has("numberingSystem") ||
+      changes.has("groupSeparator")
+    ) {
+      numberFormatOptionsChanged = true;
+    }
+
+    if (changes.has("value") || changes.has("maxLength") || numberFormatOptionsChanged) {
+      this.updateNumberFormatter();
+
+      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
+      this.formSupport.setCustomValidity(
+        this.isCharacterLimitExceeded() ? this.replacePlaceholdersInMessages() : "",
+      );
+    }
   }
 
   override updated(): void {
@@ -338,13 +361,21 @@ export class TextArea
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private updateNumberFormatter(): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "never",
+      useGrouping: this.groupSeparator,
+    };
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -375,31 +406,16 @@ export class TextArea
   }
 
   private getLocalizedCharacterLength(): CharacterLengthObj {
-    const currentLength = this.value ? this.value.length.toString() : "0";
-    const maxLength = this.maxLength.toString();
+    const currentLength = this.value?.length.toString() || "0";
+    const maxLength = this.maxLength?.toString() || "0";
     if (this.numberingSystem === "latn") {
       return { currentLength, maxLength };
     }
 
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "never",
-      useGrouping: this.groupSeparator,
-    };
     return {
       currentLength: numberStringFormatter.localize(currentLength),
       maxLength: numberStringFormatter.localize(maxLength),
     };
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.setCustomValidity("");
-    if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceholdersInMessages());
-    }
-
-    syncHiddenFormInput("textarea", this, input);
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
@@ -548,7 +564,6 @@ export class TextArea
               </div>
               {this.renderCharacterLimit()}
             </footer>
-            <HiddenFormInputSlot component={this} />
             {this.isCharacterLimitExceeded() && (
               <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
                 {this.replacePlaceholdersInMessages()}
@@ -572,7 +587,6 @@ export class TextArea
 
   private renderCharacterLimit(): JsxNode | null {
     if (this.maxLength) {
-      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
           <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
