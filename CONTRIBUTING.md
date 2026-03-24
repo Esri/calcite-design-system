@@ -32,7 +32,6 @@ To become a contributor, you must:
   - For access, reach out to the Esri GitHub administrators email alias
 - Be a member of the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors)
   - For access, reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco)
-- Reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) **prior to making any new contribution** to coordinate and align on approaches, strategies, and goals across the repository
 
 Once access is granted to the [Calcite Core Contributors GitHub team](https://github.com/orgs/Esri/teams/calcite-core-contributors), contributors can [clone the calcite-design-system](https://github.com/Esri/calcite-design-system) repo using an SSH key on their machine, which is the required Git workflow with Calcite's Chromatic test integration suite. Explore the [getting a development environment](#getting-a-development-environment-set-up) section to setup your local environment. Contributors should also review the [visual snapshots](#visual-snapshots) section before submitting a PR to familiarize themselves with the Chromatic test integration suite.
 
@@ -42,7 +41,8 @@ Contributors can help most by:
 
 - Any of the items listed under the [user role](#users-help)
 - Working on issues that have [low estimates](#estimates) - it is strongly recommended to work on issues with estimates of `estimate - 5` and lower
-  - **Prior to starting work on a new contribution**, please reach out to Calcite team members to let us know of your interest in the issue. To do so reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco). Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone.
+  - Ensure the issue has not been added to the [Freezer milestone](https://github.com/Esri/calcite-design-system/milestone/28)
+  - **Prior to starting work on a new contribution**, please reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) to coordinate and align on approaches, strategies, and goals across the repository. Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone.
 - If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
