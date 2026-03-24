@@ -116,11 +116,11 @@ describe("l10n", () => {
               .toHaveTextContent(expectedLocalizedSecondSuffix.trim());
           }
 
-          const meridiemExpectation = expect.element(meridiemEl);
-
           await (localeHourFormat === "12"
-            ? meridiemExpectation.toHaveTextContent(expectedLocalizedMeridiem)
-            : meridiemExpectation.not.toBeInTheDocument());
+            ? // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
+              expect.element(meridiemEl).toHaveTextContent(expectedLocalizedMeridiem)
+            : // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
+              expect.element(meridiemEl).not.toBeInTheDocument());
         });
       });
 

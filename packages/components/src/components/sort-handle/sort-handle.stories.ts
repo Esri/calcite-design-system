@@ -58,27 +58,43 @@ export const positions = (): string => html`
 
 export const withMoveToItems = (): string => html`
   <div style="height:600px; width:600px;">
-    <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
+    <calcite-sort-handle id="move-to-story-handle" label="test" set-position="4" set-size="10"></calcite-sort-handle>
   </div>
   <script>
-    const sortHandle = document.querySelector("calcite-sort-handle");
-    sortHandle.moveToItems = [
-      { element: document.createElement("div"), id: "1", label: "Group 1" },
-      { element: document.createElement("div"), id: "2", label: "Group 2" },
-    ];
+    (async () => {
+      await customElements.whenDefined("calcite-sort-handle");
+
+      const sortHandle = document.querySelector("#move-to-story-handle");
+      await sortHandle.componentOnReady();
+
+      sortHandle.moveToItems = [
+        { element: document.createElement("div"), id: "1", label: "Group 1" },
+        { element: document.createElement("div"), id: "2", label: "Group 2" },
+      ];
+
+      sortHandle.open = true;
+    })();
   </script>
 `;
 
 export const withAddToItems = (): string => html`
   <div style="height:600px; width:600px;">
-    <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
+    <calcite-sort-handle id="add-to-story-handle" label="test" set-position="4" set-size="10"></calcite-sort-handle>
   </div>
   <script>
-    const sortHandle = document.querySelector("calcite-sort-handle");
-    sortHandle.addToItems = [
-      { element: document.createElement("div"), id: "1", label: "Group 1" },
-      { element: document.createElement("div"), id: "2", label: "Group 2" },
-    ];
+    (async () => {
+      await customElements.whenDefined("calcite-sort-handle");
+
+      const sortHandle = document.querySelector("#add-to-story-handle");
+      await sortHandle.componentOnReady();
+
+      sortHandle.addToItems = [
+        { element: document.createElement("div"), id: "1", label: "Group 1" },
+        { element: document.createElement("div"), id: "2", label: "Group 2" },
+      ];
+
+      sortHandle.open = true;
+    })();
   </script>
 `;
 

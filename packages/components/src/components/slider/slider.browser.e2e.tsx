@@ -1,18 +1,19 @@
-import { describe, it, expect, vi } from "vitest";
-import { h } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
+import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands, page, userEvent } from "vitest/browser";
+import { commands, Locator, page, userEvent } from "vitest/browser";
 import {
   defaults,
-  reflects,
-  hidden,
-  internalLabel,
-  renders,
-  t9n,
   disabled,
   formAssociated,
+  hidden,
+  internalLabel,
+  reflects,
+  renders,
+  t9n,
 } from "../../tests/commonTests/browser";
-import { Slider } from "./slider";
+import type { Slider } from "./slider";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -284,5 +285,123 @@ describe("resetting value", () => {
     el.value = [20, 80];
     el.value = null;
     expect(el.value).toEqual(initialValue);
+  });
+});
+
+const sliderWidthFor1To1PixelValueTrack = "114px";
+
+describe("number locale support", () => {
+  const expectedNotSeparatedValueArray = {
+    en: ["2500", "500000.5", "1000", "1000000.5"],
+    fr: ["2500", "500000,5", "1000", "1000000,5"],
+  };
+
+  const formattedValuesPerLanguageObject = {
+    "de-CH": ["2’500", "500’000.5", "1’000", "1’000’000.5"],
+    en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
+    es: ["2.500", "500.000,5", "1.000", "1.000.000,5"],
+    fr: ["2 500", "500 000,5", "1 000", "1 000 000,5"],
+    hi: ["2,500", "5,00,000.5", "1,000", "10,00,000.5"],
+  };
+
+  function renderSlider(): JsxNode {
+    return (
+      <calcite-slider
+        group-separator
+        label-handles
+        label-ticks
+        lang="en"
+        max={1000000.5}
+        max-value="500000.50"
+        min={1000}
+        min-value="2500"
+        step={1000}
+        style={{
+          width: sliderWidthFor1To1PixelValueTrack,
+        }}
+        ticks={1000}
+      />
+    );
+  }
+
+  async function getValueDisplayElements(): Promise<{
+    labelMinVal: Locator;
+    labelVal: Locator;
+    tickMin: Locator;
+    tickMax: Locator;
+  }> {
+    const labelMinVal = page.getBySelector(`calcite-slider .${CSS.handleLabelMinValue}`).first();
+    const labelVal = page.getBySelector(`calcite-slider .${CSS.handleLabelValue}`).first();
+
+    const tickMin = page.getBySelector(`calcite-slider .${CSS.tickMin}`).first();
+    const tickMax = page.getBySelector(`calcite-slider .${CSS.tickMax}`).first();
+
+    return {
+      labelMinVal,
+      labelVal,
+      tickMin,
+      tickMax,
+    };
+  }
+
+  it("does not render separated when groupSeparator prop is false", async () => {
+    const { el, reRender } = await mount<Slider>(renderSlider);
+    el.groupSeparator = false;
+    await reRender();
+    const valueDisplayEls = await getValueDisplayElements();
+
+    expect(el).toHaveProperty("groupSeparator", false);
+
+    await expect
+      .element(valueDisplayEls.labelMinVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[0]);
+    await expect
+      .element(valueDisplayEls.labelVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[1]);
+    await expect
+      .element(valueDisplayEls.tickMin)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[2]);
+    await expect
+      .element(valueDisplayEls.tickMax)
+      .toHaveTextContent(expectedNotSeparatedValueArray.en[3]);
+
+    el.lang = "fr";
+    await reRender();
+
+    await expect
+      .element(valueDisplayEls.labelMinVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[0]);
+    await expect
+      .element(valueDisplayEls.labelVal)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[1]);
+    await expect
+      .element(valueDisplayEls.tickMin)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[2]);
+    await expect
+      .element(valueDisplayEls.tickMax)
+      .toHaveTextContent(expectedNotSeparatedValueArray.fr[3]);
+  });
+
+  it("displays group separator for multiple locales", async () => {
+    const { el, reRender } = await mount<Slider>(renderSlider);
+    const valueDisplayEls = await getValueDisplayElements();
+
+    for (const lang in formattedValuesPerLanguageObject) {
+      el.lang = lang;
+      await reRender();
+
+      await expect
+        .element(valueDisplayEls.labelMinVal)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][0]);
+      await expect
+        .element(valueDisplayEls.labelVal)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][1]);
+      await expect
+        .element(valueDisplayEls.tickMin)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][2]);
+      await expect
+        .element(valueDisplayEls.tickMax)
+        .toHaveTextContent(formattedValuesPerLanguageObject[lang][3]);
+    }
   });
 });
