@@ -17,8 +17,8 @@
       "value": [
         {
           "x": "{core.size.default.none}",
-          "y": "{core.size.default.6}",
-          "blur": "{core.size.default.20}",
+          "y": "{core.size.default.2}",
+          "blur": "{core.size.default.8}",
           "spread": "{core.size.default.none}",
           "color": "{color.shadow.3}"
         },
