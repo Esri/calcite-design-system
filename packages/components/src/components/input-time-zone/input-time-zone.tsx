@@ -342,6 +342,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     this.#valueUpdateContext = null;
 
     if (userUpdated) {
+      // value and selectedTimeZoneItem are already in sync, so we can skip the rest of the logic in this method which is meant to handle external changes to value
       return;
     }
 
@@ -420,11 +421,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     const selected = this.findTimeZoneItemByLabel(selectedItem.getAttribute("data-label"));
     const selectedValue = `${selected.value}`;
 
-    if (this.value === selectedValue) {
-      if (selected.label === this.selectedTimeZoneItem.label) {
-        this.requestUpdate("value", previousValue);
-        return;
-      }
+    if (this.value === selectedValue && selected.label === this.selectedTimeZoneItem.label) {
+      return;
     }
 
     this._value = selectedValue;
