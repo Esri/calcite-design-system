@@ -8,5 +8,6 @@
   "required": "Būtina",
   "selectAll": "Pasirinkti viską",
   "selected": "pažymėta",
-  "nonEditable": "Tik skaitoma {value}"
+  "nonEditable": "Tik skaitoma {value}",
+  "disabledSelectedCount": "+{count}"
 }

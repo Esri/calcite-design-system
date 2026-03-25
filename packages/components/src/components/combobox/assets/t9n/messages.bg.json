@@ -8,5 +8,6 @@
   "required": "Необходими",
   "selectAll": "Селектиране на всички",
   "selected": "избрани",
-  "nonEditable": "Само за четене {value}"
+  "nonEditable": "Само за четене {value}",
+  "disabledSelectedCount": "+{count}"
 }

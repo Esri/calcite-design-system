@@ -8,5 +8,6 @@
   "required": "Nõutud",
   "selectAll": "Vali kõik",
   "selected": "valitud",
-  "nonEditable": "Kirjutuskaitstud {value}"
+  "nonEditable": "Kirjutuskaitstud {value}",
+  "disabledSelectedCount": "+{count}"
 }

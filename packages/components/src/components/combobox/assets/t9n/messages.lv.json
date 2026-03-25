@@ -8,5 +8,6 @@
   "required": "Obligāts",
   "selectAll": "Izvēlēties visu",
   "selected": "atlasīts",
-  "nonEditable": "Tikai lasāms {value}"
+  "nonEditable": "Tikai lasāms {value}",
+  "disabledSelectedCount": "+{count}"
 }

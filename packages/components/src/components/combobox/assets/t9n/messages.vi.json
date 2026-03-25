@@ -8,5 +8,6 @@
   "required": "Bắt buộc",
   "selectAll": "Chọn tất cả",
   "selected": "đã được chọn",
-  "nonEditable": "Chỉ đọc {value}"
+  "nonEditable": "Chỉ đọc {value}",
+  "disabledSelectedCount": "+{count}"
 }

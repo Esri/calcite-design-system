@@ -8,5 +8,6 @@
   "required": "Pakollinen",
   "selectAll": "Valitse kaikki",
   "selected": "valitut",
-  "nonEditable": "Vain luku {value}"
+  "nonEditable": "Vain luku {value}",
+  "disabledSelectedCount": "+{count}"
 }

@@ -8,5 +8,6 @@
   "required": "Obligatori",
   "selectAll": "Selecciona-ho tot",
   "selected": "seleccionat",
-  "nonEditable": "{value} només de lectura"
+  "nonEditable": "{value} només de lectura",
+  "disabledSelectedCount": "+{count}"
 }
