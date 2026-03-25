@@ -23,8 +23,8 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-action-font-size
-// --calcite-internal-action-height
 // --calcite-internal-action-line-height
+// --calcite-internal-action-min-height
 // --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
 // --calcite-internal-action-text-color
@@ -33,19 +33,19 @@
 
 :host([scale="s"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--2);
-  --calcite-internal-action-height: var(--calcite-size-sm);
+  --calcite-internal-action-min-height: var(--calcite-size-sm);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
 }
 :host([scale="m"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--1);
-  --calcite-internal-action-height: var(--calcite-size-md);
+  --calcite-internal-action-min-height: var(--calcite-size-md);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm);
 }
 :host([scale="l"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size-0);
-  --calcite-internal-action-height: var(--calcite-size-lg);
+  --calcite-internal-action-min-height: var(--calcite-size-lg);
   --calcite-internal-action-line-height: 1.25rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
 }
@@ -119,7 +119,8 @@
   font-size: var(--calcite-internal-action-font-size);
   font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-internal-action-line-height);
-  block-size: var(--calcite-internal-action-height);
+  min-block-size: var(--calcite-internal-action-height, var(--calcite-internal-action-min-height));
+  max-block-size: var(--calcite-internal-action-height, none);
   padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
   padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
   text-align: start;

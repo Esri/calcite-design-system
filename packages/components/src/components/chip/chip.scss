@@ -19,7 +19,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-action-height
+// --calcite-internal-action-min-height
 // --calcite-internal-action-spacing
 // --calcite-internal-chip-background-color
 // --calcite-internal-chip-block-size
@@ -507,7 +507,7 @@
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
   );
   --calcite-icon-color: var(--calcite-action-text-color);
-  --calcite-internal-action-height: unset;
+  --calcite-internal-action-min-height: unset;
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
 }
 
