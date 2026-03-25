@@ -266,7 +266,7 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChipCount = page.getBySelector('[data-test-id="disabled-chip-count"]');
+    const disabledChipCount = page.getBySelector('[data-test-id="selected-chip-count"]');
     await expect.element(disabledChipCount).toHaveProperty("label", "+2");
   });
 

@@ -1644,8 +1644,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
   }
 
-  private renderDisabledChipCount(count: number, scale: Scale): JsxNode {
-    const label = `+${count}`;
+  private renderChipCount(count: number, scale: Scale): JsxNode {
+    const label =
+      this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`;
 
     return (
       <calcite-chip
@@ -1654,7 +1655,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           [CSS.chip]: true,
         }}
         closable={false}
-        data-test-id="disabled-chip-count"
+        data-test-id="selected-chip-count"
         label={label}
         scale={scale}
         tabIndex={-1}
@@ -1736,7 +1737,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     if (selectionDisplay === "fit" && disabledItems.length) {
-      chips.push(this.renderDisabledChipCount(disabledItems.length, scale));
+      chips.push(this.renderChipCount(disabledItems.length, scale));
     }
 
     return chips.length ? chips : null;
