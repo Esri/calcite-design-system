@@ -18,6 +18,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
+import { Scale } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
   ReferenceElementComponent,
@@ -46,7 +47,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   // #region Private Properties
 
-  private arrowRef = createRef<SVGSVGElement>();
+  private arrowEl: SVGSVGElement | null;
 
   private direction = useDirection();
 
@@ -110,6 +111,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
+  /** When `true`, removes the caret pointer. */
+  @property({ reflect: true }) pointerDisabled = false;
+
   /**
    * The `referenceElement` is used to position the component according to its `placement` value.
    *
@@ -119,7 +123,10 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElement: ReferenceElement | string | null;
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true` and the component is `open`, disables top layer placement.
@@ -147,7 +154,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
       overlayPositioning,
       offsetDistance,
       offsetSkidding,
-      arrowRef,
+      arrowEl,
       floatingEl,
     } = this;
 
@@ -161,7 +168,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
         placement,
         offsetDistance,
         offsetSkidding,
-        arrowEl: arrowRef.value,
+        arrowEl,
         type: "tooltip",
       },
       delayed,
@@ -255,14 +262,22 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.floatingEl = el;
   }
 
+  private setArrowEl(el: SVGSVGElement | null): void {
+    this.arrowEl = el;
+    this.reposition(true);
+  }
+
   // #endregion
 
   // #region Rendering
 
   override render(): JsxNode {
-    const { referenceEl, label, open, floatingLayout } = this;
+    const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
     const displayed = referenceEl && open;
     const hidden = !displayed;
+    const arrowNode = !pointerDisabled ? (
+      <FloatingArrow floatingLayout={floatingLayout} key="floating-arrow" ref={this.setArrowEl} />
+    ) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -281,7 +296,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
           }}
           ref={this.transitionRef}
         >
-          <FloatingArrow floatingLayout={floatingLayout} ref={this.arrowRef} />
+          {arrowNode}
           <div class={CSS.container}>
             <slot />
           </div>

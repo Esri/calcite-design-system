@@ -227,13 +227,10 @@ const config: Omit<Config, "content"> = {
         disabled: "var(--calcite-opacity-disabled)",
       },
       spacing: {
-        0.5: "0.125rem",
-        2.5: "0.625rem",
-        3.5: "0.875rem",
-        4.5: "1.125rem",
-        9: "2.25rem",
-        11: "2.75rem",
-        13: "3.25rem",
+        2.5: "var(--calcite-space-sm-plus)", // Deprecated in v1.1.1, removal target v2.0.0 - Use the `--calcite-space-sm-plus` token directly instead.
+        4.5: "1.125rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
+        11: "2.75rem", // Deprecated in v1.1.1, removal target v2.0.0 - Not intended for sizing, use `--calcite-size-lg` instead.
+        13: "3.25rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
       },
       transitionProperty: {
         margin: "margin",

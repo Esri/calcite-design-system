@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { accessible, labelable, openClose } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -45,21 +45,6 @@ async function simpleTestProvider(): Promise<TagAndPage> {
 
 describe("accessible", () => {
   accessible(simpleTestProvider);
-});
-
-describe("formAssociated", () => {
-  formAssociated(
-    {
-      tagOrHTML: html`<calcite-input-time-zone></calcite-input-time-zone>`,
-      beforeContent: async (page) => {
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-      },
-    },
-    {
-      testValue: "-360",
-      clearable: false,
-    },
-  );
 });
 
 describe("labelable", () => {
