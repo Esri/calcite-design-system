@@ -29,7 +29,8 @@
 }
 
 th {
-  @apply text-start font-medium align-top whitespace-normal;
+  @apply text-start font-medium align-top whitespace-normal; // consider leading-tight
+  line-height: 1.2; // consider variable
   border-block-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);

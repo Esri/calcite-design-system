@@ -85,6 +85,7 @@
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
   color: var(--calcite-text-area-text-color, var(--calcite-color-text-1));
   font-family: inherit;
+  line-height: 16px; // consider variable
   max-block-size: var(--calcite-text-area-max-height);
   min-block-size: calc(
     var(--calcite-text-area-min-height, 0px) - var(--calcite-internal-text-area-footer-min-height, 0px)

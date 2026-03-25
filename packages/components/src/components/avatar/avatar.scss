@@ -12,7 +12,7 @@
 @use "../../styles/includes";
 
 :host {
-  @apply inline-block overflow-hidden;
+  @apply inline-block overflow-hidden; // consider inline-flex
   border-radius: var(--calcite-avatar-corner-radius, 50%);
   color: var(--calcite-avatar-color, var(--calcite-color-text-2));
 }

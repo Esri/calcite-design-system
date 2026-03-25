@@ -26,11 +26,12 @@
     items-center
     border-solid
     border
-    font-medium;
+    font-medium; // consider leading-tight
   border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
   background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  line-height: 1.2; // consider variable
   overflow: hidden;
 
   .column {

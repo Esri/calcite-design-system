@@ -91,6 +91,7 @@
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-meter-border-color);
   border-radius: var(--calcite-internal-meter-corner-radius);
   box-shadow: var(--calcite-internal-meter-shadow);
+  line-height: 1.4; // consider tailwind leading-snug (3.75)
 }
 
 .value-visible {
@@ -108,8 +109,9 @@
 }
 
 .label {
-  @apply absolute;
+  @apply absolute; // consider leading-none (1)
   font-size: var(--calcite-internal-meter-font-size);
+  line-height: 16px; // consider variable
 }
 
 .label-hidden {
@@ -125,6 +127,7 @@
 .label-range {
   color: var(--calcite-internal-meter-range-text-color);
   inset-block-start: calc(100% + 0.5em);
+  line-height: 18px; // consider variable
 }
 
 .label-range .unit-label {

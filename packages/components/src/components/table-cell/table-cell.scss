@@ -29,9 +29,9 @@
 }
 
 td {
-  @apply text-start align-middle  whitespace-normal;
+  @apply text-start align-middle  whitespace-normal; // consider leading-tight
+  line-height: 1.2; // consider variable
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
-
   background-color: var(
     --calcite-internal-table-cell-background-color,
     var(--calcite-table-cell-background-color, transparent)
