@@ -357,14 +357,15 @@ export class Chip extends LitElement {
   override render(): JsxNode {
     const { disabled } = this;
     const disableInteraction = disabled || (!disabled && !this.interactive);
-    const role =
-      this.selectionMode === "multiple" && this.interactive
+    const role = this.interactive
+      ? this.selectionMode === "multiple"
         ? "checkbox"
-        : this.selectionMode !== "none" && this.interactive
+        : this.selectionMode !== "none"
           ? "radio"
-          : this.interactive
-            ? "button"
-            : "img";
+          : "button"
+      : this.closable
+        ? null
+        : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
         <div
