@@ -191,14 +191,14 @@ it("should have a indicator live region", async () => {
   const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
 
   expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
+  expect(liveRegion.getAttribute("role")).toBe("status");
   expect(liveRegion.textContent).toBe("");
 
   action.setProperty("indicator", true);
   await page.waitForChanges();
 
   expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
+  expect(liveRegion.getAttribute("role")).toBe("status");
   expect(liveRegion.textContent).toBe("Indicator present");
 });
 
