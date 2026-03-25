@@ -13,7 +13,7 @@ Anyone can be a user; no permissions are needed to search, comment, provide feed
 Users can help most by:<a href="#users-help" id="users-help" />
 
 - Adding reactions, feedback, and/or comments to [existing issues](https://github.com/Esri/calcite-design-system/issues) 👍
-- Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue
+- Searching and exploring existing issues, including exploration of the [before filing an issue](#before-filing-an-issue) section prior to filing a new issue 🔎
 - Reporting issues by [filing a bug issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=bug%2C0+-+new%2Cneeds+triage&template=bug.yml) 🐛
 - Requesting features for existing components by [creating an enhancement issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=enhancement%2C0+-+new%2Cneeds+triage&template=enhancement.yml) ⭐
 - Adding ideas for components by [creating a new component issue](https://github.com/Esri/calcite-design-system/issues/new?assignees=&labels=new+component%2C0+-+new%2Cneeds+triage&template=new-component.yml) 🆕
@@ -40,9 +40,10 @@ Once access is granted to the [Calcite Core Contributors GitHub team](https://gi
 Contributors can help most by:
 
 - Any of the items listed under the [user role](#users-help)
-- Working on [the issues marked as `help wanted`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+no%3Aassignee). There is also a [`good first issue`](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+no%3Aassignee+) label if you are just getting started
-  - To let us know of your interest in the issue, please comment on the issue and ask for the action items before you start working. Sometimes additional context is needed, which may not be specified in the issue. Comments also provide us access to assign the issue to you
-- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
+- Working on issues that have [low estimates](#estimates) - it is strongly recommended to work on issues with estimates of `estimate - 5` and lower
+  - Ensure the issue has not been added to the [Freezer milestone](https://github.com/Esri/calcite-design-system/milestone/28)
+  - **Prior to starting work on a new contribution**, please reach out to [Kitty Hurley](https://github.com/geospatialem) and/or [Juan Carlos Franco](https://github.com/jcfranco) to coordinate and align on approaches, strategies, and goals across the repository. Sometimes additional context is needed, which may not be specified in the issue. Additionally, communication is needed to ensure the issue follows [Calcite's issue lifecycle](#lifecycle) and is assigned to the proper milestone
+- If you want to help develop components, take a look at the [new component issues](https://github.com/Esri/calcite-design-system/issues?q=is%3Aopen+is%3Aissue+label%3A%22new+component%22). Before starting development and reaching out to the code owners, please review our [component conventions](packages/components/conventions/README.md) and the [Lit documentation](https://lit.dev/docs/getting-started/)
 
 If you aren't familiar with the basics of Web Components and Shadow DOM, please read through some of the following resources before contributing:
 

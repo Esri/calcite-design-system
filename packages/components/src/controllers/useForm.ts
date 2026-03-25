@@ -7,6 +7,8 @@ import type { IconName } from "../components/icon/interfaces";
 import { Status } from "../components/interfaces";
 import { InputComponent, isSupportedType, syncInputDelegate } from "../components/input/common/input";
 import { isCalciteFocusable, SetFocusable } from "../utils/dom";
+import { logger } from "../utils/logger";
+import { validate } from "./useForm/validation";
 
 /** Any form <Component> with a `calcite<Component>Input` event needs to be included in this array. */
 export const componentsWithInputEvent = [
@@ -192,24 +194,16 @@ export function focusFirstInvalidFormElement(form: HTMLFormElement): void {
   });
 }
 
-/**
- * Helper for setting the initial default value on the first update pass.
- *
- * Note that this is only needed if the default value cannot be determined on connectedCallback.
- * Be careful not to call this more than once, or form reset behavior might be incorrect.
- *
- * @param component
- * @param value
- */
-export function overrideDefaultValue<T>(component: FormComponent<T>, value: any): void {
-  component.defaultValue = value;
-}
-
 interface UseForm {
   /**
    * When true, this component is associated with a form and will have its value submitted when the form is submitted.
    */
   active: boolean;
+
+  /**
+   * Helper for overriding the initial default value if not finalized by the first `willUpdate` pass.
+   */
+  overrideDefaultValue: (value: any) => void;
 
   /**
    * For components that support multiple input types (e.g. "text", "email", etc.), this method allows changing the input type.
@@ -227,7 +221,14 @@ interface UseForm {
   setCustomValidity: (message: string) => void;
 }
 
-interface UseFormOptions {
+export interface UseFormOptions {
+  /**
+   * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
+   *
+   * Note: this is mostly intended for components that need to map their value differently
+   */
+  getValue?: () => any;
+
   /**
    * When set, the component will validate as if it were the specified input type (e.g. "email").
    */
@@ -350,7 +351,7 @@ export const useForm = <T extends FormComponent>(
         }
       }
 
-      if (changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
+      if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
 
@@ -365,33 +366,10 @@ export const useForm = <T extends FormComponent>(
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
-        const { value } = component;
-        const normalizedValue =
-          value == null || /* type=file only accepts empty string as a value */ inputDelegate.type === "file"
-            ? ``
-            : Array.isArray(value)
-              ? value.join(",")
-              : `${value}`;
-
-        inputDelegate.value = normalizedValue;
         syncInternalInput(component, inputDelegate);
-
-        if (!inputDelegate.validity.valid) {
-          // copy flags since ValidityState is not a plain object and cannot be spread or assigned
-          for (const key in inputDelegate.validity) {
-            if (
-              // see https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags
-              key !== "valid"
-            ) {
-              validity[key] = inputDelegate.validity[key];
-            }
-          }
-
-          validationMessage = inputDelegate.validationMessage;
-        }
+        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
       }
 
-      // custom error has higher precedence
       if (customValidityMessage) {
         validity = { ...validity, customError: true };
         validationMessage = customValidityMessage;
@@ -404,28 +382,56 @@ export const useForm = <T extends FormComponent>(
       }
     }
 
+    function getComponentValue(): any {
+      if (options.getValue) {
+        return options.getValue();
+      }
+
+      return component.value;
+    }
+
     function getFormValue(): any {
-      if (Array.isArray(component.value)) {
+      const value = getComponentValue();
+
+      if (Array.isArray(value)) {
         const formData = new FormData();
-        component.value.forEach((value) => formData.append(component.name, value));
+        value.forEach((value) => formData.append(component.name, value));
         return formData;
       }
 
       if (isCheckable(component)) {
         if (component.checked) {
           // matches https://html.spec.whatwg.org/multipage/input.html#dom-input-value-default-on
-          return component.value || "on";
+          return value || "on";
         }
 
         return null;
       }
 
-      return component.value;
+      return value;
     }
+
+    let defaultValueOverridden = false;
 
     return {
       get active() {
         return !!component.elementInternals.form;
+      },
+      overrideDefaultValue: (value) => {
+        if (import.meta.env.DEV) {
+          if (defaultValueOverridden) {
+            logger.warn("Default value override has already been set.");
+            return;
+          }
+
+          if (!component.hasUpdated) {
+            logger.warn("Overriding before first update is not necessary.");
+            return;
+          }
+        }
+
+        component.defaultValue = value;
+        defaultValueOverridden = true;
       },
       overrideInputType: (type) => {
         if (import.meta.env.DEV && !inputDelegate) {

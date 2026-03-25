@@ -39,7 +39,6 @@ const lumina = useLumina({
   },
   puppeteerTesting: {
     enabled: !runBrowserTests,
-    waitForChangesDelay: 100,
     launchOptions: {
       devtools: process.env.DEVTOOLS === "true",
       headless: process.env.HEADLESS === "false" ? false : undefined,
