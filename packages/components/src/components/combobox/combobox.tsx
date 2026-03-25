@@ -1675,6 +1675,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
     const preserveOrder = selectionDisplay === "all";
 
+    if (selectionDisplay === "fit" && this.allSelected) {
+      return null;
+    }
+
     if (this.selectAllEnabled && this.allSelected) {
       return null;
     }
