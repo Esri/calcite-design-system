@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.20...@esri/calcite-components@5.1.0-next.21) (2026-03-25)
+
+### Bug Fixes
+
+- **switch:** remove double focus ring in certain browsers ([#14156](https://github.com/Esri/calcite-design-system/issues/14156)), closes [#10824](https://github.com/Esri/calcite-design-system/issues/10824) [#10824](https://github.com/Esri/calcite-design-system/issues/10824)
+
 ## [5.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.19...@esri/calcite-components@5.1.0-next.20) (2026-03-23)
 
 ### Features
