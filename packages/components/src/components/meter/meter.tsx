@@ -385,7 +385,7 @@ export class Meter extends LitElement {
       >
         {label}
         {unitLabel && valueLabelType !== "percent" && (
-          <span class={CSS.unitLabel}>{unitLabel}</span>
+          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
         )}
       </div>
     );
@@ -407,7 +407,7 @@ export class Meter extends LitElement {
       >
         {labelMin}
         {unitLabel && rangeLabelType !== "percent" && (
-          <span class={CSS.unitLabel}>{unitLabel}</span>
+          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
         )}
       </div>
     );
