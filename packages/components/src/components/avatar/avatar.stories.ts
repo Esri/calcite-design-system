@@ -86,14 +86,13 @@ export const contrast = (): string => html`
     <style>
       .container {
         display: flex;
-        width: 35%;
-        justify-content: space-between;
-        align-items: center;
-        padding: 25px 0;
+        gap: 40px;
       }
       .use-case {
-        flex: 1 0 21%;
-        margin: 0 15px;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        width: 217px;
       }
     </style>
     <div class="container">
