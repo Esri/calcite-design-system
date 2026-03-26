@@ -230,7 +230,7 @@ describe("ariaActiveDescendantElement", () => {
 
     await userEvent.click(trigger);
 
-    expect(getActiveDescendantId()).toBe("item-2");
+    expect(getActiveDescendantId()).toBe("item-1");
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
@@ -242,7 +242,7 @@ describe("ariaActiveDescendantElement", () => {
     const triggerEl = getSlottedTriggerLocator();
     await userEvent.type(triggerEl, "{ArrowDown}");
 
-    expect(getActiveDescendantId()).toBe("item-3");
+    expect(getActiveDescendantId()).toBe("item-2");
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
@@ -256,12 +256,12 @@ describe("ariaActiveDescendantElement", () => {
 
     let activeDescendantId = getActiveDescendantId();
 
-    expect(activeDescendantId).toBe("item-1");
+    expect(activeDescendantId).toBe("item-3");
 
     await userEvent.type(triggerEl, "{ArrowUp}");
 
     activeDescendantId = getActiveDescendantId();
 
-    expect(activeDescendantId).toBe("item-3");
+    expect(activeDescendantId).toBe("item-2");
   });
 });

@@ -11969,5 +11969,15 @@
     "alias": ["5.0.0", "generic", "web", "produce", "issue", "release", "public"],
     "category": "Generic",
     "release": "5.0.0"
+  },
+  "layer-stream-setting": {
+    "alias": ["5.0.0", "layers", "data", "queries", "symbology", "connect", "map"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "velocity-server": {
+    "alias": ["5.0.0", "gis", "data", "cloud", "analytics", "asset", "sensor"],
+    "category": "GIS",
+    "release": "5.0.0"
   }
 }

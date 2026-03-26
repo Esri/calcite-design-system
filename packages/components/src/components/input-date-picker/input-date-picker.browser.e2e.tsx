@@ -12,6 +12,7 @@ import {
   t9n,
   topLayer,
   openClose,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 
 describe("defaults", () => {
@@ -86,4 +87,26 @@ describe("translation support", () => {
 
 describe.skip("disabled", () => {
   disabled(() => mount("calcite-input-date-picker"));
+});
+
+describe("is form-associated", () => {
+  describe("supports single value", () => {
+    formAssociated(() => mount("calcite-input-date-picker"), {
+      testValue: "1985-03-23",
+      submitsOnEnter: true,
+      validation: true,
+      inputType: "date",
+    });
+  });
+
+  describe("supports range", () => {
+    formAssociated(
+      () => mount(<calcite-input-date-picker name="calcite-input-date-picker" range />),
+      {
+        testValue: ["1985-03-23", "1985-10-30"],
+        submitsOnEnter: true,
+        inputType: "date",
+      },
+    );
+  });
 });

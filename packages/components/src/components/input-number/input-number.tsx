@@ -15,15 +15,6 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -39,17 +30,14 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import {
-  NumericInputComponent,
-  syncHiddenFormInput,
-  TextualInputComponent,
-} from "../input/common/input";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -66,9 +54,11 @@ declare global {
  */
 export class InputNumber
   extends LitElement
-  implements LabelableComponent, FormComponent, NumericInputComponent, TextualInputComponent
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -90,7 +80,9 @@ export class InputNumber
 
   private direction = useDirection();
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "number",
+  })(this);
 
   private inlineEditableEl: InlineEditable["el"];
 
@@ -103,17 +95,6 @@ export class InputNumber
   private minString?: string;
 
   private nudgeNumberValueIntervalId: number;
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedNumberValue: string;
 
@@ -410,11 +391,6 @@ export class InputNumber
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -465,12 +441,7 @@ export class InputNumber
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.stopNudging();
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -517,10 +488,9 @@ export class InputNumber
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 
@@ -782,10 +752,6 @@ export class InputNumber
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("number", this, input);
   }
 
   private setInputNumberValue(newInputValue: string): void {
@@ -1085,7 +1051,6 @@ export class InputNumber
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
