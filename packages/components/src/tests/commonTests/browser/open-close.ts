@@ -1,8 +1,9 @@
 import { expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { type SetRequired } from "type-fest";
 import { GlobalTestProps } from "../../utils/interfaces";
 import { ComponentTag, WithBeforeContent } from "../interfaces";
-import { afterNextTask  } from "../../utils/timing";
+import { afterNextTask } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 
 type CollapseAxis = "horizontal" | "vertical";
@@ -20,7 +21,7 @@ interface OpenCloseOptions {
   tag?: string;
 }
 
-const defaultOptions: OpenCloseOptions = {
+const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFallback"> = {
   openPropName: "open",
   willUseFallback: false,
 };
@@ -56,7 +57,7 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
         tag: effectiveOptions.tag,
         animationsEnabled: !effectiveOptions.willUseFallback,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
-        openPropName: effectiveOptions.openPropName!,
+        openPropName: effectiveOptions.openPropName,
       });
     } finally {
       style.remove();
@@ -69,7 +70,7 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
       tag: effectiveOptions.tag,
       animationsEnabled: false,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
-      openPropName: effectiveOptions.openPropName!,
+      openPropName: effectiveOptions.openPropName,
     });
   });
 }
@@ -95,7 +96,7 @@ openClose.initial = function openCloseInitial(
       await testOpenCloseEvents({
         setup,
         animationsEnabled: true,
-        openPropName: effectiveOptions.openPropName!,
+        openPropName: effectiveOptions.openPropName,
       });
     } finally {
       style.remove();
@@ -106,7 +107,7 @@ openClose.initial = function openCloseInitial(
     await testOpenCloseEvents({
       setup,
       animationsEnabled: false,
-      openPropName: effectiveOptions.openPropName!,
+      openPropName: effectiveOptions.openPropName,
     });
   });
 };
