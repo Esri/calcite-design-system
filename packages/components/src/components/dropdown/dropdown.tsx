@@ -61,7 +61,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   //#region Private Properties
 
-  get referenceElementType(): ReferenceElementType {
+  get referenceElementType(): ReferenceElementType | nil {
     return this.referenceElement ? this.type : null;
   }
 
@@ -535,11 +535,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    this.referenceEl = el;
+    const previousReferenceEl = this.referenceEl instanceof HTMLElement ? this.referenceEl : null;
+    const nextReferenceEl = el instanceof HTMLElement ? el : null;
 
-    if (this.referenceEl instanceof HTMLElement) {
-      updateRefObserver(this.resizeObserver, this.referenceEl, el);
-    }
+    updateRefObserver(this.resizeObserver, previousReferenceEl, nextReferenceEl);
+
+    this.referenceEl = el;
 
     connectFloatingUI(this);
   }
