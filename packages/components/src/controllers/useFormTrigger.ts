@@ -20,7 +20,7 @@ export const useFormTrigger = (
 ): ReturnType<typeof makeGenericController<void, FormTriggerComponent>> =>
   makeGenericController<void, FormTriggerComponent>((component) => {
     component.listen("click", () => {
-      if (component.disabled || (typeof options?.disabled === "function" && options?.disabled())) {
+      if (component.disabled || options?.disabled?.()) {
         return;
       }
       if (component.type === "submit") {
