@@ -8,14 +8,30 @@
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
+    <body>
+      <calcite-dropdown width="m">
+        <calcite-button slot="trigger">Select landform</calcite-button>
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
-    </demo-dom-swapper>
-    <demo-options></demo-options>
+      <calcite-button id="test">Select landform</calcite-button>
+      <calcite-dropdown width="m" reference-element="test" type="hover">
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </body>
   </body>
 </html>

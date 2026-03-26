@@ -15,6 +15,7 @@ import {
   hideFloatingUI,
   LogicalPlacement,
   OverlayPositioning,
+  ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
@@ -28,6 +29,12 @@ import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
@@ -37,11 +44,13 @@ declare global {
   }
 }
 
+const manager = referenceElementManager({ click: true, hover: true });
+
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - A slot for the element that triggers the component.
+ * @slot trigger - [deprecated] Use `referenceElement` property instead. A slot for the element that triggers the component.
  */
-export class Dropdown extends LitElement implements FloatingUIComponent {
+export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -51,6 +60,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   //#endregion
 
   //#region Private Properties
+
+  get referenceElementType(): ReferenceElementType {
+    return this.referenceElement ? this.type : null;
+  }
+
+  referenceElementController = useReferenceElement({ manager })(this);
 
   private direction = useDirection();
 
@@ -69,8 +84,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   transitionProp = "opacity" as const;
-
-  referenceEl: HTMLDivElement;
 
   private resizeObserver = createObserver("resize", (entries) =>
     this.resizeObserverCallback(entries),
@@ -93,6 +106,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   //#region State Properties
 
   @state() activeDescendantElement?: DropdownItem["el"];
+
+  @state() referenceEl: ReferenceElement;
 
   //#endregion
 
@@ -141,6 +156,19 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    * Determines the component's placement relative to the container element.
    */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+
+  /**
+   The `referenceElement` is used to position the component according to its `placement` value.
+   *
+   *Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   *
+   * However, a string `id` of the reference element can also be used.
+   *
+   *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   *
+   * @required
+   */
+  @property() referenceElement: ReferenceElement | string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -221,7 +249,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.referenceEl, options);
+    return this.focusSetter(
+      () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl),
+      options,
+    );
   }
 
   //#endregion
@@ -297,6 +328,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.handlePropsChange();
     }
+
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl") && this.referenceElementType) {
+      connectFloatingUI(this);
+    }
   }
 
   loaded(): void {
@@ -340,7 +381,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
-    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
+    if (
+      this.referenceElementType ||
+      this.disabled ||
+      !this.open ||
+      event.composedPath().includes(this.el)
+    ) {
       return;
     }
 
@@ -348,7 +394,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private closeCalciteDropdownOnOpenEvent(event: Event): void {
-    if (event.composedPath().includes(this.el)) {
+    if (this.referenceElementType || event.composedPath().includes(this.el)) {
       return;
     }
 
@@ -356,7 +402,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private pointerEnterHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -364,7 +410,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private pointerLeaveHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -438,7 +484,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
 
-    if (!scrollerEl || !referenceEl) {
+    if (!scrollerEl || !(referenceEl instanceof HTMLElement)) {
       return;
     }
 
@@ -487,8 +533,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.referenceEl, el);
     this.referenceEl = el;
+
+    if (this.referenceEl instanceof HTMLElement) {
+      updateRefObserver(this.resizeObserver, this.referenceEl, el);
+    }
+
     connectFloatingUI(this);
   }
 
@@ -498,6 +548,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
+    if (!(this.referenceEl instanceof HTMLElement)) {
+      return;
+    }
+
     if (!event.composedPath().includes(this.referenceEl)) {
       return;
     }
@@ -700,7 +754,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     if (
       relatedTarget &&
       (this.el.contains(relatedTarget) ||
-        (this.referenceEl != null && this.referenceEl.contains(relatedTarget)))
+        (this.referenceEl != null &&
+          this.referenceEl instanceof HTMLElement &&
+          this.referenceEl.contains(relatedTarget)))
     ) {
       return;
     }
@@ -724,22 +780,24 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     const { open } = this;
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        <div
-          class={CSS.triggerContainer}
-          onClick={this.toggleClickDropdown}
-          onFocusIn={this.openHoverDropdown}
-          onFocusOut={this.closeHoverDropdown}
-          onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
-        >
-          <slot
-            ariaActiveDescendantElement={this.activeDescendantElement ?? null}
-            ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
-            ariaExpanded={open}
-            ariaHasPopup="menu"
-            name={SLOTS.trigger}
-          />
-        </div>
+        {!this.referenceElementType ? (
+          <div
+            class={CSS.triggerContainer}
+            onClick={this.toggleClickDropdown}
+            onFocusIn={this.openHoverDropdown}
+            onFocusOut={this.closeHoverDropdown}
+            onKeyDown={this.keyDownHandler}
+            ref={this.setReferenceEl}
+          >
+            <slot
+              ariaActiveDescendantElement={this.activeDescendantElement ?? null}
+              ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
+              ariaExpanded={open}
+              ariaHasPopup="menu"
+              name={SLOTS.trigger}
+            />
+          </div>
+        ) : null}
         <div
           class={{
             [CSS.wrapper]: true,
@@ -752,7 +810,9 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
           ref={this.setFloatingEl}
         >
           <div
-            ariaLabelledByElements={this.referenceEl ? [this.referenceEl] : undefined}
+            ariaLabelledByElements={
+              this.referenceEl instanceof HTMLElement ? [this.referenceEl] : undefined
+            }
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
