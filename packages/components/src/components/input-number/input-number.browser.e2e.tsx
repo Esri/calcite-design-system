@@ -138,39 +138,29 @@ describe("clearable", () => {
   });
 
   it("clears value on clear button click", async () => {
-    const { el, component } = await mount<InputNumber>(
-      <calcite-input-number clearable value="123" />,
-    );
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     const clearButton = el.shadowRoot?.querySelector(
       ".input-clear-button--container calcite-action",
     ) as InputNumber["el"];
 
     input.focus();
-    await component.updateComplete;
     clearButton.click();
-    await component.updateComplete;
     expect(el.value).toBe("");
   });
 
   it("clears value on escape key press", async () => {
-    const { el, component } = await mount<InputNumber>(
-      <calcite-input-number clearable value="123" />,
-    );
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
     input.focus();
-    await component.updateComplete;
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("");
   });
 
   it("receives event when clear button is clicked", async () => {
-    const { el, component } = await mount<InputNumber>(
-      <calcite-input-number clearable value="123" />,
-    );
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     let calciteInputNumberCount = 0;
 
     el.addEventListener("calciteInputNumberInput", () => {
@@ -182,16 +172,13 @@ describe("clearable", () => {
     ) as HTMLElement;
 
     clearButton.click();
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputNumberCount).toBe(1);
   });
 
   it("receives event when input is cleared via escape key", async () => {
-    const { el, component } = await mount<InputNumber>(
-      <calcite-input-number clearable value="123" />,
-    );
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     let calciteInputNumberCount = 0;
 
@@ -200,19 +187,17 @@ describe("clearable", () => {
     });
 
     input.focus();
-    await component.updateComplete;
 
     expect(calciteInputNumberCount).toBe(0);
 
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputNumberCount).toBe(1);
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
-    const { el, component } = await mount<InputNumber>(<calcite-input-number value="123" />);
+    const { el } = await mount<InputNumber>(<calcite-input-number value="123" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     let calciteInputNumberCount = 0;
 
@@ -221,30 +206,24 @@ describe("clearable", () => {
     });
 
     input.focus();
-    await component.updateComplete;
 
     expect(calciteInputNumberCount).toBe(0);
 
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("123");
     expect(calciteInputNumberCount).toBe(0);
   });
 
   it("emits change event when value set directly and then cleared in 'de' locale", async () => {
-    const { el, component } = await mount<InputNumber>(<calcite-input-number clearable />);
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable lang="de" value="0" />);
     let calciteInputNumberChangeCount = 0;
 
-    el.lang = "de";
-    el.value = "0";
     el.addEventListener("calciteInputNumberChange", () => {
       calciteInputNumberChangeCount++;
     });
-    await component.updateComplete;
 
     el.value = "49.173126";
-    await component.updateComplete;
 
     expect(el.value).toBe("49.173126");
 
@@ -253,7 +232,6 @@ describe("clearable", () => {
     ) as HTMLElement;
 
     clearButton.click();
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputNumberChangeCount).toBe(1);

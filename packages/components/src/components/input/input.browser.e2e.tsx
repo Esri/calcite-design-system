@@ -211,33 +211,29 @@ describe("clearable", () => {
   });
 
   it("clears value on clear button click", async () => {
-    const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     const clearButton = el.shadowRoot?.querySelector(
       ".input-clear-button--container calcite-action",
     ) as Input["el"];
 
     input.focus();
-    await component.updateComplete;
     clearButton.click();
-    await component.updateComplete;
     expect(el.value).toBe("");
   });
 
   it("clears value on escape key press", async () => {
-    const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
     input.focus();
-    await component.updateComplete;
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("");
   });
 
   it("receives event when clear button is clicked", async () => {
-    const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     let calciteInputInputCount = 0;
 
     el.addEventListener("calciteInputInput", () => {
@@ -249,14 +245,13 @@ describe("clearable", () => {
     ) as HTMLElement;
 
     clearButton.click();
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputInputCount).toBe(1);
   });
 
   it("receives event when input is cleared via escape key", async () => {
-    const { el, component } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     let calciteInputInputCount = 0;
 
@@ -265,19 +260,17 @@ describe("clearable", () => {
     });
 
     input.focus();
-    await component.updateComplete;
 
     expect(calciteInputInputCount).toBe(0);
 
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputInputCount).toBe(1);
   });
 
   it("receives event when type is search and clear button is clicked", async () => {
-    const { el, component } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
     let calciteInputInputCount = 0;
 
     el.addEventListener("calciteInputInput", () => {
@@ -291,14 +284,13 @@ describe("clearable", () => {
     expect(calciteInputInputCount).toBe(0);
 
     clearButton.click();
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputInputCount).toBe(1);
   });
 
   it("receives event when type is search and input is cleared via escape key", async () => {
-    const { el, component } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     let calciteInputInputCount = 0;
 
@@ -307,19 +299,17 @@ describe("clearable", () => {
     });
 
     input.focus();
-    await component.updateComplete;
 
     expect(calciteInputInputCount).toBe(0);
 
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("");
     expect(calciteInputInputCount).toBe(1);
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
-    const { el, component } = await mount<Input>(<calcite-input value="John Doe" />);
+    const { el } = await mount<Input>(<calcite-input value="John Doe" />);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     let calciteInputInputCount = 0;
 
@@ -328,12 +318,10 @@ describe("clearable", () => {
     });
 
     input.focus();
-    await component.updateComplete;
 
     expect(calciteInputInputCount).toBe(0);
 
     await userEvent.keyboard("{Escape}");
-    await component.updateComplete;
 
     expect(el.value).toBe("John Doe");
     expect(calciteInputInputCount).toBe(0);

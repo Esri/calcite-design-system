@@ -843,7 +843,7 @@ describe("keyboard interactions", async () => {
 
     const selectionModes: SelectionMode[] = ["single", "single-persist", "multiple", "ancestors"];
 
-    function renderCombobox(selectionMode: SelectionMode, clearDisabled = false) {
+    function renderCombobox(selectionMode: SelectionMode, clearDisabled = false): JsxNode {
       if (selectionMode === "ancestors") {
         return (
           <calcite-combobox clearDisabled={clearDisabled} selectionMode="ancestors">
@@ -880,8 +880,7 @@ describe("keyboard interactions", async () => {
       mode: "mouse" | "keyboard",
       expectedBehavior: "clear" | "no-clear",
     ): Promise<void> {
-      const { el, component } = await mount<Combobox>(renderCombobox(selectionMode, clearDisabled));
-      await component.updateComplete;
+      const { el } = await mount<Combobox>(() => renderCombobox(selectionMode, clearDisabled));
 
       const initialValue = el.value;
       if (Array.isArray(initialValue)) {
@@ -900,8 +899,8 @@ describe("keyboard interactions", async () => {
           if (!clearButton) {
             throw new Error("expected clear button to be rendered");
           }
+
           clearButton.click();
-          await component.updateComplete;
         } else {
           expect(clearButton).toBeNull();
         }
@@ -916,7 +915,6 @@ describe("keyboard interactions", async () => {
         input.dispatchEvent(
           new KeyboardEvent("keydown", { bubbles: true, composed: true, key: "Escape" }),
         );
-        await component.updateComplete;
       }
 
       if (expectedBehavior === "clear") {

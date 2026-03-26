@@ -13,7 +13,6 @@ interface InputClearButtonProps {
 
 export const CSS = {
   container: "input-clear-button--container",
-  containerDisabled: "input-clear-button--container--disabled",
 };
 
 export const InputClearButton = ({
@@ -24,12 +23,7 @@ export const InputClearButton = ({
   scale,
   title,
 }: InputClearButtonProps): TemplateResult => (
-  <div
-    class={{
-      [CSS.container]: true,
-      [CSS.containerDisabled]: disabled,
-    }}
-  >
+  <div class={CSS.container} inert={disabled}>
     <calcite-action
       disabled={disabled}
       icon="x"

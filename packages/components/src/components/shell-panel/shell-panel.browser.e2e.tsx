@@ -212,14 +212,12 @@ describe("click", () => {
   it("click event should pass through host element", async () => {
     const onActionClick = vi.fn();
 
-    const { el, component } = await mount<"calcite-shell">(
+    const { el } = await mount<"calcite-shell">(
       <calcite-shell contentBehind>
         <calcite-shell-panel displayMode="float-content" position="start" slot="panel-start" />
         <calcite-action style={{ blockSize: "100%", inlineSize: "100%" }} text="test" textEnabled />
       </calcite-shell>,
     );
-
-    await component.updateComplete;
 
     const shellPanel = el.querySelector("calcite-shell-panel");
     const action = el.querySelector("calcite-action");
