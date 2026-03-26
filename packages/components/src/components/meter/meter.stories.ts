@@ -259,3 +259,31 @@ export const complexUnitRTL = (): string =>
     high="7600"
     value="2200"
   ></calcite-meter>`;
+
+export const renderScaleMeter = (scale: "s" | "m" | "l", label: string): string => html`
+  <calcite-meter
+    label="${label}"
+    scale="${scale}"
+    min="0"
+    max="100"
+    low="25"
+    high="75"
+    value="50"
+    value-label
+    range-labels
+  ></calcite-meter>
+`;
+
+export const scales = (): string => {
+  const configs = [
+    { scale: "s", label: "Meter small" },
+    { scale: "m", label: "Meter medium" },
+    { scale: "l", label: "Meter large" },
+  ] as const;
+
+  return html`
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      ${configs.map(({ scale, label }) => renderScaleMeter(scale, label)).join("")}
+    </div>
+  `;
+};

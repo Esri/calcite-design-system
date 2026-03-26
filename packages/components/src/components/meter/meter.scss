@@ -23,6 +23,7 @@
 // --calcite-internal-meter-fill-color
 // --calcite-internal-meter-font-size
 // --calcite-internal-meter-height
+// --calcite-internal-meter-label-line-height
 // --calcite-internal-meter-range-text-color
 // --calcite-internal-meter-shadow
 // --calcite-internal-meter-space
@@ -45,6 +46,7 @@
   --calcite-internal-meter-corner-radius: var(--calcite-meter-corner-radius, 9999px);
   --calcite-internal-meter-value-text-color: var(--calcite-meter-value-text-color, var(--calcite-color-text-1));
   --calcite-internal-meter-range-text-color: var(--calcite-meter-range-text-color, var(--calcite-color-text-3));
+  --calcite-internal-meter-label-line-height: var(--calcite-font-line-height-fixed-base);
 }
 
 :host([scale="s"]) {
@@ -55,6 +57,7 @@
 :host([scale="l"]) {
   --calcite-internal-meter-height: var(--calcite-spacing-xxl);
   --calcite-internal-meter-font-size: var(--calcite-font-size-0);
+  --calcite-internal-meter-label-line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 :host([appearance="solid"]) {
@@ -91,7 +94,6 @@
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-meter-border-color);
   border-radius: var(--calcite-internal-meter-corner-radius);
   box-shadow: var(--calcite-internal-meter-shadow);
-  line-height: 1.4; // consider tailwind leading-snug (3.75)
 }
 
 .value-visible {
@@ -109,9 +111,9 @@
 }
 
 .label {
-  @apply absolute; // consider leading-none (1)
+  @apply absolute;
   font-size: var(--calcite-internal-meter-font-size);
-  line-height: 16px; // consider variable
+  line-height: var(--calcite-internal-meter-label-line-height);
 }
 
 .label-hidden {
@@ -127,7 +129,6 @@
 .label-range {
   color: var(--calcite-internal-meter-range-text-color);
   inset-block-start: calc(100% + 0.5em);
-  line-height: 18px; // consider variable
 }
 
 .label-range .unit-label {
