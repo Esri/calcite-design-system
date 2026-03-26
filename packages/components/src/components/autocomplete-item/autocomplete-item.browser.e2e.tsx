@@ -58,7 +58,7 @@ describe("slots", () => {
 describe("disabled", () => {
   disabled(() => mount("calcite-autocomplete-item"), { focusTarget: "none" });
 
-  it("does not emit or toggle selected when clicked", async () => {
+  it("does not emit or toggle selected when a disabled item is clicked", async () => {
     const { el, reRender } = await mount("calcite-autocomplete-item");
     const selectSpy = vi.fn();
     el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
