@@ -78,7 +78,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
   const queryComponents = (
     composedPath: EventTarget[],
-    type: ReferenceElementType,
+    type?: ReferenceElementType,
   ): ReferenceElementComponent[] | undefined => {
     const registeredElement = (composedPath as HTMLElement[]).find((pathEl) => registeredElements.has(pathEl));
 
@@ -88,7 +88,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
 
     const components = registeredElements.get(registeredElement);
 
-    return components?.filter((component) => component.referenceElementType === type);
+    return type ? components?.filter((component) => component.referenceElementType === type) : components;
   };
 
   const toggleComponents = (event: KeyboardEvent | PointerEvent, type: ReferenceElementType): void => {
@@ -249,6 +249,11 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
   };
 
+  const onReferenceElementKeydown = (event: KeyboardEvent): void => {
+    const components = queryComponents(event.composedPath());
+    components?.forEach((component) => component.onReferenceElementKeydown?.(event));
+  };
+
   const closeAllComponents = (): void => {
     Array.from(registeredElements.values())
       .flat()
@@ -333,15 +338,39 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     closeHoveredComponents();
   };
 
-  const addListeners = (): void => {
+  const clickListener = (event: PointerEvent): void => {
     if (options.click) {
-      window.addEventListener("click", clickHandler);
-      window.addEventListener("keydown", keyDownHandler);
+      clickHandler(event);
+    }
+
+    if (options.hover) {
+      hoverClickHandler(event);
+    }
+  };
+
+  const keyDownListener = (event: KeyboardEvent): void => {
+    onReferenceElementKeydown(event);
+
+    if (options.click) {
+      keyDownHandler(event);
+    }
+
+    if (options.hover) {
+      hoverKeyDownHandler(event);
+    }
+  };
+
+  const addListeners = (): void => {
+    if (options.click || options.hover) {
+      window.addEventListener("click", clickListener);
+      window.addEventListener("keydown", keyDownListener);
+    }
+
+    if (options.click) {
       window.addEventListener("pointerdown", pointerDownHandler);
     }
+
     if (options.hover) {
-      window.addEventListener("click", hoverClickHandler);
-      window.addEventListener("keydown", hoverKeyDownHandler);
       window.addEventListener("pointermove", pointerMoveHandler);
       window.addEventListener("focusin", focusInHandler);
       window.addEventListener("blur", blurHandler);
@@ -350,14 +379,16 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const removeListeners = (): void => {
+    if (options.click || options.hover) {
+      window.removeEventListener("click", clickListener);
+      window.removeEventListener("keydown", keyDownListener);
+    }
+
     if (options.click) {
       window.removeEventListener("pointerdown", pointerDownHandler);
-      window.removeEventListener("click", clickHandler);
-      window.removeEventListener("keydown", keyDownHandler);
     }
+
     if (options.hover) {
-      window.removeEventListener("click", hoverClickHandler);
-      window.removeEventListener("keydown", hoverKeyDownHandler);
       window.removeEventListener("pointermove", pointerMoveHandler);
       window.removeEventListener("focusin", focusInHandler);
       window.removeEventListener("blur", blurHandler);

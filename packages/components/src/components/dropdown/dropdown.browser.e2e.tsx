@@ -260,3 +260,35 @@ describe("ariaActiveDescendantElement", () => {
     expect(activeDescendantId).toBe("item-2");
   });
 });
+
+describe("referenceElement keydown", () => {
+  function createReferenceElementDropdownHTML(): JsxNode {
+    return (
+      <div>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown reference-element="external-trigger">
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </div>
+    );
+  }
+
+  function dispatchKeydown(target: Element, key: string): void {
+    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+  }
+
+  it("opens when Enter keydown is dispatched on referenceElement", async () => {
+    const { el } = await mount<Dropdown>(createReferenceElementDropdownHTML);
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+
+    expect(el.open).toBe(false);
+
+    dispatchKeydown(trigger.element() as Element, "Enter");
+
+    expect(el.open).toBe(true);
+  });
+});

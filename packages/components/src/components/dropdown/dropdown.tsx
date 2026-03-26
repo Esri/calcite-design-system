@@ -93,6 +93,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   transitionEl: HTMLDivElement;
 
+  onReferenceElementKeydown = (event: KeyboardEvent): void => this.keyDownHandler(event);
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
