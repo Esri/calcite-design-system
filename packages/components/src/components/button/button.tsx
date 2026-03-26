@@ -63,7 +63,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
 
   formEl: HTMLFormElement;
 
-  formTrigger = useFormTrigger({ formTriggerDisabled: () => !!this.href })(this);
+  formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
 
   labelEl: Label["el"];
 

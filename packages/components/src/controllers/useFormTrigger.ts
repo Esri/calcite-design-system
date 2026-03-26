@@ -9,7 +9,7 @@ interface UseFormTriggerOptions {
   /**
    * When defined, provides a condition to disable form trigger behavior. When `true`, prevents form submit or reset.
    */
-  formTriggerDisabled?: () => boolean;
+  disabled?: () => boolean;
 }
 
 /**
@@ -20,10 +20,7 @@ export const useFormTrigger = (
 ): ReturnType<typeof makeGenericController<void, FormTriggerComponent>> =>
   makeGenericController<void, FormTriggerComponent>((component) => {
     component.listen("click", () => {
-      if (
-        component.disabled ||
-        (typeof options?.formTriggerDisabled === "function" && options?.formTriggerDisabled())
-      ) {
+      if (component.disabled || (typeof options?.disabled === "function" && options?.disabled())) {
         return;
       }
       if (component.type === "submit") {
