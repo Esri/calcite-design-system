@@ -8,5 +8,6 @@
   "required": "Обязательное",
   "selectAll": "Выбрать все",
   "selected": "выбрано",
-  "nonEditable": "{value} только для чтения"
+  "nonEditable": "{value} только для чтения",
+  "disabledSelectedCount": "+{count}"
 }

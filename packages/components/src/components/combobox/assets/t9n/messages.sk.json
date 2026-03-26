@@ -8,5 +8,6 @@
   "required": "Vyžadované",
   "selectAll": "Vybrať všetko",
   "selected": "vybrané",
-  "nonEditable": "Iba na čítanie {value}"
+  "nonEditable": "Iba na čítanie {value}",
+  "disabledSelectedCount": "+{count}"
 }

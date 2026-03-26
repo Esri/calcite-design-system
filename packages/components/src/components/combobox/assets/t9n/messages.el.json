@@ -8,5 +8,6 @@
   "required": "Απαιτείται",
   "selectAll": "Επιλογή όλων",
   "selected": "επιλέχθηκε",
-  "nonEditable": "Μόνο για ανάγνωση {value}"
+  "nonEditable": "Μόνο για ανάγνωση {value}",
+  "disabledSelectedCount": "+{count}"
 }

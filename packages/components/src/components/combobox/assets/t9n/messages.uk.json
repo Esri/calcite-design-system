@@ -8,5 +8,6 @@
   "required": "Потрібні відомості",
   "selectAll": "Вибрати всі",
   "selected": "вибрані",
-  "nonEditable": "{value} тільки читання"
+  "nonEditable": "{value} тільки читання",
+  "disabledSelectedCount": "+{count}"
 }

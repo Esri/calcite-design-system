@@ -8,5 +8,6 @@
   "required": "Vereist",
   "selectAll": "Alles selecteren",
   "selected": "geselecteerd",
-  "nonEditable": "Alleen-lezen {value}"
+  "nonEditable": "Alleen-lezen {value}",
+  "disabledSelectedCount": "+{count}"
 }
