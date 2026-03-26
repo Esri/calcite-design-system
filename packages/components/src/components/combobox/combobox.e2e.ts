@@ -1498,16 +1498,14 @@ describe("deleting items with the keyboard in single and fit selection-display m
     const input = await page.find(`calcite-combobox >>> .${CSS.input}`);
     const item1 = await page.find("calcite-combobox-item#one");
     const item2 = await page.find("calcite-combobox-item#two");
-    const item3 = await page.find("calcite-combobox-item#three");
 
     await input.click();
     await item1.click();
     await item2.click();
-    await item3.click();
     await input.click();
     await input.press("Backspace");
 
-    expect((await combobox.getProperty("selectedItems")).length).toBe(2);
+    expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 });
 

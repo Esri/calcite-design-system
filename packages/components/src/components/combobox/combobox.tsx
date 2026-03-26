@@ -726,6 +726,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
+    if (this.selectionDisplay === "fit" && this.isMulti()) {
+      this.updateComplete.then(() => this.refreshSelectionDisplay());
+    }
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
