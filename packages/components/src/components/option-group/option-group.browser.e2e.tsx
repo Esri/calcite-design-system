@@ -4,38 +4,36 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 
-describe("calcite-option-group", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-option-group"),
-      [
-        {
-          propertyName: "disabled",
-          defaultValue: false,
-        },
-      ],
-    );
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-option-group"),
+    [
+      {
+        propertyName: "disabled",
+        defaultValue: false,
+      },
+    ],
+  );
+});
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-option-group"),
-      [
-        {
-          propertyName: "disabled",
-          value: true,
-        },
-      ],
-    );
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-option-group"),
+    [
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+    ],
+  );
+});
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount("calcite-option-group"));
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount("calcite-option-group"));
+});
 
-  describe("renders", () => {
-    renders(() => mount("calcite-option-group"), { display: "inline", visible: false });
-  });
+describe("renders", () => {
+  renders(() => mount("calcite-option-group"), { display: "inline", visible: false });
 });
 
 it("has a label", async () => {

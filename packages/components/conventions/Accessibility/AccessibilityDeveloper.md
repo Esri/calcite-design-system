@@ -82,15 +82,12 @@ To add a test, add the following to the `<component>.e2e.ts` file:
 // Import the accessible test from commonTests
 import { accessible } from "../../tests/commonTests";
 
-// describe function, identify the component
-describe("calcite-tree", () => {
+// accessible() will test for a11y
+it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
 
-   // accessible() will test for a11y
-   it("is accessible", async () => accessible(`<calcite-tree></calcite-tree>`));
-
-   // Multiple a11y tests can be present in a component
-   it("is accessible: with nested children", async () =>
-    accessible(`
+// Multiple a11y tests can be present in a component
+it("is accessible: with nested children", async () =>
+  accessible(`
         <calcite-tree lines>
             <calcite-tree-item>
             <a href="#">Child 2</a>
