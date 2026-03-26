@@ -727,7 +727,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     if (this.selectionDisplay === "fit" && this.isMulti()) {
-      this.updateComplete.then(() => this.refreshSelectionDisplay());
+      this.refreshSelectionDisplay();
     }
   }
 
@@ -1224,8 +1224,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
       this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
     }
-    const newSelectedHiddenChipsCount =
-      this.getSelectedItems().length - newSelectedVisibleChipsCount;
+    const newSelectedHiddenChipsCount = Math.max(
+      0,
+      this.getSelectedItems().length - newSelectedVisibleChipsCount,
+    );
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
     }
