@@ -162,7 +162,7 @@ export class Action extends LitElement {
    *
    * @required
    */
-  @property() text?: string;
+  @property() text!: string;
 
   /** When `true`, displays `text` adjacent to the `icon`. */
   @property({ reflect: true }) textEnabled = false;
