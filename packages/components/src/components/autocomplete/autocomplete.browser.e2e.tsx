@@ -15,6 +15,7 @@ import {
   t9n,
   disabled,
   topLayer,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -273,6 +274,13 @@ describe("floating-ui", () => {
     floatingUIOwner(() => mount(renderAutocomplete), "open", {
       shadowSelector: `.${CSS.floatingUIContainer}`,
     });
+  });
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount(renderAutocomplete), {
+    testValue: "two",
+    submitsOnEnter: true,
   });
 });
 
