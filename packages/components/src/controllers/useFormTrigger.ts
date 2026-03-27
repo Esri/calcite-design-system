@@ -1,7 +1,8 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { InteractiveComponent } from "./useInteractive";
+import { FormOwnerComponent } from "./useForm";
 
-export interface FormTriggerComponent extends InteractiveComponent {
+export interface FormTriggerComponent extends InteractiveComponent, FormOwnerComponent {
   type: HTMLButtonElement["type"];
 }
 
