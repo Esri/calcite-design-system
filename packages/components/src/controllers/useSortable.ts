@@ -100,7 +100,9 @@ export interface SortableComponentItem {
 
 interface UseSortable {
   /**
-   * Resets the sortable instance.
+   * Resets the Sortable instance.
+   *
+   * This should be called after any change to the list that may affect Sortable's internal state (e.g. items added/removed, or changes to `dragDisabled` property).
    */
   reset: () => void;
 }
