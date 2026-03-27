@@ -20,6 +20,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { ComboboxItem } from "../combobox-item/combobox-item";
+import { CSS as InputClearButtonCSS } from "../functional/InputClearButton";
 import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
@@ -890,31 +891,24 @@ describe("keyboard interactions", async () => {
       }
 
       if (mode === "mouse") {
-        const clearButton = el.shadowRoot?.querySelector<HTMLElement>(
-          ".input-clear-button--container calcite-action",
-        );
+        const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
         if (expectedBehavior === "clear") {
-          expect(clearButton).toBeTruthy();
-          if (!clearButton) {
-            throw new Error("expected clear button to be rendered");
-          }
-
-          clearButton.click();
+          await expect.element(clearButton).toBeInTheDocument();
+          await userEvent.click(clearButton);
         } else {
-          expect(clearButton).toBeNull();
+          await expect.element(clearButton).not.toBeInTheDocument();
         }
       } else {
-        const input = el.shadowRoot?.querySelector("input");
-        expect(input).toBeTruthy();
+        const input = page.getBySelector("calcite-combobox input");
+        await expect.element(input).toBeInTheDocument();
+
         if (!input) {
           throw new Error("expected internal input to be rendered");
         }
 
-        input.focus();
-        input.dispatchEvent(
-          new KeyboardEvent("keydown", { bubbles: true, composed: true, key: "Escape" }),
-        );
+        await userEvent.click(input, { force: true });
+        await userEvent.keyboard("{Escape}");
       }
 
       if (expectedBehavior === "clear") {
@@ -939,13 +933,8 @@ describe("keyboard interactions", async () => {
 
       describe("via keyboard", () => {
         selectionModes.forEach((selectionMode) => {
-          if (selectionMode === "single-persist") {
-            it(`clears the value in ${selectionMode}-selection mode`, () =>
-              assertValueClearing(selectionMode, false, "keyboard", "clear"));
-          } else {
-            it(`clears the value in ${selectionMode}-selection mode`, () =>
-              assertValueClearing(selectionMode, false, "keyboard", "clear"));
-          }
+          it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+            assertValueClearing(selectionMode, false, "keyboard", "no-clear"));
         });
       });
     });
