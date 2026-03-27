@@ -19,14 +19,28 @@ export const useFormTrigger = (
   options?: UseFormTriggerOptions,
 ): ReturnType<typeof makeGenericController<void, FormTriggerComponent>> =>
   makeGenericController<void, FormTriggerComponent>((component) => {
-    component.listen("click", () => {
+    let lastAssociatedForm: HTMLFormElement | null = null;
+
+    function submitHandler(event: Event) {
+      if (event.defaultPrevented) {
+        return;
+      }
       if (component.disabled || options?.disabled?.()) {
         return;
       }
       if (component.type === "submit") {
-        component.elementInternals.form?.requestSubmit();
+        component.elementInternals.form.requestSubmit();
       } else if (component.type === "reset") {
-        component.elementInternals.form?.reset();
+        component.elementInternals.form.reset();
       }
+    }
+
+    component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
+      if (form) {
+        component.listen("click", submitHandler);
+      } else {
+        lastAssociatedForm?.removeEventListener("click", submitHandler);
+      }
+      lastAssociatedForm = form;
     });
   });
