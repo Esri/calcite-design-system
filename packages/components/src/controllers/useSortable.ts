@@ -102,7 +102,7 @@ interface UseSortable {
   /**
    * Resets the sortable instance.
    */
-  reset: () => Promise<void>;
+  reset: () => void;
 }
 
 const globalDragState: { active: boolean } = { active: false };
@@ -212,8 +212,8 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     });
 
     return {
-      reset: async () => {
-        return setUpSortable(component);
+      reset: () => {
+        setUpSortable(component);
       },
     };
   });
