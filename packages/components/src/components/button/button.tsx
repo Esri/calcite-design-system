@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { literal } from "lit/static-html.js";
 import {
@@ -207,9 +206,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   }
 
   async load(): Promise<void> {
-    if (!isServer) {
-      this.updateHasContent();
-    }
+    this.updateHasContent();
   }
 
   loaded(): void {
