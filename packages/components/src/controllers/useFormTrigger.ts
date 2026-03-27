@@ -7,7 +7,7 @@ export interface FormTriggerComponent extends InteractiveComponent {
 
 interface UseFormTriggerOptions {
   /**
-   * When defined, provides a condition to disable form trigger behavior. When `true`, prevents form submit or reset.
+   * A function that returns a boolean indicating whether the form trigger should be disabled. This can be used to conditionally disable the form trigger based on external factors or component state.
    */
   disabled?: () => boolean;
 }
@@ -19,28 +19,25 @@ export const useFormTrigger = (
   options?: UseFormTriggerOptions,
 ): ReturnType<typeof makeGenericController<void, FormTriggerComponent>> =>
   makeGenericController<void, FormTriggerComponent>((component) => {
-    let lastAssociatedForm: HTMLFormElement | null = null;
-
     function submitHandler(event: Event) {
-      if (event.defaultPrevented) {
+      const { form } = component.elementInternals;
+
+      if (event.defaultPrevented || component.disabled || options?.disabled?.() || !form) {
         return;
       }
-      if (component.disabled || options?.disabled?.()) {
-        return;
-      }
+
       if (component.type === "submit") {
-        component.elementInternals.form.requestSubmit();
+        form.requestSubmit();
       } else if (component.type === "reset") {
-        component.elementInternals.form.reset();
+        form.reset();
       }
     }
 
     component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
       if (form) {
-        component.listen("click", submitHandler);
+        component.el.addEventListener("click", submitHandler);
       } else {
-        lastAssociatedForm?.removeEventListener("click", submitHandler);
+        component.el.removeEventListener("click", submitHandler);
       }
-      lastAssociatedForm = form;
     });
   });
