@@ -203,6 +203,20 @@ export const withIcon = (): string => html`
   </calcite-dialog>
 `;
 
+export const withRichHeaderSlots = (): string => html`
+  <calcite-dialog
+    heading="Plain heading fallback"
+    description="Plain description fallback"
+    open
+    scale="m"
+    width-scale="s"
+  >
+    <span slot="header-heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="header-description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
 export const withKindBrandIcon = (): string => html`
   <calcite-dialog
     kind="brand"

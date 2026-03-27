@@ -137,6 +137,14 @@ export const withIcon = (): string => html`
   <calcite-flow-item icon="banana" selected heading="Banana"> Hello World! </calcite-flow-item>
 `;
 
+export const withRichHeaderSlots = (): string => html`
+  <calcite-flow-item heading="Plain heading fallback" description="Plain description fallback" selected>
+    <span slot="header-heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="header-description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
+  </calcite-flow-item>
+`;
+
 export const collapsed = (): string => html`
   <calcite-flow-item selected collapsed collapsible closable> Hello World! </calcite-flow-item>
 `;

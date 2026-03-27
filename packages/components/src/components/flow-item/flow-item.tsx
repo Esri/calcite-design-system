@@ -31,6 +31,8 @@ declare global {
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
+ * @slot header-description - A slot for adding content to the description area of the component's default header. Takes precedence over the `description` property.
+ * @slot header-heading - A slot for adding content to the heading area of the component's default header. Takes precedence over the `heading` property.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
@@ -344,6 +346,8 @@ export class FlowItem extends LitElement {
           <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.headerDescription} slot={PANEL_SLOTS.headerDescription} />
+          <slot name={SLOTS.headerHeading} slot={PANEL_SLOTS.headerHeading} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
           <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
           <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />

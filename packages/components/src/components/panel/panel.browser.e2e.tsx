@@ -1,6 +1,7 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -215,6 +216,39 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
+});
+
+it("renders slotted header heading and description in the default header with precedence over properties", async () => {
+  const { component, el } = await mount(
+    <calcite-panel description="Property description" heading="Property heading" />,
+  );
+
+  const slottedHeading = document.createElement("span");
+  slottedHeading.slot = SLOTS.headerHeading;
+  slottedHeading.innerHTML = "<strong>HTML heading</strong>";
+
+  const slottedDescription = document.createElement("span");
+  slottedDescription.slot = SLOTS.headerDescription;
+  slottedDescription.innerHTML = "<em>HTML description</em>";
+
+  el.append(slottedHeading, slottedDescription);
+
+  await component.updateComplete;
+  await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+
+  const heading = page.getBySelector(`.${CSS.heading}`);
+  const description = page.getBySelector(`.${CSS.description}`);
+  const headingSlot = heading.element().querySelector("slot") as HTMLSlotElement;
+  const descriptionSlot = description.element().querySelector("slot") as HTMLSlotElement;
+
+  await expect.element(heading).toBeVisible();
+  await expect.element(description).toBeVisible();
+  expect(headingSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
+    "HTML heading",
+  );
+  expect(descriptionSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
+    "HTML description",
+  );
 });
 
 describe("floating-ui", () => {

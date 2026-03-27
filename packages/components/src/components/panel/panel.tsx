@@ -2,7 +2,11 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasContent,
+} from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -39,6 +43,8 @@ declare global {
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
+ * @slot header-description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+ * @slot header-heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
@@ -95,6 +101,10 @@ export class Panel extends LitElement {
   @state() hasFooterStartContent = false;
 
   @state() hasHeaderContent = false;
+
+  @state() hasHeaderDescription = false;
+
+  @state() hasHeaderHeading = false;
 
   @state() hasMenuItems = false;
 
@@ -358,6 +368,14 @@ export class Panel extends LitElement {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   }
 
+  private handleHeaderDescriptionSlotChange(event: Event): void {
+    this.hasHeaderDescription = slotChangeHasContent(event);
+  }
+
+  private handleHeaderHeadingSlotChange(event: Event): void {
+    this.hasHeaderHeading = slotChangeHasContent(event);
+  }
+
   private handleFabSlotChange(event: Event): void {
     this.hasFab = slotChangeHasAssignedElement(event);
   }
@@ -400,7 +418,20 @@ export class Panel extends LitElement {
   //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+    const {
+      heading,
+      headingLevel,
+      description,
+      hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
+      icon,
+      scale,
+    } = this;
+
+    const showHeaderHeading = !!heading || hasHeaderHeading;
+    const showHeaderDescription = !!description || hasHeaderDescription;
+    const showHeaderTextContent = showHeaderHeading || showHeaderDescription;
 
     const iconNode = icon ? (
       <calcite-icon
@@ -411,17 +442,26 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        {heading}
+    const headingNode = (
+      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+        <slot name={SLOTS.headerHeading} onSlotChange={this.handleHeaderHeadingSlotChange}>
+          {heading}
+        </slot>
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
+    const descriptionNode = (
+      <span class={CSS.description} hidden={!showHeaderDescription}>
+        <slot name={SLOTS.headerDescription} onSlotChange={this.handleHeaderDescriptionSlotChange}>
+          {description}
+        </slot>
+      </span>
+    );
 
-    return !hasHeaderContent && (headingNode || descriptionNode) ? (
+    return (
       <div
         class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        hidden={hasHeaderContent || !showHeaderTextContent}
         key="header-content"
       >
         {iconNode}
@@ -430,7 +470,7 @@ export class Panel extends LitElement {
           {descriptionNode}
         </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderActionBar(): JsxNode {
@@ -566,6 +606,8 @@ export class Panel extends LitElement {
   private renderHeaderNode(): JsxNode {
     const {
       hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
       hasStartActions,
       hasEndActions,
       closable,
@@ -573,13 +615,17 @@ export class Panel extends LitElement {
       hasMenuItems,
       hasActionBar,
       hasContentTop,
+      heading,
+      description,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
+    const hasDefaultHeaderContent =
+      !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
     const showHeaderContent =
       hasHeaderContent ||
-      !!headerContentNode ||
+      hasDefaultHeaderContent ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||
