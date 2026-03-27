@@ -14,6 +14,7 @@ import {
   t9n,
   disabled,
 } from "../../tests/commonTests/browser";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
@@ -234,7 +235,7 @@ it("renders slotted header heading and description in the default header with pr
   el.append(slottedHeading, slottedDescription);
 
   await component.updateComplete;
-  await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+  await afterNextFrame();
 
   const heading = page.getBySelector(`.${CSS.heading}`);
   const description = page.getBySelector(`.${CSS.description}`);
@@ -249,6 +250,27 @@ it("renders slotted header heading and description in the default header with pr
   expect(descriptionSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
     "HTML description",
   );
+});
+
+it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
+  const { component, el } = await mount(<calcite-panel heading="Property heading" />);
+
+  await component.updateComplete;
+  await afterNextFrame();
+
+  await expect.element(page.getByText("Property heading")).toBeVisible();
+
+  el.removeAttribute("heading");
+
+  const slottedDescription = document.createElement("span");
+  slottedDescription.slot = SLOTS.headerDescription;
+  slottedDescription.textContent = "Slotted description";
+  el.append(slottedDescription);
+
+  await component.updateComplete;
+  await afterNextFrame();
+
+  await expect.element(page.getByText("Slotted description")).toBeVisible();
 });
 
 describe("floating-ui", () => {

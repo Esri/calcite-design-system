@@ -442,20 +442,32 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = (
-      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+    const headingNode = showHeaderHeading ? (
+      <Heading class={CSS.heading} level={headingLevel}>
         <slot name={SLOTS.headerHeading} onSlotChange={this.handleHeaderHeadingSlotChange}>
           {heading}
         </slot>
       </Heading>
-    );
+    ) : null;
 
-    const descriptionNode = (
-      <span class={CSS.description} hidden={!showHeaderDescription}>
+    const descriptionNode = showHeaderDescription ? (
+      <span class={CSS.description}>
         <slot name={SLOTS.headerDescription} onSlotChange={this.handleHeaderDescriptionSlotChange}>
           {description}
         </slot>
       </span>
+    ) : null;
+
+    const headingSlotProbeNode = (
+      <slot hidden name={SLOTS.headerHeading} onSlotChange={this.handleHeaderHeadingSlotChange} />
+    );
+
+    const descriptionSlotProbeNode = (
+      <slot
+        hidden
+        name={SLOTS.headerDescription}
+        onSlotChange={this.handleHeaderDescriptionSlotChange}
+      />
     );
 
     return (
@@ -469,6 +481,8 @@ export class Panel extends LitElement {
           {headingNode}
           {descriptionNode}
         </div>
+        {headingSlotProbeNode}
+        {descriptionSlotProbeNode}
       </div>
     );
   }
