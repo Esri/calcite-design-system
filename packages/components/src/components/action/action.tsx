@@ -15,7 +15,6 @@ import {
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { findAssociatedForm, FormOwner } from "../../utils/form";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -31,7 +30,7 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements FormOwner {
+export class Action extends LitElement {
   //#region Static Members
 
   static formAssociated = true;
@@ -41,8 +40,6 @@ export class Action extends LitElement implements FormOwner {
   //#endregion
 
   //#region Private Properties
-
-  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -209,12 +206,10 @@ export class Action extends LitElement implements FormOwner {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
-    this.formEl = null;
     this.mutationObserver?.disconnect();
   }
 
