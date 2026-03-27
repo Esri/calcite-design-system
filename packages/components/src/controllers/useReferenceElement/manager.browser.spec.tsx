@@ -6,9 +6,15 @@ import type { ReferenceElement } from "../../utils/floating-ui";
 import { useReferenceElement } from "../useReferenceElement";
 import { referenceElementManager } from "./manager";
 
-afterEach(() => {
+const mountedComponents: HTMLElement[] = [];
+
+afterEach(async () => {
+  mountedComponents.forEach((component) => component.remove());
+  mountedComponents.length = 0;
   vi.restoreAllMocks();
   document.body.querySelectorAll("button[data-testid='ref-el']").forEach((el) => el.remove());
+
+  await afterNextFrame();
 });
 
 describe("referenceElementManager", () => {
@@ -44,6 +50,7 @@ describe("referenceElementManager", () => {
     }
 
     const { component } = await mount(TestComponent);
+    mountedComponents.push(component);
 
     await afterNextFrame();
 
@@ -99,6 +106,7 @@ describe("referenceElementManager", () => {
     }
 
     const { component } = await mount(TestComponent);
+    mountedComponents.push(component);
 
     await afterNextFrame();
 
@@ -142,7 +150,8 @@ describe("referenceElementManager", () => {
       }
     }
 
-    await mount(TestComponent);
+    const { component } = await mount(TestComponent);
+    mountedComponents.push(component);
 
     await afterNextFrame();
 

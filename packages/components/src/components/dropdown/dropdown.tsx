@@ -167,10 +167,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * However, a string `id` of the reference element can also be used.
    *
    *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   *
-   * @required
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElement: ReferenceElement | string | nil;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
