@@ -292,3 +292,182 @@ describe("referenceElement keydown", () => {
     expect(el.open).toBe(true);
   });
 });
+
+describe("keyboard navigation", () => {
+  function createReferenceElementKeyboardDropdownHTML(options?: {
+    selectedItemId?: "item-1" | "item-2";
+    includeDisabledAndHiddenItems?: boolean;
+  }): JsxNode {
+    const { selectedItemId, includeDisabledAndHiddenItems } = options || {};
+
+    return (
+      <div>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown reference-element="external-trigger">
+          {includeDisabledAndHiddenItems ? (
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item disabled id="item-1">
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item disabled id="item-1.5">
+                1.5
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected>
+                2
+              </calcite-dropdown-item>
+              <calcite-dropdown-item hidden id="item-2.5">
+                2.5
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+              <calcite-dropdown-item hidden id="item-4">
+                4
+              </calcite-dropdown-item>
+            </calcite-dropdown-group>
+          ) : (
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1" selected={selectedItemId === "item-1"}>
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected={selectedItemId === "item-2"}>
+                2
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          )}
+        </calcite-dropdown>
+      </div>
+    );
+  }
+
+  function getReferenceElementExpandedState(): string | null {
+    return (getReferenceElementTrigger().element() as HTMLElement | null)?.getAttribute(
+      "aria-expanded",
+    );
+  }
+
+  function getReferenceElementTrigger() {
+    return page.getByRole("button", { name: "Open dropdown" });
+  }
+
+  function getActiveDescendantId(): string | undefined {
+    return (getReferenceElementTrigger().element() as HTMLElement | null)
+      ?.ariaActiveDescendantElement?.id;
+  }
+
+  it("supports navigating through items with arrow keys", async () => {
+    await mount<Dropdown>(() =>
+      createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-1" }),
+    );
+    const trigger = getReferenceElementTrigger();
+
+    await userEvent.click(trigger);
+    await userEvent.type(trigger, "{Enter}");
+
+    expect(getActiveDescendantId()).toBe("item-1");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-1");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-1");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-3");
+  });
+
+  it("skips disabled and hidden items when navigating with arrow keys", async () => {
+    await mount<Dropdown>(() =>
+      createReferenceElementKeyboardDropdownHTML({
+        includeDisabledAndHiddenItems: true,
+      }),
+    );
+    const trigger = getReferenceElementTrigger();
+
+    await userEvent.click(trigger);
+    await userEvent.type(trigger, "{Enter}");
+
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-3");
+  });
+
+  it("should open the dropdown and focus the first item with ArrowDown", async () => {
+    await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
+    const trigger = getReferenceElementTrigger();
+
+    await userEvent.click(trigger);
+    await userEvent.type(trigger, "{ArrowDown}");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveDescendantId()).toBe("item-1");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-1");
+  });
+
+  it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
+    await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
+    const trigger = getReferenceElementTrigger();
+
+    await userEvent.click(trigger);
+    await userEvent.type(trigger, "{ArrowUp}");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-1");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-3");
+  });
+
+  it("should open the dropdown and focus the last item with ArrowUp", async () => {
+    await mount<Dropdown>(() =>
+      createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-2" }),
+    );
+    const trigger = getReferenceElementTrigger();
+
+    await userEvent.click(trigger);
+    await userEvent.type(trigger, "{ArrowUp}");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveDescendantId()).toBe("item-3");
+
+    await userEvent.type(trigger, "{ArrowUp}");
+    expect(getActiveDescendantId()).toBe("item-2");
+
+    await userEvent.type(trigger, "{ArrowDown}");
+    expect(getActiveDescendantId()).toBe("item-3");
+  });
+});
