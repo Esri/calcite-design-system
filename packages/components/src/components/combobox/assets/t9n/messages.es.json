@@ -8,5 +8,6 @@
   "required": "Obligatorio",
   "selectAll": "Seleccionar todo",
   "selected": "seleccionado",
-  "nonEditable": "Solo lectura {value}"
+  "nonEditable": "Solo lectura {value}",
+  "disabledSelectedCount": "+{count}"
 }
