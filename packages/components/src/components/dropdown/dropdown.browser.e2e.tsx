@@ -76,6 +76,10 @@ function createSimpleDropdownHTML(): JsxNode {
   );
 }
 
+function dispatchKeydown(target: Element, key: string): void {
+  target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+}
+
 describe("renders", () => {
   renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
 });
@@ -206,12 +210,25 @@ describe("hover type", () => {
 });
 
 describe("ariaActiveDescendantElement", () => {
-  function getTriggerSlotLocator() {
-    return page.getBySelector("calcite-dropdown slot").first();
+  function getSlottedTriggerLocator() {
+    const internalButton = page.getByRole("button", { name: "Open dropdown" }).element();
+    const triggerHost = (internalButton?.getRootNode() as ShadowRoot | null)?.host;
+
+    if (!(triggerHost instanceof HTMLElement)) {
+      throw new Error("Expected slotted calcite-button host");
+    }
+
+    return page.elementLocator(triggerHost);
   }
 
-  function getSlottedTriggerLocator() {
-    return page.getBySelector("calcite-dropdown [slot=trigger]");
+  function getTriggerSlotLocator() {
+    const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
+
+    if (!(slot instanceof HTMLSlotElement)) {
+      throw new Error("Expected assigned trigger slot");
+    }
+
+    return page.elementLocator(slot);
   }
 
   function getActiveDescendantId(): string | undefined {
@@ -275,10 +292,6 @@ describe("referenceElement keydown", () => {
         </calcite-dropdown>
       </div>
     );
-  }
-
-  function dispatchKeydown(target: Element, key: string): void {
-    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
   }
 
   it("opens when Enter keydown is dispatched on referenceElement", async () => {
@@ -351,42 +364,94 @@ describe("keyboard navigation", () => {
     return page.getByRole("button", { name: "Open dropdown" });
   }
 
-  function getActiveDescendantId(): string | undefined {
-    return (getReferenceElementTrigger().element() as HTMLElement | null)
-      ?.ariaActiveDescendantElement?.id;
+  function getDropdownLocator() {
+    const dropdown = getReferenceElementTrigger().element()?.nextElementSibling;
+
+    if (!(dropdown instanceof HTMLElement)) {
+      throw new Error("Expected dropdown next to reference element trigger");
+    }
+
+    return page.elementLocator(dropdown);
+  }
+
+  async function waitForDropdownUpdateComplete(): Promise<void> {
+    const dropdown = getDropdownLocator().element() as Dropdown;
+
+    await dropdown.updateComplete;
+    await dropdown.updateComplete;
+  }
+
+  const defaultItemIds = ["item-1", "item-2", "item-3"];
+  const disabledAndHiddenItemIds = ["item-1", "item-1.5", "item-2", "item-2.5", "item-3", "item-4"];
+
+  const dropdownItemTextById: Record<string, string> = {
+    "item-1": "1",
+    "item-1.5": "1.5",
+    "item-2": "2",
+    "item-2.5": "2.5",
+    "item-3": "3",
+    "item-4": "4",
+  };
+
+  function getDropdownItemLocator(itemId: string) {
+    const itemText = dropdownItemTextById[itemId];
+
+    if (!itemText) {
+      return null;
+    }
+
+    const itemContent = getDropdownLocator().getByText(itemText, { exact: true }).element();
+    const item = itemContent?.closest("calcite-dropdown-item");
+
+    if (!(item instanceof HTMLElement)) {
+      return null;
+    }
+
+    return page.elementLocator(item);
+  }
+
+  function getActiveItemId(itemIds: string[]): string | undefined {
+    return itemIds.find((itemId) => {
+      const item = getDropdownItemLocator(itemId);
+
+      return (item?.element() as (HTMLElement & { activeDescendant?: boolean }) | null)
+        ?.activeDescendant;
+    });
+  }
+
+  async function pressReferenceElementKey(key: string): Promise<void> {
+    dispatchKeydown(getReferenceElementTrigger().element() as Element, key);
+    await waitForDropdownUpdateComplete();
   }
 
   it("supports navigating through items with arrow keys", async () => {
     await mount<Dropdown>(() =>
       createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-1" }),
     );
-    const trigger = getReferenceElementTrigger();
 
-    await userEvent.click(trigger);
-    await userEvent.type(trigger, "{Enter}");
+    await pressReferenceElementKey("Enter");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
 
-    expect(getActiveDescendantId()).toBe("item-1");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-1");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-1");
-
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
   });
 
   it("skips disabled and hidden items when navigating with arrow keys", async () => {
@@ -395,79 +460,67 @@ describe("keyboard navigation", () => {
         includeDisabledAndHiddenItems: true,
       }),
     );
-    const trigger = getReferenceElementTrigger();
 
-    await userEvent.click(trigger);
-    await userEvent.type(trigger, "{Enter}");
+    await pressReferenceElementKey("Enter");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
 
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-2");
-
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
   });
 
   it("should open the dropdown and focus the first item with ArrowDown", async () => {
     await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
-    const trigger = getReferenceElementTrigger();
-
-    await userEvent.click(trigger);
-    await userEvent.type(trigger, "{ArrowDown}");
+    await pressReferenceElementKey("ArrowDown");
 
     expect(getReferenceElementExpandedState()).toBe("true");
-    expect(getActiveDescendantId()).toBe("item-1");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-1");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
   });
 
   it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
     await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
-    const trigger = getReferenceElementTrigger();
-
-    await userEvent.click(trigger);
-    await userEvent.type(trigger, "{ArrowUp}");
+    await pressReferenceElementKey("ArrowUp");
 
     expect(getReferenceElementExpandedState()).toBe("true");
-    expect(getActiveDescendantId()).toBe("item-3");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-1");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
   });
 
   it("should open the dropdown and focus the last item with ArrowUp", async () => {
     await mount<Dropdown>(() =>
       createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-2" }),
     );
-    const trigger = getReferenceElementTrigger();
-
-    await userEvent.click(trigger);
-    await userEvent.type(trigger, "{ArrowUp}");
+    await pressReferenceElementKey("ArrowUp");
 
     expect(getReferenceElementExpandedState()).toBe("true");
-    expect(getActiveDescendantId()).toBe("item-3");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
 
-    await userEvent.type(trigger, "{ArrowUp}");
-    expect(getActiveDescendantId()).toBe("item-2");
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
 
-    await userEvent.type(trigger, "{ArrowDown}");
-    expect(getActiveDescendantId()).toBe("item-3");
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
   });
 });
