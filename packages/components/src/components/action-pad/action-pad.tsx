@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -15,6 +23,7 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
+import { ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -43,7 +52,7 @@ export class ActionPad extends LitElement {
 
   private actions: Action["el"][] = [];
 
-  private actionGroups: ActionGroup["el"][];
+  private actionGroups?: ActionGroup["el"][];
 
   private direction = useDirection();
 
@@ -67,14 +76,14 @@ export class ActionPad extends LitElement {
 
   //#region State Properties
 
-  @state() expandTooltip: Tooltip["el"];
+  @state() expandTooltip?: Tooltip["el"];
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
-  @property() actionsEndGroupLabel: string;
+  @property() actionsEndGroupLabel?: string;
 
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
@@ -99,7 +108,7 @@ export class ActionPad extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the position of the component depending on the element's `dir` property. */
-  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -145,7 +154,10 @@ export class ActionPad extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen<ToEvents<ActionMenu>["calciteActionMenuOpen"]>(
+      "calciteActionMenuOpen",
+      this.actionMenuOpenHandler,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 

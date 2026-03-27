@@ -12,16 +12,16 @@ import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
-  expandText: string;
-  collapseText: string;
-  expandLabel: string;
-  collapseLabel: string;
+  expandText?: string;
+  collapseText?: string;
+  expandLabel?: string;
+  collapseLabel?: string;
   direction: Direction;
   el: HTMLElement;
   position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
-  ref?: (el: HTMLElement) => void;
+  ref?: (el: Action["el"]) => void;
   scale?: Scale;
 }
 
@@ -58,7 +58,7 @@ const setTooltipReference = ({
   tooltip: Tooltip["el"];
   referenceElement: Action["el"];
   expanded: boolean;
-  ref?: (el: HTMLElement) => void;
+  ref?: (el: Action["el"]) => void;
 }): Action["el"] => {
   if (tooltip) {
     tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
