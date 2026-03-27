@@ -165,7 +165,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private minHandle: HTMLDivElement;
 
