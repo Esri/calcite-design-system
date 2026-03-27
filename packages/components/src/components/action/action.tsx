@@ -15,8 +15,8 @@ import {
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -30,16 +30,16 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements FormOwner {
+export class Action extends LitElement {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
   //#endregion
 
   //#region Private Properties
-
-  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -61,6 +61,8 @@ export class Action extends LitElement implements FormOwner {
   private indicatorRef = createRef<HTMLDivElement>();
 
   private interactiveContainer = useInteractive(this);
+
+  formTrigger = useFormTrigger()(this);
 
   //#endregion
 
@@ -204,26 +206,11 @@ export class Action extends LitElement implements FormOwner {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
-    this.formEl = null;
     this.mutationObserver?.disconnect();
-  }
-
-  //#endregion
-
-  //#region Private Methods
-
-  private handleClick(): void {
-    const { type } = this;
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
   }
 
   //#endregion
@@ -376,7 +363,6 @@ export class Action extends LitElement implements FormOwner {
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
-        onClick={this.handleClick}
         ref={this.buttonRef}
         role={this.aria?.role}
       >
