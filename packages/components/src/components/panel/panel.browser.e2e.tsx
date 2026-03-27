@@ -219,58 +219,60 @@ describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
 });
 
-it("renders slotted header heading and description in the default header with precedence over properties", async () => {
-  const { component, el } = await mount(
-    <calcite-panel description="Property description" heading="Property heading" />,
-  );
+describe("header slots", () => {
+  it("renders slotted header heading and description in the default header with precedence over properties", async () => {
+    const { component, el } = await mount(
+      <calcite-panel description="Property description" heading="Property heading" />,
+    );
 
-  const slottedHeading = document.createElement("span");
-  slottedHeading.slot = SLOTS.headerHeading;
-  slottedHeading.innerHTML = "<strong>HTML heading</strong>";
+    const slottedHeading = document.createElement("span");
+    slottedHeading.slot = SLOTS.headerHeading;
+    slottedHeading.innerHTML = "<strong>HTML heading</strong>";
 
-  const slottedDescription = document.createElement("span");
-  slottedDescription.slot = SLOTS.headerDescription;
-  slottedDescription.innerHTML = "<em>HTML description</em>";
+    const slottedDescription = document.createElement("span");
+    slottedDescription.slot = SLOTS.headerDescription;
+    slottedDescription.innerHTML = "<em>HTML description</em>";
 
-  el.append(slottedHeading, slottedDescription);
+    el.append(slottedHeading, slottedDescription);
 
-  await component.updateComplete;
-  await afterNextFrame();
+    await component.updateComplete;
+    await afterNextFrame();
 
-  const heading = page.getBySelector(`.${CSS.heading}`);
-  const description = page.getBySelector(`.${CSS.description}`);
-  const headingSlot = heading.element().querySelector("slot") as HTMLSlotElement;
-  const descriptionSlot = description.element().querySelector("slot") as HTMLSlotElement;
+    const heading = page.getBySelector(`.${CSS.heading}`);
+    const description = page.getBySelector(`.${CSS.description}`);
+    const headingSlot = heading.element().querySelector("slot") as HTMLSlotElement;
+    const descriptionSlot = description.element().querySelector("slot") as HTMLSlotElement;
 
-  await expect.element(heading).toBeVisible();
-  await expect.element(description).toBeVisible();
-  expect(headingSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
-    "HTML heading",
-  );
-  expect(descriptionSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
-    "HTML description",
-  );
-});
+    await expect.element(heading).toBeVisible();
+    await expect.element(description).toBeVisible();
+    expect(headingSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
+      "HTML heading",
+    );
+    expect(descriptionSlot.assignedElements({ flatten: true })[0]?.textContent?.trim()).toBe(
+      "HTML description",
+    );
+  });
 
-it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
-  const { component, el } = await mount(<calcite-panel heading="Property heading" />);
+  it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
+    const { component, el } = await mount(<calcite-panel heading="Property heading" />);
 
-  await component.updateComplete;
-  await afterNextFrame();
+    await component.updateComplete;
+    await afterNextFrame();
 
-  await expect.element(page.getByText("Property heading")).toBeVisible();
+    await expect.element(page.getByText("Property heading")).toBeVisible();
 
-  el.removeAttribute("heading");
+    el.removeAttribute("heading");
 
-  const slottedDescription = document.createElement("span");
-  slottedDescription.slot = SLOTS.headerDescription;
-  slottedDescription.textContent = "Slotted description";
-  el.append(slottedDescription);
+    const slottedDescription = document.createElement("span");
+    slottedDescription.slot = SLOTS.headerDescription;
+    slottedDescription.textContent = "Slotted description";
+    el.append(slottedDescription);
 
-  await component.updateComplete;
-  await afterNextFrame();
+    await component.updateComplete;
+    await afterNextFrame();
 
-  await expect.element(page.getByText("Slotted description")).toBeVisible();
+    await expect.element(page.getByText("Slotted description")).toBeVisible();
+  });
 });
 
 describe("floating-ui", () => {
