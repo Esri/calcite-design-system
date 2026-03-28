@@ -19,12 +19,16 @@ describe("defaults", () => {
     () => mount("calcite-input-date-picker"),
     [
       {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
+        propertyName: "calendars",
+        defaultValue: 2,
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
       },
       {
         propertyName: "status",
@@ -39,8 +43,20 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "calendars",
-        defaultValue: 2,
+        propertyName: "validity",
+        defaultValue: {
+          badInput: false,
+          customError: false,
+          patternMismatch: false,
+          rangeOverflow: false,
+          rangeUnderflow: false,
+          stepMismatch: false,
+          tooLong: false,
+          tooShort: false,
+          typeMismatch: false,
+          valid: true,
+          valueMissing: false,
+        },
       },
     ],
   );
