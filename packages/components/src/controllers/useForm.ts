@@ -48,7 +48,7 @@ export interface FormOwnerComponent extends LitElement {
    *
    * Note that this prop should use the `@property` decorator.
    */
-  form: string;
+  form?: string;
 }
 
 /**
