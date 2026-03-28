@@ -299,7 +299,7 @@ describe("disabled", () => {
 describe("keyboard selection", () => {
   it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
     const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
-    const firstItem = el.querySelector("calcite-autocomplete-item");
+    const firstItem = el.querySelector("calcite-autocomplete-item")!;
     const itemSelectSpy = vi.fn();
 
     el.addEventListener("calciteAutocompleteItemSelect", itemSelectSpy);
