@@ -31,15 +31,6 @@ import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
-import {
-  afterConnectDefaultValueSet,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  connectForm,
-  disconnectForm,
-  submitForm,
-} from "../../utils/form";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
@@ -55,6 +46,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -76,9 +68,11 @@ declare global {
  */
 export class Autocomplete
   extends LitElement
-  implements FloatingUIComponent, FormComponent, LabelableComponent, TextualInputComponent
+  implements FloatingUIComponent, LabelableComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -95,15 +89,15 @@ export class Autocomplete
 
   defaultValue: Autocomplete["value"];
 
-  defaultInputValue: Autocomplete["inputValue"];
-
   private direction = useDirection();
 
   floatingEl: HTMLDivElement;
 
   floatingLayout?: FloatingLayout;
 
-  formEl: HTMLFormElement;
+  private formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private inputId = IDS.input(this.guid);
 
@@ -323,19 +317,7 @@ export class Autocomplete
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property() validity: ValidityState;
 
   /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
@@ -448,8 +430,6 @@ export class Autocomplete
       subtree: true,
     });
     connectLabel(this);
-    connectForm(this);
-    this.defaultInputValue = this.inputValue || "";
     this.getAllItemsDebounced();
     connectFloatingUI(this);
     this.cancelable.add(this.getAllItemsDebounced);
@@ -503,8 +483,6 @@ export class Autocomplete
   }
 
   loaded(): void {
-    afterConnectDefaultValueSet(this, this.value || "");
-    this.defaultInputValue = this.inputValue || "";
     connectFloatingUI(this);
   }
 
@@ -512,7 +490,6 @@ export class Autocomplete
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -572,10 +549,6 @@ export class Autocomplete
 
   onLabelClick(): void {
     this.setFocus();
-  }
-
-  onFormReset(): void {
-    this.inputValue = this.defaultInputValue;
   }
 
   onBeforeOpen(): void {
@@ -691,10 +664,9 @@ export class Autocomplete
           activeItem.toggleSelection();
           this.open = false;
           event.preventDefault();
-        } else if (!event.defaultPrevented) {
-          if (submitForm(this)) {
-            event.preventDefault();
-          }
+        } else if (!event.defaultPrevented && this.formSupport.active) {
+          event.preventDefault();
+          this.formSupport.requestSubmit();
         }
         break;
       case "ArrowDown":
@@ -859,7 +831,6 @@ export class Autocomplete
             </div>
           </div>
         </div>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

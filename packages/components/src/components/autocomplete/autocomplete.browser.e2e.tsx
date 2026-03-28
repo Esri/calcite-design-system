@@ -15,6 +15,7 @@ import {
   t9n,
   disabled,
   topLayer,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -147,7 +148,7 @@ describe("defaults", () => {
           tooLong: false,
           tooShort: false,
           typeMismatch: false,
-          valid: false,
+          valid: true,
           valueMissing: false,
         },
       },
@@ -276,6 +277,13 @@ describe("floating-ui", () => {
   });
 });
 
+describe("is form-associated", () => {
+  formAssociated(() => mount(renderAutocomplete), {
+    testValue: "two",
+    submitsOnEnter: true,
+  });
+});
+
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-autocomplete"));
 });
@@ -291,7 +299,7 @@ describe("disabled", () => {
 describe("keyboard selection", () => {
   it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
     const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
-    const firstItem = el.querySelector("calcite-autocomplete-item");
+    const firstItem = el.querySelector("calcite-autocomplete-item")!;
     const itemSelectSpy = vi.fn();
 
     el.addEventListener("calciteAutocompleteItemSelect", itemSelectSpy);
