@@ -12,10 +12,10 @@ import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
-  expandText?: string;
-  collapseText?: string;
-  expandLabel?: string;
-  collapseLabel?: string;
+  expandText: string;
+  collapseText: string;
+  expandLabel: string;
+  collapseLabel: string;
   direction: Direction;
   el: HTMLElement;
   position?: Extract<"start" | "end", Position>;
