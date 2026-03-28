@@ -72,6 +72,8 @@ export class Autocomplete
 {
   //#region Static Members
 
+  static formAssociated = true;
+
   static override styles = styles;
 
   //#endregion
