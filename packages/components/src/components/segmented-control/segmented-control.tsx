@@ -23,7 +23,7 @@ import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { overrideDefaultValue, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./segmented-control.scss";
@@ -216,7 +216,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   }
 
   loaded(): void {
-    overrideDefaultValue(this, this.value);
+    this.formSupport.overrideDefaultValue(this.value);
   }
 
   override disconnectedCallback(): void {
