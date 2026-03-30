@@ -52,7 +52,21 @@ export function defaults<
     "%s",
     async (propertyName, defaultValue) => {
       const { el } = await setup();
-      expect(el[propertyName]).toEqual(defaultValue);
+      const propValue = el[propertyName];
+
+      if (propertyName === "validity") {
+        expectValidityEqual(propValue, defaultValue);
+        return;
+      }
+
+      expect(propValue).toEqual(defaultValue);
     },
   );
+}
+
+function expectValidityEqual(actual: ValidityState, expected: ValidityState) {
+  const validityKeys = Object.keys(ValidityState.prototype) as (keyof ValidityState)[];
+  const validitySnapshot = Object.fromEntries(validityKeys.map((key) => [key, actual[key]]));
+
+  expect(validitySnapshot).toEqual(expected);
 }
