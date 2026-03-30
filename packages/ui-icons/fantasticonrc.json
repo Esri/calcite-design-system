@@ -1377,6 +1377,8 @@
     "bicycle-travel-mode-f": 61914,
     "publish": 61915,
     "velocity-server": 61916,
-    "layer-stream-setting": 61917
+    "layer-stream-setting": 61917,
+    "arcgis-survey123": 61918,
+    "arcgis-quickcapture": 61919
   }
 }
