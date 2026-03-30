@@ -12,14 +12,6 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -29,7 +21,6 @@ import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -38,6 +29,7 @@ import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -51,11 +43,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimePicker
-  extends LitElement
-  implements FormComponent, LabelableComponent, TimeComponent
-{
+export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -82,7 +73,9 @@ export class InputTimePicker
 
   private focusSetter = useSetFocus<this>()(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "time",
+  })(this);
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -289,7 +282,6 @@ export class InputTimePicker
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -328,7 +320,6 @@ export class InputTimePicker
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -363,7 +354,8 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      if (submitForm(this)) {
+      if (this.formSupport.active) {
+        this.formSupport.requestSubmit();
         event.preventDefault();
       }
       this.changeEventHandler();
@@ -495,10 +487,6 @@ export class InputTimePicker
               ? this.fractionalSecondRef
               : this.meridiemRef;
     ref.value?.focus();
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
   }
 
   private timeChangeHandler(event: CustomEvent<string>): void {
@@ -720,7 +708,6 @@ export class InputTimePicker
             value={this.value}
           />
         </calcite-popover>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

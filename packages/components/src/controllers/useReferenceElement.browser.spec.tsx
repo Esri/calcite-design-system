@@ -46,11 +46,7 @@ describe("useReferenceElement", () => {
     referenceElement: HTMLElement;
     component: T;
   } {
-    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
-
-    if (!referenceElement) {
-      throw new Error("Expected reference element to be present");
-    }
+    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
 
     const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
 
@@ -67,6 +63,53 @@ describe("useReferenceElement", () => {
     return { referenceElement, component };
   }
 
+  function getComponentElsByText<T extends HTMLElement>(expectedCount: number): T[] {
+    const componentTextEls = page.getByText("Hello world!").elements() as HTMLElement[];
+
+    if (componentTextEls.length !== expectedCount) {
+      throw new Error(`Expected ${expectedCount} test component instances to be present`);
+    }
+
+    return componentTextEls.map((componentTextEl, index) => {
+      const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+
+      if (!component) {
+        throw new Error(`Expected test component ${index + 1} to be present`);
+      }
+
+      return component;
+    });
+  }
+
+  type TestReferenceComponent = HTMLElement &
+    Pick<ReferenceElementComponent, "referenceElement"> & {
+      updateComplete: Promise<unknown>;
+      el: HTMLElement;
+    };
+
+  async function assertSharedReferenceElementRegistration<T extends TestReferenceComponent>(
+    getAssociatedElements: (referenceElement: HTMLElement) => readonly Element[] | null,
+  ): Promise<void> {
+    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
+
+    const [component1, component2] = getComponentElsByText<T>(2);
+
+    component1.referenceElement = referenceElement;
+    component2.referenceElement = referenceElement;
+    await Promise.all([component1.updateComplete, component2.updateComplete]);
+
+    expect(getAssociatedElements(referenceElement)).not.toBeNull();
+    expect(getAssociatedElements(referenceElement)).toContain(component1.el);
+    expect(getAssociatedElements(referenceElement)).toContain(component2.el);
+
+    component1.referenceElement = null;
+    await component1.updateComplete;
+
+    expect(getAssociatedElements(referenceElement)).not.toBeNull();
+    expect(getAssociatedElements(referenceElement)).not.toContain(component1.el);
+    expect(getAssociatedElements(referenceElement)).toContain(component2.el);
+  }
+
   describe("click manager", () => {
     it("register and resolves reference element", async () => {
       await mount(
@@ -81,7 +124,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaControlsElements).toContain(component.el);
       expect(component.referenceEl.ariaExpanded).toBe("false");
       component.referenceElement = null;
       await component.updateComplete;
@@ -102,7 +145,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
+      expect(component.referenceEl.ariaControlsElements).toContain(component.el);
       expect(component.referenceEl.ariaExpanded).toBe("false");
       component.referenceElement = null;
       await component.updateComplete;
@@ -128,7 +171,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref-1";
       await component.updateComplete;
 
-      expect(referenceElement1.ariaControlsElements).toContain(component);
+      expect(referenceElement1.ariaControlsElements).toContain(component.el);
       expect(referenceElement1.ariaExpanded).toBe("false");
 
       component.referenceElement = referenceElement2;
@@ -137,6 +180,21 @@ describe("useReferenceElement", () => {
 
       expect(referenceElement1.ariaControlsElements).toBeNull();
       expect(referenceElement1.ariaExpanded).toBeNull();
+    });
+
+    it("registers multiple components with same reference element and unregisters independently", async () => {
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-click-component></test-click-component>
+          <test-click-component></test-click-component>
+        </div>`,
+        { dynamicComponents: [TestClickComponent] },
+      );
+
+      await assertSharedReferenceElementRegistration<TestClickComponent>(
+        (referenceElement) => referenceElement.ariaControlsElements,
+      );
     });
   });
 
@@ -154,7 +212,7 @@ describe("useReferenceElement", () => {
       component.referenceElement = referenceElement;
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
       component.referenceElement = null;
       await component.updateComplete;
       expect(referenceElement.ariaDescribedByElements).toBeNull();
@@ -173,10 +231,25 @@ describe("useReferenceElement", () => {
       component.referenceElement = "my-ref";
       await component.updateComplete;
       expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
+      expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
       component.referenceElement = null;
       await component.updateComplete;
       expect(referenceElement.ariaDescribedByElements).toBeNull();
+    });
+
+    it("registers multiple hover components with same reference element and unregisters independently", async () => {
+      await mount(
+        html`<div>
+          <div id="my-ref">My Reference Element</div>
+          <test-hover-component></test-hover-component>
+          <test-hover-component></test-hover-component>
+        </div>`,
+        { dynamicComponents: [TestHoverComponent] },
+      );
+
+      await assertSharedReferenceElementRegistration<TestHoverComponent>(
+        (referenceElement) => referenceElement.ariaDescribedByElements,
+      );
     });
   });
 });

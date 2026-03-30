@@ -209,10 +209,9 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     options: FormAssociatedOptions,
     reRender: () => Promise<boolean>,
   ): Promise<void> {
-    const resettablePropName = isCheckable(el, options) ? "checked" : ("value" as const);
-    // TODO: avoid any
-    const initialValue = (el as any)[resettablePropName];
-    (el as any)[resettablePropName] = options.testValue;
+    const resettablePropName = isCheckable(el, options) ? "checked" : "value";
+    const initialValue = el[resettablePropName];
+    el[resettablePropName] = options.testValue;
     await reRender();
 
     const form = document.querySelector("form")!;

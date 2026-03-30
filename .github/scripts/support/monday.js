@@ -79,7 +79,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       type: "multiMutable",
     },
     product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "multiMutable" },
-    designEstimate: { id: "color_mkrbg2b9", title: "Design Estimate" },
+    designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
     stalled: { id: "color_mkv79bbx", title: "Stalled" },
@@ -371,21 +371,21 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       designEstimate.small,
       {
         column: mondayColumns.designEstimate,
-        value: "Small",
+        value: 5,
       },
     ],
     [
       designEstimate.medium,
       {
         column: mondayColumns.designEstimate,
-        value: "Medium",
+        value: 13,
       },
     ],
     [
       designEstimate.large,
       {
         column: mondayColumns.designEstimate,
-        value: "Large",
+        value: 21,
       },
     ],
     [
@@ -417,7 +417,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     ["anveshmekala", { role: mondayColumns.developers, id: 48387134 }],
     ["aPreciado88", { role: mondayColumns.developers, id: 60795249 }],
     ["ashetland", { role: mondayColumns.designers, id: 45851619 }],
-    ["benelan", { role: mondayColumns.developers, id: 49704471 }],
     ["brendan-vincent-rice", { role: mondayColumns.developers, id: 96903694 }],
     ["chezHarper", { role: mondayColumns.designers, id: 71157966 }],
     ["DintaMel", { role: mondayColumns.productEngineers, id: 92955697 }],
