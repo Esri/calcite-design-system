@@ -58,9 +58,13 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
+// --calcite-internal-table-first-cell-border-inline-start
 // --calcite-internal-table-first-header-row-border-block-start
+// --calcite-internal-table-first-header-row-border-block-start-value
 // --calcite-internal-table-header-position
+// --calcite-internal-table-last-cell-border-inline-end
 // --calcite-internal-table-last-row-cell-border-block-end
+// --calcite-internal-table-last-row-cell-border-block-end-value
 // --calcite-internal-table-selection-action-spacing
 
 @use "../../styles/includes";
@@ -101,14 +105,22 @@
 }
 
 ::slotted(calcite-table-row[slot="table-header"]:first-child) {
-  --calcite-internal-table-first-header-row-border-block-start: var(--calcite-border-width-sm) solid
-    var(--calcite-table-border-color, var(--calcite-color-border-2));
+  --calcite-internal-table-first-header-row-border-block-start: var(
+    --calcite-internal-table-first-header-row-border-block-start-value,
+    var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
+  );
 }
 
-::slotted(calcite-table-row:last-child),
 ::slotted(calcite-table-row[last-visible-row]) {
   --calcite-internal-table-last-row-cell-border-block-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-border-color, var(--calcite-color-border-2));
+}
+
+::slotted(calcite-table-row:last-child) {
+  --calcite-internal-table-last-row-cell-border-block-end: var(
+    --calcite-internal-table-last-row-cell-border-block-end-value,
+    var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
+  );
 }
 
 .container {
@@ -119,11 +131,23 @@
 
 .table-container {
   @apply whitespace-nowrap;
-}
-
-.table-container {
+  flex: 1 1 auto;
+  // border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
+  overflow: hidden auto;
+}
+
+.table-container--sticky-header {
+}
+
+.table-container--overflow {
+  --calcite-internal-table-first-cell-border-inline-start: 0;
+  --calcite-internal-table-first-header-row-border-block-start-value: 0;
+  --calcite-internal-table-last-cell-border-inline-end: 0;
+  --calcite-internal-table-last-row-cell-border-block-end-value: 0;
+
+  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
 }
 
 .assistive-text {
@@ -132,7 +156,6 @@
 
 table {
   @apply border-collapse;
-  overflow-x: scroll;
   inline-size: var(--calcite-container-size-content-fluid);
 }
 

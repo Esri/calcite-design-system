@@ -59,8 +59,18 @@ td.end.content-cell {
 }
 
 td.first-cell {
-  border-inline-start: var(--calcite-border-width-sm) solid
-    var(--calcite-table-border-color, var(--calcite-color-border-2));
+  border-inline-start: var(
+    --calcite-internal-table-first-cell-border-inline-start,
+    var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
+  );
+}
+
+td.last-cell {
+  border-inline-end: var(
+    --calcite-internal-table-last-cell-border-inline-end,
+    var(--calcite-border-width-sm) solid
+      var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)))
+  );
 }
 
 .footer-cell {

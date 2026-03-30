@@ -6,6 +6,7 @@ import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
+import { getStickyHeaderScrollContainer, getStickyHeaderTableTop } from "../table/sticky-header";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -228,6 +229,16 @@ export class TableRow extends LitElement {
     );
   }
 
+  private isFirstVisibleBodyRow(): boolean {
+    const parentRows = Array.from(this.el.parentElement?.children || []) as TableRow["el"][];
+    const currentRowIndex = parentRows.indexOf(this.el);
+    const hasVisibleBodyRowAbove =
+      currentRowIndex > 0 &&
+      parentRows.slice(0, currentRowIndex).some((row) => row.rowType === "body" && !row.itemHidden);
+
+    return this.rowType === "body" && !this.itemHidden && !hasVisibleBodyRowAbove;
+  }
+
   private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
     if ((event.target as Element).contains(this.el)) {
       const position = event.detail.cellPosition;
@@ -252,11 +263,11 @@ export class TableRow extends LitElement {
           };
           const hasStickyHeader = !!table?.stickyHeader;
           const stickyHeaderActive = hasStickyHeader && this.isStickyHeaderActive(table);
-          const firstBodyRow = this.rowType === "body" && this.positionSection === 0;
+          const firstVisibleBodyRow = this.isFirstVisibleBodyRow();
 
           if (
             stickyHeaderActive ||
-            (firstBodyRow && hasStickyHeader) ||
+            (firstVisibleBodyRow && hasStickyHeader) ||
             (this.rowType === "head" && hasStickyHeader)
           ) {
             cellPosition.setFocus({ preventScroll: true });
@@ -278,17 +289,16 @@ export class TableRow extends LitElement {
     const table = this.el.closest("calcite-table") as HTMLElement & {
       stickyHeader?: boolean;
     };
+    const scrollContainer = table ? getStickyHeaderScrollContainer(table) : null;
 
-    if (!table?.stickyHeader) {
+    if (!table?.stickyHeader || !scrollContainer) {
       return;
     }
 
     const tableStyles = getComputedStyle(table);
 
     if (
-      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !==
-        "sticky" ||
-      tableStyles.getPropertyValue("--calcite-internal-table-header-active").trim() !== "1"
+      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !== "sticky"
     ) {
       return;
     }
@@ -308,26 +318,30 @@ export class TableRow extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      const parentRows = Array.from(this.el.parentElement?.children || []) as TableRow["el"][];
-      const currentRowIndex = parentRows.indexOf(this.el);
-      const hasVisibleBodyRowAbove =
-        currentRowIndex > 0 &&
-        parentRows
-          .slice(0, currentRowIndex)
-          .some((row) => row.rowType === "body" && !row.itemHidden);
-      const isFirstVisibleBodyRow =
-        this.rowType === "body" && !this.itemHidden && !hasVisibleBodyRowAbove;
+      const isFirstVisibleBodyRow = this.isFirstVisibleBodyRow();
+      const getTargetTop = (): number | null => {
+        const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
+        const tableTop = getStickyHeaderTableTop(table, scrollContainer);
+
+        if (tableTop == null) {
+          return null;
+        }
+
+        return Math.max(scrollContainerTop, tableTop) + stickyHeaderHeight;
+      };
 
       if (isFirstVisibleBodyRow) {
         const correctFirstBodyRowPosition = (): void => {
-          const tableElement = table.shadowRoot?.querySelector("table") as HTMLElement;
-          const tableTop =
-            tableElement?.getBoundingClientRect().top ?? table.getBoundingClientRect().top;
+          const targetTop = getTargetTop();
 
-          // Keep sticky header block pinned to viewport top.
-          // Positive tableTop means the table shifted down and needs a downward page scroll.
-          if (Math.abs(tableTop) > 0.5) {
-            window.scrollTo({ top: window.scrollY + tableTop, left: window.scrollX });
+          if (targetTop == null) {
+            return;
+          }
+          const cellTop = cellElement.getBoundingClientRect().top;
+          const scrollDelta = cellTop - targetTop;
+
+          if (Math.abs(scrollDelta) > 0.5) {
+            scrollContainer.scrollTop += scrollDelta;
           }
         };
 
@@ -342,13 +356,15 @@ export class TableRow extends LitElement {
         return;
       }
 
-      const targetTop = stickyHeaderHeight;
+      const targetTop = getTargetTop();
+
+      if (targetTop == null) {
+        return;
+      }
       const cellTop = cellElement.getBoundingClientRect().top;
 
       if (cellTop < targetTop) {
-        window.scrollBy({
-          top: cellTop - targetTop,
-        });
+        scrollContainer.scrollTop += cellTop - targetTop;
       }
     });
   }

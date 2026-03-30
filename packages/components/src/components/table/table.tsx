@@ -16,6 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
+import { getStickyHeaderScrollContainer, getStickyHeaderTableTop } from "./sticky-header";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -51,6 +52,8 @@ export class Table extends LitElement {
 
   private paginationRef = createRef<Pagination["el"]>();
 
+  private tableContainerRef = createRef<HTMLDivElement>();
+
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
   private tableFootSlotRef = createRef<HTMLSlotElement>();
@@ -60,6 +63,8 @@ export class Table extends LitElement {
   private stickyHeaderOffsetAnimationFrame: number | null = null;
 
   private stickyHeaderViewportAnimationFrame: number | null = null;
+
+  private tableContainerOverflowAnimationFrame: number | null = null;
 
   private stickyHeaderTotalHeight = 0;
 
@@ -71,6 +76,11 @@ export class Table extends LitElement {
   private stickyHeaderMutationObserver: MutationObserver | null =
     typeof MutationObserver !== "undefined"
       ? new MutationObserver(() => this.scheduleStickyHeaderOffsetUpdate())
+      : null;
+
+  private tableContainerResizeObserver: ResizeObserver | null =
+    typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(() => this.scheduleTableContainerOverflowUpdate())
       : null;
 
   private stickyHeaderListenersAttached = false;
@@ -101,6 +111,8 @@ export class Table extends LitElement {
   @state() readCellContentsToAT: boolean;
 
   @state() selectedCount = 0;
+
+  @state() tableContainerHasOverflow = false;
 
   @state() _selectedItems: TableRow["el"][] = [];
 
@@ -224,10 +236,16 @@ export class Table extends LitElement {
       this.stickyHeaderViewportAnimationFrame = null;
     }
 
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
     this.setStickyHeaderListeners(false);
 
     this.stickyHeaderResizeObserver?.disconnect();
     this.stickyHeaderMutationObserver?.disconnect();
+    this.tableContainerResizeObserver?.disconnect();
     super.disconnectedCallback();
   }
 
@@ -349,17 +367,34 @@ export class Table extends LitElement {
   }
 
   private setStickyHeaderListeners(active: boolean): void {
+    const scrollContainer = getStickyHeaderScrollContainer(this.el);
+
     if (active && !this.stickyHeaderListenersAttached) {
-      window.addEventListener("scroll", this.handleViewportChange, { passive: true });
+      scrollContainer?.addEventListener("scroll", this.handleViewportChange, { passive: true });
       window.addEventListener("resize", this.handleViewportChange);
       this.stickyHeaderListenersAttached = true;
       return;
     }
 
     if (!active && this.stickyHeaderListenersAttached) {
-      window.removeEventListener("scroll", this.handleViewportChange);
+      scrollContainer?.removeEventListener("scroll", this.handleViewportChange);
       window.removeEventListener("resize", this.handleViewportChange);
       this.stickyHeaderListenersAttached = false;
+    }
+  }
+
+  private observeTableContainer(): void {
+    this.tableContainerResizeObserver?.disconnect();
+
+    const tableContainer = this.tableContainerRef.value;
+    const table = this.el.shadowRoot?.querySelector("table");
+
+    if (tableContainer) {
+      this.tableContainerResizeObserver?.observe(tableContainer);
+    }
+
+    if (table instanceof HTMLElement) {
+      this.tableContainerResizeObserver?.observe(table);
     }
   }
 
@@ -435,6 +470,17 @@ export class Table extends LitElement {
     });
   }
 
+  private scheduleTableContainerOverflowUpdate(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+    }
+
+    this.tableContainerOverflowAnimationFrame = requestAnimationFrame(() => {
+      this.tableContainerOverflowAnimationFrame = null;
+      this.updateTableContainerOverflow();
+    });
+  }
+
   private updateStickyHeaderPosition(): void {
     if (!this.stickyHeader || this.stickyHeaderTotalHeight <= 0) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
@@ -443,18 +489,22 @@ export class Table extends LitElement {
     }
 
     const table = this.el.shadowRoot?.querySelector("table");
+    const scrollContainer = getStickyHeaderScrollContainer(this.el);
     const tableRect = table?.getBoundingClientRect();
+    const scrollContainerRect = scrollContainer?.getBoundingClientRect();
     const tableBottom = tableRect?.bottom;
+    const scrollContainerTop = scrollContainerRect?.top;
 
-    if (tableBottom == null) {
+    if (tableBottom == null || scrollContainerTop == null) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
       this.el.style.setProperty("--calcite-internal-table-header-active", "0");
       return;
     }
 
-    const stickyHeaderPosition = tableBottom > this.stickyHeaderTotalHeight ? "sticky" : "static";
+    const stickyHeaderPosition =
+      tableBottom > scrollContainerTop + this.stickyHeaderTotalHeight ? "sticky" : "static";
     const stickyHeaderActive =
-      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= 0 ? "1" : "0";
+      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= scrollContainerTop ? "1" : "0";
 
     this.el.style.setProperty("--calcite-internal-table-header-position", stickyHeaderPosition);
     this.el.style.setProperty("--calcite-internal-table-header-active", stickyHeaderActive);
@@ -483,6 +533,21 @@ export class Table extends LitElement {
     );
 
     this.updateStickyHeaderPosition();
+  }
+
+  private updateTableContainerOverflow(): void {
+    const tableContainer = this.tableContainerRef.value;
+
+    if (!tableContainer) {
+      this.tableContainerHasOverflow = false;
+      return;
+    }
+
+    const hasOverflow =
+      tableContainer.scrollHeight > tableContainer.clientHeight ||
+      tableContainer.scrollWidth > tableContainer.clientWidth;
+
+    this.tableContainerHasOverflow = hasOverflow;
   }
 
   private updateRows(): void {
@@ -537,6 +602,9 @@ export class Table extends LitElement {
       this.scheduleStickyHeaderOffsetUpdate();
     }
 
+    this.observeTableContainer();
+    this.scheduleTableContainerOverflowUpdate();
+
     this.handleCurrentPageRange();
     this.updateSelectedItems();
   }
@@ -570,12 +638,16 @@ export class Table extends LitElement {
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
+        const scrollContainer = getStickyHeaderScrollContainer(this.el);
         const tableStyles = getComputedStyle(this.el);
+
+        if (!scrollContainer) {
+          return;
+        }
 
         if (
           tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !==
-            "sticky" ||
-          tableStyles.getPropertyValue("--calcite-internal-table-header-active").trim() !== "1"
+          "sticky"
         ) {
           return;
         }
@@ -600,27 +672,20 @@ export class Table extends LitElement {
           return;
         }
 
-        const pinTableToViewportTop = (): void => {
-          const tableElement = this.el.shadowRoot?.querySelector("table") as HTMLElement;
-          const tableTop = tableElement?.getBoundingClientRect().top ?? 0;
+        const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
+        const tableTop = getStickyHeaderTableTop(this.el, scrollContainer);
 
-          if (Math.abs(tableTop) > 0.5) {
-            window.scrollTo({ top: window.scrollY + tableTop, left: window.scrollX });
-          }
-        };
+        if (tableTop == null) {
+          return;
+        }
 
-        const targetTop = stickyHeaderHeight;
-
-        pinTableToViewportTop();
+        const targetTop = Math.max(scrollContainerTop, tableTop) + stickyHeaderHeight;
 
         const cellTop = firstVisibleCellElement.getBoundingClientRect().top;
 
         if (cellTop < targetTop) {
-          window.scrollBy({ top: cellTop - targetTop });
+          scrollContainer.scrollTop += cellTop - targetTop;
         }
-
-        // Keep the sticky table block flush with the viewport after any reveal scroll.
-        pinTableToViewportTop();
       });
     });
   }
@@ -785,7 +850,11 @@ export class Table extends LitElement {
             [CSS.bordered]: this.bordered,
             [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
+            [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
+            [CSS.tableContainerStickyHeader]: this.stickyHeader,
           }}
+          data-scroll-container={this.stickyHeader ? "true" : null}
+          ref={this.tableContainerRef}
         >
           <table
             ariaColCount={this.colCount}
@@ -810,6 +879,9 @@ export class Table extends LitElement {
                 </>,
                 el,
               );
+
+              this.observeTableContainer();
+              this.scheduleTableContainerOverflowUpdate();
             }}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
           />
