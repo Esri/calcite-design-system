@@ -260,7 +260,7 @@ export const complexUnitRTL = (): string =>
     value="2200"
   ></calcite-meter>`;
 
-export const renderScaleMeter = (scale: "s" | "m" | "l", label: string): string => html`
+const renderScaleMeter = (scale: "s" | "m" | "l", label: string): string => html`
   <calcite-meter
     label="${label}"
     scale="${scale}"
