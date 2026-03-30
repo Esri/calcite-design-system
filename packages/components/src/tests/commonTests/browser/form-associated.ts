@@ -1,6 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { Mock } from "@vitest/spy";
 import { RenderResult } from "@arcgis/lumina-compiler/testing";
 import {
   componentsWithInputEvent,
@@ -356,7 +355,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   async function assertClearsValidationOnValueChange(
     el: FormComponent["el"],
     options: FormAssociatedOptions,
-    eventSpy: Mock,
+    eventSpy: ReturnType<typeof vi.fn>,
   ): Promise<void> {
     if (options?.changeValueKeys) {
       for (const key of options.changeValueKeys) {
