@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
@@ -15,11 +14,6 @@ import {
   listSelector,
   updateListItemChildren,
 } from "../list-item/utils";
-import {
-  connectSortableComponent,
-  disconnectSortableComponent,
-  SortableComponent,
-} from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
@@ -37,6 +31,7 @@ import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
@@ -59,7 +54,7 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List extends LitElement implements SortableComponent {
+export class List extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -91,9 +86,9 @@ export class List extends LitElement implements SortableComponent {
 
   private parentListEl: List["el"];
 
-  sortable: Sortable;
-
   private cancelable = useCancelable<this>()(this);
+
+  private sortable = useSortable<this>()(this);
 
   private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
@@ -469,7 +464,6 @@ export class List extends LitElement implements SortableComponent {
   override disconnectedCallback(): void {
     this.disconnectObserver();
     this.unobserveFilterRow();
-    disconnectSortableComponent(this);
   }
 
   //#endregion
@@ -733,7 +727,7 @@ export class List extends LitElement implements SortableComponent {
       updateListItemChildren(defaultSlotEl);
     }
 
-    connectSortableComponent(this);
+    this.sortable.reset();
   }
 
   onGlobalDragStart(): void {
