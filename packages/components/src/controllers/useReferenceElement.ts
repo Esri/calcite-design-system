@@ -51,11 +51,20 @@ type InternalProps = {
   referenceElementType: ReferenceElementType | nil;
 
   /**
-   * Optional keydown handler invoked when a keydown event occurs on this component's reference element.
+   * Keydown handler invoked when a keydown event occurs on this component's reference element.
    *
    * Can call `event.preventDefault()` to suppress default manager keydown behavior.
+   *
+   * @example
+   * ```ts
+   * onReferenceElementKeyDown(event: KeyboardEvent): void {
+   *   if (event.key === "Enter") {
+   *     event.preventDefault();
+   *   }
+   * }
+   * ```
    */
-  onReferenceElementKeydown?: (event: KeyboardEvent) => void;
+  onReferenceElementKeyDown?: (event: KeyboardEvent) => void;
 };
 
 /**

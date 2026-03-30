@@ -40,6 +40,9 @@ const simpleReferenceElementDropdownHTML = html`
 
 describe("openClose", () => {
   openClose(simpleDropdownHTML);
+});
+
+describe("openClose: reference element", () => {
   openClose(simpleReferenceElementDropdownHTML);
 });
 
@@ -1061,6 +1064,9 @@ it("focus is returned to trigger after close", async () => {
 
 describe("accessible", () => {
   accessible(html`${dropdownSelectionModeContent}`);
+});
+
+describe("accessible reference element", () => {
   accessible(simpleReferenceElementDropdownHTML);
 });
 

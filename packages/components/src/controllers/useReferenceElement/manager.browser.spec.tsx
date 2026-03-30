@@ -6,15 +6,8 @@ import type { ReferenceElement } from "../../utils/floating-ui";
 import { useReferenceElement } from "../useReferenceElement";
 import { referenceElementManager } from "./manager";
 
-const mountedComponents: HTMLElement[] = [];
-
 afterEach(async () => {
-  mountedComponents.forEach((component) => component.remove());
-  mountedComponents.length = 0;
   vi.restoreAllMocks();
-  document.body.querySelectorAll("button[data-testid='ref-el']").forEach((el) => el.remove());
-
-  await afterNextFrame();
 });
 
 describe("referenceElementManager", () => {
@@ -22,7 +15,6 @@ describe("referenceElementManager", () => {
     const manager = referenceElementManager({ click: true, hover: true });
     const trigger = document.createElement("button");
     trigger.dataset.testid = "ref-el";
-    document.body.append(trigger);
 
     const addListenerSpy = vi.spyOn(window, "addEventListener");
     const removeListenerSpy = vi.spyOn(window, "removeEventListener");
@@ -49,8 +41,8 @@ describe("referenceElementManager", () => {
       }
     }
 
-    const { component } = await mount(TestComponent);
-    mountedComponents.push(component);
+    const { component, container } = await mount(TestComponent);
+    container.append(trigger);
 
     await afterNextFrame();
 
@@ -60,7 +52,7 @@ describe("referenceElementManager", () => {
     expect(clickAddCalls).toHaveLength(1);
     expect(keydownAddCalls).toHaveLength(1);
 
-    component.remove();
+    component.el.remove();
 
     await afterNextFrame();
 
@@ -71,11 +63,10 @@ describe("referenceElementManager", () => {
     expect(keydownRemoveCalls).toHaveLength(1);
   });
 
-  it("invokes onReferenceElementKeydown and honors preventDefault", async () => {
+  it("invokes onReferenceElementKeyDown and honors preventDefault", async () => {
     const manager = referenceElementManager({ click: true });
     const trigger = document.createElement("button");
     trigger.dataset.testid = "ref-el";
-    document.body.append(trigger);
 
     const keydownHandlerSpy = vi.fn((event: KeyboardEvent) => {
       event.preventDefault();
@@ -96,17 +87,13 @@ describe("referenceElementManager", () => {
 
       referenceElementType = "click" as const;
 
-      onReferenceElementKeydown = keydownHandlerSpy;
+      onReferenceElementKeyDown = keydownHandlerSpy;
 
       referenceElementController = useReferenceElement({ manager })(this);
-
-      override render(): JsxNode {
-        return <div>test</div>;
-      }
     }
 
-    const { component } = await mount(TestComponent);
-    mountedComponents.push(component);
+    const { component, container } = await mount(TestComponent);
+    container.append(trigger);
 
     await afterNextFrame();
 
@@ -118,11 +105,10 @@ describe("referenceElementManager", () => {
     expect(component.open).toBe(false);
   });
 
-  it("invokes onReferenceElementKeydown in hover-only mode", async () => {
+  it("invokes onReferenceElementKeyDown in hover-only mode", async () => {
     const manager = referenceElementManager({ hover: true });
     const trigger = document.createElement("button");
     trigger.dataset.testid = "ref-el";
-    document.body.append(trigger);
 
     const keydownHandlerSpy = vi.fn();
 
@@ -141,7 +127,7 @@ describe("referenceElementManager", () => {
 
       referenceElementType = "hover" as const;
 
-      onReferenceElementKeydown = keydownHandlerSpy;
+      onReferenceElementKeyDown = keydownHandlerSpy;
 
       referenceElementController = useReferenceElement({ manager })(this);
 
@@ -150,8 +136,8 @@ describe("referenceElementManager", () => {
       }
     }
 
-    const { component } = await mount(TestComponent);
-    mountedComponents.push(component);
+    const { container } = await mount(TestComponent);
+    container.append(trigger);
 
     await afterNextFrame();
 

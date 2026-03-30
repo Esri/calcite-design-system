@@ -2,7 +2,6 @@
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { nil } from "@arcgis/toolkit/type";
 import { nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -61,7 +60,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   //#region Private Properties
 
-  get referenceElementType(): ReferenceElementType | nil {
+  get referenceElementType(): ReferenceElementType | null {
     return this.referenceElement ? this.type : null;
   }
 
@@ -93,7 +92,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   transitionEl: HTMLDivElement;
 
-  onReferenceElementKeydown = (event: KeyboardEvent): void => this.keyDownHandler(event);
+  onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -160,15 +159,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /**
-   The `referenceElement` is used to position the component according to its `placement` value.
+   * The `referenceElement` is used to position the component according to its `placement` value.
    *
-   *Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
+   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
    *
    * However, a string `id` of the reference element can also be used.
    *
    *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
-  @property() referenceElement: ReferenceElement | string | nil;
+  @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -549,11 +548,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!(this.referenceEl instanceof HTMLElement)) {
-      return;
-    }
-
-    if (!event.composedPath().includes(this.referenceEl)) {
+    if (
+      !(this.referenceEl instanceof HTMLElement) ||
+      !event.composedPath().includes(this.referenceEl)
+    ) {
       return;
     }
 
@@ -678,7 +676,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.updateActiveDescendantElement(activeItem);
   }
 
-  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | nil): void {
+  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | null): void {
     this.items.forEach((item) => {
       item.activeDescendant = item === activeItem;
     });

@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -61,7 +61,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dropdown"));
 });
 
-function createSimpleDropdownHTML(): JsxNode {
+function renderSimpleDropdownHTML(): JsxNode {
   return (
     <calcite-dropdown>
       <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -76,16 +76,21 @@ function createSimpleDropdownHTML(): JsxNode {
   );
 }
 
-function dispatchKeydown(target: Element, key: string): void {
-  target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+async function waitForSettledUpdate(
+  component: Dropdown["manager"]["component"],
+  updateCompletePromise: Promise<unknown>,
+): Promise<void> {
+  if ((await updateCompletePromise) === false) {
+    await component.updateComplete;
+  }
 }
 
 describe("renders", () => {
-  renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
+  renders(() => mount(renderSimpleDropdownHTML), { display: "inline-block" });
 });
 
 describe("focusable", () => {
-  focusable(() => mount(createSimpleDropdownHTML), {
+  focusable(() => mount(renderSimpleDropdownHTML), {
     focusTargetSelector: '[slot="trigger"]',
   });
 });
@@ -144,7 +149,7 @@ describe("top layer placement", () => {
 });
 
 describe("hover type", () => {
-  function createHoverDropdownHTML(): JsxNode {
+  function renderHoverDropdownHTML(): JsxNode {
     return (
       <calcite-dropdown type="hover">
         <calcite-action id="trigger" slot="trigger">
@@ -161,7 +166,7 @@ describe("hover type", () => {
   }
 
   it("opens on focusin", async () => {
-    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
 
     expect(el.open).toBe(false);
 
@@ -172,7 +177,7 @@ describe("hover type", () => {
   });
 
   it("does not toggle closed on click when type is hover", async () => {
-    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     expect(el.open).toBe(false);
@@ -189,7 +194,7 @@ describe("hover type", () => {
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>
-        {createHoverDropdownHTML()}
+        {renderHoverDropdownHTML()}
         <button id="next-focus-target" type="button">
           Next
         </button>
@@ -210,23 +215,15 @@ describe("hover type", () => {
 });
 
 describe("ariaActiveDescendantElement", () => {
-  function getSlottedTriggerLocator() {
+  function getSlottedTriggerLocator(): ReturnType<typeof page.elementLocator> {
     const internalButton = page.getByRole("button", { name: "Open dropdown" }).element();
     const triggerHost = (internalButton?.getRootNode() as ShadowRoot | null)?.host;
-
-    if (!(triggerHost instanceof HTMLElement)) {
-      throw new Error("Expected slotted calcite-button host");
-    }
 
     return page.elementLocator(triggerHost);
   }
 
-  function getTriggerSlotLocator() {
+  function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
     const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
-
-    if (!(slot instanceof HTMLSlotElement)) {
-      throw new Error("Expected assigned trigger slot");
-    }
 
     return page.elementLocator(slot);
   }
@@ -237,7 +234,7 @@ describe("ariaActiveDescendantElement", () => {
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -246,7 +243,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -258,7 +255,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderSimpleDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -279,9 +276,9 @@ describe("ariaActiveDescendantElement", () => {
 });
 
 describe("referenceElement keydown", () => {
-  function createReferenceElementDropdownHTML(): JsxNode {
+  function renderReferenceElementDropdownHTML(): JsxNode {
     return (
-      <div>
+      <>
         <button id="external-trigger" type="button">
           Open dropdown
         </button>
@@ -290,24 +287,32 @@ describe("referenceElement keydown", () => {
             <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
-      </div>
+      </>
     );
   }
 
-  it("opens when Enter keydown is dispatched on referenceElement", async () => {
-    const { el } = await mount<Dropdown>(createReferenceElementDropdownHTML);
+  it("opens when Enter is pressed on referenceElement", async () => {
+    const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
     const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const dropdownElement = trigger.element()?.nextElementSibling;
+
+    const dropdown = page.elementLocator(dropdownElement).element() as Dropdown;
+    const component = dropdown.manager.component;
 
     expect(el.open).toBe(false);
 
-    dispatchKeydown(trigger.element() as Element, "Enter");
+    const updateComplete = component.updateComplete;
+
+    (trigger.element() as HTMLElement | null)?.focus();
+    await userEvent.keyboard("{Enter}");
+    await waitForSettledUpdate(component, updateComplete);
 
     expect(el.open).toBe(true);
   });
 });
 
 describe("keyboard navigation", () => {
-  function createReferenceElementKeyboardDropdownHTML(options?: {
+  function renderReferenceElementKeyboardDropdownHTML(options?: {
     selectedItemId?: "item-1" | "item-2";
     includeDisabledAndHiddenItems?: boolean;
   }): JsxNode {
@@ -354,31 +359,28 @@ describe("keyboard navigation", () => {
     );
   }
 
-  function getReferenceElementExpandedState(): string | null {
-    return (getReferenceElementTrigger().element() as HTMLElement | null)?.getAttribute(
-      "aria-expanded",
+  function getReferenceElementExpandedState(): string {
+    return (
+      (getReferenceElementTrigger().element() as HTMLElement)?.getAttribute("aria-expanded") ?? ""
     );
   }
 
-  function getReferenceElementTrigger() {
+  function getReferenceElementTrigger(): ReturnType<typeof page.getByRole> {
     return page.getByRole("button", { name: "Open dropdown" });
   }
 
-  function getDropdownLocator() {
+  function getDropdownLocator(): ReturnType<typeof page.elementLocator> {
     const dropdown = getReferenceElementTrigger().element()?.nextElementSibling;
-
-    if (!(dropdown instanceof HTMLElement)) {
-      throw new Error("Expected dropdown next to reference element trigger");
-    }
 
     return page.elementLocator(dropdown);
   }
 
   async function waitForDropdownUpdateComplete(): Promise<void> {
     const dropdown = getDropdownLocator().element() as Dropdown;
+    const component = dropdown.manager.component;
+    const updateComplete = component.updateComplete;
 
-    await dropdown.updateComplete;
-    await dropdown.updateComplete;
+    await waitForSettledUpdate(component, updateComplete);
   }
 
   const defaultItemIds = ["item-1", "item-2", "item-3"];
@@ -393,40 +395,35 @@ describe("keyboard navigation", () => {
     "item-4": "4",
   };
 
-  function getDropdownItemLocator(itemId: string) {
+  function getDropdownItemLocator(itemId: string): ReturnType<typeof page.elementLocator> | null {
     const itemText = dropdownItemTextById[itemId];
-
-    if (!itemText) {
-      return null;
-    }
-
     const itemContent = getDropdownLocator().getByText(itemText, { exact: true }).element();
     const item = itemContent?.closest("calcite-dropdown-item");
-
-    if (!(item instanceof HTMLElement)) {
-      return null;
-    }
 
     return page.elementLocator(item);
   }
 
-  function getActiveItemId(itemIds: string[]): string | undefined {
+  function getActiveItemId(itemIds: string[]): string {
     return itemIds.find((itemId) => {
       const item = getDropdownItemLocator(itemId);
 
-      return (item?.element() as (HTMLElement & { activeDescendant?: boolean }) | null)
-        ?.activeDescendant;
+      if (!item) {
+        throw new Error("Expected dropdown item with id " + itemId);
+      }
+
+      return (item.element() as HTMLElement & { activeDescendant?: boolean }).activeDescendant;
     });
   }
 
   async function pressReferenceElementKey(key: string): Promise<void> {
-    dispatchKeydown(getReferenceElementTrigger().element() as Element, key);
+    (getReferenceElementTrigger().element() as HTMLElement | null)?.focus();
+    await userEvent.keyboard(`{${key}}`);
     await waitForDropdownUpdateComplete();
   }
 
   it("supports navigating through items with arrow keys", async () => {
     await mount<Dropdown>(() =>
-      createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-1" }),
+      renderReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-1" }),
     );
 
     await pressReferenceElementKey("Enter");
@@ -456,7 +453,7 @@ describe("keyboard navigation", () => {
 
   it("skips disabled and hidden items when navigating with arrow keys", async () => {
     await mount<Dropdown>(() =>
-      createReferenceElementKeyboardDropdownHTML({
+      renderReferenceElementKeyboardDropdownHTML({
         includeDisabledAndHiddenItems: true,
       }),
     );
@@ -481,7 +478,7 @@ describe("keyboard navigation", () => {
   });
 
   it("should open the dropdown and focus the first item with ArrowDown", async () => {
-    await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
+    await mount<Dropdown>(() => renderReferenceElementKeyboardDropdownHTML());
     await pressReferenceElementKey("ArrowDown");
 
     expect(getReferenceElementExpandedState()).toBe("true");
@@ -495,7 +492,7 @@ describe("keyboard navigation", () => {
   });
 
   it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
-    await mount<Dropdown>(() => createReferenceElementKeyboardDropdownHTML());
+    await mount<Dropdown>(() => renderReferenceElementKeyboardDropdownHTML());
     await pressReferenceElementKey("ArrowUp");
 
     expect(getReferenceElementExpandedState()).toBe("true");
@@ -510,7 +507,7 @@ describe("keyboard navigation", () => {
 
   it("should open the dropdown and focus the last item with ArrowUp", async () => {
     await mount<Dropdown>(() =>
-      createReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-2" }),
+      renderReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-2" }),
     );
     await pressReferenceElementKey("ArrowUp");
 

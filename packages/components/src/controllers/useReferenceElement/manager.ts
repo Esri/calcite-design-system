@@ -249,9 +249,9 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
   };
 
-  const onReferenceElementKeydown = (event: KeyboardEvent): void => {
+  const onReferenceElementKeyDown = (event: KeyboardEvent): void => {
     const components = queryComponents(event.composedPath());
-    components?.forEach((component) => component.onReferenceElementKeydown?.(event));
+    components?.forEach((component) => component.onReferenceElementKeyDown?.(event));
   };
 
   const closeAllComponents = (): void => {
@@ -349,7 +349,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const keyDownListener = (event: KeyboardEvent): void => {
-    onReferenceElementKeydown(event);
+    onReferenceElementKeyDown(event);
 
     if (options.click) {
       keyDownHandler(event);
