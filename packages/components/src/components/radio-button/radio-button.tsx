@@ -10,7 +10,7 @@ import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { useForm } from "../../controllers/useForm";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -101,6 +101,26 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * The component's current validation state.
+   *
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property() validity: MutableValidityState = {
+    valid: false,
+    badInput: false,
+    customError: false,
+    patternMismatch: false,
+    rangeOverflow: false,
+    rangeUnderflow: false,
+    stepMismatch: false,
+    tooLong: false,
+    tooShort: false,
+    typeMismatch: false,
+    valueMissing: false,
+  };
 
   /**
    * The component's value.
