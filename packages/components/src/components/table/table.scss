@@ -96,9 +96,7 @@
 
 .table-container {
   @apply overflow-auto whitespace-nowrap;
-}
-
-.table-container {
+  line-height: 1.2;
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
