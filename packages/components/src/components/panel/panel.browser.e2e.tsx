@@ -226,11 +226,11 @@ describe("header slots", () => {
     );
 
     const slottedHeading = document.createElement("span");
-    slottedHeading.slot = SLOTS.headerHeading;
+    slottedHeading.slot = SLOTS.heading;
     slottedHeading.innerHTML = "<strong>HTML heading</strong>";
 
     const slottedDescription = document.createElement("span");
-    slottedDescription.slot = SLOTS.headerDescription;
+    slottedDescription.slot = SLOTS.description;
     slottedDescription.innerHTML = "<em>HTML description</em>";
 
     el.append(slottedHeading, slottedDescription);
@@ -264,7 +264,7 @@ describe("header slots", () => {
     el.removeAttribute("heading");
 
     const slottedDescription = document.createElement("span");
-    slottedDescription.slot = SLOTS.headerDescription;
+    slottedDescription.slot = SLOTS.description;
     slottedDescription.textContent = "Slotted description";
     el.append(slottedDescription);
 

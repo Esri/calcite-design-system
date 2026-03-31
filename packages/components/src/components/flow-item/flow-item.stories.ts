@@ -139,8 +139,8 @@ export const withIcon = (): string => html`
 
 export const withRichHeaderSlots = (): string => html`
   <calcite-flow-item heading="Plain heading fallback" description="Plain description fallback" selected>
-    <span slot="header-heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
-    <span slot="header-description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
     <p>Slotted content!</p>
   </calcite-flow-item>
 `;

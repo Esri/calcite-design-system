@@ -15,7 +15,7 @@ export function constrainHeadingLevel(level: number): HeadingLevel {
 export const Heading = ({
   children,
   class: className,
-  hidden,
+  hidden = false,
   key,
   level,
 }: HeadingProps & { children: JsxNode }): TemplateResult => {
@@ -23,11 +23,7 @@ export const Heading = ({
     ? (unsafeStatic(`h${level}`) as unknown as "h1")
     : (literal`div` as unknown as "div");
 
-  return hidden === undefined ? (
-    <DynamicHtmlTag class={className} key={key}>
-      {children}
-    </DynamicHtmlTag>
-  ) : (
+  return (
     <DynamicHtmlTag class={className} hidden={hidden} key={key}>
       {children}
     </DynamicHtmlTag>

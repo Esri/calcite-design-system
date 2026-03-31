@@ -43,8 +43,8 @@ declare global {
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
- * @slot header-heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
@@ -442,32 +442,20 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = showHeaderHeading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        <slot name={SLOTS.headerHeading} onSlotChange={this.handleHeaderHeadingSlotChange}>
+    const headingNode = (
+      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+        <slot name={SLOTS.heading} onSlotChange={this.handleHeaderHeadingSlotChange}>
           {heading}
         </slot>
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = showHeaderDescription ? (
-      <span class={CSS.description}>
-        <slot name={SLOTS.headerDescription} onSlotChange={this.handleHeaderDescriptionSlotChange}>
+    const descriptionNode = (
+      <span class={CSS.description} hidden={!showHeaderDescription}>
+        <slot name={SLOTS.description} onSlotChange={this.handleHeaderDescriptionSlotChange}>
           {description}
         </slot>
       </span>
-    ) : null;
-
-    const headingSlotProbeNode = (
-      <slot hidden name={SLOTS.headerHeading} onSlotChange={this.handleHeaderHeadingSlotChange} />
-    );
-
-    const descriptionSlotProbeNode = (
-      <slot
-        hidden
-        name={SLOTS.headerDescription}
-        onSlotChange={this.handleHeaderDescriptionSlotChange}
-      />
     );
 
     return (
@@ -481,8 +469,6 @@ export class Panel extends LitElement {
           {headingNode}
           {descriptionNode}
         </div>
-        {headingSlotProbeNode}
-        {descriptionSlotProbeNode}
       </div>
     );
   }
