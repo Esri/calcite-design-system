@@ -219,6 +219,18 @@ describe("slots", () => {
 });
 
 describe("header slots", () => {
+  it("renders heading and description properties when heading/description slots are empty", async () => {
+    await mount(
+      <calcite-panel description="test description" heading="test heading">
+        <span slot="heading" />
+        <span slot="description" />
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByText("test heading")).toBeVisible();
+    await expect.element(page.getByText("test description")).toBeVisible();
+  });
+
   it("renders slotted header heading and description in the default header with precedence over properties", async () => {
     await mount(
       <calcite-panel description="Property description" heading="Property heading">
@@ -236,8 +248,22 @@ describe("header slots", () => {
 
     await expect.element(slottedHeading).toBeVisible();
     await expect.element(slottedDescription).toBeVisible();
-    expect(page.queryByText("Property heading")).toBeNull();
-    expect(page.queryByText("Property description")).toBeNull();
+    await expect.element(page.getByText("Property heading")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Property description")).not.toBeInTheDocument();
+  });
+
+  it("renders non-empty slotted heading and description content over properties", async () => {
+    await mount(
+      <calcite-panel description="test description" heading="test heading">
+        <span slot="heading">slotted heading</span>
+        <span slot="description">slotted description</span>
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByText("slotted heading")).toBeVisible();
+    await expect.element(page.getByText("slotted description")).toBeVisible();
+    await expect.element(page.getByText("test heading")).not.toBeInTheDocument();
+    await expect.element(page.getByText("test description")).not.toBeInTheDocument();
   });
 
   it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
