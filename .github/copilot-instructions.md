@@ -3,7 +3,7 @@
 ## Scope
 
 - This repo is a Turbo monorepo with npm workspaces. Most component work happens in `packages/components`.
-- Use Node `24.11.0`. Prefer `mise` so the repo's configured runtime is used automatically.
+- Use Node as specified in the repository [package.json](package.json) (`engines.node`). Prefer `mise` so the repo's configured runtime is used automatically.
 - Prefer package-scoped commands while iterating on a single package: `npm --workspace=packages/components run <script>`.
 
 ## Where To Work
@@ -26,6 +26,7 @@
 - Do NOT introduce new libraries, frameworks, or dependencies unless approved.
 - Do NOT modify unrelated files.
 - If you notice a potential improvement, suggest it but wait for approval.
+- Avoid browser-specific fixes. Prefer feature detection instead.
 
 ## Code Quality
 
@@ -34,6 +35,7 @@
 - Keep functions and components small and focused.
 - Include comments only when they add clarity (not for obvious code).
 - Sort properties alphabetically where the existing repo patterns expect it, but do not create unrelated churn just to reorder code.
+- Use strict TypeScript typings and prefer the `nil` type where a value may be `null` or `undefined`.
 
 ## Component Conventions
 
@@ -45,7 +47,6 @@
 
 ## Styling
 
-- Component styling is SCSS plus Tailwind utilities, not CSS-in-JS.
 - Follow `packages/components/conventions/Styling.md` for class naming and host attribute patterns.
 - Prefer existing resources/constants patterns such as `resources.ts` instead of scattering strings and class names through render code.
 
@@ -99,6 +100,10 @@
 - `packages/components/conventions/README.md`
 - `packages/components/conventions/Testing.md`
 - `packages/components/conventions/Styling.md`
+
+## Supported Browsers
+
+- See the supported browsers and versions in [packages/components/README.md](packages/components/README.md#browser-support).
 
 ## Safety
 
