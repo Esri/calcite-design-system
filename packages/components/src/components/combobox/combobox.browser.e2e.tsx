@@ -840,7 +840,7 @@ describe("keyboard interactions", async () => {
   });
 
   describe("openClose", () => {
-    openClose(() =>
+    openClose((mountOptions) =>
       mount(
         <calcite-combobox id="myCombobox">
           <calcite-combobox-item heading="Raising Arizona" value="Raising Arizona" />
@@ -848,6 +848,7 @@ describe("keyboard interactions", async () => {
           <calcite-combobox-item heading="The Hudsucker Proxy" value="The Hudsucker Proxy" />
           <calcite-combobox-item heading="Inside Llewyn Davis" value="Inside Llewyn Davis" />
         </calcite-combobox>,
+        mountOptions,
       ),
     );
   });

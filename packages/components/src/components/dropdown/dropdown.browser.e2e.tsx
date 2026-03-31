@@ -137,7 +137,7 @@ describe("disabled", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount(renderDropdown));
+  openClose((mountOptions) => mount(renderDropdown, mountOptions));
 });
 
 describe("top layer placement", () => {

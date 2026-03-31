@@ -262,7 +262,7 @@ describe("floating-ui", () => {
   });
 
   describe("openClose", () => {
-    openClose(() =>
+    openClose((mountOptions) =>
       mount(
         <>
           <calcite-tooltip placement="auto" reference-element="ref">
@@ -270,12 +270,13 @@ describe("floating-ui", () => {
           </calcite-tooltip>
           <button id="ref">referenceElement</button>
         </>,
+        mountOptions,
       ),
     );
 
     describe("parent has display none", () => {
       openClose(
-        () =>
+        (mountOptions) =>
           mount(
             <>
               <div class="container">
@@ -307,6 +308,7 @@ describe("floating-ui", () => {
                 }}
               />
             </>,
+            mountOptions,
           ),
         {
           willUseFallback: true,

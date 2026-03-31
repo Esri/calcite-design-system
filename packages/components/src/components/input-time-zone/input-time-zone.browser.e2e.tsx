@@ -62,7 +62,7 @@ describe("focusable", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount("calcite-input-time-zone"));
+  openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
 });
 
 describe("translation support", () => {

@@ -53,7 +53,9 @@ describe("is focusable", () => {
   });
 
   describe("openClose", () => {
-    openClose(() => mount(<calcite-input-date-picker value="2021-12-08" />));
+    openClose((mountOptions) =>
+      mount(<calcite-input-date-picker value="2021-12-08" />, mountOptions),
+    );
   });
 });
 

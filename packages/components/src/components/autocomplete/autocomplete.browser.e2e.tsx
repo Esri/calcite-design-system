@@ -278,7 +278,7 @@ describe("floating-ui", () => {
 });
 
 describe("openClose", () => {
-  openClose(() =>
+  openClose((mountOptions) =>
     mount(
       <calcite-autocomplete id="myAutocomplete" label="Item list">
         <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
@@ -287,6 +287,7 @@ describe("openClose", () => {
         <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
         <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
       </calcite-autocomplete>,
+      mountOptions,
     ),
   );
 });

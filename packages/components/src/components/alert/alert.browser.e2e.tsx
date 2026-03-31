@@ -48,7 +48,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount("calcite-alert"));
+  openClose((mountOptions) => mount("calcite-alert", mountOptions));
 });
 
 describe("renders", () => {

@@ -1,4 +1,4 @@
-import { expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
@@ -17,9 +17,6 @@ interface OpenCloseOptions {
 
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
-
-  /** When `true`, the test will assert event sequence in an initially open state */
-  initial?: boolean;
 }
 
 const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFallback"> = {
@@ -27,7 +24,7 @@ const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFal
   willUseFallback: false,
 };
 
-interface SetupOptions {
+interface TestSetupMountOptions {
   /**
    * Helper required for initializing open/close events testing.
    */
@@ -43,57 +40,92 @@ interface SetupOptions {
  *
  * describe("openClose", () => {
  *   openClose(({ afterConnect }) => mount("calcite-combobox", afterConnect));
- *
- *   openClose(({ afterConnect }) => mount("calcite-combobox", afterConnect), { initial: true });
  * });
  */
 export function openClose(
-  setup: (options: SetupOptions) => ReturnType<typeof mount>,
+  setup: (mountOptions: TestSetupMountOptions) => ReturnType<typeof mount>,
   options?: OpenCloseOptions,
 ): void {
   const effectiveOptions = { ...defaultOptions, ...options };
 
-  it(`emits with animations enabled`, async () => {
-    const style = document.createElement("style");
-    style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
-    document.head.append(style);
+  describe("it emits open/close events", () => {
+    it(`emits with animations enabled`, async () => {
+      const style = document.createElement("style");
+      style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
+      document.head.append(style);
 
-    try {
+      try {
+        await testOpenCloseEvents({
+          setup,
+          animationsEnabled: !effectiveOptions.willUseFallback,
+          collapsedOnClose: effectiveOptions.collapsedOnClose,
+          openPropName: effectiveOptions.openPropName,
+          startOpen: false,
+        });
+      } finally {
+        style.remove();
+      }
+    });
+
+    it(`emits with animations disabled`, async () => {
       await testOpenCloseEvents({
         setup,
-        animationsEnabled: !effectiveOptions.willUseFallback,
+        animationsEnabled: false,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
         openPropName: effectiveOptions.openPropName,
+        startOpen: false,
       });
-    } finally {
-      style.remove();
-    }
+    });
   });
 
-  it(`emits with animations disabled`, async () => {
-    await testOpenCloseEvents({
-      setup,
-      animationsEnabled: false,
-      collapsedOnClose: effectiveOptions.collapsedOnClose,
-      openPropName: effectiveOptions.openPropName,
+  describe("it emits open/close events when initially open", () => {
+    it(`emits with animations enabled`, async () => {
+      const style = document.createElement("style");
+      style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
+      document.head.append(style);
+
+      try {
+        await testOpenCloseEvents({
+          setup,
+          animationsEnabled: !effectiveOptions.willUseFallback,
+          collapsedOnClose: effectiveOptions.collapsedOnClose,
+          openPropName: effectiveOptions.openPropName,
+          startOpen: true,
+        });
+      } finally {
+        style.remove();
+      }
+    });
+
+    it(`emits with animations disabled`, async () => {
+      await testOpenCloseEvents({
+        setup,
+        animationsEnabled: false,
+        collapsedOnClose: effectiveOptions.collapsedOnClose,
+        openPropName: effectiveOptions.openPropName,
+        startOpen: true,
+      });
     });
   });
 }
 
 interface TestOpenCloseEventsParams {
+  /** Whether animations are enabled. */
+  animationsEnabled: boolean;
+
+  /** Whether the component should be collapsed (does not affect layout) along the specified axis when closed. */
+  collapsedOnClose?: CollapseAxis;
+
+  /** The property name used to control the open state of the component. */
+  openPropName: string;
+
   /**
    * The test setup function.
    */
   setup: Parameters<typeof openClose>[0];
 
-  /** The property name used to control the open state of the component. */
-  openPropName: string;
-
-  /** Whether the component should be collapsed (does not affect layout) along the specified axis when closed. */
-  collapsedOnClose?: CollapseAxis;
-
-  /** Whether animations are enabled. */
-  animationsEnabled: boolean;
+  /** Whether the component should start in the open state. */
+  startOpen: boolean;
 }
 
 async function testOpenCloseEvents({
@@ -101,6 +133,7 @@ async function testOpenCloseEvents({
   animationsEnabled,
   openPropName,
   collapsedOnClose,
+  startOpen,
 }: TestOpenCloseEventsParams): Promise<void> {
   const timestamps: Record<OpenCloseName, number | undefined> = {
     beforeOpen: undefined,
@@ -134,6 +167,8 @@ async function testOpenCloseEvents({
           promise: waitForEvent(document.body, eventName),
         };
       });
+
+      el[openPropName] = startOpen;
     },
   });
 
@@ -160,8 +195,9 @@ async function testOpenCloseEvents({
     timestamps[toOpenCloseName(eventName)] = Date.now();
   }
 
-  const element = el;
-  element[openPropName] = true;
+  if (!startOpen) {
+    el[openPropName] = true;
+  }
 
   await reRender();
   await captureEventTimestamp(beforeOpenEvent!.promise, eventSequence.at(0)!);
@@ -169,7 +205,7 @@ async function testOpenCloseEvents({
 
   assertEventSequence([1, 1, 0, 0]);
 
-  element[openPropName] = false;
+  el[openPropName] = false;
 
   await reRender();
   await captureEventTimestamp(beforeCloseEvent!.promise, eventSequence.at(2)!);
@@ -178,13 +214,13 @@ async function testOpenCloseEvents({
   assertEventSequence([1, 1, 1, 1]);
 
   if (collapsedOnClose !== undefined) {
-    const boundingBox = element.getBoundingClientRect();
+    const boundingBox = el.getBoundingClientRect();
     const horizontalCollapse = collapsedOnClose === "horizontal";
     const dimension = horizontalCollapse ? "width" : "height";
     const scrollDimension = horizontalCollapse ? "scrollWidth" : "scrollHeight";
 
     expect(boundingBox[dimension]).toBe(0);
-    expect(element[scrollDimension]).toBe(0);
+    expect(el[scrollDimension]).toBe(0);
   }
 
   expect(receivedEvents).toEqual(eventSequence);

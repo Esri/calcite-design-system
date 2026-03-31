@@ -50,13 +50,7 @@ describe("is focusable", () => {
   });
 
   describe("openClose", () => {
-    openClose(() => mount("calcite-input-time-picker"));
-
-    describe("initially open", () => {
-      openClose(() => mount(<calcite-input-time-picker open />), {
-        tag: "calcite-input-time-picker",
-      });
-    });
+    openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
   });
 });
 

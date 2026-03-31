@@ -225,7 +225,7 @@ describe("auto-close", () => {
   });
 
   describe("openClose", () => {
-    openClose(() =>
+    openClose((mountOptions) =>
       mount(
         <>
           <calcite-popover placement="auto" reference-element="ref">
@@ -233,6 +233,7 @@ describe("auto-close", () => {
           </calcite-popover>
           <div id="ref">referenceElement</div>
         </>,
+        mountOptions,
       ),
     );
   });

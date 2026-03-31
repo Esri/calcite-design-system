@@ -48,7 +48,7 @@ describe("is focusable", () => {
   });
 
   describe("openClose", () => {
-    openClose(() => mount("calcite-notice"), {
+    openClose((mountOptions) => mount("calcite-notice", mountOptions), {
       collapsedOnClose: "vertical",
     });
   });

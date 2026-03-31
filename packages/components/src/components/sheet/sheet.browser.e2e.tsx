@@ -119,11 +119,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount("calcite-sheet"));
-
-  describe("initially open", () => {
-    openClose(() => mount(<calcite-sheet open />), { tag: "calcite-sheet" });
-  });
+  openClose((mountOptions) => mount("calcite-sheet", mountOptions));
 });
 
 describe("renders", () => {

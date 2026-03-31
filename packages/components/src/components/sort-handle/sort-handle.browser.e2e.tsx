@@ -86,7 +86,9 @@ describe("focusable", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+  openClose((mountOptions) =>
+    mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />, mountOptions),
+  );
 });
 
 describe("translation support", () => {

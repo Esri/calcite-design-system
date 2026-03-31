@@ -231,11 +231,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("openClose", () => {
-  openClose(({ afterConnect }) => mount("calcite-dialog", { afterConnect }));
-
-  describe("initially open", () => {
-    openClose(({ afterConnect }) => mount("calcite-dialog", { afterConnect }), { initial: true });
-  });
+  openClose((mountOptions) => mount("calcite-dialog", mountOptions));
 });
 
 describe("renders", () => {
