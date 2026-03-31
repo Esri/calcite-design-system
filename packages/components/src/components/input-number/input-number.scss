@@ -34,6 +34,7 @@
 // --calcite-internal-action-padding-inline
 // --calcite-internal-input-number-alignment
 // --calcite-internal-input-number-focus-outline-color
+// --calcite-internal-input-number-icon-padding-inline
 // --calcite-internal-input-number-number-button-item-height
 // --calcite-internal-input-number-number-button-item-horizontal-padding
 // --calcite-internal-input-number-number-button-item-vertical-padding
@@ -67,9 +68,8 @@
 
 // scales
 :host([scale="s"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-sm);
-  }
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+
   & input,
   & .prefix,
   & .suffix {
@@ -98,9 +98,8 @@
 }
 
 :host([scale="m"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-md);
-  }
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-md);
+
   & input,
   & .prefix,
   & .suffix {
@@ -126,9 +125,8 @@
 }
 
 :host([scale="l"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-lg);
-  }
+  --calcite-internal-input-number-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+
   & input,
   & .prefix,
   & .suffix {
@@ -206,10 +204,10 @@ input {
 }
 
 .has-suffix input,
-:host .clearable input,
+.clearable input,
 :host(:not([read-only])) input,
-:host .suffix,
-:host .clear-button {
+.suffix,
+.clear-button {
   border-start-end-radius: 0;
   border-end-end-radius: 0;
 }
@@ -323,6 +321,7 @@ input[readonly]:focus {
     var(--calcite-ui-icon-color, var(--calcite-color-text-3))
   );
   align-items: center;
+  padding-inline-start: var(--calcite-internal-input-number-icon-padding-inline);
 }
 
 .element-wrapper:has(.number-button-item--horizontal[data-adjustment="down"]) .icon,
@@ -544,7 +543,7 @@ input[readonly]:focus {
   }
 }
 
-:host .wrapper {
+.wrapper {
   @apply relative
     flex
     flex-row

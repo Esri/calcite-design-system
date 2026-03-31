@@ -30,6 +30,7 @@
 //
 // --calcite-internal-input-text-alignment
 // --calcite-internal-input-text-focus-outline-color
+// --calcite-internal-input-text-icon-padding-inline
 
 @use "../../styles/includes";
 
@@ -59,9 +60,8 @@
 
 // scales
 :host([scale="s"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-sm);
-  }
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-sm);
+
   & input {
     padding-inline-start: var(--calcite-spacing-sm);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-sm));
@@ -89,9 +89,8 @@
 }
 
 :host([scale="m"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-md);
-  }
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-md);
+
   & input {
     padding-inline-start: var(--calcite-spacing-md);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-md));
@@ -115,9 +114,8 @@
 }
 
 :host([scale="l"]) {
-  & .icon {
-    padding-inline-start: var(--calcite-spacing-fixed-lg);
-  }
+  --calcite-internal-input-text-icon-padding-inline: var(--calcite-spacing-fixed-lg);
+
   & input {
     padding-inline-start: var(--calcite-spacing-lg);
     padding-inline-end: var(--calcite-internal-input-text-input-padding-inline-end, var(--calcite-spacing-lg));
@@ -283,6 +281,7 @@ calcite-icon {
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
   align-items: center;
+  padding-inline-start: var(--calcite-internal-input-text-icon-padding-inline);
 }
 
 .has-prefix .icon {
