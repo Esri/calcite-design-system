@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, labelable, openClose, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -12,6 +12,16 @@ const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="m
 const simpleHTML = html`
   <calcite-autocomplete label="Item list" id="myAutocomplete">
     <calcite-autocomplete-item label="Item one" value="one" heading="Item one"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
+    <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
+    <calcite-autocomplete-item disabled label="Item five" value="five" heading="Item five"></calcite-autocomplete-item>
+  </calcite-autocomplete>
+`;
+
+const simpleHTMLSelectedItem = html`
+  <calcite-autocomplete label="Item list" id="myAutocomplete">
+    <calcite-autocomplete-item label="Item one" value="one" heading="Item one" selected></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item two" value="two" heading="Item two"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item three" value="three" heading="Item three"></calcite-autocomplete-item>
     <calcite-autocomplete-item label="Item four" value="four" heading="Item four"></calcite-autocomplete-item>
@@ -206,6 +216,7 @@ describe("theme", () => {
 
 describe("accessible", () => {
   accessible(simpleHTML);
+  accessible(simpleHTMLSelectedItem);
   accessible(simpleFormHTML);
   accessible(simpleGroupHTML);
   accessible(simpleGroupHTML);
@@ -219,19 +230,45 @@ describe("openClose", () => {
   openClose(simpleHTML);
 });
 
-describe("is form-associated", () => {
-  formAssociated(simpleHTML, {
-    testValue: "two",
-    submitsOnEnter: true,
-  });
-});
-
 it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {
   const page = await newE2EPage();
   await page.setContent(simpleHTML);
 
   const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
   expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
+});
+
+it("should expose and update listbox option aria-selected from item selected state", async () => {
+  const page = await newE2EPage();
+  await page.setContent(simpleHTMLSelectedItem);
+
+  const autocomplete = await page.find("calcite-autocomplete");
+  autocomplete.setProperty("open", true);
+  await page.waitForChanges();
+
+  const getOptionSelectionState = async () => {
+    const options = await findAll(page, "calcite-autocomplete >>> ul[role='listbox'] li[role='option']");
+
+    const optionSelectionState = await Promise.all(
+      options.map(async (option) => ({
+        label: await option.getProperty("ariaLabel"),
+        selected: await option.getProperty("ariaSelected"),
+      })),
+    );
+
+    return optionSelectionState;
+  };
+
+  let optionSelectionState = await getOptionSelectionState();
+  expect(optionSelectionState).toContainEqual({ label: "Item one", selected: "true" });
+  expect(optionSelectionState).toContainEqual({ label: "Item two", selected: "false" });
+
+  const item = await page.find("calcite-autocomplete-item[value='two']");
+  item.setProperty("selected", true);
+  await page.waitForChanges();
+
+  optionSelectionState = await getOptionSelectionState();
+  expect(optionSelectionState).toContainEqual({ label: "Item two", selected: "true" });
 });
 
 it("should be able to remove icon", async () => {

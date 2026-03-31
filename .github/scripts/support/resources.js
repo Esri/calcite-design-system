@@ -63,9 +63,9 @@ const resources = {
       thirtyFour: "estimate - 34",
     },
     designEstimate: {
-      small: "estimate - design - sm",
-      medium: "estimate - design - md",
-      large: "estimate - design - lg",
+      small: "estimate - design - 5",
+      medium: "estimate - design - 13",
+      large: "estimate - design - 21",
     },
     productColor: "006B75",
   },

@@ -1,7 +1,8 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -13,6 +14,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import { Popover } from "./popover";
 
 mockConsole();
 
@@ -160,4 +162,64 @@ describe("top layer placement", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-popover"));
+});
+
+describe("auto-close", () => {
+  it("should autoClose popovers with a shared referenceElement", async () => {
+    await mount(
+      <div>
+        <p>
+          Some text
+          <button id="ref1">Button</button>
+        </p>
+        <p>
+          Some more text
+          <button id="ref2">Button</button>
+        </p>
+        <calcite-popover auto-close id="popover1" open reference-element="ref1">
+          Content 1
+        </calcite-popover>
+        <calcite-popover auto-close id="popover2" open reference-element="ref1">
+          Content 2
+        </calcite-popover>
+        <calcite-popover auto-close id="popover3" open reference-element="ref1">
+          Content 3
+        </calcite-popover>
+      </div>,
+    );
+
+    const popover1 = page
+      .getByText("Content 1")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const popover2 = page
+      .getByText("Content 2")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const popover3 = page
+      .getByText("Content 3")
+      .element()
+      ?.closest("calcite-popover") as Popover | null;
+    const [ref1, ref2] = page.getByRole("button", { name: "Button" }).all();
+
+    if (!popover1 || !popover2 || !popover3) {
+      throw new Error("Expected all popover elements to be present");
+    }
+
+    expect(popover1.open).toBe(true);
+    expect(popover2.open).toBe(true);
+    expect(popover3.open).toBe(true);
+
+    await userEvent.click(ref2);
+
+    expect(popover1.open).toBe(false);
+    expect(popover2.open).toBe(false);
+    expect(popover3.open).toBe(false);
+
+    await userEvent.click(ref1);
+
+    expect(popover1.open).toBe(true);
+    expect(popover2.open).toBe(true);
+    expect(popover3.open).toBe(true);
+  });
 });

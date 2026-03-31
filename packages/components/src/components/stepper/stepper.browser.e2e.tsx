@@ -1,9 +1,12 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
+import { LitElement } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
+import type { StepperItem } from "../stepper-item/stepper-item";
+import type { Stepper } from "./stepper";
 
 describe("defaults", () => {
   defaults(
@@ -109,4 +112,61 @@ describe("fixed height sizing", () => {
       expect(contentBox.height).toBeGreaterThan(headerBox.height);
     },
   );
+});
+
+class TestWrapper extends LitElement {
+  static tagName = "test-wrapper";
+
+  override render(): JsxNode {
+    return (
+      <calcite-stepper>
+        <slot />
+      </calcite-stepper>
+    );
+  }
+}
+
+describe("inheritable props in shadow DOM", () => {
+  it("updates items when stepper is inside a custom element shadow root", async () => {
+    const { component } = await mount(TestWrapper);
+
+    component.innerHTML = `
+      <calcite-stepper-item heading="Step 1"></calcite-stepper-item>
+      <calcite-stepper-item heading="Step 2"></calcite-stepper-item>
+    `;
+
+    await component.updateComplete;
+
+    let items = page.getBySelector("calcite-stepper-item");
+    expect(items.length).toBe(2);
+
+    items.elements().forEach((item: StepperItem) => {
+      expect(item.icon).toBe(false);
+      expect(item.numbered).toBe(false);
+      expect(item.layout).toBe("horizontal");
+      expect(item.scale).toBe("m");
+      expect(item.numberingSystem).toBeUndefined();
+    });
+
+    const stepper = page.getBySelector("test-wrapper calcite-stepper").element() as Stepper["el"];
+
+    stepper.icon = true;
+    stepper.numbered = true;
+    stepper.layout = "vertical";
+    stepper.scale = "l";
+    stepper.numberingSystem = "arab";
+
+    await component.updateComplete;
+
+    items = page.getBySelector("calcite-stepper-item");
+    expect(items.length).toBe(2);
+
+    items.elements().forEach((item: StepperItem) => {
+      expect(item.icon).toBe(true);
+      expect(item.numbered).toBe(true);
+      expect(item.layout).toBe("vertical");
+      expect(item.scale).toBe("l");
+      expect(item.numberingSystem).toBe("arab");
+    });
+  });
 });

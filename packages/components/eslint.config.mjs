@@ -99,7 +99,7 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {
       vitest: {

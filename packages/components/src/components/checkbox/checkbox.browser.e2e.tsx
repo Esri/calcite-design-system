@@ -1,6 +1,13 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, internalLabel, t9n } from "../../tests/commonTests/browser";
+import {
+  disabled,
+  focusable,
+  formAssociated,
+  hidden,
+  internalLabel,
+  t9n,
+} from "../../tests/commonTests/browser";
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-checkbox"));
@@ -17,6 +24,13 @@ describe("is focusable", () => {
 
   describe("translation support", () => {
     t9n(() => mount("calcite-checkbox"));
+  });
+});
+
+describe("is form associated", () => {
+  formAssociated(() => mount("calcite-checkbox"), {
+    inputType: "checkbox",
+    testValue: true,
   });
 });
 

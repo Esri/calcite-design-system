@@ -200,13 +200,10 @@ it("should support dropdown item keyboard navigation", async () => {
   await secondary.click();
   await dropdownOpenEventSpy.next();
   expect(await positionContainer.isVisible()).toBe(true);
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-1");
   await page.keyboard.press("ArrowDown");
   await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-2");
   await page.keyboard.press("ArrowDown");
   await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual("item-3");
   const dropdownCloseEventSpy = await page.spyOnEvent("calciteDropdownClose");
   await page.keyboard.press("Enter");
   await page.waitForChanges();

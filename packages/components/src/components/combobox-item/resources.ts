@@ -9,6 +9,7 @@ export const CSS = {
   description: "description",
   icon: "icon",
   label: "label",
+  containerHighlightSelected: "container--highlight-selected",
   scale: (scale: Scale) => `scale--${scale}` as const,
   shortText: "short-text",
   single: "label--single",

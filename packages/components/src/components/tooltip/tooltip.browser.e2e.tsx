@@ -1,15 +1,21 @@
 import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
+  reflects,
   hidden,
   renders,
   floatingUIOwner,
   topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, TOOLTIP_CLOSE_DELAY_MS, TOOLTIP_OPEN_DELAY_MS } from "./resources";
+import {
+  HOVER_OPEN_DELAY_MS,
+  HOVER_CLOSE_DELAY_MS,
+} from "../../controllers/useReferenceElement/manager";
+import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
@@ -54,25 +60,25 @@ describe("pointer movement toggling", () => {
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
+        delay: HOVER_OPEN_DELAY_MS * 0.25,
         property: "open",
         value: false,
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_OPEN_DELAY_MS * 0.25,
+        delay: HOVER_OPEN_DELAY_MS * 0.25,
         property: "open",
         value: false,
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_OPEN_DELAY_MS,
+        delay: HOVER_OPEN_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_OPEN_DELAY_MS + TOOLTIP_OPEN_DELAY_MS * 0.5,
+        delay: HOVER_OPEN_DELAY_MS + HOVER_OPEN_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref",
@@ -110,25 +116,25 @@ describe("pointer movement toggling", () => {
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_CLOSE_DELAY_MS,
+        delay: HOVER_CLOSE_DELAY_MS,
         property: "open",
         value: true,
         selector: "#ref",
       },
       {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.25,
+        delay: HOVER_CLOSE_DELAY_MS * 0.25,
         property: "open",
         value: true,
         selector: "#ref2",
       },
       {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
+        delay: HOVER_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: true,
         selector: "#ref2",
       },
       {
-        delay: TOOLTIP_CLOSE_DELAY_MS * 0.5,
+        delay: HOVER_CLOSE_DELAY_MS * 0.5,
         property: "open",
         value: false,
         selector: "#ref2",
@@ -144,6 +150,25 @@ describe("pointer movement toggling", () => {
   });
 });
 
+it("should honor pointerDisabled", async () => {
+  const { el, reRender } = await mount<Tooltip>(
+    <div>
+      <calcite-tooltip open reference-element="ref">
+        Content
+      </calcite-tooltip>
+      <button id="ref">Button</button>
+    </div>,
+  );
+
+  const arrow = page.getBySelector("calcite-tooltip .calcite-floating-ui-arrow");
+  await expect.element(arrow).toBeVisible();
+
+  el.pointerDisabled = true;
+  await reRender();
+
+  await expect.element(arrow).not.toBeInTheDocument();
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-tooltip"),
@@ -155,6 +180,14 @@ describe("defaults", () => {
       {
         propertyName: "placement",
         defaultValue: "auto",
+      },
+      {
+        propertyName: "pointerDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "offsetDistance",
@@ -171,6 +204,22 @@ describe("defaults", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-tooltip"),
+    [
+      {
+        propertyName: "pointerDisabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "l",
       },
     ],
   );
@@ -220,4 +269,47 @@ describe("top layer placement", () => {
       </>,
     ),
   );
+});
+
+describe("close-on-click", () => {
+  it("should close tooltip when tooltips share the same referenceElement, closeOnClick is true and referenceElement is clicked", async () => {
+    await mount(
+      <>
+        <calcite-tooltip close-on-click open reference-element="ref">
+          Content 1
+        </calcite-tooltip>
+        <calcite-tooltip open reference-element="ref">
+          Content 2
+        </calcite-tooltip>
+        <calcite-tooltip open reference-element="ref">
+          Content 3
+        </calcite-tooltip>
+        <button id="ref">Button</button>
+      </>,
+    );
+
+    const tip1 = page
+      .getByText("Content 1")
+      .element()
+      ?.closest("calcite-tooltip") as Tooltip | null;
+    const tip2 = page
+      .getByText("Content 2")
+      .element()
+      ?.closest("calcite-tooltip") as Tooltip | null;
+    const tip3 = page
+      .getByText("Content 3")
+      .element()
+      ?.closest("calcite-tooltip") as Tooltip | null;
+    const referenceElement = page.getByRole("button", { name: "Button" });
+
+    if (!tip1 || !tip2 || !tip3) {
+      throw new Error("Expected all tooltip elements to be present");
+    }
+
+    await userEvent.click(referenceElement);
+
+    expect(tip1.open).toBe(false);
+    expect(tip2.open).toBe(true);
+    expect(tip3.open).toBe(true);
+  });
 });

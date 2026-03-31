@@ -9,6 +9,7 @@ import {
   renders,
   reflects,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
 
 describe("defaults", () => {
@@ -82,6 +83,15 @@ describe("renders", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-text`), {
     shadowFocusTargetSelector: "input",
+  });
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-text"), {
+    testValue: "test",
+    submitsOnEnter: true,
+    validation: true,
+    inputType: "text",
   });
 });
 

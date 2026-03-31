@@ -629,6 +629,7 @@ describe("dom", () => {
         await el.setFocus();
         expect.unreachable("should not reach here, setFocus should throw an error");
       } catch (error) {
+        // eslint-disable-next-line vitest/no-conditional-expect -- we use expect.unreachable() above to properly fail the test if no error is thrown
         expect(error).toBeInstanceOf(RangeError);
       }
     });

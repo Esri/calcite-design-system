@@ -537,6 +537,64 @@ flipPositioning.parameters = {
   layout: "fullscreen",
 };
 
+export const selectionAppearanceHighlight = (): string => html`
+  <style>
+    .selection-appearance-group {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 250px;
+    }
+    .selection-appearance-group > div {
+      flex: 1;
+    }
+  </style>
+  <div class="selection-appearance-group">
+    <div>
+      <h3>single</h3>
+      <calcite-combobox
+        open
+        selection-mode="single"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+    <div>
+      <h3>multiple</h3>
+      <calcite-combobox
+        open
+        selection-mode="multiple"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+    <div>
+      <h3>ancestors</h3>
+      <calcite-combobox
+        open
+        selection-mode="ancestors"
+        selection-appearance="highlight"
+        label="demo"
+        placeholder="select element"
+      >
+        <calcite-combobox-item value="Trees" heading="Trees" selected>
+          <calcite-combobox-item value="Pine" heading="Pine" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+  </div>
+`;
+
 export const darkModeRTL = (): string => html`
   <div style="width:400px;max-width:100%;padding:100px">
     <calcite-combobox

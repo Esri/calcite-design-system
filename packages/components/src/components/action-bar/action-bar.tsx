@@ -1,7 +1,15 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -23,6 +31,7 @@ import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
+import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
@@ -37,6 +46,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
  * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+ * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
  * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionBar extends LitElement {
@@ -54,31 +64,39 @@ export class ActionBar extends LitElement {
 
   private direction = useDirection();
 
-  private expandToggleEl: Action["el"];
+  private expandToggleEl?: Action["el"];
 
-  private actionGroups: ActionGroup["el"][];
+  private actionGroups: ActionGroup["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, overflowActionsDisabled, actionGroups } = this;
+    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
 
     if (
       overflowActionsDisabled ||
       (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width)
+      (layout === "horizontal" && !width) ||
+      !this.containerRef.value
     ) {
       return;
     }
 
-    const itemSizes = this.getItemSizes();
-
     this.updateGroups();
 
-    const groupCount: number =
-      this.hasActionsEnd || !expandDisabled ? actionGroups.length + 1 : actionGroups.length;
+    const itemSizes = this.getItemSizes();
+
+    const { actionGroups } = this;
+
+    const actionsEndCount =
+      this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
+
+    const actionsStartCount =
+      this.hasActionsStart || (!expandDisabled && expandPosition === "start") ? 1 : 0;
+
+    const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
 
     let bufferSize = groupCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
@@ -154,7 +172,7 @@ export class ActionBar extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -166,16 +184,21 @@ export class ActionBar extends LitElement {
 
   //#region State Properties
 
-  @state() expandTooltip: Tooltip["el"];
+  @state() expandTooltip?: Tooltip["el"];
 
   @state() hasActionsEnd = false;
+
+  @state() hasActionsStart = false;
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies an accessible name for the last `calcite-action-group`. */
-  @property() actionsEndGroupLabel: string;
+  @property() actionsEndGroupLabel?: string;
+
+  /** Specifies an accessible name for the first `calcite-action-group`. */
+  @property() actionsStartGroupLabel?: string;
 
   /**
    * When `true`, the component is in a floating state.
@@ -190,6 +213,9 @@ export class ActionBar extends LitElement {
    * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
    */
   @property({ reflect: true }) expanded = false;
+
+  /** Specifies the position of the expand `calcite-action`. */
+  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
 
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
@@ -218,7 +244,7 @@ export class ActionBar extends LitElement {
    *
    * When `expanded` is `true`, the chevron direction is reversed.
    */
-  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -274,7 +300,10 @@ export class ActionBar extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen<ToEvents<ActionMenu>["calciteActionMenuOpen"]>(
+      "calciteActionMenuOpen",
+      this.actionMenuOpenHandler,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
@@ -292,7 +321,10 @@ export class ActionBar extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) {
+    if (
+      (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
+      (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
+    ) {
       this.overflowActions();
     }
 
@@ -406,6 +438,12 @@ export class ActionBar extends LitElement {
 
   private handleActionsEndSlotChange(event: Event): void {
     this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.overflowActions();
+  }
+
+  private handleActionsStartSlotChange(event: Event): void {
+    this.hasActionsStart = slotChangeHasAssignedElement(event);
+    this.overflowActions();
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -470,21 +508,14 @@ export class ActionBar extends LitElement {
 
   //#region Rendering
 
-  private renderBottomActionGroup(): JsxNode {
-    const {
-      expanded,
-      expandDisabled,
-      el,
-      position,
-      toggleExpand,
-      scale,
-      layout,
-      messages,
-      actionsEndGroupLabel,
-      overlayPositioning,
-    } = this;
+  private renderExpandTooltipSlot(): JsxNode {
+    return <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />;
+  }
 
-    const expandToggleNode = !expandDisabled ? (
+  private renderExpandToggle(): JsxNode {
+    const { el, expanded, toggleExpand, messages, position, scale } = this;
+
+    return (
       <ExpandToggle
         collapseLabel={messages.collapseLabel}
         collapseText={messages.collapse}
@@ -499,20 +530,36 @@ export class ActionBar extends LitElement {
         toggle={toggleExpand}
         tooltip={this.expandTooltip}
       />
-    ) : null;
+    );
+  }
+
+  private renderActionsGroup(position: Extract<"start" | "end", Position>): JsxNode {
+    const { expandDisabled, scale, layout, overlayPositioning, expandPosition } = this;
+
+    const isStart = position === "start";
+    const hasExpandToggle = !expandDisabled && expandPosition === position;
+
+    const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
+    const onSlotChange = isStart
+      ? this.handleActionsStartSlotChange
+      : this.handleActionsEndSlotChange;
+    const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
+    const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
+    const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
 
     return (
       <calcite-action-group
-        class={CSS.actionGroupEnd}
-        hidden={this.expandDisabled && !this.hasActionsEnd}
-        label={actionsEndGroupLabel}
+        class={className}
+        hidden={hidden}
+        label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
         scale={scale}
       >
-        <slot name={SLOTS.actionsEnd} onSlotChange={this.handleActionsEndSlotChange} />
-        <slot name={SLOTS.expandTooltip} onSlotChange={this.handleTooltipSlotChange} />
-        {expandToggleNode}
+        {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
+        <slot name={slotName} onSlotChange={onSlotChange} />
+        {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
+        {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
       </calcite-action-group>
     );
   }
@@ -525,8 +572,9 @@ export class ActionBar extends LitElement {
         ref={this.containerRef}
         role="toolbar"
       >
+        {this.renderActionsGroup("start")}
         <slot onSlotChange={this.handleDefaultSlotChange} />
-        {this.renderBottomActionGroup()}
+        {this.renderActionsGroup("end")}
       </div>
     );
   }

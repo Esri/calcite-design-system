@@ -9,9 +9,9 @@
  * @prop --calcite-block-header-background-color-hover: Specifies the component's `heading` background color when hovered.
  * @prop --calcite-block-header-background-color-press: Specifies the component's `heading` background color when pressed.
  * @prop --calcite-block-heading-text-color: Specifies the component's `heading` text color.
- * @prop --calcite-block-heading-text-color-press: [Deprecated]  use `--calcite-block-heading-text-color` instead - When the component is `expanded`, specifies the `heading` text color.
- * @prop --calcite-block-padding: [Deprecated] use `--calcite-block-content-space` instead - Specifies the padding of the component's `default` slot.
- * @prop --calcite-block-text-color:[Deprecated] Specifies the component's text color.
+ * @prop --calcite-block-heading-text-color-press: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead. When the component is `expanded`, specifies the `heading` text color.
+ * @prop --calcite-block-padding: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead. Specifies the padding of the component's `default` slot.
+ * @prop --calcite-block-text-color:[Deprecated] in v3.3.0, removal target v6.0.0 - Specifies the component's text color.
  * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
  * @prop --calcite-block-icon-color: Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
  * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
@@ -27,6 +27,7 @@
 // --calcite-internal-block-padding-inline
 
 @use "../../styles/includes";
+@use "../../styles/shared/animation";
 @use "sass:meta";
 
 :host([scale="s"]) {
@@ -268,9 +269,10 @@ calcite-sort-handle {
 }
 
 .content {
-  @apply animate-in flex-1 relative min-h-0;
+  @apply flex-1 relative min-h-0 opacity-0;
   padding-block: var(--calcite-internal-block-padding-block);
   padding-inline: var(--calcite-internal-block-padding-inline);
+  transition: opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
 }
 
 .content-end,
@@ -305,6 +307,10 @@ calcite-action-menu {
   .icon--start,
   .icon--end {
     color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
+  }
+
+  .content {
+    opacity: 1;
   }
 }
 

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -17,15 +17,6 @@ describe("accessible", () => {
       <calcite-text-area max-length="50" required name="something"></calcite-text-area>
     </calcite-label>`,
   );
-});
-
-describe("is form associated", () => {
-  formAssociated("calcite-text-area", {
-    testValue: "zion national park",
-    expectedSubmitValue: "zion national park",
-    submitsOnEnter: false,
-    validation: true,
-  });
 });
 
 it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
