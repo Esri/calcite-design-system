@@ -46,7 +46,7 @@
   --calcite-internal-meter-corner-radius: var(--calcite-meter-corner-radius, 9999px);
   --calcite-internal-meter-value-text-color: var(--calcite-meter-value-text-color, var(--calcite-color-text-1));
   --calcite-internal-meter-range-text-color: var(--calcite-meter-range-text-color, var(--calcite-color-text-3));
-  --calcite-internal-meter-label-line-height: var(--calcite-font-line-height-fixed-base);
+  --calcite-internal-meter-label-line-height: var(--calcite-font-line-height-base);
 }
 
 :host([scale="s"]) {
