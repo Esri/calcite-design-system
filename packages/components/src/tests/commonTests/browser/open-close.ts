@@ -1,8 +1,9 @@
 import { expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
-import { GlobalTestProps } from "../../utils/interfaces";
-import { ComponentTag } from "../interfaces";
+import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
+import { type GlobalTestProps } from "../../utils/interfaces";
+import { type ComponentTag } from "../interfaces";
 import { afterNextTask } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 
@@ -18,13 +19,21 @@ interface OpenCloseOptions {
   /** When `true`, the test will assert that the delays match those used when animation is disabled */
   willUseFallback?: boolean;
 
-  tag?: string;
+  /** When `true`, the test will assert event sequence in an initially open state */
+  initial?: boolean;
 }
 
 const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFallback"> = {
   openPropName: "open",
   willUseFallback: false,
 };
+
+interface SetupOptions {
+  /**
+   * Helper required for initializing open/close events testing.
+   */
+  afterConnect: NonNullable<Parameters<typeof mount>[1]>["afterConnect"];
+}
 
 /**
  * Helper to test openClose component setup.
@@ -34,18 +43,17 @@ const defaultOptions: SetRequired<OpenCloseOptions, "openPropName" | "willUseFal
  * @example
  *
  * describe("openClose", () => {
- *   openClose(() => mount("calcite-combobox"));
+ *   openClose(({ afterConnect }) => mount("calcite-combobox", afterConnect));
  *
- *   openClose.initial(() => mount("calcite-combobox", {
- *     afterConnect: async (el) => {
- *         // configure page before component is created and appended
- *       }
- *      })
- *    );
+ *   openClose(({ afterConnect }) => mount("calcite-combobox", afterConnect), { initial: true });
  * });
  */
-export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenCloseOptions): void {
+export function openClose(
+  setup: (options: SetupOptions) => ReturnType<typeof mount>,
+  options?: OpenCloseOptions,
+): void {
   const effectiveOptions = { ...defaultOptions, ...options };
+
   it(`emits with animations enabled`, async () => {
     const style = document.createElement("style");
     style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
@@ -54,7 +62,6 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
     try {
       await testOpenCloseEvents({
         setup,
-        tag: effectiveOptions.tag,
         animationsEnabled: !effectiveOptions.willUseFallback,
         collapsedOnClose: effectiveOptions.collapsedOnClose,
         openPropName: effectiveOptions.openPropName,
@@ -67,7 +74,6 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
   it(`emits with animations disabled`, async () => {
     await testOpenCloseEvents({
       setup,
-      tag: effectiveOptions.tag,
       animationsEnabled: false,
       collapsedOnClose: effectiveOptions.collapsedOnClose,
       openPropName: effectiveOptions.openPropName,
@@ -76,12 +82,10 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
 }
 
 interface TestOpenCloseEventsParams {
-  tag?: string;
-
   /**
    * The test setup function.
    */
-  setup: () => ReturnType<typeof mount>;
+  setup: Parameters<typeof openClose>[0];
 
   /** The property name used to control the open state of the component. */
   openPropName: string;
@@ -94,7 +98,6 @@ interface TestOpenCloseEventsParams {
 }
 
 async function testOpenCloseEvents({
-  tag,
   setup,
   animationsEnabled,
   openPropName,
@@ -106,50 +109,40 @@ async function testOpenCloseEvents({
     beforeClose: undefined,
     close: undefined,
   };
+  let eventSequence: string[];
+  let afterConnectCalled = false;
+  let beforeOpenEvent: Awaited<{ listener: any; promise: Promise<void> }>;
+  let openEvent: Awaited<{ listener: any; promise: Promise<void> }>;
+  let beforeCloseEvent: Awaited<{ listener: any; promise: Promise<void> }>;
+  let closeEvent: Awaited<{ listener: any; promise: Promise<void> }>;
 
-  let es: string[];
-  let beforeOpenEvent: any;
-  let openEvent: any;
-  let beforeCloseEvent: any;
-  let closeEvent: any;
+  const { el, reRender } = await setup({
+    afterConnect: async (el) => {
+      const tag = el.tagName as ComponentTag;
+      afterConnectCalled = true;
 
-  if (tag) {
-    setUpEventListeners(tag as keyof DeclareElements);
-    es = getEventSequence(tag as keyof DeclareElements);
-    [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = await Promise.all(
-      es.map(async (eventName) => {
+      setUpEventListeners(tag);
+      eventSequence = getEventSequence(tag);
+
+      [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((eventName) => {
         const eventSpy = vi.fn();
         document.addEventListener(eventName, eventSpy);
+
         return {
           listener: eventSpy,
           promise: waitForEvent(document.body, eventName),
         };
-      }),
+      });
+    },
+  });
+
+  if (!afterConnectCalled) {
+    throw new Error(
+      "Test `afterConnect` was not set on `mount` options. This test requires a custom `afterConnect` to be used. See test helper doc for example setup.",
     );
   }
 
-  const { el, reRender } = await setup();
-  es = es!; // for type narrowing
-
-  if (el[openPropName] && !tag) {
-    throw new Error("testing initial open state requires component tag to be specified in options");
-  }
-
-  if (!tag) {
-    const effectiveTag = el.localName as keyof DeclareElements;
-    setUpEventListeners(effectiveTag);
-    es = getEventSequence(effectiveTag);
-    [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = await Promise.all(
-      es.map(async (eventName) => {
-        const eventSpy = vi.fn();
-        document.addEventListener(eventName, eventSpy);
-        return {
-          listener: eventSpy,
-          promise: waitForEvent(document.body, eventName),
-        };
-      }),
-    );
-  }
+  eventSequence = eventSequence!; // for type narrowing
 
   await afterNextTask(); // wait for next task for transitions to properly start
   await afterNextTask(); // wait for next task for transitions to properly start
@@ -170,15 +163,16 @@ async function testOpenCloseEvents({
   element[openPropName] = true;
 
   await reRender();
-  await captureEventTimestamp(beforeOpenEvent.promise, es.at(0)!);
-  await captureEventTimestamp(openEvent.promise, es.at(1)!);
+  await captureEventTimestamp(beforeOpenEvent!.promise, eventSequence.at(0)!);
+  await captureEventTimestamp(openEvent!.promise, eventSequence.at(1)!);
 
   assertEventSequence([1, 1, 0, 0]);
 
   element[openPropName] = false;
+
   await reRender();
-  await captureEventTimestamp(beforeCloseEvent.promise, es.at(2)!);
-  await captureEventTimestamp(closeEvent.promise, es.at(3)!);
+  await captureEventTimestamp(beforeCloseEvent!.promise, eventSequence.at(2)!);
+  await captureEventTimestamp(closeEvent!.promise, eventSequence.at(3)!);
 
   assertEventSequence([1, 1, 1, 1]);
 
@@ -192,7 +186,7 @@ async function testOpenCloseEvents({
     expect(element[scrollDimension]).toBe(0);
   }
 
-  expect((window as EventOrderWindow).events).toEqual(es);
+  expect((window as EventOrderWindow).events).toEqual(eventSequence);
 
   const delayDeltaThreshold = 100; // smallest internal animation timing used
   const delayBetweenBeforeOpenAndOpen = timestamps.open! - timestamps.beforeOpen!;
@@ -207,19 +201,17 @@ async function testOpenCloseEvents({
 type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
 
 function getEventSequence(componentTag: ComponentTag): string[] {
-  const camelCaseTag = componentTag.replace(/-([a-z])/g, (lettersAfterHyphen) => lettersAfterHyphen[1].toUpperCase());
+  const camelCaseTag = uncapitalize(kebabToPascal(componentTag.toLowerCase()));
   const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
 
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
 function setUpEventListeners(componentTag: ComponentTag): void {
-  const eventSequence = getEventSequence(componentTag);
   const receivedEvents: string[] = [];
-
   (window as EventOrderWindow).events = receivedEvents;
 
-  eventSequence.forEach((eventType) =>
+  getEventSequence(componentTag).forEach((eventType) =>
     document.addEventListener(eventType, (event) => receivedEvents.push(event.type)),
   );
 }

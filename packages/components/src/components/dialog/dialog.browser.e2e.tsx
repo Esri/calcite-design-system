@@ -231,10 +231,10 @@ describe("honors hidden attribute", () => {
 });
 
 describe("openClose", () => {
-  openClose(() => mount("calcite-dialog"));
+  openClose(({ afterConnect }) => mount("calcite-dialog", { afterConnect }));
 
   describe("initially open", () => {
-    openClose(() => mount(<calcite-dialog open />), { tag: "calcite-dialog" });
+    openClose(({ afterConnect }) => mount("calcite-dialog", { afterConnect }), { initial: true });
   });
 });
 
