@@ -31,10 +31,10 @@ declare global {
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
  * @slot header-actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
- * @slot description - A slot for adding content to the description area of the component's default header. Takes precedence over the `description` property.
- * @slot heading - A slot for adding content to the heading area of the component's default header. Takes precedence over the `heading` property.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
