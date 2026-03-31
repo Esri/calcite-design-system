@@ -236,8 +236,8 @@ describe("header slots", () => {
 
     await expect.element(slottedHeading).toBeVisible();
     await expect.element(slottedDescription).toBeVisible();
-    await expect.element(page.getByText("Property heading")).not.toBeVisible();
-    await expect.element(page.getByText("Property description")).not.toBeVisible();
+    expect(page.queryByText("Property heading")).toBeNull();
+    expect(page.queryByText("Property description")).toBeNull();
   });
 
   it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
