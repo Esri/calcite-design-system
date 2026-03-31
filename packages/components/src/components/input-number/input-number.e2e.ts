@@ -1688,7 +1688,7 @@ describe("theme", () => {
         },
         "--calcite-input-number-icon-color": {
           shadowSelector: `.${CSS.inputIcon}`,
-          targetProp: "color",
+          targetProp: "--calcite-icon-color",
         },
         "--calcite-input-prefix-size": {
           shadowSelector: `.${CSS.prefix}`,
@@ -1720,6 +1720,15 @@ describe("theme", () => {
         shadowSelector: `input`,
         targetProp: "color",
         state: "focus",
+      },
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(html`<calcite-input-number value="42" icon="layers"></calcite-input-number>`, {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "--calcite-icon-color",
       },
     });
   });

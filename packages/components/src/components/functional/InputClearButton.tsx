@@ -1,9 +1,11 @@
 import { TemplateResult } from "lit";
+import { Ref } from "lit/directives/ref.js";
 import { h } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 
 interface InputClearButtonProps {
   ariaLabel: string;
+  ref?: Ref<HTMLDivElement>;
   disabled?: boolean;
   focusable?: boolean;
   onClick?: (event: MouseEvent | KeyboardEvent) => void;
@@ -17,13 +19,14 @@ export const CSS = {
 
 export const InputClearButton = ({
   ariaLabel,
+  ref,
   disabled,
   focusable,
   onClick,
   scale,
   title,
-}: InputClearButtonProps): TemplateResult => (
-  <div class={CSS.container} inert={disabled}>
+}: InputClearButtonProps): TemplateResult => {
+  const action = (
     <calcite-action
       disabled={disabled}
       icon="x"
@@ -31,8 +34,18 @@ export const InputClearButton = ({
       onClick={onClick}
       scale={scale}
       tabIndex={focusable ? undefined : -1}
-      text="input-clear-button"
+      text={title}
       title={title}
     />
-  </div>
-);
+  );
+
+  return ref ? (
+    <div class={CSS.container} inert={disabled} ref={ref}>
+      {action}
+    </div>
+  ) : (
+    <div class={CSS.container} inert={disabled}>
+      {action}
+    </div>
+  );
+};

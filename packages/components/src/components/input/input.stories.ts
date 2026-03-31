@@ -259,14 +259,14 @@ export const overlayDoesNotObscureIcon = (): string =>
     <div class="overlay"></div>`;
 
 export const withLoader = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+  <div>
     <calcite-input id="input-with-loader" type="text" placeholder="Placeholder text" scale="m" loading icon="search">
     </calcite-input>
   </div>
 `;
 
 export const numberHorizontal = (): string => html`
-  <div style="width:300px;max-width:100%;text-align:center;">
+  <div>
     <calcite-input id="number-horizontal" type="number" number-button-type="horizontal" value="1" scale="m" clearable>
     </calcite-input>
   </div>

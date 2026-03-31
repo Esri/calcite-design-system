@@ -318,7 +318,10 @@ input[readonly]:focus {
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
   border-inline-end-width: var(--calcite-border-width-none);
   background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
-  color: var(--calcite-input-number-icon-color, var(--calcite-color-text-3));
+  --calcite-icon-color: var(
+    --calcite-input-number-icon-color,
+    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
+  );
   align-items: center;
 }
 

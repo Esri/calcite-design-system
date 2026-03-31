@@ -37,7 +37,7 @@ import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { getIconScale, isHidden } from "../../utils/component";
-import { CSS as InputClearButtonCSS, InputClearButton } from "../functional/InputClearButton";
+import { InputClearButton } from "../functional/InputClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
@@ -221,6 +221,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   });
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
+
+  private inputClearButtonRef = createRef<HTMLDivElement>();
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
@@ -1033,11 +1035,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    if (
-      composedPath.some((node: HTMLElement) =>
-        node.classList?.contains(InputClearButtonCSS.container),
-      )
-    ) {
+    if (this.inputClearButtonRef.value && composedPath.includes(this.inputClearButtonRef.value)) {
       this.clearValue();
       event.preventDefault();
       return;
@@ -1976,6 +1974,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             <InputClearButton
               ariaLabel={this.messages.clear}
               disabled={this.disabled}
+              ref={this.inputClearButtonRef}
               scale={this.scale}
               title={this.messages.clear}
             />
