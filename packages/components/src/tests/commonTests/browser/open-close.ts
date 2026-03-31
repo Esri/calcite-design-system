@@ -210,16 +210,13 @@ async function testOpenCloseEvents({
   await captureEventTimestamp(beforeOpenEvent.promise, es.at(0)!);
   await captureEventTimestamp(openEvent.promise, es.at(1)!);
 
-  console.log("First");
   assertEventSequence([1, 1, 0, 0]);
-  console.log("First done");
 
   element[openPropName] = false;
   await reRender();
   await captureEventTimestamp(beforeCloseEvent.promise, es.at(2)!);
   await captureEventTimestamp(closeEvent.promise, es.at(3)!);
 
-  console.log("second");
   assertEventSequence([1, 1, 1, 1]);
 
   if (collapsedOnClose !== undefined) {
@@ -240,7 +237,6 @@ async function testOpenCloseEvents({
 
   const matcherName = animationsEnabled ? "toBeGreaterThan" : "toBeLessThanOrEqual";
 
-  console.log("last");
   expect(delayBetweenBeforeOpenAndOpen)[matcherName](delayDeltaThreshold);
   expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
 }
