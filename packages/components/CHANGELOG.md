@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.24...@esri/calcite-components@5.1.0-next.25) (2026-03-31)
+
+### Features
+
+- **dropdown:** add `referenceElement` property ([#14172](https://github.com/Esri/calcite-design-system/issues/14172)), closes [#12426](https://github.com/Esri/calcite-design-system/issues/12426)
+
 ## [5.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.23...@esri/calcite-components@5.1.0-next.24) (2026-03-27)
 
 **Note:** Version bump only for package @esri/calcite-components
