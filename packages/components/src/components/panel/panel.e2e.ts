@@ -120,7 +120,7 @@ describe("beforeClose", () => {
     const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+    await page.setContent(html`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     await page.waitForChanges();
@@ -137,7 +137,7 @@ describe("beforeClose", () => {
     const page = await newE2EPage();
 
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+    await page.setContent(html`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
 
@@ -345,6 +345,22 @@ it("should have default description", async () => {
   expect(element).toEqualText("test description");
 });
 
+it("should render heading and description properties when heading/description slots are empty", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(
+    html`<calcite-panel heading="test heading" description="test description"
+      ><span slot="heading"></span><span slot="description"></span
+    ></calcite-panel>`,
+  );
+
+  const heading = await page.find(`calcite-panel >>> .${CSS.heading}`);
+  const description = await page.find(`calcite-panel >>> .${CSS.description}`);
+
+  expect(heading).toEqualText("test heading");
+  expect(description).toEqualText("test description");
+});
+
 it("should not render a header if there are no actions or content", async () => {
   const page = await newE2EPage();
 
@@ -369,10 +385,10 @@ it("menuOpen should show/hide when toggled", async () => {
   const page = await newE2EPage();
 
   await page.setContent(
-    `<calcite-panel>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
-      </calcite-panel>`,
+    html`<calcite-panel>
+      <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
+      <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
+    </calcite-panel>`,
   );
 
   await page.waitForChanges();
@@ -414,9 +430,9 @@ it("header-content should override heading and description properties", async ()
   const page = await newE2EPage();
 
   await page.setContent(
-    `<calcite-panel heading="test heading" description="test description">
-        <div slot=${SLOTS.headerContent}>custom header content</div>
-      </calcite-panel>`,
+    html`<calcite-panel heading="test heading" description="test description">
+      <div slot=${SLOTS.headerContent}>custom header content</div>
+    </calcite-panel>`,
   );
 
   const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);

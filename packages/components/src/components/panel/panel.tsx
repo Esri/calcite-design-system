@@ -3,9 +3,10 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
+  hasVisibleContent,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  slotChangeHasContent,
+  slotChangeHasTextContent,
 } from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -369,11 +370,15 @@ export class Panel extends LitElement {
   }
 
   private handleHeaderDescriptionSlotChange(event: Event): void {
-    this.hasHeaderDescription = slotChangeHasContent(event);
+    this.hasHeaderDescription =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
   }
 
   private handleHeaderHeadingSlotChange(event: Event): void {
-    this.hasHeaderHeading = slotChangeHasContent(event);
+    this.hasHeaderHeading =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
   }
 
   private handleFabSlotChange(event: Event): void {
