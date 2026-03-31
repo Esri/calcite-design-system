@@ -2,7 +2,6 @@ import { expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
-import { type GlobalTestProps } from "../../utils/interfaces";
 import { type ComponentTag } from "../interfaces";
 import { afterNextTask } from "../../utils/timing";
 import { waitForEvent } from "./utils";
@@ -116,12 +115,14 @@ async function testOpenCloseEvents({
   let beforeCloseEvent: Awaited<{ listener: any; promise: Promise<void> }>;
   let closeEvent: Awaited<{ listener: any; promise: Promise<void> }>;
 
+  const receivedEvents: string[] = [];
+
   const { el, reRender } = await setup({
     afterConnect: async (el) => {
       const tag = el.tagName as ComponentTag;
       afterConnectCalled = true;
 
-      setUpEventListeners(tag);
+      setUpEventListeners(tag, receivedEvents);
       eventSequence = getEventSequence(tag);
 
       [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((eventName) => {
@@ -186,7 +187,7 @@ async function testOpenCloseEvents({
     expect(element[scrollDimension]).toBe(0);
   }
 
-  expect((window as EventOrderWindow).events).toEqual(eventSequence);
+  expect(receivedEvents).toEqual(eventSequence);
 
   const delayDeltaThreshold = 100; // smallest internal animation timing used
   const delayBetweenBeforeOpenAndOpen = timestamps.open! - timestamps.beforeOpen!;
@@ -198,8 +199,6 @@ async function testOpenCloseEvents({
   expect(delayBetweenBeforeCloseAndClose)[matcherName](delayDeltaThreshold);
 }
 
-type EventOrderWindow = GlobalTestProps<{ events: string[] }>;
-
 function getEventSequence(componentTag: ComponentTag): string[] {
   const camelCaseTag = uncapitalize(kebabToPascal(componentTag.toLowerCase()));
   const eventSuffixes = [`BeforeOpen`, `Open`, `BeforeClose`, `Close`];
@@ -207,10 +206,7 @@ function getEventSequence(componentTag: ComponentTag): string[] {
   return eventSuffixes.map((suffix) => `${camelCaseTag}${suffix}`);
 }
 
-function setUpEventListeners(componentTag: ComponentTag): void {
-  const receivedEvents: string[] = [];
-  (window as EventOrderWindow).events = receivedEvents;
-
+function setUpEventListeners(componentTag: ComponentTag, receivedEvents: string[]): void {
   getEventSequence(componentTag).forEach((eventType) =>
     document.addEventListener(eventType, (event) => receivedEvents.push(event.type)),
   );
