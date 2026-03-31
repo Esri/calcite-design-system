@@ -3,7 +3,7 @@
 ## Scope
 
 - This repo is a Turbo monorepo with npm workspaces. Most component work happens in `packages/components`.
-- Use Node as specified in the repository [package.json](package.json) (`engines.node`). Prefer `mise` so the repo's configured runtime is used automatically.
+- Use Node as specified in `package.json` (`engines.node`). Prefer `mise` so the repo's configured runtime is used automatically.
 - Prefer package-scoped commands while iterating on a single package: `npm --workspace=packages/components run <script>`.
 
 ## Where To Work
@@ -103,7 +103,7 @@
 
 ## Supported Browsers
 
-- See the supported browsers and versions in [packages/components/README.md](packages/components/README.md#browser-support).
+- See the supported browsers and versions in `packages/components/README.md#browser-support`.
 
 ## Safety
 
