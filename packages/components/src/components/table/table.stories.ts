@@ -1797,10 +1797,26 @@ const stickyHeaderThreeHead = html`<calcite-table
   ${stickyHeaderBodyRows}
 </calcite-table>`;
 
-const stickyHeaderStoryGrid = html`<div
-  style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;"
+const stickyHeaderSingleTableSelectionMultiple = html`<calcite-table
+  bordered
+  caption="Sticky header table with selection"
+  sticky-header
+  selection-mode="multiple"
+  style="block-size: 20rem;"
 >
-  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderStoryGrid = html`<div
+  style="display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); align-items: flex-start;"
+>
+  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead} ${stickyHeaderSingleTableSelectionMultiple}
 </div>`;
 
 function scrollStickyHeaderTablesToBottom(): void {
