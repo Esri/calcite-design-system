@@ -2,7 +2,7 @@ import { expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { GlobalTestProps } from "../../utils/interfaces";
-import { ComponentTag, WithBeforeContent } from "../interfaces";
+import { ComponentTag } from "../interfaces";
 import { afterNextTask } from "../../utils/timing";
 import { waitForEvent } from "./utils";
 
@@ -74,43 +74,6 @@ export function openClose(setup: () => ReturnType<typeof mount>, options?: OpenC
     });
   });
 }
-
-/**
- * Helper to test openClose component setup on initialization.
- */
-openClose.initial = function openCloseInitial(
-  setup: () => ReturnType<typeof mount>,
-  options?: WithBeforeContent<OpenCloseOptions>,
-): void {
-  const effectiveOptions = {
-    ...defaultOptions,
-    ...options,
-  } as const;
-
-  it("emits on initialization with animations enabled", async () => {
-    const style = document.createElement("style");
-    style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
-    document.head.append(style);
-
-    try {
-      await testOpenCloseEvents({
-        setup,
-        animationsEnabled: true,
-        openPropName: effectiveOptions.openPropName,
-      });
-    } finally {
-      style.remove();
-    }
-  });
-
-  it("emits on initialization with animations disabled", async () => {
-    await testOpenCloseEvents({
-      setup,
-      animationsEnabled: false,
-      openPropName: effectiveOptions.openPropName,
-    });
-  });
-};
 
 interface TestOpenCloseEventsParams {
   tag?: string;
