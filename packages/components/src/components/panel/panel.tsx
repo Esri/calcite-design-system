@@ -449,17 +449,23 @@ export class Panel extends LitElement {
 
     const headingNode = (
       <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
-        <slot name={SLOTS.heading} onSlotChange={this.handleHeaderHeadingSlotChange}>
-          {heading}
-        </slot>
+        <slot
+          hidden={!hasHeaderHeading}
+          name={SLOTS.heading}
+          onSlotChange={this.handleHeaderHeadingSlotChange}
+        />
+        {!hasHeaderHeading ? heading : null}
       </Heading>
     );
 
     const descriptionNode = (
       <span class={CSS.description} hidden={!showHeaderDescription}>
-        <slot name={SLOTS.description} onSlotChange={this.handleHeaderDescriptionSlotChange}>
-          {description}
-        </slot>
+        <slot
+          hidden={!hasHeaderDescription}
+          name={SLOTS.description}
+          onSlotChange={this.handleHeaderDescriptionSlotChange}
+        />
+        {!hasHeaderDescription ? description : null}
       </span>
     );
 

@@ -361,6 +361,26 @@ it("should render heading and description properties when heading/description sl
   expect(description).toEqualText("test description");
 });
 
+it("should render non-empty slotted heading and description content over properties", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(
+    html`<calcite-panel heading="test heading" description="test description"
+      ><span slot="heading">slotted heading</span><span slot="description">slotted description</span></calcite-panel
+    >`,
+  );
+
+  const slottedHeading = await page.find('calcite-panel > [slot="heading"]');
+  const slottedDescription = await page.find('calcite-panel > [slot="description"]');
+  const heading = await page.find(`calcite-panel >>> .${CSS.heading}`);
+  const description = await page.find(`calcite-panel >>> .${CSS.description}`);
+
+  expect(slottedHeading).toEqualText("slotted heading");
+  expect(slottedDescription).toEqualText("slotted description");
+  expect(heading).not.toEqualText("test heading");
+  expect(description).not.toEqualText("test description");
+});
+
 it("should not render a header if there are no actions or content", async () => {
   const page = await newE2EPage();
 
