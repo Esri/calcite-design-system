@@ -51,7 +51,7 @@ export function openClose(
   describe("it emits open/close events", () => {
     it(`emits with animations enabled`, async () => {
       const style = document.createElement("style");
-      style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
+      style.innerHTML = `:root { --calcite-duration-factor: 1; }`;
       document.head.append(style);
 
       try {
@@ -81,7 +81,7 @@ export function openClose(
   describe("it emits open/close events when initially open", () => {
     it(`emits with animations enabled`, async () => {
       const style = document.createElement("style");
-      style.innerHTML = `:root { --calcite-duration-factor: 3; }`;
+      style.innerHTML = `:root { --calcite-duration-factor: 1; }`;
       document.head.append(style);
 
       try {
