@@ -1797,11 +1797,12 @@ const stickyHeaderThreeHead = html`<calcite-table
   ${stickyHeaderBodyRows}
 </calcite-table>`;
 
-const stickyHeaderSingleTableSelectionMultiple = html`<calcite-table
+const stickyHeaderSingleTableSelectionMultiplePaginated = html`<calcite-table
   bordered
-  caption="Sticky header table with selection"
+  caption="Sticky header table with selection and pagination"
   sticky-header
   selection-mode="multiple"
+  page-size="8"
   style="block-size: 20rem;"
 >
   <calcite-table-row slot="table-header">
@@ -1813,10 +1814,26 @@ const stickyHeaderSingleTableSelectionMultiple = html`<calcite-table
   ${stickyHeaderBodyRows}
 </calcite-table>`;
 
-const stickyHeaderStoryGrid = html`<div
-  style="display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); align-items: flex-start;"
+const stickyHeaderSingleTableSelectionMultiplePaginatedNoHeight = html`<calcite-table
+  bordered
+  caption="Sticky header table with selection and pagination no height"
+  sticky-header
+  selection-mode="multiple"
+  page-size="8"
 >
-  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead} ${stickyHeaderSingleTableSelectionMultiple}
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderStoryGrid = html`<div
+  style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;"
+>
+  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
 </div>`;
 
 function scrollStickyHeaderTablesToBottom(): void {
@@ -1842,5 +1859,10 @@ export const stickerHeaderScrolledToBottom = (): string => {
 
   return html`<div data-sticky-header-scrolled-to-bottom>${stickyHeaderStoryGrid}</div>`;
 };
+
+export const stickyHeaderSelectionMultiplePaginated = (): string =>
+  html`<div style="display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-items: flex-start;">
+    ${stickyHeaderSingleTableSelectionMultiplePaginated} ${stickyHeaderSingleTableSelectionMultiplePaginatedNoHeight}
+  </div>`;
 
 darkModeRTLWithSelection.parameters = { themes: modesDarkDefault };
