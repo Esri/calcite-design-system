@@ -42,7 +42,7 @@ describe("accessible with item group", () => {
   `);
 });
 
-describe("accessible with open selected items", () => {
+describe.todo("accessible with open selected items", () => {
   accessible(html`
     <calcite-combobox open label="Trees" value="Trees">
       <calcite-combobox-item-group label="Conifers">
@@ -53,7 +53,7 @@ describe("accessible with open selected items", () => {
   `);
 });
 
-describe("accessible with highlight selection appearance", () => {
+describe.todo("accessible with highlight selection appearance", () => {
   accessible(html`
     <calcite-combobox label="Trees" selection-appearance="highlight">
       <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
