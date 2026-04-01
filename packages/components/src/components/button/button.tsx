@@ -151,7 +151,7 @@ export class Button extends LitElement implements LabelableComponent {
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
@@ -167,14 +167,14 @@ export class Button extends LitElement implements LabelableComponent {
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -190,7 +190,7 @@ export class Button extends LitElement implements LabelableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

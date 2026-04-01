@@ -56,14 +56,14 @@ export class NavigationLogo extends LitElement {
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
@@ -79,7 +79,7 @@ export class NavigationLogo extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

@@ -173,7 +173,7 @@ export class Autocomplete
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @see [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete: AutoFill;
 
@@ -212,7 +212,7 @@ export class Autocomplete
    * When the component resides in a form,
    * specifies the maximum length of text for the component's value.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @see [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @property({ reflect: true }) maxLength: number;
 
@@ -223,7 +223,7 @@ export class Autocomplete
    * When the component resides in a form,
    * specifies the minimum length of text for the component's value.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @see [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength: number;
 
@@ -232,7 +232,7 @@ export class Autocomplete
    *
    * Required to pass the component's `value` on form submission.
    *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   * @see [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name: string;
 
@@ -253,14 +253,14 @@ export class Autocomplete
    * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   * @see [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() pattern: string;
 
   /**
    * Specifies placeholder text for the component.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   * @see [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
@@ -275,7 +275,7 @@ export class Autocomplete
   /**
    * When `true`, the component's value can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -299,7 +299,7 @@ export class Autocomplete
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -315,7 +315,7 @@ export class Autocomplete
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property() validity: ValidityState;
 
@@ -380,7 +380,7 @@ export class Autocomplete
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

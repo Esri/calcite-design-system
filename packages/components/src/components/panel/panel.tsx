@@ -12,12 +12,7 @@ import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import {
-  defaultEndMenuPlacement,
-  FlipPlacement,
-  LogicalPlacement,
-  OverlayPositioning,
-} from "../../utils/floating-ui";
+import { defaultEndMenuPlacement, FlipPlacement, LogicalPlacement } from "../../utils/floating-ui";
 import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
@@ -183,10 +178,12 @@ export class Panel extends LitElement {
    * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
    * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+   *
+   * @see [
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
-
-  /** Specifies the size of the component. */
+   
+  /** Specifies the size of the component.
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -213,12 +210,12 @@ export class Panel extends LitElement {
    * });
    * @param options - allows specific coordinates to be defined.
    * @returns promise that resolves once the content is scrolled to.
-   */
+   * @see [
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
     this.panelScrollEl?.scrollTo(options);
   }
-
+   
   /**
    * Sets focus on the component's first focusable element.
    *

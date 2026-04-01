@@ -141,7 +141,7 @@ export class Select extends LitElement implements LabelableComponent {
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property() validity: MutableValidityState = {
     valid: false,
@@ -175,7 +175,7 @@ export class Select extends LitElement implements LabelableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
