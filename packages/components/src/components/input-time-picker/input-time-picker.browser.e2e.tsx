@@ -48,10 +48,10 @@ describe("is focusable", () => {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
     });
   });
+});
 
-  describe("openClose", () => {
-    openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
-  });
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
 });
 
 describe("reflects", () => {
