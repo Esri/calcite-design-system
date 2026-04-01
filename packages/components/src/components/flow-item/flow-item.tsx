@@ -147,9 +147,9 @@ export class FlowItem extends LitElement {
   /**
    * When `true` and the component is `open`, disables top layer placement.
    *
-   * @see [et this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -177,9 +177,9 @@ export class FlowItem extends LitElement {
   /**
    * Sets focus on the component.
    *
-   * @see [ options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns promise.
    */
   @method()
