@@ -274,6 +274,85 @@ describe("accessible", () => {
   });
 });
 
+describe("sticky header", () => {
+  it("keeps the header row fixed while the table container scrolls", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row id="row-1">
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    const metrics = await page.$eval(
+      "calcite-table",
+      async (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const headerRow = table.querySelector<HTMLElement>(`calcite-table-row[slot="table-header"]`);
+        const firstBodyRow = table.querySelector<HTMLElement>("#row-1");
+        const headerRowEl = headerRow.shadowRoot.querySelector<HTMLTableRowElement>("tr");
+        const bodyRowEl = firstBodyRow.shadowRoot.querySelector<HTMLTableRowElement>("tr");
+
+        const getMetrics = () => ({
+          bodyTop: Math.round(bodyRowEl.getBoundingClientRect().top),
+          canScroll: scrollContainer.scrollHeight > scrollContainer.clientHeight,
+          headerPosition: getComputedStyle(headerRowEl).position,
+          headerTop: Math.round(headerRowEl.getBoundingClientRect().top),
+          scrollTop: scrollContainer.scrollTop,
+        });
+
+        const before = getMetrics();
+
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+        return {
+          after: getMetrics(),
+          before,
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(metrics.before.canScroll).toBe(true);
+    expect(metrics.before.headerPosition).toBe("sticky");
+    expect(metrics.after.scrollTop).toBeGreaterThan(0);
+    expect(Math.abs(metrics.after.headerTop - metrics.before.headerTop)).toBeLessThanOrEqual(1);
+    expect(metrics.after.bodyTop).toBeLessThan(metrics.before.bodyTop);
+  });
+});
+
 describe("selection modes", () => {
   it("selection mode single allows one or no rows to be selected", async () => {
     const page = await newE2EPage();
