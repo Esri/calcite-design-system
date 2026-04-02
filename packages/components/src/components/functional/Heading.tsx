@@ -4,9 +4,9 @@ import { h, JsxNode, LuminaJsx } from "@arcgis/lumina";
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-interface HeadingProps extends Pick<LuminaJsx.HTMLAttributes, "class" | "key"> {
+type HeadingProps = Pick<LuminaJsx.HTMLAttributes, "class" | "hidden" | "key"> & {
   level?: HeadingLevel;
-}
+};
 
 export function constrainHeadingLevel(level: number): HeadingLevel {
   return Math.min(Math.max(Math.ceil(level), 1), 6) as HeadingLevel;
@@ -14,14 +14,17 @@ export function constrainHeadingLevel(level: number): HeadingLevel {
 
 export const Heading = ({
   children,
-  ...props
+  class: className,
+  hidden = false,
+  key,
+  level,
 }: HeadingProps & { children: JsxNode }): TemplateResult => {
-  const DynamicHtmlTag = props.level
-    ? (unsafeStatic(`h${props.level}`) as unknown as "h1")
+  const DynamicHtmlTag = level
+    ? (unsafeStatic(`h${level}`) as unknown as "h1")
     : (literal`div` as unknown as "div");
 
   return (
-    <DynamicHtmlTag class={props.class} key={props.key}>
+    <DynamicHtmlTag class={className} hidden={hidden} key={key}>
       {children}
     </DynamicHtmlTag>
   );
