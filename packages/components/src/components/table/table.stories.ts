@@ -1459,6 +1459,40 @@ export const tableBorderedWithStripedAndSingleFooter = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const tableBorderedWithMultipleHeader = (): string =>
+  html`<calcite-table bordered caption="Simple-bordered-with-multiple-headers table" selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const tableBorderedWithMultipleFooter = (): string =>
   html`<calcite-table bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
@@ -1497,29 +1531,6 @@ export const tableBorderedWithMultipleFooter = (): string =>
       <calcite-table-cell>foot</calcite-table-cell>
       <calcite-table-cell>foot</calcite-table-cell>
     </calcite-table-row>
-  </calcite-table>`;
-
-export const tableBorderedWithMultipleHeader = (): string =>
-  html`<calcite-table bordered caption="Multiple header table" selection-mode="multiple">
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    <calcite-table-row slot="table-header">
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    </calcite-table-row>
-    ${stickyHeaderBodyRows}
   </calcite-table>`;
 
 export const tableBorderedWithComplexFooterHeaderRowColSpan = (): string =>
@@ -1874,35 +1885,12 @@ const stickyHeaderSingleTableSelectionMultiplePaginated = html`<calcite-table
   ${stickyHeaderBodyRows}
 </calcite-table>`;
 
-const stickyHeaderSingleTableSelectionMultiplePaginatedNoHeight = html`<calcite-table
-  bordered
-  caption="Sticky header table with selection and pagination no height"
-  sticky-header
-  selection-mode="multiple"
-  page-size="8"
+const stickyHeaderStoryGrid = html`<div
+  style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;"
 >
-  <calcite-table-row slot="table-header">
-    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-  </calcite-table-row>
-  ${stickyHeaderBodyRows}
-</calcite-table>`;
-
-const stickyHeaderStoryGrid = html`<div style="display: grid; gap: 1.5rem;">
-  <div style="display: grid; gap: 0.75rem;">
-    <div>Without bordered</div>
-    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;">
-      ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
-    </div>
-  </div>
-  <div style="display: grid; gap: 0.75rem;">
-    <div>With bordered</div>
-    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;">
-      ${stickyHeaderSingleTableBordered} ${stickyHeaderTwoHeadBordered} ${stickyHeaderThreeHeadBordered}
-    </div>
-  </div>
+  ${stickyHeaderSingleTableBordered} ${stickyHeaderTwoHeadBordered} ${stickyHeaderThreeHeadBordered}
+  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
+  ${stickyHeaderSingleTableSelectionMultiplePaginated}
 </div>`;
 
 function scrollStickyHeaderTablesToBottom(): void {
@@ -1928,10 +1916,5 @@ export const stickerHeaderScrolledToBottom = (): string => {
 
   return html`<div data-sticky-header-scrolled-to-bottom>${stickyHeaderStoryGrid}</div>`;
 };
-
-export const stickyHeaderSelectionMultiplePaginated = (): string =>
-  html`<div style="display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-items: flex-start;">
-    ${stickyHeaderSingleTableSelectionMultiplePaginated} ${stickyHeaderSingleTableSelectionMultiplePaginatedNoHeight}
-  </div>`;
 
 darkModeRTLWithSelection.parameters = { themes: modesDarkDefault };
