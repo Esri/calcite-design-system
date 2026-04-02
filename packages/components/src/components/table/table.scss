@@ -113,14 +113,14 @@
 .table-container {
   @apply whitespace-nowrap;
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
+  border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
+  box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
   overflow: hidden auto;
 }
 
 .table-container--overflow {
   --calcite-internal-table-last-cell-border-inline-end: 0;
   --calcite-internal-table-last-row-cell-border-block-end-value: 0;
-
-  border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
 }
 
 .assistive-text {
@@ -130,6 +130,15 @@
 table {
   @apply border-collapse;
   inline-size: var(--calcite-container-size-content-fluid);
+}
+
+/* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
+/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
+@-moz-document url-prefix() {
+  table {
+    @apply border-separate;
+    border-spacing: 0;
+  }
 }
 
 .table--fixed {
