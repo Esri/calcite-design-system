@@ -17,6 +17,32 @@ import type { TableCell } from "../table-cell/table-cell";
 import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
+type SimpleTableRowConfig = {
+  id?: string;
+  selected?: boolean;
+};
+
+function createSimpleTableRows(rowsOrCount: number | SimpleTableRowConfig[], firstRowId = "row-1"): string {
+  const rows =
+    typeof rowsOrCount === "number"
+      ? Array.from({ length: rowsOrCount }, (_, index) => ({ id: index === 0 ? firstRowId : undefined }))
+      : rowsOrCount;
+
+  return rows
+    .map(({ id, selected }) => {
+      const idAttr = id ? ` id="${id}"` : "";
+      const selectedAttr = selected ? " selected" : "";
+
+      return html`
+      <calcite-table-row${idAttr}${selectedAttr}>
+        <calcite-table-cell>cell</calcite-table-cell>
+        <calcite-table-cell>cell</calcite-table-cell>
+      </calcite-table-row>
+    `;
+    })
+    .join("\n");
+}
+
 describe("accessible", () => {
   describe("is accessible simple", () => {
     accessible(
@@ -25,18 +51,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(3)}
       </calcite-table>`,
     );
   });
@@ -48,18 +63,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(3)}
       </calcite-table>`,
     );
   });
@@ -71,18 +75,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row selected>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row selected>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows([{}, { selected: true }, { selected: true }])}
       </calcite-table>`,
     );
   });
@@ -94,18 +87,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(3)}
       </calcite-table>`,
     );
   });
@@ -117,18 +99,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(3)}
       </calcite-table>`,
     );
   });
@@ -140,18 +111,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(3)}
       </calcite-table>`,
     );
   });
@@ -163,34 +123,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(7)}
       </calcite-table>`,
     );
   });
@@ -202,34 +135,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(7)}
       </calcite-table>`,
     );
   });
@@ -241,34 +147,7 @@ describe("accessible", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(7)}
       </calcite-table>`,
     );
   });
@@ -284,34 +163,7 @@ describe("sticky header", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row id="row-1">
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(7)}
       </calcite-table>`,
     );
 
@@ -366,34 +218,7 @@ describe("sticky header", () => {
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
           <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         </calcite-table-row>
-        <calcite-table-row id="row-1">
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
-        <calcite-table-row>
-          <calcite-table-cell>cell</calcite-table-cell>
-          <calcite-table-cell>cell</calcite-table-cell>
-        </calcite-table-row>
+        ${createSimpleTableRows(7)}
       </calcite-table>`,
     );
 
