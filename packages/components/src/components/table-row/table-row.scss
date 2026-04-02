@@ -38,6 +38,7 @@ calcite-table-cell {
   );
 }
 
+// THIS POWERS STICKY HEADER
 :host([slot="table-header"]) tr {
   position: var(--calcite-internal-table-header-position, static);
   inset-block-start: var(--calcite-internal-table-header-offset, 0);

@@ -1735,6 +1735,20 @@ const stickyHeaderBodyRows = [
 ].join("\n");
 
 const stickyHeaderSingleTable = html`<calcite-table
+  caption="Sticky header table"
+  sticky-header
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderSingleTableBordered = html`<calcite-table
   bordered
   caption="Sticky header table"
   sticky-header
@@ -1750,6 +1764,26 @@ const stickyHeaderSingleTable = html`<calcite-table
 </calcite-table>`;
 
 const stickyHeaderTwoHead = html`<calcite-table
+  caption="Sticky multiple header table"
+  sticky-header
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderTwoHeadBordered = html`<calcite-table
   bordered
   caption="Sticky multiple header table"
   sticky-header
@@ -1771,6 +1805,32 @@ const stickyHeaderTwoHead = html`<calcite-table
 </calcite-table>`;
 
 const stickyHeaderThreeHead = html`<calcite-table
+  caption="Sticky multiple header table"
+  sticky-header
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderThreeHeadBordered = html`<calcite-table
   bordered
   caption="Sticky multiple header table"
   sticky-header
@@ -1830,10 +1890,19 @@ const stickyHeaderSingleTableSelectionMultiplePaginatedNoHeight = html`<calcite-
   ${stickyHeaderBodyRows}
 </calcite-table>`;
 
-const stickyHeaderStoryGrid = html`<div
-  style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;"
->
-  ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
+const stickyHeaderStoryGrid = html`<div style="display: grid; gap: 1.5rem;">
+  <div style="display: grid; gap: 0.75rem;">
+    <div>Without bordered</div>
+    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;">
+      ${stickyHeaderSingleTable} ${stickyHeaderTwoHead} ${stickyHeaderThreeHead}
+    </div>
+  </div>
+  <div style="display: grid; gap: 0.75rem;">
+    <div>With bordered</div>
+    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); align-items: flex-start;">
+      ${stickyHeaderSingleTableBordered} ${stickyHeaderTwoHeadBordered} ${stickyHeaderThreeHeadBordered}
+    </div>
+  </div>
 </div>`;
 
 function scrollStickyHeaderTablesToBottom(): void {
