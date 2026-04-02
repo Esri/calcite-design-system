@@ -38,11 +38,18 @@ calcite-table-cell {
   );
 }
 
-// THIS POWERS STICKY HEADER
 :host([slot="table-header"]) tr {
   position: var(--calcite-internal-table-header-position, static);
   inset-block-start: var(--calcite-internal-table-header-offset, 0);
   z-index: var(--calcite-internal-table-header-z-index, 2);
+  border-block-end-width: var(
+    --calcite-internal-table-sticky-header-row-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-end-color: var(
+    --calcite-internal-table-sticky-header-row-border-color,
+    var(--calcite-table-row-border-color, transparent)
+  );
 }
 
 :host([selected]) calcite-table-cell {

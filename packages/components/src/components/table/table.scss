@@ -60,10 +60,14 @@
 // --calcite-internal-table-cell-padding
 // --calcite-internal-table-first-cell-border-inline-start
 // --calcite-internal-table-first-header-row-border-block-start-value
+// --calcite-internal-table-head-border-block-end-width
 // --calcite-internal-table-header-position
 // --calcite-internal-table-last-cell-border-inline-end
 // --calcite-internal-table-last-row-cell-border-block-end-value
 // --calcite-internal-table-selection-action-spacing
+// --calcite-internal-table-sticky-header-border-shadow
+// --calcite-internal-table-sticky-header-row-border-block-end-width
+// --calcite-internal-table-sticky-header-row-border-color
 
 @use "../../styles/includes";
 
@@ -91,6 +95,11 @@
 
 :host([sticky-header]) {
   --calcite-internal-table-header-position: sticky;
+  --calcite-internal-table-head-border-block-end-width: 0;
+  --calcite-internal-table-sticky-header-border-shadow: inset 0 calc(-1 * var(--calcite-border-width-sm)) 0 0
+    var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
+  --calcite-internal-table-sticky-header-row-border-block-end-width: 0;
+  --calcite-internal-table-sticky-header-row-border-color: transparent;
   // --calcite-internal-table-last-row-cell-border-block-end: 1px solid orange;
 
   table {

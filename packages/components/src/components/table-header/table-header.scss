@@ -50,6 +50,11 @@ th {
   }
 }
 
+th:not(.body-row):not(.footer-row) {
+  border-block-end-width: var(--calcite-internal-table-head-border-block-end-width, var(--calcite-border-width-sm));
+  box-shadow: var(--calcite-internal-table-sticky-header-border-shadow, none);
+}
+
 th:not(.center):not(.end).content-cell {
   @apply align-top;
 }
