@@ -127,6 +127,7 @@
 .table-container--overflow {
   --calcite-internal-table-last-cell-border-inline-end: 0;
   --calcite-internal-table-last-row-cell-border-block-end-value: 0;
+  overscroll-behavior-y: none;
 }
 
 .assistive-text {
