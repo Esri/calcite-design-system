@@ -1693,11 +1693,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
     const preserveOrder = selectionDisplay === "all";
 
-    if (selectionDisplay === "fit" && (allSelectedNoDisabled || allSelectedWithDisabledSelected)) {
-      return null;
-    }
-
-    if (this.selectAllEnabled && this.allSelected && !this.hasDisabledItems) {
+    if (
+      (selectionDisplay === "fit" && (allSelectedNoDisabled || allSelectedWithDisabledSelected)) ||
+      (selectionDisplay === "all" && this.selectAllEnabled && allSelectedWithDisabledSelected) ||
+      (this.selectAllEnabled && this.allSelected && !this.hasDisabledItems)
+    ) {
       return null;
     }
 
@@ -1777,7 +1777,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.allSelected &&
       (this.selectionDisplay === "single" ||
         !selectedVisibleChipsCount ||
-        (this.selectionDisplay === "fit" && this.hasDisabledSelected));
+        (this.selectionDisplay === "fit" && this.hasDisabledSelected) ||
+        (this.selectionDisplay === "all" && this.hasDisabledSelected));
 
     return (
       <calcite-chip
@@ -2126,7 +2127,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               !singleSelectionDisplay &&
               this.selectAllEnabled &&
               allSelectionDisplay &&
-              !hasDisabledItems &&
+              (!hasDisabledItems || this.hasDisabledSelected) &&
               this.renderAllSelectedIndicatorChip()}
             {!singleSelectionMode &&
               !allSelectionDisplay && [
