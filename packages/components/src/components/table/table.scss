@@ -121,7 +121,7 @@
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
   border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
   box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
-  overflow: hidden auto;
+  overflow: auto;
 }
 
 .table-container--overflow {
