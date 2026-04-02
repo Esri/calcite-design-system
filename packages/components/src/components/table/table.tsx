@@ -66,6 +66,8 @@ export class Table extends LitElement {
 
   private tableContainerOverflowAnimationFrame: number | null = null;
 
+  private stickyHeaderSettleTimeouts: number[] = [];
+
   private stickyHeaderTotalHeight = 0;
 
   private stickyHeaderResizeObserver: ResizeObserver | null =
@@ -223,6 +225,7 @@ export class Table extends LitElement {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
 
     this.setStickyHeaderListeners(this.stickyHeader);
+    this.scheduleInitialStickyHeaderOffsetUpdate();
   }
 
   override disconnectedCallback(): void {
@@ -240,6 +243,8 @@ export class Table extends LitElement {
       cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
       this.tableContainerOverflowAnimationFrame = null;
     }
+
+    this.clearStickyHeaderSettleTimeouts();
 
     this.setStickyHeaderListeners(false);
 
@@ -272,8 +277,9 @@ export class Table extends LitElement {
       this.setStickyHeaderListeners(this.stickyHeader);
 
       if (this.stickyHeader) {
-        this.scheduleStickyHeaderOffsetUpdate();
+        this.scheduleInitialStickyHeaderOffsetUpdate();
       } else {
+        this.clearStickyHeaderSettleTimeouts();
         this.stickyHeaderResizeObserver?.disconnect();
         this.stickyHeaderMutationObserver?.disconnect();
         this.stickyHeaderTotalHeight = 0;
@@ -290,6 +296,51 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
+  }
+
+  private scheduleInitialStickyHeaderOffsetUpdate(): void {
+    if (!this.stickyHeader) {
+      return;
+    }
+
+    this.scheduleStickyHeaderOffsetSettlingUpdates();
+
+    if (typeof document !== "undefined" && "fonts" in document) {
+      void document.fonts.ready.then(() => {
+        if (!this.isConnected || !this.stickyHeader) {
+          return;
+        }
+
+        this.scheduleStickyHeaderOffsetSettlingUpdates();
+      });
+    }
+  }
+
+  private clearStickyHeaderSettleTimeouts(): void {
+    this.stickyHeaderSettleTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    this.stickyHeaderSettleTimeouts = [];
+  }
+
+  private scheduleStickyHeaderOffsetSettlingUpdates(): void {
+    this.clearStickyHeaderSettleTimeouts();
+    this.scheduleStickyHeaderOffsetUpdate();
+
+    // Firefox can miss table row resize notifications during initial font/layout settling.
+    [50, 150, 300].forEach((delay) => {
+      const timeoutId = window.setTimeout(() => {
+        this.stickyHeaderSettleTimeouts = this.stickyHeaderSettleTimeouts.filter(
+          (id) => id !== timeoutId,
+        );
+
+        if (!this.isConnected || !this.stickyHeader) {
+          return;
+        }
+
+        this.scheduleStickyHeaderOffsetUpdate();
+      }, delay);
+
+      this.stickyHeaderSettleTimeouts.push(timeoutId);
+    });
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {
@@ -516,20 +567,23 @@ export class Table extends LitElement {
 
     this.headRows?.forEach((row, index) => {
       const tableRow = row.shadowRoot?.querySelector("tr");
+      const tableRowHeight =
+        tableRow?.offsetHeight || tableRow?.getBoundingClientRect().height || 0;
 
       row.style.setProperty("--calcite-internal-table-header-offset", `${stickyOffset}px`);
+      row.style.setProperty("--calcite-internal-table-header-overlap", index === 0 ? "0px" : "2px");
       row.style.setProperty(
         "--calcite-internal-table-header-z-index",
         `${headerCount - index + 1}`,
       );
 
-      stickyOffset += tableRow?.getBoundingClientRect().height || 0;
+      stickyOffset += tableRowHeight;
     });
 
     this.stickyHeaderTotalHeight = stickyOffset;
     this.el.style.setProperty(
       "--calcite-internal-table-sticky-header-total-height",
-      `${stickyOffset}px`,
+      `${this.stickyHeaderTotalHeight}px`,
     );
 
     this.updateStickyHeaderPosition();
