@@ -76,9 +76,6 @@ export class TableCell extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() firstCell: boolean;
-
-  /** @private */
   @property() lastCell: boolean;
 
   /** Overrides individual strings used by the component. */
@@ -167,20 +164,6 @@ export class TableCell extends LitElement {
     this.focused = true;
   }
 
-  private isFirstTableCellInRow(): boolean {
-    const parentRow = this.el.parentElement;
-
-    if (!parentRow) {
-      return this.firstCell;
-    }
-
-    const firstTableCellInRow = Array.from(parentRow.children).find((child) =>
-      child.matches("calcite-table-cell"),
-    );
-
-    return firstTableCellInRow === this.el;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -201,7 +184,6 @@ export class TableCell extends LitElement {
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
-            [CSS.firstCell]: this.isFirstTableCellInRow(),
             [CSS.lastCell]: this.lastCell && (!this.rowSpan || (this.colSpan && !!this.rowSpan)),
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.staticCell]: staticCell,

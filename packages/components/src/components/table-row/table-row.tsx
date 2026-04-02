@@ -459,14 +459,8 @@ export class TableRow extends LitElement {
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
 
     if (cells.length > 0) {
-      const firstSlottedTableCell = slottedCells?.find(
-        (cell: TableCell["el"] | TableHeader["el"]) => cell.nodeName === "CALCITE-TABLE-CELL",
-      );
-
       cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
         cell.interactionMode = this.interactionMode;
-        cell.firstCell =
-          cell.nodeName === "CALCITE-TABLE-CELL" ? cell === firstSlottedTableCell : index === 0;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
         cell.parentRowIsSelected = this.selected;

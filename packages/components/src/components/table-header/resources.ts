@@ -12,7 +12,6 @@ export const CSS = {
   assistiveText: "assistive-text",
   active: "active",
   selectedCell: "selected-cell",
-  firstCell: "first-cell",
   lastCell: "last-cell",
   staticCell: "static-cell",
 };

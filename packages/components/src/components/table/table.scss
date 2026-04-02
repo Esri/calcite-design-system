@@ -58,7 +58,6 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
-// --calcite-internal-table-first-cell-border-inline-start
 // --calcite-internal-table-head-border-block-end-width
 // --calcite-internal-table-header-position
 // --calcite-internal-table-last-cell-border-inline-end
@@ -118,7 +117,6 @@
 }
 
 .table-container--overflow {
-  --calcite-internal-table-first-cell-border-inline-start: 0;
   --calcite-internal-table-last-cell-border-inline-end: 0;
   --calcite-internal-table-last-row-cell-border-block-end-value: 0;
 
