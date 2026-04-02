@@ -12,7 +12,6 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { findAssociatedForm, FormOwner } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -42,7 +41,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button extends LitElement implements LabelableComponent, FormOwner {
+export class Button extends LitElement implements LabelableComponent {
   //#region Static Members
 
   static formAssociated = true;
@@ -59,8 +58,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   private childEl?: HTMLElement;
 
   private contentRef = createRef<HTMLSpanElement>();
-
-  formEl: HTMLFormElement;
 
   formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
 
@@ -207,7 +204,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   override connectedCallback(): void {
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = findAssociatedForm(this);
   }
 
   async load(): Promise<void> {
@@ -222,7 +218,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
     this.resizeObserver?.disconnect();
-    this.formEl = null;
   }
 
   //#endregion

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -71,13 +70,13 @@ export class ActionGroup extends LitElement {
   //#region Public Properties
 
   /** Specifies the number of columns. */
-  @property({ type: Number, reflect: true }) columns: Columns;
+  @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Indicates the layout of the component.
@@ -88,13 +87,13 @@ export class ActionGroup extends LitElement {
     "vertical";
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the `calcite-action-menu` is open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Specifies the position of the action menu. */
-  @property({ reflect: true }) menuPlacement: LogicalPlacement;
+  @property({ reflect: true }) menuPlacement?: LogicalPlacement;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;

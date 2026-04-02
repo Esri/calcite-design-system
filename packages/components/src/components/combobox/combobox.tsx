@@ -165,8 +165,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   floatingEl: HTMLDivElement;
 
-  formEl: HTMLFormElement;
-
   private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
     if (!this.isMulti()) {
       const match = this.items.find(({ selected }) => selected);

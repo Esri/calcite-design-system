@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -15,7 +14,6 @@ import {
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { findAssociatedForm, FormOwner } from "../../utils/form";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -31,7 +29,7 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements FormOwner {
+export class Action extends LitElement {
   //#region Static Members
 
   static formAssociated = true;
@@ -41,8 +39,6 @@ export class Action extends LitElement implements FormOwner {
   //#endregion
 
   //#region Private Properties
-
-  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -99,7 +95,7 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment?: Alignment;
 
   /**
    * Specifies the appearance of the component.
@@ -131,10 +127,10 @@ export class Action extends LitElement implements FormOwner {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon: IconName;
+  @property({ type: String, reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -143,7 +139,7 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) indicator = false;
 
   /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -166,7 +162,7 @@ export class Action extends LitElement implements FormOwner {
    *
    * @required
    */
-  @property() text: string;
+  @property() text!: string;
 
   /** When `true`, displays `text` adjacent to the `icon`. */
   @property({ reflect: true }) textEnabled = false;
@@ -183,7 +179,7 @@ export class Action extends LitElement implements FormOwner {
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
+  @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",
     SelectionAppearance
   >;
@@ -209,12 +205,10 @@ export class Action extends LitElement implements FormOwner {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
-    this.formEl = null;
     this.mutationObserver?.disconnect();
   }
 
@@ -346,7 +340,7 @@ export class Action extends LitElement implements FormOwner {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
         >
           {buttonContent}
         </span>

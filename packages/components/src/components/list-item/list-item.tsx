@@ -7,7 +7,7 @@ import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom"
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
-import { SortableComponentItem } from "../../utils/sortableComponent";
+import { type SortableComponentItem } from "../../controllers/useSortable";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
