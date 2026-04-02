@@ -31,9 +31,6 @@
 td {
   @apply text-start align-middle  whitespace-normal;
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
-  // border-block-end: var(--calcite-border-width-sm) solid
-  //   var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
-
   background-color: var(
     --calcite-internal-table-cell-background-color,
     var(--calcite-table-cell-background-color, transparent)
@@ -59,20 +56,8 @@ td.end.content-cell {
   @apply align-bottom;
 }
 
-// td.first-cell {
-//   border-inline-start: var(
-//     --calcite-internal-table-first-cell-border-inline-start,
-//     var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
-//   );
-// }
-
 td.last-cell {
   border-inline-end: 0;
-  // border-inline-end: var(
-  //   --calcite-internal-table-last-cell-border-inline-end,
-  //   var(--calcite-border-width-sm) solid
-  //     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)))
-  // );
 }
 
 .footer-cell {

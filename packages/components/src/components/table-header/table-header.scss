@@ -30,7 +30,6 @@
 
 th {
   @apply text-start font-medium align-top whitespace-normal;
-  border-block-start: var(--calcite-internal-table-first-header-row-border-block-start, 0);
   border-block-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding-block: calc(var(--calcite-internal-table-cell-padding) * 1.5);
@@ -78,20 +77,8 @@ th.footer-row {
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }
 
-// th.first-cell {
-//   border-inline-start: var(
-//     --calcite-internal-table-first-cell-border-inline-start,
-//     var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
-//   );
-// }
-
 th.last-cell {
   border-inline-end: 0;
-  // border-inline-end: var(
-  //   --calcite-internal-table-last-cell-border-inline-end,
-  //   var(--calcite-border-width-sm) solid
-  //     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)))
-  // );
 }
 
 .cell--multiple-selection {

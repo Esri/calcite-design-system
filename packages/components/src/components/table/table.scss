@@ -59,7 +59,6 @@
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
 // --calcite-internal-table-first-cell-border-inline-start
-// --calcite-internal-table-first-header-row-border-block-start-value
 // --calcite-internal-table-head-border-block-end-width
 // --calcite-internal-table-header-position
 // --calcite-internal-table-last-cell-border-inline-end
@@ -100,52 +99,11 @@
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   --calcite-internal-table-sticky-header-row-border-block-end-width: 0;
   --calcite-internal-table-sticky-header-row-border-color: transparent;
-  // --calcite-internal-table-last-row-cell-border-block-end: 1px solid orange;
-
-  table {
-    @apply border-collapse;
-    // border-spacing: 0;
-  }
 }
-
-// :host(:not([sticky-header])) {
-//   --calcite-internal-table-last-row-cell-border-block-end: 1px solid red;
-// }
-
-// :host([bordered][sticky-header]) {
-//   --calcite-internal-table-last-row-cell-border-block-end: 1px solid green;
-// }
-
-// :host([bordered]:not([sticky-header])) {
-//   --calcite-internal-table-last-row-cell-border-block-end: 1px solid blue;
-// }
-
-// :host([sticky-header]:not([bordered])) {
-//   --calcite-internal-table-last-row-cell-border-block-end: 1px solid blue;
-// }
 
 :host {
   @apply flex;
 }
-
-// ::slotted(calcite-table-row[slot="table-header"]:first-child) {
-//   --calcite-internal-table-first-header-row-border-block-start: var(
-//     --calcite-internal-table-first-header-row-border-block-start-value,
-//     var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
-//   );
-// }
-
-// ::slotted(calcite-table-row[last-visible-row]) {
-//   --calcite-internal-table-last-row-cell-border-block-end: var(--calcite-border-width-sm) solid
-//     var(--calcite-table-border-color, var(--calcite-color-border-2));
-// }
-
-// ::slotted(calcite-table-row:last-child) {
-//   --calcite-internal-table-last-row-cell-border-block-end: var(
-//     --calcite-internal-table-last-row-cell-border-block-end-value,
-//     var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2))
-//   );
-// }
 
 .container {
   @apply flex flex-col;
@@ -155,21 +113,12 @@
 
 .table-container {
   @apply whitespace-nowrap;
-  // flex: 1 1 auto;
   border: var(--calcite-border-width-sm) solid var(--calcite-table-border-color, var(--calcite-color-border-2));
-  // border-block-end: var(--calcite-border-width-sm) solid
-  //   var(--calcite-table-border-color, var(--calcite-color-border-2));
-  // border-radius: var(--calcite-table-corner-radius, var(--calcite-corner-radius-sharp));
-  // box-shadow: var(--calcite-table-shadow, var(--calcite-shadow-none));
   overflow: hidden auto;
-}
-
-.table-container--sticky-header {
 }
 
 .table-container--overflow {
   --calcite-internal-table-first-cell-border-inline-start: 0;
-  --calcite-internal-table-first-header-row-border-block-start-value: 0;
   --calcite-internal-table-last-cell-border-inline-end: 0;
   --calcite-internal-table-last-row-cell-border-block-end-value: 0;
 
