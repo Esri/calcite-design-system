@@ -1334,7 +1334,8 @@
     "$figmaStyleReferences": {},
     "selectedTokenSets": {
       "core/size": "source",
-      "semantic/border": "enabled"
+      "semantic/border": "enabled",
+      "semantic/corner-radius": "enabled"
     },
     "$figmaVariableReferences": {
       "semantic.border.width.none": "8392ffdf25688c49c52a09d06b2b198b1b48a11b",
