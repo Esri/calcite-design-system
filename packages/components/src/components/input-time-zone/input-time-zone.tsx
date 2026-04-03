@@ -161,7 +161,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
-   * @see [Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
+   * @see [MDN - Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
   @property() referenceDate: Date | string;
 
@@ -184,7 +184,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @see [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -200,7 +200,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * The component's current validation state.
    *
    * @readonly
-   * @see [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property() validity: MutableValidityState = {
     valid: false,
@@ -241,7 +241,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

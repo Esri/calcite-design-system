@@ -152,14 +152,14 @@ export class TextArea
   /**
    * Specifies the component's number of columns.
    *
-   * @see [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
+   * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
   @property({ reflect: true }) columns: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
-   * @see [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
@@ -191,7 +191,7 @@ export class TextArea
    * When the component resides in a form,
    * specifies the maximum number of characters allowed.
    *
-   * @see [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
   @property({ reflect: true }) maxLength: number;
 
@@ -202,14 +202,14 @@ export class TextArea
    * When the component resides in a form,
    * specifies the minimum number of characters allowed.
    *
-   * @see [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
   @property({ reflect: true }) minLength: number;
 
   /**
    * Specifies the name of the component. Required to pass the component's value on form submission.
    *
-   * @see [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
   @property({ reflect: true }) name: string;
 
@@ -219,14 +219,14 @@ export class TextArea
   /**
    * Specifies the placeholder text for the component.
    *
-   * @see [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
    */
   @property() placeholder: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @see [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -234,7 +234,7 @@ export class TextArea
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
-   * @see [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
+   * @see [MDN - required](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
    */
   @property({ reflect: true }) required = false;
 
@@ -244,7 +244,7 @@ export class TextArea
   /**
    * Specifies the component's number of rows.
    *
-   * @see [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
+   * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
   @property({ reflect: true }) rows: number;
 
@@ -266,7 +266,7 @@ export class TextArea
    * The component's current validation state.
    *
    * @readonly
-   * @see [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property() validity: MutableValidityState = {
     valid: false,
@@ -288,7 +288,7 @@ export class TextArea
   /**
    * Specifies the wrapping mechanism for the text.
    *
-   * @see [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
+   * @see [MDN - wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
    */
   @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
@@ -308,7 +308,7 @@ export class TextArea
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

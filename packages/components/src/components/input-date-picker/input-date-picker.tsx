@@ -282,7 +282,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @see [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -303,7 +303,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @see [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -319,7 +319,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * The component's current validation state.
    *
    * @readonly
-   * @see [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property() validity: MutableValidityState = {
     valid: false,
@@ -389,7 +389,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

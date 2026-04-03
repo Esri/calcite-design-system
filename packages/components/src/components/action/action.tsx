@@ -170,7 +170,7 @@ export class Action extends LitElement {
   /**
    * Specifies the default behavior of the component.
    *
-   * @see [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -193,7 +193,7 @@ export class Action extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @see [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
