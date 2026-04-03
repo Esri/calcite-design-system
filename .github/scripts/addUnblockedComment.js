@@ -3,71 +3,85 @@ const {
   labels: {
     planning: { blocked },
   },
+  groups: { pes },
 } = require("./support/resources");
 // When a blocking issue is closed, the following is done on each blocked issue:
-// 1. Creates a comment notifying that the blocking issue has been closed,
-// 2. Removes the "blocked" label,
+// 1. Creates a comment notifying that all blocking issues have been closed,
+// 2. Removes the "blocked" label if present, and,
 // 3. Emits "SyncActionChanges" event to trigger the Monday.com sync.
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ github, context }) => {
+module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
-  const payload = /** @type {import('@octokit/webhooks-types').IssuesLabeledEvent} */ (context.payload);
-  const { ISSUE_VERIFIERS } = process.env;
-  const issueBody = payload.issue.body;
-  // Matches the "Blocked issues:" line and captures everything after it
-  const blockedIssuesLineRegex = /Blocked issues:\s*([^\n]+)/i;
-  // Matches number only or full issue URLs
-  const issueRegex = /#(\d+)|https:\/\/github\.com\/[^/]+\/[^/]+\/issues\/(\d+)/g;
+  const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
+  const {
+    issue: { number: issue_number },
+  } = payload;
+  const issueProps = { owner, repo, issue_number: issue_number };
+  const logParams = { title: "Add unblocked comment" };
 
-  if (!issueBody) {
-    console.log("No issue body was found.");
-    return;
+  let blockedIssueNumbers = new Set();
+
+  async function getBlockedIssueNumbers() {
+    try {
+      const response = await github.request("GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking", {
+        owner,
+        repo,
+        issue_number: issue_number,
+      });
+
+      const blockedIssues = response.data;
+
+      if (blockedIssues.length === 0) {
+        core.notice(`Issue #${issue_number} has no blocked issue relationships.`, logParams);
+        return;
+      }
+
+      blockedIssueNumbers = new Set(
+        blockedIssues.map(/** @param {{ number: Number }} issue */ (issue) => issue.number).filter(Boolean),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  // Get the "Blocked issues:" line
-  const blockedIssuesLineMatch = issueBody.match(blockedIssuesLineRegex);
+  await getBlockedIssueNumbers();
 
-  // Add a "@" character to notify the user
-  const verifiers = ISSUE_VERIFIERS?.split(",").map((v) => `@${v.trim()}`);
+  for (const blockedIssueNumber of blockedIssueNumbers) {
+    let blockingIssues = [];
 
-  // If "Blocked issues" line is matched in the body then create a comment on each issue listed
-  if (blockedIssuesLineMatch) {
-    const blockedIssuesLine = blockedIssuesLineMatch[1];
-    const issueNumbers = [];
-    let match;
-
-    while ((match = issueRegex.exec(blockedIssuesLine)) !== null) {
-      // match[1] is the issue number from only number format #12345, match[2] is from the URL format
-      issueNumbers.push(match[1] || match[2]);
+    try {
+      const response = await github.request("GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by", {
+        ...issueProps,
+        issue_number: blockedIssueNumber,
+      });
+      blockingIssues = response.data;
+    } catch (error) {
+      console.error(error);
+      continue;
     }
 
-    for (const issueNumber of issueNumbers) {
-      const issueProps = {
-        repo,
-        owner,
-        issue_number: Number(issueNumber),
-      };
+    const unblocked = blockingIssues.every(/** @param {{ state: string }} issue */ (issue) => issue.state === "closed");
 
+    if (unblocked) {
       try {
         await github.rest.issues.createComment({
           ...issueProps,
-          body: `Issue #${context.issue.number} has been closed, this issue is ready for re-evaluation. \n\ncc ${verifiers}`,
+          issue_number: blockedIssueNumber,
+          body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc ${pes}`,
         });
+        core.notice(`Added comment to issue #${blockedIssueNumber}`, logParams);
       } catch (error) {
-        if (error.status === 404) {
-          console.log(`Issue #${issueNumber} does not exist.`);
-          continue;
-        } else {
-          throw error;
-        }
+        console.error(error);
       }
 
       try {
         await github.rest.issues.removeLabel({
           ...issueProps,
-          name: blocked,
+          issue_number: blockedIssueNumber,
+          name: "blocked",
         });
+        core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
 
         await github.rest.actions.createWorkflowDispatch({
           owner,
@@ -75,21 +89,21 @@ module.exports = async ({ github, context }) => {
           workflow_id: "issue-monday-sync.yml",
           ref: "dev",
           inputs: {
-            issue_number: issueNumber,
+            issue_number: issue_number,
             event_type: "SyncActionChanges",
             label_name: blocked,
             label_action: "removed",
           },
         });
       } catch (error) {
-        if (error.status === 404) {
-          console.log(`The label "blocked" does not exist on issue #${issueNumber}.`);
+        if (error && typeof error === "object" && "status" in error && error.status === 404) {
+          core.notice(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`, logParams);
         } else {
-          throw error;
+          console.error(error);
         }
       }
+    } else {
+      core.notice(`Issue #${blockedIssueNumber} is still blocked by open issues.`, logParams);
     }
-  } else {
-    console.log(`No blocked issues listed in the body of issue #${payload.issue.number}.`);
   }
 };
