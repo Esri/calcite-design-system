@@ -735,7 +735,7 @@ export class Table extends LitElement {
         const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
         const firstVisibleCell = firstVisibleBodyRow?.querySelector(
           "calcite-table-cell, calcite-table-header",
-        ) as TableRow["el"];
+        ) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
         const firstVisibleCellElement = firstVisibleCell?.shadowRoot?.querySelector(
           "td, th",
         ) as HTMLElement;
