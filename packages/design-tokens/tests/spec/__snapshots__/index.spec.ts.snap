@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generated tokens > CSS > breakpoints should match 1`] = `
+exports[`CSS > breakpoints should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -37,7 +37,7 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > classes should match 1`] = `
+exports[`CSS > classes should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -313,7 +313,7 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > core should match 1`] = `
+exports[`CSS > core should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -918,7 +918,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > dark should match 1`] = `
+exports[`CSS > dark should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -982,7 +982,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > global should match 1`] = `
+exports[`CSS > global should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -1156,7 +1156,7 @@ exports[`generated tokens > CSS > global should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > index should match 1`] = `
+exports[`CSS > index should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1496,7 +1496,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > light should match 1`] = `
+exports[`CSS > light should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1560,7 +1560,7 @@ exports[`generated tokens > CSS > light should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > semantic should match 1`] = `
+exports[`CSS > semantic should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1732,7 +1732,7 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > core should match 1`] = `
+exports[`DOCS (internal) > core should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -18325,7 +18325,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > global should match 1`] = `
+exports[`DOCS (internal) > global should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -27325,7 +27325,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
+exports[`DOCS (internal) > semantic should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -32115,7 +32115,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
 "
 `;
 
-exports[`generated tokens > ES6 > breakpoints should match 1`] = `
+exports[`ES6 > breakpoints should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32138,7 +32138,7 @@ export const calciteContainerSizeWidthXl = { min: "1441px" }; // Projectors and 
 "
 `;
 
-exports[`generated tokens > ES6 > breakpoints types should match 1`] = `
+exports[`ES6 > breakpoints types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32175,7 +32175,7 @@ export const calciteContainerSizeWidthXl: { min: string };
 "
 `;
 
-exports[`generated tokens > ES6 > core should match 1`] = `
+exports[`ES6 > core should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32808,7 +32808,7 @@ export const calciteZIndex9 = "900";
 "
 `;
 
-exports[`generated tokens > ES6 > core types should match 1`] = `
+exports[`ES6 > core types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -33461,7 +33461,7 @@ export const calciteZIndex9: string;
 "
 `;
 
-exports[`generated tokens > ES6 > global should match 1`] = `
+exports[`ES6 > global should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -34067,7 +34067,7 @@ export const calciteZIndexTooltip = "901";
 "
 `;
 
-exports[`generated tokens > ES6 > global types should match 1`] = `
+exports[`ES6 > global types should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -34669,7 +34669,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > ES6 > semantic should match 1`] = `
+exports[`ES6 > semantic should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -34886,7 +34886,7 @@ export const calciteZIndexTooltip = "901";
 "
 `;
 
-exports[`generated tokens > ES6 > semantic types should match 1`] = `
+exports[`ES6 > semantic types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -35137,7 +35137,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > SCSS > breakpoints should match 1`] = `
+exports[`SCSS > breakpoints should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35171,7 +35171,7 @@ $calcite-container-size-width-xl-min: 1441px; // Projectors and televisions
 "
 `;
 
-exports[`generated tokens > SCSS > core should match 1`] = `
+exports[`SCSS > core should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35773,7 +35773,7 @@ $calcite-shadow-4: 0 12px 32px -2px rgba(0, 0, 0, 0.1);
 "
 `;
 
-exports[`generated tokens > SCSS > dark should match 1`] = `
+exports[`SCSS > dark should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35834,7 +35834,7 @@ $calcite-color-focus: $calcite-color-brand;
 "
 `;
 
-exports[`generated tokens > SCSS > global should match 1`] = `
+exports[`SCSS > global should match 1`] = `
 "
 // Calcite Design System
 // File to be deprecated in next major release
@@ -36005,7 +36005,7 @@ $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
 
-exports[`generated tokens > SCSS > index should match 1`] = `
+exports[`SCSS > index should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -36147,7 +36147,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
 "
 `;
 
-exports[`generated tokens > SCSS > light should match 1`] = `
+exports[`SCSS > light should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -36208,7 +36208,7 @@ $calcite-color-focus: $calcite-color-brand;
 "
 `;
 
-exports[`generated tokens > SCSS > mixins should match 1`] = `
+exports[`SCSS > mixins should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -36538,7 +36538,7 @@ exports[`generated tokens > SCSS > mixins should match 1`] = `
 "
 `;
 
-exports[`generated tokens > SCSS > semantic should match 1`] = `
+exports[`SCSS > semantic should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.

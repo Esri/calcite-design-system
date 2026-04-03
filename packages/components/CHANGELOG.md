@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.26...@esri/calcite-components@5.1.0-next.27) (2026-04-03)
+
+### Bug Fixes
+
+- **combobox:** improve disabled chip handling and select-all behavior ([#14144](https://github.com/Esri/calcite-design-system/issues/14144)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287)
+
+## [5.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.25...@esri/calcite-components@5.1.0-next.26) (2026-03-31)
+
+### Features
+
+- **panel, flow-item, dialog:** Add rich `heading` and `description` slots ([#14179](https://github.com/Esri/calcite-design-system/issues/14179)), closes [#14150](https://github.com/Esri/calcite-design-system/issues/14150)
+
+## [5.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.24...@esri/calcite-components@5.1.0-next.25) (2026-03-31)
+
+### Features
+
+- **dropdown:** add `referenceElement` property ([#14172](https://github.com/Esri/calcite-design-system/issues/14172)), closes [#12426](https://github.com/Esri/calcite-design-system/issues/12426)
+
+## [5.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.23...@esri/calcite-components@5.1.0-next.24) (2026-03-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.22...@esri/calcite-components@5.1.0-next.23) (2026-03-26)
+
+### Features
+
+- **autocomplete-item:** add selected property ([#14137](https://github.com/Esri/calcite-design-system/issues/14137)), closes [#14058](https://github.com/Esri/calcite-design-system/issues/14058)
+
+## [5.1.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.21...@esri/calcite-components@5.1.0-next.22) (2026-03-25)
+
+### Bug Fixes
+
+- **meter:** update border color ([#14167](https://github.com/Esri/calcite-design-system/issues/14167)), closes [#14166](https://github.com/Esri/calcite-design-system/issues/14166)
+
+## [5.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.20...@esri/calcite-components@5.1.0-next.21) (2026-03-25)
+
+### Bug Fixes
+
+- **switch:** remove double focus ring in certain browsers ([#14156](https://github.com/Esri/calcite-design-system/issues/14156)), closes [#10824](https://github.com/Esri/calcite-design-system/issues/10824) [#10824](https://github.com/Esri/calcite-design-system/issues/10824)
+
+## [5.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.19...@esri/calcite-components@5.1.0-next.20) (2026-03-23)
+
+### Features
+
+- **sort-handle:** hide reorder group title when no sibling groups; disable boundary items instead of hiding ([#14105](https://github.com/Esri/calcite-design-system/issues/14105)), closes [#11451](https://github.com/Esri/calcite-design-system/issues/11451)
+
+## [5.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.18...@esri/calcite-components@5.1.0-next.19) (2026-03-23)
+
+### Bug Fixes
+
+- **dropdown:** focus the first item when opening instead of the first selected item ([#14131](https://github.com/Esri/calcite-design-system/issues/14131)), closes [#14128](https://github.com/Esri/calcite-design-system/issues/14128)
+
+## [5.1.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.17...@esri/calcite-components@5.1.0-next.18) (2026-03-23)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.1.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.16...@esri/calcite-components@5.1.0-next.17) (2026-03-20)
 
 ### Features
