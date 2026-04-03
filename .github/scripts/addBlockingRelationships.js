@@ -78,7 +78,7 @@ module.exports = async ({ github, context, core }) => {
     try {
       await github.rest.issues.createComment({
         ...issueProps,
-        body: `All blocked issues from description have been added as relationships and removed from the description.\n\ncc ${pes}`,
+        body: `All blocked issues from the issue description have been added as relationships and removed from the description.\n\ncc ${pes}`,
       });
     } catch (error) {
       console.error(error);

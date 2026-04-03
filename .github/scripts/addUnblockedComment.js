@@ -68,7 +68,7 @@ module.exports = async ({ github, context, core }) => {
         await github.rest.issues.createComment({
           ...issueProps,
           issue_number: blockedIssueNumber,
-          body: `All blocking issues have been closed this issue is ready for reevaluation.\n\ncc ${pes}`,
+          body: `All blocking issues have been closed, this issue is ready for reevaluation.\n\ncc ${pes}`,
         });
         core.notice(`Added comment to issue #${blockedIssueNumber}`, logParams);
       } catch (error) {
