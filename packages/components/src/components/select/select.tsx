@@ -23,7 +23,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { MutableValidityState, overrideDefaultValue, useForm } from "../../controllers/useForm";
+import { MutableValidityState, useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -63,8 +63,6 @@ export class Select extends LitElement implements LabelableComponent {
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
   defaultValue: Select["value"];
-
-  formEl: HTMLFormElement;
 
   formSupport = useForm<this>({ inputType: "text" })(this);
 
@@ -233,7 +231,7 @@ export class Select extends LitElement implements LabelableComponent {
 
     const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
-    overrideDefaultValue(this, this.selectedOption?.value ?? "");
+    this.formSupport.overrideDefaultValue(this.selectedOption?.value ?? "");
   }
 
   override disconnectedCallback(): void {

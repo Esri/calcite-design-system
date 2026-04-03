@@ -8,5 +8,6 @@
   "required": "Szükséges",
   "selectAll": "Összes kiválasztása",
   "selected": "kiválasztva",
-  "nonEditable": "Csak olvasható {value}"
+  "nonEditable": "Csak olvasható {value}",
+  "disabledSelectedCount": "+{count}"
 }

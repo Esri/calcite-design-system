@@ -8,5 +8,6 @@
   "required": "Obligatorisk",
   "selectAll": "Velg alle",
   "selected": "valgte",
-  "nonEditable": "Skrivebeskyttet {value}"
+  "nonEditable": "Skrivebeskyttet {value}",
+  "disabledSelectedCount": "+{count}"
 }

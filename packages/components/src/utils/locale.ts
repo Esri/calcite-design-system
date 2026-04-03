@@ -67,7 +67,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * @see https://github.com/Esri/calcite-design-system/issues/9387
+ * @see [Related Issue](https://github.com/Esri/calcite-design-system/issues/9387)
  *
  * @param locale – the BCP 47 locale code
  * @returns a BCP 47 locale code

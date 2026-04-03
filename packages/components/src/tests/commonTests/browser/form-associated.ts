@@ -27,7 +27,7 @@ interface FormAssociatedOptions {
    *
    * This option is only relevant when the `validation` option is enabled.
    *
-   * @see https://vitest.dev/api/browser/interactivity.html#userevent-type
+   * @see [userEvent.type](https://vitest.dev/api/browser/interactivity.html#userevent-type)
    */
   validUserInputTestValue?: string;
 
@@ -38,7 +38,7 @@ interface FormAssociatedOptions {
    *
    * This option is only relevant when the `validation` option is enabled.
    *
-   * @see https://vitest.dev/api/browser/interactivity.html#userevent-keyboard
+   * @see [userEvent.keyboard](https://vitest.dev/api/browser/interactivity.html#userevent-keyboard)
    */
   changeValueKeys?: string[];
 
