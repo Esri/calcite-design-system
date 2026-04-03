@@ -39,7 +39,6 @@ th {
     var(--calcite-table-header-background, var(--calcite-color-foreground-2))
   );
   font-size: var(--calcite-internal-table-cell-font-size);
-  line-height: var(--calcite-font-line-height-relative-snug);
   border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   &:not(.static-cell) {
