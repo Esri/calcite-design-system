@@ -6,7 +6,7 @@ const {
   groups: { pes },
 } = require("./support/resources");
 // When a blocking issue is closed, the following is done on each blocked issue:
-// 1. Creates a comment notifying that all blocking issues have been closed,
+// 1. Check that all other blocking issues are closed, and if so create a comment to notify that the issue is ready for reevaluation,
 // 2. Removes the "blocked" label if present, and,
 // 3. Emits "SyncActionChanges" event to trigger the Monday.com sync.
 

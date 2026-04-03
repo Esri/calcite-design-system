@@ -2,15 +2,13 @@
 const {
   groups: { pes },
 } = require("./support/resources");
-// When a blocking issue is closed, the following is done on each blocked issue:
-// 1. Add blocking relationships to any issues listed in the "Blocked issues" line of the issue description, if present
-// 2. Add comment to notify that all blocking issues have been added as relationships and removed from the description,
+// When an issue with "Blocked issues" line in the description is edited:
+// 1. Add comment to notify that all blocking issues have been added as relationships and removed from the description
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
   const logParams = { title: "Add Blocking Relationships" };
-
   const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
   const {
     issue: { body, id, number: issue_number },
