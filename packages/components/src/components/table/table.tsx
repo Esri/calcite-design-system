@@ -511,7 +511,6 @@ export class Table extends LitElement {
             childList: true,
             subtree: true,
             characterData: true,
-            attributes: true,
           });
         }
       });
