@@ -8,7 +8,6 @@ export const CSS = {
   container: "container",
   tableContainer: "table-container",
   tableContainerOverflow: "table-container--overflow",
-  tableContainerStickyHeader: "table-container--sticky-header",
   tableFixed: "table--fixed",
   assistiveText: "assistive-text",
   selectionActions: "selection-actions",

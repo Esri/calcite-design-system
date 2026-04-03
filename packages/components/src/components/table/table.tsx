@@ -931,7 +931,6 @@ export class Table extends LitElement {
             [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
             [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
-            [CSS.tableContainerStickyHeader]: this.stickyHeader,
           }}
           data-scroll-container={this.stickyHeader ? "true" : null}
           ref={this.tableContainerRef}
