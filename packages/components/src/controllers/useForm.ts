@@ -247,7 +247,7 @@ export const useForm = <T extends FormComponent>(
     let lastAssociatedForm: HTMLFormElement | null = null;
     let effectiveInputType = options.inputType;
 
-    if (effectiveInputType) {
+    if (effectiveInputType && effectiveInputType !== "radio") {
       // intentionally not appended to the DOM, we just need it for validation
       inputDelegate = document.createElement("input");
     }
@@ -368,6 +368,29 @@ export const useForm = <T extends FormComponent>(
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
         ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+      } else if (effectiveInputType === "radio") {
+        const { ownerDocument } = component.el;
+        const group = Array.from(ownerDocument.querySelectorAll(`calcite-radio-button[name="${component.name}"]`));
+        const required = group.some((radioButton) => (radioButton as FormComponent).required);
+        const checked = group.some((radioButton) => (radioButton as CheckableFormComponent).checked);
+        const others = group.filter((radioButton) => radioButton !== component.el);
+        if (required && !checked) {
+          validity = { valueMissing: true };
+          validationMessage = "Please select one of these options";
+          others.forEach((other: any) => {
+            if (!other.validity?.valueMissing) {
+              other.validity = { valueMissing: true };
+            }
+          });
+        } else {
+          validity = { valueMissing: false };
+          validationMessage = "";
+          others.forEach((other: any) => {
+            if (other.validity?.valueMissing) {
+              other.validity = { valueMissing: false };
+            }
+          });
+        }
       }
 
       if (customValidityMessage) {
