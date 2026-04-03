@@ -85,6 +85,8 @@ export class Table extends LitElement {
       ? new ResizeObserver(() => this.scheduleTableContainerOverflowUpdate())
       : null;
 
+  private stickyHeaderScrollContainer: HTMLDivElement | null = null;
+
   private stickyHeaderListenersAttached = false;
 
   private handleViewportChange = (): void => {
@@ -254,6 +256,10 @@ export class Table extends LitElement {
     super.disconnectedCallback();
   }
 
+  override updated(): void {
+    this.setStickyHeaderListeners(this.stickyHeader);
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -418,20 +424,40 @@ export class Table extends LitElement {
   }
 
   private setStickyHeaderListeners(active: boolean): void {
-    const scrollContainer = getStickyHeaderScrollContainer(this.el);
+    const scrollContainer = this.tableContainerRef.value ?? getStickyHeaderScrollContainer(this.el);
 
-    if (active && !this.stickyHeaderListenersAttached) {
-      scrollContainer?.addEventListener("scroll", this.handleViewportChange, { passive: true });
-      window.addEventListener("resize", this.handleViewportChange);
-      this.stickyHeaderListenersAttached = true;
+    if (!active) {
+      this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
+
+      if (this.stickyHeaderListenersAttached) {
+        window.removeEventListener("resize", this.handleViewportChange);
+      }
+
+      this.stickyHeaderScrollContainer = null;
+      this.stickyHeaderListenersAttached = false;
       return;
     }
 
-    if (!active && this.stickyHeaderListenersAttached) {
-      scrollContainer?.removeEventListener("scroll", this.handleViewportChange);
-      window.removeEventListener("resize", this.handleViewportChange);
-      this.stickyHeaderListenersAttached = false;
+    if (!scrollContainer) {
+      return;
     }
+
+    if (
+      this.stickyHeaderScrollContainer === scrollContainer &&
+      this.stickyHeaderListenersAttached
+    ) {
+      return;
+    }
+
+    this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
+    scrollContainer.addEventListener("scroll", this.handleViewportChange, { passive: true });
+
+    if (!this.stickyHeaderListenersAttached) {
+      window.addEventListener("resize", this.handleViewportChange);
+    }
+
+    this.stickyHeaderScrollContainer = scrollContainer;
+    this.stickyHeaderListenersAttached = true;
   }
 
   private observeTableContainer(): void {
