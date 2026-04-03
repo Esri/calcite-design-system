@@ -70,6 +70,11 @@
 
 @use "../../styles/includes";
 
+:host {
+  @apply flex;
+  --calcite-internal-table-border-collapse: collapse;
+}
+
 :host([scale="s"]) {
   --calcite-internal-table-cell-padding: 0.25rem;
   --calcite-internal-table-cell-font-size: var(--calcite-font-size--2);
@@ -100,14 +105,6 @@
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   --calcite-internal-table-sticky-header-row-border-block-end-width: 0;
   --calcite-internal-table-sticky-header-row-border-color: transparent;
-
-  table {
-    border-collapse: separate;
-  }
-}
-
-:host {
-  @apply flex;
 }
 
 .container {
@@ -135,7 +132,7 @@
 }
 
 table {
-  --calcite-internal-table-border-collapse: collapse;
+  border-collapse: var(--calcite-internal-table-border-collapse);
   border-spacing: 0;
   inline-size: var(--calcite-container-size-content-fluid);
 }
