@@ -11979,5 +11979,15 @@
     "alias": ["5.0.0", "gis", "data", "cloud", "analytics", "asset", "sensor"],
     "category": "GIS",
     "release": "5.0.0"
+  },
+  "arcgis-quickcapture": {
+    "alias": ["5.0.0", "brand", "logo", "glyph"],
+    "category": "Brand",
+    "release": "5.0.0"
+  },
+  "arcgis-survey123": {
+    "alias": ["5.0.0", "brand", "logo", "glyph"],
+    "category": "Brand",
+    "release": "5.0.0"
   }
 }
