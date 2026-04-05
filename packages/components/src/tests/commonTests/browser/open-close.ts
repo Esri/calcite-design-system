@@ -39,7 +39,7 @@ interface TestSetupMountOptions {
  * @example
  *
  * describe("openClose", () => {
- *   openClose(({ afterConnect }) => mount("calcite-combobox", afterConnect));
+ *   openClose((mountOptions) => mount("calcite-combobox", mountOptions));
  * });
  */
 export function openClose(
