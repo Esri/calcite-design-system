@@ -877,14 +877,17 @@ describe("keyboard resize", () => {
   it("should resize properly via shift and arrow keys", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" heading="Hello world" resizable open
-        ><p>
-          Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt.
-          Lacinia et euismod massa aliquam venenatis sem arcu tellus. Sociosqu ultrices hac sociosqu euismod euismod
-          eros ante. Sagittis vehicula lobortis morbi habitant dignissim quis per! Parturient a penatibus himenaeos ut
-          ultrices; lacinia inceptos a. Volutpat nibh ad massa primis nascetur cras tristique ultrices lacus. Arcu
-          fermentum tellus quis ad facilisis ultrices eros imperdiet.
-        </p></calcite-dialog
+      html`<calcite-dialog
+        style="
+          --calcite-dialog-size-y: 400px;
+          --calcite-dialog-size-x: 400px;
+          --calcite-dialog-min-size-y: 120px;
+          --calcite-dialog-min-size-x: 120px;"
+        width-scale="s"
+        heading="Hello world"
+        resizable
+        open
+        >Dialog content</calcite-dialog
       >`,
     );
     await skipAnimations(page);

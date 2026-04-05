@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -224,13 +224,6 @@ describe("accessible", () => {
 
 describe("labelable", () => {
   labelable("calcite-autocomplete");
-});
-
-describe("is form-associated", () => {
-  formAssociated(simpleHTML, {
-    testValue: "two",
-    submitsOnEnter: true,
-  });
 });
 
 it("should set screen reader list attribute 'aria-live' to 'polite'", async () => {

@@ -16,6 +16,17 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
+const simpleReferenceElementDropdownHTML = html`
+  <calcite-dropdown reference-element="trigger">
+    <calcite-dropdown-group id="group-1">
+      <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+  <calcite-button id="trigger">Open dropdown</calcite-button>
+`;
+
 const dropdownSelectionModeContent = html`
   <calcite-dropdown>
     <calcite-button slot="trigger" id="trigger">Open dropdown</calcite-button>
@@ -1034,6 +1045,10 @@ it("focus is returned to trigger after close", async () => {
 
 describe("accessible", () => {
   accessible(html`${dropdownSelectionModeContent}`);
+});
+
+describe("accessible reference element", () => {
+  accessible(simpleReferenceElementDropdownHTML);
 });
 
 it("correct role and aria properties are applied based on selection type", async () => {
