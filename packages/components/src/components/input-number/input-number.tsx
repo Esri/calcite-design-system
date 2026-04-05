@@ -304,7 +304,7 @@ export class InputNumber
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: ValidityState;
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's value. */
   @property()

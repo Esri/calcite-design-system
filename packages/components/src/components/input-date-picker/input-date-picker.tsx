@@ -321,7 +321,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: ValidityState;
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()

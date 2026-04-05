@@ -20,6 +20,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { ComboboxItem } from "../combobox-item/combobox-item";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
@@ -71,19 +72,7 @@ describe("defaults", () => {
       },
       {
         propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: true,
-          valueMissing: false,
-        },
+        defaultValue: defaultValidity,
       },
     ],
   );

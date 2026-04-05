@@ -12,6 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
 
@@ -72,19 +73,7 @@ describe("defaults", () => {
       { propertyName: "validationMessage", defaultValue: undefined },
       {
         propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: true,
-          valueMissing: false,
-        },
+        defaultValue: defaultValidity,
       },
     ],
   );

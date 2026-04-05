@@ -12,6 +12,7 @@ import {
   t9n,
   formAssociated,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -43,19 +44,7 @@ describe("defaults", () => {
       },
       {
         propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: true,
-          valueMissing: false,
-        },
+        defaultValue: defaultValidity,
       },
       {
         propertyName: "wrap",

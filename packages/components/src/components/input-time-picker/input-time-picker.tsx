@@ -207,7 +207,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: ValidityState;
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The time value in ISO (24-hour) format. */
   @property() value: string;

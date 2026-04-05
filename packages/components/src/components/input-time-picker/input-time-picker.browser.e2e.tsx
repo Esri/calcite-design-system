@@ -16,6 +16,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
@@ -33,19 +34,7 @@ describe("defaults", () => {
       { propertyName: "validationMessage", defaultValue: undefined },
       {
         propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: true,
-          valueMissing: false,
-        },
+        defaultValue: defaultValidity,
       },
     ],
   );

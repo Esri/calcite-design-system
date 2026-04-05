@@ -202,7 +202,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: ValidityState;
+  @property({ readOnly: true }) validity: ValidityState;
 
   /**
    * The component's value, where the value is the time zone offset or the difference, in minutes, between the selected time zone and UTC.
