@@ -9,6 +9,9 @@ import {
   renders,
   disabled,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+
+mockConsole();
 
 describe("defaults", () => {
   defaults(
