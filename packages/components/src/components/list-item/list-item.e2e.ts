@@ -2,7 +2,10 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+mockConsole();
 
 it("displays hover class", async () => {
   const page = await newE2EPage();
