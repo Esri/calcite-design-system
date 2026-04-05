@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type SetRequired } from "type-fest";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
@@ -161,6 +161,7 @@ async function testOpenCloseEvents({
       [beforeOpenEvent, openEvent, beforeCloseEvent, closeEvent] = eventSequence.map((eventName) => {
         const eventSpy = vi.fn();
         document.addEventListener(eventName, eventSpy);
+        onTestFinished(() => document.removeEventListener(eventName, eventSpy));
 
         return {
           listener: eventSpy,
@@ -243,9 +244,12 @@ function getEventSequence(componentTag: ComponentTag): string[] {
 }
 
 function setUpEventListeners(componentTag: ComponentTag, receivedEvents: string[]): void {
-  getEventSequence(componentTag).forEach((eventType) =>
-    document.addEventListener(eventType, (event) => receivedEvents.push(event.type)),
-  );
+  getEventSequence(componentTag).forEach((eventType) => {
+    const listener = (event) => receivedEvents.push(event.type);
+
+    document.addEventListener(eventType, listener);
+    onTestFinished(() => document.removeEventListener(eventType, listener));
+  });
 }
 
 type OpenCloseName = "beforeOpen" | "open" | "beforeClose" | "close";
