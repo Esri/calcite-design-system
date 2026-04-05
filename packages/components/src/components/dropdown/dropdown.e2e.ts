@@ -1204,6 +1204,8 @@ it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
 });
 
 describe("panel + empty filterable list", () => {
+  mockConsole();
+
   it("dropdown wrapper should have height when filter results empty and combined with a List in Panel #3048", async () => {
     const page = await newE2EPage({
       html: html` <calcite-panel heading="Issue #3048">
