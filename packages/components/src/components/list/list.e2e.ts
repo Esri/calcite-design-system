@@ -22,6 +22,8 @@ import { ListDragDetail } from "./interfaces";
 import { CSS } from "./resources";
 import type { List } from "./list";
 
+mockConsole();
+
 const placeholder = placeholderImage({
   width: 140,
   height: 100,

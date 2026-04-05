@@ -13,6 +13,7 @@ import {
   topLayer,
   formAssociated,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
@@ -90,6 +91,8 @@ describe.skip("disabled", () => {
 });
 
 describe("is form-associated", () => {
+  mockConsole();
+
   describe("supports single value", () => {
     formAssociated(() => mount("calcite-input-date-picker"), {
       testValue: "1985-03-23",

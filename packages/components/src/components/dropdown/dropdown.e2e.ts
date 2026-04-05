@@ -16,6 +16,8 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
+mockConsole();
+
 const simpleDropdownHTML = html`
   <calcite-dropdown>
     <calcite-button slot="trigger">Open dropdown</calcite-button>
