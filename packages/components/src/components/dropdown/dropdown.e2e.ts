@@ -16,6 +16,8 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
+mockConsole();
+
 const simpleDropdownHTML = html`
   <calcite-dropdown>
     <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -1202,8 +1204,6 @@ it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
 });
 
 describe("panel + empty filterable list", () => {
-  mockConsole();
-
   it("dropdown wrapper should have height when filter results empty and combined with a List in Panel #3048", async () => {
     const page = await newE2EPage({
       html: html` <calcite-panel heading="Issue #3048">
