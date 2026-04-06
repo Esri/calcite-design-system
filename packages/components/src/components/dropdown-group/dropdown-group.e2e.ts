@@ -4,7 +4,10 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+mockConsole();
 
 it("sets selectionMode on slotted dropdown item children", async () => {
   const page = await newE2EPage();

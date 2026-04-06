@@ -5,7 +5,10 @@ import { html } from "../../../support/formatting";
 import { accessible, themed } from "../../tests/commonTests";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+mockConsole();
 
 const content = `
   <calcite-dropdown-group>
