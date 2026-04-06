@@ -13,8 +13,11 @@ import {
   disabled,
   topLayer,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { Dropdown } from "./dropdown";
+
+mockConsole();
 
 describe("defaults", () => {
   defaults(() => mount("calcite-dropdown"), {
