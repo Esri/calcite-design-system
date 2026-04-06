@@ -15,6 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
 
@@ -49,6 +50,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );

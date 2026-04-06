@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   disabled,
   focusable,
   formAssociated,
@@ -8,6 +9,19 @@ import {
   internalLabel,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-checkbox"),
+    [
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+    ],
+  );
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-checkbox"));
