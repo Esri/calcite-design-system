@@ -11,8 +11,11 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { SortHandle } from "./sort-handle";
+
+mockConsole();
 
 function getDropdownFromItemText(text: string) {
   const dropdown = page.getByText(text).element()?.closest("calcite-dropdown");
