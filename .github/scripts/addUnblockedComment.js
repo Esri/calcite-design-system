@@ -24,11 +24,10 @@ module.exports = async ({ github, context, core }) => {
 
   async function getBlockedIssueNumbers() {
     try {
-      const response = await github.request("GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking", {
-        owner,
-        repo,
-        issue_number: issue_number,
-      });
+      const response = await github.request(
+        "GET /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking",
+        issueProps,
+      );
 
       const blockedIssues = response.data;
 
@@ -72,14 +71,14 @@ module.exports = async ({ github, context, core }) => {
         });
         core.notice(`Added comment to issue #${blockedIssueNumber}`, logParams);
       } catch (error) {
-        console.error(error);
+        core.error(`${error}`);
       }
 
       try {
         await github.rest.issues.removeLabel({
           ...issueProps,
           issue_number: blockedIssueNumber,
-          name: "blocked",
+          name: blocked,
         });
         core.notice(`Removed blocked label from issue #${blockedIssueNumber}.`, logParams);
 
