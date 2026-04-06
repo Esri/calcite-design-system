@@ -1046,7 +1046,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    if (this.inputClearButtonRef.value && composedPath.includes(this.inputClearButtonRef.value)) {
+    if (composedPath.includes(this.inputClearButtonRef.value)) {
       this.clearValue();
       event.preventDefault();
       return;
