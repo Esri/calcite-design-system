@@ -14,6 +14,7 @@ import {
   formAssociated,
 } from "../../tests/commonTests/browser";
 import { CSS as InputClearButtonCSS } from "../functional/InputClearButton";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 
 describe("defaults", () => {
@@ -43,6 +44,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );

@@ -31,7 +31,6 @@
 td {
   @apply text-start align-middle  whitespace-normal;
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
-
   background-color: var(
     --calcite-internal-table-cell-background-color,
     var(--calcite-table-cell-background-color, transparent)
