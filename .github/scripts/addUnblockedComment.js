@@ -40,7 +40,7 @@ module.exports = async ({ github, context, core }) => {
         blockedIssues.map(/** @param {{ number: Number }} issue */ (issue) => issue.number).filter(Boolean),
       );
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
   }
 
@@ -56,7 +56,7 @@ module.exports = async ({ github, context, core }) => {
       });
       blockingIssues = response.data;
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
       continue;
     }
 
@@ -98,7 +98,7 @@ module.exports = async ({ github, context, core }) => {
         if (error && typeof error === "object" && "status" in error && error.status === 404) {
           core.notice(`Issue #${blockedIssueNumber} does not have a blocked label, skipping label removal.`, logParams);
         } else {
-          console.error(error);
+          core.error(`${error}`);
         }
       }
     } else {

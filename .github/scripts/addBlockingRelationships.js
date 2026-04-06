@@ -53,7 +53,7 @@ module.exports = async ({ github, context, core }) => {
         });
         core.notice(`Marked issue #${issue_number} as blocking issue #${blockedIssueNumber}...`, logParams);
       } catch (error) {
-        console.error(error);
+        core.error(`${error}`);
       }
     }
   }
@@ -69,7 +69,7 @@ module.exports = async ({ github, context, core }) => {
       });
       core.notice("Removed blocked issues line from issue description.", logParams);
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
 
     try {
@@ -78,7 +78,7 @@ module.exports = async ({ github, context, core }) => {
         body: `All blocked issues from the issue description have been added as relationships and removed from the description.\n\ncc ${pes}`,
       });
     } catch (error) {
-      console.error(error);
+      core.error(`${error}`);
     }
   }
 
