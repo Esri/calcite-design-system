@@ -5,11 +5,11 @@ const {
   },
   groups: { pes },
 } = require("./support/resources");
-// When a blocking issue is closed, the following is done on each blocked issue:
-// 1. Check that all other blocking issues are closed, and if so create a comment to notify that the issue is ready for reevaluation,
-// 2. Removes the "blocked" label if present, and,
-// 3. Emits "SyncActionChanges" event to trigger the Monday.com sync.
 
+// When an issue with blocking relationships is closed, the following actions are performed for each blocked issue:
+// 1. Check that all other blocking issues are closed. If so, create a comment to notify that the issue is ready for reevaluation.
+// 2. Remove the "blocked" label, if present.
+// 3. Emit a "SyncActionChanges" event to trigger the Monday.com sync.
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
   const { repo, owner } = context.repo;
