@@ -239,17 +239,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/ffaubry">
-      <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
-      <br />
-      <sub><b>Frederic Aubry</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/brendan-vincent-rice">
       <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
       <br />
       <sub><b>Brendan Rice</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/ffaubry">
+      <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
+      <br />
+      <sub><b>Frederic Aubry</b></sub>
     </a>
   </td>
   <td align="center">
