@@ -45,6 +45,14 @@
 - Public APIs need explicit typing and JSDoc. Avoid `any`.
 - Match existing component patterns before introducing new abstractions.
 
+### Component Conventions Reference Docs
+
+- `packages/components/conventions/Accessibility.md`
+- `packages/components/conventions/Documentation.md`
+- `packages/components/conventions/Internationalization.md`
+- `packages/components/conventions/Styling.md`
+- `packages/components/conventions/Testing.md`
+
 ## Styling
 
 - Follow `packages/components/conventions/Styling.md` for class naming and host attribute patterns.
@@ -97,9 +105,6 @@
 - `CONTRIBUTING.md`
 - `packages/components/README.md`
 - `packages/components/BOILERPLATE_COMPONENT.md`
-- `packages/components/conventions/README.md`
-- `packages/components/conventions/Testing.md`
-- `packages/components/conventions/Styling.md`
 
 ## Supported Browsers
 
