@@ -90,7 +90,15 @@ Certain labels indicate that an issue is not ready for development:
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that require more information and/or a clear, actionable description from the submitter. If there is no follow up after two weeks since the label was added, the issue will be automatically closed.
 - `needs refinement`: Issues that are supported, but need scope refinement or updated acceptance criteria before moving forward, as a result of a change in scope or effort. Refer to the [issue refinement section](#issue-refinement) for more details.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue.
+
+#### Blocked issues process
+
+When an issue blocks or is blocked by other issues, they should be linked using GitHub’s issue relationships. To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
+
+- Retrieves the list of issues that were blocked by the closed issue
+- Checks each issue for any remaining open blocking issues
+- If none remain, adds a comment to notify product engineers that the issue is now unblocked
 
 ### Issue Refinement
 
