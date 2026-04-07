@@ -12,18 +12,9 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -44,6 +35,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import {
@@ -55,7 +47,7 @@ import {
   DIRECTION,
   NUDGE_DELAY_IN_MS,
 } from "./resources";
-import { NumericInputComponent, syncHiddenFormInput, TextualInputComponent } from "./common/input";
+import { NumericInputComponent, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
 
 declare global {
@@ -70,9 +62,11 @@ declare global {
  */
 export class Input
   extends LitElement
-  implements LabelableComponent, FormComponent, NumericInputComponent, TextualInputComponent
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -95,7 +89,11 @@ export class Input
 
   defaultValue: Input["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private inlineEditableEl: InlineEditable["el"];
 
@@ -108,17 +106,6 @@ export class Input
   private minString?: string;
 
   private nudgeNumberValueIntervalId: number;
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedValue: string;
 
@@ -138,7 +125,7 @@ export class Input
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -164,7 +151,7 @@ export class Input
    * When `type` is `"file"`, specifies a comma separated list of unique file type specifiers for limiting accepted file types.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() accept: string;
 
@@ -175,7 +162,7 @@ export class Input
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete: AutoFill;
 
@@ -185,7 +172,7 @@ export class Input
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
    *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
@@ -195,7 +182,7 @@ export class Input
   /**
    * When `type` is `"file"`, specifies the component's selected files.
    *
-   * @mdn https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files
+   * @see [MDN - files](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/files)
    */
   @property() files: FileList | undefined;
 
@@ -235,7 +222,7 @@ export class Input
    * When the component resides in a form,
    * specifies the maximum value for `type="number"`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max: number;
 
@@ -243,7 +230,7 @@ export class Input
    * When the component resides in a form,
    * specifies the maximum length of text for the component's `value`.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @property({ reflect: true }) maxLength: number;
 
@@ -254,7 +241,7 @@ export class Input
    * When the component resides in a form,
    * specifies the minimum value for `type="number"`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min: number;
 
@@ -262,7 +249,7 @@ export class Input
    * When the component resides in a form,
    * specifies the minimum length of text for the component's `value`.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength: number;
 
@@ -270,7 +257,7 @@ export class Input
    * When `true` and `type` is `"email"` or `"file"`, the component can accept more than one value.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
    */
   @property() multiple = false;
 
@@ -279,7 +266,7 @@ export class Input
    *
    * Required to pass the component's `value` on form submission.
    *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name: string;
 
@@ -294,14 +281,14 @@ export class Input
    * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() pattern: string;
 
   /**
    * Specifies the component's placeholder text.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
@@ -311,7 +298,7 @@ export class Input
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -330,7 +317,7 @@ export class Input
   /**
    * Specifies the granularity the component's `value` must adhere to.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @property({ reflect: true }) step: number | "any";
 
@@ -371,21 +358,9 @@ export class Input
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's value. */
   @property()
@@ -422,7 +397,7 @@ export class Input
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -464,11 +439,6 @@ export class Input
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -512,16 +482,15 @@ export class Input
     if (changes.has("readOnly")) {
       this.stopNudging();
     }
+
+    if (changes.has("type") && (this.hasUpdated || this.type !== "text")) {
+      this.formSupport.overrideInputType(this.type);
+    }
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.stopNudging();
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -570,10 +539,9 @@ export class Input
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      event.preventDefault();
+      this.formSupport.requestSubmit();
     }
   }
 
@@ -847,10 +815,6 @@ export class Input
     }
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput(this.type, this, input);
-  }
-
   private setInputValue(newInputValue: string): void {
     const target = this.type === "number" ? this.childNumberRef : this.childRef;
     if (target.value) {
@@ -966,7 +930,7 @@ export class Input
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
@@ -1169,7 +1133,6 @@ export class Input
           {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

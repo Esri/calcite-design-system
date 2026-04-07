@@ -101,7 +101,9 @@ module.exports = {
    */
   assertRequired: (array, core, errorMessage) => {
     if (array.some((item) => item === undefined || item === null)) {
-      core.warning(errorMessage || `One or more required items are not defined, exiting.`, { title: "Assert Required" });
+      core.warning(errorMessage || `One or more required items are not defined, exiting.`, {
+        title: "Assert Required",
+      });
       process.exit(0);
     }
 
@@ -126,5 +128,5 @@ module.exports = {
         return;
       }
     };
-  }
+  },
 };

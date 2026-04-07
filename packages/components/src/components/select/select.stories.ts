@@ -8,7 +8,8 @@ import { Select } from "./select";
 const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs
-  extends Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage" | "validationIcon">,
+  extends
+    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage" | "validationIcon">,
     Pick<Option, "label" | "selected" | "value"> {
   optionDisabled: Option["disabled"];
 }

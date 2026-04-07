@@ -226,7 +226,7 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
   el: FocusableElement,
@@ -270,7 +270,7 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstTabbable(element, includeContainer)?.focus(options);
@@ -480,7 +480,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @param selector The CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
   return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
@@ -491,7 +491,7 @@ export function slotChangeGetAssignedElements<T extends Element>(event: Event, s
  * @param selector CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });

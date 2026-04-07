@@ -9,7 +9,9 @@ import {
   renders,
   reflects,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
   defaults(
@@ -38,6 +40,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -82,6 +88,15 @@ describe("renders", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-text`), {
     shadowFocusTargetSelector: "input",
+  });
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-text"), {
+    testValue: "test",
+    submitsOnEnter: true,
+    validation: true,
+    inputType: "text",
   });
 });
 

@@ -2,9 +2,9 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   filterDirectChildren,
-  getElementDir,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
@@ -42,6 +42,8 @@ export class TreeItem extends LitElement {
   private actionSlotWrapperRef = createRef<HTMLDivElement>();
 
   private childTree: Tree["el"];
+
+  private direction = useDirection();
 
   private isSelectionMultiLike: boolean;
 
@@ -381,7 +383,7 @@ export class TreeItem extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const rtl = this.direction === "rtl";
     const selectionIcon = this.getSelectionIcon();
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
@@ -467,7 +469,6 @@ export class TreeItem extends LitElement {
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
         : undefined;
-    this.el.toggleAttribute("calcite-hydrated-hidden", hidden);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

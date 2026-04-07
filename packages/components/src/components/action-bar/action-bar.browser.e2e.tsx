@@ -56,6 +56,10 @@ describe("defaults", () => {
         propertyName: "selectionAppearance",
         defaultValue: "neutral",
       },
+      {
+        propertyName: "expandPosition",
+        defaultValue: "end",
+      },
     ],
   );
 });
@@ -99,6 +103,10 @@ describe("reflects", () => {
       {
         propertyName: "selectionAppearance",
         value: "neutral",
+      },
+      {
+        propertyName: "expandPosition",
+        value: "start",
       },
     ],
   );

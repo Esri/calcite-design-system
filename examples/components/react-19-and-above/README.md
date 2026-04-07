@@ -46,3 +46,7 @@ Calcite components' assets need to be copied from `node_modules` to your applica
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public
 ```
+
+### Typescript
+
+The `dependencies.ts` file in the `src` folder is used to ensure TypeScript properly recognizes Calcite component typings by including the required reference directive.

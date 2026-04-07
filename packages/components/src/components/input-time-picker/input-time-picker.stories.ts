@@ -8,20 +8,19 @@ import { InputTimePicker } from "./input-time-picker";
 
 const { scale, status } = ATTRIBUTES;
 
-interface InputTimePickerStoryArgs
-  extends Pick<
-    InputTimePicker,
-    | "disabled"
-    | "hourFormat"
-    | "name"
-    | "placement"
-    | "scale"
-    | "status"
-    | "step"
-    | "validationMessage"
-    | "validationIcon"
-    | "value"
-  > {
+interface InputTimePickerStoryArgs extends Pick<
+  InputTimePicker,
+  | "disabled"
+  | "hourFormat"
+  | "name"
+  | "placement"
+  | "scale"
+  | "status"
+  | "step"
+  | "validationMessage"
+  | "validationIcon"
+  | "value"
+> {
   hidden: boolean;
 }
 

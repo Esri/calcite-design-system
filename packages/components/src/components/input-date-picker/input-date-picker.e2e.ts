@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, labelable, openClose, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -224,7 +224,7 @@ it("should clear active date properly when deleted and committed via keyboard", 
   await page.waitForChanges();
 
   for (let i = 0; i < 10; i++) {
-    await input.press("Backspace");
+    await input.press("Delete");
   }
   await input.press("Enter");
 
@@ -644,25 +644,6 @@ describe("clicking in the calendar popup", () => {
 
     it("sets value to the clicked day in the 1800s in Zurich timezone", async () => {
       await assertCenturyDateValue(1850, "Europe/Zurich");
-    });
-  });
-});
-
-describe("is form-associated", () => {
-  describe("supports single value", () => {
-    formAssociated("calcite-input-date-picker", {
-      testValue: "1985-03-23",
-      submitsOnEnter: true,
-      validation: true,
-      inputType: "date",
-    });
-  });
-
-  describe("supports range", () => {
-    formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
-      testValue: ["1985-03-23", "1985-10-30"],
-      submitsOnEnter: true,
-      inputType: "date",
     });
   });
 });

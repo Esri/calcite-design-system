@@ -35,7 +35,7 @@ export interface UseFocusTrap {
   /**
    * Sets the extra containers to be used in the focus trap.
    *
-   * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
+   * @see [focus-trap trapUpdateContainerElements](https://github.com/focus-trap/focus-trap#trapupdatecontainerelements)
    */
   setExtraContainers: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
 
@@ -77,7 +77,7 @@ interface FocusTrapComponent extends LitElement {
 /** @public */
 export type FocusTrapOptions =
   /**
-   * @see https://github.com/focus-trap/focus-trap#createoptions
+   * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions)
    */
   Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
     /**
@@ -121,7 +121,7 @@ const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
 /**
  * Default behavior for returning focus when the FocusTrap is deactivated.
  *
- * @see https://github.com/focus-trap/focus-trap#setreturnfocus
+ * @see [focus-trap setReturnFocus](https://github.com/focus-trap/focus-trap#setreturnfocus)
  */
 function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
   const hasPreviousRelatedFocusedEl = el && el !== document.body && el !== document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value

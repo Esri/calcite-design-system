@@ -25,7 +25,7 @@ jobs:
         if: github.event.label.name == 'spike complete'
         uses: actions/github-script@v8
         env:
-          MANAGERS: ${{secrets.CALCITE_MANAGERS}}
+          PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/notifyWhenSpikeComplete.js')
@@ -35,7 +35,7 @@ jobs:
         if: github.event.label.name == '2 - ready for dev'
         uses: actions/github-script@v8
         env:
-          MANAGERS: ${{secrets.CALCITE_MANAGERS}}
+          PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/notifyWhenReadyForDev.js')

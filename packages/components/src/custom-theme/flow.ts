@@ -1,24 +1,26 @@
 import { html } from "../../support/formatting";
 
 export const flowTokens = {
-  calciteFlowBackgroundColor: "",
-  calciteFlowHeaderBackgroundColor: "",
-  calciteFlowFooterBackgroundColor: "",
-  calciteFlowSpace: "",
-  calciteFlowHeaderContentSpace: "",
-  calciteFlowFooterSpace: "",
   calciteActionBackgroundColor: "",
   calciteActionBackgroundColorHover: "",
   calciteActionBackgroundColorPressed: "",
   calciteActionTextColorHover: "",
   calciteActionTextColorPressed: "",
-  calcitePopoverBorderColor: "",
+  calciteFlowBackgroundColor: "",
+  calciteFlowContentBottomSpace: "",
+  calciteFlowContentTopSpace: "",
+  calciteFlowFooterBackgroundColor: "",
+  calciteFlowFooterSpace: "",
+  calciteFlowHeaderActionBackgroundColor: "",
   calciteFlowHeaderActionBackgroundColorHover: "",
   calciteFlowHeaderActionBackgroundColorPress: "",
-  calciteFlowHeaderActionBackgroundColor: "",
   calciteFlowHeaderActionIndicatorColor: "",
-  calciteFlowHeaderActionTextColorPress: "",
   calciteFlowHeaderActionTextColor: "",
+  calciteFlowHeaderActionTextColorPress: "",
+  calciteFlowHeaderBackgroundColor: "",
+  calciteFlowHeaderContentSpace: "",
+  calciteFlowSpace: "",
+  calcitePopoverBorderColor: "",
 };
 
 export const flow = html`

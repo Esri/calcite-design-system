@@ -2,7 +2,7 @@
 import { literal } from "lit/static-html.js";
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext } from "../interfaces";
 import { IconName } from "../icon/interfaces";
@@ -37,6 +37,8 @@ export class Link extends LitElement {
 
   private childRef = createRef<HTMLAnchorElement | HTMLSpanElement>();
 
+  private direction = useDirection();
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
@@ -52,7 +54,7 @@ export class Link extends LitElement {
    * When specified, prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
-   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -83,7 +85,7 @@ export class Link extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -126,8 +128,8 @@ export class Link extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { download, el } = this;
-    const dir = getElementDir(el);
+    const { download } = this;
+    const dir = this.direction;
     const childElType = this.href ? "a" : "button";
     const iconStartEl = (
       <calcite-icon

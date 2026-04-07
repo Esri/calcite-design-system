@@ -11,6 +11,8 @@
  * @prop --calcite-dialog-min-size-y: Specifies the component's minimum height, using `px`, `em`, `rem`, `vh`, or `%`.
  * @prop --calcite-dialog-max-size-y: Specifies the component's maximum height, using `px`, `em`, `rem`, `vh`, or `%`.
  * @prop --calcite-dialog-content-space: Specifies the padding of the component's content.
+ * @prop --calcite-dialog-content-top-space: Specifies the padding of the component's `content-top` slot.
+ * @prop --calcite-dialog-content-bottom-space: Specifies the padding of the component's `content-bottom` slot.
  * @prop --calcite-dialog-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-dialog-border-color: Specifies the component's border color.
  * @prop --calcite-dialog-offset-x: Specifies the component's horizontal offset.
@@ -159,6 +161,14 @@
 
 calcite-panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
+  --calcite-panel-content-top-space: var(
+    --calcite-dialog-content-top-space,
+    var(--calcite-internal-dialog-content-padding)
+  );
+  --calcite-panel-content-bottom-space: var(
+    --calcite-dialog-content-bottom-space,
+    var(--calcite-internal-dialog-content-padding)
+  );
   --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
   --calcite-panel-border-color: var(--calcite-dialog-border-color);
   --calcite-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));

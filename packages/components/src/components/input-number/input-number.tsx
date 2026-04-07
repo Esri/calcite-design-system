@@ -12,18 +12,9 @@ import {
   LuminaJsx,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { getElementDir, isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
+import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  internalHiddenInputInputEvent,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -39,17 +30,14 @@ import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/i
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import {
-  NumericInputComponent,
-  syncHiddenFormInput,
-  TextualInputComponent,
-} from "../input/common/input";
+import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -66,9 +54,11 @@ declare global {
  */
 export class InputNumber
   extends LitElement
-  implements LabelableComponent, FormComponent, NumericInputComponent, TextualInputComponent
+  implements LabelableComponent, NumericInputComponent, TextualInputComponent
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -88,7 +78,11 @@ export class InputNumber
 
   defaultValue: InputNumber["value"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm<this>({
+    inputType: "number",
+  })(this);
 
   private inlineEditableEl: InlineEditable["el"];
 
@@ -101,17 +95,6 @@ export class InputNumber
   private minString?: string;
 
   private nudgeNumberValueIntervalId: number;
-
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.setNumberValue({
-        value: (event.target as HTMLInputElement).value,
-        origin: "direct",
-      });
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
 
   private previousEmittedNumberValue: string;
 
@@ -131,7 +114,7 @@ export class InputNumber
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -160,7 +143,7 @@ export class InputNumber
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete: AutoFill;
 
@@ -170,7 +153,7 @@ export class InputNumber
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
    *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
@@ -220,7 +203,7 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max: number;
 
@@ -228,7 +211,7 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the maximum length of text for the component's `value`.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) maxLength: number;
@@ -240,7 +223,7 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min: number;
 
@@ -248,7 +231,7 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the minimum length of text for the component's `value`.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) minLength: number;
@@ -258,7 +241,7 @@ export class InputNumber
    *
    * Required to pass the component's `value` on form submission.
    *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name: string;
 
@@ -271,7 +254,7 @@ export class InputNumber
   /**
    * Specifies the component's placeholder text.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder: string;
 
@@ -281,7 +264,7 @@ export class InputNumber
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -300,7 +283,7 @@ export class InputNumber
   /**
    * Specifies the granularity that the component's `value` must adhere to.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @property({ reflect: true }) step: number | "any";
 
@@ -319,21 +302,9 @@ export class InputNumber
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's value. */
   @property()
@@ -369,7 +340,7 @@ export class InputNumber
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -408,11 +379,6 @@ export class InputNumber
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
     connectLabel(this);
-    connectForm(this);
-    this.el.addEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   async load(): Promise<void> {
@@ -463,12 +429,7 @@ export class InputNumber
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.stopNudging();
-    this.el.removeEventListener(
-      internalHiddenInputInputEvent,
-      this.onHiddenFormInputInput,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
   }
 
   //#endregion
@@ -515,10 +476,9 @@ export class InputNumber
       this.clearInputValue(event);
       event.preventDefault();
     }
-    if (event.key === "Enter") {
-      if (submitForm(this)) {
-        event.preventDefault();
-      }
+    if (event.key === "Enter" && this.formSupport.active) {
+      this.formSupport.requestSubmit();
+      event.preventDefault();
     }
   }
 
@@ -782,10 +742,6 @@ export class InputNumber
     }
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("number", this, input);
-  }
-
   private setInputNumberValue(newInputValue: string): void {
     if (!this.childNumberRef.value) {
       return;
@@ -932,7 +888,7 @@ export class InputNumber
   //#region Rendering
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     const loader = (
       <div class={CSS.loader}>
         <calcite-progress label={this.messages.loading} type="indeterminate" />
@@ -1083,7 +1039,6 @@ export class InputNumber
           {this.numberButtonType === "horizontal" && !this.readOnly
             ? numberButtonsHorizontalUp
             : null}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

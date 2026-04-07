@@ -11,19 +11,26 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  formAssociated,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
   defaults(
     () => mount("calcite-input-date-picker"),
     [
       {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
+        propertyName: "calendars",
+        defaultValue: 2,
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
       },
       {
         propertyName: "status",
@@ -38,8 +45,8 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "calendars",
-        defaultValue: 2,
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -81,4 +88,28 @@ describe("translation support", () => {
 
 describe.skip("disabled", () => {
   disabled(() => mount("calcite-input-date-picker"));
+});
+
+describe("is form-associated", () => {
+  mockConsole();
+
+  describe("supports single value", () => {
+    formAssociated(() => mount("calcite-input-date-picker"), {
+      testValue: "1985-03-23",
+      submitsOnEnter: true,
+      validation: true,
+      inputType: "date",
+    });
+  });
+
+  describe("supports range", () => {
+    formAssociated(
+      () => mount(<calcite-input-date-picker name="calcite-input-date-picker" range />),
+      {
+        testValue: ["1985-03-23", "1985-10-30"],
+        submitsOnEnter: true,
+        inputType: "date",
+      },
+    );
+  });
 });

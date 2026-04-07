@@ -2,8 +2,8 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import { getElementDir } from "../../utils/dom";
 import {
   CheckableFormComponent,
   connectForm,
@@ -39,6 +39,8 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   defaultChecked: boolean;
 
   defaultValue: RadioButton["value"];
+
+  private direction = useDirection();
 
   formEl: HTMLFormElement;
 
@@ -125,7 +127,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -376,7 +378,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   private handleKeyDown(event: KeyboardEvent): void {
     const keys = ["ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", " "];
     const { key } = event;
-    const { el } = this;
 
     if (keys.indexOf(key) === -1) {
       return;
@@ -390,7 +391,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
     let adjustedKey = key;
 
-    if (getElementDir(el) === "rtl") {
+    if (this.direction === "rtl") {
       if (key === "ArrowRight") {
         adjustedKey = "ArrowLeft";
       }

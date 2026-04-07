@@ -7,21 +7,20 @@ import { SLOTS } from "./resources";
 
 const { collapseDirection, scale } = ATTRIBUTES;
 
-interface PanelStoryArgs
-  extends Pick<
-    Panel,
-    | "closed"
-    | "disabled"
-    | "closable"
-    | "collapsed"
-    | "icon"
-    | "iconFlipRtl"
-    | "collapsible"
-    | "collapseDirection"
-    | "loading"
-    | "scale"
-    | "menuPlacement"
-  > {
+interface PanelStoryArgs extends Pick<
+  Panel,
+  | "closed"
+  | "disabled"
+  | "closable"
+  | "collapsed"
+  | "icon"
+  | "iconFlipRtl"
+  | "collapsible"
+  | "collapseDirection"
+  | "loading"
+  | "scale"
+  | "menuPlacement"
+> {
   heightScale: string;
 }
 
@@ -148,6 +147,14 @@ export const withDescriptionAndIcon = (): string => html`
   <calcite-panel scale="s" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
   <calcite-panel scale="m" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
   <calcite-panel scale="l" icon="banana" heading="Banana" description="This is bananas!"> Hello world! </calcite-panel>
+`;
+
+export const withRichHeaderSlots = (): string => html`
+  <calcite-panel heading="Plain heading fallback" description="Plain description fallback" style="width: 300px;">
+    <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
+  </calcite-panel>
 `;
 
 export const darkModeRTL = (): string => html`

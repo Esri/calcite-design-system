@@ -8,8 +8,10 @@ import { Pagination } from "./pagination";
 
 const { scale } = ATTRIBUTES;
 
-interface PaginationStoryArgs
-  extends Pick<Pagination, "scale" | "startItem" | "numberingSystem" | "totalItems" | "pageSize"> {
+interface PaginationStoryArgs extends Pick<
+  Pagination,
+  "scale" | "startItem" | "numberingSystem" | "totalItems" | "pageSize"
+> {
   lang: string;
 }
 

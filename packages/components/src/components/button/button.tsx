@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { literal } from "lit/static-html.js";
 import {
@@ -13,7 +12,6 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -24,6 +22,7 @@ import type { Label } from "../label/label";
 import { hasVisibleContent } from "../../utils/dom";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ButtonAlignment } from "./interfaces";
 import { CSS } from "./resources";
@@ -42,8 +41,10 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button extends LitElement implements LabelableComponent, FormOwner {
+export class Button extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -58,7 +59,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
 
   private contentRef = createRef<HTMLSpanElement>();
 
-  formEl: HTMLFormElement;
+  formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
 
   labelEl: Label["el"];
 
@@ -108,7 +109,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
-   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -150,7 +151,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
@@ -166,14 +167,14 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -189,7 +190,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -203,13 +204,10 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   override connectedCallback(): void {
     this.setupTextContentObserver();
     connectLabel(this);
-    this.formEl = findAssociatedForm(this);
   }
 
   async load(): Promise<void> {
-    if (!isServer) {
-      this.updateHasContent();
-    }
+    this.updateHasContent();
   }
 
   loaded(): void {
@@ -220,7 +218,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
     this.resizeObserver?.disconnect();
-    this.formEl = null;
   }
 
   //#endregion
@@ -240,23 +237,7 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
   }
 
   onLabelClick(): void {
-    this.handleClick();
     this.setFocus();
-  }
-
-  private handleClick(): void {
-    const { type } = this;
-
-    if (this.href) {
-      return;
-    }
-
-    // this.type refers to type attribute, not child element type
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
   }
 
   private setTooltipText(): void {
@@ -347,7 +328,6 @@ export class Button extends LitElement implements LabelableComponent, FormOwner 
           }
           href={childElType === "a" && this.href}
           name={childElType === "button" && this.name}
-          onClick={this.handleClick}
           ref={this.setChildEl}
           rel={childElType === "a" && this.rel}
           tabIndex={this.disabled ? -1 : null}
