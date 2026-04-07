@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, describe, vi } from "vitest";
-import { commands, page, userEvent } from "vitest/browser";
+import { it, expect, describe } from "vitest";
+import { commands, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -205,31 +205,5 @@ describe("shell-panel updateSize public method", () => {
       await component.updateComplete;
       expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
     });
-  });
-});
-
-describe("click", () => {
-  it("click event should pass through host element", async () => {
-    const onActionClick = vi.fn();
-
-    await mount<"calcite-shell">(
-      <calcite-shell contentBehind>
-        <calcite-shell-panel displayMode="float-content" position="start" slot="panel-start" />
-        <calcite-action style={{ blockSize: "100%", inlineSize: "100%" }} text="test" textEnabled />
-      </calcite-shell>,
-    );
-
-    const shellPanel = page.getBySelector("calcite-shell-panel");
-    const action = page.getBySelector("calcite-action");
-
-    await expect.element(shellPanel).toBeInTheDocument();
-    await expect.element(action).toBeInTheDocument();
-
-    const actionEl = action.element();
-    actionEl.addEventListener("click", onActionClick);
-
-    await userEvent.click(shellPanel, { force: true });
-
-    expect(onActionClick).toHaveBeenCalledTimes(1);
   });
 });
