@@ -16,6 +16,8 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
+mockConsole();
+
 const simpleDropdownHTML = html`
   <calcite-dropdown>
     <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -27,8 +29,23 @@ const simpleDropdownHTML = html`
   </calcite-dropdown>
 `;
 
+const simpleReferenceElementDropdownHTML = html`
+  <calcite-dropdown reference-element="trigger">
+    <calcite-dropdown-group id="group-1">
+      <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
+      <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+  <calcite-button id="trigger">Open dropdown</calcite-button>
+`;
+
 describe("openClose", () => {
   openClose(simpleDropdownHTML);
+});
+
+describe("openClose: reference element", () => {
+  openClose(simpleReferenceElementDropdownHTML);
 });
 
 const dropdownSelectionModeContent = html`
@@ -1049,6 +1066,10 @@ it("focus is returned to trigger after close", async () => {
 
 describe("accessible", () => {
   accessible(html`${dropdownSelectionModeContent}`);
+});
+
+describe("accessible reference element", () => {
+  accessible(simpleReferenceElementDropdownHTML);
 });
 
 it("correct role and aria properties are applied based on selection type", async () => {

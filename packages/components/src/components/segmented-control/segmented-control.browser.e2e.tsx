@@ -12,6 +12,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
   defaults(
@@ -45,6 +46,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );

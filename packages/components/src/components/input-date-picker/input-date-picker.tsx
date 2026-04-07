@@ -65,7 +65,7 @@ import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -282,7 +282,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -303,7 +303,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -319,21 +319,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()
@@ -389,7 +377,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
