@@ -12,6 +12,16 @@
 - `packages/components-react`: React wrappers generated around component APIs. Avoid manual edits here unless the task is explicitly React-wrapper specific.
 - `packages/design-tokens`, `packages/ui-icons`, `packages/eslint-plugin-components`, and `packages/tailwind-preset`: shared package-level concerns. Only change them when the task clearly requires it.
 
+## Priorities
+
+In descending order when rules conflict:
+
+1. Correctness
+2. Native platform alignment
+3. Clarity
+4. Consistency with nearby code
+5. Small reviewable diffs
+
 ## Core Principles
 
 - Prefer clarity over cleverness.
@@ -33,9 +43,11 @@
 - Favor readable, maintainable solutions.
 - Avoid premature optimization.
 - Keep functions and components small and focused.
-- Include comments only when they add clarity (not for obvious code).
+- Use descriptive names. Avoid abbreviations unless already established in the codebase.
+- Do not add comments for obvious code. Improve naming or structure instead.
+- Reduce branching and duplication when it improves readability, but do not compress code into dense expressions just to be shorter.
 - Sort properties alphabetically where the existing repo patterns expect it, but do not create unrelated churn just to reorder code.
-- Use strict TypeScript typings and prefer the `nil` type where a value may be `null` or `undefined`.
+- Use strict TypeScript typings, prefer the `nil` type where a value may be `null` or `undefined`, and avoid unnecessary type widening.
 
 ## Component Conventions
 
@@ -43,7 +55,7 @@
 - Treat `packages/components/conventions/README.md` as the source of truth for component responsibilities, event naming, property reflection, focus APIs, styling, and accessibility expectations.
 - Calcite components should stay minimal and reusable. Do not add network requests, routing, or application-specific state management unless an existing convention explicitly supports it.
 - Public APIs need explicit typing and JSDoc. Avoid `any`.
-- Match existing component patterns before introducing new abstractions.
+- Match existing component patterns. Avoid introducing new abstractions unless they clearly improve reuse, correctness, or maintainability.
 
 ### Component Conventions Reference Docs
 
@@ -52,6 +64,12 @@
 - `packages/components/conventions/Internationalization.md`
 - `packages/components/conventions/Styling.md`
 - `packages/components/conventions/Testing.md`
+
+## Platform Behavior
+
+- Match native behavior for forms, focus, validation, events, keyboard interaction, and accessibility whenever possible.
+- When wrapping native controls, preserve native semantics and timing as closely as possible.
+- Do not add custom behavior that conflicts with platform expectations unless there is a documented reason.
 
 ## Styling
 
@@ -82,10 +100,17 @@
 - If a change is purely visual, prefer updating stories over adding end-to-end tests unless new interaction coverage is needed.
 - If you’re unsure whether a story or test is warranted, propose the smallest useful one and explain why.
 - Follow `packages/components/conventions/Testing.md` for story and test expectations.
+- Prefer focused behavioral tests over implementation detail tests.
+- Do not add unrelated test coverage in the same change.
 - Targeted commands for component work:
   - `npm --workspace=packages/components run test:stable -- <path>`
   - `npm --workspace=packages/components run test:experimental -- <path>`
   - `npm --workspace=packages/components run test:watch -- <path>`
+
+## Documentation
+
+- Keep JSDoc, examples, and generated API sources in sync with code changes.
+- Do not leave stale comments or examples behind.
 
 ## Development Commands
 
@@ -100,6 +125,12 @@
 - Pull requests are expected to come from a cloned repo branch, not a fork, because forked workflows cannot access required secrets for visual testing.
 - If a test is unstable, follow the repo testing convention: skip it and create or reference a follow-up issue instead of leaving flaky coverage in place.
 
+## Communication
+
+- When drafting review comments or PR text, be direct, collaborative, and specific.
+- Avoid sounding absolute, dismissive, or overly corrective.
+- Prefer wording that explains what changed and why in concrete terms.
+
 ## Reference Docs
 
 - `CONTRIBUTING.md`
@@ -113,3 +144,14 @@
 ## Safety
 
 - Assume production impact unless told otherwise.
+
+## Final Check
+
+Before finalizing code, verify:
+
+- Names are clear and not abbreviated unless the abbreviation is established in the codebase.
+- Behavior is preserved unless a change was explicitly requested.
+- Native platform behavior is respected (forms, focus, events, keyboard, accessibility).
+- Tests cover the change and favor behavioral assertions over implementation details.
+- JSDoc, examples, and docs remain accurate and are not stale.
+- The diff is tightly scoped with no unrelated changes mixed in.
