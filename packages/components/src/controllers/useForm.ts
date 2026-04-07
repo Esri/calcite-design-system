@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
-import { makeGenericController } from "@arcgis/lumina/controllers";
+import { bypassReadOnly, makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
@@ -40,7 +40,7 @@ export type MutableValidityState = Writable<ValidityState>;
  *
  * Allows calling submit/reset methods on the form.
  */
-interface FormOwner extends LitElement {
+export interface FormOwnerComponent extends LitElement {
   /**
    * The ID of the form to associate with the component.
    *
@@ -48,7 +48,7 @@ interface FormOwner extends LitElement {
    *
    * Note that this prop should use the `@property` decorator.
    */
-  form: string;
+  form?: string;
 }
 
 /**
@@ -58,7 +58,7 @@ interface FormOwner extends LitElement {
  */
 export interface FormComponent<T = any>
   extends
-    FormOwner,
+    FormOwnerComponent,
     LitElement,
     SetFocusable,
     // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
@@ -378,7 +378,9 @@ export const useForm = <T extends FormComponent>(
       elementInternals.setValidity(validity, validationMessage);
 
       if ("validity" in component) {
-        component.validity = elementInternals.validity;
+        bypassReadOnly(() => {
+          component.validity = elementInternals.validity;
+        });
       }
     }
 

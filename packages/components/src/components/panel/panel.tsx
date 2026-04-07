@@ -2,7 +2,12 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  hasVisibleContent,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -41,6 +46,8 @@ declare global {
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
  * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
@@ -95,6 +102,10 @@ export class Panel extends LitElement {
   @state() hasFooterStartContent = false;
 
   @state() hasHeaderContent = false;
+
+  @state() hasHeaderDescription = false;
+
+  @state() hasHeaderHeading = false;
 
   @state() hasMenuItems = false;
 
@@ -183,7 +194,7 @@ export class Panel extends LitElement {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -213,7 +224,7 @@ export class Panel extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -358,6 +369,18 @@ export class Panel extends LitElement {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   }
 
+  private handleHeaderDescriptionSlotChange(event: Event): void {
+    this.hasHeaderDescription =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
+  }
+
+  private handleHeaderHeadingSlotChange(event: Event): void {
+    this.hasHeaderHeading =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
+  }
+
   private handleFabSlotChange(event: Event): void {
     this.hasFab = slotChangeHasAssignedElement(event);
   }
@@ -400,7 +423,20 @@ export class Panel extends LitElement {
   //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+    const {
+      heading,
+      headingLevel,
+      description,
+      hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
+      icon,
+      scale,
+    } = this;
+
+    const showHeaderHeading = !!heading || hasHeaderHeading;
+    const showHeaderDescription = !!description || hasHeaderDescription;
+    const showHeaderTextContent = showHeaderHeading || showHeaderDescription;
 
     const iconNode = icon ? (
       <calcite-icon
@@ -411,17 +447,32 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        {heading}
+    const headingNode = (
+      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+        <slot
+          hidden={!hasHeaderHeading}
+          name={SLOTS.heading}
+          onSlotChange={this.handleHeaderHeadingSlotChange}
+        />
+        {!hasHeaderHeading ? heading : null}
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
+    const descriptionNode = (
+      <span class={CSS.description} hidden={!showHeaderDescription}>
+        <slot
+          hidden={!hasHeaderDescription}
+          name={SLOTS.description}
+          onSlotChange={this.handleHeaderDescriptionSlotChange}
+        />
+        {!hasHeaderDescription ? description : null}
+      </span>
+    );
 
-    return !hasHeaderContent && (headingNode || descriptionNode) ? (
+    return (
       <div
         class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        hidden={hasHeaderContent || !showHeaderTextContent}
         key="header-content"
       >
         {iconNode}
@@ -430,7 +481,7 @@ export class Panel extends LitElement {
           {descriptionNode}
         </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderActionBar(): JsxNode {
@@ -566,6 +617,8 @@ export class Panel extends LitElement {
   private renderHeaderNode(): JsxNode {
     const {
       hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
       hasStartActions,
       hasEndActions,
       closable,
@@ -573,13 +626,17 @@ export class Panel extends LitElement {
       hasMenuItems,
       hasActionBar,
       hasContentTop,
+      heading,
+      description,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
+    const hasDefaultHeaderContent =
+      !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
     const showHeaderContent =
       hasHeaderContent ||
-      !!headerContentNode ||
+      hasDefaultHeaderContent ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||

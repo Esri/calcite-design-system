@@ -31,11 +31,11 @@ describe("utils", () => {
       expect(requestCache).toHaveProperty("es");
     });
 
-    it("falls to pt-PT lang code locale if regional code is not found", async () => {
+    it("falls to pt-BR lang code locale if regional code is not found", async () => {
       const locale = "pt-UnsupportedRegion";
 
       await getLocaleData(locale);
-      expect(requestCache).toHaveProperty("pt-PT");
+      expect(requestCache).toHaveProperty("pt-BR");
     });
 
     it("fetches locale with conventional-cased lang code", async () => {

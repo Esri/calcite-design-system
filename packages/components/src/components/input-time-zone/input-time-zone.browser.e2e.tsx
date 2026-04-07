@@ -4,12 +4,14 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   reflects,
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
 
@@ -27,6 +29,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -65,4 +71,11 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-zone"));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-time-zone"), {
+    testValue: "-360",
+    clearable: false,
+  });
 });

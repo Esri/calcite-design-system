@@ -1,14 +1,8 @@
 // @ts-strict-ignore
-import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import {
-  connectSortableComponent,
-  disconnectSortableComponent,
-  SortableComponent,
-} from "../../utils/sortableComponent";
 import {
   MoveEventDetail,
   SortMenuItem,
@@ -24,6 +18,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale } from "../interfaces";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
 import { BlockDragDetail } from "./interfaces";
@@ -38,7 +33,7 @@ declare global {
 /**
  * @slot - A slot for adding `calcite-block` elements.
  */
-export class BlockGroup extends LitElement implements SortableComponent {
+export class BlockGroup extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -55,8 +50,6 @@ export class BlockGroup extends LitElement implements SortableComponent {
     this.updateBlockItemsDebounced();
   });
 
-  sortable: Sortable;
-
   private blockAndGroups: (Block["el"] | BlockGroup["el"])[] = [];
 
   private cancelable = useCancelable<this>()(this);
@@ -64,6 +57,8 @@ export class BlockGroup extends LitElement implements SortableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private parentBlockGroupEl: BlockGroup["el"];
+
+  private sortable = useSortable<this>()(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
@@ -137,7 +132,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -206,7 +201,6 @@ export class BlockGroup extends LitElement implements SortableComponent {
 
   override disconnectedCallback(): void {
     this.disconnectObserver();
-    disconnectSortableComponent(this);
   }
 
   //#endregion
@@ -317,7 +311,7 @@ export class BlockGroup extends LitElement implements SortableComponent {
       return;
     }
 
-    connectSortableComponent(this);
+    this.sortable.reset();
   }
 
   onGlobalDragStart(): void {
@@ -381,8 +375,8 @@ export class BlockGroup extends LitElement implements SortableComponent {
     fromEl?: BlockGroup["el"];
     toEl?: BlockGroup["el"];
     dragEl: Block["el"];
-    newIndex: number;
-    oldIndex: number;
+    newIndex: number | undefined;
+    oldIndex: number | undefined;
     type: "move" | "add";
   }): boolean {
     if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {

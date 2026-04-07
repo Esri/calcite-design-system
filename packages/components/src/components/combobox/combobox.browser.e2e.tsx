@@ -20,6 +20,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { ComboboxItem } from "../combobox-item/combobox-item";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
@@ -68,6 +69,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -230,6 +235,82 @@ it("should use heading as fallback for both accessibility (aria-label) and value
   await expect
     .element(page.getByLabelText("Fallback Heading"))
     .toHaveProperty("ariaLabel", "Fallback Heading");
+});
+
+describe("disabled chip labels", () => {
+  it("renders disabled chip labels for selection-display=all, selection-mode=multiple", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="all" selection-mode="multiple">
+        <calcite-combobox-item heading="Apple" />
+        <calcite-combobox-item disabled heading="Banana" selected />
+      </calcite-combobox>,
+    );
+
+    const disabledChip = page.getBySelector('[data-test-id="disabled-chip-0"]');
+    await expect.element(disabledChip).toHaveProperty("label", "Banana");
+  });
+
+  it("renders disabled chip labels with ancestors for selection-display=all, selection-mode=ancestors", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="all" selection-mode="ancestors">
+        <calcite-combobox-item heading="Parent" value="parent">
+          <calcite-combobox-item disabled heading="Child" selected value="child" />
+        </calcite-combobox-item>
+      </calcite-combobox>,
+    );
+
+    const disabledChip = page.getBySelector('[data-test-id="disabled-chip-0"]');
+    await expect.element(disabledChip).toHaveProperty("label", "Parent / Child");
+  });
+
+  it("renders disabled chip count for selection-display=fit", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="fit" selection-mode="multiple">
+        <calcite-combobox-item disabled heading="Apple" selected />
+        <calcite-combobox-item disabled heading="Banana" selected />
+      </calcite-combobox>,
+    );
+
+    const disabledChipCount = page.getBySelector('[data-test-id="selected-chip-count"]');
+    await expect.element(disabledChipCount).toHaveProperty("label", "+2");
+  });
+
+  it("includes disabled selected items in single display count", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="single" selection-mode="multiple">
+        <calcite-combobox-item disabled heading="Apple" selected />
+        <calcite-combobox-item disabled heading="Banana" selected />
+      </calcite-combobox>,
+    );
+
+    const selectedIndicatorChip = page.getByText("2 selected");
+    await expect.element(selectedIndicatorChip).toHaveProperty("label", "2 selected");
+  });
+
+  it("excludes ancestor parents from single display count", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="single" selection-mode="ancestors">
+        <calcite-combobox-item heading="Parent" value="parent">
+          <calcite-combobox-item disabled heading="Child" selected value="child" />
+        </calcite-combobox-item>
+      </calcite-combobox>,
+    );
+
+    const selectedIndicatorChip = page.getByText("1 selected");
+    await expect.element(selectedIndicatorChip).toHaveProperty("label", "1 selected");
+  });
+
+  it("sets select-all to indeterminate when a disabled item is selected", async () => {
+    await mount<Combobox>(
+      <calcite-combobox select-all-enabled selection-mode="multiple">
+        <calcite-combobox-item heading="Apple" />
+        <calcite-combobox-item disabled heading="Banana" selected />
+      </calcite-combobox>,
+    );
+
+    const selectAllItem = page.getBySelector(`calcite-combobox-item.${CSS.selectAll}`);
+    await expect.element(selectAllItem).toHaveProperty("indeterminate", true);
+  });
 });
 
 describe("item selection", () => {
