@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.9...@esri/calcite-ui-icons@4.5.0-next.10) (2026-04-07)
+
+### Features
+
+- updated nodes-unmerge keywords ([#14225](https://github.com/Esri/calcite-design-system/issues/14225))
+
 ## [4.5.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.8...@esri/calcite-ui-icons@4.5.0-next.9) (2026-03-27)
 
 ### Features
