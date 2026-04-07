@@ -259,11 +259,11 @@ calcite-icon {
 }
 
 :host([status="invalid"]) {
-  & .prefix,
-  & .icon,
-  & input,
-  & .clear-button,
-  & .suffix {
+  .prefix,
+  .icon,
+  input,
+  .clear-button,
+  .suffix {
     border-color: var(--calcite-color-status-danger);
   }
 

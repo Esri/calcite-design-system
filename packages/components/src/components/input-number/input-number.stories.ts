@@ -250,9 +250,4 @@ export const overlayDoesNotObscureIcon = (): string =>
     <calcite-input-number icon="check-square-f"></calcite-input-number>
     <div class="overlay"></div>`;
 
-export const withLoader = (): string => html`
-  <div>
-    <calcite-input-number clearable id="input-number-with-loader" scale="m" loading icon="search" value="123">
-    </calcite-input-number>
-  </div>
-`;
+export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;

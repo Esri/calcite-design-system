@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { commands, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -120,7 +120,7 @@ describe("clearable", () => {
     const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
     await expect.element(clearButton).toBeInTheDocument();
-    expect(clearButton.element().getAttribute("title")).toBe("Clear value");
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
   });
 
   it("does not render clear button when clearable is not requested", async () => {
@@ -160,65 +160,53 @@ describe("clearable", () => {
 
   it("receives event when clear button is clicked", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
-    let calciteInputNumberCount = 0;
-
-    el.addEventListener("calciteInputNumberInput", () => {
-      calciteInputNumberCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
 
     const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(clearButton);
 
     expect(el.value).toBe("");
-    expect(calciteInputNumberCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when input is cleared via escape key", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     const input = page.getBySelector("calcite-input-number input");
-    let calciteInputNumberCount = 0;
-
-    el.addEventListener("calciteInputNumberInput", () => {
-      calciteInputNumberCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
 
     await userEvent.click(input);
 
-    expect(calciteInputNumberCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.keyboard("{Escape}");
 
     expect(el.value).toBe("");
-    expect(calciteInputNumberCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number value="123" />);
     const input = page.getBySelector("calcite-input-number input");
-    let calciteInputNumberCount = 0;
-
-    el.addEventListener("calciteInputNumberInput", () => {
-      calciteInputNumberCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
 
     await userEvent.click(input);
 
-    expect(calciteInputNumberCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.keyboard("{Escape}");
 
     expect(el.value).toBe("123");
-    expect(calciteInputNumberCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
   });
 
   it("emits change event when value set directly and then cleared in 'de' locale", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable lang="de" value="0" />);
-    let calciteInputNumberChangeCount = 0;
-
-    el.addEventListener("calciteInputNumberChange", () => {
-      calciteInputNumberChangeCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberChange", inputEventHandler);
 
     el.value = "49.173126";
 
@@ -229,7 +217,7 @@ describe("clearable", () => {
     await userEvent.click(clearButton);
 
     expect(el.value).toBe("");
-    expect(calciteInputNumberChangeCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("disables clear button when input is disabled", async () => {
@@ -259,6 +247,10 @@ describe("is form-associated", () => {
 });
 
 describe("nudging", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   function nudgeReadOnlyToggle(el: InputNumber["el"]): Promise<void> {
     return new Promise<void>((resolve) => {
       el.addEventListener(
@@ -318,8 +310,6 @@ describe("nudging", () => {
     await commands.mouseUp();
     vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 2);
     expect(el.value).toBe(value);
-
-    vi.useRealTimers();
   });
 });
 

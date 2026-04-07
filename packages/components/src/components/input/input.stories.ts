@@ -258,16 +258,6 @@ export const overlayDoesNotObscureIcon = (): string =>
     <calcite-input icon="check-square-f"></calcite-input>
     <div class="overlay"></div>`;
 
-export const withLoader = (): string => html`
-  <div>
-    <calcite-input id="input-with-loader" type="text" placeholder="Placeholder text" scale="m" loading icon="search">
-    </calcite-input>
-  </div>
-`;
-
 export const numberHorizontal = (): string => html`
-  <div>
-    <calcite-input id="number-horizontal" type="number" number-button-type="horizontal" value="1" scale="m" clearable>
-    </calcite-input>
-  </div>
+  <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
 `;

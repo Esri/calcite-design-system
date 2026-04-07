@@ -373,32 +373,32 @@ describe("with prefix & suffix", () => {
 describe("clearable", () => {
   const componentTokens: ComponentTestTokens = {
     "--calcite-input-action-background-color": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
     },
     "--calcite-input-action-background-color-hover": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
       state: "hover",
     },
     "--calcite-input-action-background-color-press": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
-      state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> calcite-action >>> .button` },
+      state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> .button` },
     },
     "--calcite-input-action-icon-color": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
     },
     "--calcite-input-action-icon-color-hover": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
       state: "hover",
     },
     "--calcite-input-action-icon-color-press": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
-      state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> calcite-action >>> calcite-icon ` },
+      state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> calcite-icon ` },
     },
     "--calcite-input-text-border-color": {
       shadowSelector: `.${CSS.clearButton}`,

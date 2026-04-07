@@ -604,62 +604,62 @@ describe("theme", () => {
   });
   themed(html` <calcite-input clearable icon="layer" value="Forty two"></calcite-input>`, {
     "--calcite-input-actions-background-color": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
     },
     "--calcite-input-actions-background-color-hover": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
       state: "hover",
     },
     "--calcite-input-actions-background-color-press": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
-      state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-action >>> .button` },
+      state: { press: `calcite-input >>> .${CSS.clearButton} >>> .button` },
     },
     "--calcite-input-actions-icon-color": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
     },
     "--calcite-input-actions-icon-color-hover": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
       state: "hover",
     },
     "--calcite-input-actions-icon-color-press": {
-      shadowSelector: `.${CSS.clearButton} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
-      state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-action >>> calcite-icon` },
+      state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-icon` },
     },
   });
   themed(html` <calcite-input icon="layer" value="42" type="number"></calcite-input>`, {
     "--calcite-input-actions-background-color": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
       targetProp: "backgroundColor",
     },
     "--calcite-input-actions-background-color-hover": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
       targetProp: "backgroundColor",
       state: "hover",
     },
     "--calcite-input-actions-background-color-press": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> .button`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
       targetProp: "backgroundColor",
-      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-action >>> .button` },
+      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .button` },
     },
     "--calcite-input-actions-icon-color": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
       targetProp: "color",
     },
     "--calcite-input-actions-icon-color-hover": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
       targetProp: "color",
       state: "hover",
     },
     "--calcite-input-actions-icon-color-press": {
-      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-action >>> calcite-icon`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
       targetProp: "color",
-      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-action >>> calcite-icon` },
+      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-icon` },
     },
   });
 });

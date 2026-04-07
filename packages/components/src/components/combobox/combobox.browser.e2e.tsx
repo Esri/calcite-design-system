@@ -1,5 +1,5 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import {
@@ -981,14 +981,12 @@ describe("keyboard interactions", async () => {
           await expect.element(clearButton).not.toBeInTheDocument();
         }
       } else {
+        const combobox = page.getBySelector("calcite-combobox");
         const input = page.getBySelector("calcite-combobox input");
+        await expect.element(combobox).toBeInTheDocument();
         await expect.element(input).toBeInTheDocument();
 
-        if (!input) {
-          throw new Error("expected internal input to be rendered");
-        }
-
-        await userEvent.click(input, { force: true });
+        await userEvent.click(combobox);
         await userEvent.keyboard("{Escape}");
       }
 
@@ -1013,10 +1011,9 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        selectionModes.forEach((selectionMode) => {
-          it(`does not clear the value in ${selectionMode}-selection mode`, () =>
-            assertValueClearing(selectionMode, false, "keyboard", "no-clear"));
-        });
+        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+          assertValueClearing(selectionMode, false, "keyboard", "no-clear"),
+        );
       });
     });
 
@@ -1029,10 +1026,9 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        selectionModes.forEach((selectionMode) => {
-          it(`does not clear the value in ${selectionMode}-selection mode`, () =>
-            assertValueClearing(selectionMode, true, "keyboard", "no-clear"));
-        });
+        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+          assertValueClearing(selectionMode, true, "keyboard", "no-clear"),
+        );
       });
     });
   });

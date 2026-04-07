@@ -299,12 +299,12 @@ input[readonly]:focus {
 }
 
 :host([status="invalid"]) {
-  & .prefix,
-  & .icon,
-  & input,
-  & .clear-button,
-  & .suffix,
-  & .number-button-item {
+  .prefix,
+  .icon,
+  input,
+  .clear-button,
+  .suffix,
+  .number-button-item {
     border-color: var(--calcite-color-status-danger);
   }
 

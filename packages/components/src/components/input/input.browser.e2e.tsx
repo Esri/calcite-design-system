@@ -194,7 +194,7 @@ describe("clearable", () => {
     const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
     await expect.element(clearButton).toBeInTheDocument();
-    expect(clearButton.element().getAttribute("title")).toBe("Clear value");
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
   });
 
   it("does not render clear button when clearable is not requested", async () => {
@@ -234,93 +234,78 @@ describe("clearable", () => {
 
   it("receives event when clear button is clicked", async () => {
     const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
-    let calciteInputInputCount = 0;
-
-    el.addEventListener("calciteInputInput", () => {
-      calciteInputInputCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
 
     const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(clearButton);
 
     expect(el.value).toBe("");
-    expect(calciteInputInputCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when input is cleared via escape key", async () => {
     const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     const input = page.getBySelector("calcite-input input");
-    let calciteInputInputCount = 0;
-
-    el.addEventListener("calciteInputInput", () => {
-      calciteInputInputCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
 
     await userEvent.click(input);
 
-    expect(calciteInputInputCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.keyboard("{Escape}");
 
     expect(el.value).toBe("");
-    expect(calciteInputInputCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when type is search and clear button is clicked", async () => {
     const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
-    let calciteInputInputCount = 0;
-
-    el.addEventListener("calciteInputInput", () => {
-      calciteInputInputCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
 
     const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
 
-    expect(calciteInputInputCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.click(clearButton);
 
     expect(el.value).toBe("");
-    expect(calciteInputInputCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when type is search and input is cleared via escape key", async () => {
     const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
     const input = page.getBySelector("calcite-input input");
-    let calciteInputInputCount = 0;
-
-    el.addEventListener("calciteInputInput", () => {
-      calciteInputInputCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
 
     await userEvent.click(input);
 
-    expect(calciteInputInputCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.keyboard("{Escape}");
 
     expect(el.value).toBe("");
-    expect(calciteInputInputCount).toBe(1);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
     const { el } = await mount<Input>(<calcite-input value="John Doe" />);
     const input = page.getBySelector("calcite-input input");
-    let calciteInputInputCount = 0;
-
-    el.addEventListener("calciteInputInput", () => {
-      calciteInputInputCount++;
-    });
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
 
     await userEvent.click(input);
 
-    expect(calciteInputInputCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
 
     await userEvent.keyboard("{Escape}");
 
     expect(el.value).toBe("John Doe");
-    expect(calciteInputInputCount).toBe(0);
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
   });
 
   it("disables clear button when input is disabled", async () => {
