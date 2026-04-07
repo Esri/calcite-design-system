@@ -400,8 +400,9 @@ const shellSampleContentStyles = `
       position: absolute;
       inset: 0;
       z-index: 1;
-      color: #fff;
+      color: #999;
       background-color: #007AC2;
+      background-color: #fff;
     }
 
     .panel-content > div:nth-child(2) {
