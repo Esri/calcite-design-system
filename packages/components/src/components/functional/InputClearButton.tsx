@@ -26,26 +26,18 @@ export const InputClearButton = ({
   scale,
   title,
 }: InputClearButtonProps): TemplateResult => {
-  const action = (
-    <calcite-action
-      disabled={disabled}
-      icon="x"
-      label={ariaLabel}
-      onClick={onClick}
-      scale={scale}
-      tabIndex={focusable ? undefined : -1}
-      text={title}
-      title={title}
-    />
-  );
-
-  return ref ? (
+  return (
     <div class={CSS.container} inert={disabled} ref={ref}>
-      {action}
-    </div>
-  ) : (
-    <div class={CSS.container} inert={disabled}>
-      {action}
+      <calcite-action
+        disabled={disabled}
+        icon="x"
+        label={ariaLabel}
+        onClick={onClick}
+        scale={scale}
+        tabIndex={focusable ? undefined : -1}
+        text={title}
+        title={title}
+      />
     </div>
   );
 };
