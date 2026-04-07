@@ -4,25 +4,28 @@ import type { RegisterFn } from "../../../types/interfaces.d.ts";
 
 const correctedValueTypes = ["shadow"] as const;
 const filterTypes: Filter["filter"] = (token) =>
-  correctedValueTypes.includes(token.type) && typeof token.value === "object";
+  correctedValueTypes.includes(token.$type) && typeof token.$value === "object";
 
 function fixableShadowToken(
   token: TransformedToken,
-): token is TransformedToken & { value: { offsetX: number; offsetY: number } } {
+): token is TransformedToken & { $value: { offsetX: number; offsetY: number } } {
   return (
-    token.type === "shadow" && typeof token.value === "object" && "offsetX" in token.value && "offsetY" in token.value
+    token.$type === "shadow" &&
+    typeof token.$value === "object" &&
+    "offsetX" in token.$value &&
+    "offsetY" in token.$value
   );
 }
 
 const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   if (fixableShadowToken(token)) {
-    token.value["x"] = token.value.offsetX;
-    delete token.value.offsetX;
-    token.value["y"] = token.value.offsetY;
-    delete token.value.offsetY;
+    token.$value["x"] = token.$value.offsetX;
+    delete token.$value.offsetX;
+    token.$value["y"] = token.$value.offsetY;
+    delete token.$value.offsetY;
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueCorrectPropName: RegisterFn = () => {

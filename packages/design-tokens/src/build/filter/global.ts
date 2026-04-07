@@ -8,7 +8,7 @@ import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 export const filterGlobalTokens: Filter["filter"] = (token, config) => {
   return (
     state.sameValueThemeTokens.has(token.key) ||
-    (token.isSource && !(token.type === "typography" || isBreakpoint(token) || isLightOrDarkColorToken(token, config)))
+    (token.isSource && !(token.$type === "typography" || isBreakpoint(token) || isLightOrDarkColorToken(token, config)))
   );
 };
 

@@ -42,7 +42,7 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
     };
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueMergeValues: RegisterFn = () => {

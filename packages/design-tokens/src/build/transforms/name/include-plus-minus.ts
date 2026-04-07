@@ -36,12 +36,14 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
     }
   });
 
+  console.log("name is", name);
+
   return name;
 };
 
 function filterByPlusMinusInPath(token: TransformedToken): boolean {
   return (
-    token.type !== "color" &&
+    token.$type !== "color" &&
     !token.path.includes("container-size") &&
     token.path.some((path) => path.includes("+") || path.includes("-"))
   );
