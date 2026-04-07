@@ -29,7 +29,8 @@ type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom"
 type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
   actionBarPosition: Position;
-  resizable: boolean;
+  includeActionBar: boolean;
+  isResizable: boolean;
 };
 
 type ActionBarPositionPanelStartItem = {
@@ -3162,9 +3163,9 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         layout="${isHorizontal ? "horizontal" : "vertical"}"
         position="${panelPosition}"
         width="l"
-        ${boolean("resizable", args.resizable)}
+        ${boolean("resizable", args.isResizable)}
       >
-        ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
+        ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
       </calcite-shell-panel>
       ${actionBarPositionPanelHTML}
     </calcite-shell>`;
@@ -3173,20 +3174,31 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
 shellPanelWithActionBarPositionProp.args = {
   shellPanelSlot: "panel-start",
   actionBarPosition: "start",
-  resizable: true,
+  includeActionBar: true,
+  isResizable: true,
 };
 
 shellPanelWithActionBarPositionProp.argTypes = {
   shellPanelSlot: {
     options: ["panel-start", "panel-end", "panel-top", "panel-bottom"],
-    control: { type: "select" },
+    control: { type: "inline-radio" },
   },
   actionBarPosition: {
     options: ["start", "end", "top", "bottom"],
-    control: { type: "select" },
+    control: { type: "inline-radio" },
+  },
+  includeActionBar: {
+    control: { type: "boolean" },
+  },
+  isResizable: {
+    name: "resizable",
+    control: { type: "boolean" },
   },
   resizable: {
-    control: { type: "boolean" },
+    table: {
+      disable: true,
+    },
+    control: false,
   },
 };
 
@@ -3203,7 +3215,8 @@ shellPanelWithActionBarPositionProp.parameters = {
     cropToViewport: true,
   },
   controls: {
-    include: ["shellPanelSlot", "actionBarPosition", "resizable"],
+    include: ["shellPanelSlot", "actionBarPosition", "includeActionBar", "resizable"],
+    sort: "none",
   },
 };
 
