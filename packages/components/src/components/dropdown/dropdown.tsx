@@ -47,7 +47,7 @@ const manager = referenceElementManager({ click: true, hover: true });
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - [deprecated] Use `referenceElement` property instead. A slot for the element that triggers the component.
+ * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
  */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
