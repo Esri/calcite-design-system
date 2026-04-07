@@ -83,6 +83,10 @@ const resources = {
     tokens: "calcite-design-tokens",
     icons: "calcite-ui-icons",
   },
+  groups: {
+    designers: "@Esri/calcite-designers",
+    pes: "@Esri/calcite-pes",
+  },
 };
 
 module.exports = resources;
