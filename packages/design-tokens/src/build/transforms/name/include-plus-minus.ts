@@ -36,8 +36,6 @@ export const transformNamePlusMinus: NameTransform["transform"] = (token) => {
     }
   });
 
-  console.log("name is", name);
-
   return name;
 };
 
