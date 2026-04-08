@@ -134,7 +134,7 @@ function overrideTokenStudioTransforms(): void {
           (key) =>
             (transformed[key] = ogTransform.transform(
               // fake token transforms each prop and ensures type
-              { ...token, value: `${token.$value[key]}`, type: "dimension" },
+              { ...token, $value: `${token.$value[key]}`, $type: "dimension" },
               config,
               options,
             )),
