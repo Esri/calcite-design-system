@@ -905,7 +905,6 @@ export class InputNumber
         <InputClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
-          ref={undefined}
           scale={this.scale}
           title={this.messages.clear}
         />

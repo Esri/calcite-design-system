@@ -17,6 +17,10 @@ export const CSS = {
   container: "input-clear-button--container",
 };
 
+const clearButtonReference = (): void => {
+  return;
+};
+
 export const InputClearButton = ({
   ariaLabel,
   ref,
@@ -27,7 +31,7 @@ export const InputClearButton = ({
   title,
 }: InputClearButtonProps): TemplateResult => {
   return (
-    <div class={CSS.container} inert={disabled} ref={ref}>
+    <div class={CSS.container} inert={disabled} ref={ref ? ref : clearButtonReference}>
       <calcite-action
         disabled={disabled}
         icon="x"
