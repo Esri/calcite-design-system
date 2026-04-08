@@ -516,6 +516,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         <InputClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
+          ref={undefined}
           scale={this.scale}
           title={this.messages.clear}
         />
