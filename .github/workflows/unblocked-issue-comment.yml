@@ -1,4 +1,4 @@
-name: Issue Unblocked Comment
+name: Add Unblocked Comment to Issue
 on:
   issues:
     types: [closed]
@@ -18,4 +18,4 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addUnblockedComment.js')
-            await action({github, context})
+            await action({github, context, core})
