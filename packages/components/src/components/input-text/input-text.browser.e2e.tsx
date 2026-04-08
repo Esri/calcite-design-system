@@ -13,7 +13,7 @@ import {
   t9n,
   formAssociated,
 } from "../../tests/commonTests/browser";
-import { CSS as InputClearButtonCSS } from "../functional/InputClearButton";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 
@@ -98,7 +98,7 @@ describe("is focusable", () => {
     it("renders clear button", async () => {
       await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
 
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
       await expect.element(clearButton).toBeInTheDocument();
       await expect.element(clearButton).toHaveAttribute("title", "Clear value");
@@ -107,21 +107,21 @@ describe("is focusable", () => {
     it("does not render clear button when clearable is not requested", async () => {
       await mount<InputText>(<calcite-input-text />);
 
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
       await expect.element(clearButton).not.toBeInTheDocument();
     });
 
     it("does not render clear button when clearable is requested and value is not populated", async () => {
       await mount<InputText>(<calcite-input-text clearable value="" />);
 
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
       await expect.element(clearButton).not.toBeInTheDocument();
     });
 
     it("clears value on clear button click", async () => {
       const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
       const input = page.getBySelector("calcite-input-text input");
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
       await userEvent.click(input);
       await userEvent.click(clearButton);
@@ -144,7 +144,7 @@ describe("is focusable", () => {
       const inputEventHandler = vi.fn();
       el.addEventListener("calciteInputTextInput", inputEventHandler);
 
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
       await userEvent.click(clearButton);
 
@@ -186,7 +186,7 @@ describe("is focusable", () => {
 
     it("disables clear button when input-text is disabled", async () => {
       await mount<InputText>(<calcite-input-text clearable disabled value="John Doe" />);
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
       await expect.element(clearButton).toBeInTheDocument();
       await expect.element(clearButton).toBeDisabled();
@@ -194,7 +194,7 @@ describe("is focusable", () => {
 
     it("disables clear button when input-text is readOnly", async () => {
       await mount<InputText>(<calcite-input-text clearable readOnly value="John Doe" />);
-      const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+      const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
       await expect.element(clearButton).toBeInTheDocument();
       await expect.element(clearButton).toBeDisabled();

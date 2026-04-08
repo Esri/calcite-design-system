@@ -20,7 +20,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
-import { InputClearButton } from "../functional/InputClearButton";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
@@ -508,12 +508,12 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       </div>
     );
 
-    const inputClearButton = (
+    const clearButton = (
       <div
         class={CSS.clearButton}
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputTextValue}
       >
-        <InputClearButton
+        <ClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
           scale={this.scale}
@@ -593,7 +593,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
             {this.prefixText ? prefixText : null}
             {this.requestedIcon ? iconEl : null}
             {childEl}
-            {this.isClearable ? inputClearButton : null}
+            {this.isClearable ? clearButton : null}
             {this.suffixText ? suffixText : null}
           </div>
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>

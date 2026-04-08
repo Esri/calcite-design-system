@@ -20,7 +20,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { ComboboxItem } from "../combobox-item/combobox-item";
-import { CSS as InputClearButtonCSS } from "../functional/InputClearButton";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
@@ -972,7 +972,7 @@ describe("keyboard interactions", async () => {
       }
 
       if (mode === "mouse") {
-        const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+        const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
         if (expectedBehavior === "clear") {
           await expect.element(clearButton).toBeInTheDocument();

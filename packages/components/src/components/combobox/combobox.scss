@@ -275,7 +275,7 @@ calcite-chip {
 }
 
 @include includes.disabled();
-@include includes.input-clear-button();
+@include includes.clear-button();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();

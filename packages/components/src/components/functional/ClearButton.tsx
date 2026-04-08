@@ -3,7 +3,7 @@ import { Ref } from "lit/directives/ref.js";
 import { h } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 
-interface InputClearButtonProps {
+interface ClearButtonProps {
   ariaLabel: string;
   ref?: Ref<HTMLDivElement>;
   disabled?: boolean;
@@ -14,14 +14,14 @@ interface InputClearButtonProps {
 }
 
 export const CSS = {
-  container: "input-clear-button--container",
+  container: "clear-button--container",
 };
 
 const clearButtonReference = (): void => {
   return;
 };
 
-export const InputClearButton = ({
+export const ClearButton = ({
   ariaLabel,
   ref,
   disabled,
@@ -29,7 +29,7 @@ export const InputClearButton = ({
   onClick,
   scale,
   title,
-}: InputClearButtonProps): TemplateResult => {
+}: ClearButtonProps): TemplateResult => {
   return (
     <div class={CSS.container} inert={disabled} ref={ref ? ref : clearButtonReference}>
       <calcite-action

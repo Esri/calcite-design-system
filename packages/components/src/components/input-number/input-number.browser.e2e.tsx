@@ -15,7 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
-import { CSS as InputClearButtonCSS } from "../functional/InputClearButton";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
@@ -117,7 +117,7 @@ describe("disabled", () => {
 describe("clearable", () => {
   it("renders clear button", async () => {
     await mount<InputNumber>(<calcite-input-number clearable value="123" />);
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await expect.element(clearButton).toBeInTheDocument();
     await expect.element(clearButton).toHaveAttribute("title", "Clear value");
@@ -126,21 +126,21 @@ describe("clearable", () => {
   it("does not render clear button when clearable is not requested", async () => {
     await mount<InputNumber>(<calcite-input-number />);
 
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
     await expect.element(clearButton).not.toBeInTheDocument();
   });
 
   it("does not render clear button when clearable is requested and value is not populated", async () => {
     await mount<InputNumber>(<calcite-input-number clearable value="" />);
 
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
     await expect.element(clearButton).not.toBeInTheDocument();
   });
 
   it("clears value on clear button click", async () => {
     const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
     const input = page.getBySelector("calcite-input-number input");
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(input);
     await userEvent.click(clearButton);
@@ -163,7 +163,7 @@ describe("clearable", () => {
     const inputEventHandler = vi.fn();
     el.addEventListener("calciteInputNumberInput", inputEventHandler);
 
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(clearButton);
 
@@ -212,7 +212,7 @@ describe("clearable", () => {
 
     expect(el.value).toBe("49.173126");
 
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(clearButton);
 
@@ -222,7 +222,7 @@ describe("clearable", () => {
 
   it("disables clear button when input is disabled", async () => {
     await mount<InputNumber>(<calcite-input-number clearable disabled value="123" />);
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await expect.element(clearButton).toBeInTheDocument();
     await expect.element(clearButton).toBeDisabled();
@@ -230,7 +230,7 @@ describe("clearable", () => {
 
   it("disables clear button when input is readOnly", async () => {
     await mount<InputNumber>(<calcite-input-number clearable readOnly value="123" />);
-    const clearButton = page.getBySelector(`.${InputClearButtonCSS.container} calcite-action`);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await expect.element(clearButton).toBeInTheDocument();
     await expect.element(clearButton).toBeDisabled();

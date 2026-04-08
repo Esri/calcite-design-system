@@ -431,7 +431,7 @@ input {
 @include includes.hidden-form-input();
 @include includes.base-component();
 @include includes.input-placeholder-text();
-@include includes.input-clear-button(
+@include includes.clear-button(
   $background-color: "--calcite-input-action-background-color",
   $background-color-hover: "--calcite-input-action-background-color-hover",
   $background-color-press: "--calcite-input-action-background-color-press",

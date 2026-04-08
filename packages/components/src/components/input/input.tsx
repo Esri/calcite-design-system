@@ -35,7 +35,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { InputClearButton } from "../functional/InputClearButton";
+import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
@@ -939,12 +939,12 @@ export class Input
       </div>
     );
 
-    const inputClearButton = (
+    const clearButton = (
       <div
         class={CSS.clearButton}
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
       >
-        <InputClearButton
+        <ClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
           scale={this.scale}
@@ -1131,7 +1131,7 @@ export class Input
             {this.requestedIcon ? iconEl : null}
             {localeNumberInput}
             {childEl}
-            {this.isClearable ? inputClearButton : null}
+            {this.isClearable ? clearButton : null}
             {this.suffixText ? suffixText : null}
             {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalUp

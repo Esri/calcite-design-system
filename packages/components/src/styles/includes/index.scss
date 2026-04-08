@@ -184,15 +184,15 @@
   /* stylelint-enable selector-attribute-name-disallowed-list */
 }
 
-@mixin input-clear-button(
-  $background-color: "--calcite-input-clear-button-background-color",
-  $background-color-hover: "--calcite-input-clear-button-background-color-hover",
-  $background-color-press: "--calcite-input-clear-button-background-color-press",
-  $icon-color: "--calcite-input-clear-button-icon-color",
-  $icon-color-hover: "--calcite-input-clear-button-icon-color-hover",
-  $icon-color-press: "--calcite-input-clear-button-icon-color-press"
+@mixin clear-button(
+  $background-color: "--calcite-clear-button-background-color",
+  $background-color-hover: "--calcite-clear-button-background-color-hover",
+  $background-color-press: "--calcite-clear-button-background-color-press",
+  $icon-color: "--calcite-clear-button-icon-color",
+  $icon-color-hover: "--calcite-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-clear-button-icon-color-press"
 ) {
-  .input-clear-button--container {
+  .clear-button--container {
     display: flex;
     cursor: pointer;
     align-items: center;
@@ -228,20 +228,20 @@
   }
 
   :host([scale="s"]) {
-    .input-clear-button--container {
+    .clear-button--container {
       padding: var(--calcite-spacing-xxs);
     }
   }
 
   :host([scale="m"]) {
-    .input-clear-button--container {
+    .clear-button--container {
       padding: var(--calcite-spacing-xxs);
       padding-inline-end: var(--calcite-space-sm);
     }
   }
 
   :host([scale="l"]) {
-    .input-clear-button--container {
+    .clear-button--container {
       padding-inline-end: var(--calcite-spacing-sm-plus);
     }
   }

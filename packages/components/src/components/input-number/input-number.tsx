@@ -28,7 +28,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
-import { InputClearButton } from "../functional/InputClearButton";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
@@ -897,12 +897,12 @@ export class InputNumber
       </div>
     );
 
-    const inputClearButton = (
+    const clearButton = (
       <div
         class={CSS.clearButton}
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
       >
-        <InputClearButton
+        <ClearButton
           ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
           scale={this.scale}
@@ -1039,7 +1039,7 @@ export class InputNumber
             {this.prefixText ? prefixText : null}
             {this.requestedIcon ? iconEl : null}
             {childEl}
-            {this.isClearable ? inputClearButton : null}
+            {this.isClearable ? clearButton : null}
             {this.suffixText ? suffixText : null}
             {this.numberButtonType === "horizontal" && !this.readOnly
               ? numberButtonsHorizontalUp
