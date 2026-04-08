@@ -175,18 +175,22 @@ input {
   border-radius: var(--calcite-input-text-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-.has-prefix input,
-.element-wrapper:has(.icon) input {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
-  border-inline-start-width: 0;
+.has-prefix,
+.element-wrapper:has(.icon) {
+  input {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-inline-start-width: 0;
+  }
 }
 
-.element-wrapper:has(.clear-button) input,
-.has-suffix input {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
-  border-inline-end-width: 0;
+.element-wrapper:has(.clear-button),
+.has-suffix {
+  input {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-inline-end-width: 0;
+  }
 }
 
 .has-prefix .prefix,

@@ -196,23 +196,29 @@ input {
   border-radius: var(--calcite-input-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
-.has-prefix input,
-.element-wrapper:has(.icon) input {
-  border-start-start-radius: 0;
-  border-end-start-radius: 0;
+.has-prefix,
+.element-wrapper:has(.icon) {
+  input {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+  }
 }
 
-.element-wrapper:has(.number-button-item--horizontal[data-adjustment="down"]) input,
-.has-prefix input,
-.element-wrapper:has(.icon) input {
-  border-inline-start-width: 0;
+.element-wrapper:has(.number-button-item--horizontal[data-adjustment="down"]),
+.has-prefix,
+.element-wrapper:has(.icon) {
+  input {
+    border-inline-start-width: 0;
+  }
 }
 
-.element-wrapper:has(.clear-button) input,
-.has-suffix input,
-.element-wrapper:has(.number-button-item--horizontal[data-adjustment="up"]) input,
-.element-wrapper:has(.number-button-item) input {
-  border-inline-end-width: 0;
+.element-wrapper:has(.clear-button),
+.has-suffix,
+.element-wrapper:has(.number-button-item--horizontal[data-adjustment="up"]),
+.element-wrapper:has(.number-button-item) {
+  input {
+    border-inline-end-width: 0;
+  }
 }
 
 .has-suffix input,
@@ -325,9 +331,11 @@ input[readonly]:focus {
   padding-inline-start: var(--calcite-internal-input-icon-padding-inline);
 }
 
-.element-wrapper:has(.number-button-item--horizontal[data-adjustment="down"]) .icon,
-.has-prefix .icon {
-  border-inline-start-width: 0;
+.element-wrapper:has(.number-button-item--horizontal[data-adjustment="down"]),
+.has-prefix {
+  .icon {
+    border-inline-start-width: 0;
+  }
 }
 
 // hide browser default clear
@@ -359,10 +367,12 @@ input[type="time"]::-webkit-clear-button {
   background-color: var(--calcite-input-background-color, var(--calcite-color-foreground-1));
 }
 
-.has-suffix .clear-button,
-.element-wrapper:has(.number-button-item.number-button-item--horizontal[data-adjustment="up"]) .clear-button,
-.element-wrapper:has(.number-button-item) .clear-button {
-  border-inline-end-width: 0;
+.has-suffix,
+.element-wrapper:has(.number-button-item.number-button-item--horizontal[data-adjustment="up"]),
+.element-wrapper:has(.number-button-item) {
+  .clear-button {
+    border-inline-end-width: 0;
+  }
 }
 
 // loading
@@ -420,9 +430,11 @@ input[type="time"]::-webkit-clear-button {
   border-inline-start-width: var(--calcite-border-width-none);
 }
 
-.element-wrapper:has(.number-button-item--horizontal[data-adjustment="up"]) .suffix,
-.element-wrapper:has(.number-button-item) .suffix {
-  border-inline-end-width: var(--calcite-border-width-none);
+.element-wrapper:has(.number-button-item--horizontal[data-adjustment="up"]),
+.element-wrapper:has(.number-button-item) {
+  .suffix {
+    border-inline-end-width: var(--calcite-border-width-none);
+  }
 }
 
 // alignment type
