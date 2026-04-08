@@ -36,6 +36,8 @@ td {
     var(--calcite-table-cell-background-color, transparent)
   );
   font-size: var(--calcite-internal-table-cell-font-size);
+  border-block-end: var(--calcite-internal-table-row-border-block-end-width, 0) solid
+    var(--calcite-internal-table-row-border-block-end-color, transparent);
   border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
   padding: var(--calcite-internal-table-cell-padding);
@@ -60,6 +62,10 @@ td.last-cell {
   border-inline-end: 0;
 }
 
+td.no-border-block-end {
+  border-block-end: 0;
+}
+
 .footer-cell {
   @apply font-medium;
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
@@ -68,6 +74,7 @@ td.last-cell {
     var(--calcite-table-cell-background, var(--calcite-color-background))
   );
 
+  border-block-end: 0;
   border-block-start: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }

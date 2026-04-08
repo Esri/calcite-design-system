@@ -51,21 +51,13 @@ th {
 
 th:not(.body-row):not(.footer-row) {
   border-block-end-width: var(--calcite-internal-table-head-border-block-end-width, var(--calcite-border-width-sm));
-  box-shadow: var(--calcite-internal-table-sticky-header-border-shadow, none);
-}
-
-/* Workaround for Firefox sticky header paint seams between stacked header rows. */
-/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
-@-moz-document url-prefix() {
-  th:not(.body-row):not(.footer-row) {
-    box-shadow:
-      0 calc(-1 * var(--calcite-internal-table-header-overlap, 0px)) 0 0
-        var(
-          --calcite-table-header-background-color,
-          var(--calcite-table-header-background, var(--calcite-color-foreground-2))
-        ),
-      var(--calcite-internal-table-sticky-header-border-shadow, 0 0 0 0 transparent);
-  }
+  box-shadow:
+    0 calc(-1 * var(--calcite-internal-table-header-overlap, 0px)) 0 0
+      var(
+        --calcite-table-header-background-color,
+        var(--calcite-table-header-background, var(--calcite-color-foreground-2))
+      ),
+    var(--calcite-internal-table-sticky-header-border-shadow, 0 0 0 0 transparent);
 }
 
 th:not(.center):not(.end).content-cell {

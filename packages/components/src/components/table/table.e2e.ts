@@ -204,6 +204,135 @@ describe("sticky header", () => {
     expect(metrics.after.bodyTop).toBeLessThan(metrics.before.bodyTop);
   });
 
+  it("renders bordered body row separators at the cell level, including with sticky header enabled", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table bordered sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${createSimpleTableRows([{ id: "row-1" }, {}, { id: "row-3" }])}
+      </calcite-table>`,
+    );
+
+    const separators = await page.$eval(
+      "calcite-table",
+      (table, tableContainerClass) => {
+        const tableContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const containerBorderColor = getComputedStyle(tableContainer).borderTopColor;
+        const firstCell = table
+          .querySelector<HTMLElement>("#row-1 calcite-table-cell")
+          .shadowRoot.querySelector<HTMLTableCellElement>("td");
+        const lastRowFirstCell = table
+          .querySelector<HTMLElement>("#row-3 calcite-table-cell")
+          .shadowRoot.querySelector<HTMLTableCellElement>("td");
+
+        return {
+          containerBorderColor,
+          firstCellBorderBottomColor: getComputedStyle(firstCell).borderBottomColor,
+          firstCellBorderBottomWidth: getComputedStyle(firstCell).borderBottomWidth,
+          lastCellBorderBottomWidth: getComputedStyle(lastRowFirstCell).borderBottomWidth,
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(separators.firstCellBorderBottomColor).toBe(separators.containerBorderColor);
+    expect(separators.firstCellBorderBottomWidth).toBe("1px");
+    expect(separators.lastCellBorderBottomWidth).toBe("0px");
+  });
+
+  it("applies overlap coverage for stacked sticky headers to avoid seams while scrolling", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${createSimpleTableRows(7)}
+      </calcite-table>`,
+    );
+
+    const stickyHeaderStyles = await page.$eval(
+      "calcite-table",
+      async (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const headerRows = table.querySelectorAll<HTMLElement>(`calcite-table-row[slot="table-header"]`);
+        const secondHeaderRow = headerRows[1];
+        const secondHeaderCell = secondHeaderRow
+          .querySelector<HTMLElement>("calcite-table-header")
+          .shadowRoot.querySelector<HTMLTableCellElement>("th");
+
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+        return {
+          overlap: getComputedStyle(secondHeaderRow).getPropertyValue("--calcite-internal-table-header-overlap").trim(),
+          secondHeaderBoxShadow: getComputedStyle(secondHeaderCell).boxShadow,
+          secondHeaderTop: Math.round(secondHeaderCell.getBoundingClientRect().top),
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(stickyHeaderStyles.overlap).toBe("2px");
+    expect(stickyHeaderStyles.secondHeaderBoxShadow).not.toBe("none");
+    expect(stickyHeaderStyles.secondHeaderBoxShadow.split(",").length).toBeGreaterThan(1);
+    expect(stickyHeaderStyles.secondHeaderTop).toBeGreaterThanOrEqual(0);
+  });
+
+  it("does not paint an extra bottom separator on rowspan body cells that reach the table bottom", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table bordered caption="Row span table">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell row-span="3" id="rowspan-cell">cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+
+    const borderWidths = await page.$eval("calcite-table", (table) => {
+      const rowspanCell = table
+        .querySelector<HTMLElement>("#rowspan-cell")
+        .shadowRoot.querySelector<HTMLTableCellElement>("td");
+      const lastRowCell = table
+        .querySelector<HTMLElement>("calcite-table-row:last-of-type calcite-table-cell")
+        .shadowRoot.querySelector<HTMLTableCellElement>("td");
+
+      return {
+        lastRowBorderBottomWidth: getComputedStyle(lastRowCell).borderBottomWidth,
+        rowspanCellBorderBottomWidth: getComputedStyle(rowspanCell).borderBottomWidth,
+      };
+    });
+
+    expect(borderWidths.rowspanCellBorderBottomWidth).toBe("0px");
+    expect(borderWidths.lastRowBorderBottomWidth).toBe("0px");
+  });
+
   it("keeps the multiple-selection header row fixed while the table container scrolls", async () => {
     const page = await newE2EPage();
 
@@ -3087,8 +3216,8 @@ describe("keyboard navigation", () => {
           },
           "--calcite-table-row-border-color": {
             selector: "#row-1",
-            shadowSelector: "tr",
-            targetProp: "borderBlockEndColor",
+            shadowSelector: "calcite-table-cell",
+            targetProp: "--calcite-internal-table-row-border-block-end-color",
           },
         },
       );

@@ -469,8 +469,15 @@ export class TableRow extends LitElement {
         cell.scale = this.scale;
 
         if (cell.nodeName === "CALCITE-TABLE-CELL") {
+          const rowSpan = cell.rowSpan || 1;
+          const reachesBodyEnd =
+            this.rowType === "body" &&
+            rowSpan > 1 &&
+            this.positionSection + rowSpan >= this.bodyRowCount;
+
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
+          (cell as TableCell["el"]).noBorderBlockEnd = reachesBodyEnd;
         }
       });
     }

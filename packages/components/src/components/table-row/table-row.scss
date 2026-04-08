@@ -16,6 +16,8 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-table-cell-background-color
+// --calcite-internal-table-row-border-block-end-color
+// --calcite-internal-table-row-border-block-end-width
 
 @use "../../styles/includes";
 
@@ -42,14 +44,6 @@ calcite-table-cell {
   position: var(--calcite-internal-table-header-position, static);
   inset-block-start: var(--calcite-internal-table-header-offset, 0);
   z-index: var(--calcite-internal-table-header-z-index, 2);
-  border-block-end-width: var(
-    --calcite-internal-table-sticky-header-row-border-block-end-width,
-    var(--calcite-border-width-sm)
-  );
-  border-block-end-color: var(
-    --calcite-internal-table-sticky-header-row-border-color,
-    var(--calcite-table-row-border-color, transparent)
-  );
 }
 
 :host([selected]) calcite-table-cell {
@@ -60,7 +54,8 @@ calcite-table-cell {
 }
 
 tr {
-  border-block-end: var(--calcite-border-width-sm) solid var(--calcite-table-row-border-color, transparent);
+  --calcite-internal-table-row-border-block-end-width: var(--calcite-border-width-sm);
+  --calcite-internal-table-row-border-block-end-color: var(--calcite-table-row-border-color, transparent);
   background-color: var(
     --calcite-table-row-background-color,
     var(--calcite-table-row-background, var(--calcite-color-foreground-1))
@@ -68,19 +63,8 @@ tr {
 }
 
 tr.last-visible-row {
-  border-block-end: 0;
-}
-
-/* Workaround for Firefox https://bugzilla.mozilla.org/show_bug.cgi?id=688556 */
-/* ⚠️ browser-specific styling is not a best practice and should be avoided ⚠️ */
-@-moz-document url-prefix() {
-  tr {
-    box-shadow: inset 0 -1px 0 0 var(--calcite-table-row-border-color);
-  }
-
-  tr.last-visible-row {
-    box-shadow: inset 0 -1px 0 0 transparent;
-  }
+  --calcite-internal-table-row-border-block-end-width: 0;
+  --calcite-internal-table-row-border-block-end-color: transparent;
 }
 
 @include includes.item-hidden();
