@@ -131,7 +131,7 @@ In descending order when rules conflict:
 - When drafting review comments or PR text, be direct, collaborative, and specific.
 - Avoid sounding absolute, dismissive, or overly corrective.
 - Prefer wording that explains what changed and why in concrete terms.
-- When helpful, label the type of review comment up front (for example, `fixme`, `nit`, or `suggestion`) so the intent is clear.
+- When helpful, label the type of review comment up front (for example, `fixme` or `suggestion`) so the intent is clear.
 
 ## Reference Docs
 
