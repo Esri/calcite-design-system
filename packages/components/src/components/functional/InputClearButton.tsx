@@ -8,7 +8,7 @@ interface InputClearButtonProps {
   ref?: Ref<HTMLDivElement>;
   disabled?: boolean;
   focusable?: boolean;
-  onClick?: (event: MouseEvent | KeyboardEvent) => void;
+  onClick?: (event: MouseEvent) => void;
   scale: Scale;
   title?: string;
 }

@@ -941,7 +941,7 @@ export class InputNumber
           icon={ICONS.chevronUp}
           scale={this.scale}
           tabIndex={-1}
-          text="number-button-up"
+          text=""
         />
       </div>
     );
@@ -964,7 +964,7 @@ export class InputNumber
           icon={ICONS.chevronDown}
           scale={this.scale}
           tabIndex={-1}
-          text="number-button-down"
+          text=""
         />
       </div>
     );
