@@ -41,7 +41,7 @@ export class ColorPickerSwatch extends LitElement {
   /**
    * The color value.
    *
-   * @see [Color CSS data type](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).
+   * @see [MDN - Color CSS data type](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).
    */
   @property() color: string | null;
 

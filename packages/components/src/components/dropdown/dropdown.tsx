@@ -47,7 +47,7 @@ const manager = referenceElementManager({ click: true, hover: true });
 
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - [deprecated] Use `referenceElement` property instead. A slot for the element that triggers the component.
+ * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
  */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
@@ -184,7 +184,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -244,7 +244,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

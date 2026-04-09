@@ -77,7 +77,7 @@ export class Link extends LitElement {
    * When specified, prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
-   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -108,7 +108,7 @@ export class Link extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
