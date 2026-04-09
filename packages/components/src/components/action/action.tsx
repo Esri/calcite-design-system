@@ -236,7 +236,7 @@ export class Action extends LitElement {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string | null = null;
+  @property({ reflect: true }) form: string;
 
   /** Specifies an icon to display. */
   @property({ type: String, reflect: true }) icon?: IconName;
@@ -274,7 +274,7 @@ export class Action extends LitElement {
   @property() text!: string;
 
   /** Specifies the action type for menu-enabled interactions. */
-  @property({ reflect: true }) buttonType: ActionButtonType;
+  @property({ reflect: true }) buttonType?: ActionButtonType;
 
   /** When `true`, displays `text` adjacent to the `icon`. */
   @property({ reflect: true }) textEnabled = false;
