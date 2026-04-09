@@ -720,7 +720,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     if (this.selectionDisplay === "fit" && this.isMulti()) {
-      this.refreshSelectionDisplay();
+      requestAnimationFrame(() => this.refreshSelectionDisplay());
     }
   }
 
@@ -1674,9 +1674,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const isAncestors = selectionMode === "ancestors";
     const allSelectedNoDisabled = this.allSelected && !this.hasDisabledItems;
     const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
-    const disabledItems = this.allItems.filter(
+    const disabledSelectedCount = this.allItems.filter(
       (item) => item.disabled && item.selected && (!isAncestors || !hasActiveChildren(item)),
-    );
+    ).length;
     const preserveOrder = selectionDisplay === "all";
 
     if (
@@ -1744,8 +1744,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       });
     }
 
-    if (selectionDisplay === "fit" && disabledItems.length) {
-      chips.push(this.renderChipCount(disabledItems.length, scale));
+    if (selectionDisplay === "fit") {
+      const count =
+        disabledSelectedCount +
+        (this.selectedHiddenChipsCount > 0 ? this.selectedHiddenChipsCount : 0);
+      if (count > 0) {
+        chips.push(this.renderChipCount(count, scale));
+      }
     }
 
     return chips.length ? chips : null;
@@ -1799,6 +1804,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     let chipInvisible: boolean;
     let label: string;
 
+    if (selectionDisplay === "fit") {
+      return null;
+    }
+
     if (compactSelectionDisplay) {
       chipInvisible = true;
     } else {
@@ -1815,7 +1824,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           chipInvisible = true;
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
-      } else if (selectionDisplay === "fit") {
+      } else {
         chipInvisible = !!(
           ((allSelectedNoDisabled || allSelectedWithDisabledSelected) &&
             selectedVisibleChipsCount === 0) ||
