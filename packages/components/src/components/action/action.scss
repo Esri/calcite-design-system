@@ -25,8 +25,11 @@
 // --calcite-internal-action-font-size
 // --calcite-internal-action-height
 // --calcite-internal-action-line-height
+// --calcite-internal-action-menu-chevron-spacing
+// --calcite-internal-action-menu-padding-inline-end
 // --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
+// --calcite-internal-action-split-secondary-size
 // --calcite-internal-action-text-color
 
 @use "../../styles/includes";
@@ -36,18 +39,27 @@
   --calcite-internal-action-height: var(--calcite-size-sm);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-action-menu-chevron-spacing: var(--calcite-spacing-base);
+  --calcite-internal-action-menu-padding-inline-end: var(--calcite-spacing-base);
+  --calcite-internal-action-split-secondary-size: var(--calcite-size-xs);
 }
 :host([scale="m"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--1);
   --calcite-internal-action-height: var(--calcite-size-md);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-action-menu-chevron-spacing: var(--calcite-spacing-xxs);
+  --calcite-internal-action-menu-padding-inline-end: var(--calcite-spacing-xxs);
+  --calcite-internal-action-split-secondary-size: var(--calcite-size-xs);
 }
 :host([scale="l"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size-0);
   --calcite-internal-action-height: var(--calcite-size-lg);
   --calcite-internal-action-line-height: 1.25rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
+  --calcite-internal-action-menu-chevron-spacing: var(--calcite-spacing-xs);
+  --calcite-internal-action-menu-padding-inline-end: var(--calcite-spacing-xs);
+  --calcite-internal-action-split-secondary-size: var(--calcite-size-sm);
 }
 
 :host {
@@ -148,6 +160,51 @@
   inline-size: 100%;
 }
 
+.button-group {
+  @apply flex w-full items-stretch;
+  border-radius: inherit;
+  gap: var(--calcite-border-width-sm);
+  overflow: hidden;
+}
+
+.button--split-primary {
+  border-radius: inherit;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.button--split-primary.button--text-visible {
+  inline-size: auto;
+}
+
+.button--split-secondary {
+  @apply justify-center;
+  border-radius: inherit;
+  flex: 0 0 auto;
+  inline-size: var(--calcite-internal-action-split-secondary-size);
+  min-inline-size: var(--calcite-internal-action-split-secondary-size);
+  padding-inline: 0;
+}
+
+.menu-chevron {
+  @apply pointer-events-none;
+}
+
+.menu-content {
+  @apply flex items-center;
+  gap: var(--calcite-internal-action-spacing);
+}
+
+:host([button-type="menu"]) {
+  .button {
+    padding-inline-end: var(--calcite-internal-action-menu-padding-inline-end);
+  }
+
+  .button--text-visible {
+    gap: var(--calcite-internal-action-menu-chevron-spacing);
+  }
+}
+
 .icon-container {
   @apply pointer-events-none
     m-0
@@ -172,7 +229,7 @@
 }
 
 :host([active]) {
-  .button {
+  .button:not(.button--split-secondary) {
     background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-3));
     color: var(
       --calcite-action-text-color-press,
@@ -192,6 +249,28 @@
   }
 }
 
+.button.button--split-secondary-active,
+.button.button--overflow-open,
+.button.button--menu-open {
+  background-color: var(
+    --calcite-action-background-color-press,
+    var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+  );
+  color: var(--calcite-action-text-color-press, var(--calcite-action-text-color-pressed, var(--calcite-color-text-1)));
+
+  &:hover,
+  &:active {
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-foreground-3))
+    );
+    color: var(
+      --calcite-action-text-color-press,
+      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+    );
+  }
+}
+
 :host([loading]) {
   .button {
     &:hover,
@@ -206,11 +285,32 @@
 }
 
 :host([appearance="transparent"]) {
-  &:host([active]) .button {
+  &:host([active]) .button:not(.button--split-secondary) {
     background-color: var(
       --calcite-action-background-color-press,
       var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
     );
+  }
+
+  .button.button--split-secondary-active,
+  .button.button--overflow-open,
+  .button.button--menu-open {
+    background-color: var(
+      --calcite-action-background-color-press,
+      var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
+    );
+
+    &:hover,
+    &:active {
+      background-color: var(
+        --calcite-action-background-color-press,
+        var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
+      );
+      color: var(
+        --calcite-action-text-color-press,
+        var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
+      );
+    }
   }
 
   .button {
@@ -232,7 +332,7 @@
   }
 }
 
-:host([selection-appearance="highlight"]):host([active]) .button {
+:host([selection-appearance="highlight"]):host([active]) .button:not(.button--split-secondary) {
   background-color: var(--calcite-color-surface-highlight);
   color: var(--calcite-color-text-highlight);
 }
@@ -300,6 +400,23 @@
 
 .indicator-text {
   @apply sr-only;
+}
+
+.menu {
+  @apply flex
+    flex-col
+    flex-nowrap
+    outline-none
+    overflow-y-auto
+    overflow-x-hidden
+    max-h-menu;
+
+  padding: var(--calcite-internal-action-spacing);
+}
+
+.menu ::slotted(calcite-action-group:not(:last-of-type)) {
+  border-block-end-width: var(--calcite-border-width-sm);
+  padding-block-end: var(--calcite-internal-action-spacing);
 }
 
 @include includes.base-component();

@@ -47,6 +47,14 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "buttonType",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "open",
+        defaultValue: false,
+      },
+      {
         propertyName: "width",
         defaultValue: "auto",
       },
@@ -113,6 +121,10 @@ describe("reflects", () => {
       {
         propertyName: "textEnabled",
         value: true,
+      },
+      {
+        propertyName: "buttonType",
+        value: "menu",
       },
       {
         propertyName: "width",
