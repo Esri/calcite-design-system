@@ -35,6 +35,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
@@ -809,7 +810,8 @@ export class Input
     }
 
     event.preventDefault();
-    const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
+    const direction = (event.currentTarget as HTMLDivElement).dataset
+      .adjustment as NumberNudgeDirection;
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
@@ -937,32 +939,34 @@ export class Input
       </div>
     );
 
-    const inputClearButton = (
-      <button
-        ariaLabel={this.messages.clear}
+    const clearButton = (
+      <div
         class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputValue}
-        tabIndex={-1}
-        title={this.messages.clear}
-        type="button"
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
       >
-        <calcite-icon icon={ICONS.close} scale={getIconScale(this.scale)} />
-      </button>
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
     );
+
     const iconEl = (
-      <calcite-icon
-        class={CSS.inputIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.requestedIcon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     );
 
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
@@ -970,19 +974,22 @@ export class Input
         }}
         data-adjustment={DIRECTION.up}
         data-testid="number-button-up"
-        disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
         onPointerUp={this.numberButtonPointerUpAndOutHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronUp}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsHorizontalDown = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
@@ -990,15 +997,18 @@ export class Input
         }}
         data-adjustment={DIRECTION.down}
         data-testid="number-button-down"
-        disabled={this.disabled || this.readOnly}
         onPointerDown={this.numberButtonPointerDownHandler}
         onPointerOut={this.numberButtonPointerUpAndOutHandler}
         onPointerUp={this.numberButtonPointerUpAndOutHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronDown}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsVertical = (
@@ -1112,27 +1122,27 @@ export class Input
           }}
           ref={this.inputWrapperRef}
         >
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
+            {this.loading ? loader : null}
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
             {localeNumberInput}
             {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
-            {this.loading ? loader : null}
+            {this.isClearable ? clearButton : null}
+            {this.suffixText ? suffixText : null}
+            {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
+              ? numberButtonsVertical
+              : null}
           </div>
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-          {this.type === "number" && this.numberButtonType === "vertical" && !this.readOnly
-            ? numberButtonsVertical
-            : null}
-          {this.suffixText ? suffixText : null}
-          {this.type === "number" && this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
