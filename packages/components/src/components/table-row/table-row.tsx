@@ -477,7 +477,7 @@ export class TableRow extends LitElement {
 
           (cell as TableCell["el"]).readCellContentsToAT = this.readCellContentsToAT;
           (cell as TableCell["el"]).disabled = this.disabled;
-          (cell as TableCell["el"]).noBorderBlockEnd = reachesBodyEnd;
+          (cell as TableCell["el"]).borderBlockEndDisabled = reachesBodyEnd;
         }
       });
     }
