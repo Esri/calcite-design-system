@@ -36,8 +36,8 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
-import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
@@ -51,7 +51,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
@@ -84,8 +84,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   //#endregion
 
   //#region Private Properties
-
-  private closeButtonRef = createRef<HTMLButtonElement>();
 
   private direction = useDirection();
 
@@ -221,6 +219,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   });
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
+
+  private clearButtonRef = createRef<HTMLDivElement>();
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
@@ -494,7 +494,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -510,21 +510,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's value(s) from the selected `calcite-combobox-item`(s). */
   @property()
@@ -573,7 +561,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -1058,7 +1046,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    if (composedPath.some((node: HTMLElement) => node.classList?.contains(XButtonCSS.button))) {
+    if (composedPath.includes(this.clearButtonRef.value)) {
       this.clearValue();
       event.preventDefault();
       return;
@@ -2143,12 +2131,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             {this.renderInput()}
           </div>
           {!readOnly && isClearable ? (
-            <XButton
+            <ClearButton
+              ariaLabel={this.messages.clear}
               disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
-              ref={this.closeButtonRef}
+              ref={this.clearButtonRef}
               scale={this.scale}
+              title={this.messages.clear}
             />
           ) : null}
           {!readOnly && this.renderChevronIcon()}
