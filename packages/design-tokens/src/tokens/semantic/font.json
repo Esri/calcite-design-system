@@ -149,7 +149,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "sm": {
@@ -157,7 +158,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "base": {
@@ -165,7 +167,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "md": {
@@ -173,7 +176,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "lg": {
@@ -181,7 +185,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "xl": {
@@ -189,7 +194,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "2xl": {
@@ -197,7 +203,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "3xl": {
@@ -205,7 +212,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "4xl": {
@@ -213,7 +221,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "5xl": {
@@ -221,7 +230,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "6xl": {
@@ -229,7 +239,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         },
         "7xl": {
@@ -237,7 +248,8 @@
           "type": "fontSizes",
           "attributes": {
             "category": "font",
-            "group": "size"
+            "group": "size",
+            "kind": "relative"
           }
         }
       }
