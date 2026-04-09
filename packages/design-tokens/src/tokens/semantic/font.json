@@ -426,8 +426,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "sm": {
@@ -435,8 +434,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "base": {
@@ -444,8 +442,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "md": {
@@ -453,8 +450,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "lg": {
@@ -462,8 +458,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "xl": {
@@ -471,8 +466,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "2xl": {
@@ -480,8 +474,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "3xl": {
@@ -489,8 +482,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "4xl": {
@@ -498,8 +490,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "5xl": {
@@ -507,8 +498,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "6xl": {
@@ -516,8 +506,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       },
       "7xl": {
@@ -525,8 +514,7 @@
         "type": "lineHeights",
         "attributes": {
           "category": "font",
-          "group": "line-height",
-          "kind": "relative"
+          "group": "line-height"
         }
       }
     },
