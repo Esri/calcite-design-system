@@ -11,6 +11,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import type { Action } from "./action";
 import { CSS } from "./resources";
 
 describe("defaults", () => {
@@ -199,5 +200,16 @@ describe("inline menu accessibility", () => {
     await vi.waitFor(() => {
       expect(el.shadowRoot?.activeElement).toBe(menuDiv);
     });
+  });
+
+  it("enables text on actions slotted into the menu slot", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="menu" text="Options">
+        <calcite-action id="menu-action" slot="menu" text="Item" />
+      </calcite-action>,
+    );
+
+    const menuAction = el.querySelector<Action["el"]>("#menu-action");
+    expect(menuAction?.textEnabled).toBe(true);
   });
 });

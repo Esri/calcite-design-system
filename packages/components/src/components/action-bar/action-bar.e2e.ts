@@ -70,6 +70,29 @@ describe("expand functionality", () => {
     expect(await actionBarAction.getProperty("textEnabled")).toBe(false);
   });
 
+  it("should not modify textEnabled on actions in menu slot regardless of expanded state", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar expanded>
+        <calcite-action-group>
+          <calcite-action id="bar-action" text="Add" icon="plus"></calcite-action>
+          <calcite-action button-type="menu" text="Options" icon="ellipsis">
+            <calcite-action id="menu-slot-action" slot="menu" text="Save" icon="save"></calcite-action>
+          </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>`,
+    });
+    await page.waitForChanges();
+    const actionBar = await page.find("calcite-action-bar");
+    const barAction = await page.find("#bar-action");
+    const menuSlotAction = await page.find("#menu-slot-action");
+    expect(await actionBar.getProperty("expanded")).toBe(true);
+    expect(await menuSlotAction.getProperty("textEnabled")).toBe(true);
+    actionBar.setProperty("expanded", false);
+    await page.waitForChanges();
+    expect(await menuSlotAction.getProperty("textEnabled")).toBe(true);
+    expect(await barAction.getProperty("textEnabled")).toBe(false);
+  });
+
   it("should be expandable by default", async () => {
     const page = await newE2EPage();
 

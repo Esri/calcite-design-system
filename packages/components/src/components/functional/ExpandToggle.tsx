@@ -3,6 +3,7 @@ import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { SLOTS as ACTION_SLOTS } from "../action/resources";
 import { Position, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -42,7 +43,7 @@ export function toggleChildActionText({
   expanded: boolean;
 }): void {
   queryActions(el)
-    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions && el.slot !== ACTION_SLOTS.menu)
     .forEach((action) => (action.textEnabled = expanded));
   el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
     (el: ActionMenu["el"] | ActionGroup["el"]) => (el.expanded = expanded),

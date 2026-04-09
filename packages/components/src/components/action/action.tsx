@@ -164,6 +164,18 @@ export class Action extends LitElement {
     this.menuButtonEl?.focus();
   };
 
+  private handleMenuSlotChange = (event: Event): void => {
+    const slot = event.target as HTMLSlotElement;
+    slot.assignedElements({ flatten: true }).forEach((el) => {
+      if (isAction(el)) {
+        el.textEnabled = true;
+      }
+      el.querySelectorAll<Action["el"]>("calcite-action").forEach((action) => {
+        action.textEnabled = true;
+      });
+    });
+  };
+
   //#endregion
 
   //#region State Properties
@@ -611,7 +623,7 @@ export class Action extends LitElement {
           role="menu"
           tabIndex={-1}
         >
-          <slot name={SLOTS.menu} />
+          <slot name={SLOTS.menu} onSlotChange={this.handleMenuSlotChange} />
         </div>
       </calcite-popover>
     );
