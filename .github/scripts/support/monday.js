@@ -368,21 +368,28 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
-      designEstimate.small,
+      designEstimate.two,
+      {
+        column: mondayColumns.designEstimate,
+        value: 2,
+      },
+    ],
+    [
+      designEstimate.five,
       {
         column: mondayColumns.designEstimate,
         value: 5,
       },
     ],
     [
-      designEstimate.medium,
+      designEstimate.thirteen,
       {
         column: mondayColumns.designEstimate,
         value: 13,
       },
     ],
     [
-      designEstimate.large,
+      designEstimate.twentyOne,
       {
         column: mondayColumns.designEstimate,
         value: 21,
