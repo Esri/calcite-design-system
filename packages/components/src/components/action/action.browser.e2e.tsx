@@ -1,5 +1,7 @@
-import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { userEvent } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -9,6 +11,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -160,4 +163,41 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-action"));
+});
+
+describe("inline menu accessibility", () => {
+  it("sets aria-labelledby on the menu container with the trigger button's id", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="menu" text="Options">
+        <calcite-action slot="menu" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const menuDiv = el.shadowRoot?.querySelector('[role="menu"]');
+    const buttonEl = el.shadowRoot?.querySelector(`.${CSS.button}`);
+
+    expect(menuDiv).not.toBeNull();
+    expect(buttonEl?.id).toBeTruthy();
+    expect(menuDiv?.getAttribute("aria-labelledby")).toBe(buttonEl?.id);
+  });
+
+  it("moves focus to the menu container when the menu opens", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="menu" text="Options">
+        <calcite-action slot="menu" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const triggerButton = el.shadowRoot?.querySelector(`.${CSS.button}`);
+    const menuDiv = el.shadowRoot?.querySelector('[role="menu"]');
+
+    expect(triggerButton).not.toBeNull();
+    expect(menuDiv).not.toBeNull();
+
+    await userEvent.click(triggerButton!);
+
+    await vi.waitFor(() => {
+      expect(el.shadowRoot?.activeElement).toBe(menuDiv);
+    });
+  });
 });

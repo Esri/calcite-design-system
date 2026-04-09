@@ -1,5 +1,4 @@
 import { createRef } from "lit/directives/ref.js";
-import { queryAssignedElements } from "lit/decorators.js";
 import {
   LitElement,
   property,
@@ -15,7 +14,6 @@ import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { isActivationKey } from "../../utils/key";
-import { submitForm, resetForm } from "../../utils/form";
 import {
   Alignment,
   Appearance,
@@ -80,22 +78,16 @@ export class Action extends LitElement {
 
   private indicatorRef = createRef<HTMLDivElement>();
 
+  private menuRef = createRef<HTMLDivElement>();
+
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger()(this);
-
-  @queryAssignedElements({ slot: SLOTS.menu })
-  private menuElements!: HTMLElement[];
-
-  /**
-   * The associated form element.
-   *
-   * @private
-   */
-  formEl: HTMLFormElement | null = null;
+  formTrigger = useFormTrigger({ disabled: () => this.isMenuTriggerType && this.hasSlottedMenu })(
+    this,
+  );
 
   private get hasSlottedMenu(): boolean {
-    return !!this.menuElements?.length;
+    return !!this.el.querySelector(`[slot="${SLOTS.menu}"]`);
   }
 
   private get isMenuType(): boolean {
@@ -104,6 +96,10 @@ export class Action extends LitElement {
 
   private get isOverflowType(): boolean {
     return this.buttonType === "overflow";
+  }
+
+  private get isMenuTriggerType(): boolean {
+    return this.isMenuType || this.isOverflowType;
   }
 
   private get isSplitType(): boolean {
@@ -137,6 +133,7 @@ export class Action extends LitElement {
   private handlePopoverOpen = (event: CustomEvent<void>): void => {
     event.stopPropagation();
     this.open = true;
+    requestAnimationFrame(() => this.menuRef.value?.focus());
   };
 
   private handlePopoverClose = (event: CustomEvent<void>): void => {
@@ -144,7 +141,8 @@ export class Action extends LitElement {
     this.open = false;
   };
 
-  private handleSplitSecondaryClick = (): void => {
+  private handleSplitSecondaryClick = (event: MouseEvent): void => {
+    event.stopPropagation();
     this.toggleOpen();
   };
 
@@ -355,17 +353,10 @@ export class Action extends LitElement {
 
   //#region Private Methods
 
-  private handleClick(): void {
-    if ((this.isMenuType || this.isOverflowType) && this.hasSlottedMenu) {
+  private handleClick(event: MouseEvent): void {
+    if (this.isMenuTriggerType && this.hasSlottedMenu) {
+      event.stopPropagation();
       this.toggleOpen();
-      return;
-    }
-
-    const { type } = this;
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
     }
   }
 
@@ -569,6 +560,7 @@ export class Action extends LitElement {
       <div class={CSS.buttonGroup}>
         {this.renderButton(this.buttonRef, true)}
         <button
+          aria-controls={this.menuId}
           ariaExpanded={this.open}
           ariaHasPopup={this.hasSlottedMenu ? "menu" : null}
           ariaLabel={this.label || this.text || ""}
@@ -590,7 +582,7 @@ export class Action extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    if (!this.supportsMenu) {
+    if (!this.supportsMenu || !this.hasSlottedMenu) {
       return null;
     }
 
@@ -606,14 +598,16 @@ export class Action extends LitElement {
         placement="bottom-start"
         pointerDisabled={true}
         ref={this.setPopoverEl}
-        referenceElement={this.menuButtonEl}
+        referenceElement={this.menuButtonEl ?? undefined}
         scale={this.scale}
         triggerDisabled={true}
       >
         <div
+          aria-labelledby={this.buttonId}
           class={CSS.menu}
           id={this.menuId}
           onClick={this.handleMenuItemClick}
+          ref={this.menuRef}
           role="menu"
           tabIndex={-1}
         >

@@ -144,6 +144,168 @@ describe("form integration", () => {
 
   it("submits", async () => assertOnFormButtonType("submit"));
   it("resets", async () => assertOnFormButtonType("reset"));
+
+  async function assertInternalButtonFormBehavior({
+    content,
+    eventType,
+    selector,
+  }: {
+    content: string;
+    eventType: "submit" | "reset";
+    selector: string;
+  }): Promise<boolean> {
+    const page = await newE2EPage();
+    await page.setContent(content);
+
+    type TestWindow = GlobalTestProps<{
+      called: boolean;
+    }>;
+
+    await page.$eval(
+      "form",
+      (form: HTMLFormElement, type: string) => {
+        form.addEventListener(type, (event) => {
+          event.preventDefault();
+          (window as TestWindow).called = true;
+        });
+      },
+      eventType,
+    );
+
+    const button = await page.find(selector);
+    await button.click();
+    await page.waitForChanges();
+
+    return page.evaluate(() => !!(window as TestWindow).called);
+  }
+
+  it("does not submit from a menu trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from a menu trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not submit from an overflow trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from an overflow trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("submits from the split primary button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitPrimary}`,
+    });
+
+    expect(called).toBe(true);
+  });
+
+  it("resets from the split primary button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitPrimary}`,
+    });
+
+    expect(called).toBe(true);
+  });
+
+  it("does not submit from the split secondary trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitSecondary}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from the split secondary trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitSecondary}`,
+    });
+
+    expect(called).toBe(false);
+  });
 });
 
 it("should have visible text when text is enabled", async () => {
@@ -260,6 +422,21 @@ it("should render two hit targets for split buttonType", async () => {
   expect(splitSecondary).not.toBeNull();
 });
 
+it("split secondary trigger should have aria-controls pointing at the menu when menu is slotted", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+  await page.waitForChanges();
+
+  const splitSecondary = await page.find(`calcite-action >>> .${CSS.buttonSplitSecondary}`);
+  const menu = await page.find(`calcite-action >>> .${CSS.menu}`);
+
+  expect(splitSecondary.getAttribute("aria-controls")).toBe(menu.getAttribute("id"));
+});
+
 it("should not apply active styles to split secondary button", async () => {
   const page = await newE2EPage();
   await page.setContent(`
@@ -373,6 +550,19 @@ it("should not render menu content when buttonType is undefined", async () => {
   const popover = await page.find("calcite-action >>> calcite-popover");
 
   expect(popover).toBeNull();
+});
+
+it("should not render menu content when buttonType is set but no menu content is slotted", async () => {
+  for (const buttonType of ["menu", "overflow", "split"]) {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-action button-type="${buttonType}" text="hello world" text-enabled></calcite-action>`,
+    );
+
+    const popover = await page.find("calcite-action >>> calcite-popover");
+
+    expect(popover).toBeNull();
+  }
 });
 
 it("should use text prop for a11y attributes when text is not enabled", async () => {
