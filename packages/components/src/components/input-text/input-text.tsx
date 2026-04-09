@@ -20,6 +20,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
@@ -507,25 +508,28 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       </div>
     );
 
-    const inputClearButton = (
-      <button
-        ariaLabel={this.messages.clear}
+    const clearButton = (
+      <div
         class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputTextValue}
-        tabIndex={-1}
-        type="button"
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputTextValue}
       >
-        <calcite-icon icon="x" scale={getIconScale(this.scale)} />
-      </button>
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
     );
+
     const iconEl = (
-      <calcite-icon
-        class={CSS.inputIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.requestedIcon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     );
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
@@ -584,17 +588,17 @@ export class InputText extends LitElement implements LabelableComponent, Textual
           }}
           ref={this.inputWrapperRef}
         >
-          {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
+            {childEl}
+            {this.isClearable ? clearButton : null}
+            {this.suffixText ? suffixText : null}
           </div>
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-          {this.suffixText ? suffixText : null}
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

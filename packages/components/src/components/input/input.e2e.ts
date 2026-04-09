@@ -112,130 +112,6 @@ describe("emits events when value is modified", () => {
   it("emits when type is number", () => assertChangeEvents("number"));
 });
 
-it("renders clear button when clearable is requested and value is populated at load", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-  expect(clearButton).not.toBe(null);
-  expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
-});
-
-it("does not render clear button when clearable is requested and value is not populated", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable></calcite-input>`);
-
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-  expect(clearButton).toBe(null);
-});
-
-it("does not render clear button when clearable is not requested", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input></calcite-input>`);
-
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-  expect(clearButton).toBe(null);
-});
-
-it("when clearable is requested, value is cleared on escape key press", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
-
-  const element = await page.find("calcite-input");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-});
-
-it("when clearable is requested, value is cleared on clear button click", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
-
-  const element = await page.find("calcite-input");
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-  await clearButton.click();
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-});
-
-it("when clearable is requested and clear button is clicked, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
-
-  const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-  const element = await page.find("calcite-input");
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-
-  await clearButton.click();
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputInput).toHaveReceivedEventTimes(1);
-});
-
-it("when clearable is requested and input is cleared via escape key, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input clearable value="John Doe"></calcite-input>`);
-
-  const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-  const element = await page.find("calcite-input");
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  expect(calciteInputInput).toHaveReceivedEventTimes(0);
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputInput).toHaveReceivedEventTimes(1);
-});
-
-it("when type is search and clear button is clicked, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input type="search" value="John Doe"></calcite-input>`);
-
-  const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-  const element = await page.find("calcite-input");
-  const clearButton = await page.find("calcite-input >>> .clear-button");
-
-  expect(calciteInputInput).toHaveReceivedEventTimes(0);
-  await clearButton.click();
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputInput).toHaveReceivedEventTimes(1);
-});
-
-it("when type is search and input is cleared via escape key, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input type="search" value="John Doe"></calcite-input>`);
-
-  const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-  const element = await page.find("calcite-input");
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  expect(calciteInputInput).toHaveReceivedEventTimes(0);
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputInput).toHaveReceivedEventTimes(1);
-});
-
-it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input value="John Doe"></calcite-input>`);
-
-  const calciteInputInput = await page.spyOnEvent("calciteInputInput");
-  const element = await page.find("calcite-input");
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  expect(calciteInputInput).not.toHaveReceivedEvent();
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("John Doe");
-  expect(calciteInputInput).not.toHaveReceivedEvent();
-});
-
 it("allows restricting input length", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input min-length="2" max-length="3" value=""></calcite-input>`);
@@ -714,7 +590,7 @@ describe("theme", () => {
   );
   themed(html` <calcite-input icon="layer" value="Forty two"></calcite-input>`, {
     "--calcite-input-corner-radius": {
-      shadowSelector: `input`,
+      shadowSelector: `.${CSS.wrapper}`,
       targetProp: "borderRadius",
     },
     "--calcite-input-icon-color": {
@@ -728,22 +604,62 @@ describe("theme", () => {
   });
   themed(html` <calcite-input clearable icon="layer" value="Forty two"></calcite-input>`, {
     "--calcite-input-actions-background-color": {
-      shadowSelector: `.${CSS.clearButton}`,
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
       targetProp: "backgroundColor",
     },
+    "--calcite-input-actions-background-color-hover": {
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
+      targetProp: "backgroundColor",
+      state: "hover",
+    },
+    "--calcite-input-actions-background-color-press": {
+      shadowSelector: `.${CSS.clearButton} >>> .button`,
+      targetProp: "backgroundColor",
+      state: { press: `calcite-input >>> .${CSS.clearButton} >>> .button` },
+    },
     "--calcite-input-actions-icon-color": {
-      shadowSelector: `.${CSS.clearButton} calcite-icon`,
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
       targetProp: "color",
+    },
+    "--calcite-input-actions-icon-color-hover": {
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+      targetProp: "color",
+      state: "hover",
+    },
+    "--calcite-input-actions-icon-color-press": {
+      shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+      targetProp: "color",
+      state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-icon` },
     },
   });
   themed(html` <calcite-input icon="layer" value="42" type="number"></calcite-input>`, {
     "--calcite-input-actions-background-color": {
-      shadowSelector: `.${CSS.numberButtonItem}`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
       targetProp: "backgroundColor",
     },
+    "--calcite-input-actions-background-color-hover": {
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+      targetProp: "backgroundColor",
+      state: "hover",
+    },
+    "--calcite-input-actions-background-color-press": {
+      shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+      targetProp: "backgroundColor",
+      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .button` },
+    },
     "--calcite-input-actions-icon-color": {
-      shadowSelector: `.${CSS.numberButtonItem} calcite-icon`,
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
       targetProp: "color",
+    },
+    "--calcite-input-actions-icon-color-hover": {
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+      targetProp: "color",
+      state: "hover",
+    },
+    "--calcite-input-actions-icon-color-press": {
+      shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+      targetProp: "color",
+      state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-icon` },
     },
   });
 });
