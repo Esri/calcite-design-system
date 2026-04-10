@@ -345,14 +345,15 @@ export class TableRow extends LitElement {
           }
         };
 
-        // Safari can apply native focus scrolling in later frames.
-        requestAnimationFrame(() => {
+        const retryCorrectFirstBodyRowPosition = (remainingFrames = 3): void => {
           correctFirstBodyRowPosition();
-          requestAnimationFrame(() => {
-            correctFirstBodyRowPosition();
-            requestAnimationFrame(correctFirstBodyRowPosition);
-          });
-        });
+
+          if (remainingFrames > 1) {
+            requestAnimationFrame(() => retryCorrectFirstBodyRowPosition(remainingFrames - 1));
+          }
+        };
+
+        requestAnimationFrame(() => retryCorrectFirstBodyRowPosition());
         return;
       }
 
