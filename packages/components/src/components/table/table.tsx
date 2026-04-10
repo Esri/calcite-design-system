@@ -16,7 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { getTableScrollContainer, getTableTop } from "./sticky-header";
+import { getTableScrollContainer, getTableTop } from "./scroll-container";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";

@@ -6,7 +6,7 @@ import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { getTableScrollContainer, getTableTop } from "../table/sticky-header";
+import { getTableScrollContainer, getTableTop } from "../table/scroll-container";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
