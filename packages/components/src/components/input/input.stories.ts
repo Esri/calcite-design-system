@@ -257,3 +257,7 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input icon="check-square-f"></calcite-input>
     <div class="overlay"></div>`;
+
+export const numberHorizontal = (): string => html`
+  <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
+`;
