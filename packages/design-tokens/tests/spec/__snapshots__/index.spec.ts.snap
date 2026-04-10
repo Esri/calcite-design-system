@@ -83,14 +83,14 @@ exports[`CSS > classes should match 1`] = `
   font-size: var(--calcite-font-size-sm);
 }
 .calcite-typography-regular-minus-1h {
-  font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size);
-  font-weight: var(--calcite-font-weight-regular);
-  letter-spacing: var(--calcite-font-letter-spacing-normal);
-  line-height: var(--calcite-font-line-height-fixed-base);
-  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
-  text-case: var(--calcite-font-text-case-none);
-  text-decoration: var(--calcite-font-text-decoration-none);
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16px;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 .calcite-typography-regular-0h {
   line-height: var(--calcite-font-line-height-fixed-lg);
@@ -255,51 +255,51 @@ exports[`CSS > classes should match 1`] = `
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 .calcite-typography-hierarchy-display-1 {
-  font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 24px;
 }
 .calcite-typography-hierarchy-display-2 {
-  font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-weight: 600;
+  line-height: 1.375;
+  font-size: 20px;
 }
 .calcite-typography-hierarchy-heading-1 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 24px;
 }
 .calcite-typography-hierarchy-heading-2 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 20px;
 }
 .calcite-typography-hierarchy-heading-3 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 18px;
 }
 .calcite-typography-hierarchy-heading-4 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-weight: 500;
+  line-height: 1.375;
+  font-size: 16px;
 }
 .calcite-typography-hierarchy-heading-5 {
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
+  font-weight: 500;
+  line-height: 1.375;
 }
 .calcite-typography-hierarchy-body-snug {
-  line-height: var(--calcite-font-line-height-relative-snug);
+  line-height: 1.375;
 }
 .calcite-typography-hierarchy-body {
-  font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size);
-  font-weight: var(--calcite-font-weight-regular);
-  letter-spacing: var(--calcite-font-letter-spacing-normal);
-  line-height: var(--calcite-font-line-height-fixed-base);
-  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
-  text-case: var(--calcite-font-text-case-none);
-  text-decoration: var(--calcite-font-text-decoration-none);
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16px;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 .calcite-typography-hierarchy-overline {
   line-height: var(--calcite-font-line-height-fixed-sm);
@@ -307,8 +307,8 @@ exports[`CSS > classes should match 1`] = `
   font-weight: var(--calcite-font-weight-bold);
 }
 .calcite-typography-hierarchy-caption {
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  line-height: 1.375;
+  font-size: 12px;
 }
 "
 `;
@@ -1018,6 +1018,18 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
   --calcite-font-size-2xl: 24px;
+  --calcite-font-size-relative-xs: 0.625rem;
+  --calcite-font-size-relative-sm: 0.75rem;
+  --calcite-font-size-relative-base: 0.875rem;
+  --calcite-font-size-relative-md: 1rem;
+  --calcite-font-size-relative-lg: 1.125rem;
+  --calcite-font-size-relative-xl: 1.25rem;
+  --calcite-font-size-relative-2xl: 1.625rem;
+  --calcite-font-size-relative-3xl: 2rem;
+  --calcite-font-size-relative-4xl: 2.5rem;
+  --calcite-font-size-relative-5xl: 3rem;
+  --calcite-font-size-relative-6xl: 3.5rem;
+  --calcite-font-size-relative-7xl: 4rem;
   --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
@@ -1035,6 +1047,18 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
   --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-xs: 0.75rem;
+  --calcite-font-line-height-sm: 1rem;
+  --calcite-font-line-height-base: 1rem;
+  --calcite-font-line-height-md: 1.25rem;
+  --calcite-font-line-height-lg: 1.5rem;
+  --calcite-font-line-height-xl: 1.5rem;
+  --calcite-font-line-height-2xl: 2rem;
+  --calcite-font-line-height-3xl: 2.5rem;
+  --calcite-font-line-height-4xl: 3rem;
+  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-6xl: 4rem;
+  --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1552,6 +1576,18 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
   --calcite-font-size-2xl: 24px;
+  --calcite-font-size-relative-xs: 0.625rem;
+  --calcite-font-size-relative-sm: 0.75rem;
+  --calcite-font-size-relative-base: 0.875rem;
+  --calcite-font-size-relative-md: 1rem;
+  --calcite-font-size-relative-lg: 1.125rem;
+  --calcite-font-size-relative-xl: 1.25rem;
+  --calcite-font-size-relative-2xl: 1.625rem;
+  --calcite-font-size-relative-3xl: 2rem;
+  --calcite-font-size-relative-4xl: 2.5rem;
+  --calcite-font-size-relative-5xl: 3rem;
+  --calcite-font-size-relative-6xl: 3.5rem;
+  --calcite-font-size-relative-7xl: 4rem;
   --calcite-font-style-emphasis: italic; /** used in ratings */
   --calcite-font-line-height-fixed-sm: 12px;
   --calcite-font-line-height-fixed-base: 16px;
@@ -1569,6 +1605,18 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
   --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
   --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-xs: 0.75rem;
+  --calcite-font-line-height-sm: 1rem;
+  --calcite-font-line-height-base: 1rem;
+  --calcite-font-line-height-md: 1.25rem;
+  --calcite-font-line-height-lg: 1.5rem;
+  --calcite-font-line-height-xl: 1.5rem;
+  --calcite-font-line-height-2xl: 2rem;
+  --calcite-font-line-height-3xl: 2.5rem;
+  --calcite-font-line-height-4xl: 3rem;
+  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-6xl: 4rem;
+  --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -17503,7 +17551,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 1",
@@ -17528,7 +17576,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 2",
@@ -17553,7 +17601,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 3",
@@ -17578,7 +17626,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface 4",
@@ -17603,7 +17651,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Surface Highlight",
@@ -17629,7 +17677,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#f7f7f7\\",\\"dark\\":\\"#212121\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -17683,7 +17731,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#2b2b2b\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -17710,7 +17758,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#f2f2f2\\",\\"dark\\":\\"#363636\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -17737,7 +17785,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -17764,7 +17812,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#d6efff\\",\\"dark\\":\\"#2b465f\\"}",
       "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -17790,7 +17838,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#141414\\",\\"dark\\":\\"#ffffff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 1",
@@ -17815,7 +17863,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#4a4a4a\\",\\"dark\\":\\"#bfbfbf\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 2",
@@ -17840,7 +17888,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#6b6b6b\\",\\"dark\\":\\"#9e9e9e\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text 3",
@@ -17865,7 +17913,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#141414\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Inverse",
@@ -17890,7 +17938,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#00a0ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Link",
@@ -17915,7 +17963,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#d6efff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Text Highlight",
@@ -17940,7 +17988,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#d4d4d4\\",\\"dark\\":\\"#545454\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 1",
@@ -17965,7 +18013,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#dedede\\",\\"dark\\":\\"#4a4a4a\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 2",
@@ -17990,7 +18038,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ebebeb\\",\\"dark\\":\\"#404040\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border 3",
@@ -18015,7 +18063,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#949494\\",\\"dark\\":\\"#757575\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Border Input",
@@ -18041,7 +18089,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(0, 0, 0, 0.3)\\",\\"dark\\":\\"rgba(117, 117, 117, 0.3)\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -18068,7 +18116,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#ffffff\\",\\"dark\\":\\"#f7f7f7\\"}",
       "$description": "Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
@@ -18094,7 +18142,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#007ac2\\",\\"dark\\":\\"#009af2\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand",
@@ -18119,7 +18167,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#40b9ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Hover",
@@ -18144,7 +18192,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#80d1ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Press",
@@ -18169,7 +18217,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(0, 97, 155, 0.4)\\",\\"dark\\":\\"rgba(0, 160, 255, 0.4)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Brand Underline",
@@ -18194,7 +18242,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#363636\\",\\"dark\\":\\"#f7f7f7\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse",
@@ -18219,7 +18267,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#2b2b2b\\",\\"dark\\":\\"#f2f2f2\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Hover",
@@ -18244,7 +18292,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#212121\\",\\"dark\\":\\"#ebebeb\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Inverse Press",
@@ -18271,7 +18319,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#00619b\\",\\"dark\\":\\"#00a0ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info",
@@ -18298,7 +18346,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#004874\\",\\"dark\\":\\"#40b9ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Hover",
@@ -18325,7 +18373,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#00304d\\",\\"dark\\":\\"#80d1ff\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Info Press",
@@ -18352,7 +18400,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#288835\\",\\"dark\\":\\"#36da43\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success",
@@ -18379,7 +18427,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#1a6324\\",\\"dark\\":\\"#6df278\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Hover",
@@ -18406,7 +18454,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#0d3f14\\",\\"dark\\":\\"#9df2a3\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Success Press",
@@ -18433,7 +18481,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#da7c0b\\",\\"dark\\":\\"#f89927\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning",
@@ -18460,7 +18508,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#c26b00\\",\\"dark\\":\\"#ffaf4f\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Hover",
@@ -18487,7 +18535,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#9a5b10\\",\\"dark\\":\\"#ffc47d\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Warning Press",
@@ -18514,7 +18562,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#d83020\\",\\"dark\\":\\"#fe583e\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger",
@@ -18541,7 +18589,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#a82b1e\\",\\"dark\\":\\"#fe7863\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Hover",
@@ -18568,7 +18616,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#7c1d13\\",\\"dark\\":\\"#fe9989\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Status Danger Press",
@@ -18593,7 +18641,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(0, 0, 0, 0)\\",\\"dark\\":\\"rgba(255, 255, 255, 0)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent",
@@ -18618,7 +18666,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(0, 0, 0, 0.04)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.12)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Hover",
@@ -18643,7 +18691,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(0, 0, 0, 0.08)\\",\\"dark\\":\\"rgba(255, 255, 255, 0.16)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Press",
@@ -18668,7 +18716,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(255, 255, 255, 0.85)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.85)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Scrim",
@@ -18693,7 +18741,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(255, 255, 255, 0.8)\\",\\"dark\\":\\"rgba(43, 43, 43, 0.8)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Tint",
@@ -18720,7 +18768,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(255, 255, 255, 0.12)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.04)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Hover",
@@ -18747,7 +18795,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"rgba(255, 255, 255, 0.16)\\",\\"dark\\":\\"rgba(0, 0, 0, 0.08)\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Transparent Inverse Press",
@@ -18772,7 +18820,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "color",
-      "$value": "{}",
+      "$value": "{\\"light\\":\\"#007ac2\\",\\"dark\\":\\"#009af2\\"}",
       "filePath": "src/tokens/semantic/color/light.json",
       "isSource": false,
       "name": "Color Focus",
@@ -19902,6 +19950,330 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["font", "size", "2xl"]
     },
     {
+      "key": "{font.size.relative.xs}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-font-size-relative-xs",
+          "css": "var(--calcite-font-size-relative-xs)",
+          "docs": "font.size.relative.xs",
+          "es6": "calciteFontSizeRelativeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xs",
+      "path": ["font", "size", "relative", "xs"]
+    },
+    {
+      "key": "{font.size.relative.sm}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-font-size-relative-sm",
+          "css": "var(--calcite-font-size-relative-sm)",
+          "docs": "font.size.relative.sm",
+          "es6": "calciteFontSizeRelativeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Sm",
+      "path": ["font", "size", "relative", "sm"]
+    },
+    {
+      "key": "{font.size.relative.base}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "base",
+        "names": {
+          "scss": "$calcite-font-size-relative-base",
+          "css": "var(--calcite-font-size-relative-base)",
+          "docs": "font.size.relative.base",
+          "es6": "calciteFontSizeRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Base",
+      "path": ["font", "size", "relative", "base"]
+    },
+    {
+      "key": "{font.size.relative.md}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "md",
+        "names": {
+          "scss": "$calcite-font-size-relative-md",
+          "css": "var(--calcite-font-size-relative-md)",
+          "docs": "font.size.relative.md",
+          "es6": "calciteFontSizeRelativeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Md",
+      "path": ["font", "size", "relative", "md"]
+    },
+    {
+      "key": "{font.size.relative.lg}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "lg",
+        "names": {
+          "scss": "$calcite-font-size-relative-lg",
+          "css": "var(--calcite-font-size-relative-lg)",
+          "docs": "font.size.relative.lg",
+          "es6": "calciteFontSizeRelativeLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.125rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Lg",
+      "path": ["font", "size", "relative", "lg"]
+    },
+    {
+      "key": "{font.size.relative.xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-xl",
+          "css": "var(--calcite-font-size-relative-xl)",
+          "docs": "font.size.relative.xl",
+          "es6": "calciteFontSizeRelativeXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xl",
+      "path": ["font", "size", "relative", "xl"]
+    },
+    {
+      "key": "{font.size.relative.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-2xl",
+          "css": "var(--calcite-font-size-relative-2xl)",
+          "docs": "font.size.relative.2xl",
+          "es6": "calciteFontSizeRelative2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.625rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 2xl",
+      "path": ["font", "size", "relative", "2xl"]
+    },
+    {
+      "key": "{font.size.relative.3xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-3xl",
+          "css": "var(--calcite-font-size-relative-3xl)",
+          "docs": "font.size.relative.3xl",
+          "es6": "calciteFontSizeRelative3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "2rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 3xl",
+      "path": ["font", "size", "relative", "3xl"]
+    },
+    {
+      "key": "{font.size.relative.4xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "4xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-4xl",
+          "css": "var(--calcite-font-size-relative-4xl)",
+          "docs": "font.size.relative.4xl",
+          "es6": "calciteFontSizeRelative4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "2.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 4xl",
+      "path": ["font", "size", "relative", "4xl"]
+    },
+    {
+      "key": "{font.size.relative.5xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "5xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-5xl",
+          "css": "var(--calcite-font-size-relative-5xl)",
+          "docs": "font.size.relative.5xl",
+          "es6": "calciteFontSizeRelative5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "3rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 5xl",
+      "path": ["font", "size", "relative", "5xl"]
+    },
+    {
+      "key": "{font.size.relative.6xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "6xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-6xl",
+          "css": "var(--calcite-font-size-relative-6xl)",
+          "docs": "font.size.relative.6xl",
+          "es6": "calciteFontSizeRelative6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "3.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 6xl",
+      "path": ["font", "size", "relative", "6xl"]
+    },
+    {
+      "key": "{font.size.relative.7xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "7xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-7xl",
+          "css": "var(--calcite-font-size-relative-7xl)",
+          "docs": "font.size.relative.7xl",
+          "es6": "calciteFontSizeRelative7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 7xl",
+      "path": ["font", "size", "relative", "7xl"]
+    },
+    {
       "key": "{font.style.emphasis}",
       "attributes": {
         "category": "font",
@@ -20365,6 +20737,306 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative Loose",
       "path": ["font", "line-height", "relative", "loose"]
+    },
+    {
+      "key": "{font.line-height.xs}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-font-line-height-xs",
+          "css": "var(--calcite-font-line-height-xs)",
+          "docs": "font.line-height.xs",
+          "es6": "calciteFontLineHeightXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xs",
+      "path": ["font", "line-height", "xs"]
+    },
+    {
+      "key": "{font.line-height.sm}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-font-line-height-sm",
+          "css": "var(--calcite-font-line-height-sm)",
+          "docs": "font.line-height.sm",
+          "es6": "calciteFontLineHeightSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Sm",
+      "path": ["font", "line-height", "sm"]
+    },
+    {
+      "key": "{font.line-height.base}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "base",
+        "names": {
+          "scss": "$calcite-font-line-height-base",
+          "css": "var(--calcite-font-line-height-base)",
+          "docs": "font.line-height.base",
+          "es6": "calciteFontLineHeightBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Base",
+      "path": ["font", "line-height", "base"]
+    },
+    {
+      "key": "{font.line-height.md}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-font-line-height-md",
+          "css": "var(--calcite-font-line-height-md)",
+          "docs": "font.line-height.md",
+          "es6": "calciteFontLineHeightMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Md",
+      "path": ["font", "line-height", "md"]
+    },
+    {
+      "key": "{font.line-height.lg}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "lg",
+        "names": {
+          "scss": "$calcite-font-line-height-lg",
+          "css": "var(--calcite-font-line-height-lg)",
+          "docs": "font.line-height.lg",
+          "es6": "calciteFontLineHeightLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Lg",
+      "path": ["font", "line-height", "lg"]
+    },
+    {
+      "key": "{font.line-height.xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "xl",
+        "names": {
+          "scss": "$calcite-font-line-height-xl",
+          "css": "var(--calcite-font-line-height-xl)",
+          "docs": "font.line-height.xl",
+          "es6": "calciteFontLineHeightXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xl",
+      "path": ["font", "line-height", "xl"]
+    },
+    {
+      "key": "{font.line-height.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-2xl",
+          "css": "var(--calcite-font-line-height-2xl)",
+          "docs": "font.line-height.2xl",
+          "es6": "calciteFontLineHeight2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "2rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 2xl",
+      "path": ["font", "line-height", "2xl"]
+    },
+    {
+      "key": "{font.line-height.3xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-3xl",
+          "css": "var(--calcite-font-line-height-3xl)",
+          "docs": "font.line-height.3xl",
+          "es6": "calciteFontLineHeight3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "2.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 3xl",
+      "path": ["font", "line-height", "3xl"]
+    },
+    {
+      "key": "{font.line-height.4xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-4xl",
+          "css": "var(--calcite-font-line-height-4xl)",
+          "docs": "font.line-height.4xl",
+          "es6": "calciteFontLineHeight4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "3rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 4xl",
+      "path": ["font", "line-height", "4xl"]
+    },
+    {
+      "key": "{font.line-height.5xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-5xl",
+          "css": "var(--calcite-font-line-height-5xl)",
+          "docs": "font.line-height.5xl",
+          "es6": "calciteFontLineHeight5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 5xl",
+      "path": ["font", "line-height", "5xl"]
+    },
+    {
+      "key": "{font.line-height.6xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-6xl",
+          "css": "var(--calcite-font-line-height-6xl)",
+          "docs": "font.line-height.6xl",
+          "es6": "calciteFontLineHeight6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 6xl",
+      "path": ["font", "line-height", "6xl"]
+    },
+    {
+      "key": "{font.line-height.7xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "7xl",
+        "names": {
+          "scss": "$calcite-font-line-height-7xl",
+          "css": "var(--calcite-font-line-height-7xl)",
+          "docs": "font.line-height.7xl",
+          "es6": "calciteFontLineHeight7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 7xl",
+      "path": ["font", "line-height", "7xl"]
     },
     {
       "key": "{font.letter-spacing.tight}",
@@ -25465,6 +26137,330 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["font", "size", "2xl"]
     },
     {
+      "key": "{font.size.relative.xs}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "xs",
+        "names": {
+          "scss": "$calcite-font-size-relative-xs",
+          "css": "var(--calcite-font-size-relative-xs)",
+          "docs": "font.size.relative.xs",
+          "es6": "calciteFontSizeRelativeXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.625rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xs",
+      "path": ["font", "size", "relative", "xs"]
+    },
+    {
+      "key": "{font.size.relative.sm}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "sm",
+        "names": {
+          "scss": "$calcite-font-size-relative-sm",
+          "css": "var(--calcite-font-size-relative-sm)",
+          "docs": "font.size.relative.sm",
+          "es6": "calciteFontSizeRelativeSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Sm",
+      "path": ["font", "size", "relative", "sm"]
+    },
+    {
+      "key": "{font.size.relative.base}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "base",
+        "names": {
+          "scss": "$calcite-font-size-relative-base",
+          "css": "var(--calcite-font-size-relative-base)",
+          "docs": "font.size.relative.base",
+          "es6": "calciteFontSizeRelativeBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "0.875rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Base",
+      "path": ["font", "size", "relative", "base"]
+    },
+    {
+      "key": "{font.size.relative.md}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "md",
+        "names": {
+          "scss": "$calcite-font-size-relative-md",
+          "css": "var(--calcite-font-size-relative-md)",
+          "docs": "font.size.relative.md",
+          "es6": "calciteFontSizeRelativeMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Md",
+      "path": ["font", "size", "relative", "md"]
+    },
+    {
+      "key": "{font.size.relative.lg}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "lg",
+        "names": {
+          "scss": "$calcite-font-size-relative-lg",
+          "css": "var(--calcite-font-size-relative-lg)",
+          "docs": "font.size.relative.lg",
+          "es6": "calciteFontSizeRelativeLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.125rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Lg",
+      "path": ["font", "size", "relative", "lg"]
+    },
+    {
+      "key": "{font.size.relative.xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-xl",
+          "css": "var(--calcite-font-size-relative-xl)",
+          "docs": "font.size.relative.xl",
+          "es6": "calciteFontSizeRelativeXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative Xl",
+      "path": ["font", "size", "relative", "xl"]
+    },
+    {
+      "key": "{font.size.relative.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "2xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-2xl",
+          "css": "var(--calcite-font-size-relative-2xl)",
+          "docs": "font.size.relative.2xl",
+          "es6": "calciteFontSizeRelative2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "1.625rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 2xl",
+      "path": ["font", "size", "relative", "2xl"]
+    },
+    {
+      "key": "{font.size.relative.3xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "3xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-3xl",
+          "css": "var(--calcite-font-size-relative-3xl)",
+          "docs": "font.size.relative.3xl",
+          "es6": "calciteFontSizeRelative3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "2rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 3xl",
+      "path": ["font", "size", "relative", "3xl"]
+    },
+    {
+      "key": "{font.size.relative.4xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "4xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-4xl",
+          "css": "var(--calcite-font-size-relative-4xl)",
+          "docs": "font.size.relative.4xl",
+          "es6": "calciteFontSizeRelative4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "2.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 4xl",
+      "path": ["font", "size", "relative", "4xl"]
+    },
+    {
+      "key": "{font.size.relative.5xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "5xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-5xl",
+          "css": "var(--calcite-font-size-relative-5xl)",
+          "docs": "font.size.relative.5xl",
+          "es6": "calciteFontSizeRelative5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "3rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 5xl",
+      "path": ["font", "size", "relative", "5xl"]
+    },
+    {
+      "key": "{font.size.relative.6xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "6xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-6xl",
+          "css": "var(--calcite-font-size-relative-6xl)",
+          "docs": "font.size.relative.6xl",
+          "es6": "calciteFontSizeRelative6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "3.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 6xl",
+      "path": ["font", "size", "relative", "6xl"]
+    },
+    {
+      "key": "{font.size.relative.7xl}",
+      "attributes": {
+        "category": "font",
+        "group": "size",
+        "kind": "relative",
+        "type": "size",
+        "item": "relative",
+        "subitem": "7xl",
+        "names": {
+          "scss": "$calcite-font-size-relative-7xl",
+          "css": "var(--calcite-font-size-relative-7xl)",
+          "docs": "font.size.relative.7xl",
+          "es6": "calciteFontSizeRelative7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "fontSize",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Size Relative 7xl",
+      "path": ["font", "size", "relative", "7xl"]
+    },
+    {
       "key": "{font.style.emphasis}",
       "attributes": {
         "category": "font",
@@ -25928,6 +26924,306 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "isSource": true,
       "name": "Font Line Height Relative Loose",
       "path": ["font", "line-height", "relative", "loose"]
+    },
+    {
+      "key": "{font.line-height.xs}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "xs",
+        "names": {
+          "scss": "$calcite-font-line-height-xs",
+          "css": "var(--calcite-font-line-height-xs)",
+          "docs": "font.line-height.xs",
+          "es6": "calciteFontLineHeightXs"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "0.75rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xs",
+      "path": ["font", "line-height", "xs"]
+    },
+    {
+      "key": "{font.line-height.sm}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "sm",
+        "names": {
+          "scss": "$calcite-font-line-height-sm",
+          "css": "var(--calcite-font-line-height-sm)",
+          "docs": "font.line-height.sm",
+          "es6": "calciteFontLineHeightSm"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Sm",
+      "path": ["font", "line-height", "sm"]
+    },
+    {
+      "key": "{font.line-height.base}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "base",
+        "names": {
+          "scss": "$calcite-font-line-height-base",
+          "css": "var(--calcite-font-line-height-base)",
+          "docs": "font.line-height.base",
+          "es6": "calciteFontLineHeightBase"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Base",
+      "path": ["font", "line-height", "base"]
+    },
+    {
+      "key": "{font.line-height.md}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "md",
+        "names": {
+          "scss": "$calcite-font-line-height-md",
+          "css": "var(--calcite-font-line-height-md)",
+          "docs": "font.line-height.md",
+          "es6": "calciteFontLineHeightMd"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.25rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Md",
+      "path": ["font", "line-height", "md"]
+    },
+    {
+      "key": "{font.line-height.lg}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "lg",
+        "names": {
+          "scss": "$calcite-font-line-height-lg",
+          "css": "var(--calcite-font-line-height-lg)",
+          "docs": "font.line-height.lg",
+          "es6": "calciteFontLineHeightLg"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Lg",
+      "path": ["font", "line-height", "lg"]
+    },
+    {
+      "key": "{font.line-height.xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "xl",
+        "names": {
+          "scss": "$calcite-font-line-height-xl",
+          "css": "var(--calcite-font-line-height-xl)",
+          "docs": "font.line-height.xl",
+          "es6": "calciteFontLineHeightXl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "1.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height Xl",
+      "path": ["font", "line-height", "xl"]
+    },
+    {
+      "key": "{font.line-height.2xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "2xl",
+        "names": {
+          "scss": "$calcite-font-line-height-2xl",
+          "css": "var(--calcite-font-line-height-2xl)",
+          "docs": "font.line-height.2xl",
+          "es6": "calciteFontLineHeight2xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "2rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 2xl",
+      "path": ["font", "line-height", "2xl"]
+    },
+    {
+      "key": "{font.line-height.3xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "3xl",
+        "names": {
+          "scss": "$calcite-font-line-height-3xl",
+          "css": "var(--calcite-font-line-height-3xl)",
+          "docs": "font.line-height.3xl",
+          "es6": "calciteFontLineHeight3xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "2.5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 3xl",
+      "path": ["font", "line-height", "3xl"]
+    },
+    {
+      "key": "{font.line-height.4xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "4xl",
+        "names": {
+          "scss": "$calcite-font-line-height-4xl",
+          "css": "var(--calcite-font-line-height-4xl)",
+          "docs": "font.line-height.4xl",
+          "es6": "calciteFontLineHeight4xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "3rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 4xl",
+      "path": ["font", "line-height", "4xl"]
+    },
+    {
+      "key": "{font.line-height.5xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "5xl",
+        "names": {
+          "scss": "$calcite-font-line-height-5xl",
+          "css": "var(--calcite-font-line-height-5xl)",
+          "docs": "font.line-height.5xl",
+          "es6": "calciteFontLineHeight5xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 5xl",
+      "path": ["font", "line-height", "5xl"]
+    },
+    {
+      "key": "{font.line-height.6xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "6xl",
+        "names": {
+          "scss": "$calcite-font-line-height-6xl",
+          "css": "var(--calcite-font-line-height-6xl)",
+          "docs": "font.line-height.6xl",
+          "es6": "calciteFontLineHeight6xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "4rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 6xl",
+      "path": ["font", "line-height", "6xl"]
+    },
+    {
+      "key": "{font.line-height.7xl}",
+      "attributes": {
+        "category": "font",
+        "group": "line-height",
+        "type": "line-height",
+        "item": "7xl",
+        "names": {
+          "scss": "$calcite-font-line-height-7xl",
+          "css": "var(--calcite-font-line-height-7xl)",
+          "docs": "font.line-height.7xl",
+          "es6": "calciteFontLineHeight7xl"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic"
+        }
+      },
+      "$type": "lineHeight",
+      "$value": "5rem",
+      "filePath": "src/tokens/semantic/font.json",
+      "isSource": true,
+      "name": "Font Line Height 7xl",
+      "path": ["font", "line-height", "7xl"]
     },
     {
       "key": "{font.letter-spacing.tight}",
@@ -29477,56 +30773,113 @@ exports[`ES6 > global should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorSurface1 = {};
-export const calciteColorSurface2 = {};
-export const calciteColorSurface3 = {};
-export const calciteColorSurface4 = {};
-export const calciteColorSurfaceHighlight = {};
-export const calciteColorBackground = {}; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
+export const calciteColorSurface1 = { light: "#f7f7f7", dark: "#212121" };
+export const calciteColorSurface2 = { light: "#ffffff", dark: "#2b2b2b" };
+export const calciteColorSurface3 = { light: "#f2f2f2", dark: "#363636" };
+export const calciteColorSurface4 = { light: "#ebebeb", dark: "#404040" };
+export const calciteColorSurfaceHighlight = {
+  light: "#d6efff",
+  dark: "#2b465f",
+};
+export const calciteColorBackground = { light: "#f7f7f7", dark: "#212121" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead.
 export const calciteColorBackgroundNone = "rgba(255, 255, 255, 0)"; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-export const calciteColorForeground1 = {}; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
-export const calciteColorForeground2 = {}; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.
-export const calciteColorForeground3 = {}; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.
-export const calciteColorForegroundCurrent = {}; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead.
-export const calciteColorText1 = {};
-export const calciteColorText2 = {};
-export const calciteColorText3 = {};
-export const calciteColorTextInverse = {};
-export const calciteColorTextLink = {};
-export const calciteColorTextHighlight = {};
-export const calciteColorBorder1 = {};
-export const calciteColorBorder2 = {};
-export const calciteColorBorder3 = {};
-export const calciteColorBorderInput = {};
-export const calciteColorBorderGhost = {}; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-export const calciteColorBorderWhite = {}; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
-export const calciteColorBrand = {};
-export const calciteColorBrandHover = {};
-export const calciteColorBrandPress = {};
-export const calciteColorBrandUnderline = {};
-export const calciteColorInverse = {};
-export const calciteColorInverseHover = {};
-export const calciteColorInversePress = {};
-export const calciteColorStatusInfo = {};
-export const calciteColorStatusInfoHover = {};
-export const calciteColorStatusInfoPress = {};
-export const calciteColorStatusSuccess = {};
-export const calciteColorStatusSuccessHover = {};
-export const calciteColorStatusSuccessPress = {};
-export const calciteColorStatusWarning = {};
-export const calciteColorStatusWarningHover = {};
-export const calciteColorStatusWarningPress = {};
-export const calciteColorStatusDanger = {};
-export const calciteColorStatusDangerHover = {};
-export const calciteColorStatusDangerPress = {};
-export const calciteColorTransparent = {};
-export const calciteColorTransparentHover = {};
-export const calciteColorTransparentPress = {};
-export const calciteColorTransparentScrim = {};
-export const calciteColorTransparentTint = {};
-export const calciteColorTransparentInverseHover = {};
-export const calciteColorTransparentInversePress = {};
-export const calciteColorFocus = {};
+export const calciteColorForeground1 = { light: "#ffffff", dark: "#2b2b2b" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead.
+export const calciteColorForeground2 = { light: "#f2f2f2", dark: "#363636" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead.
+export const calciteColorForeground3 = { light: "#ebebeb", dark: "#404040" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead.
+export const calciteColorForegroundCurrent = {
+  light: "#d6efff",
+  dark: "#2b465f",
+}; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead.
+export const calciteColorText1 = { light: "#141414", dark: "#ffffff" };
+export const calciteColorText2 = { light: "#4a4a4a", dark: "#bfbfbf" };
+export const calciteColorText3 = { light: "#6b6b6b", dark: "#9e9e9e" };
+export const calciteColorTextInverse = { light: "#ffffff", dark: "#141414" };
+export const calciteColorTextLink = { light: "#00619b", dark: "#00a0ff" };
+export const calciteColorTextHighlight = { light: "#004874", dark: "#d6efff" };
+export const calciteColorBorder1 = { light: "#d4d4d4", dark: "#545454" };
+export const calciteColorBorder2 = { light: "#dedede", dark: "#4a4a4a" };
+export const calciteColorBorder3 = { light: "#ebebeb", dark: "#404040" };
+export const calciteColorBorderInput = { light: "#949494", dark: "#757575" };
+export const calciteColorBorderGhost = {
+  light: "rgba(0, 0, 0, 0.3)",
+  dark: "rgba(117, 117, 117, 0.3)",
+}; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
+export const calciteColorBorderWhite = { light: "#ffffff", dark: "#f7f7f7" }; // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
+export const calciteColorBrand = { light: "#007ac2", dark: "#009af2" };
+export const calciteColorBrandHover = { light: "#00619b", dark: "#40b9ff" };
+export const calciteColorBrandPress = { light: "#004874", dark: "#80d1ff" };
+export const calciteColorBrandUnderline = {
+  light: "rgba(0, 97, 155, 0.4)",
+  dark: "rgba(0, 160, 255, 0.4)",
+};
+export const calciteColorInverse = { light: "#363636", dark: "#f7f7f7" };
+export const calciteColorInverseHover = { light: "#2b2b2b", dark: "#f2f2f2" };
+export const calciteColorInversePress = { light: "#212121", dark: "#ebebeb" };
+export const calciteColorStatusInfo = { light: "#00619b", dark: "#00a0ff" };
+export const calciteColorStatusInfoHover = {
+  light: "#004874",
+  dark: "#40b9ff",
+};
+export const calciteColorStatusInfoPress = {
+  light: "#00304d",
+  dark: "#80d1ff",
+};
+export const calciteColorStatusSuccess = { light: "#288835", dark: "#36da43" };
+export const calciteColorStatusSuccessHover = {
+  light: "#1a6324",
+  dark: "#6df278",
+};
+export const calciteColorStatusSuccessPress = {
+  light: "#0d3f14",
+  dark: "#9df2a3",
+};
+export const calciteColorStatusWarning = { light: "#da7c0b", dark: "#f89927" };
+export const calciteColorStatusWarningHover = {
+  light: "#c26b00",
+  dark: "#ffaf4f",
+};
+export const calciteColorStatusWarningPress = {
+  light: "#9a5b10",
+  dark: "#ffc47d",
+};
+export const calciteColorStatusDanger = { light: "#d83020", dark: "#fe583e" };
+export const calciteColorStatusDangerHover = {
+  light: "#a82b1e",
+  dark: "#fe7863",
+};
+export const calciteColorStatusDangerPress = {
+  light: "#7c1d13",
+  dark: "#fe9989",
+};
+export const calciteColorTransparent = {
+  light: "rgba(0, 0, 0, 0)",
+  dark: "rgba(255, 255, 255, 0)",
+};
+export const calciteColorTransparentHover = {
+  light: "rgba(0, 0, 0, 0.04)",
+  dark: "rgba(255, 255, 255, 0.12)",
+};
+export const calciteColorTransparentPress = {
+  light: "rgba(0, 0, 0, 0.08)",
+  dark: "rgba(255, 255, 255, 0.16)",
+};
+export const calciteColorTransparentScrim = {
+  light: "rgba(255, 255, 255, 0.85)",
+  dark: "rgba(0, 0, 0, 0.85)",
+};
+export const calciteColorTransparentTint = {
+  light: "rgba(255, 255, 255, 0.8)",
+  dark: "rgba(43, 43, 43, 0.8)",
+};
+export const calciteColorTransparentInverseHover = {
+  light: "rgba(255, 255, 255, 0.12)",
+  dark: "rgba(0, 0, 0, 0.04)",
+};
+export const calciteColorTransparentInversePress = {
+  light: "rgba(255, 255, 255, 0.16)",
+  dark: "rgba(0, 0, 0, 0.08)",
+};
+export const calciteColorFocus = { light: "#007ac2", dark: "#009af2" };
 export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
@@ -29583,6 +30936,18 @@ export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
 export const calciteFontSize2xl = "24px";
+export const calciteFontSizeRelativeXs = "0.625rem";
+export const calciteFontSizeRelativeSm = "0.75rem";
+export const calciteFontSizeRelativeBase = "0.875rem";
+export const calciteFontSizeRelativeMd = "1rem";
+export const calciteFontSizeRelativeLg = "1.125rem";
+export const calciteFontSizeRelativeXl = "1.25rem";
+export const calciteFontSizeRelative2xl = "1.625rem";
+export const calciteFontSizeRelative3xl = "2rem";
+export const calciteFontSizeRelative4xl = "2.5rem";
+export const calciteFontSizeRelative5xl = "3rem";
+export const calciteFontSizeRelative6xl = "3.5rem";
+export const calciteFontSizeRelative7xl = "4rem";
 export const calciteFontStyleEmphasis = "italic"; // used in ratings
 export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
@@ -29600,6 +30965,18 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightXs = "0.75rem";
+export const calciteFontLineHeightSm = "1rem";
+export const calciteFontLineHeightBase = "1rem";
+export const calciteFontLineHeightMd = "1.25rem";
+export const calciteFontLineHeightLg = "1.5rem";
+export const calciteFontLineHeightXl = "1.5rem";
+export const calciteFontLineHeight2xl = "2rem";
+export const calciteFontLineHeight3xl = "2.5rem";
+export const calciteFontLineHeight4xl = "3rem";
+export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight6xl = "4rem";
+export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -29972,64 +31349,70 @@ exports[`ES6 > global types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteColorSurface1: { light: any; dark: any };
-export const calciteColorSurface2: { light: any; dark: any };
-export const calciteColorSurface3: { light: any; dark: any };
-export const calciteColorSurface4: { light: any; dark: any };
-export const calciteColorSurfaceHighlight: { light: any; dark: any };
+export const calciteColorSurface1: { light: string; dark: string };
+export const calciteColorSurface2: { light: string; dark: string };
+export const calciteColorSurface3: { light: string; dark: string };
+export const calciteColorSurface4: { light: string; dark: string };
+export const calciteColorSurfaceHighlight: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-1\` instead. */
-export const calciteColorBackground: { light: any; dark: any };
+export const calciteColorBackground: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteColorBackgroundNone: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-2\` instead. */
-export const calciteColorForeground1: { light: any; dark: any };
+export const calciteColorForeground1: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-3\` instead. */
-export const calciteColorForeground2: { light: any; dark: any };
+export const calciteColorForeground2: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-color-surface-4\` instead. */
-export const calciteColorForeground3: { light: any; dark: any };
+export const calciteColorForeground3: { light: string; dark: string };
 /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-surface-highlight\` instead. */
-export const calciteColorForegroundCurrent: { light: any; dark: any };
-export const calciteColorText1: { light: any; dark: any };
-export const calciteColorText2: { light: any; dark: any };
-export const calciteColorText3: { light: any; dark: any };
-export const calciteColorTextInverse: { light: any; dark: any };
-export const calciteColorTextLink: { light: any; dark: any };
-export const calciteColorTextHighlight: { light: any; dark: any };
-export const calciteColorBorder1: { light: any; dark: any };
-export const calciteColorBorder2: { light: any; dark: any };
-export const calciteColorBorder3: { light: any; dark: any };
-export const calciteColorBorderInput: { light: any; dark: any };
+export const calciteColorForegroundCurrent: { light: string; dark: string };
+export const calciteColorText1: { light: string; dark: string };
+export const calciteColorText2: { light: string; dark: string };
+export const calciteColorText3: { light: string; dark: string };
+export const calciteColorTextInverse: { light: string; dark: string };
+export const calciteColorTextLink: { light: string; dark: string };
+export const calciteColorTextHighlight: { light: string; dark: string };
+export const calciteColorBorder1: { light: string; dark: string };
+export const calciteColorBorder2: { light: string; dark: string };
+export const calciteColorBorder3: { light: string; dark: string };
+export const calciteColorBorderInput: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteColorBorderGhost: { light: any; dark: any };
+export const calciteColorBorderGhost: { light: string; dark: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteColorBorderWhite: { light: any; dark: any };
-export const calciteColorBrand: { light: any; dark: any };
-export const calciteColorBrandHover: { light: any; dark: any };
-export const calciteColorBrandPress: { light: any; dark: any };
-export const calciteColorBrandUnderline: { light: any; dark: any };
-export const calciteColorInverse: { light: any; dark: any };
-export const calciteColorInverseHover: { light: any; dark: any };
-export const calciteColorInversePress: { light: any; dark: any };
-export const calciteColorStatusInfo: { light: any; dark: any };
-export const calciteColorStatusInfoHover: { light: any; dark: any };
-export const calciteColorStatusInfoPress: { light: any; dark: any };
-export const calciteColorStatusSuccess: { light: any; dark: any };
-export const calciteColorStatusSuccessHover: { light: any; dark: any };
-export const calciteColorStatusSuccessPress: { light: any; dark: any };
-export const calciteColorStatusWarning: { light: any; dark: any };
-export const calciteColorStatusWarningHover: { light: any; dark: any };
-export const calciteColorStatusWarningPress: { light: any; dark: any };
-export const calciteColorStatusDanger: { light: any; dark: any };
-export const calciteColorStatusDangerHover: { light: any; dark: any };
-export const calciteColorStatusDangerPress: { light: any; dark: any };
-export const calciteColorTransparent: { light: any; dark: any };
-export const calciteColorTransparentHover: { light: any; dark: any };
-export const calciteColorTransparentPress: { light: any; dark: any };
-export const calciteColorTransparentScrim: { light: any; dark: any };
-export const calciteColorTransparentTint: { light: any; dark: any };
-export const calciteColorTransparentInverseHover: { light: any; dark: any };
-export const calciteColorTransparentInversePress: { light: any; dark: any };
-export const calciteColorFocus: { light: any; dark: any };
+export const calciteColorBorderWhite: { light: string; dark: string };
+export const calciteColorBrand: { light: string; dark: string };
+export const calciteColorBrandHover: { light: string; dark: string };
+export const calciteColorBrandPress: { light: string; dark: string };
+export const calciteColorBrandUnderline: { light: string; dark: string };
+export const calciteColorInverse: { light: string; dark: string };
+export const calciteColorInverseHover: { light: string; dark: string };
+export const calciteColorInversePress: { light: string; dark: string };
+export const calciteColorStatusInfo: { light: string; dark: string };
+export const calciteColorStatusInfoHover: { light: string; dark: string };
+export const calciteColorStatusInfoPress: { light: string; dark: string };
+export const calciteColorStatusSuccess: { light: string; dark: string };
+export const calciteColorStatusSuccessHover: { light: string; dark: string };
+export const calciteColorStatusSuccessPress: { light: string; dark: string };
+export const calciteColorStatusWarning: { light: string; dark: string };
+export const calciteColorStatusWarningHover: { light: string; dark: string };
+export const calciteColorStatusWarningPress: { light: string; dark: string };
+export const calciteColorStatusDanger: { light: string; dark: string };
+export const calciteColorStatusDangerHover: { light: string; dark: string };
+export const calciteColorStatusDangerPress: { light: string; dark: string };
+export const calciteColorTransparent: { light: string; dark: string };
+export const calciteColorTransparentHover: { light: string; dark: string };
+export const calciteColorTransparentPress: { light: string; dark: string };
+export const calciteColorTransparentScrim: { light: string; dark: string };
+export const calciteColorTransparentTint: { light: string; dark: string };
+export const calciteColorTransparentInverseHover: {
+  light: string;
+  dark: string;
+};
+export const calciteColorTransparentInversePress: {
+  light: string;
+  dark: string;
+};
+export const calciteColorFocus: { light: string; dark: string };
 export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
@@ -30098,6 +31481,18 @@ export const calciteFontSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
 export const calciteFontSizeXxl: string;
 export const calciteFontSize2xl: string;
+export const calciteFontSizeRelativeXs: string;
+export const calciteFontSizeRelativeSm: string;
+export const calciteFontSizeRelativeBase: string;
+export const calciteFontSizeRelativeMd: string;
+export const calciteFontSizeRelativeLg: string;
+export const calciteFontSizeRelativeXl: string;
+export const calciteFontSizeRelative2xl: string;
+export const calciteFontSizeRelative3xl: string;
+export const calciteFontSizeRelative4xl: string;
+export const calciteFontSizeRelative5xl: string;
+export const calciteFontSizeRelative6xl: string;
+export const calciteFontSizeRelative7xl: string;
 /** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
@@ -30123,6 +31518,18 @@ export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
+export const calciteFontLineHeightXs: string;
+export const calciteFontLineHeightSm: string;
+export const calciteFontLineHeightBase: string;
+export const calciteFontLineHeightMd: string;
+export const calciteFontLineHeightLg: string;
+export const calciteFontLineHeightXl: string;
+export const calciteFontLineHeight2xl: string;
+export const calciteFontLineHeight3xl: string;
+export const calciteFontLineHeight4xl: string;
+export const calciteFontLineHeight5xl: string;
+export const calciteFontLineHeight6xl: string;
+export const calciteFontLineHeight7xl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteFontLetterSpacingTight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -30582,6 +31989,18 @@ export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
 export const calciteFontSizeXxl = "24px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
 export const calciteFontSize2xl = "24px";
+export const calciteFontSizeRelativeXs = "0.625rem";
+export const calciteFontSizeRelativeSm = "0.75rem";
+export const calciteFontSizeRelativeBase = "0.875rem";
+export const calciteFontSizeRelativeMd = "1rem";
+export const calciteFontSizeRelativeLg = "1.125rem";
+export const calciteFontSizeRelativeXl = "1.25rem";
+export const calciteFontSizeRelative2xl = "1.625rem";
+export const calciteFontSizeRelative3xl = "2rem";
+export const calciteFontSizeRelative4xl = "2.5rem";
+export const calciteFontSizeRelative5xl = "3rem";
+export const calciteFontSizeRelative6xl = "3.5rem";
+export const calciteFontSizeRelative7xl = "4rem";
 export const calciteFontStyleEmphasis = "italic"; // used in ratings
 export const calciteFontLineHeightFixedSm = "12px";
 export const calciteFontLineHeightFixedBase = "16px";
@@ -30599,6 +32018,18 @@ export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
 export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
 export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
 export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightXs = "0.75rem";
+export const calciteFontLineHeightSm = "1rem";
+export const calciteFontLineHeightBase = "1rem";
+export const calciteFontLineHeightMd = "1.25rem";
+export const calciteFontLineHeightLg = "1.5rem";
+export const calciteFontLineHeightXl = "1.5rem";
+export const calciteFontLineHeight2xl = "2rem";
+export const calciteFontLineHeight3xl = "2.5rem";
+export const calciteFontLineHeight4xl = "3rem";
+export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight6xl = "4rem";
+export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteFontLetterSpacingNormal = "0"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteFontLetterSpacingWide = "0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -30755,6 +32186,18 @@ export const calciteFontSizeXl: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
 export const calciteFontSizeXxl: string;
 export const calciteFontSize2xl: string;
+export const calciteFontSizeRelativeXs: string;
+export const calciteFontSizeRelativeSm: string;
+export const calciteFontSizeRelativeBase: string;
+export const calciteFontSizeRelativeMd: string;
+export const calciteFontSizeRelativeLg: string;
+export const calciteFontSizeRelativeXl: string;
+export const calciteFontSizeRelative2xl: string;
+export const calciteFontSizeRelative3xl: string;
+export const calciteFontSizeRelative4xl: string;
+export const calciteFontSizeRelative5xl: string;
+export const calciteFontSizeRelative6xl: string;
+export const calciteFontSizeRelative7xl: string;
 /** used in ratings */
 export const calciteFontStyleEmphasis: string;
 export const calciteFontLineHeightFixedSm: string;
@@ -30780,6 +32223,18 @@ export const calciteFontLineHeightRelativeNormal: string;
 export const calciteFontLineHeightRelativeRelaxed: string;
 /** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
+export const calciteFontLineHeightXs: string;
+export const calciteFontLineHeightSm: string;
+export const calciteFontLineHeightBase: string;
+export const calciteFontLineHeightMd: string;
+export const calciteFontLineHeightLg: string;
+export const calciteFontLineHeightXl: string;
+export const calciteFontLineHeight2xl: string;
+export const calciteFontLineHeight3xl: string;
+export const calciteFontLineHeight4xl: string;
+export const calciteFontLineHeight5xl: string;
+export const calciteFontLineHeight6xl: string;
+export const calciteFontLineHeight7xl: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteFontLetterSpacingTight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -31667,6 +33122,18 @@ $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
 $calcite-font-size-2xl: 24px;
+$calcite-font-size-relative-xs: 0.625rem;
+$calcite-font-size-relative-sm: 0.75rem;
+$calcite-font-size-relative-base: 0.875rem;
+$calcite-font-size-relative-md: 1rem;
+$calcite-font-size-relative-lg: 1.125rem;
+$calcite-font-size-relative-xl: 1.25rem;
+$calcite-font-size-relative-2xl: 1.625rem;
+$calcite-font-size-relative-3xl: 2rem;
+$calcite-font-size-relative-4xl: 2.5rem;
+$calcite-font-size-relative-5xl: 3rem;
+$calcite-font-size-relative-6xl: 3.5rem;
+$calcite-font-size-relative-7xl: 4rem;
 $calcite-font-style-emphasis: italic; // used in ratings
 $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
@@ -31684,6 +33151,18 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-xs: 0.75rem;
+$calcite-font-line-height-sm: 1rem;
+$calcite-font-line-height-base: 1rem;
+$calcite-font-line-height-md: 1.25rem;
+$calcite-font-line-height-lg: 1.5rem;
+$calcite-font-line-height-xl: 1.5rem;
+$calcite-font-line-height-2xl: 2rem;
+$calcite-font-line-height-3xl: 2.5rem;
+$calcite-font-line-height-4xl: 3rem;
+$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-6xl: 4rem;
+$calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-font-letter-spacing-normal: 0; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-font-letter-spacing-wide: 0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -31978,14 +33457,14 @@ exports[`SCSS > mixins should match 1`] = `
  */
 
 @mixin calcite-typography {
-  font-family: undefined;
-  font-size: undefined;
-  font-weight: undefined;
-  letter-spacing: undefined;
-  line-height: undefined;
-  paragraph-spacing: undefined;
-  text-case: undefined;
-  text-decoration: undefined;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 16px;
+  paragraph-spacing: 4px;
+  text-case: none;
+  text-decoration: none;
 }
 @mixin calcite-typography-light-minus-3h {
   @include calcite-typography;
@@ -32024,14 +33503,15 @@ exports[`SCSS > mixins should match 1`] = `
   font-size: var(--calcite-font-size-sm);
 }
 @mixin calcite-typography-regular-minus-1h {
-  font-family: undefined;
-  font-size: undefined;
-  font-weight: undefined;
-  letter-spacing: undefined;
-  line-height: undefined;
-  paragraph-spacing: undefined;
-  text-case: undefined;
-  text-decoration: undefined;
+  @include calcite-typography;
+  font-family: var(--calcite-font-family);
+  font-size: var(--calcite-font-size);
+  font-weight: var(--calcite-font-weight-regular);
+  letter-spacing: var(--calcite-font-letter-spacing-normal);
+  line-height: var(--calcite-font-line-height-fixed-base);
+  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
+  text-case: var(--calcite-font-text-case-none);
+  text-decoration: var(--calcite-font-text-decoration-none);
 }
 @mixin calcite-typography-regular-0h {
   @include calcite-typography;
@@ -32232,60 +33712,70 @@ exports[`SCSS > mixins should match 1`] = `
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 @mixin calcite-typography-hierarchy-display-1 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-bold-3;
+  font-weight: var(--calcite-font-weight-semibold);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-xxl);
 }
 @mixin calcite-typography-hierarchy-display-2 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-bold-2;
+  font-weight: var(--calcite-font-weight-semibold);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-xl);
 }
 @mixin calcite-typography-hierarchy-heading-1 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-medium-3;
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-xxl);
 }
 @mixin calcite-typography-hierarchy-heading-2 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-medium-2;
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-xl);
 }
 @mixin calcite-typography-hierarchy-heading-3 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-medium-1;
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-lg);
 }
 @mixin calcite-typography-hierarchy-heading-4 {
-  font-weight: undefined;
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-medium-0;
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-md);
 }
 @mixin calcite-typography-hierarchy-heading-5 {
-  font-weight: undefined;
-  line-height: undefined;
+  @include calcite-typography-wrap-medium-minus-1;
+  font-weight: var(--calcite-font-weight-medium);
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 @mixin calcite-typography-hierarchy-body-snug {
-  line-height: undefined;
+  @include calcite-typography-wrap-regular-minus-1;
+  line-height: var(--calcite-font-line-height-relative-snug);
 }
 @mixin calcite-typography-hierarchy-body {
-  font-family: undefined;
-  font-size: undefined;
-  font-weight: undefined;
-  letter-spacing: undefined;
-  line-height: undefined;
-  paragraph-spacing: undefined;
-  text-case: undefined;
-  text-decoration: undefined;
+  @include calcite-typography;
+  font-family: var(--calcite-font-family);
+  font-size: var(--calcite-font-size);
+  font-weight: var(--calcite-font-weight-regular);
+  letter-spacing: var(--calcite-font-letter-spacing-normal);
+  line-height: var(--calcite-font-line-height-fixed-base);
+  paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
+  text-case: var(--calcite-font-text-case-none);
+  text-decoration: var(--calcite-font-text-decoration-none);
 }
 @mixin calcite-typography-hierarchy-overline {
-  line-height: undefined;
-  text-case: undefined;
-  font-weight: undefined;
+  line-height: 12px;
+  text-case: uppercase;
+  font-weight: 600;
 }
 @mixin calcite-typography-hierarchy-caption {
-  line-height: undefined;
-  font-size: undefined;
+  @include calcite-typography-wrap-regular-minus-2;
+  line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-sm);
 }
 "
 `;
@@ -32325,6 +33815,18 @@ $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
 $calcite-font-size-2xl: 24px;
+$calcite-font-size-relative-xs: 0.625rem;
+$calcite-font-size-relative-sm: 0.75rem;
+$calcite-font-size-relative-base: 0.875rem;
+$calcite-font-size-relative-md: 1rem;
+$calcite-font-size-relative-lg: 1.125rem;
+$calcite-font-size-relative-xl: 1.25rem;
+$calcite-font-size-relative-2xl: 1.625rem;
+$calcite-font-size-relative-3xl: 2rem;
+$calcite-font-size-relative-4xl: 2.5rem;
+$calcite-font-size-relative-5xl: 3rem;
+$calcite-font-size-relative-6xl: 3.5rem;
+$calcite-font-size-relative-7xl: 4rem;
 $calcite-font-style-emphasis: italic; // used in ratings
 $calcite-font-line-height-fixed-sm: 12px;
 $calcite-font-line-height-fixed-base: 16px;
@@ -32342,6 +33844,18 @@ $calcite-font-line-height-relative-snug: 1.375; // 1.375
 $calcite-font-line-height-relative-normal: 1.5; // 1.5
 $calcite-font-line-height-relative-relaxed: 1.625; // 1.625
 $calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-xs: 0.75rem;
+$calcite-font-line-height-sm: 1rem;
+$calcite-font-line-height-base: 1rem;
+$calcite-font-line-height-md: 1.25rem;
+$calcite-font-line-height-lg: 1.5rem;
+$calcite-font-line-height-xl: 1.5rem;
+$calcite-font-line-height-2xl: 2rem;
+$calcite-font-line-height-3xl: 2.5rem;
+$calcite-font-line-height-4xl: 3rem;
+$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-6xl: 4rem;
+$calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-font-letter-spacing-normal: 0; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-font-letter-spacing-wide: 0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
