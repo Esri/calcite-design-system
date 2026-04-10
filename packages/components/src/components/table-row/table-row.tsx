@@ -6,7 +6,7 @@ import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { getStickyHeaderScrollContainer, getStickyHeaderTableTop } from "../table/sticky-header";
+import { getTableScrollContainer, getTableTop } from "../table/sticky-header";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -264,8 +264,10 @@ export class TableRow extends LitElement {
           const hasStickyHeader = !!table?.stickyHeader;
           const stickyHeaderActive = hasStickyHeader && this.isStickyHeaderActive(table);
           const firstVisibleBodyRow = this.isFirstVisibleBodyRow();
+          const useManualBodyRowScrolling = this.rowType === "body";
 
           if (
+            useManualBodyRowScrolling ||
             stickyHeaderActive ||
             (firstVisibleBodyRow && hasStickyHeader) ||
             (this.rowType === "head" && hasStickyHeader)
@@ -289,27 +291,25 @@ export class TableRow extends LitElement {
     const table = this.el.closest("calcite-table") as HTMLElement & {
       stickyHeader?: boolean;
     };
-    const scrollContainer = table ? getStickyHeaderScrollContainer(table) : null;
+    const scrollContainer = table ? getTableScrollContainer(table) : null;
 
-    if (!table?.stickyHeader || !scrollContainer) {
+    if (!table || !scrollContainer) {
       return;
     }
 
     const tableStyles = getComputedStyle(table);
 
-    if (
-      tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !== "sticky"
-    ) {
-      return;
-    }
+    const stickyHeaderPosition = tableStyles
+      .getPropertyValue("--calcite-internal-table-header-position")
+      .trim();
 
     const stickyHeaderHeight = parseFloat(
       tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
     );
 
-    if (!stickyHeaderHeight) {
-      return;
-    }
+    const effectiveStickyHeaderHeight = Number.isFinite(stickyHeaderHeight)
+      ? stickyHeaderHeight
+      : 0;
 
     const cellElement = cell.shadowRoot?.querySelector("td, th") as HTMLElement;
 
@@ -317,57 +317,79 @@ export class TableRow extends LitElement {
       return;
     }
 
-    requestAnimationFrame(() => {
-      const isFirstVisibleBodyRow = this.isFirstVisibleBodyRow();
-      const getTargetTop = (): number | null => {
-        const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
-        const tableTop = getStickyHeaderTableTop(table, scrollContainer);
+    const isFirstVisibleBodyRow = this.isFirstVisibleBodyRow();
+    const getTargetTop = (): number | null => {
+      const scrollContainerTop =
+        scrollContainer.getBoundingClientRect().top + scrollContainer.clientTop;
+      const tableTop = getTableTop(table, scrollContainer);
+      const stickyHeaderOffset =
+        table.stickyHeader && stickyHeaderPosition === "sticky" ? effectiveStickyHeaderHeight : 0;
 
-        if (tableTop == null) {
-          return null;
-        }
-
-        return Math.max(scrollContainerTop, tableTop) + stickyHeaderHeight;
-      };
-
-      if (isFirstVisibleBodyRow) {
-        const correctFirstBodyRowPosition = (): void => {
-          const targetTop = getTargetTop();
-
-          if (targetTop == null) {
-            return;
-          }
-          const cellTop = cellElement.getBoundingClientRect().top;
-          const scrollDelta = cellTop - targetTop;
-
-          if (Math.abs(scrollDelta) > 0.5) {
-            scrollContainer.scrollTop += scrollDelta;
-          }
-        };
-
-        const retryCorrectFirstBodyRowPosition = (remainingFrames = 3): void => {
-          correctFirstBodyRowPosition();
-
-          if (remainingFrames > 1) {
-            requestAnimationFrame(() => retryCorrectFirstBodyRowPosition(remainingFrames - 1));
-          }
-        };
-
-        requestAnimationFrame(() => retryCorrectFirstBodyRowPosition());
-        return;
+      if (tableTop == null) {
+        return scrollContainerTop + stickyHeaderOffset;
       }
 
+      return Math.max(scrollContainerTop, tableTop) + stickyHeaderOffset;
+    };
+
+    const ensureFocusedBodyCellVisible = (): void => {
       const targetTop = getTargetTop();
 
       if (targetTop == null) {
         return;
       }
-      const cellTop = cellElement.getBoundingClientRect().top;
 
-      if (cellTop < targetTop) {
-        scrollContainer.scrollTop += cellTop - targetTop;
+      const scrollContainerRect = scrollContainer.getBoundingClientRect();
+      const cellRect = cellElement.getBoundingClientRect();
+      const visibleViewportBottom =
+        scrollContainerRect.top + scrollContainer.clientTop + scrollContainer.clientHeight;
+
+      if (cellRect.top < targetTop) {
+        scrollContainer.scrollTop += cellRect.top - targetTop;
+        return;
       }
-    });
+
+      if (cellRect.bottom > visibleViewportBottom) {
+        scrollContainer.scrollTop += cellRect.bottom - visibleViewportBottom;
+      }
+    };
+
+    const retryEnsureFocusedBodyCellVisible = (remainingFrames = 5): void => {
+      ensureFocusedBodyCellVisible();
+
+      if (remainingFrames > 1) {
+        requestAnimationFrame(() => retryEnsureFocusedBodyCellVisible(remainingFrames - 1));
+      }
+    };
+
+    if (isFirstVisibleBodyRow && table.stickyHeader && stickyHeaderPosition === "sticky") {
+      const correctFirstBodyRowPosition = (): void => {
+        const targetTop = getTargetTop();
+
+        if (targetTop == null) {
+          return;
+        }
+        const cellTop = cellElement.getBoundingClientRect().top;
+        const scrollDelta = cellTop - targetTop;
+
+        if (Math.abs(scrollDelta) > 0.5) {
+          scrollContainer.scrollTop += scrollDelta;
+        }
+      };
+
+      const retryCorrectFirstBodyRowPosition = (remainingFrames = 5): void => {
+        correctFirstBodyRowPosition();
+
+        if (remainingFrames > 1) {
+          requestAnimationFrame(() => retryCorrectFirstBodyRowPosition(remainingFrames - 1));
+        }
+      };
+
+      retryCorrectFirstBodyRowPosition();
+      return;
+    }
+
+    retryEnsureFocusedBodyCellVisible();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {

@@ -16,7 +16,7 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { getStickyHeaderScrollContainer, getStickyHeaderTableTop } from "./sticky-header";
+import { getTableScrollContainer, getTableTop } from "./sticky-header";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -424,7 +424,7 @@ export class Table extends LitElement {
   }
 
   private setStickyHeaderListeners(active: boolean): void {
-    const scrollContainer = this.tableContainerRef.value ?? getStickyHeaderScrollContainer(this.el);
+    const scrollContainer = this.tableContainerRef.value ?? getTableScrollContainer(this.el);
 
     if (!active) {
       this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
@@ -565,7 +565,7 @@ export class Table extends LitElement {
     }
 
     const table = this.el.shadowRoot?.querySelector("table");
-    const scrollContainer = getStickyHeaderScrollContainer(this.el);
+    const scrollContainer = getTableScrollContainer(this.el);
     const tableRect = table?.getBoundingClientRect();
     const scrollContainerRect = scrollContainer?.getBoundingClientRect();
     const tableBottom = tableRect?.bottom;
@@ -717,7 +717,7 @@ export class Table extends LitElement {
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const scrollContainer = getStickyHeaderScrollContainer(this.el);
+        const scrollContainer = getTableScrollContainer(this.el);
         const tableStyles = getComputedStyle(this.el);
 
         if (!scrollContainer) {
@@ -752,7 +752,7 @@ export class Table extends LitElement {
         }
 
         const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
-        const tableTop = getStickyHeaderTableTop(this.el, scrollContainer);
+        const tableTop = getTableTop(this.el, scrollContainer);
 
         if (tableTop == null) {
           return;
@@ -931,7 +931,7 @@ export class Table extends LitElement {
             [CSS.tableContainer]: true,
             [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
           }}
-          data-scroll-container={this.stickyHeader ? "true" : null}
+          data-scroll-container="true"
           ref={this.tableContainerRef}
         >
           <table

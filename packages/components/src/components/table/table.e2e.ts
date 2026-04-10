@@ -289,6 +289,73 @@ describe("sticky header", () => {
     expect(stickyHeaderStyles.secondHeaderTop).toBeGreaterThanOrEqual(0);
   });
 
+  it("keeps focused body cells visible while navigating downward near the bottom with sticky header enabled", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${Array.from(
+          { length: 8 },
+          (_, index) => html`
+            <calcite-table-row id="row-${index + 1}">
+              <calcite-table-cell id="cell-${index + 1}a">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}b">cell</calcite-table-cell>
+            </calcite-table-row>
+          `,
+        ).join("\n")}
+      </calcite-table>`,
+    );
+
+    await page.$eval("#head-1a", (headerCell) => (headerCell as TableHeader["el"]).setFocus());
+    await page.waitForChanges();
+
+    for (let rowIndex = 1; rowIndex <= 8; rowIndex++) {
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await getFocusedElementProp(page, "id")).toBe(`cell-${rowIndex}a`);
+
+      const focusMetrics = await page.$eval(
+        "calcite-table",
+        (table, tableContainerClass) => {
+          const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+          const activeCell = document.activeElement as HTMLElement & { shadowRoot: ShadowRoot | null };
+          const activeCellElement = activeCell?.shadowRoot?.querySelector("td, th") as HTMLElement | null;
+          const tableStyles = getComputedStyle(table);
+          const stickyHeaderPosition = tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim();
+          const stickyHeaderHeight = parseFloat(
+            tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
+          );
+
+          if (!scrollContainer || !activeCellElement) {
+            return null;
+          }
+
+          const scrollContainerRect = scrollContainer.getBoundingClientRect();
+          const activeCellRect = activeCellElement.getBoundingClientRect();
+
+          return {
+            activeCellBottom: activeCellRect.bottom,
+            activeCellTop: activeCellRect.top,
+            visibleViewportBottom: scrollContainerRect.top + scrollContainer.clientTop + scrollContainer.clientHeight,
+            visibleViewportTop:
+              scrollContainerRect.top +
+              scrollContainer.clientTop +
+              (stickyHeaderPosition === "sticky" ? stickyHeaderHeight : 0),
+          };
+        },
+        TABLE_CSS.tableContainer,
+      );
+
+      expect(focusMetrics).not.toBeNull();
+      expect(focusMetrics.activeCellTop).toBeGreaterThanOrEqual(focusMetrics.visibleViewportTop - 1);
+      expect(focusMetrics.activeCellBottom).toBeLessThanOrEqual(focusMetrics.visibleViewportBottom + 2);
+    }
+  });
+
   it("does not paint an extra bottom separator on rowspan body cells that reach the table bottom", async () => {
     const page = await newE2EPage();
 
@@ -1335,6 +1402,115 @@ describe("pagination event", () => {
 });
 
 describe("keyboard navigation", () => {
+  it("keeps focus on the last row while navigating downward in a non-sticky overflowing table", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${Array.from(
+          { length: 8 },
+          (_, index) => html`
+            <calcite-table-row id="row-${index + 1}">
+              <calcite-table-cell id="cell-${index + 1}a">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}b">cell</calcite-table-cell>
+            </calcite-table-row>
+          `,
+        ).join("\n")}
+      </calcite-table>`,
+    );
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
+
+    for (let rowIndex = 1; rowIndex <= 8; rowIndex++) {
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await getFocusedElementProp(page, "id")).toBe(`cell-${rowIndex}a`);
+
+      const focusMetrics = await page.$eval(
+        "calcite-table",
+        (table, tableContainerClass) => {
+          const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+          const activeCell = document.activeElement as HTMLElement & { shadowRoot: ShadowRoot | null };
+          const activeCellElement = activeCell?.shadowRoot?.querySelector("td, th") as HTMLElement | null;
+
+          if (!scrollContainer || !activeCellElement) {
+            return null;
+          }
+
+          const scrollContainerRect = scrollContainer.getBoundingClientRect();
+          const activeCellRect = activeCellElement.getBoundingClientRect();
+
+          return {
+            activeCellBottom: activeCellRect.bottom,
+            activeCellTop: activeCellRect.top,
+            visibleViewportBottom: scrollContainerRect.top + scrollContainer.clientTop + scrollContainer.clientHeight,
+            visibleViewportTop: scrollContainerRect.top + scrollContainer.clientTop,
+          };
+        },
+        TABLE_CSS.tableContainer,
+      );
+
+      expect(focusMetrics).not.toBeNull();
+      expect(focusMetrics.activeCellTop).toBeGreaterThanOrEqual(focusMetrics.visibleViewportTop - 1);
+      expect(focusMetrics.activeCellBottom).toBeLessThanOrEqual(focusMetrics.visibleViewportBottom + 2);
+    }
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-8a");
+  });
+
+  it("keeps focus on the last visible row while navigating downward in a non-sticky overflowing table with selection", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table
+        bordered
+        caption="Simple table"
+        selection-mode="multiple"
+        style="block-size: 20rem; inline-size: 300px;"
+      >
+        <calcite-table-row id="row-head" slot="${SLOTS.tableHeader}">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1c" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1d" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${Array.from(
+          { length: 12 },
+          (_, index) => html`
+            <calcite-table-row id="row-${index + 1}">
+              <calcite-table-cell id="cell-${index + 1}a">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}b">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}c">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}d">cell</calcite-table-cell>
+            </calcite-table-row>
+          `,
+        ).join("\n")}
+      </calcite-table>`,
+    );
+
+    await page.$eval("#cell-1a", (cell) => (cell as TableCell["el"]).setFocus());
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1a");
+
+    for (let rowIndex = 2; rowIndex <= 12; rowIndex++) {
+      await page.keyboard.press("ArrowDown");
+      await page.waitForChanges();
+      expect(await getFocusedElementProp(page, "id")).toBe(`cell-${rowIndex}a`);
+    }
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-12a");
+  });
+
   it("navigates correctly when no pagination or selection present", async () => {
     const page = await newE2EPage();
     await page.setContent(
