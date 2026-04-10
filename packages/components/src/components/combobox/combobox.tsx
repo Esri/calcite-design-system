@@ -36,8 +36,8 @@ import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
-import { CSS as XButtonCSS, XButton } from "../functional/XButton";
 import { getIconScale, isHidden } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
@@ -84,8 +84,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   //#endregion
 
   //#region Private Properties
-
-  private closeButtonRef = createRef<HTMLButtonElement>();
 
   private direction = useDirection();
 
@@ -221,6 +219,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   });
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
+
+  private clearButtonRef = createRef<HTMLDivElement>();
 
   private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
@@ -1046,7 +1046,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    if (composedPath.some((node: HTMLElement) => node.classList?.contains(XButtonCSS.button))) {
+    if (composedPath.includes(this.clearButtonRef.value)) {
       this.clearValue();
       event.preventDefault();
       return;
@@ -2131,12 +2131,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             {this.renderInput()}
           </div>
           {!readOnly && isClearable ? (
-            <XButton
+            <ClearButton
+              ariaLabel={this.messages.clear}
               disabled={this.disabled}
-              key="close-button"
-              label={this.messages.clear}
-              ref={this.closeButtonRef}
+              ref={this.clearButtonRef}
               scale={this.scale}
+              title={this.messages.clear}
             />
           ) : null}
           {!readOnly && this.renderChevronIcon()}
