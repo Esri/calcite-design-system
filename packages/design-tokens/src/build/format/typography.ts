@@ -15,7 +15,7 @@ function getValue(value: string, dictionary: Dictionary, outputRef = true): stri
 
   // heuristic: typography tokens only have a single reference
   const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
-  return outputRef ? `var(--${mappedToken.name});` : mappedToken.value;
+  return outputRef ? `var(--${mappedToken.name});` : mappedToken.$value;
 }
 
 function outputComment(comment: string, format: Stylesheet): string {
@@ -50,8 +50,8 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
     const preprocessedToken = get(state.postMergeDictionary, token.path.join("."));
 
-    if (typeof preprocessedToken.value === "string" && preprocessedToken.value.startsWith("{typography")) {
-      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.value);
+    if (typeof preprocessedToken.$value === "string" && preprocessedToken.$value.startsWith("{typography")) {
+      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.$value);
       if (referencedExtensionToken) {
         selfReferencingTokens.set(token.key, referencedExtensionToken);
       }
