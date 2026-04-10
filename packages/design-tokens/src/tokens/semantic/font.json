@@ -149,84 +149,108 @@
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.0-625}"
         },
         "sm": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.0-75}"
         },
         "base": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.0-875}"
         },
         "md": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.1}"
         },
         "lg": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.1-125}"
         },
         "xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.1-25}"
         },
         "2xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.1-625}"
         },
         "3xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.2}"
         },
         "4xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.2-5}"
         },
         "5xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.3}"
         },
         "6xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.3-5}"
         },
         "7xl": {
           "attributes": {
             "category": "font",
             "group": "size",
             "kind": "relative"
-          }
+          },
+          "$type": "fontSizes",
+          "$value": "{core.size.rem.4}"
         }
       }
     },
@@ -401,73 +425,97 @@
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.0-75}"
       },
       "sm": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.1}"
       },
       "base": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.1}"
       },
       "md": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.1-25}"
       },
       "lg": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.1-5}"
       },
       "xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.1-5}"
       },
       "2xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.2}"
       },
       "3xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.2-5}"
       },
       "4xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.3}"
       },
       "5xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.4}"
       },
       "6xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.4}"
       },
       "7xl": {
         "attributes": {
           "category": "font",
           "group": "line-height"
-        }
+        },
+        "$type": "lineHeights",
+        "$value": "{core.size.rem.5}"
       }
     },
     "letter-spacing": {
