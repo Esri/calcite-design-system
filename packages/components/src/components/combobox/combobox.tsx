@@ -1646,9 +1646,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
   }
 
-  private renderChipCount(count: number, scale: Scale): JsxNode {
-    const label =
-      this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`;
+  private renderChipCount(count: number, scale: Scale, includePlus: boolean = true): JsxNode {
+    const label = includePlus
+      ? (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`)
+      : `${count}`;
 
     return (
       <calcite-chip
@@ -1745,11 +1746,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     if (selectionDisplay === "fit") {
-      const count =
-        disabledSelectedCount +
-        (this.selectedHiddenChipsCount > 0 ? this.selectedHiddenChipsCount : 0);
-      if (count > 0) {
-        chips.push(this.renderChipCount(count, scale));
+      if (this.selectedHiddenChipsCount > 0) {
+        chips.push(this.renderChipCount(this.selectedHiddenChipsCount, scale, false));
+      }
+      if (disabledSelectedCount > 0) {
+        chips.push(this.renderChipCount(disabledSelectedCount, scale, true));
       }
     }
 
@@ -1791,16 +1792,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderSelectedIndicatorChip(): JsxNode {
-    const {
-      compactSelectionDisplay,
-      selectionDisplay,
-      scale,
-      selectedHiddenChipsCount,
-      selectedVisibleChipsCount,
-      selectedIndicatorChipRef,
-    } = this;
-    const allSelectedNoDisabled = this.allSelected && !this.hasDisabledItems;
-    const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
+    const { compactSelectionDisplay, selectionDisplay, scale, selectedIndicatorChipRef } = this;
     let chipInvisible: boolean;
     let label: string;
 
@@ -1824,16 +1816,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           chipInvisible = true;
         }
         label = `${selectedItemsCount} ${this.messages.selected}`;
-      } else {
-        chipInvisible = !!(
-          ((allSelectedNoDisabled || allSelectedWithDisabledSelected) &&
-            selectedVisibleChipsCount === 0) ||
-          selectedHiddenChipsCount === 0
-        );
-        label =
-          selectedVisibleChipsCount > 0
-            ? `+${selectedHiddenChipsCount}`
-            : `${selectedHiddenChipsCount} ${this.messages.selected}`;
       }
     }
     return (
@@ -1854,11 +1836,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderSelectedIndicatorChipCompact(): JsxNode {
-    const { compactSelectionDisplay, selectionDisplay, scale, selectedHiddenChipsCount } = this;
+    const { compactSelectionDisplay, selectionDisplay, scale } = this;
     const allSelectedNoDisabled = this.allSelected && !this.hasDisabledItems;
     const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
     let chipInvisible: boolean;
     let label: string;
+
+    if (selectionDisplay === "fit") {
+      return null;
+    }
 
     if (compactSelectionDisplay) {
       const selectedItemsCount = this.allItems.filter(
@@ -1870,9 +1856,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         (selectionDisplay === "single" && this.allSelected)
       ) {
         chipInvisible = true;
-      } else if (selectionDisplay === "fit") {
-        chipInvisible = !(selectedHiddenChipsCount > 0);
-        label = `${selectedHiddenChipsCount || 0}`;
       } else if (selectionDisplay === "single") {
         chipInvisible = !(selectedItemsCount > 0);
         label = `${selectedItemsCount}`;
