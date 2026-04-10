@@ -16,7 +16,8 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { getTableScrollContainer, getTableTop } from "./scroll-container";
+import { getTableScrollContainer } from "./scroll-container";
+import { ensureFirstVisibleTableCellBelowStickyHeader } from "./sticky-header";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -711,62 +712,12 @@ export class Table extends LitElement {
   }
 
   private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
-    if (!this.stickyHeader) {
-      return;
-    }
+    const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
+    const firstVisibleCell = firstVisibleBodyRow?.querySelector(
+      "calcite-table-cell, calcite-table-header",
+    ) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const scrollContainer = getTableScrollContainer(this.el);
-        const tableStyles = getComputedStyle(this.el);
-
-        if (!scrollContainer) {
-          return;
-        }
-
-        if (
-          tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim() !==
-          "sticky"
-        ) {
-          return;
-        }
-
-        const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
-        const firstVisibleCell = firstVisibleBodyRow?.querySelector(
-          "calcite-table-cell, calcite-table-header",
-        ) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
-        const firstVisibleCellElement = firstVisibleCell?.shadowRoot?.querySelector(
-          "td, th",
-        ) as HTMLElement;
-
-        if (!firstVisibleCellElement) {
-          return;
-        }
-
-        const stickyHeaderHeight = parseFloat(
-          tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
-        );
-
-        if (!stickyHeaderHeight) {
-          return;
-        }
-
-        const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
-        const tableTop = getTableTop(this.el, scrollContainer);
-
-        if (tableTop == null) {
-          return;
-        }
-
-        const targetTop = Math.max(scrollContainerTop, tableTop) + stickyHeaderHeight;
-
-        const cellTop = firstVisibleCellElement.getBoundingClientRect().top;
-
-        if (cellTop < targetTop) {
-          scrollContainer.scrollTop += cellTop - targetTop;
-        }
-      });
-    });
+    ensureFirstVisibleTableCellBelowStickyHeader(this.el, firstVisibleCell);
   }
 
   private paginateRows(): void {

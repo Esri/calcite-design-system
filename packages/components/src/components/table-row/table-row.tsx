@@ -6,7 +6,7 @@ import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { getTableScrollContainer, getTableTop } from "../table/scroll-container";
+import { ensureFocusedTableCellVisible, isStickyHeaderActive } from "../table/sticky-header";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -222,13 +222,6 @@ export class TableRow extends LitElement {
     }
   }
 
-  private isStickyHeaderActive(table: HTMLElement): boolean {
-    return (
-      getComputedStyle(table).getPropertyValue("--calcite-internal-table-header-active").trim() ===
-      "1"
-    );
-  }
-
   private isFirstVisibleBodyRow(): boolean {
     const parentRows = Array.from(this.el.parentElement?.children || []) as TableRow["el"][];
     const currentRowIndex = parentRows.indexOf(this.el);
@@ -262,7 +255,7 @@ export class TableRow extends LitElement {
             stickyHeader?: boolean;
           };
           const hasStickyHeader = !!table?.stickyHeader;
-          const stickyHeaderActive = hasStickyHeader && this.isStickyHeaderActive(table);
+          const stickyHeaderActive = hasStickyHeader && isStickyHeaderActive(table);
           const firstVisibleBodyRow = this.isFirstVisibleBodyRow();
           const useManualBodyRowScrolling = this.rowType === "body";
 
@@ -278,118 +271,11 @@ export class TableRow extends LitElement {
           }
 
           if (this.rowType === "body") {
-            this.ensureFocusedCellVisibleBelowStickyHeaders(cellPosition);
+            ensureFocusedTableCellVisible(table, cellPosition, firstVisibleBodyRow);
           }
         }
       }
     }
-  }
-
-  private ensureFocusedCellVisibleBelowStickyHeaders(
-    cell: TableCell["el"] | TableHeader["el"],
-  ): void {
-    const table = this.el.closest("calcite-table") as HTMLElement & {
-      stickyHeader?: boolean;
-    };
-    const scrollContainer = table ? getTableScrollContainer(table) : null;
-
-    if (!table || !scrollContainer) {
-      return;
-    }
-
-    const tableStyles = getComputedStyle(table);
-
-    const stickyHeaderPosition = tableStyles
-      .getPropertyValue("--calcite-internal-table-header-position")
-      .trim();
-
-    const stickyHeaderHeight = parseFloat(
-      tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
-    );
-
-    const effectiveStickyHeaderHeight = Number.isFinite(stickyHeaderHeight)
-      ? stickyHeaderHeight
-      : 0;
-
-    const cellElement = cell.shadowRoot?.querySelector("td, th") as HTMLElement;
-
-    if (!cellElement) {
-      return;
-    }
-
-    const isFirstVisibleBodyRow = this.isFirstVisibleBodyRow();
-    const getTargetTop = (): number | null => {
-      const scrollContainerTop =
-        scrollContainer.getBoundingClientRect().top + scrollContainer.clientTop;
-      const tableTop = getTableTop(table, scrollContainer);
-      const stickyHeaderOffset =
-        table.stickyHeader && stickyHeaderPosition === "sticky" ? effectiveStickyHeaderHeight : 0;
-
-      if (tableTop == null) {
-        return scrollContainerTop + stickyHeaderOffset;
-      }
-
-      return Math.max(scrollContainerTop, tableTop) + stickyHeaderOffset;
-    };
-
-    const ensureFocusedBodyCellVisible = (): void => {
-      const targetTop = getTargetTop();
-
-      if (targetTop == null) {
-        return;
-      }
-
-      const scrollContainerRect = scrollContainer.getBoundingClientRect();
-      const cellRect = cellElement.getBoundingClientRect();
-      const visibleViewportBottom =
-        scrollContainerRect.top + scrollContainer.clientTop + scrollContainer.clientHeight;
-
-      if (cellRect.top < targetTop) {
-        scrollContainer.scrollTop += cellRect.top - targetTop;
-        return;
-      }
-
-      if (cellRect.bottom > visibleViewportBottom) {
-        scrollContainer.scrollTop += cellRect.bottom - visibleViewportBottom;
-      }
-    };
-
-    const retryEnsureFocusedBodyCellVisible = (remainingFrames = 5): void => {
-      ensureFocusedBodyCellVisible();
-
-      if (remainingFrames > 1) {
-        requestAnimationFrame(() => retryEnsureFocusedBodyCellVisible(remainingFrames - 1));
-      }
-    };
-
-    if (isFirstVisibleBodyRow && table.stickyHeader && stickyHeaderPosition === "sticky") {
-      const correctFirstBodyRowPosition = (): void => {
-        const targetTop = getTargetTop();
-
-        if (targetTop == null) {
-          return;
-        }
-        const cellTop = cellElement.getBoundingClientRect().top;
-        const scrollDelta = cellTop - targetTop;
-
-        if (Math.abs(scrollDelta) > 0.5) {
-          scrollContainer.scrollTop += scrollDelta;
-        }
-      };
-
-      const retryCorrectFirstBodyRowPosition = (remainingFrames = 5): void => {
-        correctFirstBodyRowPosition();
-
-        if (remainingFrames > 1) {
-          requestAnimationFrame(() => retryCorrectFirstBodyRowPosition(remainingFrames - 1));
-        }
-      };
-
-      retryCorrectFirstBodyRowPosition();
-      return;
-    }
-
-    retryEnsureFocusedBodyCellVisible();
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
