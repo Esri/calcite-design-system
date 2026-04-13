@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.30...@esri/calcite-components@5.1.0-next.31) (2026-04-13)
+
+### Bug Fixes
+
+- **combobox, menu, textarea:** apply line-height ([#14236](https://github.com/Esri/calcite-design-system/issues/14236)), closes [#14099](https://github.com/Esri/calcite-design-system/issues/14099)
+
 ## [5.1.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.29...@esri/calcite-components@5.1.0-next.30) (2026-04-07)
 
 **Note:** Version bump only for package @esri/calcite-components
