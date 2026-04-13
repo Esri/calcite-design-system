@@ -44,8 +44,8 @@ export default {
   title: "Components/Tree",
   parameters: {
     chromatic: {
-      delay: 5000,
-      diffThreshold: 0.015,
+      delay: 1000,
+      diffThreshold: 0,
     },
   },
 };
