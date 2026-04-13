@@ -18,6 +18,7 @@ const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
       .tree-container {
         flex: 1;
         margin-right: 10px;
+        --calcite-color-border-2: chartreuse;
       }
       .container {
         display: flex;
