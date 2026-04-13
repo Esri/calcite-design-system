@@ -596,7 +596,7 @@ export class TimePicker extends LitElement implements TimeComponent {
         )}
         {showSecondSuffix && (
           <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
-            {localizedSecondSuffix.trim()}
+            {localizedSecondSuffix}
           </span>
         )}
         {showMeridiem && (
