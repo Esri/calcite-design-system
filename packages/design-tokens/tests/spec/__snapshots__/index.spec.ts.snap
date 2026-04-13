@@ -21149,6 +21149,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -21176,6 +21177,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -21203,6 +21205,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -21230,6 +21233,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -21257,6 +21261,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -21284,6 +21289,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -21311,6 +21317,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -21338,6 +21345,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -21365,6 +21373,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -21392,6 +21401,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -21419,6 +21429,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -21446,6 +21457,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -22027,7 +22039,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -22054,7 +22065,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -22081,7 +22091,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -22108,7 +22117,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -22135,7 +22143,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -22162,7 +22169,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -22189,7 +22195,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -22216,7 +22221,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -22243,7 +22247,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -22270,7 +22273,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -22297,7 +22299,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -22324,7 +22325,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
@@ -28123,6 +28123,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -28150,6 +28151,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -28177,6 +28179,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -28204,6 +28207,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -28231,6 +28235,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -28258,6 +28263,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -28285,6 +28291,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -28312,6 +28319,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -28339,6 +28347,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -28366,6 +28375,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -28393,6 +28403,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -28420,6 +28431,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -29001,7 +29013,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -29028,7 +29039,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -29055,7 +29065,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -29082,7 +29091,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -29109,7 +29117,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -29136,7 +29143,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -29163,7 +29169,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -29190,7 +29195,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -29217,7 +29221,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -29244,7 +29247,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -29271,7 +29273,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -29298,7 +29299,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
