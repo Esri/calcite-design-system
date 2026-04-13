@@ -45,8 +45,6 @@ export default {
   parameters: {
     chromatic: {
       delay: 1000,
-      diffThreshold: 0,
-      diffIncludeAntiAliasing: true,
     },
   },
 };
@@ -142,7 +140,7 @@ export const selectionModeNone = (): string => html`${treeItems(true, true)}`;
 selectionModeNone.decorators = [allScaleTreeBuilder];
 selectionModeNone.args = { selectionMode: "none" };
 
-export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
+export const linesRTL = (): string => html`<div dir="rtl" style="--calcite-color-border-2: red">${treeItems()}</div>`;
 linesRTL.decorators = [allScaleTreeBuilder];
 linesRTL.args = { lines: true, selectionMode: "single" };
 
