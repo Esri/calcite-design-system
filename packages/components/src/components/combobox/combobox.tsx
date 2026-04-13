@@ -720,7 +720,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     if (this.selectionDisplay === "fit" && this.isMulti()) {
-      requestAnimationFrame(() => this.refreshSelectionDisplay());
+      this.updateComplete.then(() => this.refreshSelectionDisplay());
     }
   }
 
@@ -1646,7 +1646,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
   }
 
-  private renderChipCount(count: number, scale: Scale, includePlus: boolean = true): JsxNode {
+  private renderChipCount(count: number, scale: Scale, includePlus: boolean): JsxNode {
     const label = includePlus
       ? (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`)
       : `${count}`;
@@ -1746,11 +1746,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     if (selectionDisplay === "fit") {
-      if (this.selectedHiddenChipsCount > 0) {
-        chips.push(this.renderChipCount(this.selectedHiddenChipsCount, scale, false));
-      }
-      if (disabledSelectedCount > 0) {
-        chips.push(this.renderChipCount(disabledSelectedCount, scale, true));
+      const hiddenSelectedCount = this.selectedHiddenChipsCount + disabledSelectedCount;
+      if (hiddenSelectedCount > 0) {
+        chips.push(this.renderChipCount(hiddenSelectedCount, scale, true));
       }
     }
 
