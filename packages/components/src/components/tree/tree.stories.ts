@@ -46,6 +46,7 @@ export default {
     chromatic: {
       delay: 1000,
       diffThreshold: 0,
+      diffIncludeAntiAliasing: true,
     },
   },
 };
