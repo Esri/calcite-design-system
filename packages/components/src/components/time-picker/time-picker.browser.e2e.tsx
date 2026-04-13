@@ -111,7 +111,9 @@ describe("l10n", () => {
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
             // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
-            await expect.element(secondSuffixEl).toHaveTextContent(expectedLocalizedSecondSuffix);
+            await expect
+              .element(secondSuffixEl)
+              .toHaveTextContent(expectedLocalizedSecondSuffix, { normalizeWhitespace: false });
           }
 
           await (localeHourFormat === "12"
@@ -183,7 +185,9 @@ describe("l10n", () => {
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
             // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
-            await expect.element(secondSuffixEl).toHaveTextContent(expectedLocalizedSecondSuffix);
+            await expect
+              .element(secondSuffixEl)
+              .toHaveTextContent(expectedLocalizedSecondSuffix, { normalizeWhitespace: false });
           }
 
           await expect.element(meridiemEl).toHaveTextContent(expectedLocalizedMeridiem);
