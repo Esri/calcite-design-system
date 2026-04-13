@@ -223,17 +223,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/mpriour">
-      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
-      <br />
-      <sub><b>Matt Priour</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/DintaMel">
       <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
       <br />
       <sub><b>Mel Dintaman</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/mpriour">
+      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
+      <br />
+      <sub><b>Matt Priour</b></sub>
     </a>
   </td>
 </tr>
@@ -283,10 +283,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/allieorth">
-      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
+    <a href="https://github.com/jgibson02">
+      <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
       <br />
-      <sub><b>Allie Raney</b></sub>
+      <sub><b>John Gibson</b></sub>
     </a>
   </td>
   <td align="center">
@@ -297,10 +297,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/jgibson02">
-      <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
+    <a href="https://github.com/allieorth">
+      <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
-      <sub><b>John Gibson</b></sub>
+      <sub><b>Allie Raney</b></sub>
     </a>
   </td>
   <td align="center">
