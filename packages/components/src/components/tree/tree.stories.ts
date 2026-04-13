@@ -245,3 +245,7 @@ export const OverflowingSubtree = (): string =>
         }, 1000);
       });
     </script>`;
+
+export const themedLines = (): string => html`<div style="--calcite-color-border-2: red">${treeItems()}</div>`;
+themedLines.args = { lines: true, selectionMode: "single" };
+themedLines.decorators = [allScaleTreeBuilder];
