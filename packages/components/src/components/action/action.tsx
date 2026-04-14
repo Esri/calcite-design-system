@@ -54,7 +54,7 @@ const ACTION_MENU_OPEN_EVENT = "calcite-action-menu-open";
 
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- * @slot menuActions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
+ * @slot menu-actions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
  * @slot tooltip - A slot for adding a tooltip for the menu.
  */
 export class Action extends LitElement {
@@ -498,10 +498,35 @@ export class Action extends LitElement {
 
   //#region Lifecycle
 
+  private static hasRegisteredActionMenuOpenListener = false;
+
+  private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
+    const action = event.target;
+
+    if (!isAction(action) || typeof document === "undefined") {
+      return;
+    }
+
+    document.querySelectorAll("calcite-action").forEach((actionElement) => {
+      if (actionElement !== action && isAction(actionElement)) {
+        actionElement.menuOpen = false;
+      }
+    });
+  };
+
+  private static connectDocumentActionMenuOpenListener(): void {
+    if (this.hasRegisteredActionMenuOpenListener || typeof document === "undefined") {
+      return;
+    }
+
+    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleDocumentActionMenuOpen);
+    this.hasRegisteredActionMenuOpenListener = true;
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.listen("mousedown", this.mouseDownHandler);
-    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleActionMenuOpen);
+    Action.connectDocumentActionMenuOpenListener();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -722,6 +747,7 @@ export class Action extends LitElement {
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
           ariaBusy={loading}
+          ariaControls={menuTrigger ? this.menuId : undefined}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.getMenuTriggerAriaExpanded()}
@@ -745,6 +771,7 @@ export class Action extends LitElement {
       <button
         ariaBusy={loading}
         ariaChecked={this.aria?.checked}
+        ariaControls={menuTrigger ? this.menuId : undefined}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.getMenuTriggerAriaExpanded()}
@@ -773,12 +800,13 @@ export class Action extends LitElement {
       [CSS.menuTrigger]: true,
       [CSS.buttonSplitSecondaryActive]: this.menuOpen,
     };
+    const hasRenderedMenu = this.supportsMenu && this.hasSlottedMenu;
 
     return (
       <div class={CSS.buttonGroup}>
         {this.renderButton(this.buttonRef, true)}
         <button
-          aria-controls={this.menuId}
+          aria-controls={hasRenderedMenu ? this.menuId : null}
           ariaExpanded={this.menuOpen}
           ariaHasPopup={this.hasSlottedMenu ? "menu" : null}
           ariaLabel={this.label || this.text || ""}
