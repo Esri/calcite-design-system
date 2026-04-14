@@ -28,7 +28,7 @@ import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
-import { isAction } from "../action/resources";
+import { CSS as ACTION_CSS, isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
 import { type ActionMenu } from "../action-menu/action-menu";
@@ -461,10 +461,55 @@ export class ActionBar extends LitElement {
   }
 
   private queryAndStoreActions(): void {
-    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+    this.actions = queryActions(this.el);
+  }
+
+  private focusSplitButton(
+    action: Action["el"],
+    destination: "next" | "previous",
+    event: KeyboardEvent,
+  ): boolean {
+    if (action.buttonType !== "split") {
+      return false;
+    }
+
+    const splitPrimaryButton = action.shadowRoot?.querySelector<HTMLButtonElement>(
+      `.${ACTION_CSS.buttonSplitPrimary}`,
+    );
+    const splitSecondaryButton = action.shadowRoot?.querySelector<HTMLButtonElement>(
+      `.${ACTION_CSS.buttonSplitSecondary}`,
+    );
+
+    if (!splitPrimaryButton || !splitSecondaryButton) {
+      return false;
+    }
+
+    const keyDownTarget = event.composedPath()[0];
+    const isTargetElement = keyDownTarget instanceof Element;
+    const isSplitSecondaryTarget =
+      isTargetElement &&
+      (keyDownTarget === splitSecondaryButton || splitSecondaryButton.contains(keyDownTarget));
+
+    if (destination === "next" && !isSplitSecondaryTarget) {
+      splitSecondaryButton.focus();
+      event.preventDefault();
+      return true;
+    }
+
+    if (destination === "previous" && isSplitSecondaryTarget) {
+      splitPrimaryButton.focus();
+      event.preventDefault();
+      return true;
+    }
+
+    return false;
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     this.queryAndStoreActions();
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
@@ -473,17 +518,61 @@ export class ActionBar extends LitElement {
       return;
     }
 
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      if (current.buttonType === "menu" || current.buttonType === "overflow") {
+        return;
+      }
+
+      if (current.buttonType === "split") {
+        const splitSecondaryButton = current.shadowRoot?.querySelector<HTMLButtonElement>(
+          `.${ACTION_CSS.buttonSplitSecondary}`,
+        );
+        const keyDownTarget = event.composedPath()[0];
+        const isTargetElement = keyDownTarget instanceof Element;
+        const isSplitSecondaryTarget =
+          isTargetElement &&
+          splitSecondaryButton &&
+          (keyDownTarget === splitSecondaryButton || splitSecondaryButton.contains(keyDownTarget));
+        const isSplitSecondaryFocused = current.shadowRoot?.activeElement === splitSecondaryButton;
+
+        if (isSplitSecondaryTarget || isSplitSecondaryFocused) {
+          return;
+        }
+      }
+    }
+
     switch (event.key) {
       case "ArrowRight":
       case "ArrowDown":
+        if (this.focusSplitButton(current, "next", event)) {
+          return;
+        }
         focusElementInGroup(actions, current, "next", true);
         event.preventDefault();
         break;
       case "ArrowLeft":
-      case "ArrowUp":
-        focusElementInGroup(actions, current, "previous", true);
+      case "ArrowUp": {
+        if (this.focusSplitButton(current, "previous", event)) {
+          return;
+        }
+        const previousFocusedAction = focusElementInGroup<Action["el"]>(
+          actions,
+          current,
+          "previous",
+          true,
+        );
+
+        if (previousFocusedAction?.buttonType === "split") {
+          const splitSecondaryButton =
+            previousFocusedAction.shadowRoot?.querySelector<HTMLButtonElement>(
+              `.${ACTION_CSS.buttonSplitSecondary}`,
+            );
+          splitSecondaryButton?.focus();
+        }
+
         event.preventDefault();
         break;
+      }
       case "Home":
         focusElementInGroup(actions, current, "first", true);
         event.preventDefault();

@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import {
   cancelable,
@@ -15,6 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
+import { CSS as ACTION_CSS } from "../action/resources";
 import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
 
@@ -214,6 +215,51 @@ describe("selection-mode", () => {
     expect(action3.active).toBe(true);
     expect(action4.active).toBe(false);
   });
+
+  it("navigates with arrow keys across direct slotted actions when split actions have menu items", async () => {
+    const { el } = await mount<"calcite-action-bar">(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group selection-mode="single-persist">
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action buttonType="split" icon="layers" text="Layers">
+            <calcite-action slot="menu-actions" text="Layer 1" />
+            <calcite-action slot="menu-actions" text="Layer 2" />
+          </calcite-action>
+          <calcite-action buttonType="menu" icon="ellipsis" text="Menu">
+            <calcite-action slot="menu-actions" text="Menu item 1" />
+            <calcite-action slot="menu-actions" text="Menu item 2" />
+          </calcite-action>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const actionGroup = el.querySelector("calcite-action-group");
+    const [action1, action2, action3] = Array.from(actionGroup?.children ?? []).filter(
+      (child): child is HTMLElement => child.matches("calcite-action"),
+    );
+
+    await userEvent.click(action1);
+    expect(document.activeElement).toBe(action1);
+
+    await userEvent.keyboard("{ArrowRight}");
+    expect(document.activeElement).toBe(action2);
+
+    const splitSecondaryButton = action2.shadowRoot?.querySelector(
+      `.${ACTION_CSS.buttonSplitSecondary}`,
+    );
+
+    await userEvent.click(action3);
+    expect(document.activeElement).toBe(action3);
+
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(action2.shadowRoot?.activeElement).toBe(splitSecondaryButton);
+
+    splitSecondaryButton?.dispatchEvent(
+      new KeyboardEvent("keydown", { bubbles: true, key: "ArrowDown" }),
+    );
+    expect((action2 as any).menuOpen).toBe(true);
+  });
 });
 
 describe("overflowing actions", () => {
@@ -263,27 +309,27 @@ describe("overflowing actions", () => {
         </calcite-action-group>
       </calcite-action-bar>,
     );
-    const triggerActions = page.getBySelector("calcite-action[slot='trigger']");
+    const triggerActions = el.querySelectorAll<HTMLElement>("calcite-action[slot='trigger']");
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
 
     el.style.width = "100px";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
   });
 });

@@ -4,9 +4,13 @@ import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
 export const queryActions = (el: HTMLElement): Action["el"][] => {
-  return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
-    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
-  );
+  return Array.from(el.querySelectorAll("calcite-action")).filter((action) => {
+    if (action.parentElement?.closest("calcite-action")) {
+      return false;
+    }
+
+    return action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true;
+  });
 };
 
 /**

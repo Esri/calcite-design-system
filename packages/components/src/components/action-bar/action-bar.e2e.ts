@@ -76,7 +76,7 @@ describe("expand functionality", () => {
         <calcite-action-group>
           <calcite-action id="bar-action" text="Add" icon="plus"></calcite-action>
           <calcite-action button-type="menu" text="Options" icon="ellipsis">
-            <calcite-action id="menu-slot-action" slot="menu" text="Save" icon="save"></calcite-action>
+            <calcite-action id="menu-slot-action" slot="menu-actions" text="Save" icon="save"></calcite-action>
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>`,

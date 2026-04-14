@@ -184,7 +184,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="submit">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -200,7 +200,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="reset">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -216,7 +216,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="submit">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -232,7 +232,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="reset">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -248,7 +248,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -264,7 +264,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -280,7 +280,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -296,7 +296,7 @@ describe("form integration", () => {
       content: html`
         <form>
           <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
-            <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
           </calcite-action>
         </form>
       `,
@@ -398,7 +398,7 @@ it("should render chevron for menu buttonType when text is not enabled", async (
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action button-type="menu" icon="banana" text="hello world">
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -411,7 +411,7 @@ it("should render two hit targets for split buttonType", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action button-type="split" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -426,7 +426,7 @@ it("split secondary trigger should have aria-controls pointing at the menu when 
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action button-type="split" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
   await page.waitForChanges();
@@ -441,10 +441,10 @@ it("should not apply active styles to split secondary button", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action id="inactive" button-type="split" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
     <calcite-action id="active" active button-type="split" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -480,7 +480,7 @@ it("should apply open styles to overflow trigger button", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action id="action" appearance="solid" button-type="overflow" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -501,7 +501,7 @@ it("should apply open styles to menu trigger button", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action id="action" appearance="solid" button-type="menu" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -522,7 +522,7 @@ it("should not change split secondary open styles on hover or press", async () =
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action id="action" appearance="solid" button-type="split" text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 
@@ -543,7 +543,7 @@ it("should not render menu content when buttonType is undefined", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-action text="hello world" text-enabled>
-      <calcite-action slot="menu" text="item" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
     </calcite-action>
   `);
 

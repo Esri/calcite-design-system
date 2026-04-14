@@ -8,9 +8,9 @@ import { Action } from "./action";
 const { alignment, appearance, scale, selectionAppearance } = ATTRIBUTES;
 
 const menuItems = html`
-  <calcite-action slot="menu" text="Edit" text-enabled></calcite-action>
-  <calcite-action slot="menu" text="Duplicate" text-enabled></calcite-action>
-  <calcite-action-group slot="menu">
+  <calcite-action slot="menu-actions" text="Edit" text-enabled></calcite-action>
+  <calcite-action slot="menu-actions" text="Duplicate" text-enabled></calcite-action>
+  <calcite-action-group slot="menu-actions">
     <calcite-action text="Delete" text-enabled></calcite-action>
   </calcite-action-group>
 `;
@@ -94,108 +94,31 @@ export const simple = (args: ActionStoryArgs): string => html`
       text="${args.text}"
       ${boolean("text-enabled style", args.textEnabled)}
     >
-      <calcite-action slot="menu" text="Item 1" text-enabled></calcite-action>
-      <calcite-action slot="menu" text="Item 2" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="Item 1" text-enabled></calcite-action>
+      <calcite-action slot="menu-actions" text="Item 2" text-enabled></calcite-action>
     </calcite-action>
   </div>
 `;
 
 export const splitWithMenu = (): string => html`
   <calcite-action button-type="split" icon="banana" text="Action" text-enabled>
-    <calcite-action slot="menu" text="Edit" text-enabled></calcite-action>
-    <calcite-action slot="menu" text="Duplicate" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Edit" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Duplicate" text-enabled></calcite-action>
   </calcite-action>
 `;
 
 export const overflowWithMenu = (): string => html`
   <calcite-action button-type="overflow" text="Action" text-enabled>
-    <calcite-action slot="menu" text="Edit" text-enabled></calcite-action>
-    <calcite-action slot="menu" text="Duplicate" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Edit" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Duplicate" text-enabled></calcite-action>
   </calcite-action>
 `;
 
 export const menuWithMenu = (): string => html`
   <calcite-action button-type="menu" icon="banana" text="Action" text-enabled>
-    <calcite-action slot="menu" text="Edit" text-enabled></calcite-action>
-    <calcite-action slot="menu" text="Duplicate" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Edit" text-enabled></calcite-action>
+    <calcite-action slot="menu-actions" text="Duplicate" text-enabled></calcite-action>
   </calcite-action>
-`;
-
-export const scaleMatrixOpenMenus = (): string => html`
-  <style>
-    .action-grid {
-      display: grid;
-      column-gap: 48px;
-      row-gap: 48px;
-      grid-template-columns: repeat(3, minmax(180px, max-content));
-      align-items: start;
-    }
-
-    .action-grid-cell {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      min-height: 140px;
-      min-width: 180px;
-      position: relative;
-    }
-  </style>
-  <div class="action-grid">
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Overflow / s</span>
-      <calcite-action button-type="overflow" open scale="s" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Split / s</span>
-      <calcite-action button-type="split" open scale="s" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Menu / s</span>
-      <calcite-action button-type="menu" open scale="s" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Overflow / m</span>
-      <calcite-action button-type="overflow" open scale="m" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Split / m</span>
-      <calcite-action button-type="split" open scale="m" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Menu / m</span>
-      <calcite-action button-type="menu" open scale="m" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Overflow / l</span>
-      <calcite-action button-type="overflow" open scale="l" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Split / l</span>
-      <calcite-action button-type="split" open scale="l" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-    <div class="action-grid-cell">
-      <span class="action-grid-label">Menu / l</span>
-      <calcite-action button-type="menu" open scale="l" icon="banana" text="Action" text-enabled width="auto">
-        ${menuItems}
-      </calcite-action>
-    </div>
-  </div>
 `;
 
 export const disabledAndTextOnly = (): string => html`
@@ -343,3 +266,66 @@ export const darkModeRTL = (): string => html`
 `;
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
+
+export const multipleActionsWithMenus = (): string => html`
+  <style>
+    .multiple-actions-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 16px;
+    }
+    .multiple-actions-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .multiple-actions-label {
+      font-family: sans-serif;
+      font-size: 12px;
+      color: #555;
+      margin-block-end: 8px;
+    }
+  </style>
+  <div class="multiple-actions-grid">
+    <div>
+      <div class="multiple-actions-label">Small</div>
+      <div class="multiple-actions-row">
+        <calcite-action button-type="menu" icon="plus" scale="s" text="Add" text-enabled> ${menuItems} </calcite-action>
+        <calcite-action button-type="menu" icon="pencil" scale="s" text="Edit" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="split" icon="trash" scale="s" text="Delete" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="overflow" scale="s" text="More" text-enabled> ${menuItems} </calcite-action>
+      </div>
+    </div>
+    <div>
+      <div class="multiple-actions-label">Medium</div>
+      <div class="multiple-actions-row">
+        <calcite-action button-type="menu" icon="plus" scale="m" text="Add" text-enabled> ${menuItems} </calcite-action>
+        <calcite-action button-type="menu" icon="pencil" scale="m" text="Edit" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="split" icon="trash" scale="m" text="Delete" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="overflow" scale="m" text="More" text-enabled> ${menuItems} </calcite-action>
+      </div>
+    </div>
+    <div>
+      <div class="multiple-actions-label">Large</div>
+      <div class="multiple-actions-row">
+        <calcite-action button-type="menu" icon="plus" scale="l" text="Add" text-enabled> ${menuItems} </calcite-action>
+        <calcite-action button-type="menu" icon="pencil" scale="l" text="Edit" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="split" icon="trash" scale="l" text="Delete" text-enabled>
+          ${menuItems}
+        </calcite-action>
+        <calcite-action button-type="overflow" scale="l" text="More" text-enabled> ${menuItems} </calcite-action>
+      </div>
+    </div>
+  </div>
+`;

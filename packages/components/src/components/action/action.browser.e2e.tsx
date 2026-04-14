@@ -55,7 +55,23 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "open",
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "menuOpen",
+        defaultValue: false,
+      },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: "bottom-start",
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
+      },
+      {
+        propertyName: "topLayerDisabled",
         defaultValue: false,
       },
       {
@@ -131,6 +147,18 @@ describe("reflects", () => {
         value: "menu",
       },
       {
+        propertyName: "menuPlacement",
+        value: "bottom",
+      },
+      {
+        propertyName: "overlayPositioning",
+        value: "fixed",
+      },
+      {
+        propertyName: "topLayerDisabled",
+        value: true,
+      },
+      {
         propertyName: "width",
         value: "full",
       },
@@ -170,7 +198,7 @@ describe("inline menu accessibility", () => {
   it("sets aria-labelledby on the menu container with the trigger button's id", async () => {
     const { el } = await mount<"calcite-action">(
       <calcite-action button-type="menu" text="Options">
-        <calcite-action slot="menu" text="Item" text-enabled />
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
       </calcite-action>,
     );
 
@@ -182,10 +210,10 @@ describe("inline menu accessibility", () => {
     expect(menuDiv?.getAttribute("aria-labelledby")).toBe(buttonEl?.id);
   });
 
-  it("moves focus to the menu container when the menu opens", async () => {
+  it("keeps focus on the trigger button when the menu opens", async () => {
     const { el } = await mount<"calcite-action">(
       <calcite-action button-type="menu" text="Options">
-        <calcite-action slot="menu" text="Item" text-enabled />
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
       </calcite-action>,
     );
 
@@ -198,18 +226,50 @@ describe("inline menu accessibility", () => {
     await userEvent.click(triggerButton!);
 
     await vi.waitFor(() => {
-      expect(el.shadowRoot?.activeElement).toBe(menuDiv);
+      expect(el.shadowRoot?.activeElement).toBe(triggerButton);
     });
   });
 
   it("enables text on actions slotted into the menu slot", async () => {
     const { el } = await mount<"calcite-action">(
       <calcite-action button-type="menu" text="Options">
-        <calcite-action id="menu-action" slot="menu" text="Item" />
+        <calcite-action id="menu-action" slot="menu-actions" text="Item" />
       </calcite-action>,
     );
 
     const menuAction = el.querySelector<Action["el"]>("#menu-action");
     expect(menuAction?.textEnabled).toBe(true);
+  });
+
+  it("supports Arrow key navigation from split secondary trigger", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="split" text="Options">
+        <calcite-action id="menu-action-1" slot="menu-actions" text="Item 1" text-enabled />
+        <calcite-action id="menu-action-2" slot="menu-actions" text="Item 2" text-enabled />
+      </calcite-action>,
+    );
+
+    const splitSecondaryButton = el.shadowRoot?.querySelector(`.${CSS.buttonSplitSecondary}`);
+
+    expect(splitSecondaryButton).not.toBeNull();
+
+    splitSecondaryButton?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
+
+    await vi.waitFor(() => {
+      expect(el.menuOpen).toBe(true);
+    });
+
+    const menuAction1 = el.querySelector<Action["el"]>("#menu-action-1");
+    const menuAction2 = el.querySelector<Action["el"]>("#menu-action-2");
+
+    await vi.waitFor(() => {
+      expect(menuAction1?.activeDescendant).toBe(true);
+    });
+
+    splitSecondaryButton?.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
+
+    await vi.waitFor(() => {
+      expect(menuAction2?.activeDescendant).toBe(true);
+    });
   });
 });

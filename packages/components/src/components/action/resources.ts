@@ -28,13 +28,15 @@ export const CSS = {
 const prefixId = "calcite-action";
 
 export const IDS = {
+  action: (id: string, actionId: number) => `${prefixId}-${id}-action-${actionId}`,
   button: (id: string) => `${prefixId}-${id}-button`,
   indicator: (id: string) => `${prefixId}-${id}-indicator`,
   menu: (id: string) => `${prefixId}-${id}-menu`,
 } as const;
 
 export const SLOTS = {
-  menu: "menu",
+  menuActions: "menu-actions",
+  tooltip: "tooltip",
 };
 
 export const ICONS: Record<string, IconName> = {
