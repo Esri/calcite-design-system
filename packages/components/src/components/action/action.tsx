@@ -64,6 +64,37 @@ export class Action extends LitElement {
 
   static override styles = styles;
 
+  private static hasRegisteredActionMenuOpenListener = false;
+
+  private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
+    const actionTarget = event.target;
+
+    if (
+      !(actionTarget instanceof Element) ||
+      !isAction(actionTarget) ||
+      typeof document === "undefined"
+    ) {
+      return;
+    }
+
+    const action = actionTarget;
+
+    document.querySelectorAll("calcite-action").forEach((actionElement) => {
+      if (actionElement !== action && isAction(actionElement)) {
+        actionElement.menuOpen = false;
+      }
+    });
+  };
+
+  private static connectDocumentActionMenuOpenListener(): void {
+    if (this.hasRegisteredActionMenuOpenListener || typeof document === "undefined") {
+      return;
+    }
+
+    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleDocumentActionMenuOpen);
+    this.hasRegisteredActionMenuOpenListener = true;
+  }
+
   //#endregion
 
   //#region Private Properties
@@ -498,31 +529,6 @@ export class Action extends LitElement {
 
   //#region Lifecycle
 
-  private static hasRegisteredActionMenuOpenListener = false;
-
-  private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
-    const action = event.target;
-
-    if (!isAction(action) || typeof document === "undefined") {
-      return;
-    }
-
-    document.querySelectorAll("calcite-action").forEach((actionElement) => {
-      if (actionElement !== action && isAction(actionElement)) {
-        actionElement.menuOpen = false;
-      }
-    });
-  };
-
-  private static connectDocumentActionMenuOpenListener(): void {
-    if (this.hasRegisteredActionMenuOpenListener || typeof document === "undefined") {
-      return;
-    }
-
-    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleDocumentActionMenuOpen);
-    this.hasRegisteredActionMenuOpenListener = true;
-  }
-
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.listen("mousedown", this.mouseDownHandler);
@@ -746,8 +752,8 @@ export class Action extends LitElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
+          aria-controls={menuTrigger ? this.menuId : undefined}
           ariaBusy={loading}
-          ariaControls={menuTrigger ? this.menuId : undefined}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.getMenuTriggerAriaExpanded()}
@@ -769,9 +775,9 @@ export class Action extends LitElement {
 
     return (
       <button
+        aria-controls={menuTrigger ? this.menuId : undefined}
         ariaBusy={loading}
         ariaChecked={this.aria?.checked}
-        ariaControls={menuTrigger ? this.menuId : undefined}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.getMenuTriggerAriaExpanded()}
