@@ -1,0 +1,72 @@
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { useSortable } from "./useSortable";
+
+const { createSpy, destroySpy } = vi.hoisted(() => ({
+  createSpy: vi.fn(),
+  destroySpy: vi.fn(),
+}));
+
+vi.mock("sortablejs", () => ({
+  default: {
+    create: createSpy.mockImplementation(() => ({ destroy: destroySpy })),
+  },
+}));
+
+describe("useSortable", () => {
+  class Test extends LitElement {
+    dragEnabled = false;
+    handleSelector = "calcite-sort-handle";
+    sortable = useSortable<this>()(this);
+
+    canPull(): boolean {
+      return true;
+    }
+
+    canPut(): boolean {
+      return true;
+    }
+
+    onGlobalDragStart(): void {}
+    onGlobalDragEnd(): void {}
+    onDragEnd(): void {}
+    onDragStart(): void {}
+    onDragSort(): void {}
+
+    override render(): JsxNode {
+      return <div />;
+    }
+  }
+
+  class DragEnabledTest extends Test {
+    override dragEnabled = true;
+  }
+
+  beforeEach(() => {
+    createSpy.mockClear();
+    destroySpy.mockClear();
+  });
+
+  it("does not create Sortable when dragEnabled is false", async () => {
+    await mount(Test);
+
+    expect(createSpy).not.toHaveBeenCalled();
+  });
+
+  it("creates Sortable when dragEnabled is true", async () => {
+    await mount(DragEnabledTest);
+
+    expect(createSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
+    const { component } = await mount(DragEnabledTest);
+
+    component.dragEnabled = false;
+    component.sortable.reset();
+
+    expect(destroySpy).toHaveBeenCalledTimes(1);
+    expect(createSpy).toHaveBeenCalledTimes(1);
+  });
+});
