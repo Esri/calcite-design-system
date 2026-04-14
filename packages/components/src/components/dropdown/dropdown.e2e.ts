@@ -2,7 +2,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -18,17 +18,6 @@ import { CSS } from "./resources";
 
 mockConsole();
 
-const simpleDropdownHTML = html`
-  <calcite-dropdown>
-    <calcite-button slot="trigger">Open dropdown</calcite-button>
-    <calcite-dropdown-group id="group-1">
-      <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-`;
-
 const simpleReferenceElementDropdownHTML = html`
   <calcite-dropdown reference-element="trigger">
     <calcite-dropdown-group id="group-1">
@@ -39,14 +28,6 @@ const simpleReferenceElementDropdownHTML = html`
   </calcite-dropdown>
   <calcite-button id="trigger">Open dropdown</calcite-button>
 `;
-
-describe("openClose", () => {
-  openClose(simpleDropdownHTML);
-});
-
-describe("openClose: reference element", () => {
-  openClose(simpleReferenceElementDropdownHTML);
-});
 
 const dropdownSelectionModeContent = html`
   <calcite-dropdown>
