@@ -10,6 +10,7 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -85,6 +86,12 @@ describe("renders", () => {
 
 describe("focusable", () => {
   focusable(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) =>
+    mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />, mountOptions),
+  );
 });
 
 describe("translation support", () => {

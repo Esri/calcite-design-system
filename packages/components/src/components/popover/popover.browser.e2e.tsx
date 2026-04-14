@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -221,5 +222,19 @@ describe("auto-close", () => {
     expect(popover1.open).toBe(true);
     expect(popover2.open).toBe(true);
     expect(popover3.open).toBe(true);
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(
+        <>
+          <calcite-popover placement="auto" reference-element="ref">
+            content
+          </calcite-popover>
+          <div id="ref">referenceElement</div>
+        </>,
+        mountOptions,
+      ),
+    );
   });
 });
