@@ -166,6 +166,7 @@ export class Action extends LitElement {
 
   /**
    * When `true`, displays `text` adjacent to the `icon`.
+   *
    * When `true` and the `calcite-action` is used as a child of `calcite-action-bar`, the text will be shown by regardless of the the parent components `expanded` state.
    */
   @property({ reflect: true }) textEnabled = false;
