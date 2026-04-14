@@ -18,7 +18,6 @@ const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
       .tree-container {
         flex: 1;
         margin-right: 10px;
-        --calcite-color-border-2: chartreuse;
       }
       .container {
         display: flex;
@@ -141,7 +140,7 @@ export const selectionModeNone = (): string => html`${treeItems(true, true)}`;
 selectionModeNone.decorators = [allScaleTreeBuilder];
 selectionModeNone.args = { selectionMode: "none" };
 
-export const linesRTL = (): string => html`<div dir="rtl" style="--calcite-color-border-2: red">${treeItems()}</div>`;
+export const linesRTL = (): string => html`<div dir="rtl">${treeItems()}</div>`;
 linesRTL.decorators = [allScaleTreeBuilder];
 linesRTL.args = { lines: true, selectionMode: "single" };
 
@@ -214,7 +213,6 @@ export const OverflowingSubtree = (): string =>
       <calcite-tree>
         <calcite-tree-item label="test item" expanded id="two">
           Layer 2
-          <calcite-tree slot="children">
             <calcite-tree-item label="test item">
               <span class="title">Layer 2.1</span>
               <calcite-dropdown placement="bottom-trailing">
@@ -245,7 +243,3 @@ export const OverflowingSubtree = (): string =>
         }, 1000);
       });
     </script>`;
-
-export const themedLines = (): string => html`<div style="--calcite-color-border-2: red">${treeItems()}</div>`;
-themedLines.args = { lines: true, selectionMode: "single" };
-themedLines.decorators = [allScaleTreeBuilder];
