@@ -11,6 +11,7 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
   formAssociated,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -55,6 +56,12 @@ describe("defaults", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-date-picker`), {
     shadowFocusTargetSelector: "calcite-input-text",
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(<calcite-input-date-picker value="2021-12-08" />, mountOptions),
+    );
   });
 });
 

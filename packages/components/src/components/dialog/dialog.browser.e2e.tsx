@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
@@ -227,6 +228,10 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dialog"));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-dialog", mountOptions));
 });
 
 describe("renders", () => {

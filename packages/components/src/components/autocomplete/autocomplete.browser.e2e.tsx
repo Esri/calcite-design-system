@@ -14,8 +14,9 @@ import {
   floatingUIOwner,
   t9n,
   disabled,
-  topLayer,
   formAssociated,
+  openClose,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -271,6 +272,21 @@ describe("is form-associated", () => {
     testValue: "two",
     submitsOnEnter: true,
   });
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) =>
+    mount(
+      <calcite-autocomplete id="myAutocomplete" label="Item list">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+        <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+        <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+        <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+      </calcite-autocomplete>,
+      mountOptions,
+    ),
+  );
 });
 
 describe("top layer placement", () => {
