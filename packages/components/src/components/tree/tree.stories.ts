@@ -213,6 +213,7 @@ export const OverflowingSubtree = (): string =>
       <calcite-tree>
         <calcite-tree-item label="test item" expanded id="two">
           Layer 2
+          <calcite-tree slot="children">
             <calcite-tree-item label="test item">
               <span class="title">Layer 2.1</span>
               <calcite-dropdown placement="bottom-trailing">
