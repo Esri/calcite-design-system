@@ -67,17 +67,11 @@ export class Action extends LitElement {
   private static hasRegisteredActionMenuOpenListener = false;
 
   private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
-    const actionTarget = event.target;
+    const action = (event as CustomEvent<{ menuElement?: Element }>).detail?.menuElement;
 
-    if (
-      !(actionTarget instanceof Element) ||
-      !isAction(actionTarget) ||
-      typeof document === "undefined"
-    ) {
+    if (!action || !isAction(action) || typeof document === "undefined") {
       return;
     }
-
-    const action = actionTarget;
 
     document.querySelectorAll("calcite-action").forEach((actionElement) => {
       if (actionElement !== action && isAction(actionElement)) {
