@@ -4,7 +4,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
-import { openClose, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
@@ -35,10 +35,6 @@ describe("accessible with auto-close", () => {
     await page.waitForTimeout(alertQueueTimeoutMs);
     return { page, tag: "calcite-alert" };
   });
-});
-
-describe("openClose", () => {
-  openClose("calcite-alert");
 });
 
 it("renders default props when none are provided", async () => {

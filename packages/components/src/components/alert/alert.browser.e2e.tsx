@@ -8,6 +8,7 @@ import {
   renders,
   t9n,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 
 describe("defaults", () => {
@@ -44,6 +45,10 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-alert open />));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-alert", mountOptions));
 });
 
 describe("renders", () => {

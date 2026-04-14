@@ -245,7 +245,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
   }
 
-  /** When `true`, disables the closing of the component when clicked outside. */
+  /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /**
