@@ -1,5 +1,5 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import {
@@ -21,9 +21,10 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { ComboboxItem } from "../combobox-item/combobox-item";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
-import { Combobox } from "./combobox";
+import type { Combobox } from "./combobox";
 
 mockConsole();
 
@@ -218,6 +219,20 @@ describe("is form-associated", () => {
       validation: true,
       changeValueKeys: ["{Space}", "{Enter}"],
     },
+  );
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) =>
+    mount(
+      <calcite-combobox id="myCombobox">
+        <calcite-combobox-item heading="Raising Arizona" value="Raising Arizona" />
+        <calcite-combobox-item heading="Miller's Crossing" value="Miller's Crossing" />
+        <calcite-combobox-item heading="The Hudsucker Proxy" value="The Hudsucker Proxy" />
+        <calcite-combobox-item heading="Inside Llewyn Davis" value="Inside Llewyn Davis" />
+      </calcite-combobox>,
+      mountOptions,
+    ),
   );
 });
 
@@ -920,17 +935,116 @@ describe("keyboard interactions", async () => {
     expect(el.selectedItems[0]).toBe(selectedItem2.element());
   });
 
-  describe("openClose", () => {
-    openClose((mountOptions) =>
-      mount(
-        <calcite-combobox id="myCombobox">
-          <calcite-combobox-item heading="Raising Arizona" value="Raising Arizona" />
-          <calcite-combobox-item heading="Miller's Crossing" value="Miller's Crossing" />
-          <calcite-combobox-item heading="The Hudsucker Proxy" value="The Hudsucker Proxy" />
-          <calcite-combobox-item heading="Inside Llewyn Davis" value="Inside Llewyn Davis" />
-        </calcite-combobox>,
-        mountOptions,
-      ),
-    );
+  describe("clearing values", () => {
+    type SelectionMode = "single" | "single-persist" | "multiple" | "ancestors";
+
+    const selectionModes: SelectionMode[] = ["single", "single-persist", "multiple", "ancestors"];
+
+    function renderCombobox(selectionMode: SelectionMode, clearDisabled = false): JsxNode {
+      if (selectionMode === "ancestors") {
+        return (
+          <calcite-combobox clearDisabled={clearDisabled} selectionMode="ancestors">
+            <calcite-combobox-item heading="parent" value="parent">
+              <calcite-combobox-item heading="child1" value="child1" />
+              <calcite-combobox-item heading="child2" selected value="child2" />
+            </calcite-combobox-item>
+          </calcite-combobox>
+        );
+      }
+
+      if (selectionMode === "multiple") {
+        return (
+          <calcite-combobox clearDisabled={clearDisabled} selectionMode="multiple">
+            <calcite-combobox-item heading="one" selected value="one" />
+            <calcite-combobox-item heading="two" selected value="two" />
+            <calcite-combobox-item heading="three" selected value="three" />
+          </calcite-combobox>
+        );
+      }
+
+      return (
+        <calcite-combobox clearDisabled={clearDisabled} selectionMode={selectionMode}>
+          <calcite-combobox-item heading="one" selected value="one" />
+          <calcite-combobox-item heading="two" value="two" />
+          <calcite-combobox-item heading="three" value="three" />
+        </calcite-combobox>
+      );
+    }
+
+    async function assertValueClearing(
+      selectionMode: SelectionMode,
+      clearDisabled: boolean,
+      mode: "mouse" | "keyboard",
+      expectedBehavior: "clear" | "no-clear",
+    ): Promise<void> {
+      const { el } = await mount<Combobox>(() => renderCombobox(selectionMode, clearDisabled));
+
+      const initialValue = el.value;
+      if (Array.isArray(initialValue)) {
+        expect(initialValue.length).toBeGreaterThan(0);
+      } else {
+        expect(initialValue).not.toBe("");
+      }
+
+      if (mode === "mouse") {
+        const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+        if (expectedBehavior === "clear") {
+          await expect.element(clearButton).toBeInTheDocument();
+          await userEvent.click(clearButton);
+        } else {
+          await expect.element(clearButton).not.toBeInTheDocument();
+        }
+      } else {
+        const combobox = page.getBySelector("calcite-combobox");
+        const input = page.getBySelector("calcite-combobox input");
+        await expect.element(combobox).toBeInTheDocument();
+        await expect.element(input).toBeInTheDocument();
+
+        await userEvent.click(combobox);
+        await userEvent.keyboard("{Escape}");
+      }
+
+      if (expectedBehavior === "clear") {
+        expect(el.value).toBe("");
+      } else {
+        expect(el.value).toEqual(initialValue);
+      }
+    }
+
+    describe("enabled", () => {
+      describe("via mouse", () => {
+        selectionModes.forEach((selectionMode) => {
+          if (selectionMode === "single-persist") {
+            it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "mouse", "no-clear"));
+          } else {
+            it(`clears the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "mouse", "clear"));
+          }
+        });
+      });
+
+      describe("via keyboard", () => {
+        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+          assertValueClearing(selectionMode, false, "keyboard", "no-clear"),
+        );
+      });
+    });
+
+    describe("disabled", () => {
+      describe("via mouse", () => {
+        selectionModes.forEach((selectionMode) => {
+          it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+            assertValueClearing(selectionMode, true, "mouse", "no-clear"));
+        });
+      });
+
+      describe("via keyboard", () => {
+        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+          assertValueClearing(selectionMode, true, "keyboard", "no-clear"),
+        );
+      });
+    });
   });
 });

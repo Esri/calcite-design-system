@@ -1,6 +1,6 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import Sortable, { type SortableEvent } from "sortablejs";
+import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
@@ -20,10 +20,12 @@ export interface DragDetail<
   To extends HTMLElement = HTMLElement,
   From extends HTMLElement = HTMLElement,
   Drag extends HTMLElement = HTMLElement,
-> extends Pick<SortableEvent, "newIndex" | "oldIndex"> {
+> {
   toEl: To;
   fromEl: From;
   dragEl: Drag;
+  newIndex: number;
+  oldIndex: number;
 }
 
 export const CSS = {

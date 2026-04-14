@@ -121,17 +121,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/alisonailea">
-      <img src="https://avatars.githubusercontent.com/u/3362490?v=4" width="100;" alt="alisonailea"/>
-      <br />
-      <sub><b>Ali Stump</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/DitwanP">
       <img src="https://avatars.githubusercontent.com/u/60022782?v=4" width="100;" alt="DitwanP"/>
       <br />
       <sub><b>Ditwan Price</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/alisonailea">
+      <img src="https://avatars.githubusercontent.com/u/3362490?v=4" width="100;" alt="alisonailea"/>
+      <br />
+      <sub><b>Ali Stump</b></sub>
     </a>
   </td>
   <td align="center">
@@ -223,33 +223,33 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/mpriour">
-      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
-      <br />
-      <sub><b>Matt Priour</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/DintaMel">
       <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
       <br />
       <sub><b>Mel Dintaman</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
-    <a href="https://github.com/ffaubry">
-      <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
+    <a href="https://github.com/mpriour">
+      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
       <br />
-      <sub><b>Frederic Aubry</b></sub>
+      <sub><b>Matt Priour</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/brendan-vincent-rice">
       <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
       <br />
       <sub><b>Brendan Rice</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/ffaubry">
+      <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
+      <br />
+      <sub><b>Frederic Aubry</b></sub>
     </a>
   </td>
   <td align="center">
@@ -283,13 +283,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/crowjonah">
-      <img src="https://avatars.githubusercontent.com/u/1634397?v=4" width="100;" alt="crowjonah"/>
-      <br />
-      <sub><b>Crow Norlander</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/jgibson02">
       <img src="https://avatars.githubusercontent.com/u/5069711?v=4" width="100;" alt="jgibson02"/>
       <br />
@@ -297,10 +290,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/rmstinson">
-      <img src="https://avatars.githubusercontent.com/u/12650705?v=4" width="100;" alt="rmstinson"/>
+    <a href="https://github.com/crowjonah">
+      <img src="https://avatars.githubusercontent.com/u/1634397?v=4" width="100;" alt="crowjonah"/>
       <br />
-      <sub><b>Mike Stinson</b></sub>
+      <sub><b>Crow Norlander</b></sub>
     </a>
   </td>
   <td align="center">
@@ -308,6 +301,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/48034760?v=4" width="100;" alt="allieorth"/>
       <br />
       <sub><b>Allie Raney</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/rmstinson">
+      <img src="https://avatars.githubusercontent.com/u/12650705?v=4" width="100;" alt="rmstinson"/>
+      <br />
+      <sub><b>Mike Stinson</b></sub>
     </a>
   </td>
   <td align="center">
