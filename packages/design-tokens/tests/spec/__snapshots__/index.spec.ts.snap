@@ -21248,6 +21248,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -21275,6 +21276,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -21302,6 +21304,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -21329,6 +21332,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -21356,6 +21360,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -21383,6 +21388,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -21410,6 +21416,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -21437,6 +21444,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -21464,6 +21472,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -21491,6 +21500,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -21518,6 +21528,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -21545,6 +21556,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -22126,7 +22138,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -22153,7 +22164,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -22180,7 +22190,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -22207,7 +22216,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -22234,7 +22242,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -22261,7 +22268,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -22288,7 +22294,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -22315,7 +22320,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -22342,7 +22346,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -22369,7 +22372,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -22396,7 +22398,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -22423,7 +22424,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
@@ -28222,6 +28222,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -28249,6 +28250,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -28276,6 +28278,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -28303,6 +28306,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -28330,6 +28334,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -28357,6 +28362,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -28384,6 +28390,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -28411,6 +28418,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -28438,6 +28446,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -28465,6 +28474,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -28492,6 +28502,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -28519,6 +28530,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -29100,7 +29112,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -29127,7 +29138,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -29154,7 +29164,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -29181,7 +29190,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -29208,7 +29216,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -29235,7 +29242,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -29262,7 +29268,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -29289,7 +29294,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -29316,7 +29320,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -29343,7 +29346,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -29370,7 +29372,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -29397,7 +29398,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
@@ -34189,9 +34189,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -34290,20 +34290,38 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: { light: string; dark: string };
-  offsetX: string;
-  offsetY: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: { light: string; dark: string };
-  offsetX: string;
-  offsetY: string;
-}[];
+export const calciteShadowSm: [
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+];
+export const calciteShadowMd: [
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -34402,7 +34420,7 @@ export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34437,7 +34455,7 @@ export const calciteTypographyRegularMinus3h: {
 };
 export const calciteTypographyRegularMinus2h: { fontSize: string };
 export const calciteTypographyRegularMinus1h: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34638,7 +34656,7 @@ export const calciteTypographyHierarchyHeading5: {
 };
 export const calciteTypographyHierarchyBodySnug: { lineHeight: string };
 export const calciteTypographyHierarchyBody: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34912,9 +34930,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -35013,20 +35031,38 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: { light: string; dark: string };
-  offsetX: string;
-  offsetY: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: { light: string; dark: string };
-  offsetX: string;
-  offsetY: string;
-}[];
+export const calciteShadowSm: [
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+];
+export const calciteShadowMd: [
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+  {
+    blur: string;
+    spread: string;
+    color: { light: string; dark: string };
+    offsetX: string;
+    offsetY: string;
+  },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */

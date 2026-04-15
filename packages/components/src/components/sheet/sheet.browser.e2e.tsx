@@ -9,6 +9,7 @@ import {
   renders,
   focusable,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -115,6 +116,10 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-sheet"));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-sheet", mountOptions));
 });
 
 describe("renders", () => {

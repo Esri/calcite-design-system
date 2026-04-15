@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, openClose } from "../../tests/commonTests";
+import { accessible, labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import {
@@ -64,19 +64,6 @@ describe.todo("accessible with highlight selection appearance", () => {
 
 describe("labelable", () => {
   labelable("calcite-combobox");
-});
-
-const simpleComboboxHTML = html`
-  <calcite-combobox id="myCombobox">
-    <calcite-combobox-item value="Raising Arizona" heading="Raising Arizona"></calcite-combobox-item>
-    <calcite-combobox-item value="Miller's Crossing" heading="Miller's Crossing"></calcite-combobox-item>
-    <calcite-combobox-item value="The Hudsucker Proxy" heading="The Hudsucker Proxy"></calcite-combobox-item>
-    <calcite-combobox-item value="Inside Llewyn Davis" heading="Inside Llewyn Davis"></calcite-combobox-item>
-  </calcite-combobox>
-`;
-
-describe("openClose", () => {
-  openClose(simpleComboboxHTML);
 });
 
 describe("filtering", () => {

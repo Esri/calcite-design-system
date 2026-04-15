@@ -385,6 +385,7 @@ calcite-panel {
 
     @starting-style {
       inset-block-start: var(--calcite-internal-dialog-hidden-position);
+      opacity: 0;
     }
   }
 }
