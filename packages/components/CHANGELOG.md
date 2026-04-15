@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.33...@esri/calcite-components@5.1.0-next.34) (2026-04-15)
+
+### Bug Fixes
+
+- **tree:** fix content clipping ([#14262](https://github.com/Esri/calcite-design-system/issues/14262)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
 ## [5.1.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.32...@esri/calcite-components@5.1.0-next.33) (2026-04-15)
 
 ### Bug Fixes
