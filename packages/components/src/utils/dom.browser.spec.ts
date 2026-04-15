@@ -515,6 +515,21 @@ describe("dom", () => {
         expect(hasVisibleContent(element)).toBe(true);
       });
 
+      it("should return true for outer slot when nested inner slot receives content", async () => {
+        let outerSlotEl: HTMLSlotElement;
+        const testElName = defineTestElement((slotEl) => {
+          if (slotEl.name === "outer") {
+            outerSlotEl = slotEl;
+          }
+        }, '<slot name="outer"><slot name="inner"></slot></slot>');
+        const testEl = createEl(testElName);
+
+        appendChildren(testEl, [createEl("span", { slot: "inner", textContent: "hello" })]);
+        await afterNextFrame();
+
+        expect(hasVisibleContent(outerSlotEl)).toBe(true);
+      });
+
       it("should return true if slot element has assigned visible content", () => {
         const slotEl = document.createElement("slot");
         slotEl.assignedNodes = () => [document.createTextNode("hello")];
@@ -530,6 +545,36 @@ describe("dom", () => {
 
         element.innerHTML = "\n<!-- some comment -->\n";
         expect(hasVisibleContent(element)).toBe(false);
+      });
+
+      it("should return false for outer slot when nested slot assignment is empty", async () => {
+        let outerSlotEl: HTMLSlotElement;
+        const testElName = defineTestElement((slotEl) => {
+          if (slotEl.name === "outer") {
+            outerSlotEl = slotEl;
+          }
+        }, '<slot name="outer"><slot></slot></slot>');
+        const testEl = createEl(testElName);
+
+        document.body.append(testEl);
+        await afterNextFrame();
+
+        expect(hasVisibleContent(outerSlotEl)).toBe(false);
+      });
+
+      it("should return false for outer slot when nested slot has whitespace-only text", async () => {
+        let outerSlotEl: HTMLSlotElement;
+        const testElName = defineTestElement((slotEl) => {
+          if (slotEl.name === "outer") {
+            outerSlotEl = slotEl;
+          }
+        }, '<slot name="outer"><slot></slot></slot>');
+        const testEl = createEl(testElName);
+
+        appendChildren(testEl, [document.createTextNode("  \n  ")]);
+        await afterNextFrame();
+
+        expect(hasVisibleContent(outerSlotEl)).toBe(false);
       });
     });
   });
