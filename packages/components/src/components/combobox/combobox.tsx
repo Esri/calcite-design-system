@@ -167,12 +167,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
     if (!this.isMulti()) {
-      const match = this.items.find(({ selected }) => selected);
+      const match = this.allItems.find(({ selected }) => selected);
       return match ? [match] : [];
     }
 
     return (
-      this.items
+      this.allItems
         .filter(
           (item) =>
             item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
@@ -1159,7 +1159,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => chipEl.closable,
+        (chipEl) => {
+          const testId = chipEl.dataset.testId ?? "";
+          return testId.startsWith("chip") || testId.startsWith("disabled-chip");
+        },
       );
 
       const availableHorizontalChipElSpace = Math.round(
@@ -1221,10 +1224,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
       this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
     }
-    const newSelectedHiddenChipsCount = Math.max(
-      0,
-      this.getSelectedItems().length - newSelectedVisibleChipsCount,
-    );
+    const selectedCount = this.getSelectedItems().length;
+    const newSelectedHiddenChipsCount = Math.max(0, selectedCount - newSelectedVisibleChipsCount);
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
     }
@@ -1675,9 +1676,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const isAncestors = selectionMode === "ancestors";
     const allSelectedNoDisabled = this.allSelected && !this.hasDisabledItems;
     const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
-    const disabledSelectedCount = this.allItems.filter(
-      (item) => item.disabled && item.selected && (!isAncestors || !hasActiveChildren(item)),
-    ).length;
     const preserveOrder = selectionDisplay === "all";
 
     if (
@@ -1733,7 +1731,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         chips.push(
           this.renderChip({
             activeChipIndex,
-            disabled: false,
+            disabled: item.disabled,
             index: selectedIndex++,
             item,
             messages,
@@ -1746,7 +1744,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     if (selectionDisplay === "fit") {
-      const hiddenSelectedCount = this.selectedHiddenChipsCount + disabledSelectedCount;
+      const hiddenSelectedCount = this.selectedHiddenChipsCount;
       if (hiddenSelectedCount > 0) {
         chips.push(this.renderChipCount(hiddenSelectedCount, scale, true));
       }
