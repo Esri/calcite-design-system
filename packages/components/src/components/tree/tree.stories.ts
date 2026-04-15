@@ -51,35 +51,35 @@ export default {
 
 const treeItems = (expanded = true, isSelectionModeNone = false) => html`
   <calcite-tree-item label="test item" ${!isSelectionModeNone ? "selected" : ""}>
-    <a>Layer 1</a>
+    <a>Child 1</a>
   </calcite-tree-item>
   <calcite-tree-item label="test item" icon-start="palette" ${expanded ? "expanded" : ""}>
-    <a>Layer 2</a>
+    <a>Child 2</a>
     <calcite-tree slot="children" icon-start="palette">
       <calcite-tree-item label="test item">
-        <a>GrandLayer 1</a>
+        <a>Grandchild 1</a>
       </calcite-tree-item>
       <calcite-tree-item label="test item" icon-start="palette" ${expanded ? "expanded" : ""}>
-        <a>GrandLayer 2</a>
+        <a>Grandchild 2</a>
         <calcite-tree slot="children" icon-start="palette">
           <calcite-tree-item label="test item">
-            <a>Great-GrandLayer 1</a>
+            <a>Great-Grandchild 1</a>
           </calcite-tree-item>
           <calcite-tree-item label="test item" icon-start="palette">
-            <a>Great-GrandLayer 2</a>
+            <a>Great-Grandchild 2</a>
           </calcite-tree-item>
         </calcite-tree>
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
   <calcite-tree-item label="test item" ${expanded ? "expanded" : ""}>
-    <a>Layer 3</a>
+    <a>Child 3</a>
     <calcite-tree slot="children">
       <calcite-tree-item label="test item">
-        <a>GrandLayer 1</a>
+        <a>Grandchild 1</a>
       </calcite-tree-item>
       <calcite-tree-item>
-        <a>GrandLayer 2</a>
+        <a>Grandchild 2</a>
       </calcite-tree-item>
     </calcite-tree>
   </calcite-tree-item>
@@ -100,17 +100,17 @@ const slottedDefaultDropdown = (scale: string) => html`
 
 const iconStartLargeActionsEnd = (scale: string) => html`
   <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Layer 1 </a>
+    <a>Child 1 </a>
     ${slottedDefaultDropdown(scale)} ${slottedDefaultDropdown(scale)}
   </calcite-tree-item>
   <calcite-tree-item label="test item" expanded>
-    <a>Layer 2 </a>
+    <a>Child 2 </a>
     <calcite-tree slot="children" expanded>
       <calcite-tree-item label="test item" expanded>
-        <a>GrandLayer 1 </a>
+        <a>Grandchild 1 </a>
         <calcite-tree slot="children" expanded>
           <calcite-tree-item label="test item" icon-start="palette" expanded>
-            <a>Great - GrandLayer 1 </a>
+            <a>Great - Grandchild 1 </a>
             ${slottedDefaultDropdown(scale)}${slottedDefaultDropdown(scale)}
           </calcite-tree-item>
         </calcite-tree>
@@ -118,14 +118,14 @@ const iconStartLargeActionsEnd = (scale: string) => html`
     </calcite-tree>
   </calcite-tree-item>
   <calcite-tree-item label="test item" icon-start="palette" expanded>
-    <a>Layer 3 </a>
+    <a>Child 3 </a>
     ${slottedDefaultDropdown(scale)}
     <calcite-tree slot="children" expanded>
       <calcite-tree-item label="test item" icon-start="palette">
-        <a>GrandLayer 1 </a>
+        <a>Grandchild 1 </a>
       </calcite-tree-item>
       <calcite-tree-item label="test item" expanded>
-        <a>GrandLayer 2 </a>
+        <a>Grandchild 2 </a>
         ${slottedDefaultDropdown(scale)}
       </calcite-tree-item>
     </calcite-tree>
