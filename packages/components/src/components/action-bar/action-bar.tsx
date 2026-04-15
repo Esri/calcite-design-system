@@ -224,7 +224,11 @@ export class ActionBar extends LitElement {
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  /**
+   * When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus.
+   *
+   * @deprecated Set `overflow-mode="disabled"` on individual `calcite-action-group` elements instead.
+   */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /**
@@ -308,6 +312,7 @@ export class ActionBar extends LitElement {
   }
 
   override connectedCallback(): void {
+    this.markAuthoredOverflowModes();
     this.updateGroups();
     this.overflowActions();
     this.updateActions();
@@ -395,6 +400,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
+    this.updateGroups();
     this.resizeObserver?.observe(this.el);
     this.overflowActions();
   }
@@ -411,6 +417,7 @@ export class ActionBar extends LitElement {
   }
 
   private mutationObserverHandler(): void {
+    this.markAuthoredOverflowModes();
     this.updateGroups();
     this.overflowActions();
     this.queryAndStoreActions();
@@ -421,16 +428,41 @@ export class ActionBar extends LitElement {
     entries.forEach(this.resizeHandler);
   }
 
+  private markAuthoredOverflowModes(): void {
+    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
+    groups.forEach((group) => {
+      if (group.hasAttribute("overflow-mode")) {
+        group.dataset.overflowModeAuthoredByUser = "true";
+      }
+    });
+  }
+
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
     groups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
+      // Only programmatically manage overflow-mode if it wasn't explicitly authored by user
+      const wasAuthoredByUser = group.dataset.overflowModeAuthoredByUser === "true";
+
+      if (!wasAuthoredByUser) {
+        if (this.overflowActionsDisabled) {
+          if (group.overflowMode !== "disabled") {
+            group.overflowMode = "disabled";
+          }
+        } else {
+          if (group.overflowMode === "disabled") {
+            group.overflowMode = "overflow";
+            group.removeAttribute("overflow-mode");
+          }
+        }
+      }
     });
   }
 
   private handleDefaultSlotChange(): void {
+    this.markAuthoredOverflowModes();
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();

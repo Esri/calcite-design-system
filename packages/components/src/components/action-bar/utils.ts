@@ -1,5 +1,4 @@
 import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
@@ -9,7 +8,11 @@ export const queryActions = (el: HTMLElement): Action["el"][] => {
       return false;
     }
 
-    return action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true;
+    if (action.closest("calcite-action-menu")) {
+      return false;
+    }
+
+    return true;
   });
 };
 
@@ -41,15 +44,11 @@ export const overflowActions = ({
       }
     });
 
-    if (needToSlotCount > 0) {
+    if (needToSlotCount > 0 && group.overflowMode !== "disabled") {
       directGroupActions.some((groupAction) => {
         const unslottedActions = directGroupActions.filter((action) => !action.slot);
 
-        if (
-          unslottedActions.length > 1 &&
-          directGroupActions.length > 2 &&
-          !groupAction.closest("calcite-action-menu")
-        ) {
+        if (unslottedActions.length > 1 && directGroupActions.length > 2) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
           slottedWithinGroupCount++;

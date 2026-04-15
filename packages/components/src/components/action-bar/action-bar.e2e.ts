@@ -481,6 +481,40 @@ it("should set layout on child action-groups", async () => {
   }
 });
 
+it("should set overflow-mode='disabled' on child action-groups when overflow-actions-disabled is true", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-action-bar overflow-actions-disabled>
+      <calcite-action-group></calcite-action-group>
+      <calcite-action-group></calcite-action-group>
+    </calcite-action-bar>`,
+  );
+  await page.waitForChanges();
+
+  const groups = await findAll(page, "calcite-action-group");
+
+  expect(groups).toHaveLength(2);
+  expect(await groups[0].getProperty("overflowMode")).toBe("disabled");
+  expect(await groups[1].getProperty("overflowMode")).toBe("disabled");
+});
+
+it("should not overwrite authored overflow-mode on child action-groups when overflow-actions-disabled is false", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-action-bar>
+      <calcite-action-group overflow-mode="disabled"></calcite-action-group>
+      <calcite-action-group></calcite-action-group>
+    </calcite-action-bar>`,
+  );
+  await page.waitForChanges();
+
+  const groups = await findAll(page, "calcite-action-group");
+
+  expect(groups).toHaveLength(2);
+  expect(await groups[0].getProperty("overflowMode")).toBe("disabled");
+  expect(await groups[1].getProperty("overflowMode")).toBe("overflow");
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(

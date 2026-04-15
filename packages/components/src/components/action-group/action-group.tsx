@@ -10,19 +10,17 @@ import {
   createEvent,
 } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
-import { isAction } from "../action/resources";
-import type { ActionMenu } from "../action-menu/action-menu";
+import { isAction, SLOTS as ACTION_SLOTS } from "../action/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { SelectionMode } from "../interfaces";
-import { Columns } from "./interfaces";
+import { Columns, OverflowMode } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-group.scss";
 
 declare global {
@@ -33,8 +31,8 @@ declare global {
 
 /**
  * @slot - A slot for adding `calcite-action`s.
- * @slot menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
- * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the menu.
+ * @slot menu-actions - A slot for adding `calcite-action`s to the overflow menu.
+ * @slot menu-tooltip - A slot for adding a `calcite-tooltip` for the overflow menu trigger.
  */
 export class ActionGroup extends LitElement {
   //#region Static Members
@@ -89,8 +87,17 @@ export class ActionGroup extends LitElement {
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements?: FlipPlacement[];
 
-  /** When `true`, the `calcite-action-menu` is open. */
+  /** When `true`, the overflow menu is open. */
   @property({ reflect: true }) menuOpen = false;
+
+  /**
+   * Specifies the overflow behavior of the component, where:
+   *
+   * `"overflow"` displays a trigger that opens an overflow menu for actions slotted in `menu-actions`, and
+   *
+   * `"disabled"` prevents collapsing and hides the overflow menu trigger.
+   */
+  @property({ reflect: true }) overflowMode: OverflowMode = "overflow";
 
   /** Specifies the position of the action menu. */
   @property({ reflect: true }) menuPlacement?: LogicalPlacement;
@@ -107,7 +114,7 @@ export class ActionGroup extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the size of the `calcite-action-menu`. */
+  /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -221,6 +228,14 @@ export class ActionGroup extends LitElement {
         }
       }
     }
+
+    if (
+      changes.has("overflowMode") &&
+      (this.hasUpdated || this.overflowMode !== "overflow") &&
+      this.overflowMode === "disabled"
+    ) {
+      this.menuOpen = false;
+    }
   }
 
   //#endregion
@@ -252,8 +267,8 @@ export class ActionGroup extends LitElement {
     }
   }
 
-  private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
-    this.menuOpen = !!event.currentTarget.open;
+  private setMenuOpen(event: ToEvents<Action>["calciteActionMenuOpen"]): void {
+    this.menuOpen = !!(event.currentTarget as Action["el"]).menuOpen;
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
@@ -333,6 +348,7 @@ export class ActionGroup extends LitElement {
     const {
       expanded,
       menuOpen,
+      overflowMode,
       scale,
       layout,
       messages,
@@ -342,32 +358,36 @@ export class ActionGroup extends LitElement {
       menuPlacement,
     } = this;
 
+    if (overflowMode === "disabled") {
+      return null;
+    }
+
     return (
-      <calcite-action-menu
-        expanded={expanded}
-        flipPlacements={
-          menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
-        }
+      <calcite-action
+        buttonType="overflow"
         hidden={!hasMenuActions}
         label={messages.more}
+        menuFlipPlacements={
+          menuFlipPlacements ?? (layout === "horizontal" ? ["top", "bottom"] : ["left", "right"])
+        }
+        menuOpen={menuOpen}
+        menuPlacement={
+          menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")
+        }
         oncalciteActionMenuOpen={this.setMenuOpen}
-        open={menuOpen}
         overlayPositioning={overlayPositioning}
-        placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
         scale={scale}
+        text={messages.more}
+        textEnabled={expanded}
         topLayerDisabled={this.topLayerDisabled}
       >
-        <calcite-action
-          aria={{ expanded }}
-          icon={ICONS.menu}
-          scale={scale}
-          slot={ACTION_MENU_SLOTS.trigger}
-          text={messages.more}
-          textEnabled={expanded}
+        <slot
+          name={SLOTS.menuActions}
+          onSlotChange={this.handleMenuActionsSlotChange}
+          slot={ACTION_SLOTS.menuActions}
         />
-        <slot name={SLOTS.menuActions} onSlotChange={this.handleMenuActionsSlotChange} />
-        <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />
-      </calcite-action-menu>
+        <slot name={SLOTS.menuTooltip} slot={ACTION_SLOTS.tooltip} />
+      </calcite-action>
     );
   }
 

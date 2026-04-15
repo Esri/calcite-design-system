@@ -94,3 +94,19 @@ export const TurkishLocale = (): string =>
       <calcite-dropdown slot="menu-actions"> </calcite-dropdown>
     </calcite-action-group>
   </div>`;
+
+export const overflowModeOverflow = (): string =>
+  html`<calcite-action-group overflow-mode="overflow">
+    <calcite-action icon="plus" text="Add"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+    <calcite-action icon="map" text="Map" slot="menu-actions"></calcite-action>
+    <calcite-action icon="layers" text="Layers" slot="menu-actions"></calcite-action>
+  </calcite-action-group>`;
+
+export const overflowModeDisabled = (): string =>
+  html`<calcite-action-group overflow-mode="disabled">
+    <calcite-action icon="plus" text="Add"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+    <calcite-action icon="map" text="Map"></calcite-action>
+    <calcite-action icon="layers" text="Layers"></calcite-action>
+  </calcite-action-group>`;

@@ -2,11 +2,10 @@ import { JsxNode } from "@arcgis/lumina";
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
-  handlesActionMenuPlacements,
   hidden,
   reflects,
   renders,
@@ -32,6 +31,10 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-action-group"),
     [
+      {
+        propertyName: "overflowMode",
+        defaultValue: "overflow",
+      },
       {
         propertyName: "layout",
         defaultValue: "vertical",
@@ -97,15 +100,24 @@ describe("slots", () => {
 });
 
 describe("floating-ui", () => {
-  describe("handles action-menu placement and flipPlacements", () => {
-    handlesActionMenuPlacements(() =>
-      mount(
-        <calcite-action-group overlay-positioning="fixed" scale="l">
-          <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
-          <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
-        </calcite-action-group>,
-      ),
+  it("forwards menuPlacement and menuFlipPlacements to overflow action", async () => {
+    const flipPlacements = ["top", "bottom"];
+    const { el, reRender } = await mount<ActionGroup>(
+      <calcite-action-group overlay-positioning="fixed" scale="l">
+        <calcite-action icon="plus" id="plus" slot={SLOTS.menuActions} text="Add" />
+        <calcite-action icon="banana" id="banana" slot={SLOTS.menuActions} text="Banana" />
+      </calcite-action-group>,
     );
+
+    el.menuFlipPlacements = flipPlacements as any;
+    el.menuPlacement = "top";
+    await reRender();
+
+    const overflowAction = el.shadowRoot.querySelector<any>(
+      'calcite-action[button-type="overflow"]',
+    );
+    expect(overflowAction.menuPlacement).toBe("top");
+    expect(overflowAction.menuFlipPlacements).toEqual(flipPlacements);
   });
 });
 
@@ -191,34 +203,37 @@ describe("selection change event and selectedActions state", () => {
 });
 
 it("should honor scale of expand icon", async () => {
-  await mount(renderActionGroup);
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+  const { el } = await mount(renderActionGroup);
+  const overflowAction = el.shadowRoot?.querySelector<any>(
+    'calcite-action[button-type="overflow"]',
+  );
 
-  await expect.element(menu).toHaveProperty("scale", "l");
+  await expect.element(overflowAction).toHaveProperty("scale", "l");
 });
 
 it("should honor overlayPositioning", async () => {
-  await mount(
+  const { el } = await mount(
     <calcite-action-group overlay-positioning="fixed" scale="l">
       <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
       <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
     </calcite-action-group>,
   );
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+  const overflowAction = el.shadowRoot?.querySelector<any>(
+    'calcite-action[button-type="overflow"]',
+  );
 
-  await expect.element(menu).toHaveProperty("overlayPositioning", "fixed");
+  await expect.element(overflowAction).toHaveProperty("overlayPositioning", "fixed");
 });
 
-it("should honor label", async () => {
-  await mount(
-    <calcite-action-group label="test">
+it("should not render overflow trigger when overflow-mode is disabled", async () => {
+  const { el } = await mount(
+    <calcite-action-group overflow-mode="disabled">
       <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
-      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
     </calcite-action-group>,
   );
-  const menu = page.getByLabelText(`test`);
+  const overflowAction = el.shadowRoot?.querySelector('calcite-action[button-type="overflow"]');
 
-  await expect.element(menu).toBeVisible();
+  expect(overflowAction).toBeNull();
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
