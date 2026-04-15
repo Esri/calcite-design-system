@@ -614,9 +614,7 @@ export class Action extends LitElement {
 
   //#region Rendering
 
-  private renderTextContainer(textVisible = this.textEnabled): JsxNode {
-    const { text } = this;
-
+  private renderTextContainer(textVisible: boolean, text: string): JsxNode {
     const textContainerClasses = {
       [CSS.textContainer]: true,
       [CSS.textContainerVisible]: textVisible,
@@ -695,14 +693,15 @@ export class Action extends LitElement {
       buttonId,
       messages,
     } = this;
-    const textVisible = this.isOverflowType ? false : textEnabled;
+    const textVisible = textEnabled;
+    const textFallback = label || text || "";
+    const buttonText = text || "";
     const iconOverride = this.isOverflowType && !icon ? ICONS.overflow : undefined;
     const menuTrigger = !isSplitPrimary && (this.isMenuType || this.isOverflowType);
-    const labelFallback = label || text || "";
 
     const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+      ? messages.indicatorLabel.replace("{label}", textFallback)
+      : textFallback;
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -717,7 +716,7 @@ export class Action extends LitElement {
     const coreContent = (
       <>
         {this.renderIconContainer(iconOverride)}
-        {this.renderTextContainer(textVisible)}
+        {this.renderTextContainer(textVisible, buttonText)}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
       </>
     );

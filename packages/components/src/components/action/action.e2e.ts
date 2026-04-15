@@ -384,14 +384,23 @@ it("should have icon container if loading", async () => {
   expect(iconContainer).not.toBeNull();
 });
 
-it("should not visually render text for overflow buttonType", async () => {
+it("should visually render text for overflow buttonType when text-enabled", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-action button-type="overflow" text="hello world" text-enabled></calcite-action>`);
 
   const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
   const isVisible = await textContainer.isVisible();
 
-  expect(isVisible).toBe(false);
+  expect(isVisible).toBe(true);
+});
+
+it("should not render visible text for overflow buttonType when text is not provided", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-action button-type="overflow" label="More actions" text-enabled></calcite-action>`);
+
+  const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
+
+  expect(textContainer).toBeNull();
 });
 
 it("should render chevron for menu buttonType when text is not enabled", async () => {
