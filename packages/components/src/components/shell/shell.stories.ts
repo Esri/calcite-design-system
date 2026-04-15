@@ -395,15 +395,15 @@ const shellDemoToolbarStyles = `
 const shellSampleContentStyles = `
   <style>
     .panel-content {
+      font-weight: bold;
+      color: #fff;
+      background-color: #007AC2;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
       position: absolute;
       inset: 0;
       z-index: 1;
-      color: #999;
-      background-color: #007AC2;
-      background-color: #fff;
     }
 
     .panel-content > div:nth-child(2) {
@@ -3155,7 +3155,14 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
 
   return html` ${shellSampleContentStyles}
-    <calcite-shell style="--calcite-shell-panel-max-height: 900px; --calcite-shell-panel-max-width: 900px;">
+    <calcite-shell
+      style="
+        --calcite-shell-panel-height: 400px; 
+        --calcite-shell-panel-min-height: 200px; 
+        --calcite-shell-panel-max-height: 900px; 
+        --calcite-shell-panel-min-width: 200px; 
+        --calcite-shell-panel-max-width: 900px;"
+    >
       <calcite-shell-panel
         id="shellPanel"
         slot="${args.shellPanelSlot}"
@@ -3276,7 +3283,14 @@ export const shellPanelWithActionBarPositionPropToolbar = (): string => {
       </div>
     </div>
 
-    <calcite-shell>
+    <calcite-shell
+      style="
+        --calcite-shell-panel-height: 400px; 
+        --calcite-shell-panel-min-height: 200px; 
+        --calcite-shell-panel-max-height: 900px; 
+        --calcite-shell-panel-min-width: 200px; 
+        --calcite-shell-panel-max-width: 900px;"
+    >
       <calcite-shell-panel
         id="shellPanel"
         slot="panel-start"
