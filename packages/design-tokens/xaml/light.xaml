@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="calcite-color-surface-1" Color="#FFF7F7F7" />
+  <SolidColorBrush x:Key="calcite-color-surface-2" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-surface-3" Color="#FFF2F2F2" />
+  <SolidColorBrush x:Key="calcite-color-surface-4" Color="#FFEBEBEB" />
+  <SolidColorBrush x:Key="calcite-color-surface-highlight" Color="#FFD6EFFF" />
+  <SolidColorBrush x:Key="calcite-color-background" Color="#FFF7F7F7" />
+  <SolidColorBrush x:Key="calcite-color-background-none" Color="#00FFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-foreground-1" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-foreground-2" Color="#FFF2F2F2" />
+  <SolidColorBrush x:Key="calcite-color-foreground-3" Color="#FFEBEBEB" />
+  <SolidColorBrush x:Key="calcite-color-foreground-current" Color="#FFD6EFFF" />
+  <SolidColorBrush x:Key="calcite-color-text-1" Color="#FF141414" />
+  <SolidColorBrush x:Key="calcite-color-text-2" Color="#FF4A4A4A" />
+  <SolidColorBrush x:Key="calcite-color-text-3" Color="#FF6B6B6B" />
+  <SolidColorBrush x:Key="calcite-color-text-inverse" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-text-link" Color="#FF00619B" />
+  <SolidColorBrush x:Key="calcite-color-text-highlight" Color="#FF004874" />
+  <SolidColorBrush x:Key="calcite-color-border-1" Color="#FFD4D4D4" />
+  <SolidColorBrush x:Key="calcite-color-border-2" Color="#FFDEDEDE" />
+  <SolidColorBrush x:Key="calcite-color-border-3" Color="#FFEBEBEB" />
+  <SolidColorBrush x:Key="calcite-color-border-input" Color="#FF949494" />
+  <SolidColorBrush x:Key="calcite-color-border-ghost" Color="#4D000000" />
+  <SolidColorBrush x:Key="calcite-color-border-white" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-brand" Color="#FF007AC2" />
+  <SolidColorBrush x:Key="calcite-color-brand-hover" Color="#FF00619B" />
+  <SolidColorBrush x:Key="calcite-color-brand-press" Color="#FF004874" />
+  <SolidColorBrush x:Key="calcite-color-brand-underline" Color="#6600619B" />
+  <SolidColorBrush x:Key="calcite-color-inverse" Color="#FF363636" />
+  <SolidColorBrush x:Key="calcite-color-inverse-hover" Color="#FF2B2B2B" />
+  <SolidColorBrush x:Key="calcite-color-inverse-press" Color="#FF212121" />
+  <SolidColorBrush x:Key="calcite-color-status-info" Color="#FF00619B" />
+  <SolidColorBrush x:Key="calcite-color-status-info-hover" Color="#FF004874" />
+  <SolidColorBrush x:Key="calcite-color-status-info-press" Color="#FF00304D" />
+  <SolidColorBrush x:Key="calcite-color-status-success" Color="#FF288835" />
+  <SolidColorBrush x:Key="calcite-color-status-success-hover" Color="#FF1A6324" />
+  <SolidColorBrush x:Key="calcite-color-status-success-press" Color="#FF0D3F14" />
+  <SolidColorBrush x:Key="calcite-color-status-warning" Color="#FFDA7C0B" />
+  <SolidColorBrush x:Key="calcite-color-status-warning-hover" Color="#FFC26B00" />
+  <SolidColorBrush x:Key="calcite-color-status-warning-press" Color="#FF9A5B10" />
+  <SolidColorBrush x:Key="calcite-color-status-danger" Color="#FFD83020" />
+  <SolidColorBrush x:Key="calcite-color-status-danger-hover" Color="#FFA82B1E" />
+  <SolidColorBrush x:Key="calcite-color-status-danger-press" Color="#FF7C1D13" />
+  <SolidColorBrush x:Key="calcite-color-transparent" Color="#00000000" />
+  <SolidColorBrush x:Key="calcite-color-transparent-hover" Color="#0A000000" />
+  <SolidColorBrush x:Key="calcite-color-transparent-press" Color="#14000000" />
+  <SolidColorBrush x:Key="calcite-color-transparent-scrim" Color="#D9FFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-transparent-tint" Color="#CCFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-transparent-inverse-hover" Color="#1FFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-transparent-inverse-press" Color="#29FFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-focus" Color="{Binding Source={StaticResource calcite-color-brand}, Path=Color}"/>
+</ResourceDictionary>
