@@ -515,6 +515,14 @@ describe("dom", () => {
         expect(hasVisibleContent(element)).toBe(true);
       });
 
+      it("should return true if slot element has assigned visible content", () => {
+        const slotEl = document.createElement("slot");
+        slotEl.assignedNodes = () => [document.createTextNode("hello")];
+        document.body.append(slotEl);
+
+        expect(hasVisibleContent(slotEl)).toBe(true);
+      });
+
       it("should return false if element has no visible content", () => {
         const element = document.createElement("div");
         document.body.append(element);

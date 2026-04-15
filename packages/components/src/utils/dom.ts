@@ -403,6 +403,17 @@ export function slotChangeGetTextContent(event: Event): string {
  * @returns True if the element has visible content, otherwise false.
  */
 export function hasVisibleContent(element: HTMLElement): boolean {
+  if (element instanceof HTMLSlotElement) {
+    return element
+      .assignedNodes({
+        flatten: true,
+      })
+      .some(
+        (node) =>
+          (node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "") || node.nodeType === Node.ELEMENT_NODE,
+      );
+  }
+
   for (const node of element.childNodes) {
     if ((node.nodeType === Node.TEXT_NODE && node.textContent?.trim() !== "") || node.nodeType === Node.ELEMENT_NODE) {
       return true;
