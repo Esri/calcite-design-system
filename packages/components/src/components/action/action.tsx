@@ -54,7 +54,7 @@ const ACTION_MENU_OPEN_EVENT = "calcite-action-menu-open";
 
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- * @slot menuActions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
+ * @slot menu-actions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
  * @slot tooltip - A slot for adding a tooltip for the menu.
  */
 export class Action extends LitElement {
@@ -63,6 +63,31 @@ export class Action extends LitElement {
   static formAssociated = true;
 
   static override styles = styles;
+
+  private static hasRegisteredActionMenuOpenListener = false;
+
+  private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
+    const action = (event as CustomEvent<{ menuElement?: Element }>).detail?.menuElement;
+
+    if (!action || !isAction(action) || typeof document === "undefined") {
+      return;
+    }
+
+    document.querySelectorAll("calcite-action").forEach((actionElement) => {
+      if (actionElement !== action && isAction(actionElement)) {
+        actionElement.menuOpen = false;
+      }
+    });
+  };
+
+  private static connectDocumentActionMenuOpenListener(): void {
+    if (this.hasRegisteredActionMenuOpenListener || typeof document === "undefined") {
+      return;
+    }
+
+    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleDocumentActionMenuOpen);
+    this.hasRegisteredActionMenuOpenListener = true;
+  }
 
   //#endregion
 
@@ -501,7 +526,7 @@ export class Action extends LitElement {
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.listen("mousedown", this.mouseDownHandler);
-    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleActionMenuOpen);
+    Action.connectDocumentActionMenuOpenListener();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -589,9 +614,7 @@ export class Action extends LitElement {
 
   //#region Rendering
 
-  private renderTextContainer(textVisible = this.textEnabled): JsxNode {
-    const { text } = this;
-
+  private renderTextContainer(textVisible: boolean, text: string): JsxNode {
     const textContainerClasses = {
       [CSS.textContainer]: true,
       [CSS.textContainerVisible]: textVisible,
@@ -670,14 +693,15 @@ export class Action extends LitElement {
       buttonId,
       messages,
     } = this;
-    const textVisible = this.isOverflowType ? false : textEnabled;
+    const textVisible = textEnabled;
+    const textFallback = label || text || "";
+    const buttonText = text || "";
     const iconOverride = this.isOverflowType && !icon ? ICONS.overflow : undefined;
     const menuTrigger = !isSplitPrimary && (this.isMenuType || this.isOverflowType);
-    const labelFallback = label || text || "";
 
     const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+      ? messages.indicatorLabel.replace("{label}", textFallback)
+      : textFallback;
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -692,7 +716,7 @@ export class Action extends LitElement {
     const coreContent = (
       <>
         {this.renderIconContainer(iconOverride)}
-        {this.renderTextContainer(textVisible)}
+        {this.renderTextContainer(textVisible, buttonText)}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
       </>
     );
@@ -721,6 +745,7 @@ export class Action extends LitElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
+          aria-controls={menuTrigger ? this.menuId : undefined}
           ariaBusy={loading}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
@@ -743,6 +768,7 @@ export class Action extends LitElement {
 
     return (
       <button
+        aria-controls={menuTrigger ? this.menuId : undefined}
         ariaBusy={loading}
         ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
@@ -773,12 +799,13 @@ export class Action extends LitElement {
       [CSS.menuTrigger]: true,
       [CSS.buttonSplitSecondaryActive]: this.menuOpen,
     };
+    const hasRenderedMenu = this.supportsMenu && this.hasSlottedMenu;
 
     return (
       <div class={CSS.buttonGroup}>
         {this.renderButton(this.buttonRef, true)}
         <button
-          aria-controls={this.menuId}
+          aria-controls={hasRenderedMenu ? this.menuId : null}
           ariaExpanded={this.menuOpen}
           ariaHasPopup={this.hasSlottedMenu ? "menu" : null}
           ariaLabel={this.label || this.text || ""}

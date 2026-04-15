@@ -211,19 +211,13 @@ darkModeRTL.decorators = [allScaleTreeBuilder];
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">
       <calcite-tree>
-        <calcite-tree-item label="test item" expanded id="two">
+        <calcite-tree-item label="nested items" expanded>
           Layer 2
           <calcite-tree slot="children">
-            <calcite-tree-item label="test item">
+            <calcite-tree-item label="dropdown item">
               <span class="title">Layer 2.1</span>
-              <calcite-dropdown placement="bottom-trailing">
-                <calcite-button
-                  appearance="transparent"
-                  color="neutral"
-                  icon-start="ellipsis"
-                  slot="trigger"
-                  id="trigger"
-                ></calcite-button>
+              <calcite-dropdown>
+                <calcite-button icon-start="ellipsis" id="trigger" slot="trigger"></calcite-button>
                 <calcite-dropdown-group>
                   <calcite-dropdown-item icon-start="trash">Remove</calcite-dropdown-item>
                 </calcite-dropdown-group>
@@ -231,16 +225,51 @@ export const OverflowingSubtree = (): string =>
             </calcite-tree-item>
           </calcite-tree>
         </calcite-tree-item>
-        <calcite-tree-item label="test item">
+        <calcite-tree-item label="single item">
           <span class="title">Layer 3</span>
+        </calcite-tree-item>
+        <calcite-tree-item expanded label="multiple flat items">
+          Layer 4
+          <calcite-tree slot="children">
+            <calcite-tree-item>Layer 4.1</calcite-tree-item>
+            <calcite-tree-item>Layer 4.2</calcite-tree-item>
+            <calcite-tree-item>Layer 4.3</calcite-tree-item>
+            <calcite-tree-item>Layer 4.4</calcite-tree-item>
+            <calcite-tree-item>Layer 4.5</calcite-tree-item>
+            <calcite-tree-item>Layer 4.6</calcite-tree-item>
+            <calcite-tree-item>Layer 4.7</calcite-tree-item>
+            <calcite-tree-item>Layer 4.8</calcite-tree-item>
+            <calcite-tree-item>Layer 4.9</calcite-tree-item>
+            <calcite-tree-item>Layer 4.10</calcite-tree-item>
+            <calcite-tree-item>Layer 4.11</calcite-tree-item>
+            <calcite-tree-item>Layer 4.12</calcite-tree-item>
+            <calcite-tree-item>Layer 4.13</calcite-tree-item>
+            <calcite-tree-item>Layer 4.14</calcite-tree-item>
+            <calcite-tree-item>Layer 4.15</calcite-tree-item>
+            <calcite-tree-item>Layer 4.16</calcite-tree-item>
+            <calcite-tree-item>Layer 4.17</calcite-tree-item>
+            <calcite-tree-item>Layer 4.18</calcite-tree-item>
+            <calcite-tree-item>Layer 4.19</calcite-tree-item>
+            <calcite-tree-item>Layer 4.20</calcite-tree-item>
+            <calcite-tree-item>Layer 4.21</calcite-tree-item>
+            <calcite-tree-item>Layer 4.22</calcite-tree-item>
+            <calcite-tree-item>Layer 4.23</calcite-tree-item>
+            <calcite-tree-item>Layer 4.24</calcite-tree-item>
+            <calcite-tree-item>Layer 4.25</calcite-tree-item>
+            <calcite-tree-item>Layer 4.26</calcite-tree-item>
+            <calcite-tree-item>Layer 4.27</calcite-tree-item>
+            <calcite-tree-item>Layer 4.28</calcite-tree-item>
+            <calcite-tree-item>Layer 4.29</calcite-tree-item>
+            <calcite-tree-item>Layer 4.30</calcite-tree-item>
+          </calcite-tree>
         </calcite-tree-item>
       </calcite-tree>
     </div>
     <script>
-      window.addEventListener("load", () => {
-        setTimeout(() => {
-          const dropdownTriggerEl = document.querySelector("calcite-button#trigger");
-          dropdownTriggerEl.click();
-        }, 1000);
-      });
+      (async () => {
+        const dropdownTriggerEl = document.querySelector("calcite-button#trigger");
+        await customElements.whenDefined("calcite-button");
+        await dropdownTriggerEl.componentOnReady();
+        dropdownTriggerEl.click();
+      })();
     </script>`;

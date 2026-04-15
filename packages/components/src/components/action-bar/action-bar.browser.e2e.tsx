@@ -260,6 +260,47 @@ describe("selection-mode", () => {
     );
     expect((action2 as any).menuOpen).toBe(true);
   });
+
+  it("keeps only one menu action open at a time", async () => {
+    const { el } = await mount<"calcite-action-bar">(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action buttonType="menu" id="menu-action-1" text="Menu 1">
+            <calcite-action slot="menu-actions" text="Item 1" />
+          </calcite-action>
+          <calcite-action buttonType="menu" id="menu-action-2" text="Menu 2">
+            <calcite-action slot="menu-actions" text="Item 2" />
+          </calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const action1 = el.querySelector("#menu-action-1");
+    const action2 = el.querySelector("#menu-action-2");
+    const action1Button = action1?.shadowRoot?.querySelector(`.${ACTION_CSS.button}`) as
+      | HTMLElement
+      | undefined;
+    const action2Button = action2?.shadowRoot?.querySelector(`.${ACTION_CSS.button}`) as
+      | HTMLElement
+      | undefined;
+
+    expect(action1Button).toBeTruthy();
+    expect(action2Button).toBeTruthy();
+
+    await userEvent.click(action1Button!);
+
+    await vi.waitFor(() => {
+      expect((action1 as any).menuOpen).toBe(true);
+      expect((action2 as any).menuOpen).toBe(false);
+    });
+
+    action2Button?.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, key: "Enter" }));
+
+    await vi.waitFor(() => {
+      expect((action1 as any).menuOpen).toBe(false);
+      expect((action2 as any).menuOpen).toBe(true);
+    });
+  });
 });
 
 describe("overflowing actions", () => {
