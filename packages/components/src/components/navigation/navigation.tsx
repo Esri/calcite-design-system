@@ -51,6 +51,10 @@ export class Navigation extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private logoElements: HTMLCalciteNavigationLogoElement[] = [];
+
+  private userElements: HTMLCalciteNavigationUserElement[] = [];
+
   private mutationObserver = createObserver("mutation", () => {
     this.updateNavigationLogo();
     this.updateNavigationUser();
@@ -150,12 +154,22 @@ export class Navigation extends LitElement {
   private handleUserSlotChange(event: Event): void {
     if (this.isPrimaryLevel()) {
       this.userSlotHasElements = slotChangeHasAssignedElement(event);
+      this.userElements = this.getNavigationElements<HTMLCalciteNavigationUserElement>(
+        event,
+        "calcite-navigation-user",
+      );
+      this.updateNavigationUser();
     }
   }
 
   private handleLogoSlotChange(event: Event): void {
     if (this.isPrimaryLevel()) {
       this.logoSlotHasElements = slotChangeHasAssignedElement(event);
+      this.logoElements = this.getNavigationElements<HTMLCalciteNavigationLogoElement>(
+        event,
+        "calcite-navigation-logo",
+      );
+      this.updateNavigationLogo();
     }
   }
 
@@ -204,25 +218,23 @@ export class Navigation extends LitElement {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   }
 
-  private getOwnedNavigationElements(slotName: string, selector: string): Element[] {
-    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
+  private getNavigationElements<T extends Element>(event: Event, selector: string): T[] {
+    const slot = event.target as HTMLSlotElement;
 
-    if (!slot) {
-      return [];
-    }
-
-    return slot.assignedElements({ flatten: true }).filter((item) => item.matches(selector));
+    return slot
+      .assignedElements({ flatten: true })
+      .filter((item): item is T => item.matches(selector));
   }
 
   private updateNavigationLogo(): void {
-    this.getOwnedNavigationElements(SLOTS.logo, "calcite-navigation-logo").forEach((item) => {
-      (item as HTMLCalciteNavigationLogoElement).scale = this.scale;
+    this.logoElements.forEach((item) => {
+      item.scale = this.scale;
     });
   }
 
   private updateNavigationUser(): void {
-    this.getOwnedNavigationElements(SLOTS.user, "calcite-navigation-user").forEach((item) => {
-      (item as HTMLCalciteNavigationUserElement).scale = this.scale;
+    this.userElements.forEach((item) => {
+      item.scale = this.scale;
     });
   }
 
