@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.32...@esri/calcite-components@5.1.0-next.33) (2026-04-15)
+
+### Bug Fixes
+
+- **link:** display underline properly when text breaks to multiple lines ([#13784](https://github.com/Esri/calcite-design-system/issues/13784)), closes [#13356](https://github.com/Esri/calcite-design-system/issues/13356)
+
 ## [5.1.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.31...@esri/calcite-components@5.1.0-next.32) (2026-04-14)
 
 ### Bug Fixes
