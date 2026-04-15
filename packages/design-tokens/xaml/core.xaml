@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-000" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-005" Color="#FFF7F7F7" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-010" Color="#FFF2F2F2" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-020" Color="#FFEBEBEB" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-030" Color="#FFDEDEDE" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-040" Color="#FFD4D4D4" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-050" Color="#FFC9C9C9" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-060" Color="#FFBFBFBF" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-070" Color="#FFB5B5B5" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-080" Color="#FFABABAB" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-090" Color="#FF9E9E9E" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-100" Color="#FF949494" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-110" Color="#FF8A8A8A" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-120" Color="#FF808080" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-130" Color="#FF757575" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-140" Color="#FF6B6B6B" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-150" Color="#FF616161" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-160" Color="#FF545454" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-170" Color="#FF4A4A4A" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-180" Color="#FF404040" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-190" Color="#FF363636" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-200" Color="#FF2B2B2B" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-210" Color="#FF212121" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-220" Color="#FF141414" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-230" Color="#FF0A0A0A" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-235" Color="#FF050505" />
+  <SolidColorBrush x:Key="calcite-color-neutral-blk-240" Color="#FF000000" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-010" Color="#FFEDF3F7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-020" Color="#FFD7E1E7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-030" Color="#FFC1CFD7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-040" Color="#FFACBCC6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-050" Color="#FF96AAB6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-060" Color="#FF8098A6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-070" Color="#FF647883" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-080" Color="#FF495860" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-090" Color="#FF2D373D" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-blue-l-bb-100" Color="#FF11171A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-010" Color="#FFE8F2F2" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-020" Color="#FFD7E8E8" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-030" Color="#FFC2D7D7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-040" Color="#FFB1C9C9" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-050" Color="#FF98B3B2" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-060" Color="#FF88A6A5" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-070" Color="#FF658584" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-080" Color="#FF4B6160" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-090" Color="#FF2F3D3D" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-blue-l-gb-100" Color="#FF121A1A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-010" Color="#FFF0F7F0" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-020" Color="#FFDDE7DD" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-030" Color="#FFCAD7CA" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-040" Color="#FFB7C6B6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-050" Color="#FFA4B6A3" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-060" Color="#FF91A690" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-070" Color="#FF728371" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-080" Color="#FF536053" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-090" Color="#FF343D34" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-green-l-gg-100" Color="#FF151A15" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-010" Color="#FFF4F7EB" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-020" Color="#FFE3E7D8" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-030" Color="#FFD2D7C5" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-040" Color="#FFC2C6B3" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-050" Color="#FFB1B6A0" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-060" Color="#FFA0A68D" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-070" Color="#FF7E836F" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-080" Color="#FF5D6051" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-090" Color="#FF3B3D33" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-green-l-yg-100" Color="#FF191A15" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-010" Color="#FFF7F1EB" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-020" Color="#FFE4DDD4" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-030" Color="#FFD1C8BE" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-040" Color="#FFBFB4A7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-050" Color="#FFAC9F91" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-060" Color="#FF998B7A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-070" Color="#FF796E60" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-080" Color="#FF5A5146" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-090" Color="#FF3A332B" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-brown-l-br-100" Color="#FF1A1611" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-010" Color="#FFF7F5E6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-020" Color="#FFE7E4D1" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-030" Color="#FFD7D3BC" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-040" Color="#FFC6C1A6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-050" Color="#FFB6B091" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-060" Color="#FFA69F7C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-070" Color="#FF837E61" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-080" Color="#FF605C47" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-090" Color="#FF3D3B2C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-yellow-l-yy-100" Color="#FF1A1911" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-010" Color="#FFFAF3EB" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-020" Color="#FFE9E0D5" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-030" Color="#FFD8CDBF" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-040" Color="#FFC8B9A8" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-050" Color="#FFB7A692" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-060" Color="#FFA6937C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-070" Color="#FF837461" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-080" Color="#FF605547" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-090" Color="#FF3D352C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-yellow-l-oy-100" Color="#FF1A1611" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-010" Color="#FFFAF1EB" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-020" Color="#FFE9DDD5" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-030" Color="#FFD8C9BF" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-040" Color="#FFC8B4A8" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-050" Color="#FFB7A092" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-060" Color="#FFA68C7C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-070" Color="#FF836E61" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-080" Color="#FF605047" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-090" Color="#FF3D322C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-orange-l-oo-100" Color="#FF1A1411" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-010" Color="#FFFAF3F0" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-020" Color="#FFE9DDD9" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-030" Color="#FFD8C8C1" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-040" Color="#FFC8B2AA" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-050" Color="#FFB79D92" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-060" Color="#FFA6877B" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-070" Color="#FF836B61" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-080" Color="#FF604E47" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-090" Color="#FF3D302C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-orange-l-ro-100" Color="#FF1A1311" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-010" Color="#FFFAF1F0" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-020" Color="#FFEDDFDD" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-030" Color="#FFDBC6C4" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-040" Color="#FFC8ADAA" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-050" Color="#FFBA9995" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-060" Color="#FFAB837E" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-070" Color="#FF876764" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-080" Color="#FF604A47" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-090" Color="#FF3D2E2C" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-red-l-rr-100" Color="#FF1A1211" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-010" Color="#FFFAF0F6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-020" Color="#FFE8D7E2" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-030" Color="#FFDBC2D2" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-040" Color="#FFC9ABBE" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-050" Color="#FFB897AB" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-060" Color="#FFA68097" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-070" Color="#FF856376" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-080" Color="#FF614755" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-090" Color="#FF3D2C35" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-pink-l-pk-100" Color="#FF1A1111" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-010" Color="#FFF5EDF7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-020" Color="#FFE1D6E4" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-030" Color="#FFCEBCD1" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-040" Color="#FFBAA8BF" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-050" Color="#FFA791AC" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-060" Color="#FF937A99" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-070" Color="#FF746079" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-080" Color="#FF56465A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-090" Color="#FF372B3A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-red-l-vr-100" Color="#FF18111A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-010" Color="#FFF0EDF7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-020" Color="#FFDCD8E7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-030" Color="#FFC8C3D7" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-040" Color="#FFB5AEC6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-050" Color="#FFA199B6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-060" Color="#FF8D84A6" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-070" Color="#FF6F6783" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-080" Color="#FF504B60" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-090" Color="#FF322E3D" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-100" Color="#FF13111A" />
+  <SolidColorBrush x:Key="calcite-color-low-saturation-violet-l-vv-1000" Color="#FF13111A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-010" Color="#FFDFEFFA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-020" Color="#FFC8E3F5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-030" Color="#FFB1D8F1" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-040" Color="#FF9BCCEC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-050" Color="#FF84C1E8" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-060" Color="#FF6DB5E3" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-070" Color="#FF548EB4" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-080" Color="#FF3A6884" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-090" Color="#FF2B465F" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-blue-m-bb-100" Color="#FF071A26" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-010" Color="#FFDBF2F1" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-020" Color="#FFBEEDEC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-030" Color="#FF9FE6E5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-040" Color="#FF8BE0DF" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-050" Color="#FF70D9D7" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-060" Color="#FF5CBFBC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-070" Color="#FF53A6A4" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-080" Color="#FF40807E" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-090" Color="#FF2A5958" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-blue-m-gb-100" Color="#FF102928" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-010" Color="#FFE4F0E4" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-020" Color="#FFCBE2CB" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-030" Color="#FFB2D4B2" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-040" Color="#FF9AC699" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-050" Color="#FF81B880" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-060" Color="#FF68AA67" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-070" Color="#FF548953" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-080" Color="#FF3F683F" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-090" Color="#FF2B472A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-green-m-gg-100" Color="#FF172616" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-010" Color="#FFF0F7DA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-020" Color="#FFE5EFC6" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-030" Color="#FFDAE7B1" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-040" Color="#FFCEDE9D" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-050" Color="#FFC3D688" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-060" Color="#FFB8CE74" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-070" Color="#FF90A15B" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-080" Color="#FF687442" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-090" Color="#FF3F4728" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-green-m-yg-100" Color="#FF171A0F" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-010" Color="#FFFAEDDF" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-020" Color="#FFEDD9C3" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-030" Color="#FFE0C6A8" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-040" Color="#FFD2B28C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-050" Color="#FFC59F71" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-060" Color="#FFB88B55" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-070" Color="#FF926D41" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-080" Color="#FF6C4F2D" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-090" Color="#FF45311A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-brown-m-br-100" Color="#FF1F1306" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-010" Color="#FFFAF7DC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-020" Color="#FFF6F0C1" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-030" Color="#FFF2E8A6" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-040" Color="#FFEDE18B" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-050" Color="#FFE9D970" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-060" Color="#FFE5D255" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-070" Color="#FFBCAA45" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-080" Color="#FF8A7D31" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-090" Color="#FF584F1C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-yellow-m-yy-100" Color="#FF262107" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-010" Color="#FFFFEDD6" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-020" Color="#FFFCE0BD" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-030" Color="#FFF8D2A4" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-040" Color="#FFF5C58C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-050" Color="#FFF1B773" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-060" Color="#FFEEAA5A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-070" Color="#FFBC8645" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-080" Color="#FF8A6130" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-090" Color="#FF583D1C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-yellow-m-oy-100" Color="#FF261807" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-010" Color="#FFFFECE0" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-020" Color="#FFFCDAC5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-030" Color="#FFF8C7AA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-040" Color="#FFF5B590" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-050" Color="#FFF1A275" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-060" Color="#FFEE905A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-070" Color="#FFBC7145" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-080" Color="#FF8A5131" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-090" Color="#FF58321C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-orange-m-oo-100" Color="#FF261207" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-010" Color="#FFF7E4DC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-020" Color="#FFF5D0C2" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-030" Color="#FFF3BBA7" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-040" Color="#FFF1A78D" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-050" Color="#FFEF9272" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-060" Color="#FFED7E58" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-070" Color="#FFBC6345" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-080" Color="#FF8A4731" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-090" Color="#FF582B1C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-orange-m-ro-100" Color="#FF27120C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-010" Color="#FFFADFDC" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-020" Color="#FFFCCAC5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-030" Color="#FFFFB9B0" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-040" Color="#FFF79E94" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-050" Color="#FFF5867A" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-060" Color="#FFEB6C5E" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-070" Color="#FFC25347" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-080" Color="#FF913D34" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-090" Color="#FF5E241E" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-red-m-rr-100" Color="#FF260A07" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-010" Color="#FFFADEF0" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-020" Color="#FFFACDEA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-030" Color="#FFF2B1DA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-040" Color="#FFEB9DCF" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-050" Color="#FFE688C2" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-060" Color="#FFE070B4" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-070" Color="#FFB8588F" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-080" Color="#FF8C4267" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-090" Color="#FF592440" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-pink-m-pk-100" Color="#FF260B0B" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-010" Color="#FFF6E1FA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-020" Color="#FFE9CEEE" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-030" Color="#FFDBBBE2" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-040" Color="#FFCEA8D5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-050" Color="#FFC095C9" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-060" Color="#FFB382BD" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-070" Color="#FF8E6397" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-080" Color="#FF6A4572" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-090" Color="#FF46264C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-red-m-vr-100" Color="#FF210726" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-010" Color="#FFECE6FF" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-020" Color="#FFDCD2F2" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-030" Color="#FFCCBEE5" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-040" Color="#FFBBAAD7" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-050" Color="#FFAB96CA" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-060" Color="#FF9B82BD" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-070" Color="#FF796397" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-080" Color="#FF584572" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-090" Color="#FF36264C" />
+  <SolidColorBrush x:Key="calcite-color-medium-saturation-violet-m-vv-100" Color="#FF140726" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-010" Color="#FFD6EFFF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-020" Color="#FF9FD4F3" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-030" Color="#FF77BDE7" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-040" Color="#FF50A7DA" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-050" Color="#FF2890CE" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-060" Color="#FF007AC2" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-070" Color="#FF00619B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-080" Color="#FF004874" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-090" Color="#FF00304D" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-blue-h-bb-100" Color="#FF001726" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-010" Color="#FFCEF5F4" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-020" Color="#FFAFEDEC" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-030" Color="#FF8FE6E5" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-040" Color="#FF5AE0DE" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-050" Color="#FF28CECB" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-060" Color="#FF00BAB5" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-070" Color="#FF009B98" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-080" Color="#FF007472" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-090" Color="#FF004D4C" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-blue-h-gb-100" Color="#FF002625" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-010" Color="#FFBDF2C4" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-020" Color="#FFA2E4AB" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-030" Color="#FF87D692" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-040" Color="#FF6BC878" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-050" Color="#FF50BA5F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-060" Color="#FF35AC46" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-070" Color="#FF288835" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-080" Color="#FF1A6324" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-090" Color="#FF0D3F14" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-green-h-gg-100" Color="#FF001A03" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-010" Color="#FFE5F7B4" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-020" Color="#FFD9EF9F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-030" Color="#FFCDE78A" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-040" Color="#FFC2E075" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-050" Color="#FFB6D860" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-060" Color="#FFAAD04B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-070" Color="#FF84A338" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-080" Color="#FF5E7526" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-090" Color="#FF384813" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-green-h-yg-100" Color="#FF121A00" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-010" Color="#FFFFF7CC" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-020" Color="#FFFEF3AD" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-030" Color="#FFFCEE8D" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-040" Color="#FFFBEA6E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-050" Color="#FFF9E54E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-060" Color="#FFEDD317" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-070" Color="#FFD9BC00" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-080" Color="#FFBFA200" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-090" Color="#FF8C7500" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-yellow-h-yy-100" Color="#FF5C4E00" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-010" Color="#FFFFE2BF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-020" Color="#FFFED3A1" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-030" Color="#FFFFC47D" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-040" Color="#FFFBB664" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-050" Color="#FFFFAF4F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-060" Color="#FFF89927" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-070" Color="#FFDA7C0B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-080" Color="#FF9A5B10" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-090" Color="#FF6D3F08" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-yellow-h-oy-100" Color="#FF402300" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-010" Color="#FFFFD8BF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-020" Color="#FFFDC39F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-030" Color="#FFFAAE7F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-040" Color="#FFF89960" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-050" Color="#FFF58440" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-060" Color="#FFF36F20" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-070" Color="#FFC65A18" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-080" Color="#FF9A4410" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-090" Color="#FF6D2F08" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-orange-h-oo-100" Color="#FF401900" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-010" Color="#FFFFC7B3" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-020" Color="#FFF8AF95" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-030" Color="#FFF09677" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-040" Color="#FFE97E5A" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-050" Color="#FFE1653C" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-060" Color="#FFDA4D1E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-070" Color="#FFAD3C16" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-080" Color="#FF802C0F" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-090" Color="#FF531B07" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-orange-h-ro-100" Color="#FF260A00" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-010" Color="#FFFFC6BF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-020" Color="#FFFFAAA1" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-030" Color="#FFF2877B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-040" Color="#FFF07062" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-050" Color="#FFE65240" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-060" Color="#FFD83020" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-070" Color="#FFA82B1E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-080" Color="#FF7C1D13" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-090" Color="#FF4F0E08" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-red-h-rr-100" Color="#FF210300" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-010" Color="#FFFFD1EF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-020" Color="#FFFABEE4" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-030" Color="#FFF2A5D6" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-040" Color="#FFEB8DC9" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-050" Color="#FFE673BB" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-060" Color="#FFE04EA6" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-070" Color="#FFBA2F7E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-080" Color="#FF851B52" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-090" Color="#FF590B32" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-pink-h-pk-100" Color="#FF260404" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-010" Color="#FFFADBFF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-020" Color="#FFE4BEEB" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-030" Color="#FFCFA1D7" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-040" Color="#FFB983C3" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-050" Color="#FFA466AF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-060" Color="#FF8E499B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-070" Color="#FF73377E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-080" Color="#FF572561" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-090" Color="#FF3C1243" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-red-h-vr-100" Color="#FF200026" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-010" Color="#FFE8D9FF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-020" Color="#FFCDB9EB" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-030" Color="#FFB39AD7" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-040" Color="#FF987AC3" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-050" Color="#FF7E5BAF" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-060" Color="#FF633B9B" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-070" Color="#FF4E2C7E" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-080" Color="#FF3A1E61" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-090" Color="#FF250F43" />
+  <SolidColorBrush x:Key="calcite-color-high-saturation-violet-h-vv-100" Color="#FF100026" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-blue-v-bb-110" Color="#FF80D1FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-blue-v-bb-120" Color="#FF59D6FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-blue-v-bb-140" Color="#FF3DB8FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-blue-v-bb-160" Color="#FF009AF2" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-blue-v-bb-180" Color="#FF0089DE" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-blue-v-gb-120" Color="#FF59FFFC" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-blue-v-gb-140" Color="#FF00F7F3" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-blue-v-gb-160" Color="#FF00E6E2" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-blue-v-gb-180" Color="#FF00CFCA" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-v-gg-110" Color="#FF9DF2A3" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-v-gg-120" Color="#FF6DF278" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-v-gg-140" Color="#FF3BED52" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-v-gg-160" Color="#FF00B81B" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-green-v-gg-180" Color="#FF00A118" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-green-v-yg-120" Color="#FFD7FF73" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-green-v-yg-140" Color="#FFBBED3B" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-green-v-yg-160" Color="#FF96CC00" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-green-v-yg-180" Color="#FF7FAB00" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-v-yy-120" Color="#FFFFF766" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-v-yy-140" Color="#FFFFEE33" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-v-yy-160" Color="#FFF5D000" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-yellow-v-yy-180" Color="#FFEBBA17" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-orange-yellow-v-oy-120" Color="#FFFFB54D" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-orange-yellow-v-oy-140" Color="#FFFF9500" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-orange-yellow-v-oy-160" Color="#FFE68600" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-orange-yellow-v-oy-180" Color="#FFC26B00" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-orange-v-ro-120" Color="#FFFF824D" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-orange-v-ro-140" Color="#FFFF4D00" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-orange-v-ro-160" Color="#FFDE4300" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-orange-v-ro-180" Color="#FFC93B00" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-v-rr-110" Color="#FFFE9989" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-v-rr-120" Color="#FFFF624D" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-v-rr-140" Color="#FFFF0015" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-v-rr-160" Color="#FFD90012" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-red-v-rr-180" Color="#FFB3000F" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-pink-v-pk-120" Color="#FFFF66C2" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-pink-v-pk-140" Color="#FFFF19A4" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-pink-v-pk-160" Color="#FFD11486" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-pink-v-pk-180" Color="#FFC00073" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-red-v-vr-120" Color="#FFEA80FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-red-v-vr-140" Color="#FFDD33FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-red-v-vr-160" Color="#FFAC08CC" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-red-v-vr-180" Color="#FF83009E" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-v-vv-120" Color="#FFB580FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-v-vv-140" Color="#FF974DFF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-v-vv-160" Color="#FF8129FF" />
+  <SolidColorBrush x:Key="calcite-color-vibrant-violet-v-vv-180" Color="#FF6A0BE6" />
+  <SolidColorBrush x:Key="calcite-color-dark-green-d-gg-410" Color="#FF44ED51" />
+  <SolidColorBrush x:Key="calcite-color-dark-green-d-gg-420" Color="#FF36DA43" />
+  <SolidColorBrush x:Key="calcite-color-dark-green-d-gg-430" Color="#FF11AD1D" />
+  <SolidColorBrush x:Key="calcite-color-dark-yellow-d-yy-410" Color="#FFFFE24D" />
+  <SolidColorBrush x:Key="calcite-color-dark-yellow-d-yy-420" Color="#FFFFC900" />
+  <SolidColorBrush x:Key="calcite-color-dark-yellow-d-yy-430" Color="#FFF4B000" />
+  <SolidColorBrush x:Key="calcite-color-dark-red-d-rr-410" Color="#FFFE7863" />
+  <SolidColorBrush x:Key="calcite-color-dark-red-d-rr-420" Color="#FFFE583E" />
+  <SolidColorBrush x:Key="calcite-color-dark-red-d-rr-430" Color="#FFF3381B" />
+  <SolidColorBrush x:Key="calcite-color-dark-blue-d-bb-410" Color="#FF40B9FF" />
+  <SolidColorBrush x:Key="calcite-color-dark-blue-d-bb-420" Color="#FF00A0FF" />
+  <SolidColorBrush x:Key="calcite-color-dark-blue-d-bb-430" Color="#FF0087D7" />
+  <x:String x:Key="calcite-container-size-0">0</x:String>
+  <x:String x:Key="calcite-container-size-154">154px</x:String>
+  <x:String x:Key="calcite-container-size-320">320px</x:String>
+  <x:String x:Key="calcite-container-size-328">328px</x:String>
+  <x:String x:Key="calcite-container-size-476">476px</x:String>
+  <x:String x:Key="calcite-container-size-504">504px</x:String>
+  <x:String x:Key="calcite-container-size-678">678px</x:String>
+  <x:String x:Key="calcite-container-size-768">768px</x:String>
+  <x:String x:Key="calcite-container-size-854">854px</x:String>
+  <x:String x:Key="calcite-container-size-1152">1152px</x:String>
+  <x:String x:Key="calcite-container-size-1440">1440px</x:String>
+  <x:String x:Key="calcite-font-family-andale-mono">'Andale Mono'</x:String>
+  <x:String x:Key="calcite-font-family-avenir-next-pro">'Avenir Next LT Pro'</x:String>
+  <x:String x:Key="calcite-font-family-avenir-next-world">'Avenir Next World'</x:String>
+  <x:String x:Key="calcite-font-family-avenir-next">'Avenir Next'</x:String>
+  <x:String x:Key="calcite-font-family-avenir">Avenir</x:String>
+  <x:String x:Key="calcite-font-family-consolas">Consolas</x:String>
+  <x:String x:Key="calcite-font-family-helvetica-neue">'Helvetica Neue'</x:String>
+  <x:String x:Key="calcite-font-family-lucida-console">'Lucida Console'</x:String>
+  <x:String x:Key="calcite-font-family-monaco">Monaco</x:String>
+  <x:String x:Key="calcite-font-family-monospace">monospace</x:String>
+  <x:String x:Key="calcite-font-family-sans-serif">sans-serif</x:String>
+  <x:String x:Key="calcite-font-style-italic">italic</x:String>
+  <x:String x:Key="calcite-font-weight-ultralight">200</x:String>
+  <x:String x:Key="calcite-font-weight-thin">100</x:String>
+  <x:String x:Key="calcite-font-weight-light">300</x:String>
+  <x:String x:Key="calcite-font-weight-regular">400</x:String>
+  <x:String x:Key="calcite-font-weight-medium">500</x:String>
+  <x:String x:Key="calcite-font-weight-medium-italic">"Medium Italic"</x:String>
+  <x:String x:Key="calcite-font-weight-demi">600</x:String>
+  <x:String x:Key="calcite-font-weight-bold">700</x:String>
+  <x:String x:Key="calcite-font-weight-extrabold">800</x:String>
+  <x:String x:Key="calcite-font-weight-black">900</x:String>
+  <x:String x:Key="calcite-font-weight-heavy">900</x:String>
+  <x:String x:Key="calcite-font-text-decoration-none">none</x:String>
+  <x:String x:Key="calcite-font-text-decoration-underline">underline</x:String>
+  <x:String x:Key="calcite-font-text-case-none">none</x:String>
+  <x:String x:Key="calcite-font-text-case-uppercase">uppercase</x:String>
+  <x:String x:Key="calcite-font-text-case-lowercase">lowercase</x:String>
+  <x:String x:Key="calcite-font-text-case-capitalize">capitalize</x:String>
+  <x:String x:Key="calcite-opacity-0">0</x:String>
+  <x:String x:Key="calcite-opacity-4">0.04</x:String>
+  <x:String x:Key="calcite-opacity-8">0.08</x:String>
+  <x:String x:Key="calcite-opacity-10">0.1</x:String>
+  <x:String x:Key="calcite-opacity-12">0.12</x:String>
+  <x:String x:Key="calcite-opacity-16">0.16</x:String>
+  <x:String x:Key="calcite-opacity-20">0.2</x:String>
+  <x:String x:Key="calcite-opacity-30">0.3</x:String>
+  <x:String x:Key="calcite-opacity-40">0.4</x:String>
+  <x:String x:Key="calcite-opacity-50">0.5</x:String>
+  <x:String x:Key="calcite-opacity-60">0.6</x:String>
+  <x:String x:Key="calcite-opacity-70">0.7</x:String>
+  <x:String x:Key="calcite-opacity-80">0.8</x:String>
+  <x:String x:Key="calcite-opacity-85">0.85</x:String>
+  <x:String x:Key="calcite-opacity-90">0.9</x:String>
+  <x:String x:Key="calcite-opacity-92">0.92</x:String>
+  <x:String x:Key="calcite-opacity-96">0.96</x:String>
+  <x:String x:Key="calcite-opacity-100">1</x:String>
+  <x:String x:Key="calcite-size-1">1px</x:String>
+  <x:String x:Key="calcite-size-2">2px</x:String>
+  <x:String x:Key="calcite-size-4">4px</x:String>
+  <x:String x:Key="calcite-size-6">6px</x:String>
+  <x:String x:Key="calcite-size-8">8px</x:String>
+  <x:String x:Key="calcite-size-10">10px</x:String>
+  <x:String x:Key="calcite-size-12">12px</x:String>
+  <x:String x:Key="calcite-size-14">14px</x:String>
+  <x:String x:Key="calcite-size-16">16px</x:String>
+  <x:String x:Key="calcite-size-20">20px</x:String>
+  <x:String x:Key="calcite-size-24">24px</x:String>
+  <x:String x:Key="calcite-size-28">28px</x:String>
+  <x:String x:Key="calcite-size-32">32px</x:String>
+  <x:String x:Key="calcite-size-36">36px</x:String>
+  <x:String x:Key="calcite-size-40">40px</x:String>
+  <x:String x:Key="calcite-size-44">44px</x:String>
+  <x:String x:Key="calcite-size-48">48px</x:String>
+  <x:String x:Key="calcite-size-56">56px</x:String>
+  <x:String x:Key="calcite-size-64">64px</x:String>
+  <x:String x:Key="calcite-size-72">72px</x:String>
+  <x:String x:Key="calcite-size-80">80px</x:String>
+  <x:String x:Key="calcite-size-96">96px</x:String>
+  <x:String x:Key="calcite-size-112">112px</x:String>
+  <x:String x:Key="calcite-size-128">128px</x:String>
+  <x:String x:Key="calcite-size-144">144px</x:String>
+  <x:String x:Key="calcite-size-160">160px</x:String>
+  <x:String x:Key="calcite-size-192">192px</x:String>
+  <x:String x:Key="calcite-size-224">224px</x:String>
+  <x:String x:Key="calcite-size-256">256px</x:String>
+  <x:String x:Key="calcite-size-288">288px</x:String>
+  <x:String x:Key="calcite-size-9999">9999px</x:String>
+  <x:String x:Key="calcite-size-none">0</x:String>
+  <x:String x:Key="calcite-size-relative-50">50%</x:String>
+  <x:String x:Key="calcite-size-relative-100">100%</x:String>
+  <x:String x:Key="calcite-size-relative-125">125%</x:String>
+  <x:String x:Key="calcite-size-relative-137">137.5%</x:String>
+  <x:String x:Key="calcite-size-relative-150">150%</x:String>
+  <x:String x:Key="calcite-size-relative-162">162.5%</x:String>
+  <x:String x:Key="calcite-size-relative-200">200%</x:String>
+  <x:String x:Key="calcite-size-relative-auto">auto</x:String>
+  <x:String x:Key="calcite-size-relative-normal">normal</x:String>
+  <x:String x:Key="calcite-size-rem-1">1rem</x:String>
+  <x:String x:Key="calcite-size-rem-2">2rem</x:String>
+  <x:String x:Key="calcite-size-rem-3">3rem</x:String>
+  <x:String x:Key="calcite-size-rem-4">4rem</x:String>
+  <x:String x:Key="calcite-size-rem-5">5rem</x:String>
+  <x:String x:Key="calcite-size-rem-0-625">0.625rem</x:String>
+  <x:String x:Key="calcite-size-rem-0-75">0.75rem</x:String>
+  <x:String x:Key="calcite-size-rem-0-875">0.875rem</x:String>
+  <x:String x:Key="calcite-size-rem-1-125">1.125rem</x:String>
+  <x:String x:Key="calcite-size-rem-1-25">1.25rem</x:String>
+  <x:String x:Key="calcite-size-rem-1-5">1.5rem</x:String>
+  <x:String x:Key="calcite-size-rem-1-625">1.625rem</x:String>
+  <x:String x:Key="calcite-size-rem-2-5">2.5rem</x:String>
+  <x:String x:Key="calcite-size-rem-3-5">3.5rem</x:String>
+  <x:String x:Key="calcite-z-index-0">-999999</x:String>
+  <x:String x:Key="calcite-z-index-1">1</x:String>
+  <x:String x:Key="calcite-z-index-3">300</x:String>
+  <x:String x:Key="calcite-z-index-4">400</x:String>
+  <x:String x:Key="calcite-z-index-5">500</x:String>
+  <x:String x:Key="calcite-z-index-6">600</x:String>
+  <x:String x:Key="calcite-z-index-7">700</x:String>
+  <x:String x:Key="calcite-z-index-8">800</x:String>
+  <x:String x:Key="calcite-z-index-9">900</x:String>
+  <x:String x:Key="calcite-shadow-0">0 0 0 0 rgba(0, 0, 0, 0)</x:String>
+  <x:String x:Key="calcite-shadow-1">0 2px 8px 0 rgba(0, 0, 0, 0.04)</x:String>
+  <x:String x:Key="calcite-shadow-2">0 4px 16px 0 rgba(0, 0, 0, 0.08)</x:String>
+  <x:String x:Key="calcite-shadow-3">0 4px 20px 0 rgba(0, 0, 0, 0.08)</x:String>
+  <x:String x:Key="calcite-shadow-4">0 12px 32px -2px rgba(0, 0, 0, 0.1)</x:String>
+</ResourceDictionary>
