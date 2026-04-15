@@ -1,4 +1,4 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useSortable } from "./useSortable";
@@ -33,20 +33,17 @@ describe("useSortable", () => {
     onDragEnd(): void {}
     onDragStart(): void {}
     onDragSort(): void {}
-
-    override render(): JsxNode {
-      return <div />;
-    }
-  }
-
-  class DragEnabledTest extends Test {
-    override dragEnabled = true;
   }
 
   beforeEach(() => {
     createSpy.mockClear();
     destroySpy.mockClear();
   });
+
+  const setupDragEnabled = (el: Test["el"]) => {
+    el.dragEnabled = true;
+    el.sortable.reset();
+  };
 
   it("does not create Sortable when dragEnabled is false", async () => {
     await mount(Test);
@@ -55,13 +52,17 @@ describe("useSortable", () => {
   });
 
   it("creates Sortable when dragEnabled is true", async () => {
-    await mount(DragEnabledTest);
+    await mount(Test, {
+      afterConnect: setupDragEnabled,
+    });
 
     expect(createSpy).toHaveBeenCalledTimes(1);
   });
 
   it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
-    const { component } = await mount(DragEnabledTest);
+    const { component } = await mount(Test, {
+      afterConnect: setupDragEnabled,
+    });
 
     component.dragEnabled = false;
     component.sortable.reset();
