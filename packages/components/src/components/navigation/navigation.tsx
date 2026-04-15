@@ -13,6 +13,8 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
+import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navigation-logo/navigation-logo";
+import type { NavigationUser as HTMLCalciteNavigationUserElement } from "../navigation-user/navigation-user";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -129,6 +131,10 @@ export class Navigation extends LitElement {
     }
   }
 
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
   // #endregion
 
   // #region Private Methods
@@ -194,15 +200,21 @@ export class Navigation extends LitElement {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   }
 
+  private getOwnedNavigationElements(selector: string): Element[] {
+    return Array.from(this.el.querySelectorAll(selector)).filter(
+      (item) => item.closest("calcite-navigation") === this.el,
+    );
+  }
+
   private updateNavigationLogo(): void {
-    this.el.querySelectorAll("calcite-navigation-logo").forEach((item) => {
-      item.scale = this.scale;
+    this.getOwnedNavigationElements("calcite-navigation-logo").forEach((item) => {
+      (item as HTMLCalciteNavigationLogoElement).scale = this.scale;
     });
   }
 
   private updateNavigationUser(): void {
-    this.el.querySelectorAll("calcite-navigation-user").forEach((item) => {
-      item.scale = this.scale;
+    this.getOwnedNavigationElements("calcite-navigation-user").forEach((item) => {
+      (item as HTMLCalciteNavigationUserElement).scale = this.scale;
     });
   }
 

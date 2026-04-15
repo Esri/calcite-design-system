@@ -21,7 +21,7 @@ describe("defaults", () => {
       },
       {
         propertyName: "scale",
-        defaultValue: undefined,
+        defaultValue: "m",
       },
       {
         propertyName: "target",

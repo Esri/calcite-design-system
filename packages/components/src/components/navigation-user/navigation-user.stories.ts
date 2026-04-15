@@ -19,7 +19,7 @@ export default {
     textDisabled: false,
     thumbnail: "",
     userId: "",
-    userName: "eabbey_123",
+    username: "eabbey_123",
   },
   argTypes: {
     scale: {

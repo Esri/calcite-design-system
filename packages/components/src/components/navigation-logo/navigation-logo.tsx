@@ -72,11 +72,11 @@ export class NavigationLogo extends LitElement {
   @property() thumbnail: string;
 
   /**
-   * Specifies the size of the component inherited from `calcite-navigation`.
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 

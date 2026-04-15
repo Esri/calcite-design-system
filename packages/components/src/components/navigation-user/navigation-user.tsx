@@ -41,11 +41,11 @@ export class NavigationUser extends LitElement {
   @property({ reflect: true }) textDisabled = false;
 
   /**
-   * Specifies the size of the component inherited from `calcite-navigation`.
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
   @property() thumbnail: string;
