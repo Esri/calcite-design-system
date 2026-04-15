@@ -1,0 +1,20 @@
+name: Monday.com Issue Sync TESTING
+
+on:
+  workflow_call:
+    inputs:
+      issue_number:
+        required: true
+        type: number
+
+jobs:
+  test-monday-sync:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: "Test Monday Sync"
+        run: echo "Testing Monday Sync for issue #${{ inputs.issue_number }}"
