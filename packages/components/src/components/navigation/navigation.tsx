@@ -124,8 +124,12 @@ export class Navigation extends LitElement {
     this.updateNavigationUser();
   }
 
-  override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("scale") ||
+      changes.has("logoSlotHasElements") ||
+      changes.has("userSlotHasElements")
+    ) {
       this.updateNavigationLogo();
       this.updateNavigationUser();
     }
@@ -200,20 +204,24 @@ export class Navigation extends LitElement {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   }
 
-  private getOwnedNavigationElements(selector: string): Element[] {
-    return Array.from(this.el.querySelectorAll(selector)).filter(
-      (item) => item.closest("calcite-navigation") === this.el,
-    );
+  private getOwnedNavigationElements(slotName: string, selector: string): Element[] {
+    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
+
+    if (!slot) {
+      return [];
+    }
+
+    return slot.assignedElements({ flatten: true }).filter((item) => item.matches(selector));
   }
 
   private updateNavigationLogo(): void {
-    this.getOwnedNavigationElements("calcite-navigation-logo").forEach((item) => {
+    this.getOwnedNavigationElements(SLOTS.logo, "calcite-navigation-logo").forEach((item) => {
       (item as HTMLCalciteNavigationLogoElement).scale = this.scale;
     });
   }
 
   private updateNavigationUser(): void {
-    this.getOwnedNavigationElements("calcite-navigation-user").forEach((item) => {
+    this.getOwnedNavigationElements(SLOTS.user, "calcite-navigation-user").forEach((item) => {
       (item as HTMLCalciteNavigationUserElement).scale = this.scale;
     });
   }
