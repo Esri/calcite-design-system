@@ -6,6 +6,9 @@ on:
       issue_number:
         required: true
         type: number
+  push:
+    branches:
+      - "isaacbraun/monday-devtopia-usage"
 
 jobs:
   test-monday-sync:
