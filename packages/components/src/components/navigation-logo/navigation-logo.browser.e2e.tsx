@@ -20,6 +20,10 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "target",
         defaultValue: undefined,
       },
@@ -46,6 +50,10 @@ describe("reflects", () => {
       {
         propertyName: "rel",
         value: "external",
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
       {
         propertyName: "target",

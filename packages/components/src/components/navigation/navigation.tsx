@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
+import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -13,6 +14,8 @@ import {
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { createObserver } from "../../utils/observers";
+import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
@@ -46,6 +49,11 @@ export class Navigation extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private mutationObserver = createObserver("mutation", () => {
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+  });
+
   // #endregion
 
   // #region State Properties
@@ -78,6 +86,9 @@ export class Navigation extends LitElement {
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   // #endregion
 
   // #region Public Methods
@@ -100,6 +111,23 @@ export class Navigation extends LitElement {
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.updateNavigationLogo();
+      this.updateNavigationUser();
+    }
+  }
 
   // #endregion
 
@@ -164,6 +192,18 @@ export class Navigation extends LitElement {
 
   private isPrimaryLevel(): boolean {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
+  }
+
+  private updateNavigationLogo(): void {
+    this.el.querySelectorAll("calcite-navigation-logo").forEach((item) => {
+      item.scale = this.scale;
+    });
+  }
+
+  private updateNavigationUser(): void {
+    this.el.querySelectorAll("calcite-navigation-user").forEach((item) => {
+      item.scale = this.scale;
+    });
   }
 
   // #endregion

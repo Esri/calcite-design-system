@@ -10,6 +10,10 @@ describe("defaults", () => {
         propertyName: "textDisabled",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: undefined,
+      },
     ],
   );
 });
@@ -21,6 +25,10 @@ describe("reflects", () => {
       {
         propertyName: "active",
         value: "true",
+      },
+      {
+        propertyName: "scale",
+        value: "m",
       },
       {
         propertyName: "textDisabled",

@@ -9,12 +9,38 @@
  * @prop --calcite-navigation-border-color: Specifies the component's border color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-navigation-primary-height
+// --calcite-internal-navigation-secondary-height
+// --calcite-internal-navigation-tertiary-height
+
 @use "../../styles/includes";
 
 @include includes.base-component();
 
 :host {
   @apply block;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-navigation-primary-height: 3rem;
+  --calcite-internal-navigation-secondary-height: 2.25rem;
+  --calcite-internal-navigation-tertiary-height: 2.25rem;
+}
+
+:host([scale="m"]) {
+  --calcite-internal-navigation-primary-height: 4rem;
+  --calcite-internal-navigation-secondary-height: 3rem;
+  --calcite-internal-navigation-tertiary-height: 3rem;
+}
+
+:host([scale="l"]) {
+  --calcite-internal-navigation-primary-height: 4.75rem;
+  --calcite-internal-navigation-secondary-height: 4rem;
+  --calcite-internal-navigation-tertiary-height: 4rem;
 }
 
 .container {
@@ -46,15 +72,15 @@
 }
 
 .primary {
-  @apply h-16;
+  block-size: var(--calcite-internal-navigation-primary-height);
 }
 
 .secondary {
-  @apply h-12;
+  block-size: var(--calcite-internal-navigation-secondary-height);
 }
 
 .tertiary {
-  @apply h-12;
+  block-size: var(--calcite-internal-navigation-tertiary-height);
 }
 
 .container-content {
