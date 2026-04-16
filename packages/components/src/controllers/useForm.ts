@@ -96,6 +96,9 @@ export interface FormComponent<T = any>
    */
   defaultValue: T;
 
+  /** Sets the component's form validity state. */
+  setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
+
   /** The validation icon to display. */
   validationIcon?: IconName | boolean;
 
@@ -383,8 +386,11 @@ export const useForm = <T extends FormComponent>(
           inputDelegate.required = !!valueMissing;
           ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
 
-          others.forEach((other: any) => {
-            if ((valueMissing && !other.validity?.valueMissing) || (!valueMissing && other.validity?.valueMissing)) {
+          others.forEach((other) => {
+            if (
+              ((valueMissing && !other.validity?.valueMissing) || (!valueMissing && other.validity?.valueMissing)) &&
+              other.setValidity
+            ) {
               other.setValidity(validity, validationMessage);
             }
           });
