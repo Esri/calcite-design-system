@@ -20,7 +20,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ArrowType, AutoplayType } from "./interfaces";
+import { ArrowType, AutoplayType, PaginationPosition } from "./interfaces";
 import { styles } from "./carousel.scss";
 
 declare global {
@@ -154,6 +154,9 @@ export class Carousel extends LitElement {
    * When `true`, the component's pagination controls are hidden.
    */
   @property() paginationDisabled: boolean = false;
+
+  /** When `true`, specifies the position of the component's pagination controls. */
+  @property({ reflect: true }) paginationPosition: PaginationPosition = "bottom";
 
   /**
    * Made into a prop for testing purposes only

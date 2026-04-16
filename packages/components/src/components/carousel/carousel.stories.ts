@@ -3,12 +3,21 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
+import type { PaginationPosition } from "./interfaces";
 
 const { arrowType } = ATTRIBUTES;
+const paginationPosition: PaginationPosition[] = ["bottom", "top"];
 
 type CarouselStoryArgs = Pick<
   Carousel,
-  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType" | "paginationDisabled"
+  | "controlOverlay"
+  | "disabled"
+  | "autoplayDuration"
+  | "autoplay"
+  | "label"
+  | "arrowType"
+  | "paginationDisabled"
+  | "paginationPosition"
 >;
 
 export default {
@@ -21,10 +30,15 @@ export default {
     label: "Example carousel label",
     arrowType: arrowType.defaultValue,
     paginationDisabled: false,
+    paginationPosition: paginationPosition[0],
   },
   argTypes: {
     arrowType: {
       options: arrowType.values,
+      control: { type: "select" },
+    },
+    paginationPosition: {
+      options: paginationPosition,
       control: { type: "select" },
     },
   },
@@ -40,6 +54,7 @@ export const simple = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -89,6 +104,7 @@ export const simpleSingleItem = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -110,6 +126,7 @@ export const simpleManyItems = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -187,6 +204,7 @@ export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -264,6 +282,7 @@ export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -471,6 +490,18 @@ export const carouselWithAutoplayNoOverlay = (): string =>
       </calcite-carousel-item>
     </calcite-carousel>
   </div>`;
+
+export const simplePaginationTop = (args: CarouselStoryArgs): string => simple(args);
+simplePaginationTop.args = {
+  paginationPosition: "top",
+};
+
+export const simpleOverlayPaginationTopInline = (args: CarouselStoryArgs): string => simple(args);
+simpleOverlayPaginationTopInline.args = {
+  arrowType: "inline",
+  controlOverlay: true,
+  paginationPosition: "top",
+};
 
 export const themed_simple = (): string =>
   html` <div style="width:600px;height:400px;">

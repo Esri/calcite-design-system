@@ -126,6 +126,10 @@
   }
 }
 
+:host([pagination-position="top"]) .container {
+  flex-direction: column-reverse;
+}
+
 .container--edged:not(.container--overlaid) {
   padding-inline: var(--calcite-internal-carousel-pagination-space-wide);
   inline-size: calc(100% - var(--calcite-internal-carousel-pagination-space-wide) * 2);
@@ -210,6 +214,11 @@ calcite-carousel-item:not([selected]) {
   inset-block-start: unset;
   inset-block-end: 0;
   inset-inline: 0;
+}
+
+:host([pagination-position="top"]) .container--overlaid .pagination {
+  inset-block-start: 0;
+  inset-block-end: unset;
 }
 
 .pagination-item.autoplay-control {
