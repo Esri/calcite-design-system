@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="core.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+  <SolidColorBrush x:Key="calcite-color-surface-1" Color="{Binding Source={StaticResource calcite-color-neutral-blk-210}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-surface-2" Color="{Binding Source={StaticResource calcite-color-neutral-blk-200}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-surface-3" Color="{Binding Source={StaticResource calcite-color-neutral-blk-190}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-surface-4" Color="{Binding Source={StaticResource calcite-color-neutral-blk-180}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-surface-highlight" Color="{Binding Source={StaticResource calcite-color-medium-saturation-blue-m-bb-090}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-background" Color="{Binding Source={StaticResource calcite-color-neutral-blk-210}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-background-none" Color="{Binding Source={StaticResource calcite-color-neutral-blk-000}, Path=Color}" Opacity="{StaticResource calcite-opacity-0}" />
+  <SolidColorBrush x:Key="calcite-color-foreground-1" Color="{Binding Source={StaticResource calcite-color-neutral-blk-200}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-foreground-2" Color="{Binding Source={StaticResource calcite-color-neutral-blk-190}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-foreground-3" Color="{Binding Source={StaticResource calcite-color-neutral-blk-180}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-foreground-current" Color="{Binding Source={StaticResource calcite-color-medium-saturation-blue-m-bb-090}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-1" Color="{Binding Source={StaticResource calcite-color-neutral-blk-000}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-2" Color="{Binding Source={StaticResource calcite-color-neutral-blk-060}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-3" Color="{Binding Source={StaticResource calcite-color-neutral-blk-090}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-inverse" Color="{Binding Source={StaticResource calcite-color-neutral-blk-220}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-link" Color="{Binding Source={StaticResource calcite-color-dark-blue-d-bb-420}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-text-highlight" Color="{Binding Source={StaticResource calcite-color-high-saturation-blue-h-bb-010}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-border-1" Color="{Binding Source={StaticResource calcite-color-neutral-blk-160}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-border-2" Color="{Binding Source={StaticResource calcite-color-neutral-blk-170}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-border-3" Color="{Binding Source={StaticResource calcite-color-neutral-blk-180}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-border-input" Color="{Binding Source={StaticResource calcite-color-neutral-blk-130}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-border-ghost" Color="{Binding Source={StaticResource calcite-color-neutral-blk-130}, Path=Color}" Opacity="{StaticResource calcite-opacity-30}" />
+  <SolidColorBrush x:Key="calcite-color-border-white" Color="{Binding Source={StaticResource calcite-color-neutral-blk-005}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-brand" Color="{Binding Source={StaticResource calcite-color-vibrant-blue-v-bb-160}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-brand-hover" Color="{Binding Source={StaticResource calcite-color-dark-blue-d-bb-410}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-brand-press" Color="{Binding Source={StaticResource calcite-color-vibrant-blue-v-bb-110}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-brand-underline" Color="{Binding Source={StaticResource calcite-color-dark-blue-d-bb-420}, Path=Color}" Opacity="{StaticResource calcite-opacity-40}" />
+  <SolidColorBrush x:Key="calcite-color-inverse" Color="{Binding Source={StaticResource calcite-color-neutral-blk-005}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-inverse-hover" Color="{Binding Source={StaticResource calcite-color-neutral-blk-010}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-inverse-press" Color="{Binding Source={StaticResource calcite-color-neutral-blk-020}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-info" Color="{Binding Source={StaticResource calcite-color-dark-blue-d-bb-420}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-info-hover" Color="{Binding Source={StaticResource calcite-color-dark-blue-d-bb-410}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-info-press" Color="{Binding Source={StaticResource calcite-color-vibrant-blue-v-bb-110}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-success" Color="{Binding Source={StaticResource calcite-color-dark-green-d-gg-420}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-success-hover" Color="{Binding Source={StaticResource calcite-color-vibrant-green-v-gg-120}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-success-press" Color="{Binding Source={StaticResource calcite-color-vibrant-green-v-gg-110}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-warning" Color="{Binding Source={StaticResource calcite-color-high-saturation-orange-yellow-h-oy-060}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-warning-hover" Color="{Binding Source={StaticResource calcite-color-high-saturation-orange-yellow-h-oy-050}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-warning-press" Color="{Binding Source={StaticResource calcite-color-high-saturation-orange-yellow-h-oy-030}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-danger" Color="{Binding Source={StaticResource calcite-color-dark-red-d-rr-420}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-danger-hover" Color="{Binding Source={StaticResource calcite-color-dark-red-d-rr-410}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-status-danger-press" Color="{Binding Source={StaticResource calcite-color-vibrant-red-v-rr-110}, Path=Color}" />
+  <SolidColorBrush x:Key="calcite-color-transparent" Color="{Binding Source={StaticResource calcite-color-neutral-blk-000}, Path=Color}" Opacity="{StaticResource calcite-opacity-0}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-hover" Color="{Binding Source={StaticResource calcite-color-neutral-blk-000}, Path=Color}" Opacity="{StaticResource calcite-opacity-12}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-press" Color="{Binding Source={StaticResource calcite-color-neutral-blk-000}, Path=Color}" Opacity="{StaticResource calcite-opacity-16}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-scrim" Color="{Binding Source={StaticResource calcite-color-neutral-blk-240}, Path=Color}" Opacity="{StaticResource calcite-opacity-85}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-tint" Color="{Binding Source={StaticResource calcite-color-neutral-blk-200}, Path=Color}" Opacity="{StaticResource calcite-opacity-80}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-inverse-hover" Color="{Binding Source={StaticResource calcite-color-neutral-blk-240}, Path=Color}" Opacity="{StaticResource calcite-opacity-4}" />
+  <SolidColorBrush x:Key="calcite-color-transparent-inverse-press" Color="{Binding Source={StaticResource calcite-color-neutral-blk-240}, Path=Color}" Opacity="{StaticResource calcite-opacity-8}" />
+  <SolidColorBrush x:Key="calcite-color-focus" Color="{Binding Source={StaticResource calcite-color-brand}, Path=Color}" />
+</ResourceDictionary>
