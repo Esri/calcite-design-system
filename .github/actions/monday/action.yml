@@ -103,5 +103,8 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Selected action: Sync Action Changes");
+          core.notice("Selected action: Sync Action Changes");
           const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.js')
           await action({github, context, core})
+          core.endGroup();
