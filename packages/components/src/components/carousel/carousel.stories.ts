@@ -496,12 +496,36 @@ simplePaginationTop.args = {
   paginationPosition: "top",
 };
 
-export const simpleOverlayPaginationTopInline = (args: CarouselStoryArgs): string => simple(args);
-simpleOverlayPaginationTopInline.args = {
-  arrowType: "inline",
-  controlOverlay: true,
-  paginationPosition: "top",
-};
+export const simpleOverlayPaginationTopInline = (): string =>
+  html` <div style="width:600px;height:400px;">
+    <style>
+      .bg-image-example {
+        color: red;
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
+        background-size: cover;
+        padding: 1rem;
+        height: 300px;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 32px;
+      }
+    </style>
+    <calcite-carousel control-overlay arrow-type="inline" pagination-position="top">
+      <calcite-carousel-item label="Carousel Item 1">
+        <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
 
 export const themed_simple = (): string =>
   html` <div style="width:600px;height:400px;">
