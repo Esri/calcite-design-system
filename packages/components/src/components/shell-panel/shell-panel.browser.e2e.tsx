@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, describe } from "vitest";
-import { commands, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";

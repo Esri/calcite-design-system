@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { commands, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   reflects,
