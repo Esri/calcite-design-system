@@ -153,9 +153,10 @@ function displayValidationMessage(component: FormComponent, { status, message, i
 }
 
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
-  const { disabled, required } = component;
+  const { disabled, name, required } = component;
 
   input.disabled = disabled;
+  input.name = name;
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -247,7 +248,7 @@ export const useForm = <T extends FormComponent>(
     let lastAssociatedForm: HTMLFormElement | null = null;
     let effectiveInputType = options.inputType;
 
-    if (effectiveInputType && effectiveInputType !== "radio") {
+    if (effectiveInputType) {
       // intentionally not appended to the DOM, we just need it for validation
       inputDelegate = document.createElement("input");
     }
@@ -367,29 +368,24 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
-      } else if (effectiveInputType === "radio") {
-        const { ownerDocument } = component.el;
-        const group = Array.from(ownerDocument.querySelectorAll(`${component.el.tagName}[name="${component.name}"]`));
-        const required = group.some((radioButton) => (radioButton as FormComponent).required);
-        const checked = group.some((radioButton) => (radioButton as CheckableFormComponent).checked);
-        const others = group.filter((radioButton) => radioButton !== component.el);
-        if (required && !checked) {
-          validity = { valueMissing: true };
-          validationMessage = "Please select one of these options";
+        if (effectiveInputType === "radio") {
+          const { ownerDocument } = component.el;
+          const group = Array.from(ownerDocument.querySelectorAll(`${component.el.tagName}[name="${component.name}"]`));
+          const required = group.some((radioButton) => (radioButton as FormComponent).required);
+          const checked = group.some((radioButton) => (radioButton as CheckableFormComponent).checked);
+          const others = group.filter((radioButton) => radioButton !== component.el);
+
+          const valueMissing = required && !checked;
+          inputDelegate.required = !!valueMissing;
+          ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+
           others.forEach((other: any) => {
-            if (!other.validity?.valueMissing) {
-              other.validity = { valueMissing: true };
+            if ((valueMissing && !other.validity?.valueMissing) || (!valueMissing && other.validity?.valueMissing)) {
+              other.validity = validity;
             }
           });
         } else {
-          validity = { valueMissing: false };
-          validationMessage = "";
-          others.forEach((other: any) => {
-            if (other.validity?.valueMissing) {
-              other.validity = { valueMissing: false };
-            }
-          });
+          ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
         }
       }
 
