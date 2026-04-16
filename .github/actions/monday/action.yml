@@ -21,7 +21,7 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
-          core.startGroup("Selected action: Create Task");
+          core.startGroup("Create Task");
           const action = require('${{ github.action_path }}/../../scripts/monday/createTask.js')
           await action({github, context, core})
           core.endGroup();
@@ -34,8 +34,7 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
-          core.startGroup("Selected action: Update Label on Task");
-          core.notice("Selected action: Update Label on Task");
+          core.startGroup("Update Label on Task");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateLabels.js')
           await action({github, context, core})
           core.endGroup();
@@ -48,8 +47,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Remove Label from Task");
           const action = require('${{ github.action_path }}/../../scripts/monday/removeLabel.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Update Milestone"
       if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
@@ -59,8 +60,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Update Milestone");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateMilestone.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Update Task Title"
       if: github.event.action == 'edited'
@@ -70,8 +73,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Update Task Title");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateTitle.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Update Task Assignee"
       if: github.event.action == 'assigned' || github.event.action == 'unassigned'
@@ -81,8 +86,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Update Task Assignee");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateAssignee.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Update Task Status"
       if: github.event.action == 'closed' || github.event.action == 'reopened'
@@ -92,8 +99,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Update Task Status");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateState.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Sync Action Changes"
       if: github.event.inputs.event_type == 'SyncActionChanges'
@@ -103,8 +112,7 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
-          core.startGroup("Selected action: Sync Action Changes");
-          core.notice("Selected action: Sync Action Changes");
+          core.startGroup("Sync Action Changes");
           const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.js')
           await action({github, context, core})
           core.endGroup();
