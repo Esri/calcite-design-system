@@ -344,8 +344,14 @@ export class ActionBar extends LitElement {
       this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     }
 
-    if (changes.has("expanded") && this.hasUpdated) {
+    if (
+      changes.has("expanded") &&
+      (this.hasUpdated || (this.expanded !== false && !this.expandDisabled))
+    ) {
       this.expandedHandler();
+    }
+
+    if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.calciteActionBarExpand.emit();
       } else {

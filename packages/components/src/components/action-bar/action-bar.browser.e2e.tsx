@@ -373,4 +373,34 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions[1]).toBeInViewport();
     await expect.element(triggerActions[2]).toBeInViewport();
   });
+
+  it("should show text label on overflow menu when action-bar is initially expanded", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expanded layout="horizontal">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="copy" text="Copy" />
+          <calcite-action icon="paste" text="Paste" />
+          <calcite-action icon="download" text="Download" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    el.style.width = "150px";
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    // The action-group queries the overflow action button from its shadow DOM
+    const actionGroup = el.querySelector("calcite-action-group") as any;
+    expect(actionGroup).toBeTruthy();
+
+    // The overflow action is rendered in the action-group's shadow DOM
+    const overflowAction = actionGroup?.shadowRoot?.querySelector(
+      "calcite-action[button-type='overflow']",
+    );
+
+    expect(overflowAction).toBeTruthy();
+    expect(overflowAction?.textEnabled).toBe(true);
+  });
 });
