@@ -223,10 +223,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/mpriour">
-      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
+    <a href="https://github.com/brendan-vincent-rice">
+      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
       <br />
-      <sub><b>Matt Priour</b></sub>
+      <sub><b>Brendan Rice</b></sub>
     </a>
   </td>
   <td align="center">
@@ -239,10 +239,10 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/brendan-vincent-rice">
-      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
+    <a href="https://github.com/mpriour">
+      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
       <br />
-      <sub><b>Brendan Rice</b></sub>
+      <sub><b>Matt Priour</b></sub>
     </a>
   </td>
   <td align="center">
