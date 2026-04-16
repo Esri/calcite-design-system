@@ -370,9 +370,13 @@ export const useForm = <T extends FormComponent>(
         syncInternalInput(component, inputDelegate);
         if (effectiveInputType === "radio") {
           const { ownerDocument } = component.el;
-          const group = Array.from(ownerDocument.querySelectorAll(`${component.el.tagName}[name="${component.name}"]`));
-          const required = group.some((radioButton) => (radioButton as FormComponent).required);
-          const checked = group.some((radioButton) => (radioButton as CheckableFormComponent).checked);
+          const group = Array.from(
+            ownerDocument.querySelectorAll<CheckableFormComponent["el"]>(
+              `${component.el.tagName}[name="${component.name}"]`,
+            ),
+          );
+          const required = group.some((radioButton) => radioButton.required);
+          const checked = group.some((radioButton) => radioButton.checked);
           const others = group.filter((radioButton) => radioButton !== component.el);
 
           const valueMissing = required && !checked;
