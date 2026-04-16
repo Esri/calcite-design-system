@@ -11,4 +11,5 @@ runs:
   steps:
     - name: Test Monday Sync
       shell: bash
-      run: echo "Testing Monday Sync for issue #${{ inputs.issue_number }}"
+      run: |
+        echo "Testing Monday Sync for issue #${{ inputs.issue_number }}"
