@@ -1,0 +1,14 @@
+name: Monday.com Issue Sync TESTING
+description: Test Monday.com sync for a GitHub issue
+
+inputs:
+  issue_number:
+    description: The issue number to sync
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Test Monday Sync
+      shell: bash
+      run: echo "Testing Monday Sync for issue #${{ inputs.issue_number }}"
