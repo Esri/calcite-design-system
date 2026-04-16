@@ -403,4 +403,64 @@ describe("overflowing actions", () => {
     expect(overflowAction).toBeTruthy();
     expect(overflowAction?.textEnabled).toBe(true);
   });
+
+  it("continues managing overflow-mode after reflected updates and subsequent mutations", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group id="managed-group">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const managedGroup = el.querySelector<HTMLElement>("#managed-group");
+
+    expect(managedGroup).toBeTruthy();
+
+    await vi.waitFor(() => {
+      expect(managedGroup?.getAttribute("overflow-mode")).toBe("disabled");
+    });
+
+    el.append(document.createElement("div"));
+
+    await vi.waitFor(() => {
+      expect(managedGroup?.getAttribute("overflow-mode")).toBe("disabled");
+    });
+
+    el.overflowActionsDisabled = false;
+
+    await vi.waitFor(() => {
+      expect(managedGroup?.getAttribute("overflow-mode")).toBeNull();
+    });
+  });
+
+  it("keeps dynamically added authored overflow-mode groups user-managed", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group id="managed-group">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const managedGroup = el.querySelector<HTMLElement>("#managed-group");
+    const authoredGroup = document.createElement("calcite-action-group") as HTMLElement;
+    authoredGroup.id = "authored-group";
+    authoredGroup.setAttribute("overflow-mode", "disabled");
+    authoredGroup.append(document.createElement("calcite-action"));
+
+    el.append(authoredGroup);
+
+    await vi.waitFor(() => {
+      expect(managedGroup?.getAttribute("overflow-mode")).toBe("disabled");
+      expect(authoredGroup.getAttribute("overflow-mode")).toBe("disabled");
+    });
+
+    el.overflowActionsDisabled = false;
+
+    await vi.waitFor(() => {
+      expect(managedGroup?.getAttribute("overflow-mode")).toBeNull();
+      expect(authoredGroup.getAttribute("overflow-mode")).toBe("disabled");
+    });
+  });
 });

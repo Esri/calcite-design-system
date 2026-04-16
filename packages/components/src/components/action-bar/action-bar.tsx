@@ -68,6 +68,10 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][] = [];
 
+  private authoredOverflowModeGroups = new WeakSet<ActionGroup["el"]>();
+
+  private trackedOverflowModeGroups = new WeakSet<ActionGroup["el"]>();
+
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
@@ -437,8 +441,14 @@ export class ActionBar extends LitElement {
   private markAuthoredOverflowModes(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     groups.forEach((group) => {
+      if (this.trackedOverflowModeGroups.has(group)) {
+        return;
+      }
+
+      this.trackedOverflowModeGroups.add(group);
+
       if (group.hasAttribute("overflow-mode")) {
-        group.dataset.overflowModeAuthoredByUser = "true";
+        this.authoredOverflowModeGroups.add(group);
       }
     });
   }
@@ -450,7 +460,7 @@ export class ActionBar extends LitElement {
       group.layout = this.layout;
       group.scale = this.scale;
       // Only programmatically manage overflow-mode if it wasn't explicitly authored by user
-      const wasAuthoredByUser = group.dataset.overflowModeAuthoredByUser === "true";
+      const wasAuthoredByUser = this.authoredOverflowModeGroups.has(group);
 
       if (!wasAuthoredByUser) {
         if (this.overflowActionsDisabled) {

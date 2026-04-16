@@ -44,16 +44,23 @@ describe("messageOverrides", () => {
 });
 
 describe("expand functionality", () => {
-  it("should not modify actions within an action-menu", async () => {
+  it("should not modify actions within an overflow menu slot", async () => {
     const page = await newE2EPage({
       html: html`<calcite-action-bar expanded>
         <calcite-action-group>
           <calcite-action text-enabled id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
         <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
+          <calcite-action button-type="overflow" text="More" label="More" icon="ellipsis" text-enabled>
+            <calcite-action
+              id="menu-action"
+              slot="menu-actions"
+              text-enabled
+              text="Save"
+              label="Save"
+              icon="save"
+            ></calcite-action>
+          </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>`,
     });
@@ -523,9 +530,16 @@ describe("theme", () => {
           <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
         <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
+          <calcite-action button-type="overflow" text="More" label="More" icon="ellipsis" text-enabled>
+            <calcite-action
+              id="menu-action"
+              slot="menu-actions"
+              text-enabled
+              text="Save"
+              label="Save"
+              icon="save"
+            ></calcite-action>
+          </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>`,
       {
@@ -551,9 +565,16 @@ describe("theme", () => {
           <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
         <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
+          <calcite-action button-type="overflow" text="More" label="More" icon="ellipsis" text-enabled>
+            <calcite-action
+              id="menu-action"
+              slot="menu-actions"
+              text-enabled
+              text="Save"
+              label="Save"
+              icon="save"
+            ></calcite-action>
+          </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>`,
       {

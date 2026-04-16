@@ -8,10 +8,6 @@ export const queryActions = (el: HTMLElement): Action["el"][] => {
       return false;
     }
 
-    if (action.closest("calcite-action-menu")) {
-      return false;
-    }
-
     return true;
   });
 };
