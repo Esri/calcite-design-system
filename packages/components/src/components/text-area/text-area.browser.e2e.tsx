@@ -12,6 +12,7 @@ import {
   t9n,
   formAssociated,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -40,6 +41,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
       {
         propertyName: "wrap",

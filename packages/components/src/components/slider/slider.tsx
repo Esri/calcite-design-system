@@ -28,7 +28,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
 import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./interfaces";
 import { styles } from "./slider.scss";
@@ -331,21 +331,9 @@ export class Slider extends LitElement implements LabelableComponent {
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's value. */
   @property({ reflect: true })
@@ -375,7 +363,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

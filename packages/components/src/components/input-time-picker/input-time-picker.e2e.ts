@@ -7,7 +7,6 @@ import { formatTimePart, getMeridiemOrder } from "../../utils/time";
 import { accessible, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
-import { openClose } from "../../tests/commonTests";
 import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
@@ -70,14 +69,6 @@ it("resets initial value to empty when it is not a valid time value", async () =
   const inputTimePicker = await page.find("calcite-input-time-picker");
 
   expect(await inputTimePicker.getProperty("value")).toBe("");
-});
-
-describe("openClose", () => {
-  openClose("calcite-input-time-picker");
-
-  describe("initially open", () => {
-    openClose.initial("calcite-input-time-picker");
-  });
 });
 
 it("allows resetting after value is set programmatically, modified via the time-picker then reset", async () => {

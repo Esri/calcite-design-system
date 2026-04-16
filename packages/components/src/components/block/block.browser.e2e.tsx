@@ -12,6 +12,7 @@ import {
   handlesActionMenuPlacements,
   t9n,
   disabled,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -109,6 +110,10 @@ describe("setFocus", () => {
         focusTargetSelector: `.${blockSectionClass}`,
       },
     );
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) => mount("calcite-block", mountOptions));
   });
 });
 

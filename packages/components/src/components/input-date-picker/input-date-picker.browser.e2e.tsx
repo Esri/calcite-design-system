@@ -11,20 +11,27 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
   formAssociated,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
   defaults(
     () => mount("calcite-input-date-picker"),
     [
       {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
+        propertyName: "calendars",
+        defaultValue: 2,
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
       },
       {
         propertyName: "status",
@@ -39,8 +46,8 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "calendars",
-        defaultValue: 2,
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -49,6 +56,12 @@ describe("defaults", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-date-picker`), {
     shadowFocusTargetSelector: "calcite-input-text",
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(<calcite-input-date-picker value="2021-12-08" />, mountOptions),
+    );
   });
 });
 
@@ -85,6 +98,8 @@ describe.skip("disabled", () => {
 });
 
 describe("is form-associated", () => {
+  mockConsole();
+
   describe("supports single value", () => {
     formAssociated(() => mount("calcite-input-date-picker"), {
       testValue: "1985-03-23",

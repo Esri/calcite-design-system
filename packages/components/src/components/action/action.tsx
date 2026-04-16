@@ -164,13 +164,17 @@ export class Action extends LitElement {
    */
   @property() text!: string;
 
-  /** When `true`, displays `text` adjacent to the `icon`. */
+  /**
+   * When `true`, displays `text` adjacent to the `icon`.
+   *
+   * When `true` and the component is used as a child of `calcite-action-bar`, the text will be shown initially regardless of the parent components `expanded` state.
+   */
   @property({ reflect: true }) textEnabled = false;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -193,7 +197,7 @@ export class Action extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

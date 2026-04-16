@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
-import { makeGenericController } from "@arcgis/lumina/controllers";
+import { bypassReadOnly, makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
@@ -401,7 +401,9 @@ export const useForm = <T extends FormComponent>(
       elementInternals.setValidity(validity, validationMessage);
 
       if ("validity" in component) {
-        component.validity = elementInternals.validity;
+        bypassReadOnly(() => {
+          component.validity = elementInternals.validity;
+        });
       }
     }
 
