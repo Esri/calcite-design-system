@@ -385,7 +385,7 @@ export const useForm = <T extends FormComponent>(
 
           others.forEach((other: any) => {
             if ((valueMissing && !other.validity?.valueMissing) || (!valueMissing && other.validity?.valueMissing)) {
-              other.validity = validity;
+              other.setValidity(validity, validationMessage);
             }
           });
         } else {

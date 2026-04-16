@@ -10,7 +10,7 @@ import { Scale } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -108,19 +108,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /**
    * The component's value.
@@ -149,6 +137,16 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.containerRef.value, options);
+  }
+
+  /**
+   * Sets the component's validity state.
+   *
+   * @param options ValidityState
+   */
+  @method()
+  async setValidity(validity: ValidityStateFlags, validationMessage: string = ""): Promise<void> {
+    this.elementInternals.setValidity(validity, validationMessage);
   }
 
   //#endregion
