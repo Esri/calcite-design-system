@@ -10,7 +10,7 @@ class DemoForm extends HTMLElement {
   disconnectedCallback() {
     this.removeEventListener("submit", this.onFormSubmit);
     this.removeEventListener("formdata", this.onFormData);
-    this.removeEventListener("invalid", this.onFormInvalid);
+    this.removeEventListener("invalid", this.onFormInvalid, true);
   }
 
   onFormSubmit(event: SubmitEvent) {
