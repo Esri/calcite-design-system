@@ -43,14 +43,15 @@ on:
           - added
           - removed
 jobs:
-  determine-action:
+  sync-issue:
     runs-on: ubuntu-latest
     permissions:
       issues: write
       contents: read
     steps:
       - uses: actions/checkout@v6
-      - uses: ./.github/actions/monday
+      - name: Sync Issue to Monday.com
+        uses: ./.github/actions/monday
         with:
           monday_key: ${{ secrets.MONDAY_KEY }}
           monday_board: ${{ secrets.MONDAY_BOARD }}

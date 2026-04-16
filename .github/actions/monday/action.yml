@@ -21,8 +21,10 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Selected action: Create Task");
           const action = require('${{ github.action_path }}/../../scripts/monday/createTask.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Update Label on Task"
       if: github.event.action == 'labeled' && github.event.label.name != 'monday.com sync'
