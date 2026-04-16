@@ -34,8 +34,11 @@ runs:
         MONDAY_BOARD: ${{ inputs.monday_board }}
       with:
         script: |
+          core.startGroup("Selected action: Update Label on Task");
+          core.notice("Selected action: Update Label on Task");
           const action = require('${{ github.action_path }}/../../scripts/monday/updateLabels.js')
           await action({github, context, core})
+          core.endGroup();
 
     - name: "Remove Label from Task"
       if: github.event.action == 'unlabeled'
