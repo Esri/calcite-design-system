@@ -9,10 +9,10 @@ const { includesLabel, notInLifecycle } = require("./utils");
 /**
  * @param {NodeJS.ProcessEnv} env
  * @param {import('@actions/core')} core
- * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string }}
+ * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; REPO: "calcite-documentation" | "calcite-design-system"; }}
  */
 function assertMondayEnv(env, core) {
-  if (!env.MONDAY_KEY || !env.MONDAY_BOARD) {
+  if (!env.MONDAY_KEY || !env.MONDAY_BOARD || (env.REPO !== "calcite-documentation" && env.REPO !== "calcite-design-system")) {
     core.setFailed("A Monday.com env variable is not set.");
     process.exit(1);
   }
@@ -25,13 +25,14 @@ function assertMondayEnv(env, core) {
  */
 module.exports = function Monday(issue, core, updateIssueBody) {
   assertMondayEnv(process.env, core);
-  const { MONDAY_KEY, MONDAY_BOARD } = process.env;
+  const { MONDAY_KEY, MONDAY_BOARD, REPO } = process.env;
   if (!issue) {
     core.setFailed("No GitHub issue provided.");
     process.exit(1);
   }
 
   const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
+  const isDoc = REPO === "calcite-design-system";
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;
@@ -54,19 +55,23 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     title: { id: "name", title: "Item" },
     issueNumber: { id: "numeric_mknk2xhh", title: "Issue Number" },
     link: { id: "link", title: "GH Link" },
-    designers: { id: "people", title: "Designer", type: "multiAppendable" },
+    designers: {
+      id: isDoc ? "multiple_person_mkt2rtfv" : "people",
+      title: "Designer",
+      type: "multiAppendable"
+    },
     developers: {
-      id: "multiple_person_mkt920b0",
+      id: isDoc ? "multiple_person_mkt2q89j" : "multiple_person_mkt920b0",
       title: "Developer",
       type: "multiAppendable",
     },
     productEngineers: {
-      id: "multiple_person_mkt9pzj9",
+      id: isDoc ? "multiple_person_mkt2hhzm" : "multiple_person_mkt9pzj9",
       title: "Verified by",
       type: "multiAppendable",
     },
     allAssignees: {
-      id: "multiple_person_mm0pwfy",
+      id: isDoc ? "multiple_person_mkznz4wx" : "multiple_person_mm0pwfy",
       title: "Github Assignee",
       type: "multiAppendable",
     },
@@ -74,18 +79,22 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     date: { id: "date6", title: "Milestone" },
     priority: { id: "priority", title: "Priority" },
     typeDropdown: {
-      id: "dropdown_mkwhjde2",
+      id: isDoc ? "dropdown_mkxjwv7h" : "dropdown_mkwhjde2",
       title: "Issue Type",
       type: "multiMutable",
     },
-    product: { id: "dropdown_mkwzz3b", title: "Esri Team", type: "multiMutable" },
-    designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
-    devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
-    designIssue: { id: "color_mkswbke0", title: "Design Issue" },
-    stalled: { id: "color_mkv79bbx", title: "Stalled" },
-    blocked: { id: "color_mkv7x1gw", title: "Blocked" },
-    spike: { id: "color_mkrt20dy", title: "Spike" },
-    figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
+    product: {
+      id: isDoc ? "dropdown_mkxpnbj6" : "dropdown_mkwzz3b",
+      title: "Esri Team",
+      type: "multiMutable"
+    },
+    designEstimate: { id: isDoc ? "color_mkqr3y8a" : "numeric_mkw8yzkt", title: "Design Estimate" },
+    devEstimate: { id: isDoc ? "numeric_mksvm3v7" : "numeric_mkswahrw", title: "Dev Estimate" },
+    designIssue: { id: isDoc ? "color_mkrdhk8" : "color_mkswbke0", title: "Design Issue" },
+    stalled: { id: isDoc ? "color_mktksrja" : "color_mkv79bbx", title: "Stalled" },
+    blocked: { id: isDoc ? "color_mkv259x0" : "color_mkv7x1gw", title: "Blocked" },
+    spike: { id: isDoc ? "color_mkt5vd8a" : "color_mkrt20dy", title: "Spike" },
+    figmaChanges: { id: isDoc ? "color_mkt58h3r" : "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
     /* eslint-enable @cspell/spellchecker */
   };
