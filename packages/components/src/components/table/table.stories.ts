@@ -1948,7 +1948,7 @@ const stickyHeaderStoryGrid = html`<div
 export const stickyHeader = (): string => stickyHeaderStoryGrid;
 
 export const tablesWithOverflow = (): string => html`
-  <div style="display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-items: flex-start;">
+  <div style="display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); align-items: flex-start;">
     <calcite-table caption="Simple table" style="block-size: 20rem;inline-size: 300px;">
       <calcite-table-row slot="table-header">
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
@@ -1965,6 +1965,46 @@ export const tablesWithOverflow = (): string => html`
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
         <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table bordered caption="Simple table" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table bordered caption="Simple table" sticky-header style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table selection-mode="multiple" page-size="8" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table sticky-header selection-mode="multiple" page-size="8" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
       </calcite-table-row>
       ${stickyHeaderBodyRows}
     </calcite-table>
