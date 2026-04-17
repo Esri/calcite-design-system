@@ -496,7 +496,7 @@ simplePaginationTop.args = {
   paginationPosition: "top",
 };
 
-export const simpleOverlayPaginationTopInline = (): string =>
+export const simpleOverlayPaginationTopEdge = (): string =>
   html` <div style="width:600px;height:400px;">
     <style>
       .bg-image-example {
@@ -510,7 +510,7 @@ export const simpleOverlayPaginationTopInline = (): string =>
         line-height: 32px;
       }
     </style>
-    <calcite-carousel control-overlay arrow-type="inline" pagination-position="top">
+    <calcite-carousel control-overlay arrow-type="edge" pagination-position="top">
       <calcite-carousel-item label="Carousel Item 1">
         <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
       </calcite-carousel-item>
