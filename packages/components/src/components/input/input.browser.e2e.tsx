@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands, page, userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,
@@ -16,6 +17,7 @@ import {
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
@@ -184,6 +186,144 @@ describe("is form-associated", () => {
       validation: true,
     });
   }
+});
+
+describe("clearable", () => {
+  it("renders clear button", async () => {
+    await mount<Input>(<calcite-input clearable value="John Doe" />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
+  });
+
+  it("does not render clear button when clearable is not requested", async () => {
+    await mount<Input>(<calcite-input />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    await mount<Input>(<calcite-input clearable value="" />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("clears value on clear button click", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(input);
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+  });
+
+  it("clears value on escape key press", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+  });
+
+  it("receives event when clear button is clicked", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when input is cleared via escape key", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when type is search and clear button is clicked", async () => {
+    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when type is search and input is cleared via escape key", async () => {
+    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
+    const { el } = await mount<Input>(<calcite-input value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("John Doe");
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+  });
+
+  it("disables clear button when input is disabled", async () => {
+    await mount<Input>(<calcite-input clearable disabled value="John Doe" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+
+  it("disables clear button when input is readOnly", async () => {
+    await mount<Input>(<calcite-input clearable readOnly value="John Doe" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
 });
 
 describe("nudging", () => {

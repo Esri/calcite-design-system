@@ -6,6 +6,7 @@ export { formAssociated } from "./form-associated";
 export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";
 export { internalLabel } from "./internal-label";
+export { openClose } from "./open-close";
 export { reflects } from "./reflects";
 export { renders } from "./renders";
 export { slots } from "./slots";

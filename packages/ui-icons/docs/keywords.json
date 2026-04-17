@@ -1918,7 +1918,7 @@
   },
   "nodes-unmerge": {
     "alias": ["3.25.2", "arrows", "separate points", "separate nodes", "unmerge nodes", "unmerge points"],
-    "category": "Arrows",
+    "category": "Charts and Graphs",
     "release": "3.25.2",
     "codepoint": 59813
   },

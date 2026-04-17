@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -23,10 +23,6 @@ describe("labelable", () => {
 
 describe("labelable range", () => {
   labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
-});
-
-describe("openClose", () => {
-  openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
 });
 
 describe("event emitting when the value changes", () => {
