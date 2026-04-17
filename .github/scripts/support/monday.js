@@ -6,13 +6,16 @@ const {
 } = require("./resources");
 const { includesLabel, notInLifecycle } = require("./utils");
 
+const REPO_CALCITE = "Esri/calcite-design-system";
+const REPO_DOCS = "ArcGISDevelopers/calcite-documentation";
+
 /**
  * @param {NodeJS.ProcessEnv} env
  * @param {import('@actions/core')} core
- * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; REPO: "calcite-documentation" | "calcite-design-system"; }}
+ * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; GITHUB_REPO: typeof REPO_CALCITE | typeof REPO_DOCS; }}
  */
 function assertMondayEnv(env, core) {
-  if (!env.MONDAY_KEY || !env.MONDAY_BOARD || (env.REPO !== "calcite-documentation" && env.REPO !== "calcite-design-system")) {
+  if (!env.MONDAY_KEY || !env.MONDAY_BOARD || (env.GITHUB_REPO !== REPO_CALCITE && env.GITHUB_REPO !== REPO_DOCS)) {
     core.setFailed("A Monday.com env variable is not set.");
     process.exit(1);
   }
@@ -25,14 +28,14 @@ function assertMondayEnv(env, core) {
  */
 module.exports = function Monday(issue, core, updateIssueBody) {
   assertMondayEnv(process.env, core);
-  const { MONDAY_KEY, MONDAY_BOARD, REPO } = process.env;
+  const { MONDAY_KEY, MONDAY_BOARD, GITHUB_REPO } = process.env;
   if (!issue) {
     core.setFailed("No GitHub issue provided.");
     process.exit(1);
   }
 
   const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
-  const isDoc = REPO === "calcite-design-system";
+  const isDoc = GITHUB_REPO === REPO_DOCS;
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;

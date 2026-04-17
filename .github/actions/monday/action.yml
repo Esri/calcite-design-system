@@ -19,7 +19,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Create Task");
@@ -33,7 +33,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Update Label on Task");
@@ -47,7 +47,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Remove Label from Task");
@@ -61,7 +61,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Update Milestone");
@@ -75,7 +75,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Update Task Title");
@@ -89,7 +89,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Update Task Assignee");
@@ -103,7 +103,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Update Task Status");
@@ -117,7 +117,7 @@ runs:
       env:
         MONDAY_KEY: ${{ inputs.monday_key }}
         MONDAY_BOARD: ${{ inputs.monday_board }}
-        REPO: ${{ github.repository }}
+        GITHUB_REPO: ${{ github.repository }}
       with:
         script: |
           core.startGroup("Sync Action Changes");
