@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { commands, page, userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,
