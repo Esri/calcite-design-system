@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, describe } from "vitest";
-import { commands, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -94,10 +95,9 @@ describe("shell-panel updateSize public method", () => {
       const initialSize = 320;
       const overrideSize = 400;
 
-      const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
+      const { panel, content, component } = await setupVerticalPanel(initialSize);
 
-      handle.focus();
-      await userEvent.keyboard("{ArrowRight}");
+      await userEvent.keyboard("{Tab}{ArrowRight}");
       expect(getComputedStyle(content).inlineSize).not.toBe(initialSize);
 
       await panel.updateSize({ inline: overrideSize });
@@ -114,12 +114,12 @@ describe("shell-panel updateSize public method", () => {
       const overrideSize = 400;
 
       const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
-
-      await userEvent.click(handle);
       const handleRect = handle.getBoundingClientRect();
+
+      await userEvent.hover(handle);
       await commands.mouseDown();
       await commands.mouseMove(
-        handleRect.left + handleRect.width / 2,
+        handleRect.left + handleRect.width / 2 + 10,
         handleRect.top + handleRect.height / 2,
       );
       await commands.mouseUp();
@@ -165,10 +165,9 @@ describe("shell-panel updateSize public method", () => {
       const initialSize = 200;
       const overrideSize = 250;
 
-      const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
+      const { panel, content, component } = await setupHorizontalPanel(initialSize);
 
-      handle.focus();
-      await userEvent.keyboard("{ArrowDown}");
+      await userEvent.keyboard("{Tab}{ArrowDown}");
       const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
       expect(afterKeyboard).not.toBe(initialSize);
 
@@ -186,12 +185,12 @@ describe("shell-panel updateSize public method", () => {
       const overrideSize = 250;
 
       const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
-
-      await userEvent.click(handle);
       const handleRect = handle.getBoundingClientRect();
+
+      await userEvent.hover(handle);
       await commands.mouseMove(
         handleRect.left + handleRect.width / 2,
-        handleRect.top + handleRect.height / 2,
+        handleRect.top + handleRect.height / 2 - 10,
       );
       await commands.mouseDown();
       await commands.mouseUp();

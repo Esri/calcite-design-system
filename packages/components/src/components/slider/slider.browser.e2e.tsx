@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands, Locator, page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,

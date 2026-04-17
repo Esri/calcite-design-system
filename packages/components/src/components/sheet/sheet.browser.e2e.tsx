@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { commands, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   reflects,
@@ -154,9 +155,8 @@ describe("sheet updateSize public method", () => {
       const initialSize = 320;
       const overrideSize = 400;
 
-      const { sheet, content, resizeHandle, component } = await setupInlineSheet(initialSize);
-      resizeHandle.focus();
-      await userEvent.keyboard("{ArrowRight}");
+      const { sheet, content, component } = await setupInlineSheet(initialSize);
+      await userEvent.keyboard("{Tab}{ArrowRight}");
       expect(getComputedStyle(content).inlineSize).not.toBe(`${initialSize}px`);
 
       await sheet.updateSize({ inline: overrideSize });
@@ -173,14 +173,14 @@ describe("sheet updateSize public method", () => {
       const overrideSize = 400;
 
       const { sheet, content, resizeHandle, component } = await setupInlineSheet(initialSize);
-      await userEvent.click(resizeHandle);
-      const handleRect = resizeHandle.getBoundingClientRect();
 
       expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
 
+      const handleRect = resizeHandle.getBoundingClientRect();
       const startX = handleRect.left + handleRect.width / 2;
       const startY = handleRect.top + handleRect.height / 2;
 
+      await userEvent.hover(resizeHandle);
       await commands.mouseDown();
       await commands.mouseMove(startX + 10, startY);
       await commands.mouseUp();
@@ -226,10 +226,9 @@ describe("sheet updateSize public method", () => {
       const initialSize = 200;
       const overrideSize = 250;
 
-      const { sheet, content, resizeHandle, component } = await setupBlockSheet(initialSize);
+      const { sheet, content, component } = await setupBlockSheet(initialSize);
 
-      resizeHandle.focus();
-      await userEvent.keyboard("{ArrowDown}");
+      await userEvent.keyboard("{Tab}{ArrowDown}");
       const blockSizeAfterKeyboard = parseFloat(getComputedStyle(content).blockSize);
       expect(blockSizeAfterKeyboard).not.toBe(initialSize);
 
@@ -247,16 +246,16 @@ describe("sheet updateSize public method", () => {
       const overrideSize = 250;
 
       const { sheet, content, resizeHandle, component } = await setupBlockSheet(initialSize);
-      await userEvent.click(resizeHandle);
-      const handleRect = resizeHandle.getBoundingClientRect();
 
       expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
 
+      const handleRect = resizeHandle.getBoundingClientRect();
       const startX = handleRect.left + handleRect.width / 2;
       const startY = handleRect.top + handleRect.height / 2;
 
+      await userEvent.hover(resizeHandle);
       await commands.mouseDown();
-      await commands.mouseMove(startX + 10, startY);
+      await commands.mouseMove(startX, startY + 10);
       await commands.mouseUp();
 
       expect(getComputedStyle(content).blockSize).not.toBe(`${initialSize}px`);
