@@ -55,7 +55,7 @@ export class Sheet extends LitElement {
 
   private contentRef = createRef<HTMLDivElement>();
 
-  private direction = useDirection();
+  direction = useDirection();
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -336,7 +336,8 @@ export class Sheet extends LitElement {
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
-      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
+      changes.has("direction")
     ) {
       this.setupInteractions();
     }
