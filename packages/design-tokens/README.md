@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-Install the design tokens module.
+Install the design tokens module:
 
 ```bash
 npm install @esri/calcite-design-tokens
