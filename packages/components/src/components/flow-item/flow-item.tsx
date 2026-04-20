@@ -120,7 +120,7 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** Overrides individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
   /**
    * Specifies the type of positioning to use for overlaid content, where:
