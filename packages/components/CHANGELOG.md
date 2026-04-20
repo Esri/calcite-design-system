@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.35...@esri/calcite-components@5.1.0-next.36) (2026-04-20)
+
+### Bug Fixes
+
+- only initialize `useSortable` if `dragEnabled` is `true` ([#14261](https://github.com/Esri/calcite-design-system/issues/14261)), closes [#14259](https://github.com/Esri/calcite-design-system/issues/14259)
+
 ## [5.1.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.34...@esri/calcite-components@5.1.0-next.35) (2026-04-20)
 
 ### Bug Fixes
