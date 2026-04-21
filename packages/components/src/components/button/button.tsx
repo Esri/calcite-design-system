@@ -93,7 +93,7 @@ export class Button extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component's elements. */
+  /** When `width` is not `"auto"`, specifies the alignment of the component's elements. */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
 
   /** Specifies the appearance style of the component. */
