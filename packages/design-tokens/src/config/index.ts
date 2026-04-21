@@ -4,7 +4,7 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import type { OutputReferences } from "style-dictionary/types";
+import type { OutputReferences, TransformedToken } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../types/extensions.d.ts";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
@@ -21,6 +21,25 @@ const stylesheetOutputReferences: OutputReferences = (token, options) => {
   // output specific token references to match test output
   return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
 };
+
+const isFromSourceFile =
+  (sourceFilePath: string) =>
+  (token: TransformedToken): boolean =>
+    token.filePath.endsWith(sourceFilePath);
+
+const figmaCoreFiles = ["color", "container-size", "font", "opacity", "shadow", "size", "z-index"];
+const figmaSemanticFiles = [
+  "border",
+  "container-size",
+  "corner-radius",
+  "font",
+  "opacity",
+  "shadow",
+  "size",
+  "space",
+  "typography",
+  "z-index",
+];
 
 const config: Config = {
   source: ["src/tokens/semantic/[!$]*.json"],
@@ -247,6 +266,28 @@ const config: Config = {
           format: formats.FormatCalciteDocs,
           filter: filters.FilterIncludeTokens,
         },
+      ],
+    },
+    figma: {
+      transformGroup: transformers.TransformCalciteGroup,
+      buildPath: "dist/figma/",
+      prefix: "calcite",
+      options: {
+        platform: "figma",
+        fileExtension: ".json",
+        fileHeader: headers.HeaderDefault,
+      },
+      files: [
+        ...figmaCoreFiles.map((fileName) => ({
+          destination: `core/${fileName}.json`,
+          format: formats.FormatCalciteFigma,
+          filter: isFromSourceFile(`src/tokens/core/${fileName}.json`),
+        })),
+        ...figmaSemanticFiles.map((fileName) => ({
+          destination: `semantic/${fileName}.json`,
+          format: formats.FormatCalciteFigma,
+          filter: isFromSourceFile(`src/tokens/semantic/${fileName}.json`),
+        })),
       ],
     },
   },

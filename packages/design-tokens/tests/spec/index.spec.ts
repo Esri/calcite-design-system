@@ -15,6 +15,31 @@ const platforms: {
   { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
   { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },
   { name: "docs", files: ["core", "global", "semantic"], internal: true },
+  {
+    name: "figma",
+    files: [
+      "core/color",
+      "core/container-size",
+      "core/font",
+      "core/opacity",
+      "core/shadow",
+      "core/size",
+      "core/z-index",
+      "semantic/border",
+      "semantic/container-size",
+      "semantic/corner-radius",
+      "semantic/font",
+      "semantic/opacity",
+      "semantic/shadow",
+      "semantic/size",
+      "semantic/space",
+      "semantic/typography",
+      "semantic/z-index",
+      "semantic/color/dark",
+      "semantic/color/light",
+    ],
+    internal: true,
+  },
 ];
 
 platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
@@ -30,7 +55,7 @@ function generateTests(platform: Platform, files: string[], internal = false) {
   const internalTestAnnotation = internal ? " (internal)" : "";
   describe(`${platform.toUpperCase()}${internalTestAnnotation}`, () => {
     files.forEach((file) => {
-      const extension = platform === "docs" ? "json" : platform === "es6" ? "js" : platform;
+      const extension = platform === "docs" || platform === "figma" ? "json" : platform === "es6" ? "js" : platform;
 
       it(`${file} should match`, () => assertOutput(`${platform}/${file}.${extension}`));
 
@@ -58,7 +83,7 @@ function assertOutput(outputFilePath: string) {
  * @param content
  * @param extension
  */
-function preprocessContent(content: string, extension: string): string {
+function preprocessContent(content: string, extension?: string): string {
   if (extension === "json") {
     content = content.replace(/"timestamp": \d+,\n/, '"timestamp": "TEST_TIMESTAMP",\n');
   }

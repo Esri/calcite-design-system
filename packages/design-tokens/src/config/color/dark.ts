@@ -92,6 +92,23 @@ const config: Config = {
         },
       ],
     },
+    figma: {
+      transformGroup: transformers.TransformCalciteGroup,
+      buildPath: "dist/figma/semantic/color/",
+      prefix: "calcite",
+      options: {
+        platform: "figma",
+        fileExtension: ".json",
+        fileHeader: headers.HeaderDefault,
+      },
+      files: [
+        {
+          destination: "dark.json",
+          format: formats.FormatCalciteFigma,
+          filter: filters.FilterSourceTokens,
+        },
+      ],
+    },
   },
   log: {
     warnings: logWarningLevels.warn,
