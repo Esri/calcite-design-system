@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
   formAssociated,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -52,6 +53,10 @@ describe("is focusable", () => {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
     });
   });
+});
+
+describe.skip("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
 });
 
 describe("reflects", () => {

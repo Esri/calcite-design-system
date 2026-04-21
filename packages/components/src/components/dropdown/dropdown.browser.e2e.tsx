@@ -12,6 +12,7 @@ import {
   floatingUIOwner,
   disabled,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -64,7 +65,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dropdown"));
 });
 
-function renderSimpleDropdownHTML(): JsxNode {
+function renderDropdown(): JsxNode {
   return (
     <calcite-dropdown>
       <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -79,6 +80,23 @@ function renderSimpleDropdownHTML(): JsxNode {
   );
 }
 
+function renderReferenceElementDropdown(): JsxNode {
+  return (
+    <>
+      <calcite-dropdown reference-element="trigger">
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            Dropdown Item Content
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-button id="trigger">Open dropdown</calcite-button>
+    </>
+  );
+}
+
 async function waitForSettledUpdate(
   component: Dropdown["manager"]["component"],
   updateCompletePromise: Promise<unknown>,
@@ -89,11 +107,11 @@ async function waitForSettledUpdate(
 }
 
 describe("renders", () => {
-  renders(() => mount(renderSimpleDropdownHTML), { display: "inline-block" });
+  renders(() => mount(renderDropdown), { display: "inline-block" });
 });
 
 describe("focusable", () => {
-  focusable(() => mount(renderSimpleDropdownHTML), {
+  focusable(() => mount(renderDropdown), {
     focusTargetSelector: '[slot="trigger"]',
   });
 });
@@ -145,6 +163,14 @@ describe("disabled", () => {
       },
     },
   );
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount(renderDropdown, mountOptions));
+
+  describe("with reference element", () => {
+    openClose((mountOptions) => mount(renderReferenceElementDropdown, mountOptions));
+  });
 });
 
 describe("top layer placement", () => {
@@ -237,7 +263,7 @@ describe("ariaActiveDescendantElement", () => {
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
-    await mount<Dropdown>(renderSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -246,7 +272,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
-    await mount<Dropdown>(renderSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -258,7 +284,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
-    await mount<Dropdown>(renderSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);

@@ -9,6 +9,7 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
@@ -63,6 +64,10 @@ describe("renders", () => {
 
 describe("focusable", () => {
   focusable(() => mount("calcite-input-time-zone"));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
 });
 
 describe("translation support", () => {

@@ -312,6 +312,11 @@ calcite-action-menu {
   .content {
     opacity: 1;
   }
+
+  @starting-style {
+    margin-block-start: 0;
+    opacity: 0;
+  }
 }
 
 :host([expanded][scale="s"]) {
