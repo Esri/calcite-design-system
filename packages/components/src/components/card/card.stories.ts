@@ -80,6 +80,7 @@ export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -92,6 +93,7 @@ export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >

@@ -50,7 +50,7 @@
   --calcite-internal-card-checkbox-wrapper-margin: var(--calcite-space-xs);
   --calcite-internal-card-slotted-content-padding: var(--calcite-space-sm);
   --calcite-internal-card-footer-padding-inline: var(--calcite-space-sm);
-  --calcite-internal-card-footer-start-end-gap: var(var(--calcite-space-base));
+  --calcite-internal-card-footer-start-end-gap: var(--calcite-space-base);
 }
 
 :host([scale="m"]) {
