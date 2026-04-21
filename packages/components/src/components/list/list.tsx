@@ -719,11 +719,7 @@ export class List extends LitElement {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (!dragEnabled) {
-      return;
-    }
-
-    if (defaultSlotEl) {
+    if (dragEnabled && defaultSlotEl) {
       updateListItemChildren(defaultSlotEl);
     }
 
