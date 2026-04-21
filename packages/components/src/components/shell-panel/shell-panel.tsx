@@ -44,7 +44,7 @@ export class ShellPanel extends LitElement {
 
   //#region Private Properties
 
-  private direction = useDirection();
+  direction = useDirection();
 
   private resizeHandleEl: HTMLDivElement;
 
@@ -192,12 +192,17 @@ export class ShellPanel extends LitElement {
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
     }
+
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calciteShellPanelCollapse.emit();
       } else {
         this.calciteShellPanelExpand.emit();
       }
+    }
+
+    if (changes.has("direction")) {
+      this.setupInteractions();
     }
   }
 
