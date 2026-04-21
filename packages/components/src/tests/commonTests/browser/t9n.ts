@@ -12,13 +12,13 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
  *   t9n("calcite-action");
  * });
  */
-export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> {
+export async function t9n(setup: () => ReturnType<typeof mount>, messageOverrides?: object): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("has defined default messages", async () => await assertDefaultMessages());
-  it("overrides messages", async () => await assertOverrides());
+  it("overrides messages", async () => await assertOverrides(messageOverrides));
   it("switches messages", async () => await assertLangSwitch());
   it("does not throw when removed during message loading", async () => await assertNoErrorOnRemovalDuringMessageLoad());
 
@@ -34,23 +34,67 @@ export async function t9n(setup: () => ReturnType<typeof mount>): Promise<void> 
     return component.messages;
   }
 
+  // const getCtor = (component: ComponentWithMessageOverrides): any => component?.el?.constructor;
+
+  // const getPropMeta = (component: ComponentWithMessageOverrides, propName: string) => {
+  //   const ctor = getCtor(component);
+  //   if (!ctor) {
+  //     return undefined;
+  //   }
+
+  //   // Lumina / Lit-style static metadata (best-effort)
+  //   return (
+  //     ctor?.properties?.[propName] ??
+  //     ctor?.props?.[propName] ??
+  //     ctor?.__properties?.[propName] ??
+  //     ctor?.[propName] // very last-ditch (unlikely)
+  //   );
+  // };
+
+  // const getShapeKeysFromMeta = (meta): string[] => {
+  //   if (!meta) {
+  //     return [];
+  //   }
+
+  //   const shape = meta.shape ?? meta.schema;
+  //   if (shape && typeof shape === "object") {
+  //     return Object.keys(shape);
+  //   }
+
+  //   return [];
+  // };
+
+  // async function getMessageOverridesKeys(
+  //   component: ComponentWithMessageOverrides,
+  // ): Promise<(keyof ComponentWithMessageOverrides["messageOverrides"])[]> {
+  //   const meta = getPropMeta(component, "messageOverrides");
+  //   const shapeKeys = getShapeKeysFromMeta(meta);
+  //   if (shapeKeys.length) {
+  //     return shapeKeys as (keyof ComponentWithMessageOverrides["messageOverrides"])[];
+  //   }
+
+  // }
+
   async function assertDefaultMessages(): Promise<void> {
     const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
-  async function assertOverrides(): Promise<void> {
+  async function assertOverrides(messageOverrides?: object): Promise<void> {
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
-    const messageOverride = { [firstMessageProp as keyof typeof messages]: "override test" };
+    // const messageOverridesKeys = await getMessageOverridesKeys(component);
 
-    el.messageOverrides = messageOverride;
+    const messageOverridesToApply = messageOverrides || {
+      [firstMessageProp as keyof typeof messages]: "override test",
+    };
+    el.messageOverrides = messageOverridesToApply;
     await reRender();
 
     expect(await getCurrentMessages(component)).toMatchObject({
       ...messages,
-      ...messageOverride,
+      ...messageOverrides,
     });
 
     // reset test changes

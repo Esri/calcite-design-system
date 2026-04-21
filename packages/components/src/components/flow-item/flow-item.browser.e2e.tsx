@@ -175,7 +175,13 @@ describe("delegates to floating-ui-owner component", () => {
 });
 
 describe("translation support", () => {
-  t9n(() => mount("calcite-flow-item"));
+  t9n(() => mount("calcite-flow-item"), {
+    back: "back",
+    close: "close",
+    options: "options",
+    collapse: "collapse",
+    expand: "expand",
+  });
 });
 
 describe("disabled", () => {
