@@ -31454,9 +31454,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -31555,20 +31555,14 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
+export const calciteShadowSm: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
+export const calciteShadowMd: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -31667,7 +31661,7 @@ export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: string;
@@ -31702,7 +31696,7 @@ export const calciteTypographyRegularMinus3h: {
 };
 export const calciteTypographyRegularMinus2h: { fontSize: string };
 export const calciteTypographyRegularMinus1h: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: string;
@@ -31903,7 +31897,7 @@ export const calciteTypographyHierarchyHeading5: {
 };
 export const calciteTypographyHierarchyBodySnug: { lineHeight: string };
 export const calciteTypographyHierarchyBody: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   lineHeight: string;
@@ -32159,9 +32153,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -32260,20 +32254,14 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
+export const calciteShadowSm: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
+export const calciteShadowMd: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */

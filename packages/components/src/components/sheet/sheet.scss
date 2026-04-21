@@ -247,6 +247,7 @@
 .container--open {
   @apply opacity-100 visible;
   transition-delay: 0ms;
+
   .content {
     @apply pointer-events-auto visible opacity-100;
     transition:
@@ -256,6 +257,11 @@
       max-inline-size var(--calcite-internal-animation-timing-medium) animation.$easing-function,
       max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
     transition-delay: 0ms;
+  }
+
+  @starting-style {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 

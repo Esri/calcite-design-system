@@ -144,6 +144,7 @@
 
 .footer {
   @apply flex box-border items-center;
+  line-height: var(--calcite-font-line-height-base);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-footer-border-color);
   border-block-start: var(--calcite-border-width-none);
   min-block-size: var(--calcite-internal-text-area-footer-min-height);
