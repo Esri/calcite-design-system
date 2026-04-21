@@ -70,154 +70,202 @@ describe("shell-panel updateSize public method", () => {
   mockConsole();
 
   type TestCase = {
-    layout: Layout;
     dir: Dir;
-    changeDirAfterMount: boolean;
-    initialSize: number;
-    overrideSize: number;
+    changeAfterMount?: "dir" | "slot";
+    slot: "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
   };
 
   const testCases: TestCase[] = [
-    {
-      layout: "vertical",
-      dir: "ltr",
-      changeDirAfterMount: true,
-      initialSize: 320,
-      overrideSize: 400,
-    },
-    {
-      layout: "vertical",
-      dir: "ltr",
-      changeDirAfterMount: false,
-      initialSize: 320,
-      overrideSize: 400,
-    },
-    {
-      layout: "vertical",
-      dir: "rtl",
-      changeDirAfterMount: true,
-      initialSize: 320,
-      overrideSize: 400,
-    },
-    {
-      layout: "vertical",
-      dir: "rtl",
-      changeDirAfterMount: false,
-      initialSize: 320,
-      overrideSize: 400,
-    },
-    {
-      layout: "horizontal",
-      dir: "ltr",
-      changeDirAfterMount: true,
-      initialSize: 200,
-      overrideSize: 250,
-    },
-    {
-      layout: "horizontal",
-      dir: "ltr",
-      changeDirAfterMount: false,
-      initialSize: 200,
-      overrideSize: 250,
-    },
-    {
-      layout: "horizontal",
-      dir: "rtl",
-      changeDirAfterMount: true,
-      initialSize: 200,
-      overrideSize: 250,
-    },
-    {
-      layout: "horizontal",
-      dir: "rtl",
-      changeDirAfterMount: false,
-      initialSize: 200,
-      overrideSize: 250,
-    },
+    { dir: "ltr", slot: "panel-start" },
+    { dir: "ltr", slot: "panel-start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-end" },
+    { dir: "ltr", slot: "panel-end", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-end", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-top" },
+    { dir: "ltr", slot: "panel-top", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-top", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-bottom" },
+    { dir: "ltr", slot: "panel-bottom", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-bottom", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-start" },
+    { dir: "rtl", slot: "panel-start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-end" },
+    { dir: "rtl", slot: "panel-end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-top" },
+    { dir: "rtl", slot: "panel-top", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-top", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-bottom" },
+    { dir: "rtl", slot: "panel-bottom", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-bottom", changeAfterMount: "slot" },
   ];
 
-  async function setUpShellPanel({
-    layout,
-    dir,
-    changeDirAfterMount,
-  }: Omit<TestCase, "initialSize" | "overrideSize">) {
-    const dimensionCssProp =
-      layout === "horizontal" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
-    const dimensionProp = layout === "horizontal" ? "blockSize" : "inlineSize";
-    const shellPanelSlot = layout === "horizontal" ? "panel-bottom" : "panel-start";
+  function layoutFromPanelSlot(
+    slot: `panel-${"start" | "end" | "top" | "bottom"}`,
+  ): Extract<Layout, "vertical" | "horizontal"> {
+    return slot === "panel-start" || slot === "panel-end" ? "vertical" : "horizontal";
+  }
+
+  async function setUpShellPanel({ dir, changeAfterMount, slot }: Omit<TestCase, never>) {
+    const layout = layoutFromPanelSlot(slot);
+    const requestedShellPanelSlot = slot;
+    const initialShellPanelSlot =
+      changeAfterMount === "slot"
+        ? layout === "horizontal"
+          ? // we use cross-axis slot for additional coverage
+            requestedShellPanelSlot === "panel-bottom"
+            ? "panel-end"
+            : "panel-start"
+          : requestedShellPanelSlot === "panel-start"
+            ? // we use cross-axis slot for additional coverage
+              "panel-top"
+            : "panel-bottom"
+        : requestedShellPanelSlot;
 
     const { el, component } = await mount<"calcite-shell">(
-      <calcite-shell dir={changeDirAfterMount ? undefined : dir}>
-        <calcite-shell-panel resizable slot={shellPanelSlot}>
+      <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir}>
+        <calcite-shell-panel resizable slot={initialShellPanelSlot}>
           <calcite-panel>Content</calcite-panel>
         </calcite-shell-panel>
       </calcite-shell>,
     );
+    const panel = el.querySelector("calcite-shell-panel")!;
 
-    if (changeDirAfterMount) {
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    if (changeAfterMount === "dir") {
       el.dir = dir;
-      await component.updateComplete;
+    } else if (changeAfterMount === "slot") {
+      panel.slot = requestedShellPanelSlot;
     }
 
-    const panel = el.querySelector("calcite-shell-panel")!;
-    expect(panel).toBeTruthy();
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
 
     const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
     const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
-    expect(content).toBeTruthy();
-    expect(handle).toBeTruthy();
 
-    return { panel, content, handle, component, dimensionProp, dimensionCssProp };
+    const dimensionCssProp =
+      layout === "horizontal" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
+    const dimensionProp = layout === "horizontal" ? "blockSize" : "inlineSize";
+
+    const initialSize = parseFloat(getComputedStyle(content)[dimensionProp]);
+    const overrideSize = Math.round(initialSize + 10);
+
+    return {
+      panel,
+      content,
+      handle,
+      component,
+      dimensionProp,
+      dimensionCssProp,
+      initialSize,
+      overrideSize,
+    };
   }
 
-  testCases.forEach(({ layout, dir, changeDirAfterMount, initialSize, overrideSize }) => {
+  function getUserInteraction({ dir, slot }: Pick<TestCase, "dir" | "slot">): {
+    keyboardKey: string;
+    mouseDelta: {
+      dx: number;
+      dy: number;
+    };
+  } {
+    const layout = layoutFromPanelSlot(slot);
+    const isVertical = layout === "vertical";
+    const isRtl = dir === "rtl";
+    const direction = isVertical
+      ? slot === "panel-top"
+        ? "down"
+        : slot === "panel-bottom"
+          ? "up"
+          : slot === "panel-start"
+            ? isRtl
+              ? "left"
+              : "right"
+            : isRtl
+              ? "right"
+              : "left"
+      : "down";
+
+    const keyboardKey =
+      direction === "left"
+        ? "{ArrowLeft}"
+        : direction === "right"
+          ? "{ArrowRight}"
+          : direction === "up"
+            ? "{ArrowUp}"
+            : "{ArrowDown}";
+
+    const sign = direction === "left" || direction === "up" ? -1 : 1;
+    const deltaAmount = sign * 10;
+    const mouseDelta =
+      layout === "vertical" ? { dx: deltaAmount, dy: 0 } : { dx: 0, dy: deltaAmount };
+
+    return {
+      keyboardKey,
+      mouseDelta,
+    };
+  }
+
+  testCases.forEach(({ dir, changeAfterMount, slot }) => {
+    const layout = layoutFromPanelSlot(slot);
     const axis = layout === "vertical" ? "inline" : "block";
-    const keyboardKey = layout === "vertical" ? "{ArrowRight}" : "{ArrowDown}";
-    const mouseDelta = layout === "vertical" ? { dx: 10, dy: 0 } : { dx: 0, dy: 10 };
-    const testLabel = `${layout} panel [dir=${dir}, changeDirAfterMount=${changeDirAfterMount}]`;
+    const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
+
+    const testLabel = `${layout} panel [dir=${dir}, changeAfterMount=${changeAfterMount ?? "none"}, slot=${slot}]`;
 
     it(`default size → token resize → KEYBOARD resize → method resize → clear method override (${testLabel})`, async () => {
-      const { panel, content, component, dimensionProp, dimensionCssProp } = await setUpShellPanel({
-        layout,
+      const {
+        panel,
+        content,
+        component,
+        dimensionProp,
+        dimensionCssProp,
+        initialSize,
+        overrideSize,
+      } = await setUpShellPanel({
         dir,
-        changeDirAfterMount,
+        changeAfterMount,
+        slot,
       });
 
       panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
       await component.updateComplete;
-      expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
+
+      expect(getComputedStyle(content)).toHaveProperty(dimensionProp, `${initialSize}px`);
 
       await userEvent.keyboard(`{Tab}${keyboardKey}`);
       const afterUserResize = parseFloat(getComputedStyle(content)[dimensionProp]);
-      expect(afterUserResize).not.toBe(initialSize);
-      expect(afterUserResize).toBeGreaterThan(0);
+      expect(afterUserResize).toBeGreaterThan(initialSize);
 
-      if (dir === "rtl" || layout === "horizontal") {
-        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test options
-        expect(afterUserResize).toBeLessThan(initialSize);
-      } else {
-        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test options
-        expect(afterUserResize).toBeGreaterThan(initialSize);
-      }
-
-      await panel.updateSize(
-        axis === "inline" ? { inline: overrideSize } : { block: overrideSize },
-      );
+      await panel.updateSize({ [axis]: overrideSize });
       await component.updateComplete;
       expect(getComputedStyle(content)[dimensionProp]).toBe(`${overrideSize}px`);
 
-      await panel.updateSize(axis === "inline" ? { inline: null } : { block: null });
+      await panel.updateSize({ [axis]: null });
       await component.updateComplete;
       expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
     });
 
     it(`default size → token resize → MOUSE resize → method resize → clear method override (${testLabel})`, async () => {
-      const { panel, content, handle, component, dimensionProp, dimensionCssProp } =
-        await setUpShellPanel({
-          layout,
-          dir,
-          changeDirAfterMount,
-        });
+      const {
+        panel,
+        content,
+        handle,
+        component,
+        dimensionProp,
+        dimensionCssProp,
+        initialSize,
+        overrideSize,
+      } = await setUpShellPanel({
+        dir,
+        changeAfterMount,
+        slot,
+      });
 
       panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
       await component.updateComplete;
@@ -233,24 +281,13 @@ describe("shell-panel updateSize public method", () => {
       await commands.mouseUp();
 
       const afterUserResize = parseFloat(getComputedStyle(content)[dimensionProp]);
-      expect(afterUserResize).not.toBe(initialSize);
-      expect(afterUserResize).toBeGreaterThan(0);
+      expect(afterUserResize).toBeGreaterThan(initialSize);
 
-      if (dir === "rtl" || layout === "horizontal") {
-        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test options
-        expect(afterUserResize).toBeLessThan(initialSize);
-      } else {
-        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test options
-        expect(afterUserResize).toBeGreaterThan(initialSize);
-      }
-
-      await panel.updateSize(
-        axis === "inline" ? { inline: overrideSize } : { block: overrideSize },
-      );
+      await panel.updateSize({ [axis]: overrideSize });
       await component.updateComplete;
       expect(getComputedStyle(content)[dimensionProp]).toBe(`${overrideSize}px`);
 
-      await panel.updateSize(axis === "inline" ? { inline: null } : { block: null });
+      await panel.updateSize({ [axis]: null });
       await component.updateComplete;
       expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
     });

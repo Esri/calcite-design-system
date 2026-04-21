@@ -191,6 +191,11 @@ export class ShellPanel extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+      this.setupInteractions();
+    }
+
+    if (changes.has("direction") && this.hasUpdated) {
+      this.setupInteractions();
     }
 
     if (changes.has("collapsed") && this.hasUpdated) {
@@ -199,10 +204,6 @@ export class ShellPanel extends LitElement {
       } else {
         this.calciteShellPanelExpand.emit();
       }
-    }
-
-    if (changes.has("direction")) {
-      this.setupInteractions();
     }
   }
 
