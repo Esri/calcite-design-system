@@ -179,7 +179,7 @@ export class BlockGroup extends LitElement {
   override connectedCallback(): void {
     this.connectObserver();
     this.updateBlockItemsDebounced();
-    this.setUpSorting();
+    this.sortable.reset();
     this.setParentBlockGroup();
     this.cancelable.add(this.updateBlockItemsDebounced);
   }
@@ -243,7 +243,7 @@ export class BlockGroup extends LitElement {
       }
     });
 
-    this.setUpSorting();
+    this.sortable.reset();
   }
 
   private updateGroupItems(): void {
@@ -302,16 +302,6 @@ export class BlockGroup extends LitElement {
 
   private disconnectObserver(): void {
     this.mutationObserver?.disconnect();
-  }
-
-  private setUpSorting(): void {
-    const { dragEnabled } = this;
-
-    if (!dragEnabled) {
-      return;
-    }
-
-    this.sortable.reset();
   }
 
   onGlobalDragStart(): void {
