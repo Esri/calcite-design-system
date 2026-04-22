@@ -377,7 +377,7 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog entry.
 
 By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
 
@@ -385,21 +385,21 @@ By default, the PR body is used as the commit message when squash merging, so in
 
 - Automated dependency updates -- these are typically straightforward
   and only require approval before merging.
-  - if a check is failing
+  - If a check is failing
     - if it's something impacted by your changes, please address the failure in order to help the PR move along
     - if it's something complicated, needs more time or is related to test instability, comment on the PR about any findings and bring this up in the core channel, where we will either
       - provide assistance or
       - get confirmation to create a follow-up issue
 - Documentation updates
   - review and approve if everything looks good from an editorial perspective
-  - add the [`Esri/calcite-pes` team](https://github.com/orgs/Esri/teams/calcite-pes) to review and ensure doc tone consistency
+  - assign the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group to review and ensure doc tone consistency
 - If there are visual changes associated with a PR
   - make sure to apply the `pr ready for screenshot tests` label
     - if there are additional visual changes since the last screenshot test run, this label will need to be removed then added again to schedule another test run
-  - assign add the [`Esri/calcite-designers` team](https://github.com/orgs/Esri/teams/calcite-designers) to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
+  - assign the [`Esri/calcite-designers`](https://github.com/orgs/Esri/teams/calcite-designers) group to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
   - except for false-positives, please wait for review before accepting new or updated screenshots (for non–design-driven updates)
 - If a follow-up issue is needed during the PR review
-  - mention [`Esri/calcite-pes` team](https://github.com/orgs/Esri/teams/calcite-pes) so a related issue can be created, estimated, and prioritized for an upcoming milestone
+  - tag the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group in a comment so a related issue can be created, estimated, and prioritized for an upcoming milestone
   - provide context and details for the new issue(s) to better we prepare ourselves for future follow-up work
 - If PR checks are failing unexpectedly
   - reach out in the [Core - General Teams channel](https://teams.microsoft.com/l/channel/19%3Ae82c6c80246d4e9f8eb7339e4d677b60%40thread.skype/Core%20-%20General?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true) about this and cc [@jcfranco](https://github.com/jcfranco).
@@ -476,7 +476,7 @@ Focus on the following items while reviewing:
 - Adhering to guidelines 🤝📚
 - If applicable, improvements or alternatives to a solution
 - Typos and grammar
-- PR title adheres to conventional commits.
+- PR title adheres to conventional commits
 - Ensure all files are relevant to the associated issue
 - Make sure to ask clarifying questions about changes if you don't understand something. This helps share the knowledge and can help identify information that might be useful to add as comments or rename variables/functions to make the code clearer.
 
