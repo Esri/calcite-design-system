@@ -360,9 +360,11 @@ export const useForm = <T extends FormComponent>(
       if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
+
+      updateValidity();
     });
 
-    controller.onUpdated(() => updateValidity());
+    controller.onLoaded(() => updateValidity());
 
     function updateValidity(): void {
       const { elementInternals } = component;
@@ -414,7 +416,11 @@ export const useForm = <T extends FormComponent>(
         validationMessage = customValidityMessage;
       }
 
-      elementInternals.setValidity(validity, validationMessage, validityAnchor);
+      if (validityAnchor) {
+        elementInternals.setValidity(validity, validationMessage, validityAnchor);
+      } else {
+        elementInternals.setValidity(validity, validationMessage);
+      }
 
       if ("validity" in component) {
         bypassReadOnly(() => {
