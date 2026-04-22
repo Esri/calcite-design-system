@@ -375,11 +375,118 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog.
 
-By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
+
+### Types of PR reviews and suggested workflows
+
+- Automated dependency updates -- these are typically straightforward
+  and only require approval before merging.
+  - if a check is failing
+    - if it's something impacted by your changes, please address the failure in order to help the PR move along
+    - if it's something complicated, needs more time or is related to test instability, comment on the PR about any findings and bring this up in the core channel, where we will either
+      - provide assistance or
+      - get confirmation to create a follow-up issue
+- Documentation updates
+  - review and approve if everything looks good from an editorial perspective
+  - add the [`Esri/calcite-pes` team](https://github.com/orgs/Esri/teams/calcite-pes) to review and ensure doc tone consistency
+- If there are visual changes associated with a PR
+  - make sure to apply the `pr ready for screenshot tests` label
+    - if there are additional visual changes since the last screenshot test run, this label will need to be removed then added again to schedule another test run
+  - assign add the [`Esri/calcite-designers` team](https://github.com/orgs/Esri/teams/calcite-designers) to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
+  - except for false-positives, please wait for review before accepting new or updated screenshots (for non–design-driven updates)
+- If a follow-up issue is needed during the PR review
+  - mention [`Esri/calcite-pes` team](https://github.com/orgs/Esri/teams/calcite-pes) so a related issue can be created, estimated, and prioritized for an upcoming milestone
+  - provide context and details for the new issue(s) to better we prepare ourselves for future follow-up work
+- If PR checks are failing unexpectedly
+  - reach out in the [Core - General Teams channel](https://teams.microsoft.com/l/channel/19%3Ae82c6c80246d4e9f8eb7339e4d677b60%40thread.skype/Core%20-%20General?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true) about this and cc [@jcfranco](https://github.com/jcfranco).
+
+### Deprecation PRs
+
+When a pull request is strictly intended to deprecate an existing feature or component, use the `deprecate` commit type. This type is reserved for noting changes under the "Deprecations" section of the changelog.
+
+If deprecations are part of a broader change, such as introducing a new `feat` or making a `fix`, a `deprecate` entry can be added to the bottom of the PR body following the format described in the [release-please documentation](https://github.com/googleapis/release-please#what-if-my-pr-contains-multiple-fixes-or-features).
+
+#### Example
+
+```text
+PR title:
+
+feat(avatar): add in an awesome new feature ✨
+
+Description:
+
+This PR adds in feature x which will make everything work flawlessly forever.
+
+deprecate(avatar): deprecate old unnecessary property 🗑️
+```
+
+⚠️ Make sure to always add the `deprecate` entry at the bottom of the PR body as shown above.
+
+### Reviewing
+
+- In addition to requesting a review on GitHub, the quickest way to get attention for your PR is to post a message in the [Core - Development Teams channel](https://teams.microsoft.com/l/channel/19%3A4f39d2df65734cf4a4a1843eea9aa040%40thread.skype/Core%20-%20Development?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true).
+- Before starting a review on a **_non-draft_** PR (see [**Draft PRs**](#draft-prs) below), use the 👀 reaction to let others know the PR is being reviewed.
+- If the review was requested via a Teams message, make sure to use one of the following reactions to indicate status:
+  - ⁠👀 reviewing
+  - ⁠✅ approved
+  - ⁠🛑 changes requested
+  - ⁠💬 commented
+
+### Draft PRs
+
+Draft PRs are intended for iteration and refinement before formal team review.
+
+PRs in draft state should not be reviewed unless explicitly requested. This helps avoid spending time on code that is still evolving.
+
+#### Author checklist before requesting review
+
+Before marking a PR as ready for review:
+
+- Run an initial review with GitHub Copilot to catch obvious issues or improvement opportunities
+- Address relevant CI failures
+- Ensure the PR description clearly explains intent and scope
+
+> [!IMPORTANT]  
+> Use your best judgment when reviewing Copilot comments. Some suggestions may not align with our tech stack, best practices, or conventions.
+
+### Comments
+
+When commenting, it is crucial to provide the (PR) author with the priority/context of each comment, e.g., what must be changed, what's a nice-to-have, etc.
+
+Use the following syntax to shed light on the type of comment:
+
+- `Nit`: minor adjustments that shouldn't prevent merging
+- `Suggestion`: alternative approach that shouldn't prevent merging
+- `Sidenote`: a relevant note that is not critical to the reviewed PR (should either stem a discussion or an issue/PR to follow-up)
+- `Typo`: address typographical errors (these should be fixed before merging)
+
+Be as specific as possible in your comments to offer reasoning and avoid misinterpretation.
+
+If there is a lot of back-and-forth between the reviewer and author, reach out via chat or schedule a call to make sure everyone is on the same page. Once everything is resolved, make sure to summarize the discussion points and resolution in the PR before moving forward.
+
+### Considerations
+
+Focus on the following items while reviewing:
+
+- Consistency (naming, patterns, etc.) 📚
+- Adhering to guidelines 🤝📚
+- If applicable, improvements or alternatives to a solution
+- Typos and grammar
+- PR title adheres to conventional commits.
+- Ensure all files are relevant to the associated issue
+- Make sure to ask clarifying questions about changes if you don't understand something. This helps share the knowledge and can help identify information that might be useful to add as comments or rename variables/functions to make the code clearer.
+
+### Submitting
+
+You can approve a review if there are a couple required changes, as long as they are straightforward. However, make sure to "request changes" if the changes require a second pass from you.
+
+It's always better to be explicit and comment whether the PR is good to merge after making adjustments or if you'd like to be requested for another review once changes have been made.
+
+Getting extra pairs of eyes on reviews is always a good idea, but not necessary. If you'd like to get someone else to take a look, please mention them or add them as reviewers. Similarly, if you are unfamiliar with the changes, please call this out to give a better idea on whether additional reviewers may be needed. If you're unsure on who to contact, refer to the [Areas of Focus page](https://confluencewikidev.esri.com/display/Calcite/Areas+of+focus) for guidance.
 
 ### Visual snapshots
 
