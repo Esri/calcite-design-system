@@ -144,6 +144,7 @@ export function createFocusTrapOptions(
 ): Options {
   const fallbackFocus = options?.fallbackFocus || hostEl;
   const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
+  let abortController: AbortController | undefined;
 
   return {
     fallbackFocus,
@@ -158,6 +159,27 @@ export function createFocusTrapOptions(
         outsideClickDeactivated.add(hostEl);
       }
       return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onActivate: () => {
+      if (options?.escapeDeactivates) {
+        abortController = new AbortController();
+        hostEl.addEventListener(
+          "keydown",
+          (event) => {
+            // we check for Escape at each focus-trap host as the event bubbles
+            // in case non-focus-trapping elements in between handle (e.g., cancel) it
+            // before it reaches the focus-trap document-level listener
+            if (event.key === "Escape" && typeof options?.escapeDeactivates === "function") {
+              options.escapeDeactivates(event);
+            }
+          },
+          { signal: abortController.signal },
+        );
+      }
+    },
+    onDeactivate: () => {
+      abortController?.abort();
+      abortController = undefined;
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);
