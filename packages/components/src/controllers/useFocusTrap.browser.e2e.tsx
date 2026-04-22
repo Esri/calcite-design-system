@@ -12,6 +12,8 @@ import { FocusTrap, useFocusTrap } from "./useFocusTrap";
 
 describe("useFocusTrap", () => {
   class Test extends LitElement {
+    static tagName = "focus-trap-component";
+
     @property() open? = false;
 
     focusTrap = useFocusTrap<this>({
@@ -197,9 +199,12 @@ describe("useFocusTrap", () => {
       };
     }
 
+    let previousFocusedEl: HTMLInputElement;
+    let nextFocusedEl: HTMLInputElement;
+
     beforeEach(async () => {
-      const previousFocusedEl = document.createElement("input");
-      const nextFocusedEl = document.createElement("input");
+      previousFocusedEl = document.createElement("input");
+      nextFocusedEl = document.createElement("input");
       document.body.append(nextFocusedEl, previousFocusedEl);
 
       previousFocusedLocator = page.elementLocator(previousFocusedEl);
@@ -208,6 +213,11 @@ describe("useFocusTrap", () => {
       insideButtonLocator = page.getByTestId("inside-button");
 
       await previousFocusedLocator.click();
+    });
+
+    afterEach(() => {
+      previousFocusedEl.remove();
+      nextFocusedEl.remove();
     });
 
     describe("setReturnFocus option", () => {
@@ -282,8 +292,10 @@ describe("useFocusTrap", () => {
   });
 
   it("does not try to restore focus to the document when there was no previously focused element", async () => {
-    document.body.innerHTML = html`<a href="/">should not focus here</a>`;
-    const { el, component } = await mount(Test);
+    const { el, component } = await mount<Test>(html`
+      <a href="/">should not focus here</a>
+      <focus-trap-component></focus-trap-component>
+    `);
     el.open = true;
     await component.updateComplete;
     await waitForFocusShift();
