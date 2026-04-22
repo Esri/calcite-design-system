@@ -719,8 +719,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
+    // if (this.selectionDisplay === "fit" && this.isMulti()) {
+    //   this.updateComplete.then(() => this.refreshSelectionDisplay());
+    // }
     if (this.selectionDisplay === "fit" && this.isMulti()) {
-      this.updateComplete.then(() => this.refreshSelectionDisplay());
+      this.refreshSelectionDisplay();
     }
   }
 
@@ -1096,10 +1099,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     });
   }
 
-  private isSelectionChip(chipEl: Chip["el"]): boolean {
-    const testId = chipEl.dataset.testId ?? "";
-    return testId.startsWith("chip") || testId.startsWith("disabled-chip");
-  }
+  // private isSelectionChip(chipEl: Chip["el"]): boolean {
+  //   const testId = chipEl.dataset.testId ?? "";
+  //   return testId.startsWith("chip") || testId.startsWith("disabled-chip");
+  // }
 
   private async refreshSelectionDisplay() {
     this.componentOnReady();
@@ -1164,7 +1167,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-        (chipEl) => this.isSelectionChip(chipEl),
+        (chipEl) => chipEl.closable,
       );
 
       const availableHorizontalChipElSpace = Math.round(
@@ -1733,7 +1736,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         }
       });
     } else if (!this.selectAllEnabled || !this.allSelected || this.hasDisabledItems) {
-      this.selectedItems.forEach((item) => {
+      const selectedItemsForDisplay =
+        selectionDisplay === "fit"
+          ? this.selectedItems.filter((item) => !item.disabled)
+          : this.selectedItems;
+
+      selectedItemsForDisplay.forEach((item) => {
         chips.push(
           this.renderChip({
             activeChipIndex,
