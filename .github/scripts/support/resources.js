@@ -71,7 +71,7 @@ const resources = {
     productColor: "006B75",
   },
   milestone: {
-    backlog: "Dev Backlog",
+    backlog: "Backlog",
     stalled: "Stalled",
     freezer: "Freezer",
   },
