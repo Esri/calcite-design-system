@@ -262,7 +262,9 @@ export const useForm = <T extends FormComponent>(
       }
 
       // prevent the browser from showing the native validation popover
-      event.preventDefault();
+      if (effectiveInputType !== "radio") {
+        event.preventDefault();
+      }
 
       const form = event.currentTarget as HTMLFormElement;
       focusFirstInvalidFormElement(form);
@@ -358,15 +360,16 @@ export const useForm = <T extends FormComponent>(
       if (changes.has("name") || changes.has("value") || (isCheckable(component) && changes.has("checked"))) {
         component.elementInternals.setFormValue(getFormValue());
       }
-
-      updateValidity();
     });
+
+    controller.onUpdated(() => updateValidity());
 
     function updateValidity(): void {
       const { elementInternals } = component;
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
+      let validityAnchor: HTMLElement = component.el;
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
@@ -394,6 +397,13 @@ export const useForm = <T extends FormComponent>(
               other.setValidity(validity, validationMessage);
             }
           });
+
+          const firstFocusableElement: HTMLElement | null | undefined =
+            component.el.shadowRoot?.querySelector(`[tabindex="0"]`);
+
+          if (firstFocusableElement) {
+            validityAnchor = firstFocusableElement;
+          }
         } else {
           ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
         }
@@ -404,7 +414,7 @@ export const useForm = <T extends FormComponent>(
         validationMessage = customValidityMessage;
       }
 
-      elementInternals.setValidity(validity, validationMessage);
+      elementInternals.setValidity(validity, validationMessage, validityAnchor);
 
       if ("validity" in component) {
         bypassReadOnly(() => {
