@@ -47,6 +47,15 @@ const lumina = useLumina({
   types: {
     sourceFileTransformers: [removeTestDataAttr()],
   },
+  documentation: {
+    copyDefinitions: {
+      properties: {
+        label: () => ({
+          description: "Specifies an accessible label for the component. Copydoc test!",
+        }),
+      },
+    },
+  },
 });
 
 export default defineConfig({

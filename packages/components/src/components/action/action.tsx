@@ -138,7 +138,7 @@ export class Action extends LitElement {
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
