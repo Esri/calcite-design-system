@@ -176,10 +176,13 @@ export function createFocusTrapOptions(
           { signal: abortController.signal },
         );
       }
+
+      options?.onActivate?.();
     },
     onDeactivate: () => {
       abortController?.abort();
       abortController = undefined;
+      options?.onDeactivate?.();
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);
