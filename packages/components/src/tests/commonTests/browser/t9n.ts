@@ -2,6 +2,8 @@ import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
+type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
+type TagName = keyof DeclareElements;
 /**
  * Helper to test t9n component setup.
  *
@@ -12,17 +14,16 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
  *   t9n("calcite-action");
  * });
  */
-export async function t9n(setup: () => ReturnType<typeof mount>, messageOverrides?: object): Promise<void> {
+
+export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
   it("has defined default messages", async () => await assertDefaultMessages());
-  it("overrides messages", async () => await assertOverrides(messageOverrides));
+  it("overrides messages", async () => await assertOverrides(subComponents));
   it("switches messages", async () => await assertLangSwitch());
   it("does not throw when removed during message loading", async () => await assertNoErrorOnRemovalDuringMessageLoad());
-
-  type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 
   async function getCurrentMessages(
     component: ComponentWithMessageOverrides,
@@ -34,67 +35,37 @@ export async function t9n(setup: () => ReturnType<typeof mount>, messageOverride
     return component.messages;
   }
 
-  // const getCtor = (component: ComponentWithMessageOverrides): any => component?.el?.constructor;
-
-  // const getPropMeta = (component: ComponentWithMessageOverrides, propName: string) => {
-  //   const ctor = getCtor(component);
-  //   if (!ctor) {
-  //     return undefined;
-  //   }
-
-  //   // Lumina / Lit-style static metadata (best-effort)
-  //   return (
-  //     ctor?.properties?.[propName] ??
-  //     ctor?.props?.[propName] ??
-  //     ctor?.__properties?.[propName] ??
-  //     ctor?.[propName] // very last-ditch (unlikely)
-  //   );
-  // };
-
-  // const getShapeKeysFromMeta = (meta): string[] => {
-  //   if (!meta) {
-  //     return [];
-  //   }
-
-  //   const shape = meta.shape ?? meta.schema;
-  //   if (shape && typeof shape === "object") {
-  //     return Object.keys(shape);
-  //   }
-
-  //   return [];
-  // };
-
-  // async function getMessageOverridesKeys(
-  //   component: ComponentWithMessageOverrides,
-  // ): Promise<(keyof ComponentWithMessageOverrides["messageOverrides"])[]> {
-  //   const meta = getPropMeta(component, "messageOverrides");
-  //   const shapeKeys = getShapeKeysFromMeta(meta);
-  //   if (shapeKeys.length) {
-  //     return shapeKeys as (keyof ComponentWithMessageOverrides["messageOverrides"])[];
-  //   }
-
-  // }
-
   async function assertDefaultMessages(): Promise<void> {
     const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
-  async function assertOverrides(messageOverrides?: object): Promise<void> {
+  async function assertOverrides(subComponents?: TagName[]): Promise<void> {
+    let subComponentMessages = {};
+    if (Array.isArray(subComponents) && subComponents.length > 0) {
+      for (const subComponent of subComponents) {
+        const { component } = (await mount(subComponent)) as RenderResult<ComponentWithMessageOverrides>;
+        const subComponentCurrentMessages = await getCurrentMessages(component);
+        const filteredSubComponentCurrentMessages = Object.fromEntries(
+          Object.entries(subComponentCurrentMessages).filter(([key]) => !key.startsWith("_")),
+        );
+        expect(subComponentMessages).toBeDefined();
+        subComponentMessages = { ...subComponentMessages, ...filteredSubComponentCurrentMessages };
+      }
+    }
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
-    // const messageOverridesKeys = await getMessageOverridesKeys(component);
-
-    const messageOverridesToApply = messageOverrides || {
+    const messageOverrides = {
       [firstMessageProp as keyof typeof messages]: "override test",
     };
-    el.messageOverrides = messageOverridesToApply;
+    el.messageOverrides = { ...messageOverrides, ...subComponentMessages };
     await reRender();
 
     expect(await getCurrentMessages(component)).toMatchObject({
       ...messages,
       ...messageOverrides,
+      ...subComponentMessages,
     });
 
     // reset test changes
