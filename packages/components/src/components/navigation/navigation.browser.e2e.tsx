@@ -55,7 +55,7 @@ it("should emit calciteNavigationActionSelect event when user interacts with nav
   const { el } = await mount(<calcite-navigation label="Menu" navigation-action />);
   const actionSelectHandler = vi.fn();
   el.addEventListener("calciteNavigationActionSelect", actionSelectHandler);
-  const hamburgerMenu = page.getByRole("button");
+  const hamburgerMenu = page.getByRole("button", { name: "Menu" });
 
   await userEvent.keyboard("{Tab}");
   expect(actionSelectHandler).toHaveBeenCalledTimes(0);
