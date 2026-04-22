@@ -130,6 +130,29 @@ export const titleMessageLink = (): string => html`
 
 titleMessageLink.storyName = "Title, message, link";
 
+export const titleMessageLongLink = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
+      style="--calcite-alert-width:350px;"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+titleMessageLongLink.storyName = "Title, message, long link";
+
 export const titleMessage = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
