@@ -2,6 +2,9 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+
+mockConsole();
 
 describe("defaults", () => {
   defaults(

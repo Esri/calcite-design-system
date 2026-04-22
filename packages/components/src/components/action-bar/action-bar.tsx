@@ -1,7 +1,15 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -23,6 +31,7 @@ import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { focusElementInGroup } from "../../utils/dom";
+import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
@@ -55,9 +64,9 @@ export class ActionBar extends LitElement {
 
   private direction = useDirection();
 
-  private expandToggleEl: Action["el"];
+  private expandToggleEl?: Action["el"];
 
-  private actionGroups: ActionGroup["el"][];
+  private actionGroups: ActionGroup["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -69,7 +78,8 @@ export class ActionBar extends LitElement {
     if (
       overflowActionsDisabled ||
       (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width)
+      (layout === "horizontal" && !width) ||
+      !this.containerRef.value
     ) {
       return;
     }
@@ -162,7 +172,7 @@ export class ActionBar extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -174,7 +184,7 @@ export class ActionBar extends LitElement {
 
   //#region State Properties
 
-  @state() expandTooltip: Tooltip["el"];
+  @state() expandTooltip?: Tooltip["el"];
 
   @state() hasActionsEnd = false;
 
@@ -185,10 +195,10 @@ export class ActionBar extends LitElement {
   //#region Public Properties
 
   /** Specifies an accessible name for the last `calcite-action-group`. */
-  @property() actionsEndGroupLabel: string;
+  @property() actionsEndGroupLabel?: string;
 
   /** Specifies an accessible name for the first `calcite-action-group`. */
-  @property() actionsStartGroupLabel: string;
+  @property() actionsStartGroupLabel?: string;
 
   /**
    * When `true`, the component is in a floating state.
@@ -234,7 +244,7 @@ export class ActionBar extends LitElement {
    *
    * When `expanded` is `true`, the chevron direction is reversed.
    */
-  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -264,7 +274,7 @@ export class ActionBar extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -290,7 +300,10 @@ export class ActionBar extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen<ToEvents<ActionMenu>["calciteActionMenuOpen"]>(
+      "calciteActionMenuOpen",
+      this.actionMenuOpenHandler,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 

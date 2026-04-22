@@ -60,7 +60,7 @@ export class Swatch extends LitElement {
   /**
    * Specifies the component's color
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+   * @see [MDN - CSS color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
    */
   @property() color: string;
 

@@ -1,11 +1,13 @@
-import { describe, expect, it } from "vitest";
-import { page, userEvent } from "vitest/browser";
 import { h } from "@arcgis/lumina";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
@@ -14,7 +16,9 @@ import {
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
-import { NUDGE_DELAY_IN_MS } from "./resources";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
 
 describe("defaults", () => {
@@ -48,6 +52,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -107,7 +115,143 @@ describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
 });
 
+describe("clearable", () => {
+  it("renders clear button", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
+  });
+
+  it("does not render clear button when clearable is not requested", async () => {
+    await mount<InputNumber>(<calcite-input-number />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable value="" />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("clears value on clear button click", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(input);
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+  });
+
+  it("clears value on escape key press", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+  });
+
+  it("receives event when clear button is clicked", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when input is cleared via escape key", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("123");
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+  });
+
+  it("emits change event when value set directly and then cleared in 'de' locale", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable lang="de" value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberChange", inputEventHandler);
+
+    el.value = "49.173126";
+
+    expect(el.value).toBe("49.173126");
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("disables clear button when input is disabled", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable disabled value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+
+  it("disables clear button when input is readOnly", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable readOnly value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-number"), {
+    testValue: "5",
+    submitsOnEnter: true,
+    inputType: "number",
+    validation: true,
+  });
+});
+
 describe("nudging", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   function nudgeReadOnlyToggle(el: InputNumber["el"]): Promise<void> {
     return new Promise<void>((resolve) => {
       el.addEventListener(
@@ -132,7 +276,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeUpButton);
     await nudgeUpReadOnlyToggle;
 
-    expect(el.value).toBe("1");
+    expect(el).toHaveProperty("value", "1");
 
     const nudgeDownReadOnlyToggle = nudgeReadOnlyToggle(el);
 
@@ -140,8 +284,45 @@ describe("nudging", () => {
     await userEvent.click(nudgeDownButton);
     await nudgeDownReadOnlyToggle;
 
-    expect(el.value).toBe("0");
+    expect(el).toHaveProperty("value", "0");
   });
+
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number />);
+    const nudgeUpButton = page.getByTestId("number-button-up");
+    const nudgeUpButtonRect = await nudgeUpButton.element().getBoundingClientRect();
+
+    vi.useFakeTimers();
+
+    expect(el.value).toBe("");
+
+    await userEvent.hover(nudgeUpButton);
+    await commands.mouseDown();
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 4);
+
+    expect(el.value).not.toBe("");
+
+    const value = el.value;
+    await commands.mouseMove(nudgeUpButtonRect.x - 1, nudgeUpButtonRect.y);
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 4);
+
+    expect(el.value).toBe(value);
+
+    await commands.mouseUp();
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 2);
+    expect(el.value).toBe(value);
+  });
+});
+
+it("input event fires when number ends with a decimal", async () => {
+  const { el } = await mount<InputNumber>(<calcite-input-number value="1.2" />);
+  const inputEventHandler = vi.fn();
+  el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+  await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
+
+  expect(el).toHaveProperty("value", "1.");
+  expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
 describe("number locale support", () => {
@@ -311,4 +492,24 @@ describe("number locale support", () => {
 
     expect(el).toHaveProperty("value", "-1.0001");
   });
+});
+
+it("integer property prevents decimals and exponential notation", async () => {
+  const { el } = await mount<InputNumber>(<calcite-input-number integer step={0.01} value="1.2" />);
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonItem}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await userEvent.click(el);
+
+  expect(el).toHaveProperty("value", "12"); // test initial value
+
+  await userEvent.keyboard("3.4e-5");
+  expect(el).toHaveProperty("value", "12345"); // test user input
+
+  el.value = "-9.8e-7";
+  expect(el).toHaveProperty("value", "-987"); // test directly setting value
+
+  await userEvent.click(numberHorizontalItemUp);
+  expect(el).toHaveProperty("value", "-986"); // test incrementing
 });

@@ -3,7 +3,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
-import { SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -48,6 +48,9 @@ export class CardGroup extends LitElement {
    */
   @property() label: string;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /**
    * Specifies the component's selected items.
    *
@@ -70,7 +73,7 @@ export class CardGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -101,6 +104,10 @@ export class CardGroup extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selectionMode") && this.hasUpdated) {
       this.updateItemsOnSelectionModeChange();
+    }
+
+    if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
+      this.updateItemsScale();
     }
   }
 
@@ -152,6 +159,7 @@ export class CardGroup extends LitElement {
   private updateItemsOnSlotChange(event: Event): void {
     this.updateSlottedItems(event.target as HTMLSlotElement);
     this.updateSelectedItems();
+    this.updateItemsScale();
   }
 
   private updateSlottedItems(target: HTMLSlotElement): void {
@@ -159,6 +167,12 @@ export class CardGroup extends LitElement {
       target
         ?.assignedElements({ flatten: true })
         .filter((el): el is Card["el"] => el?.matches("calcite-card")) || [];
+  }
+
+  private updateItemsScale(): void {
+    this.items.forEach((el) => {
+      el.scale = this.scale;
+    });
   }
 
   private updateSelectedItems(): void {

@@ -7,10 +7,10 @@ import { defineConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
 import { defaultExclude } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
+import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-browser-commands";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
-import customBrowserModeCommands from "./src/tests/browser/commands";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
@@ -39,7 +39,6 @@ const lumina = useLumina({
   },
   puppeteerTesting: {
     enabled: !runBrowserTests,
-    waitForChangesDelay: 100,
     launchOptions: {
       devtools: process.env.DEVTOOLS === "true",
       headless: process.env.HEADLESS === "false" ? false : undefined,
@@ -58,7 +57,7 @@ export default defineConfig({
     noExternal: nonEsmDependencies,
   },
 
-  plugins: [lumina, customBrowserModeCommands()],
+  plugins: [lumina, customBrowserModeCommandsPlugin()],
 
   css: {
     postcss: {

@@ -3,6 +3,98 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.37...@esri/calcite-components-react@5.1.0-next.38) (2026-04-21)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.36...@esri/calcite-components-react@5.1.0-next.37) (2026-04-21)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.35...@esri/calcite-components-react@5.1.0-next.36) (2026-04-20)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.34...@esri/calcite-components-react@5.1.0-next.35) (2026-04-20)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.33...@esri/calcite-components-react@5.1.0-next.34) (2026-04-15)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.32...@esri/calcite-components-react@5.1.0-next.33) (2026-04-15)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.31...@esri/calcite-components-react@5.1.0-next.32) (2026-04-14)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.30...@esri/calcite-components-react@5.1.0-next.31) (2026-04-13)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.29...@esri/calcite-components-react@5.1.0-next.30) (2026-04-07)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.28...@esri/calcite-components-react@5.1.0-next.29) (2026-04-07)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.27...@esri/calcite-components-react@5.1.0-next.28) (2026-04-06)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.26...@esri/calcite-components-react@5.1.0-next.27) (2026-04-03)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.25...@esri/calcite-components-react@5.1.0-next.26) (2026-03-31)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.24...@esri/calcite-components-react@5.1.0-next.25) (2026-03-31)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.23...@esri/calcite-components-react@5.1.0-next.24) (2026-03-27)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.22...@esri/calcite-components-react@5.1.0-next.23) (2026-03-26)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.21...@esri/calcite-components-react@5.1.0-next.22) (2026-03-25)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.20...@esri/calcite-components-react@5.1.0-next.21) (2026-03-25)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.19...@esri/calcite-components-react@5.1.0-next.20) (2026-03-23)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.18...@esri/calcite-components-react@5.1.0-next.19) (2026-03-23)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.17...@esri/calcite-components-react@5.1.0-next.18) (2026-03-23)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.16...@esri/calcite-components-react@5.1.0-next.17) (2026-03-20)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
+## [5.1.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.15...@esri/calcite-components-react@5.1.0-next.16) (2026-03-20)
+
+**Note:** Version bump only for package @esri/calcite-components-react
+
 ## [5.1.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components-react@5.1.0-next.14...@esri/calcite-components-react@5.1.0-next.15) (2026-03-20)
 
 **Note:** Version bump only for package @esri/calcite-components-react

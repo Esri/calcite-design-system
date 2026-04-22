@@ -2,6 +2,7 @@
 
 :host {
   @apply flex;
+  line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 ul {

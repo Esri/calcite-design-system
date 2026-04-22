@@ -1,6 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { Mock } from "@vitest/spy";
 import { RenderResult } from "@arcgis/lumina-compiler/testing";
 import {
   componentsWithInputEvent,
@@ -27,7 +26,7 @@ interface FormAssociatedOptions {
    *
    * This option is only relevant when the `validation` option is enabled.
    *
-   * @see https://vitest.dev/api/browser/interactivity.html#userevent-type
+   * @see [userEvent.type](https://vitest.dev/api/browser/interactivity.html#userevent-type)
    */
   validUserInputTestValue?: string;
 
@@ -38,7 +37,7 @@ interface FormAssociatedOptions {
    *
    * This option is only relevant when the `validation` option is enabled.
    *
-   * @see https://vitest.dev/api/browser/interactivity.html#userevent-keyboard
+   * @see [userEvent.keyboard](https://vitest.dev/api/browser/interactivity.html#userevent-keyboard)
    */
   changeValueKeys?: string[];
 
@@ -209,10 +208,9 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     options: FormAssociatedOptions,
     reRender: () => Promise<boolean>,
   ): Promise<void> {
-    const resettablePropName = isCheckable(el, options) ? "checked" : ("value" as const);
-    // TODO: avoid any
-    const initialValue = (el as any)[resettablePropName];
-    (el as any)[resettablePropName] = options.testValue;
+    const resettablePropName = isCheckable(el, options) ? "checked" : "value";
+    const initialValue = el[resettablePropName];
+    el[resettablePropName] = options.testValue;
     await reRender();
 
     const form = document.querySelector("form")!;
@@ -357,7 +355,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   async function assertClearsValidationOnValueChange(
     el: FormComponent["el"],
     options: FormAssociatedOptions,
-    eventSpy: Mock,
+    eventSpy: ReturnType<typeof vi.fn>,
   ): Promise<void> {
     if (options?.changeValueKeys) {
       for (const key of options.changeValueKeys) {

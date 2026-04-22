@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.11...@esri/calcite-ui-icons@4.5.0-next.12) (2026-04-21)
+
+### Features
+
+- add gps receiver and total station ([#14301](https://github.com/Esri/calcite-design-system/issues/14301))
+
+## [4.5.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.10...@esri/calcite-ui-icons@4.5.0-next.11) (2026-04-14)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.5.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.9...@esri/calcite-ui-icons@4.5.0-next.10) (2026-04-07)
+
+### Features
+
+- updated nodes-unmerge keywords ([#14225](https://github.com/Esri/calcite-design-system/issues/14225))
+
+## [4.5.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.8...@esri/calcite-ui-icons@4.5.0-next.9) (2026-03-27)
+
+### Features
+
+- add arcgis quickcapture and arcgis survey 123 ([#14163](https://github.com/Esri/calcite-design-system/issues/14163))
+
+## [4.5.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.7...@esri/calcite-ui-icons@4.5.0-next.8) (2026-03-23)
+
+### Features
+
+- add layer stream setting and velocity server ([#14139](https://github.com/Esri/calcite-design-system/issues/14139))
+
 ## [4.5.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.6...@esri/calcite-ui-icons@4.5.0-next.7) (2026-03-11)
 
 ### Features

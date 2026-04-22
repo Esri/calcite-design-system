@@ -1,19 +1,29 @@
-// @ts-strict-ignore
+import { LitElement } from "@arcgis/lumina";
+import { makeGenericController } from "@arcgis/lumina/controllers";
 import Sortable from "sortablejs";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
-export interface MoveDetail {
-  toEl: HTMLElement;
-  fromEl: HTMLElement;
-  dragEl: HTMLElement;
-  relatedEl: HTMLElement;
+export interface MoveDetail<
+  To extends HTMLElement = HTMLElement,
+  From extends HTMLElement = HTMLElement,
+  Drag extends HTMLElement = HTMLElement,
+  Related extends HTMLElement = HTMLElement,
+> {
+  toEl: To;
+  fromEl: From;
+  dragEl: Drag;
+  relatedEl: Related;
 }
 
-export interface DragDetail {
-  toEl: HTMLElement;
-  fromEl: HTMLElement;
-  dragEl: HTMLElement;
+export interface DragDetail<
+  To extends HTMLElement = HTMLElement,
+  From extends HTMLElement = HTMLElement,
+  Drag extends HTMLElement = HTMLElement,
+> {
+  toEl: To;
+  fromEl: From;
+  dragEl: Drag;
   newIndex: number;
   oldIndex: number;
 }
@@ -25,11 +35,18 @@ export const CSS = {
   fallbackClass: "calcite-sortable--fallback",
 };
 
-/** Defines interface for components with sorting functionality. */
-export interface SortableComponent {
-  /** The host element. */
-  readonly el: HTMLElement;
+function onGlobalDragStart(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart());
+}
 
+function onGlobalDragEnd(): void {
+  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd());
+}
+
+/**
+ * Defines interface for components with sorting functionality.
+ */
+interface SortableComponent extends LitElement {
   /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
 
@@ -44,9 +61,6 @@ export interface SortableComponent {
 
   /** The selector for the handle elements. */
   handleSelector: string;
-
-  /** The Sortable instance. */
-  sortable: Sortable;
 
   /** Whether the element can move from the list. */
   canPull: (detail: DragDetail) => boolean | "clone";
@@ -80,29 +94,28 @@ export interface SortableComponentItem {
    *
    * Notes:
    *
-   * This property should use the `@Prop` decorator and reflect.
+   * This property should use the `@property` decorator and reflect.
    * This property should be used to set the `calcite-handle` disabled property.
    */
   dragDisabled: boolean;
 }
 
-/**
- * Helper to keep track of a SortableComponent. This should be called in the `connectedCallback` lifecycle method as well as any other method necessary to rebuild the sortable instance.
- *
- * @param component - The sortable component.
- */
-export function connectSortableComponent(component: SortableComponent): void {
-  if (dragActive(component)) {
-    return;
-  }
+interface UseSortable {
+  /**
+   * Resets the Sortable instance.
+   *
+   * This should be called after any change to the list that may affect Sortable's internal state (e.g. items added/removed, or changes to `dragDisabled` property).
+   */
+  reset: () => void;
+}
 
-  disconnectSortableComponent(component);
-  sortableComponentSet.add(component);
+const globalDragState: { active: boolean } = { active: false };
 
+function createSortable(component: SortableComponent): ReturnType<(typeof Sortable)["create"]> {
   const dataIdAttr = "id";
-  const { group, handleSelector: handle, dragSelector: draggable, sortDisabled } = component;
+  const { el, group, handleSelector: handle, dragSelector: draggable, sortDisabled } = component;
 
-  component.sortable = Sortable.create(component.el, {
+  return Sortable.create(el, {
     dataIdAttr,
     swapThreshold: 0.5,
     ...CSS,
@@ -112,24 +125,26 @@ export function connectSortableComponent(component: SortableComponent): void {
       group: {
         name: group,
         ...(!!component.canPull && {
-          pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
-            component.canPull({
+          pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
+            return component.canPull({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
               newIndex,
               oldIndex,
-            }),
+            });
+          },
         }),
         ...(!!component.canPut && {
-          put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) =>
-            component.canPut({
+          put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
+            return component.canPut({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
               newIndex,
               oldIndex,
-            }),
+            });
+          },
         }),
       },
     }),
@@ -143,12 +158,12 @@ export function connectSortableComponent(component: SortableComponent): void {
     handle,
     filter: `${handle}[disabled]`,
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      dragState.active = true;
+      globalDragState.active = true;
       onGlobalDragStart();
       component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      dragState.active = false;
+      globalDragState.active = false;
       onGlobalDragEnd();
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
@@ -159,37 +174,56 @@ export function connectSortableComponent(component: SortableComponent): void {
 }
 
 /**
- * Helper to remove track of a SortableComponent. This should be called in the `disconnectedCallback` lifecycle method.
- *
- * @param component - The sortable component.
+ * A controller for managing Sortable interactions
  */
-export function disconnectSortableComponent(component: SortableComponent): void {
-  if (dragActive(component)) {
-    return;
-  }
+export const useSortable = <T extends SortableComponent>(): ReturnType<
+  typeof makeGenericController<UseSortable, T>
+> => {
+  return makeGenericController<UseSortable, T>((component, controller) => {
+    let sortable: ReturnType<(typeof Sortable)["create"]> | undefined;
 
-  sortableComponentSet.delete(component);
+    function dragActive(component: SortableComponent): boolean {
+      return component.dragEnabled && globalDragState.active;
+    }
 
-  component.sortable?.destroy();
-  component.sortable = null;
-}
+    function setUpSortable(component: SortableComponent): void {
+      if (dragActive(component)) {
+        return;
+      }
 
-const dragState: { active: boolean } = { active: false };
+      tearDownSortable(component);
 
-/**
- * Helper to determine if dragging is currently active.
- *
- * @param component The sortable component.
- * @returns a boolean value.
- */
-export function dragActive(component: SortableComponent): boolean {
-  return component.dragEnabled && dragState.active;
-}
+      if (!component.dragEnabled) {
+        return;
+      }
 
-function onGlobalDragStart(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragStart());
-}
+      sortableComponentSet.add(component);
+      sortable = createSortable(component);
+    }
 
-function onGlobalDragEnd(): void {
-  Array.from(sortableComponentSet).forEach((component) => component.onGlobalDragEnd());
-}
+    function tearDownSortable(component: SortableComponent): void {
+      if (dragActive(component)) {
+        return;
+      }
+
+      sortableComponentSet.delete(component);
+
+      sortable?.destroy();
+      sortable = undefined;
+    }
+
+    controller.onConnected(() => {
+      setUpSortable(component);
+    });
+
+    controller.onDisconnected(() => {
+      tearDownSortable(component);
+    });
+
+    return {
+      reset: () => {
+        setUpSortable(component);
+      },
+    };
+  });
+};

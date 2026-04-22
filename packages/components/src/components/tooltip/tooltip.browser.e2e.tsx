@@ -4,12 +4,15 @@ import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import {
   defaults,
+  reflects,
   hidden,
   renders,
   floatingUIOwner,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { css } from "../../../support/formatting";
 import {
   HOVER_OPEN_DELAY_MS,
   HOVER_CLOSE_DELAY_MS,
@@ -149,6 +152,25 @@ describe("pointer movement toggling", () => {
   });
 });
 
+it("should honor pointerDisabled", async () => {
+  const { el, reRender } = await mount<Tooltip>(
+    <div>
+      <calcite-tooltip open reference-element="ref">
+        Content
+      </calcite-tooltip>
+      <button id="ref">Button</button>
+    </div>,
+  );
+
+  const arrow = page.getBySelector("calcite-tooltip .calcite-floating-ui-arrow");
+  await expect.element(arrow).toBeVisible();
+
+  el.pointerDisabled = true;
+  await reRender();
+
+  await expect.element(arrow).not.toBeInTheDocument();
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-tooltip"),
@@ -160,6 +182,14 @@ describe("defaults", () => {
       {
         propertyName: "placement",
         defaultValue: "auto",
+      },
+      {
+        propertyName: "pointerDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "offsetDistance",
@@ -176,6 +206,22 @@ describe("defaults", () => {
       {
         propertyName: "overlayPositioning",
         defaultValue: "absolute",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-tooltip"),
+    [
+      {
+        propertyName: "pointerDisabled",
+        value: true,
+      },
+      {
+        propertyName: "scale",
+        value: "l",
       },
     ],
   );
@@ -213,6 +259,62 @@ describe("floating-ui", () => {
       "open",
       { shadowSelector: `.${CSS.positionContainer}` },
     );
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(
+        <>
+          <calcite-tooltip placement="auto" reference-element="ref">
+            content
+          </calcite-tooltip>
+          <button id="ref">referenceElement</button>
+        </>,
+        mountOptions,
+      ),
+    );
+
+    describe("parent has display none", () => {
+      openClose(
+        (mountOptions) =>
+          mount(
+            <>
+              <div class="container">
+                <div class="template">
+                  <calcite-tooltip placement="auto" reference-element="ref">
+                    content
+                  </calcite-tooltip>
+                  <button id="ref">referenceElement</button>
+                </div>
+              </div>
+              <button class="hoverOutsideContainer">some other content</button>
+              <style
+                ref={(el) => {
+                  if (el) {
+                    el.innerHTML = css`
+                      .container {
+                        height: 100px;
+                        width: 100px;
+                        border: 1px solid red;
+                      }
+                      .container:hover .template {
+                        display: initial;
+                      }
+                      .template {
+                        display: none;
+                      }
+                    `;
+                  }
+                }}
+              />
+            </>,
+            mountOptions,
+          ),
+        {
+          willUseFallback: true,
+        },
+      );
+    });
   });
 });
 

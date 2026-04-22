@@ -5,16 +5,16 @@
  *
  * @prop --calcite-action-background-color-hover: Specifies the component's background color when hovered.
  * @prop --calcite-action-background-color-press: Specifies the component's background color when active.
- * @prop --calcite-action-background-color-pressed: [Deprecated] Use --calcite-action-background-color-press. Specifies the component's background color when active.
+ * @prop --calcite-action-background-color-pressed: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead. Specifies the component's background color when active.
  * @prop --calcite-action-background-color: Specifies the component's background color.
- * @prop --calcite-action-corner-radius-end-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end end.
- * @prop --calcite-action-corner-radius-end-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius end start.
- * @prop --calcite-action-corner-radius-start-end: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start end.
- * @prop --calcite-action-corner-radius-start-start: [Deprecated] Use --calcite-action-corner-radius. Specifies the component's corner radius start start.
+ * @prop --calcite-action-corner-radius-end-end: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead. Specifies the component's corner radius end end.
+ * @prop --calcite-action-corner-radius-end-start: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead. Specifies the component's corner radius end start.
+ * @prop --calcite-action-corner-radius-start-end: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead. Specifies the component's corner radius start end.
+ * @prop --calcite-action-corner-radius-start-start: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead. Specifies the component's corner radius start start.
  * @prop --calcite-action-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-action-indicator-color: Specifies the component's indicator color.
  * @prop --calcite-action-text-color-press: Specifies the component's text color when pressed or hovered.
- * @prop --calcite-action-text-color-pressed: [Deprecated] Use --calcite-action-text-color-press. Specifies the component's text color when hovered.
+ * @prop --calcite-action-text-color-pressed: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead. Specifies the component's text color when hovered.
  * @prop --calcite-action-text-color: Specifies the component's text color.
  */
 
@@ -23,8 +23,8 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-action-font-size
-// --calcite-internal-action-height
 // --calcite-internal-action-line-height
+// --calcite-internal-action-min-height
 // --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
 // --calcite-internal-action-text-color
@@ -33,19 +33,19 @@
 
 :host([scale="s"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--2);
-  --calcite-internal-action-height: var(--calcite-size-sm);
+  --calcite-internal-action-min-height: var(--calcite-size-sm);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
 }
 :host([scale="m"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size--1);
-  --calcite-internal-action-height: var(--calcite-size-md);
+  --calcite-internal-action-min-height: var(--calcite-size-md);
   --calcite-internal-action-line-height: 1rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm);
 }
 :host([scale="l"]) {
   --calcite-internal-action-font-size: var(--calcite-font-size-0);
-  --calcite-internal-action-height: var(--calcite-size-lg);
+  --calcite-internal-action-min-height: var(--calcite-size-lg);
   --calcite-internal-action-line-height: 1.25rem;
   --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
 }
@@ -109,6 +109,7 @@
     items-center
     justify-start
     border-none;
+  box-sizing: border-box;
   background-color: var(--calcite-action-background-color, var(--calcite-color-foreground-1));
   border-radius: inherit;
   color: var(--calcite-action-text-color, var(--calcite-internal-action-text-color));
@@ -118,7 +119,8 @@
   font-size: var(--calcite-internal-action-font-size);
   font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-internal-action-line-height);
-  min-block-size: var(--calcite-internal-action-height);
+  min-block-size: var(--calcite-internal-action-height, var(--calcite-internal-action-min-height));
+  max-block-size: var(--calcite-internal-action-height, none);
   padding-block: var(--calcite-internal-action-padding-block, var(--calcite-internal-action-spacing));
   padding-inline: var(--calcite-internal-action-padding-inline, var(--calcite-internal-action-spacing));
   text-align: start;
@@ -256,7 +258,7 @@
   }
 }
 
-/* [Deprecated]  Compact */
+/* Deprecated Compact */
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
 :host([scale="l"][compact]) .button {
