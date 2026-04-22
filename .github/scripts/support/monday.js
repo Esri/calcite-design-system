@@ -338,6 +338,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
+      issueType.themeUpdate,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "Theme Update",
+        clearable: true,
+      },
+    ],
+    [
       priority.low,
       {
         column: mondayColumns.priority,
