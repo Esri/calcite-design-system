@@ -1736,16 +1736,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         }
       });
     } else if (!this.selectAllEnabled || !this.allSelected || this.hasDisabledItems) {
-      const selectedItemsForDisplay =
-        selectionDisplay === "fit"
-          ? this.selectedItems.filter((item) => !item.disabled)
-          : this.selectedItems;
+      // const selectedItemsForDisplay =
+      //   selectionDisplay === "fit"
+      //     ? this.selectedItems.filter((item) => !item.disabled)
+      //     : this.selectedItems;
 
-      selectedItemsForDisplay.forEach((item) => {
+      this.selectedItems.forEach((item) => {
         chips.push(
           this.renderChip({
             activeChipIndex,
-            disabled: item.disabled,
+            disabled: false,
             index: selectedIndex++,
             item,
             messages,
