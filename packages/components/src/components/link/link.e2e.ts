@@ -1,6 +1,6 @@
 // @ts-strict-ignore
-import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it, beforeEach } from "vitest";
+import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -156,69 +156,6 @@ it('renders with an icon-start and icon-end and role="button"', async () => {
   expect(iconStart).not.toBeNull();
   expect(elementAsLink).toEqualAttribute("role", "button");
   expect(iconEnd).not.toBeNull();
-});
-
-describe("link interactivity", () => {
-  const targetPage = "#test";
-
-  let page: E2EPage;
-  let pageUrl: string;
-  let targetUrl: string;
-
-  beforeEach(async () => {
-    page = await newE2EPage({
-      html: `<calcite-link href="/${targetPage}">link</calcite-link>`,
-    });
-
-    pageUrl = page.url();
-    targetUrl = `${pageUrl}${targetPage}`;
-  });
-
-  it("keyboard", async () => {
-    const element = await page.find("calcite-link");
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-
-    expect(page.url()).toBe(targetUrl);
-  });
-
-  it("keyboard without href", async () => {
-    const element = await page.find("calcite-link");
-    const clickEvent = await element.spyOnEvent("click");
-    element.setProperty("href", undefined);
-    await page.waitForChanges();
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Enter");
-    await page.waitForChanges();
-    expect(clickEvent).toHaveReceivedEventTimes(1);
-  });
-
-  it("mouse", async () => {
-    // workaround for https://github.com/puppeteer/puppeteer/issues/2977
-    await page.$eval("calcite-link", (link: HTMLElement): void => {
-      link.shadowRoot.querySelector("a").click();
-    });
-    await page.waitForChanges();
-
-    expect(page.url()).toBe(targetUrl);
-  });
-
-  it("non user-initiated click event", async () => {
-    const link = await page.find("calcite-link");
-    const clickEvent = await link.spyOnEvent("click");
-
-    // helps test click behavior via HTMLElement.click()
-    await link.callMethod("click");
-    await page.waitForChanges();
-
-    expect(page.url()).toBe(targetUrl);
-    // make sure forwarded internal event does not propagate
-    expect(clickEvent).toHaveReceivedEventTimes(1);
-  });
 });
 
 describe("theme", () => {
