@@ -397,7 +397,7 @@ By default, the PR body is used as the commit message when squash merging, so in
   - make sure to apply the `pr ready for screenshot tests` label
     - if there are additional visual changes since the last screenshot test run, this label will need to be removed then added again to schedule another test run
   - assign the [`Esri/calcite-designers`](https://github.com/orgs/Esri/teams/calcite-designers) group to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
-  - except for false-positives, please wait for review before accepting new or updated screenshots (for non–design-driven updates)
+  - wait for design review prior to accepting new or updated screenshot diffs. Obvious false positives can be accepted prior to design review.
 - If a follow-up issue is needed during the PR review
   - tag the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group in a comment so a related issue can be created, estimated, and prioritized for an upcoming milestone
   - provide context and details for the new issue(s) to better we prepare ourselves for future follow-up work
