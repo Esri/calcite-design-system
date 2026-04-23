@@ -22,9 +22,9 @@
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
 
-:host {
-  interpolate-size: allow-keywords;
-}
+// :host {
+//   interpolate-size: allow-keywords;
+// }
 
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
@@ -179,6 +179,7 @@
   transition:
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
     max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function;
+  interpolate-size: allow-keywords;
 }
 
 .item--expanded > .children-container {
