@@ -316,7 +316,7 @@ describe("item selection", () => {
     expect(changeSpy).toHaveReceivedEventTimes(0);
   });
 
-  describe("selectedItems state", () => {
+  describe("has selected items in the selection event payload", () => {
     it("contains current selection when selection=multiple", async () => {
       const page = await newE2EPage({
         html: html` <calcite-tree selection-mode="multiple">
