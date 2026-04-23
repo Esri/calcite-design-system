@@ -6,6 +6,7 @@ import { toAriaBoolean } from "../../utils/aria";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import type { TreeItem } from "../tree-item/tree-item";
+import type { TreeSelectDetail } from "./interfaces";
 import { getTraversableItems, isTreeItem } from "./utils";
 import { styles } from "./tree.scss";
 
@@ -74,7 +75,7 @@ export class Tree extends LitElement {
   // #region Events
 
   /** Fires when the user selects/deselects `calcite-tree-items`. */
-  calciteTreeSelect = createEvent({ cancelable: false });
+  calciteTreeSelect = createEvent<TreeSelectDetail>({ cancelable: false });
 
   // #endregion
 
@@ -235,7 +236,9 @@ export class Tree extends LitElement {
       ? []
       : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
 
-    this.calciteTreeSelect.emit();
+    this.calciteTreeSelect.emit({
+      nodeType: event.detail.nodeType,
+    });
 
     event.stopPropagation();
   }
@@ -406,7 +409,9 @@ export class Tree extends LitElement {
     );
 
     if (updateItem) {
-      this.calciteTreeSelect.emit();
+      this.calciteTreeSelect.emit({
+        nodeType: event.detail.nodeType,
+      });
     }
   }
 

@@ -7,6 +7,7 @@ import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
 import { mockConsole } from "../../tests/utils/logging";
+import type { TreeSelectDetail } from "./interfaces";
 
 /**
  * Helper to ensure an item is clicked and avoids clicking on any of its children
@@ -268,7 +269,7 @@ describe("item selection", () => {
     const tree = await page.find("calcite-tree");
     const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
     const grandchildOne = await page.find("#grandchild-one");
-    await grandchildOne.click();
+    await directItemClick(page, grandchildOne);
     expect(selectEventSpy).toHaveReceivedEventTimes(1);
   });
 
@@ -317,6 +318,50 @@ describe("item selection", () => {
   });
 
   describe("has selected items in the selection event payload", () => {
+    it("contains leaf nodeType when a leaf item is selected", async () => {
+      const page = await newE2EPage({
+        html: html`
+          <calcite-tree selection-mode="single">
+            <calcite-tree-item id="leaf">Leaf</calcite-tree-item>
+          </calcite-tree>
+        `,
+      });
+
+      const tree = await page.find("calcite-tree");
+      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+      const leafItem = await page.find("#leaf");
+
+      await leafItem.click();
+      await page.waitForChanges();
+
+      const eventDetail = selectEventSpy.lastEvent.detail as TreeSelectDetail;
+      expect(eventDetail.nodeType).toBe("leaf");
+    });
+
+    it("contains header nodeType when a header item is selected", async () => {
+      const page = await newE2EPage({
+        html: html`
+          <calcite-tree selection-mode="ancestors">
+            <calcite-tree-item id="header">
+              <calcite-tree slot="children">
+                <calcite-tree-item>Leaf</calcite-tree-item>
+              </calcite-tree>
+            </calcite-tree-item>
+          </calcite-tree>
+        `,
+      });
+
+      const tree = await page.find("calcite-tree");
+      const selectEventSpy = await tree.spyOnEvent("calciteTreeSelect");
+      const headerItem = await page.find("#header");
+
+      await headerItem.click();
+      await page.waitForChanges();
+
+      const eventDetail = selectEventSpy.lastEvent.detail as TreeSelectDetail;
+      expect(eventDetail.nodeType).toBe("header");
+    });
+
     it("contains current selection when selection=multiple", async () => {
       const page = await newE2EPage({
         html: html` <calcite-tree selection-mode="multiple">
