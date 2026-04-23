@@ -1,4 +1,4 @@
-import { FormComponent } from "../../controllers/useForm";
+import type { FormComponent } from "../../controllers/useForm";
 
 class DemoForm extends HTMLElement {
   connectedCallback() {
