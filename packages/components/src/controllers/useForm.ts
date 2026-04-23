@@ -371,7 +371,7 @@ export const useForm = <T extends FormComponent>(
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
-      let validityAnchor: HTMLElement = component.el;
+      let validityAnchor: HTMLElement | null = null;
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
