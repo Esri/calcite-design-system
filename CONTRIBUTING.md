@@ -474,7 +474,7 @@ Focus on the following items while reviewing:
 
 - Consistency (naming, patterns, etc.) 📚
 - Adhering to guidelines 🤝📚
-- If applicable, improvements or alternatives to a solution
+- Improvements or alternatives to a solution, if applicable
 - Typos and grammar
 - PR title adheres to conventional commits
 - Ensure all files are relevant to the associated issue
