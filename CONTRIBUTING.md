@@ -420,7 +420,7 @@ When a pull request is strictly intended to deprecate an existing feature or com
 
 If deprecations are part of a broader change, such as introducing a new `feat` or making a `fix`, a `deprecate` entry can be added to the bottom of the PR body following the format described in the [release-please documentation](https://github.com/googleapis/release-please#what-if-my-pr-contains-multiple-fixes-or-features).
 
-#### Example
+#### Example of adding deprecation entry on a feature PR
 
 ```text
 PR title:
@@ -440,7 +440,7 @@ deprecate(avatar): deprecate old unnecessary property 🗑️
 
 - In addition to requesting a review on GitHub, the quickest way to get attention for your PR is to post a message in the [Core - Development Teams channel](https://teams.microsoft.com/l/channel/19%3A4f39d2df65734cf4a4a1843eea9aa040%40thread.skype/Core%20-%20Development?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true).
 - Before starting a review on a **_non-draft_** PR (see [**Draft PRs**](#draft-prs) below), use the 👀 reaction to let others know the PR is being reviewed.
-- If the review was requested via a Teams message, make sure to use one of the following reactions to indicate status:
+- If the review was requested via a Teams message, use one of the following reactions to indicate status:
   - ⁠👀 reviewing
   - ⁠✅ approved
   - ⁠🛑 changes requested
@@ -489,13 +489,13 @@ Focus on the following items while reviewing:
 - Typos and grammar
 - PR title adheres to conventional commits
 - Ensure all files are relevant to the associated issue
-- Make sure to ask clarifying questions about changes if you don't understand something. This helps share the knowledge and can help identify information that might be useful to add as comments or rename variables/functions to make the code clearer.
+- Ask clarifying questions about changes if you don't understand something. This ensures knowledge sharing and helps identify information that might be useful to add as comments or rename variables/functions.
 
 ### Submitting
 
 You can approve a review if there are a couple required changes, as long as they are straightforward. However, make sure to "request changes" if the changes require a second pass from you.
 
-It's always better to be explicit and comment whether the PR is good to merge after making adjustments or if you'd like to be requested for another review once changes have been made.
+Be explicit in your recommendation of approval. Communicate if a PR is good to merge once comments are addressed or if a follow-up review request should be made prior to merging.
 
 Getting extra pairs of eyes on reviews is always a good idea, but not necessary. If you'd like to get someone else to take a look, please mention them or add them as reviewers. Similarly, if you are unfamiliar with the changes, please call this out to give a better idea on whether additional reviewers may be needed. If you're unsure on who to contact, refer to the [Areas of Focus page](https://confluencewikidev.esri.com/display/Calcite/Areas+of+focus) for guidance.
 
