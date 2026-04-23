@@ -170,7 +170,6 @@
   position: relative;
   transition:
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
-    max-block-size var(--calcite-internal-animation-timing-medium) animation.$easing-function,
     grid-template-rows var(--calcite-internal-animation-timing-medium) animation.$easing-function;
 }
 
@@ -181,7 +180,6 @@
 
   @starting-style {
     opacity: 0;
-    max-block-size: 0;
     grid-template-rows: 0fr;
   }
 }
