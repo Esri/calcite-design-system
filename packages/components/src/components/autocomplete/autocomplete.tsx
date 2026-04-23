@@ -193,7 +193,7 @@ export class Autocomplete
   /**
    * When `true` or not set, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
-   * To hide the default icon, set the property to `false`.
+   * To hide the default icon, set the property to `false` using JavaScript.
    */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
