@@ -194,7 +194,10 @@ export class ShellPanel extends LitElement {
       this.setupInteractions();
     }
 
-    if (changes.has("direction") && this.hasUpdated) {
+    if (
+      (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
+    ) {
       this.setupInteractions();
     }
 

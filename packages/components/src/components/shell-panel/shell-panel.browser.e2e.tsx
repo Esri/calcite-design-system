@@ -7,6 +7,7 @@ import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/com
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir, Layout } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
 
 mockConsole();
 
@@ -71,35 +72,46 @@ describe("shell-panel updateSize public method", () => {
 
   type TestCase = {
     dir: Dir;
-    changeAfterMount?: "dir" | "slot";
+    changeAfterMount?: "dir" | "slot" | "position";
     slot: "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+    position: ShellPanel["position"];
   };
 
+  /**
+   * Options representing supported use cases to test.
+   *
+   * Note: mismatched slot and position are not supported (e.g., slot=panel-start + position=end)
+   */
   const testCases: TestCase[] = [
-    { dir: "ltr", slot: "panel-start" },
-    { dir: "ltr", slot: "panel-start", changeAfterMount: "dir" },
-    { dir: "ltr", slot: "panel-start", changeAfterMount: "slot" },
-    { dir: "ltr", slot: "panel-end" },
-    { dir: "ltr", slot: "panel-end", changeAfterMount: "dir" },
-    { dir: "ltr", slot: "panel-end", changeAfterMount: "slot" },
-    { dir: "ltr", slot: "panel-top" },
-    { dir: "ltr", slot: "panel-top", changeAfterMount: "dir" },
-    { dir: "ltr", slot: "panel-top", changeAfterMount: "slot" },
-    { dir: "ltr", slot: "panel-bottom" },
-    { dir: "ltr", slot: "panel-bottom", changeAfterMount: "dir" },
-    { dir: "ltr", slot: "panel-bottom", changeAfterMount: "slot" },
-    { dir: "rtl", slot: "panel-start" },
-    { dir: "rtl", slot: "panel-start", changeAfterMount: "dir" },
-    { dir: "rtl", slot: "panel-start", changeAfterMount: "slot" },
-    { dir: "rtl", slot: "panel-end" },
-    { dir: "rtl", slot: "panel-end", changeAfterMount: "dir" },
-    { dir: "rtl", slot: "panel-end", changeAfterMount: "slot" },
-    { dir: "rtl", slot: "panel-top" },
-    { dir: "rtl", slot: "panel-top", changeAfterMount: "dir" },
-    { dir: "rtl", slot: "panel-top", changeAfterMount: "slot" },
-    { dir: "rtl", slot: "panel-bottom" },
-    { dir: "rtl", slot: "panel-bottom", changeAfterMount: "dir" },
-    { dir: "rtl", slot: "panel-bottom", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-start", position: "start" },
+    { dir: "ltr", slot: "panel-end", position: "end" },
+    { dir: "rtl", slot: "panel-start", position: "start" },
+    { dir: "rtl", slot: "panel-end", position: "end" },
+
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "dir" },
+
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "slot" },
+
+    { dir: "ltr", slot: "panel-top", position: "start" },
+    { dir: "ltr", slot: "panel-bottom", position: "end" },
+    { dir: "rtl", slot: "panel-top", position: "start" },
+    { dir: "rtl", slot: "panel-bottom", position: "end" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
   ];
 
   function layoutFromPanelSlot(
@@ -108,9 +120,10 @@ describe("shell-panel updateSize public method", () => {
     return slot === "panel-start" || slot === "panel-end" ? "vertical" : "horizontal";
   }
 
-  async function setUpShellPanel({ dir, changeAfterMount, slot }: Omit<TestCase, never>) {
+  async function setUpShellPanel({ dir, changeAfterMount, slot, position }: Omit<TestCase, never>) {
     const layout = layoutFromPanelSlot(slot);
     const requestedShellPanelSlot = slot;
+    const requestedPosition = position;
     const initialShellPanelSlot =
       changeAfterMount === "slot"
         ? layout === "horizontal"
@@ -123,23 +136,28 @@ describe("shell-panel updateSize public method", () => {
               "panel-top"
             : "panel-bottom"
         : requestedShellPanelSlot;
+    const initialPosition =
+      changeAfterMount === "position"
+        ? requestedPosition === "start"
+          ? "end"
+          : "start"
+        : requestedPosition;
 
     const { el, component } = await mount<"calcite-shell">(
       <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir}>
-        <calcite-shell-panel resizable slot={initialShellPanelSlot}>
+        <calcite-shell-panel position={initialPosition} resizable slot={initialShellPanelSlot}>
           <calcite-panel>Content</calcite-panel>
         </calcite-shell-panel>
       </calcite-shell>,
     );
     const panel = el.querySelector("calcite-shell-panel")!;
 
-    await component.updateComplete;
-    await panel.manager.component.updateComplete;
-
     if (changeAfterMount === "dir") {
       el.dir = dir;
     } else if (changeAfterMount === "slot") {
       panel.slot = requestedShellPanelSlot;
+    } else if (changeAfterMount === "position") {
+      panel.position = requestedPosition;
     }
 
     await component.updateComplete;
@@ -164,10 +182,11 @@ describe("shell-panel updateSize public method", () => {
       dimensionCssProp,
       initialSize,
       overrideSize,
+      requestedPosition,
     };
   }
 
-  function getUserInteraction({ dir, slot }: Pick<TestCase, "dir" | "slot">): {
+  function getUserInteraction({ dir, slot }: Pick<TestCase, "dir" | "slot" | "position">): {
     keyboardKey: string;
     mouseDelta: {
       dx: number;
@@ -211,12 +230,12 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
-  testCases.forEach(({ dir, changeAfterMount, slot }) => {
+  testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
     const layout = layoutFromPanelSlot(slot);
     const axis = layout === "vertical" ? "inline" : "block";
-    const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
+    const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot, position });
 
-    const testLabel = `${layout} panel [dir=${dir}, changeAfterMount=${changeAfterMount ?? "none"}, slot=${slot}]`;
+    const testLabel = `${layout} panel [dir=${dir}, changeAfterMount=${changeAfterMount ?? "none"}, slot=${slot}, position=${position}]`;
 
     it(`default size → token resize → KEYBOARD resize → method resize → clear method override (${testLabel})`, async () => {
       const {
@@ -231,6 +250,7 @@ describe("shell-panel updateSize public method", () => {
         dir,
         changeAfterMount,
         slot,
+        position,
       });
 
       panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
@@ -265,6 +285,7 @@ describe("shell-panel updateSize public method", () => {
         dir,
         changeAfterMount,
         slot,
+        position,
       });
 
       panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
