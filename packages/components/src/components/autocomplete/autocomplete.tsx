@@ -190,7 +190,11 @@ export class Autocomplete
    */
   @property({ reflect: true }) form: string;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /**
+   * When `true` or not set, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   *
+   * To hide the default icon, set the property to `false`.
+   */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
