@@ -317,7 +317,7 @@ describe("item selection", () => {
     expect(changeSpy).toHaveReceivedEventTimes(0);
   });
 
-  describe("has selected items in the selection event payload", () => {
+  describe("selection event detail and selectedItems state", () => {
     it("contains leaf nodeType when a leaf item is selected", async () => {
       const page = await newE2EPage({
         html: html`

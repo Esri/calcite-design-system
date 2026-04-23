@@ -210,7 +210,7 @@ export class TreeItem extends LitElement {
   }
 
   private getNodeType(): TreeItemSelectDetail["nodeType"] {
-    return this.hasChildren || this.selectionMode === "ancestors" ? "header" : "leaf";
+    return this.hasChildren ? "header" : "leaf";
   }
 
   private onClick(event: Event): void {
