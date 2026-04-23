@@ -1,10 +1,10 @@
 import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { PropertyValues } from "lit";
+import { html, PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
-import { Locator, page } from "vitest/browser";
-import { html } from "../../support/formatting";
+import { Locator, page, userEvent } from "vitest/browser";
+import { createRef } from "lit/directives/ref.js";
 import { afterNextTask } from "../tests/utils/timing";
 import { GlobalTestProps } from "../tests/utils/interfaces";
 import { CalciteConfig, clearConfig } from "../utils/config";
@@ -12,6 +12,8 @@ import { FocusTrap, useFocusTrap } from "./useFocusTrap";
 
 describe("useFocusTrap", () => {
   class Test extends LitElement {
+    static tagName = "focus-trap-component";
+
     @property() open? = false;
 
     focusTrap = useFocusTrap<this>({
@@ -197,9 +199,12 @@ describe("useFocusTrap", () => {
       };
     }
 
+    let previousFocusedEl: HTMLInputElement;
+    let nextFocusedEl: HTMLInputElement;
+
     beforeEach(async () => {
-      const previousFocusedEl = document.createElement("input");
-      const nextFocusedEl = document.createElement("input");
+      previousFocusedEl = document.createElement("input");
+      nextFocusedEl = document.createElement("input");
       document.body.append(nextFocusedEl, previousFocusedEl);
 
       previousFocusedLocator = page.elementLocator(previousFocusedEl);
@@ -208,6 +213,11 @@ describe("useFocusTrap", () => {
       insideButtonLocator = page.getByTestId("inside-button");
 
       await previousFocusedLocator.click();
+    });
+
+    afterEach(() => {
+      previousFocusedEl.remove();
+      nextFocusedEl.remove();
     });
 
     describe("setReturnFocus option", () => {
@@ -282,8 +292,10 @@ describe("useFocusTrap", () => {
   });
 
   it("does not try to restore focus to the document when there was no previously focused element", async () => {
-    document.body.innerHTML = html`<a href="/">should not focus here</a>`;
-    const { el, component } = await mount(Test);
+    const { el, component } = await mount<Test>(html`
+      <a href="/">should not focus here</a>
+      <focus-trap-component></focus-trap-component>
+    `);
     el.open = true;
     await component.updateComplete;
     await waitForFocusShift();
@@ -295,5 +307,94 @@ describe("useFocusTrap", () => {
     await waitForFocusShift();
 
     expect(document.activeElement!.tagName).toBe("BODY");
+  });
+
+  it("handles Escape in a hierarchy of focus-trapping and non-focus-trapping components", async () => {
+    class FocusTrapComponent extends LitElement {
+      static tagName = "focus-trapping";
+
+      @property({ type: Boolean }) open = false;
+
+      focusTrap = useFocusTrap<this>({
+        triggerProp: "open",
+        focusTrapOptions: {
+          escapeDeactivates: (event) => {
+            if (!event.defaultPrevented) {
+              this.open = false;
+              event.preventDefault();
+            }
+            return true;
+          },
+        },
+      })(this);
+
+      override updated(changes: PropertyValues<this>): void {
+        if (changes.has("open")) {
+          if (this.open) {
+            this.focusTrap.activate();
+          } else {
+            this.focusTrap.deactivate();
+          }
+        }
+      }
+
+      override render(): JsxNode {
+        return this.open ? <input /> : null;
+      }
+    }
+
+    class NonFocusTrapComponent extends LitElement {
+      static tagName = "non-focus-trapping";
+
+      @property({ type: Boolean }) open = false;
+
+      #buttonRef = createRef<HTMLButtonElement>();
+
+      constructor() {
+        super();
+        this.listen("keydown", (event) => {
+          if (event.key === "Escape" && !event.defaultPrevented) {
+            this.open = false;
+            event.preventDefault();
+          }
+        });
+      }
+
+      override updated(changes: PropertyValues<this>): void {
+        if (changes.has("open")) {
+          if (this.open) {
+            this.#buttonRef.value?.focus();
+          }
+        }
+      }
+
+      override render(): JsxNode {
+        return this.open ? (
+          <div>
+            <slot />
+            <button ref={this.#buttonRef}>close</button>
+          </div>
+        ) : null;
+      }
+    }
+
+    await mount(
+      html`
+        <non-focus-trapping open data-testid="non-focus-trapping">
+          <focus-trapping open data-testid="focus-trapping"></focus-trapping>
+        </non-focus-trapping>
+      `,
+      { dynamicComponents: [NonFocusTrapComponent, FocusTrapComponent] },
+    );
+    const nonTrap = page.getByTestId("non-focus-trapping");
+    const trap = nonTrap.getByTestId("focus-trapping");
+
+    await expect.element(trap).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(nonTrap).toHaveFocus();
+    await expect.element(trap).toHaveProperty("open", false);
+    await expect.element(nonTrap).toHaveProperty("open", true);
   });
 });
