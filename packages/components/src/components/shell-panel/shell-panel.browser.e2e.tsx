@@ -197,18 +197,16 @@ describe("shell-panel updateSize public method", () => {
     const isVertical = layout === "vertical";
     const isRtl = dir === "rtl";
     const direction = isVertical
-      ? slot === "panel-top"
-        ? "down"
-        : slot === "panel-bottom"
-          ? "up"
-          : slot === "panel-start"
-            ? isRtl
-              ? "left"
-              : "right"
-            : isRtl
-              ? "right"
-              : "left"
-      : "down";
+      ? slot === "panel-start"
+        ? isRtl
+          ? "left"
+          : "right"
+        : isRtl
+          ? "right"
+          : "left"
+      : slot === "panel-bottom"
+        ? "up"
+        : "down";
 
     const keyboardKey =
       direction === "left"
