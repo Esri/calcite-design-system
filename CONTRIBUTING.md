@@ -383,26 +383,36 @@ By default, the PR body is used as the commit message when squash merging, so in
 
 ### Types of PR reviews and suggested workflows
 
-- Automated dependency updates -- these are typically straightforward
-  and only require approval before merging.
-  - If a check is failing
-    - if it's something impacted by your changes, please address the failure in order to help the PR move along
-    - if it's something complicated, needs more time or is related to test instability, comment on the PR about any findings and bring this up in the core channel, where we will either
-      - provide assistance or
-      - get confirmation to create a follow-up issue
-- Documentation updates
-  - review and approve if everything looks good from an editorial perspective
-  - assign the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group to review and ensure doc tone consistency
-- If there are visual changes associated with a PR
-  - make sure to apply the `pr ready for screenshot tests` label
-    - if there are additional visual changes since the last screenshot test run, this label will need to be removed then added again to schedule another test run
-  - assign the [`Esri/calcite-designers`](https://github.com/orgs/Esri/teams/calcite-designers) group to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
-  - wait for design review prior to accepting new or updated screenshot diffs. Obvious false positives can be accepted prior to design review.
-- If a follow-up issue is needed during the PR review
-  - tag the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group in a comment so a related issue can be created, estimated, and prioritized for an upcoming milestone
-  - provide context and details for the new issue(s) to better we prepare ourselves for future follow-up work
-- If PR checks are failing unexpectedly
-  - reach out in the [Core - General Teams channel](https://teams.microsoft.com/l/channel/19%3Ae82c6c80246d4e9f8eb7339e4d677b60%40thread.skype/Core%20-%20General?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true) about this and cc [@jcfranco](https://github.com/jcfranco).
+#### Automated dependency updates
+
+These are typically straightforward and only require approval before merging.
+
+- When a check is failing:
+  - If it's something impacted by your changes, please address the failure in order to help the PR move along
+  - If it's something complicated, needs more time or is related to test instability, comment on the PR about any findings and bring this up in the core channel, where we will either
+    - Provide assistance, or
+    - Get confirmation to create a follow-up issue
+
+#### Documentation updates
+
+- Review and approve if everything looks good from an editorial perspective
+- assign the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group to review and ensure doc tone consistency
+
+#### If there are visual changes associated with a PR
+
+- Make sure to apply the `pr ready for screenshot tests` label
+  - If there are additional visual changes since the last screenshot test run, this label will need to be removed then added again to schedule another test run
+- Assign the [`Esri/calcite-designers`](https://github.com/orgs/Esri/teams/calcite-designers) group to review screenshot diffs, and optionally mention them to increase visibility (especially for design-driven updates)
+- Wait for design review prior to accepting new or updated screenshot diffs. Obvious false positives can be accepted prior to design review.
+
+#### If a follow-up issue is needed during the PR review
+
+- Tag the [`Esri/calcite-pes`](https://github.com/orgs/Esri/teams/calcite-pes) group in a comment so a related issue can be created, estimated, and prioritized for an upcoming milestone
+- Provide context and details for the new issue(s) to better we prepare ourselves for future follow-up work
+
+#### If PR checks are failing unexpectedly
+
+- Reach out in the [Core - General Teams channel](https://teams.microsoft.com/l/channel/19%3Ae82c6c80246d4e9f8eb7339e4d677b60%40thread.skype/Core%20-%20General?groupId=56fae21a-9407-4943-859f-a9bfcf0bbad3&tenantId=aee6e3c9-711e-4c7c-bd27-04f2307db20d&ngc=true) about this and cc [@jcfranco](https://github.com/jcfranco).
 
 ### Deprecation PRs
 
@@ -424,7 +434,7 @@ This PR adds in feature x which will make everything work flawlessly forever.
 deprecate(avatar): deprecate old unnecessary property 🗑️
 ```
 
-⚠️ Make sure to always add the `deprecate` entry at the bottom of the PR body as shown above.
+⚠️ Make sure to add the `deprecate` entry at the bottom of the PR body as shown above only when the PR is not already scoped as a deprecation.
 
 ### Reviewing
 
@@ -449,6 +459,7 @@ Before marking a PR as ready for review:
 - Run an initial review with GitHub Copilot to catch obvious issues or improvement opportunities
 - Address relevant CI failures
 - Ensure the PR description clearly explains intent and scope
+- If there are visual changes, ensure that the `pr ready for visual snapshots` label is added
 
 > [!IMPORTANT]  
 > Use your best judgment when reviewing Copilot comments. Some suggestions may not align with our tech stack, best practices, or conventions.
