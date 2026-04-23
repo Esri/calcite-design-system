@@ -22,10 +22,6 @@
 @use "../../styles/includes";
 @use "../../styles/shared/animation";
 
-// :host {
-//   interpolate-size: allow-keywords;
-// }
-
 :host([scale="s"]) {
   --calcite-internal-tree-item-spacing-unit: 0.25rem;
   --calcite-internal-tree-item-padding-block: 0.25rem;
