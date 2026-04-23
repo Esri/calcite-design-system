@@ -237,7 +237,7 @@ export class Tree extends LitElement {
       : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
 
     this.calciteTreeSelect.emit({
-      nodeType: event.detail.nodeType,
+      itemType: event.detail.itemType,
     });
 
     event.stopPropagation();
@@ -410,7 +410,7 @@ export class Tree extends LitElement {
 
     if (updateItem) {
       this.calciteTreeSelect.emit({
-        nodeType: event.detail.nodeType,
+        itemType: event.detail.itemType,
       });
     }
   }

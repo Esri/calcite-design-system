@@ -193,7 +193,7 @@ export class TreeItem extends LitElement {
       }
       this.calciteInternalTreeItemSelect.emit({
         modifyCurrentSelection: true,
-        nodeType: this.getNodeType(),
+        itemType: this.getItemType(),
         updateItem: false,
       });
     }
@@ -209,7 +209,7 @@ export class TreeItem extends LitElement {
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
   }
 
-  private getNodeType(): TreeItemSelectDetail["nodeType"] {
+  private getItemType(): TreeItemSelectDetail["itemType"] {
     return this.hasChildren ? "header" : "leaf";
   }
 
@@ -227,7 +227,7 @@ export class TreeItem extends LitElement {
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      nodeType: this.getNodeType(),
+      itemType: this.getItemType(),
       updateItem: true,
     });
     this.userChangedValue = true;
@@ -252,7 +252,7 @@ export class TreeItem extends LitElement {
         this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          nodeType: this.getNodeType(),
+          itemType: this.getItemType(),
           updateItem: true,
         });
         event.preventDefault();
@@ -271,7 +271,7 @@ export class TreeItem extends LitElement {
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            nodeType: this.getNodeType(),
+            itemType: this.getItemType(),
             updateItem: true,
           });
         }

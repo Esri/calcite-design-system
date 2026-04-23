@@ -1,11 +1,11 @@
-export type TreeItemSelectNodeType = "header" | "leaf";
+import type { TreeSelectDetail } from "../tree/interfaces";
 
 export interface TreeItemSelectDetail {
   /** Indicate if an item should be added to the current selection. */
   modifyCurrentSelection: boolean;
 
   /** Indicates whether the interacted item behaves as a header or leaf node. */
-  nodeType: TreeItemSelectNodeType;
+  itemType: TreeSelectDetail["itemType"];
 
   /**
    * Indicates if an item selected & indeterminate properties should be updated.

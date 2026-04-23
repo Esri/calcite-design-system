@@ -1,6 +1,6 @@
-import type { TreeItemSelectNodeType } from "../tree-item/interfaces";
+export type TreeSelectItemType = "header" | "leaf";
 
 export interface TreeSelectDetail {
   /** Indicates whether the interacted item behaves as a header or leaf node. */
-  nodeType: TreeItemSelectNodeType;
+  itemType: TreeSelectItemType;
 }
