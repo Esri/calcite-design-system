@@ -21,6 +21,7 @@ const resources = {
       research: "research",
       test: "testing",
       tooling: "tooling",
+      themeUpdate: "Theme Update",
     },
     issueWorkflow: {
       needsTriage: "needs triage",
