@@ -309,7 +309,7 @@ export class FlowItem extends LitElement {
       headingLevel,
       loading,
       menuOpen,
-      messages,
+      messageOverrides,
       overlayPositioning,
       beforeClose,
       icon,
@@ -332,7 +332,7 @@ export class FlowItem extends LitElement {
           iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
-          messageOverrides={messages}
+          messageOverrides={messageOverrides}
           oncalcitePanelClose={this.handleInternalPanelClose}
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}

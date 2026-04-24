@@ -4,18 +4,62 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
 type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 type TagName = keyof DeclareElements;
-/**
- * Helper to test t9n component setup.
- *
- * Note that this helper should be used within a describe block.
- *
- * @example
- * describe("translation support", () => {
- *   t9n("calcite-action");
- * });
- */
 
-export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
+type SubComponentSpec<Tag extends TagName = TagName> = {
+  tag: Tag;
+  /**
+   * Optional selector
+   *
+   */
+  selector?: string;
+};
+
+type MessagesBundle = Record<string, string>;
+
+type T9nComponent = {
+  messages: Record<string, string> & { _loading?: boolean };
+  messageOverrides?: Record<string, string>;
+};
+
+const isT9nComponent = (el: unknown): el is HTMLElement & T9nComponent => {
+  return Boolean(
+    el &&
+    typeof el === "object" &&
+    "messages" in (el as any) &&
+    (el as any).messages &&
+    typeof (el as any).messages === "object",
+  );
+};
+
+const tagNameToComponentFolder = (tagName: TagName): string => String(tagName).replace(/^calcite-/, "");
+
+async function importMessagesJson(tagName: TagName): Promise<MessagesBundle> {
+  const folder = tagNameToComponentFolder(tagName);
+
+  // eslint-disable-next-line import/no-dynamic-require
+  const messages = await import(`../../../components/${folder}/assets/t9n/messages.json`);
+
+  return (messages.default ?? messages) as MessagesBundle;
+}
+
+const getRenderedRoot = (host: Element): ParentNode => host.shadowRoot ?? host;
+
+const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement | null => {
+  const root = getRenderedRoot(host);
+  return root.querySelector(tagName);
+};
+
+const getMessages = async (el: HTMLElement): Promise<void> => {
+  if (el["messages"]._loading) {
+    await vi.waitUntil(() => !el["messages"]._loading);
+  }
+  return el["messages"];
+};
+
+export async function t9n<TSubTag extends TagName = TagName>(
+  setup: () => ReturnType<typeof mount>,
+  subComponents?: SubComponentSpec<TSubTag>[],
+): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -40,35 +84,44 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
-  async function assertOverrides(subComponents?: TagName[]): Promise<void> {
-    let subComponentMessages = {};
-    if (Array.isArray(subComponents) && subComponents.length > 0) {
-      for (const subComponent of subComponents) {
-        const { component } = (await mount(subComponent)) as RenderResult<ComponentWithMessageOverrides>;
-        const subComponentCurrentMessages = await getCurrentMessages(component);
-        const filteredSubComponentCurrentMessages = Object.fromEntries(
-          Object.entries(subComponentCurrentMessages).filter(([key]) => !key.startsWith("_")),
-        );
-        expect(subComponentMessages).toBeDefined();
-        subComponentMessages = { ...subComponentMessages, ...filteredSubComponentCurrentMessages };
-      }
-    }
+  async function assertOverrides(subComponents?: SubComponentSpec<TagName>[]): Promise<void> {
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
-    const messageOverrides = {
-      [firstMessageProp as keyof typeof messages]: "override test",
-    };
-    el.messageOverrides = { ...messageOverrides, ...subComponentMessages };
+    if (!firstMessageProp) {
+      return;
+    }
+    const overrideValue = "override test";
+    const messageOverride = { [firstMessageProp]: overrideValue };
+    el.messageOverrides = messageOverride;
     await reRender();
 
     expect(await getCurrentMessages(component)).toMatchObject({
       ...messages,
-      ...messageOverrides,
-      ...subComponentMessages,
+      ...messageOverride,
     });
 
-    // reset test changes
+    if (subComponents?.length) {
+      const subComponent = subComponents[0];
+      const subComponentMessages = await importMessagesJson(subComponent.tag);
+      const firstSubComponentMessageKey = Object.keys(subComponentMessages).find((key) => !key.startsWith("_"))[0];
+
+      if (!firstSubComponentMessageKey) {
+        return;
+      }
+
+      el.messageOverrides = { [firstSubComponentMessageKey]: overrideValue } as any;
+      await reRender();
+
+      const subComponentEl = findSubComponentElement(el, subComponent.tag);
+      expect(subComponentEl).toBeTruthy();
+      expect(isT9nComponent(subComponentEl)).toBe(true);
+
+      const childMessages = await getMessages(subComponentEl);
+      expect(childMessages).toBeDefined();
+      expect(childMessages[firstSubComponentMessageKey]).toBe(overrideValue);
+    }
+
     el.messageOverrides = undefined;
     await reRender();
   }
@@ -79,16 +132,12 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     const fakeBundleIdentifier = "__fake__";
 
     const originalFetch = window.fetch;
-    vi.spyOn(window, "fetch").mockImplementation(async (input, init) => {
+    vi.spyOn(window, "fetch").mockImplementation(async (input) => {
       if (typeof input === "string" && input.endsWith(".es.json")) {
-        const fakeEsMessages = {
-          ...enMessages,
-          [fakeBundleIdentifier]: true,
-        };
+        const fakeEsMessages = { ...enMessages, [fakeBundleIdentifier]: true };
         return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
       }
-
-      return originalFetch(input, init);
+      return originalFetch(input);
     });
 
     el.lang = "es";
