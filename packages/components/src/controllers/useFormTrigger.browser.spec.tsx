@@ -52,6 +52,7 @@ it("submits", async () => {
   });
   await userEvent.click(el);
   expect(submitHandler).toHaveBeenCalledOnce();
+  expect(resetHandler).not.toHaveBeenCalled();
 });
 
 it("resets", async () => {
@@ -61,6 +62,7 @@ it("resets", async () => {
   });
   await userEvent.click(el);
   expect(resetHandler).toHaveBeenCalledOnce();
+  expect(submitHandler).not.toHaveBeenCalled();
 });
 
 describe("disabled", () => {
@@ -74,6 +76,7 @@ describe("disabled", () => {
     );
     await userEvent.click(el);
     expect(submitHandler).not.toHaveBeenCalled();
+    expect(resetHandler).not.toHaveBeenCalled();
   });
 
   it("does not reset", async () => {
@@ -85,6 +88,7 @@ describe("disabled", () => {
       },
     );
     await userEvent.click(el);
+    expect(submitHandler).not.toHaveBeenCalled();
     expect(resetHandler).not.toHaveBeenCalled();
   });
 });
@@ -130,10 +134,12 @@ describe("conditional disabling", () => {
 
     await userEvent.click(el);
     expect(submitHandler).not.toHaveBeenCalled();
+    expect(resetHandler).not.toHaveBeenCalled();
 
     disabled = false;
     await userEvent.click(el);
-    expect(submitHandler).toHaveBeenCalled();
+    expect(submitHandler).toHaveBeenCalledOnce();
+    expect(resetHandler).not.toHaveBeenCalled();
   });
 
   it("resets when enabled", async () => {
@@ -146,10 +152,12 @@ describe("conditional disabling", () => {
     );
 
     await userEvent.click(el);
+    expect(submitHandler).not.toHaveBeenCalled();
     expect(resetHandler).not.toHaveBeenCalled();
 
     disabled = false;
     await userEvent.click(el);
-    expect(resetHandler).toHaveBeenCalled();
+    expect(submitHandler).not.toHaveBeenCalled();
+    expect(resetHandler).toHaveBeenCalledOnce();
   });
 });
