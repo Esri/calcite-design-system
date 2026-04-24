@@ -3,7 +3,7 @@ import { InteractiveComponent } from "./useInteractive";
 import { FormOwnerComponent } from "./useForm";
 
 export interface FormTriggerComponent extends InteractiveComponent, FormOwnerComponent {
-  type: Exclude<HTMLButtonElement["type"], "button">;
+  type: HTMLButtonElement["type"];
 }
 
 interface UseFormTriggerOptions {
