@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode, LitElement, method, property } from "@arcgis/lumina";
