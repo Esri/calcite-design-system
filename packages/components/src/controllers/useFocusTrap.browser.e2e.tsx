@@ -12,6 +12,8 @@ import { FocusTrap, useFocusTrap } from "./useFocusTrap";
 
 vi.mock("focus-trap", { spy: true });
 
+type TestGlobal = GlobalTestProps<{ calciteConfig?: Pick<CalciteConfig, "focusTrapStack"> }>;
+
 class Test extends LitElement {
   static tagName = "focus-trap";
 
@@ -68,8 +70,6 @@ it("focusTrapComponent lifecycle", async () => {
 });
 
 describe("configuration", () => {
-  type TestGlobal = GlobalTestProps<{ calciteConfig?: Pick<CalciteConfig, "focusTrapStack"> }>;
-
   beforeEach(() => {
     clearConfig();
     vi.clearAllMocks();
@@ -167,6 +167,11 @@ describe("focusTrapDisabledOverride", () => {
     beforeEach(() => {
       clearConfig();
       vi.clearAllMocks();
+    });
+
+    afterAll(() => {
+      clearConfig();
+      delete (globalThis as TestGlobal).calciteConfig;
     });
 
     it("supports custom global trap stack", async () => {
