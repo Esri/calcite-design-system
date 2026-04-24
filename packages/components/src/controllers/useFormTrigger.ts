@@ -3,7 +3,7 @@ import { InteractiveComponent } from "./useInteractive";
 import { FormOwnerComponent } from "./useForm";
 
 export interface FormTriggerComponent extends InteractiveComponent, FormOwnerComponent {
-  type: HTMLButtonElement["type"];
+  type: Exclude<HTMLButtonElement["type"], "button">;
 }
 
 interface UseFormTriggerOptions {
@@ -20,9 +20,8 @@ export const useFormTrigger = (
   options?: UseFormTriggerOptions,
 ): ReturnType<typeof makeGenericController<void, FormTriggerComponent>> =>
   makeGenericController<void, FormTriggerComponent>((component) => {
-    function submitHandler(event: Event) {
+    function clickHandler(event: Event) {
       const { form } = component.elementInternals;
-
       if (event.defaultPrevented || component.disabled || options?.disabled?.() || !form) {
         return;
       }
@@ -36,9 +35,9 @@ export const useFormTrigger = (
 
     component.listen("luminaFormAssociatedCallback", ({ detail: [form] }) => {
       if (form) {
-        component.el.addEventListener("click", submitHandler);
+        component.el.addEventListener("click", clickHandler);
       } else {
-        component.el.removeEventListener("click", submitHandler);
+        component.el.removeEventListener("click", clickHandler);
       }
     });
   });
