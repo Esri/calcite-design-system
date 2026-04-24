@@ -393,7 +393,6 @@ export const useForm = <T extends FormComponent>(
                 if (
                   ((valueMissing && !other.validity?.valueMissing) ||
                     (!valueMissing && other.validity?.valueMissing)) &&
-                  other.elementInternals &&
                   other.setValidity
                 ) {
                   other.setValidity(validity, validationMessage);
