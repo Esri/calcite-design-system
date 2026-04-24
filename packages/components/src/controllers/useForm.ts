@@ -96,7 +96,11 @@ export interface FormComponent<T = any>
    */
   defaultValue: T;
 
-  /** Sets the component's form validity state. */
+  /**
+   * Sets the component's form validity state.
+   *
+   * This is needed specifically for radio-type elements whose validity state is synced with other elements in the same group.
+   */
   setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
 
   /** The validation icon to display. */
