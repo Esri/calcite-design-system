@@ -1,7 +1,6 @@
-import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { userEvent } from "vitest/browser";
 import { html } from "lit";
 import { FormTriggerComponent, useFormTrigger } from "./useFormTrigger";
