@@ -11,9 +11,19 @@ import {
   reflects,
   hidden,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
-  defaults(() => mount("calcite-radio-button"), [{ propertyName: "scale", defaultValue: "m" }]);
+  defaults(
+    () => mount("calcite-radio-button"),
+    [
+      { propertyName: "scale", defaultValue: "m" },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+    ],
+  );
 });
 
 describe("is form-associated", () => {
