@@ -143,8 +143,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   /**
    * Sets the component's validity state.
    *
-   * @param validity ValidityState
-   * @param validationMessage string
+   * @internal
    */
   @method()
   async setValidity(validity: ValidityStateFlags, validationMessage: string = ""): Promise<void> {
