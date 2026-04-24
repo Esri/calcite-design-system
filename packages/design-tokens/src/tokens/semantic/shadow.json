@@ -27,7 +27,7 @@
           "y": "{core.size.default.2}",
           "blur": "{core.size.default.8}",
           "spread": "{core.size.default.none}",
-          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4)"
+          "color": "rgba({core.color.neutral.blk-240}, {core.opacity.4})"
         }
       ],
       "type": "boxShadow",
