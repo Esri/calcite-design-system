@@ -165,12 +165,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
     if (!this.isMulti()) {
-      const match = this.items.find(({ selected }) => selected);
+      const match = this.allItems.find(({ selected }) => selected);
       return match ? [match] : [];
     }
 
     return (
-      this.items
+      this.allItems
         .filter(
           (item) =>
             item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
@@ -719,9 +719,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
-    if (this.selectionDisplay === "fit" && this.isMulti()) {
-      this.updateComplete.then(() => this.refreshSelectionDisplay());
-    }
     if (this.selectionDisplay === "fit" && this.isMulti()) {
       this.refreshSelectionDisplay();
     }
