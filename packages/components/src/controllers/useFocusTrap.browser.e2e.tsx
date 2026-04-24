@@ -594,7 +594,7 @@ describe("focusTrapOptions", () => {
 });
 
 it("does not try to restore focus to the document when there was no previously focused element", async () => {
-  document.body.innerHTML = html`<a href="/">should not focus here</a>`;
+  document.body.innerHTML = `<a href="/">should not focus here</a>`;
   const { el, component } = await mount(Test);
   el.open = true;
   await component.updateComplete;
