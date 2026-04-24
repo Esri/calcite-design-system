@@ -1,5 +1,5 @@
 import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
-import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html, PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
@@ -10,7 +10,13 @@ import { GlobalTestProps } from "../tests/utils/interfaces";
 import { CalciteConfig, clearConfig } from "../utils/config";
 import { FocusTrap, useFocusTrap } from "./useFocusTrap";
 
+vi.mock("focus-trap", { spy: true });
+
+type TestGlobal = GlobalTestProps<{ calciteConfig?: Pick<CalciteConfig, "focusTrapStack"> }>;
+
 class Test extends LitElement {
+  static tagName = "focus-trap";
+
   @property() open? = false;
 
   focusTrap = useFocusTrap<this>({
@@ -69,15 +75,14 @@ describe("configuration", () => {
     vi.clearAllMocks();
   });
 
-  afterEach(() => {
-    vi.unmock("focus-trap");
+  afterAll(() => {
+    clearConfig();
+    delete (globalThis as TestGlobal).calciteConfig;
   });
 
   it("supports custom global trap stack", async () => {
-    vi.mock("focus-trap", { spy: true });
     const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
     const customFocusTrapStack: FocusTrap[] = [];
-    type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
 
     (globalThis as TestGlobal).calciteConfig = {
       focusTrapStack: customFocusTrapStack,
@@ -112,8 +117,8 @@ describe("configuration", () => {
 describe("focusTrapDisabledOverride", () => {
   let override = false;
 
-  class Test extends LitElement {
-    static tagName = "focus-trap-component";
+  class FocusTrapDisabledOverride extends LitElement {
+    static tagName = "focus-trap-disabled-override";
 
     @property() open? = false;
 
@@ -147,7 +152,7 @@ describe("focusTrapDisabledOverride", () => {
   }
 
   it("should activate focus trap when focusTrapDisabledOverride returns false", async () => {
-    const { el, component } = await mount(Test);
+    const { el, component } = await mount(FocusTrapDisabledOverride);
     el.open = true;
     await component.updateComplete;
     const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
@@ -164,12 +169,12 @@ describe("focusTrapDisabledOverride", () => {
       vi.clearAllMocks();
     });
 
-    afterEach(() => {
-      vi.unmock("focus-trap");
+    afterAll(() => {
+      clearConfig();
+      delete (globalThis as TestGlobal).calciteConfig;
     });
 
     it("supports custom global trap stack", async () => {
-      vi.mock("focus-trap", { spy: true });
       const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
       const customFocusTrapStack: FocusTrap[] = [];
       type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
@@ -178,7 +183,7 @@ describe("focusTrapDisabledOverride", () => {
         focusTrapStack: customFocusTrapStack,
       };
 
-      const { el, component } = await mount(Test);
+      const { el, component } = await mount(FocusTrapDisabledOverride);
 
       expect(createFocusTrapSpy).not.toHaveBeenCalled();
       expect(customFocusTrapStack).toHaveLength(0);
@@ -381,10 +386,14 @@ describe("focusTrapDisabledOverride", () => {
   });
 
   it("does not try to restore focus to the document when there was no previously focused element", async () => {
-    const { el, component } = await mount<Test>(html`
-      <a href="/">should not focus here</a>
-      <focus-trap-component></focus-trap-component>
-    `);
+    const { el, component } = await mount<FocusTrapDisabledOverride>(
+      html`
+        <input value="should not focus here" />
+        <focus-trap-disabled-override></focus-trap-disabled-override>
+      `,
+      { dynamicComponents: [FocusTrapDisabledOverride] },
+    );
+
     el.open = true;
     await component.updateComplete;
     const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
@@ -397,7 +406,7 @@ describe("focusTrapDisabledOverride", () => {
 
   it("handles Escape in a hierarchy of focus-trapping and non-focus-trapping components", async () => {
     class FocusTrapComponent extends LitElement {
-      static tagName = "focus-trapping";
+      static tagName = "focus-trapping-child";
 
       @property({ type: Boolean }) open = false;
 
@@ -430,7 +439,7 @@ describe("focusTrapDisabledOverride", () => {
     }
 
     class NonFocusTrapComponent extends LitElement {
-      static tagName = "non-focus-trapping";
+      static tagName = "non-focus-trapping-parent";
 
       @property({ type: Boolean }) open = false;
 
@@ -466,9 +475,9 @@ describe("focusTrapDisabledOverride", () => {
 
     await mount(
       html`
-        <non-focus-trapping open data-testid="non-focus-trapping">
-          <focus-trapping open data-testid="focus-trapping"></focus-trapping>
-        </non-focus-trapping>
+        <non-focus-trapping-parent open data-testid="non-focus-trapping">
+          <focus-trapping-child open data-testid="focus-trapping"></focus-trapping-child>
+        </non-focus-trapping-parent>
       `,
       { dynamicComponents: [NonFocusTrapComponent, FocusTrapComponent] },
     );
@@ -509,9 +518,12 @@ describe("focusTrapOptions", () => {
     };
   }
 
+  let previousFocusedEl: HTMLInputElement;
+  let nextFocusedEl: HTMLInputElement;
+
   beforeEach(async () => {
-    const previousFocusedEl = document.createElement("input");
-    const nextFocusedEl = document.createElement("input");
+    previousFocusedEl = document.createElement("input");
+    nextFocusedEl = document.createElement("input");
     document.body.append(nextFocusedEl, previousFocusedEl);
 
     previousFocusedLocator = page.elementLocator(previousFocusedEl);
@@ -520,6 +532,11 @@ describe("focusTrapOptions", () => {
     insideButtonLocator = page.getByTestId("inside-button");
 
     await previousFocusedLocator.click();
+  });
+
+  afterEach(() => {
+    previousFocusedEl.remove();
+    nextFocusedEl.remove();
   });
 
   describe("setReturnFocus option", () => {
@@ -594,8 +611,14 @@ describe("focusTrapOptions", () => {
 });
 
 it("does not try to restore focus to the document when there was no previously focused element", async () => {
-  document.body.innerHTML = `<a href="/">should not focus here</a>`;
-  const { el, component } = await mount(Test);
+  const { el, component } = await mount(
+    html`
+      <input value="should not focus here" />
+      <focus-trap></focus-trap>
+    `,
+    { dynamicComponents: [Test] },
+  );
+
   el.open = true;
   await component.updateComplete;
   await waitForFocusShift();
