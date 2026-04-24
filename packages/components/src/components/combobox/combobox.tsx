@@ -719,9 +719,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.internalValueChangeFlag = true;
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
-    // if (this.selectionDisplay === "fit" && this.isMulti()) {
-    //   this.refreshSelectionDisplay();
-    // }
+
+    if (this.selectionDisplay === "fit" && this.isMulti()) {
+      this.updateComplete.then(() => this.refreshSelectionDisplay());
+    }
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
@@ -1216,16 +1217,23 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {
     let newSelectedVisibleChipsCount = 0;
+    let selectedChipCount = 0;
     chipEls.forEach((chipEl) => {
-      if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
-        newSelectedVisibleChipsCount++;
+      if (chipEl.selected) {
+        selectedChipCount++;
+
+        if (!chipEl.classList.contains(CSS.chipInvisible)) {
+          newSelectedVisibleChipsCount++;
+        }
       }
     });
     if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
       this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
     }
-    const selectedCount = this.getSelectedItems().length;
-    const newSelectedHiddenChipsCount = Math.max(0, selectedCount - newSelectedVisibleChipsCount);
+    const newSelectedHiddenChipsCount = Math.max(
+      0,
+      selectedChipCount - newSelectedVisibleChipsCount,
+    );
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
     }
