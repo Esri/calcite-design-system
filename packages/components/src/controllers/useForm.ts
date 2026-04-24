@@ -376,35 +376,37 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        if (effectiveInputType === "radio") {
-          const { ownerDocument } = component.el;
-          const group = Array.from(
-            ownerDocument.querySelectorAll<CheckableFormComponent["el"]>(
-              `${component.el.tagName}[name="${component.name}"]`,
-            ),
-          );
-          const required = group.some((radioButton) => radioButton.required);
-          const checked = group.some((radioButton) => radioButton.checked);
-          const others = group.filter((radioButton) => radioButton !== component.el);
+        if (effectiveInputType === "radio" && component.el) {
+          let group = component.elementInternals?.form?.elements[component.name];
+          if (group && group.length > 0) {
+            group = Array.from(group);
+            const isRequired = group.some((radioButton) => (radioButton as FormComponent).required);
+            const isChecked = group.some((radioButton) => (radioButton as FormComponent).checked);
+            const others = group.filter((radioButton) => radioButton !== component.el);
 
-          const valueMissing = required && !checked;
-          inputDelegate.required = !!valueMissing;
-          ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+            const valueMissing = isRequired && !isChecked;
+            inputDelegate.required = !!valueMissing;
+            ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
 
-          others.forEach((other) => {
-            if (
-              ((valueMissing && !other.validity?.valueMissing) || (!valueMissing && other.validity?.valueMissing)) &&
-              other.setValidity
-            ) {
-              other.setValidity(validity, validationMessage);
+            if (others && others.length > 0) {
+              others.forEach((other: FormComponent) => {
+                if (
+                  ((valueMissing && !other.validity?.valueMissing) ||
+                    (!valueMissing && other.validity?.valueMissing)) &&
+                  other.elementInternals &&
+                  other.setValidity
+                ) {
+                  other.setValidity(validity, validationMessage);
+                }
+              });
             }
-          });
 
-          const firstFocusableElement: HTMLElement | null | undefined =
-            component.el.shadowRoot?.querySelector(`[tabindex="0"]`);
+            const firstFocusableElement: HTMLElement | null | undefined =
+              component.el.shadowRoot?.querySelector(`[tabindex="0"]`);
 
-          if (firstFocusableElement) {
-            validityAnchor = firstFocusableElement;
+            if (firstFocusableElement) {
+              validityAnchor = firstFocusableElement;
+            }
           }
         } else {
           ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
