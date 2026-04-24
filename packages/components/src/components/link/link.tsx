@@ -144,7 +144,7 @@ export class Link extends LitElement {
             This works around that issue for now.
           */
           download={download === true || download === "" ? "" : download || undefined}
-          href={this.href}
+          href={this.href || undefined}
           onClick={this.anchorClickHandler}
           onKeyDown={actAsButton ? this.keyDownHandler : undefined}
           ref={this.anchorRef}
