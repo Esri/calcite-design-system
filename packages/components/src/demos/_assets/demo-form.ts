@@ -30,7 +30,22 @@ class DemoForm extends HTMLElement {
 
   onFormInvalid(event: Event) {
     const invalidComponent = event.target as FormComponent;
-    console.log(invalidComponent, invalidComponent?.validity);
+    const componentForm = invalidComponent.closest("form");
+    let componentFormId = componentForm ? componentForm?.id || "1" : "none";
+
+    const forms = Array.from(document.querySelectorAll("form"));
+    if (forms.length > 0) {
+      forms.forEach((form, i) => {
+        if (form === componentForm) {
+          componentFormId = form.id || String(i + 1);
+        }
+      });
+    }
+
+    console.log(
+      `<${invalidComponent.tagName.toLowerCase()} form="${componentFormId}" name="${invalidComponent.name}" value="${invalidComponent.value}"${invalidComponent.required ? " required" : ""}>`,
+      invalidComponent?.validity,
+    );
   }
 }
 customElements.define("demo-form", DemoForm);
