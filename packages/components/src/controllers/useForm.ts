@@ -262,9 +262,7 @@ export const useForm = <T extends FormComponent>(
       }
 
       // prevent the browser from showing the native validation popover
-      if (effectiveInputType !== "radio") {
-        event.preventDefault();
-      }
+      event.preventDefault();
 
       const form = event.currentTarget as HTMLFormElement;
       focusFirstInvalidFormElement(form);
