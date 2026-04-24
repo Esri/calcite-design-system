@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.39...@esri/calcite-components@5.1.0-next.40) (2026-04-24)
+
+### Bug Fixes
+
+- **link:** prevent redirect on empty `href` ([#14318](https://github.com/Esri/calcite-design-system/issues/14318)), closes [#14315](https://github.com/Esri/calcite-design-system/issues/14315)
+- **tree-item:** ensure content grows to full height when expanded ([#14308](https://github.com/Esri/calcite-design-system/issues/14308)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
 ## [5.1.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.38...@esri/calcite-components@5.1.0-next.39) (2026-04-23)
 
 ### Bug Fixes
