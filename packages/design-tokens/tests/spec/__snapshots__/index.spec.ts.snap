@@ -1076,7 +1076,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-opacity-full: 1;
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(#000000, {core.opacity.4);
-  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1634,7 +1634,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-opacity-full: 1;
   --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(#000000, {core.opacity.4);
-  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -22883,7 +22883,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -29857,7 +29857,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -33615,14 +33615,14 @@ export const calciteShadowMd = [
   {
     blur: "20px",
     spread: "-4px",
-    color: "rgba(0, 0, 0, 0.04)",
+    color: "rgba(0, 0, 0, 0.1)",
     offsetX: "0",
     offsetY: "6px",
   },
   {
     blur: "12px",
     spread: "-2px",
-    color: "rgba(0, 0, 0, 0.1)",
+    color: "rgba(0, 0, 0, 0.08)",
     offsetX: "0",
     offsetY: "4px",
   },
@@ -34704,14 +34704,14 @@ export const calciteShadowMd = [
   {
     blur: "20px",
     spread: "-4px",
-    color: "rgba(0, 0, 0, 0.04)",
+    color: "rgba(0, 0, 0, 0.1)",
     offsetX: "0",
     offsetY: "6px",
   },
   {
     blur: "12px",
     spread: "-2px",
-    color: "rgba(0, 0, 0, 0.1)",
+    color: "rgba(0, 0, 0, 0.08)",
     offsetX: "0",
     offsetY: "4px",
   },
@@ -35848,7 +35848,7 @@ $calcite-opacity-dark: 0.85;
 $calcite-opacity-full: 1;
 $calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
 $calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(#000000, {core.opacity.4);
-$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
 $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -36541,7 +36541,7 @@ $calcite-opacity-dark: 0.85;
 $calcite-opacity-full: 1;
 $calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
 $calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(#000000, {core.opacity.4);
-$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
 $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
