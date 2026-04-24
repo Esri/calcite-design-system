@@ -1124,6 +1124,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
+    const selectedChipCountElWidth = getElementWidth(
+      this.el.shadowRoot.querySelector<Chip["el"]>(
+        "calcite-chip[data-test-id='selected-chip-count']",
+      ),
+    );
     const largestSelectedIndicatorChipWidth = Math.max(
       allSelectedIndicatorChipElWidth,
       selectedIndicatorChipElWidth,
@@ -1166,12 +1171,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         },
       );
 
+      const hiddenChipIndicatorWidth =
+        this.selectedHiddenChipsCount > 0
+          ? selectedChipCountElWidth || selectedIndicatorChipElWidth
+          : 0;
+
       const availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth -
-          ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
-            chipContainerElGap +
-            inputWidth +
-            chipContainerElGap),
+          (hiddenChipIndicatorWidth + chipContainerElGap + inputWidth + chipContainerElGap),
       );
 
       this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
@@ -1236,6 +1243,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
+
+      this.updateComplete.then(() => this.refreshSelectionDisplay());
     }
   }
 
