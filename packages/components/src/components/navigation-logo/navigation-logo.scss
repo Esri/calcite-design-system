@@ -28,9 +28,9 @@
 :host([scale="s"]) {
   --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-md);
   --calcite-internal-navigation-logo-image-size: 1.75rem;
-  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size--1);
+  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-base);
   --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-1);
-  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size--3);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-sm);
 }
 
 :host([scale="m"]) {
@@ -38,15 +38,15 @@
   --calcite-internal-navigation-logo-image-size: 1.75rem;
   --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-md);
   --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-relative-lg);
-  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size--2);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-sm);
 }
 
 :host([scale="l"]) {
   --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-xl);
   --calcite-internal-navigation-logo-image-size: 2.75rem;
-  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-lg);
+  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-xl);
   --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-relative-xl);
-  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size--1);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-lg);
 }
 
 .container {
@@ -134,6 +134,7 @@
   font-medium;
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-logo-heading-font-size);
+  line-height: var(--calcite-space-xl);
 }
 
 .standalone {
@@ -144,6 +145,7 @@
   @apply text-color-2 truncate;
   color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-internal-navigation-logo-description-font-size);
+  line-height: var(--calcite-space-xl);
 }
 
 @include includes.base-component();

@@ -1,21 +1,67 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Demos</title>
-    <script src="/src/demos/_assets/head.ts"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calcite Nav / Calcite Nav Logo / Calcite Nav User</title>
+    <script src="_assets/head.ts"></script>
+
+    <script src="https://js.arcgis.com/next/"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
+
+    <link rel="stylesheet" href="/src/demos/_assets/navigation-demos.css" />
   </head>
 
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
+      <calcite-navigation>
+        <calcite-navigation-logo
+          heading="Jill Valentine"
+          slot="logo"
+          icon="hamburger"
+          description="S.T.A.R.S. Bravo Team"
+          thumbnail="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/1280px-2010-kodiak-bear-1.jpg"
+          label="Jill Valentine, S.T.A.R.S. Bravo Team"
+        >
+        </calcite-navigation-logo>
+        <calcite-progress value="0.5" slot="progress"></calcite-progress>
+        <calcite-action icon="hamburger" indicator text-enabled slot="navigation-action"> </calcite-action>
+        <calcite-menu slot="content-start">
+          <calcite-action text="Action 1" icon="home"></calcite-action>
+          <calcite-action text="Action 2" icon="search"></calcite-action>
+          <calcite-action text="Action 3" icon="settings"></calcite-action>
+        </calcite-menu>
+        <calcite-action icon="home" indicator text-enabled slot="content-center"> </calcite-action>
+        <calcite-action icon="search" indicator text-enabled slot="content-end"> </calcite-action>
+        <calcite-navigation slot="navigation-secondary">
+          <calcite-action text="Action 1" icon="home"></calcite-action>
+          <calcite-action text="Action 2" icon="search"></calcite-action>
+          <calcite-action text="Action 3" icon="settings"></calcite-action>
+        </calcite-navigation>
+      </calcite-navigation>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <br />
 
-      <!-- demo snippet end -->
+      <calcite-navigation>
+        <calcite-navigation-user
+          slot="user"
+          username="Chris Redfield"
+          userid="S.T.A.R.S. Alpha Team"
+          full-name="Chris Redfield, S.T.A.R.S. Alpha Team"
+          thumbnail="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/2010-kodiak-bear-1.jpg/1280px-2010-kodiak-bear-1.jpg"
+        >
+        </calcite-navigation-user>
+        <calcite-progress value="0.5" slot="progress"></calcite-progress>
+        <calcite-action icon="hamburger" indicator text-enabled slot="navigation-action"></calcite-action>
+        <calcite-menu slot="content-end">
+          <calcite-action text="Action 1" icon="home"></calcite-action>
+          <calcite-action text="Action 2" icon="search"></calcite-action>
+          <calcite-action text="Action 3" icon="settings"></calcite-action>
+        </calcite-menu>
+        <calcite-action icon="home" indicator text-enabled slot="content-center"> </calcite-action>
+        <calcite-action icon="search" indicator text-enabled slot="content-end"> </calcite-action>
+      </calcite-navigation>
     </demo-dom-swapper>
-    <demo-options></demo-options>
   </body>
 </html>
