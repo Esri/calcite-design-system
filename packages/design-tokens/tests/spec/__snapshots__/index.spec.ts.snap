@@ -22859,7 +22859,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{shadow.sm}",
-      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"2px\\"}]",
+      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -22883,7 +22883,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -29833,7 +29833,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{shadow.sm}",
-      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"2px\\"}]",
+      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -29857,7 +29857,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"offsetX\\":\\"0\\",\\"offsetY\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -33596,35 +33596,23 @@ export const calciteShadowNone = {
   y: "0",
 };
 export const calciteShadowSm = [
-  {
-    blur: "8px",
-    spread: "0",
-    color: "rgba(0, 0, 0, 0.1)",
-    offsetX: "0",
-    offsetY: "2px",
-  },
-  {
-    blur: "8px",
-    spread: "0",
-    color: "rgba(0, 0, 0, 0.04)",
-    offsetX: "0",
-    offsetY: "2px",
-  },
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.1)", x: "0", y: "2px" },
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.04)", x: "0", y: "2px" },
 ];
 export const calciteShadowMd = [
   {
     blur: "20px",
     spread: "-4px",
     color: "rgba(0, 0, 0, 0.1)",
-    offsetX: "0",
-    offsetY: "6px",
+    x: "0",
+    y: "6px",
   },
   {
     blur: "12px",
     spread: "-2px",
     color: "rgba(0, 0, 0, 0.08)",
-    offsetX: "0",
-    offsetY: "4px",
+    x: "0",
+    y: "4px",
   },
 ];
 export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -34177,36 +34165,12 @@ export const calciteShadowNone: {
   y: string;
 };
 export const calciteShadowSm: [
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
 ];
 export const calciteShadowMd: [
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
 ];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
@@ -34685,35 +34649,23 @@ export const calciteShadowNone = {
   y: "0",
 };
 export const calciteShadowSm = [
-  {
-    blur: "8px",
-    spread: "0",
-    color: "rgba(0, 0, 0, 0.1)",
-    offsetX: "0",
-    offsetY: "2px",
-  },
-  {
-    blur: "8px",
-    spread: "0",
-    color: "rgba(0, 0, 0, 0.04)",
-    offsetX: "0",
-    offsetY: "2px",
-  },
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.1)", x: "0", y: "2px" },
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.04)", x: "0", y: "2px" },
 ];
 export const calciteShadowMd = [
   {
     blur: "20px",
     spread: "-4px",
     color: "rgba(0, 0, 0, 0.1)",
-    offsetX: "0",
-    offsetY: "6px",
+    x: "0",
+    y: "6px",
   },
   {
     blur: "12px",
     spread: "-2px",
     color: "rgba(0, 0, 0, 0.08)",
-    offsetX: "0",
-    offsetY: "4px",
+    x: "0",
+    y: "4px",
   },
 ];
 export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -34918,36 +34870,12 @@ export const calciteShadowNone: {
   y: string;
 };
 export const calciteShadowSm: [
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
 ];
 export const calciteShadowMd: [
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
-  {
-    blur: string;
-    spread: string;
-    color: string;
-    offsetX: string;
-    offsetY: string;
-  },
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
 ];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
