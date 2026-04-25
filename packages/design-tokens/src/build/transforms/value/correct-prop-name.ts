@@ -13,6 +13,11 @@ type ShadowWithOffset = {
   y?: string;
 };
 
+type NormalizedShadow = Omit<ShadowWithOffset, "offsetX" | "offsetY"> & {
+  x: string;
+  y: string;
+};
+
 function hasShadowOffset(value: unknown): value is ShadowWithOffset {
   return typeof value === "object" && value !== null && "offsetX" in value && "offsetY" in value;
 }
@@ -21,20 +26,23 @@ function fixableShadowToken(token: TransformedToken): token is TransformedToken 
   return token.type === "shadow";
 }
 
-function normalizeShadowOffset(shadow: ShadowWithOffset): ShadowWithOffset {
-  shadow.x = shadow.offsetX;
-  delete shadow.offsetX;
-  shadow.y = shadow.offsetY;
-  delete shadow.offsetY;
+function normalizeShadowOffset(shadow: ShadowWithOffset): NormalizedShadow {
+  const { offsetX, offsetY, ...rest } = shadow;
 
-  return shadow;
+  return {
+    ...rest,
+    x: offsetX,
+    y: offsetY,
+  };
 }
 
 const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   if (fixableShadowToken(token)) {
     token.value = Array.isArray(token.value)
       ? token.value.map((value) => (hasShadowOffset(value) ? normalizeShadowOffset(value) : value))
-      : normalizeShadowOffset(token.value);
+      : hasShadowOffset(token.value)
+        ? normalizeShadowOffset(token.value)
+        : token.value;
   }
 
   return token.value;
