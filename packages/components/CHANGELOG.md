@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.39...@esri/calcite-components@5.1.0-next.40) (2026-04-24)
+
+### Bug Fixes
+
+- **link:** prevent redirect on empty `href` ([#14318](https://github.com/Esri/calcite-design-system/issues/14318)), closes [#14315](https://github.com/Esri/calcite-design-system/issues/14315)
+- **tree-item:** ensure content grows to full height when expanded ([#14308](https://github.com/Esri/calcite-design-system/issues/14308)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
+## [5.1.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.38...@esri/calcite-components@5.1.0-next.39) (2026-04-23)
+
+### Bug Fixes
+
+- handle `Escape` in expected order with focus-trapping and non-focus-trapping hierarchies ([#14313](https://github.com/Esri/calcite-design-system/issues/14313)), closes [#13225](https://github.com/Esri/calcite-design-system/issues/13225) [/github.com/focus-trap/focus-trap/blob/master/index.js#L899](https://github.com/Esri//github.com/focus-trap/focus-trap/blob/master/index.js/issues/L899)
+- **shell-panel:** update resize-handling logic when layout is updated dynamically ([#14306](https://github.com/Esri/calcite-design-system/issues/14306)), closes [#13986](https://github.com/Esri/calcite-design-system/issues/13986) [#14279](https://github.com/Esri/calcite-design-system/issues/14279)
+
 ## [5.1.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.37...@esri/calcite-components@5.1.0-next.38) (2026-04-21)
 
 **Note:** Version bump only for package @esri/calcite-components
