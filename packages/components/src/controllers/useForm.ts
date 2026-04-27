@@ -373,7 +373,6 @@ export const useForm = <T extends FormComponent>(
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
-      let validityAnchor: HTMLElement | null = null;
 
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
@@ -397,13 +396,6 @@ export const useForm = <T extends FormComponent>(
                 }
               });
             }
-
-            const firstFocusableElement: HTMLElement | null | undefined =
-              component.el.shadowRoot?.querySelector(`[tabindex="0"]`);
-
-            if (firstFocusableElement) {
-              validityAnchor = firstFocusableElement;
-            }
           }
         } else {
           ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
@@ -415,11 +407,7 @@ export const useForm = <T extends FormComponent>(
         validationMessage = customValidityMessage;
       }
 
-      if (validityAnchor) {
-        elementInternals.setValidity(validity, validationMessage, validityAnchor);
-      } else {
-        elementInternals.setValidity(validity, validationMessage);
-      }
+      elementInternals.setValidity(validity, validationMessage);
 
       if ("validity" in component) {
         bypassReadOnly(() => {
