@@ -379,29 +379,7 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        if (effectiveInputType === "radio" && component.el) {
-          let group = component.elementInternals?.form?.elements[component.name];
-          if (group && group.length > 0) {
-            group = Array.from(group);
-            const isRequired = group.some((radioButton) => (radioButton as FormComponent).required);
-            const isChecked = group.some((radioButton) => (radioButton as FormComponent).checked);
-            const others = group.filter((radioButton) => radioButton !== component.el);
-
-            const valueMissing = isRequired && !isChecked;
-            inputDelegate.required = !!valueMissing;
-            ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
-
-            if (others && others.length > 0) {
-              others.forEach((other: FormComponent) => {
-                if (valueMissing !== other.validity?.valueMissing && other.setValidity) {
-                  other.setValidity(validity, validationMessage);
-                }
-              });
-            }
-          }
-        } else {
-          ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
-        }
+        ({ validity, validationMessage } = validate({ component, inputDelegate, value: getComponentValue() }));
       }
 
       if (customValidityMessage) {

@@ -1,4 +1,5 @@
-import type { UseFormOptions } from "../useForm";
+import { CheckableFormComponent } from "../../utils/form";
+import type { FormComponent, UseFormOptions } from "../useForm";
 
 const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
 
@@ -6,26 +7,62 @@ type ValidationResult = { validity: ValidityStateFlags; validationMessage: strin
 
 const allValid = Object.freeze({ validity: {}, validationMessage: "" });
 
-export function validate(input: HTMLInputElement, value: any): ValidationResult {
+export function validate({
+  component,
+  inputDelegate,
+  value,
+}: {
+  component?: FormComponent;
+  inputDelegate: HTMLInputElement;
+  value: any;
+}): ValidationResult {
   if (!Array.isArray(value)) {
-    if (validateValue(input, value)) {
+    let validity = getValidityFlags(inputDelegate.validity);
+    let validationMessage = inputDelegate.validationMessage;
+
+    if (component?.el && inputDelegate.type === "radio") {
+      let group = component.elementInternals?.form?.elements[component.name];
+      if (group && group.length > 0) {
+        group = Array.from(group);
+
+        const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
+        const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
+        const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
+        const valueMissing = isRequired && !isChecked;
+
+        inputDelegate.required = !!valueMissing;
+
+        validity = getValidityFlags(inputDelegate.validity);
+        validationMessage = inputDelegate.validationMessage;
+
+        if (others && others.length > 0) {
+          others.forEach((other: FormComponent) => {
+            if (valueMissing !== other.validity?.valueMissing && other.setValidity) {
+              other.setValidity(validity, validationMessage);
+            }
+          });
+        }
+      }
+    }
+
+    if (validateValue(inputDelegate, value)) {
       return allValid;
     }
 
     return {
-      validity: getValidityFlags(input.validity),
-      validationMessage: input.validationMessage,
+      validity,
+      validationMessage,
     };
   }
 
-  if (joinableValueTypes.includes(input.type)) {
-    if (validateValue(input, value.join(","))) {
+  if (joinableValueTypes.includes(inputDelegate.type)) {
+    if (validateValue(inputDelegate, value.join(","))) {
       return allValid;
     }
 
     return {
-      validity: getValidityFlags(input.validity),
-      validationMessage: input.validationMessage,
+      validity: getValidityFlags(inputDelegate.validity),
+      validationMessage: inputDelegate.validationMessage,
     };
   }
 
@@ -33,14 +70,14 @@ export function validate(input: HTMLInputElement, value: any): ValidationResult 
   const validationMessages: string[] = [];
 
   for (const item of value) {
-    if (validateValue(input, item)) {
+    if (validateValue(inputDelegate, item)) {
       continue;
     }
 
-    Object.assign(mergedValidity, getValidityFlags(input.validity));
+    Object.assign(mergedValidity, getValidityFlags(inputDelegate.validity));
 
-    if (input.validationMessage) {
-      validationMessages.push(input.validationMessage);
+    if (inputDelegate.validationMessage) {
+      validationMessages.push(inputDelegate.validationMessage);
     }
   }
 
