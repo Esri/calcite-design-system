@@ -363,7 +363,9 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateValidity();
+      if (component.hasUpdated) {
+        updateValidity();
+      }
     });
 
     controller.onLoaded(() => updateValidity());
