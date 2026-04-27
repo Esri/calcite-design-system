@@ -276,7 +276,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
       return;
     }
 
-    this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.calciteRadioButtonChange.emit();
   }
@@ -329,16 +328,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
           checkedRadioButton.emitCheckedChange();
         });
     }
-  }
-
-  private uncheckAllRadioButtonsInGroup(): void {
-    const radioButtons = this.queryButtons();
-    radioButtons.forEach((radioButton) => {
-      if (radioButton.checked) {
-        radioButton.checked = false;
-        radioButton.focused = false;
-      }
-    });
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
