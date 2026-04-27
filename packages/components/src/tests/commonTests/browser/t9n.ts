@@ -4,16 +4,6 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
 type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 type TagName = keyof DeclareElements;
-
-type SubComponentSpec<Tag extends TagName = TagName> = {
-  tag: Tag;
-  /**
-   * Optional selector
-   *
-   */
-  selector?: string;
-};
-
 type MessagesBundle = Record<string, string>;
 
 type T9nComponent = {
@@ -56,10 +46,7 @@ const getMessages = async (el: HTMLElement): Promise<void> => {
   return el["messages"];
 };
 
-export async function t9n<TSubTag extends TagName = TagName>(
-  setup: () => ReturnType<typeof mount>,
-  subComponents?: SubComponentSpec<TSubTag>[],
-): Promise<void> {
+export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -84,7 +71,7 @@ export async function t9n<TSubTag extends TagName = TagName>(
     expect(await getCurrentMessages(component)).toBeDefined();
   }
 
-  async function assertOverrides(subComponents?: SubComponentSpec<TagName>[]): Promise<void> {
+  async function assertOverrides(subComponents?: TagName[]): Promise<void> {
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
@@ -102,8 +89,9 @@ export async function t9n<TSubTag extends TagName = TagName>(
     });
 
     if (subComponents?.length) {
+      // for prototyping we are only supporting a single sub-component, but this could be easily extended to support multiple sub-components and message overrides for each
       const subComponent = subComponents[0];
-      const subComponentMessages = await importMessagesJson(subComponent.tag);
+      const subComponentMessages = await importMessagesJson(subComponent);
       const firstSubComponentMessageKey = Object.keys(subComponentMessages).find((key) => !key.startsWith("_"))[0];
 
       if (!firstSubComponentMessageKey) {
@@ -113,7 +101,7 @@ export async function t9n<TSubTag extends TagName = TagName>(
       el.messageOverrides = { [firstSubComponentMessageKey]: overrideValue } as any;
       await reRender();
 
-      const subComponentEl = findSubComponentElement(el, subComponent.tag);
+      const subComponentEl = findSubComponentElement(el, subComponent);
       expect(subComponentEl).toBeTruthy();
       expect(isT9nComponent(subComponentEl)).toBe(true);
 
