@@ -270,11 +270,14 @@ describe("sticky header", () => {
         const secondHeaderCell = secondHeaderRow
           .querySelector<HTMLElement>("calcite-table-header")
           .shadowRoot.querySelector<HTMLTableCellElement>("th");
+        const scrollContainerBeforeStyles = getComputedStyle(scrollContainer, "::before");
 
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
         return {
+          scrollContainerBeforeBackgroundColor: scrollContainerBeforeStyles.backgroundColor,
+          scrollContainerBeforeHeight: scrollContainerBeforeStyles.height,
           overlap: getComputedStyle(secondHeaderRow).getPropertyValue("--calcite-internal-table-header-overlap").trim(),
           secondHeaderBoxShadow: getComputedStyle(secondHeaderCell).boxShadow,
           secondHeaderTop: Math.round(secondHeaderCell.getBoundingClientRect().top),
@@ -283,10 +286,71 @@ describe("sticky header", () => {
       TABLE_CSS.tableContainer,
     );
 
+    expect(stickyHeaderStyles.scrollContainerBeforeHeight).toBe("1px");
+    expect(stickyHeaderStyles.scrollContainerBeforeBackgroundColor).not.toBe("rgba(0, 0, 0, 0)");
     expect(stickyHeaderStyles.overlap).toBe("2px");
     expect(stickyHeaderStyles.secondHeaderBoxShadow).not.toBe("none");
     expect(stickyHeaderStyles.secondHeaderBoxShadow.split(",").length).toBeGreaterThan(1);
     expect(stickyHeaderStyles.secondHeaderTop).toBeGreaterThanOrEqual(0);
+  });
+
+  it("uses subpixel sticky header row heights when calculating stacked offsets", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${createSimpleTableRows(7)}
+      </calcite-table>`,
+    );
+
+    const stickyHeaderStyles = await page.$eval("calcite-table", (table) => {
+      const headerRows = table.querySelectorAll<HTMLElement>(`calcite-table-row[slot="table-header"]`);
+
+      headerRows.forEach((row, index) => {
+        const tableRow = row.shadowRoot.querySelector("tr") as HTMLTableRowElement;
+        const fractionalHeight = index === 0 ? 20.5 : 21.25;
+
+        Object.defineProperty(tableRow, "offsetHeight", {
+          configurable: true,
+          get: () => Math.floor(fractionalHeight),
+        });
+
+        tableRow.getBoundingClientRect = () =>
+          ({
+            bottom: fractionalHeight,
+            height: fractionalHeight,
+            left: 0,
+            right: 0,
+            top: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+            toJSON: () => ({}),
+          }) as DOMRect;
+      });
+
+      (table as HTMLElement & { updateStickyHeaderOffsets: () => void }).updateStickyHeaderOffsets();
+
+      return {
+        firstOffset: getComputedStyle(headerRows[0]).getPropertyValue("--calcite-internal-table-header-offset").trim(),
+        secondOffset: getComputedStyle(headerRows[1]).getPropertyValue("--calcite-internal-table-header-offset").trim(),
+        stickyHeaderHeight: getComputedStyle(table)
+          .getPropertyValue("--calcite-internal-table-sticky-header-total-height")
+          .trim(),
+      };
+    });
+
+    expect(stickyHeaderStyles.firstOffset).toBe("0px");
+    expect(stickyHeaderStyles.secondOffset).toBe("20.5px");
+    expect(stickyHeaderStyles.stickyHeaderHeight).toBe("41.75px");
   });
 
   it("keeps focused body cells visible while navigating downward near the bottom with sticky header enabled", async () => {

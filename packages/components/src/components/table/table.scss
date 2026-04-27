@@ -101,6 +101,24 @@
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }
 
+:host([sticky-header]) .table-container {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block-start: var(--calcite-border-width-sm);
+    inset-inline: var(--calcite-border-width-sm);
+    block-size: var(--calcite-border-width-sm);
+    background-color: var(
+      --calcite-table-header-background-color,
+      var(--calcite-table-header-background, var(--calcite-color-foreground-2))
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
 .container {
   @apply flex flex-col;
   inline-size: var(--calcite-container-size-content-fluid);

@@ -603,7 +603,7 @@ export class Table extends LitElement {
     this.headRows?.forEach((row, index) => {
       const tableRow = row.shadowRoot?.querySelector("tr");
       const tableRowHeight =
-        tableRow?.offsetHeight || tableRow?.getBoundingClientRect().height || 0;
+        tableRow?.getBoundingClientRect().height || tableRow?.offsetHeight || 0;
 
       row.style.setProperty("--calcite-internal-table-header-offset", `${stickyOffset}px`);
       row.style.setProperty("--calcite-internal-table-header-overlap", index === 0 ? "0px" : "2px");
