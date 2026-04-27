@@ -43,7 +43,7 @@
     "@cspell/eslint-plugin": "9.7.0",
     "@eslint/js": "9.39.4",
     "@esri/calcite-typescript-config": "0.0.1-next.0",
-    "@inquirer/prompts": "8.4.1",
+    "@inquirer/prompts": "8.4.2",
     "@morev/stylelint-testing-library": "1.0.2",
     "@octokit/webhooks-types": "7.6.1",
     "@prettier/sync": "0.6.1",
@@ -66,11 +66,11 @@
     "@types/shell-quote": "1.7.5",
     "@typescript-eslint/rule-tester": "8.57.0",
     "@typescript-eslint/utils": "8.57.0",
-    "@vitest/browser-playwright": "4.1.4",
-    "@vitest/coverage-v8": "4.1.4",
+    "@vitest/browser-playwright": "4.1.5",
+    "@vitest/coverage-v8": "4.1.5",
     "@vitest/eslint-plugin": "1.6.11",
     "@whitespace/storybook-addon-html": "9.0.0",
-    "autoprefixer": "10.4.27",
+    "autoprefixer": "10.5.0",
     "axe-core": "4.11.3",
     "chalk": "5.6.2",
     "change-case": "5.4.4",
@@ -93,13 +93,13 @@
     "gh-pages": "6.3.0",
     "globals": "17.5.0",
     "globby": "16.2.0",
-    "happy-dom": "20.8.9",
+    "happy-dom": "20.9.0",
     "husky": "9.1.7",
     "jest-axe": "10.0.0",
     "lerna": "9.0.7",
     "lint-staged": "16.3.3",
     "markdownlint-cli2": "0.21.0",
-    "postcss": "8.5.9",
+    "postcss": "8.5.10",
     "prettier": "3.8.1",
     "puppeteer": "23.4.1",
     "react": "18.3.1",
@@ -133,8 +133,8 @@
     "patch-package": "8.0.1"
   },
   "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "21.6.10",
-    "@nx/nx-linux-x64-gnu": "21.6.10",
-    "@nx/nx-win32-x64-msvc": "21.6.10"
+    "@nx/nx-darwin-arm64": "21.6.11",
+    "@nx/nx-linux-x64-gnu": "21.6.11",
+    "@nx/nx-win32-x64-msvc": "21.6.11"
   }
 }
