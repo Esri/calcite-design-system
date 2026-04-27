@@ -375,11 +375,13 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog entry.
 
-By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
+
+See the [PR review guidelines](https://github.com/Esri/calcite-design-system/wiki/PR-Review-Guidelines) wiki page for detailed information on how pull requests are reviewed.
 
 ### Visual snapshots
 
