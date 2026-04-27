@@ -1098,7 +1098,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private async refreshSelectionDisplay() {
-    this.componentOnReady();
+    await this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
       return;
