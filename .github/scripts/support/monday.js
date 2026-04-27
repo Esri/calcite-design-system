@@ -5,18 +5,8 @@ const {
   packages,
 } = require("./resources");
 const { includesLabel, notInLifecycle } = require("./utils");
-
-/**
- * @param {NodeJS.ProcessEnv} env
- * @param {import('@actions/core')} core
- * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string }}
- */
-function assertMondayEnv(env, core) {
-  if (!env.MONDAY_KEY || !env.MONDAY_BOARD) {
-    core.setFailed("A Monday.com env variable is not set.");
-    process.exit(1);
-  }
-}
+const REPO_CALCITE = "calcite-design-system";
+const REPO_DOCS = "calcite-documentation";
 
 /**
  * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
@@ -24,14 +14,35 @@ function assertMondayEnv(env, core) {
  * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
 module.exports = function Monday(issue, core, updateIssueBody) {
-  assertMondayEnv(process.env, core);
-  const { MONDAY_KEY, MONDAY_BOARD } = process.env;
-  if (!issue) {
-    core.setFailed("No GitHub issue provided.");
+  /**
+   * Declare the workflow as failed and exit the process.
+   * @param {string} message - The failure message to report
+   */
+  function failWorkflow(message) {
+    core.setFailed(message);
     process.exit(1);
+  }
+  
+  /**
+   * @param {NodeJS.ProcessEnv} env
+   * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; GITHUB_REPO: typeof REPO_CALCITE | typeof REPO_DOCS; }}
+   */
+  function assertMondayEnv(env) {
+    if (!env.MONDAY_KEY || !env.MONDAY_BOARD || (env.GITHUB_REPO !== REPO_CALCITE && env.GITHUB_REPO !== REPO_DOCS)) {
+      failWorkflow("A Monday.com env variable is not set.");
+    }
+  }
+  
+  assertMondayEnv(process.env);
+  const { MONDAY_KEY, MONDAY_BOARD, GITHUB_REPO } = process.env;
+  if (!issue) {
+    failWorkflow("No GitHub issue provided.");
   }
 
   const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
+  
+  /** @type {Record<string, string> | null} - The username mapping for the Doc repo, if provided and parsed **/
+  let usernameMap = null;
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;
@@ -42,6 +53,49 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
+  
+  /**
+   * Parse the USERNAME_MAP environment variable as JSON and validate its structure.
+   * Fails the workflow if JSON is missing or invalid.
+   * @returns {Record<string, string>} The parsed username map object
+   */
+  function parseUsernameJSON() {
+    let parsed;
+    try {
+      parsed = JSON.parse(process.env.USERNAME_MAP || "{}");
+    } catch (error) {
+      failWorkflow(`Invalid Username JSON Map: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  
+    if (typeof parsed !== "object" || parsed === null) {
+      failWorkflow(`Username Map must be a non-null object`);
+    }
+  
+    for (const [key, value] of Object.entries(parsed)) {
+      if (typeof value !== "string") {
+        throw new Error(`Value for key "${key}" must be a string`);
+      }
+    }
+  
+    return parsed;
+  }
+  
+  /**
+   * Return the appropriate username based on repository context and username mapping values.
+   * @param {string} publicUsername - The public GitHub username to map
+   * @return {string}
+   */
+  function getUsername(publicUsername) {
+    if (GITHUB_REPO === REPO_CALCITE) {
+      return publicUsername;
+    }
+    
+    if (!usernameMap) {
+      usernameMap = parseUsernameJSON();
+    }
+    
+    return usernameMap[publicUsername] || publicUsername;
+  }
 
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
@@ -284,6 +338,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
+      issueType.themeUpdate,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "Theme Update",
+        clearable: true,
+      },
+    ],
+    [
       priority.low,
       {
         column: mondayColumns.priority,
@@ -421,24 +483,24 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
     /* eslint-disable @cspell/spellchecker -- GitHub usernames */
-    ["anveshmekala", { role: mondayColumns.developers, id: 48387134 }],
-    ["aPreciado88", { role: mondayColumns.developers, id: 60795249 }],
-    ["ashetland", { role: mondayColumns.designers, id: 45851619 }],
-    ["brendan-vincent-rice", { role: mondayColumns.developers, id: 96903694 }],
-    ["chezHarper", { role: mondayColumns.designers, id: 71157966 }],
-    ["DintaMel", { role: mondayColumns.productEngineers, id: 92955697 }],
-    ["DitwanP", { role: mondayColumns.productEngineers, id: 53683093 }],
-    ["driskull", { role: mondayColumns.developers, id: 45944985 }],
-    ["Elijbet", { role: mondayColumns.developers, id: 55852207 }],
-    ["eriklharper", { role: mondayColumns.developers, id: 49699973 }],
-    ["geospatialem", { role: mondayColumns.productEngineers, id: 45853373 }],
-    ["isaacbraun", { role: mondayColumns.productEngineers, id: 76547859 }],
-    ["jcfranco", { role: mondayColumns.developers, id: 45854945 }],
-    ["macandcheese", { role: mondayColumns.developers, id: 45854918 }],
-    ["matgalla", { role: mondayColumns.designers, id: 69473378 }],
-    ["rmstinson", { role: mondayColumns.designers, id: 47277636 }],
-    ["SkyeSeitz", { role: mondayColumns.designers, id: 45854937 }],
-    ["Amretasre002762670", { role: mondayColumns.developers, id: 77031889 }],
+    [getUsername("anveshmekala"), { role: mondayColumns.developers, id: 48387134 }],
+    [getUsername("aPreciado88"), { role: mondayColumns.developers, id: 60795249 }],
+    [getUsername("ashetland"), { role: mondayColumns.designers, id: 45851619 }],
+    [getUsername("brendan-vincent-rice"), { role: mondayColumns.developers, id: 96903694 }],
+    [getUsername("chezHarper"), { role: mondayColumns.designers, id: 71157966 }],
+    [getUsername("DintaMel"), { role: mondayColumns.productEngineers, id: 92955697 }],
+    [getUsername("DitwanP"), { role: mondayColumns.productEngineers, id: 53683093 }],
+    [getUsername("driskull"), { role: mondayColumns.developers, id: 45944985 }],
+    [getUsername("Elijbet"), { role: mondayColumns.developers, id: 55852207 }],
+    [getUsername("eriklharper"), { role: mondayColumns.developers, id: 49699973 }],
+    [getUsername("geospatialem"), { role: mondayColumns.productEngineers, id: 45853373 }],
+    [getUsername("isaacbraun"), { role: mondayColumns.productEngineers, id: 76547859 }],
+    [getUsername("jcfranco"), { role: mondayColumns.developers, id: 45854945 }],
+    [getUsername("macandcheese"), { role: mondayColumns.developers, id: 45854918 }],
+    [getUsername("matgalla"), { role: mondayColumns.designers, id: 69473378 }],
+    [getUsername("rmstinson"), { role: mondayColumns.designers, id: 47277636 }],
+    [getUsername("SkyeSeitz"), { role: mondayColumns.designers, id: 45854937 }],
+    [getUsername("Amretasre002762670"), { role: mondayColumns.developers, id: 77031889 }],
     /* eslint-enable @cspell/spellchecker */
   ]);
 
