@@ -311,7 +311,7 @@ describe("sticky header", () => {
       </calcite-table>`,
     );
 
-    const stickyHeaderStyles = await page.$eval("calcite-table", (table) => {
+    const stickyHeaderStyles = await page.$eval("calcite-table", async (table) => {
       const headerRows = table.querySelectorAll<HTMLElement>(`calcite-table-row[slot="table-header"]`);
 
       headerRows.forEach((row, index) => {
@@ -337,7 +337,10 @@ describe("sticky header", () => {
           }) as DOMRect;
       });
 
-      (table as HTMLElement & { updateStickyHeaderOffsets: () => void }).updateStickyHeaderOffsets();
+      table.removeAttribute("sticky-header");
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      table.setAttribute("sticky-header", "");
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
       return {
         firstOffset: getComputedStyle(headerRows[0]).getPropertyValue("--calcite-internal-table-header-offset").trim(),
