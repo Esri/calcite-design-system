@@ -1097,6 +1097,30 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     });
   }
 
+  private getPlaceholderInputWidth({
+    placeholder,
+    fontSize,
+    fontFamily,
+    inputMinWidth,
+  }: {
+    placeholder: string;
+    fontSize: string;
+    fontFamily: string;
+    inputMinWidth: number;
+  }): number {
+    const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+
+    if (measuredPlaceholderWidth > 0) {
+      return measuredPlaceholderWidth;
+    }
+
+    const fontSizeValue = parseFloat(fontSize) || parseInt(calciteSize48);
+    const placeholderLength = placeholder?.length || 0;
+    const estimatedPlaceholderWidth = Math.round(placeholderLength * fontSizeValue * 0.55);
+
+    return Math.max(inputMinWidth, estimatedPlaceholderWidth);
+  }
+
   private async refreshSelectionDisplay() {
     await this.componentOnReady();
 
@@ -1119,9 +1143,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
     const chipContainerElWidth = getElementWidth(chipContainerEl);
-    const { fontSize, fontFamily } = getComputedStyle(textInputRef.value);
-    const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
+    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+    const inputWidth =
+      this.getPlaceholderInputWidth({
+        placeholder,
+        fontSize,
+        fontFamily,
+        inputMinWidth,
+      }) + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
     const selectedChipCountElWidth = getElementWidth(
