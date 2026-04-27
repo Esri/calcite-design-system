@@ -61,12 +61,8 @@
 // --calcite-internal-table-cell-padding
 // --calcite-internal-table-head-border-block-end-width
 // --calcite-internal-table-header-position
-// --calcite-internal-table-last-cell-border-inline-end
-// --calcite-internal-table-last-row-cell-border-block-end-value
 // --calcite-internal-table-selection-action-spacing
 // --calcite-internal-table-sticky-header-border-shadow
-// --calcite-internal-table-sticky-header-row-border-block-end-width
-// --calcite-internal-table-sticky-header-row-border-color
 
 @use "../../styles/includes";
 
@@ -103,8 +99,6 @@
   --calcite-internal-table-head-border-block-end-width: 0;
   --calcite-internal-table-sticky-header-border-shadow: inset 0 calc(-1 * var(--calcite-border-width-sm)) 0 0
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
-  --calcite-internal-table-sticky-header-row-border-block-end-width: 0;
-  --calcite-internal-table-sticky-header-row-border-color: transparent;
 }
 
 .container {
@@ -123,8 +117,6 @@
 }
 
 .table-container--overflow {
-  --calcite-internal-table-last-cell-border-inline-end: 0;
-  --calcite-internal-table-last-row-cell-border-block-end-value: 0;
   overscroll-behavior-y: none;
 }
 

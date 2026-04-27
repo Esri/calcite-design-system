@@ -289,6 +289,7 @@ export class Table extends LitElement {
         this.clearStickyHeaderSettleTimeouts();
         this.stickyHeaderResizeObserver?.disconnect();
         this.stickyHeaderMutationObserver?.disconnect();
+        this.clearStickyHeaderRowStyles();
         this.stickyHeaderTotalHeight = 0;
         this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
         this.el.style.setProperty("--calcite-internal-table-header-position", "static");
@@ -326,6 +327,14 @@ export class Table extends LitElement {
   private clearStickyHeaderSettleTimeouts(): void {
     this.stickyHeaderSettleTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
     this.stickyHeaderSettleTimeouts = [];
+  }
+
+  private clearStickyHeaderRowStyles(): void {
+    this.headRows?.forEach((row) => {
+      row.style.removeProperty("--calcite-internal-table-header-offset");
+      row.style.removeProperty("--calcite-internal-table-header-overlap");
+      row.style.removeProperty("--calcite-internal-table-header-z-index");
+    });
   }
 
   private scheduleStickyHeaderOffsetSettlingUpdates(): void {

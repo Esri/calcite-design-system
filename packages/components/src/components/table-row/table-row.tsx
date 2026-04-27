@@ -90,7 +90,7 @@ export class TableRow extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property({ reflect: true }) lastVisibleRow: boolean;
+  @property() lastVisibleRow: boolean;
 
   /** @private */
   @property() numbered = false;

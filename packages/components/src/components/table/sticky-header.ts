@@ -144,14 +144,12 @@ export function ensureFirstVisibleTableCellBelowStickyHeader(table: TableHost, c
         return;
       }
 
-      const scrollContainerTop = scrollContainer.getBoundingClientRect().top;
-      const tableTop = getTableTop(table, scrollContainer);
+      const targetTop = getStickyAdjustedTargetTop(table, scrollContainer, stickyHeaderHeight, stickyHeaderPosition);
 
-      if (tableTop == null) {
+      if (targetTop == null) {
         return;
       }
 
-      const targetTop = Math.max(scrollContainerTop, tableTop) + stickyHeaderHeight;
       const cellTop = cellElement.getBoundingClientRect().top;
 
       if (cellTop < targetTop) {
