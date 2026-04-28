@@ -13,6 +13,7 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
+import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
@@ -421,7 +422,7 @@ describe("nested selection modes", () => {
             <calcite-list
               display-mode="flat"
               id="nested-list-none"
-              interaction-mode="static"
+              interaction-mode="interactive"
               label="Sub-level list"
               scale="s"
               selection-appearance="highlight"
@@ -459,54 +460,90 @@ describe("nested selection modes", () => {
 
     await afterNextFrame();
 
-    page.getBySelector("#nested-list-none-drag-enabled").element().setAttribute("scale", "s");
-    page
-      .getBySelector("#nested-list-none-drag-enabled")
-      .element()
-      .setAttribute("selection-appearance", "highlight");
-    page
-      .getBySelector("#nested-list-none-drag-enabled")
-      .element()
-      .setAttribute("interaction-mode", "static");
+    const nestedNoneDragEnabledItem = document.getElementById("nested-none-item-drag-enabled") as
+      | ListItem["el"]
+      | null;
+    const nestedNoneItem = document.getElementById("nested-none-item") as ListItem["el"] | null;
+    const nestedMultipleItem = document.getElementById("nested-multiple-item") as
+      | ListItem["el"]
+      | null;
 
-    page.getBySelector("#nested-list-none").element().setAttribute("scale", "s");
-    page
-      .getBySelector("#nested-list-none")
-      .element()
-      .setAttribute("selection-appearance", "highlight");
-    page.getBySelector("#nested-list-none").element().setAttribute("interaction-mode", "static");
+    const rootListOne = document.getElementById("root-list-one") as List["el"] | null;
+    const rootListTwo = document.getElementById("root-list-two") as List["el"] | null;
+    const rootListThree = document.getElementById("root-list-three") as List["el"] | null;
+    const nestedListNoneDragEnabled = document.getElementById("nested-list-none-drag-enabled") as
+      | List["el"]
+      | null;
+    const nestedListNone = document.getElementById("nested-list-none") as List["el"] | null;
+    const nestedListMultiple = document.getElementById("nested-list-multiple") as List["el"] | null;
 
-    page.getBySelector("#nested-list-multiple").element().setAttribute("scale", "s");
-    page
-      .getBySelector("#nested-list-multiple")
-      .element()
-      .setAttribute("selection-appearance", "highlight");
-    page
-      .getBySelector("#nested-list-multiple")
-      .element()
-      .setAttribute("interaction-mode", "interactive");
+    expect(nestedNoneDragEnabledItem).not.toBeNull();
+    expect(nestedNoneItem).not.toBeNull();
+    expect(nestedMultipleItem).not.toBeNull();
+    expect(rootListOne).not.toBeNull();
+    expect(rootListTwo).not.toBeNull();
+    expect(rootListThree).not.toBeNull();
+    expect(nestedListNoneDragEnabled).not.toBeNull();
+    expect(nestedListNone).not.toBeNull();
+
+    const assertSelectionModes = (): void => {
+      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
+      expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
+      expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
+    };
+
+    const assertAllNestedProperties = (): void => {
+      assertSelectionModes();
+
+      expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+
+      expect(nestedNoneItem).toHaveProperty("scale", "s");
+      expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
+
+      expect(nestedMultipleItem).toHaveProperty("scale", "s");
+      expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
+    };
+
+    // Assert immediately after initial render.
+    assertSelectionModes();
+
+    // Establish nested list-item baselines from nested list updates.
+    nestedListNoneDragEnabled.scale = "s";
+    nestedListNoneDragEnabled.selectionAppearance = "highlight";
+    nestedListNoneDragEnabled.interactionMode = "static";
+
+    nestedListNone.scale = "s";
+    nestedListNone.selectionAppearance = "highlight";
+    nestedListNone.interactionMode = "interactive";
+
+    nestedListMultiple.scale = "s";
+    nestedListMultiple.selectionAppearance = "highlight";
+    nestedListMultiple.interactionMode = "interactive";
 
     await afterNextFrame();
+    assertAllNestedProperties();
 
-    const nestedNoneDragEnabledItem = page
-      .getBySelector("#nested-none-item-drag-enabled")
-      .element();
-    const nestedNoneItem = page.getBySelector("#nested-none-item").element();
-    const nestedMultipleItem = page.getBySelector("#nested-multiple-item").element();
+    // Trigger parent-list updates that should not overwrite nested-list item props.
+    rootListOne.selectionMode = "single";
+    rootListOne.scale = "m";
+    rootListOne.selectionAppearance = "icon";
+    rootListOne.interactionMode = "static";
 
-    expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
-    expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
-    expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
-    expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+    rootListTwo.selectionMode = "single";
+    rootListTwo.scale = "m";
+    rootListTwo.selectionAppearance = "icon";
+    rootListTwo.interactionMode = "static";
 
-    expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
-    expect(nestedNoneItem).toHaveProperty("scale", "s");
-    expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
-    expect(nestedNoneItem).toHaveProperty("interactionMode", "static");
+    rootListThree.selectionMode = "single";
+    rootListThree.scale = "m";
+    rootListThree.selectionAppearance = "icon";
+    rootListThree.interactionMode = "static";
 
-    expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
-    expect(nestedMultipleItem).toHaveProperty("scale", "s");
-    expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
-    expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
+    await afterNextFrame();
+    assertAllNestedProperties();
   });
 });
