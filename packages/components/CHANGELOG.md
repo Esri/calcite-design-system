@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.41...@esri/calcite-components@5.1.0-next.42) (2026-04-28)
+
+### Features
+
+- **card:** update scale prop from private to public ([#14342](https://github.com/Esri/calcite-design-system/issues/14342)), closes [#12345](https://github.com/Esri/calcite-design-system/issues/12345)
+
 ## [5.1.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.40...@esri/calcite-components@5.1.0-next.41) (2026-04-28)
 
 **Note:** Version bump only for package @esri/calcite-components
