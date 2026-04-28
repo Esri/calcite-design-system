@@ -485,6 +485,11 @@ describe("nested selection modes", () => {
     expect(rootListThree).not.toBeNull();
     expect(nestedListNoneDragEnabled).not.toBeNull();
     expect(nestedListNone).not.toBeNull();
+    expect(nestedListMultiple).not.toBeNull();
+
+    if (!nestedListMultiple) {
+      throw new Error("Expected #nested-list-multiple to exist.");
+    }
 
     const assertSelectionModes = (): void => {
       expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
@@ -512,18 +517,31 @@ describe("nested selection modes", () => {
     assertSelectionModes();
 
     // Establish nested list-item baselines from nested list updates.
+    nestedListNoneDragEnabled.scale = "l";
+    nestedListNoneDragEnabled.selectionAppearance = "icon";
+    nestedListNoneDragEnabled.interactionMode = "interactive";
+
     nestedListNoneDragEnabled.scale = "s";
     nestedListNoneDragEnabled.selectionAppearance = "highlight";
     nestedListNoneDragEnabled.interactionMode = "static";
+
+    nestedListNone.scale = "l";
+    nestedListNone.selectionAppearance = "icon";
+    nestedListNone.interactionMode = "static";
 
     nestedListNone.scale = "s";
     nestedListNone.selectionAppearance = "highlight";
     nestedListNone.interactionMode = "interactive";
 
+    nestedListMultiple.scale = "l";
+    nestedListMultiple.selectionAppearance = "icon";
+    nestedListMultiple.interactionMode = "static";
+
     nestedListMultiple.scale = "s";
     nestedListMultiple.selectionAppearance = "highlight";
     nestedListMultiple.interactionMode = "interactive";
 
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.nextTick));
     await afterNextFrame();
     assertAllNestedProperties();
 
@@ -543,6 +561,7 @@ describe("nested selection modes", () => {
     rootListThree.selectionAppearance = "icon";
     rootListThree.interactionMode = "static";
 
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.nextTick));
     await afterNextFrame();
     assertAllNestedProperties();
   });
