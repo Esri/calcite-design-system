@@ -4,46 +4,10 @@ import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
 type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 type TagName = keyof DeclareElements;
-type MessagesBundle = Record<string, string>;
 
-type T9nComponent = {
-  messages: Record<string, string> & { _loading?: boolean };
-  messageOverrides?: Record<string, string>;
-};
-
-const isT9nComponent = (el: unknown): el is HTMLElement & T9nComponent => {
-  return Boolean(
-    el &&
-    typeof el === "object" &&
-    "messages" in (el as any) &&
-    (el as any).messages &&
-    typeof (el as any).messages === "object",
-  );
-};
-
-const tagNameToComponentFolder = (tagName: TagName): string => String(tagName).replace(/^calcite-/, "");
-
-async function importMessagesJson(tagName: TagName): Promise<MessagesBundle> {
-  const folder = tagNameToComponentFolder(tagName);
-
-  // eslint-disable-next-line import/no-dynamic-require
-  const messages = await import(`../../../components/${folder}/assets/t9n/messages.json`);
-
-  return (messages.default ?? messages) as MessagesBundle;
-}
-
-const getRenderedRoot = (host: Element): ParentNode => host.shadowRoot ?? host;
-
-const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement | null => {
-  const root = getRenderedRoot(host);
+const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement => {
+  const root = host.shadowRoot ?? host;
   return root.querySelector(tagName);
-};
-
-const getMessages = async (el: HTMLElement): Promise<void> => {
-  if (el["messages"]._loading) {
-    await vi.waitUntil(() => !el["messages"]._loading);
-  }
-  return el["messages"];
 };
 
 export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
@@ -88,26 +52,19 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
       ...messageOverride,
     });
 
+    el.messageOverrides = undefined;
+    await reRender();
+
     if (subComponents?.length) {
-      // for prototyping we are only supporting a single sub-component, but this could be easily extended to support multiple sub-components and message overrides for each
-      const subComponent = subComponents[0];
-      const subComponentMessages = await importMessagesJson(subComponent);
-      const firstSubComponentMessageKey = Object.keys(subComponentMessages).find((key) => !key.startsWith("_"))[0];
-
-      if (!firstSubComponentMessageKey) {
-        return;
-      }
-
-      el.messageOverrides = { [firstSubComponentMessageKey]: overrideValue } as any;
+      el.messageOverrides = messageOverride;
       await reRender();
-
-      const subComponentEl = findSubComponentElement(el, subComponent);
-      expect(subComponentEl).toBeTruthy();
-      expect(isT9nComponent(subComponentEl)).toBe(true);
-
-      const childMessages = await getMessages(subComponentEl);
-      expect(childMessages).toBeDefined();
-      expect(childMessages[firstSubComponentMessageKey]).toBe(overrideValue);
+      for (const subComponent of subComponents) {
+        const subComponentEl = findSubComponentElement(el, subComponent) as DeclareElements[TagName];
+        expect(subComponentEl).toBeTruthy();
+        const subComponentManager = subComponentEl.manager.component as ComponentWithMessageOverrides;
+        // Assert whether parent component passed the override value to the sub-component.
+        expect(subComponentManager.messageOverrides[firstMessageProp]).toBe(overrideValue);
+      }
     }
 
     el.messageOverrides = undefined;
