@@ -67,6 +67,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     if (subComponents?.length) {
       el.messageOverrides = messageOverride;
       await reRender();
+
       for (const subComponent of subComponents) {
         const subComponentEl = findSubComponentElement(el, subComponent) as DeclareElements[TagName];
         expect(subComponentEl).toBeTruthy();
