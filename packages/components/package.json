@@ -17,7 +17,6 @@
     "./components/*/customElement": "./dist/components/*/customElement.js",
     "./components/*": "./dist/components/*/index.js",
     "./types/*": "./dist/types/*.d.ts",
-    "./hydrate": "./hydrate/index.js",
     "./docs/*": "./dist/docs/*",
     "./dist/loader": "./dist/loader.js",
     "./dist/components": "./dist/index.js",
@@ -31,7 +30,6 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "hydrate/",
     "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
@@ -41,7 +39,7 @@
     "build:dev": "vite build --mode development",
     "build:watch": "npm run util:prep-build-reqs && vite --mode production",
     "build:watch-dev": "npm run util:prep-build-reqs && vite --mode development",
-    "clean": "npm run util:clean-js-files && rimraf node_modules dist hydrate docs .turbo",
+    "clean": "npm run util:clean-js-files && rimraf node_modules dist docs .turbo",
     "lint": "concurrently npm:lint:*",
     "lint:html": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
