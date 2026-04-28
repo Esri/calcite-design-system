@@ -142,6 +142,7 @@
   font-medium;
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-logo-heading-font-size);
+  padding-block-start: var(--calcite-space-2xs);
   line-height: var(--calcite-internal-navigation-logo-heading-line-height);
 }
 
