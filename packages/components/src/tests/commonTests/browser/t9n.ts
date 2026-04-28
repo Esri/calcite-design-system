@@ -36,7 +36,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     return component.messages;
   }
 
-  const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement => {
+  const findSubComponentElement = (host: Element, tagName: TagName): Element | null => {
     const root = host.shadowRoot ?? host;
     return root.querySelector(tagName);
   };
@@ -70,7 +70,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
 
       for (const subComponent of subComponents) {
         const subComponentEl = findSubComponentElement(el, subComponent) as DeclareElements[TagName];
-        expect(subComponentEl).toBeTruthy();
+        expect(subComponentEl).not.toBeNull();
         const subComponentManager = subComponentEl.manager.component as ComponentWithMessageOverrides;
         // Assert whether parent component passed the override value to the sub-component.
         expect(subComponentManager.messageOverrides[firstMessageProp]).toBe(overrideValue);
