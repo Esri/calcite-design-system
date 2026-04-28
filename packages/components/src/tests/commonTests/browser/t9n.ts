@@ -86,12 +86,12 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     const fakeBundleIdentifier = "__fake__";
 
     const originalFetch = window.fetch;
-    vi.spyOn(window, "fetch").mockImplementation(async (input) => {
+    vi.spyOn(window, "fetch").mockImplementation(async (input, init) => {
       if (typeof input === "string" && input.endsWith(".es.json")) {
         const fakeEsMessages = { ...enMessages, [fakeBundleIdentifier]: true };
         return new Response(new Blob([JSON.stringify(fakeEsMessages, null, 2)], { type: "application/json" }));
       }
-      return originalFetch(input);
+      return originalFetch(input, init);
     });
 
     el.lang = "es";
