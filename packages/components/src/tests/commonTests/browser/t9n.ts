@@ -11,7 +11,7 @@ type TagName = keyof DeclareElements;
  *
  * @example
  * describe("translation support", () => {
- *   t9n("calcite-action");
+ *   t9n(() => mount("calcite-input-date-picker"), ["calcite-date-picker"]);
  * });
  */
 export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
