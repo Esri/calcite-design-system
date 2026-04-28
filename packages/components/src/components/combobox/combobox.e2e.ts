@@ -1289,6 +1289,7 @@ describe("deleting items with the keyboard in single and fit selection-display m
         <calcite-combobox-item-group heading="Last Item">
           <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox-item-group>
+        <calcite-combobox-item id="four" value="four" heading="four"></calcite-combobox-item>
       </calcite-combobox>
     `);
     const combobox = await page.find("calcite-combobox");

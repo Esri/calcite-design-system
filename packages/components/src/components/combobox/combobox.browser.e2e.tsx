@@ -318,11 +318,37 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
+    await vi.waitFor(() => {
+      expect(
+        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
+      ).toBeTruthy();
+    });
+
     const disabledChipCount = el.shadowRoot.querySelector(
       'calcite-chip[data-test-id="selected-chip-count"]',
     );
     expect(disabledChipCount).toBeTruthy();
     expect(disabledChipCount).toHaveProperty("label", expect.stringMatching(/^\+\d+$/));
+  });
+
+  it("renders selected chip label instead of +1 count for single fit selection", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 120px;">
+        <calcite-combobox-item heading="Very long item one" selected />
+        <calcite-combobox-item heading="Very long item two" />
+      </calcite-combobox>,
+    );
+
+    await vi.waitFor(() => {
+      expect(el.shadowRoot.querySelector('calcite-chip[data-test-id="chip-0"]')).toBeTruthy();
+      expect(
+        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
+      ).toBeNull();
+    });
+
+    const selectedChip = el.shadowRoot.querySelector('calcite-chip[data-test-id="chip-0"]');
+    expect(selectedChip).toBeTruthy();
+    expect(selectedChip).toHaveProperty("label", "Very long item one");
   });
 
   it("includes disabled selected items in single display count", async () => {

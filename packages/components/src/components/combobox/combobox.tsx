@@ -215,7 +215,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
-    this.refreshSelectionDisplay();
+    this.refreshSelectionDisplay(true);
   });
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
@@ -720,7 +720,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.value = this.getValue();
     this.internalValueChangeFlag = false;
     if (this.selectionDisplay === "fit" && this.isMulti()) {
-      this.updateComplete.then(() => this.refreshSelectionDisplay());
+      this.updateComplete.then(() => this.refreshSelectionDisplay(true));
     }
   }
 
@@ -1096,8 +1096,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     });
   }
 
-  private async refreshSelectionDisplay() {
-    this.componentOnReady();
+  private async refreshSelectionDisplay(allowFollowUpRefresh: boolean) {
+    await this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
       return;
@@ -1118,14 +1118,29 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
     const chipContainerElWidth = getElementWidth(chipContainerEl);
-    const { fontSize, fontFamily } = getComputedStyle(textInputRef.value);
-    const inputTextWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const inputWidth = (inputTextWidth || parseInt(calciteSize48)) + chipContainerElGap;
+    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+    const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+    const placeholderWidth =
+      measuredPlaceholderWidth > 0
+        ? measuredPlaceholderWidth
+        : Math.max(
+            inputMinWidth,
+            Math.round(
+              (placeholder?.length || 0) * (parseFloat(fontSize) || parseInt(calciteSize48)) * 0.55,
+            ),
+          );
+    const inputWidth = placeholderWidth + chipContainerElGap;
     const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
     const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
     const largestSelectedIndicatorChipWidth = Math.max(
       allSelectedIndicatorChipElWidth,
       selectedIndicatorChipElWidth,
+    );
+    const selectedChipCountElWidth = getElementWidth(
+      this.el.shadowRoot.querySelector<Chip["el"]>(
+        "calcite-chip[data-test-id='selected-chip-count']",
+      ),
     );
 
     this.setCompactSelectionDisplay({
@@ -1165,16 +1180,22 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         },
       );
 
+      const hiddenChipIndicatorWidth =
+        this.selectedHiddenChipsCount > 0
+          ? selectedChipCountElWidth || selectedIndicatorChipElWidth
+          : 0;
+
       const availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth -
-          ((this.selectedHiddenChipsCount > 0 ? selectedIndicatorChipElWidth : 0) +
-            chipContainerElGap +
-            inputWidth +
-            chipContainerElGap),
+          (hiddenChipIndicatorWidth + chipContainerElGap + inputWidth + chipContainerElGap),
       );
 
       this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
-      this.setVisibleAndHiddenChips(chipEls);
+      const hiddenCountChanged = this.setVisibleAndHiddenChips(chipEls);
+
+      if (hiddenCountChanged && allowFollowUpRefresh) {
+        this.updateComplete.then(() => this.refreshSelectionDisplay(false));
+      }
     }
   }
 
@@ -1214,21 +1235,32 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     connectFloatingUI(this);
   }
 
-  private setVisibleAndHiddenChips(chipEls: Chip["el"][]): void {
+  private setVisibleAndHiddenChips(chipEls: Chip["el"][]): boolean {
     let newSelectedVisibleChipsCount = 0;
+    let selectedChipCount = 0;
     chipEls.forEach((chipEl) => {
-      if (chipEl.selected && !chipEl.classList.contains(CSS.chipInvisible)) {
-        newSelectedVisibleChipsCount++;
+      if (chipEl.selected) {
+        selectedChipCount++;
+
+        if (!chipEl.classList.contains(CSS.chipInvisible)) {
+          newSelectedVisibleChipsCount++;
+        }
       }
     });
     if (newSelectedVisibleChipsCount !== this.selectedVisibleChipsCount) {
       this.selectedVisibleChipsCount = newSelectedVisibleChipsCount;
     }
-    const selectedCount = this.getSelectedItems().length;
-    const newSelectedHiddenChipsCount = Math.max(0, selectedCount - newSelectedVisibleChipsCount);
+    const newSelectedHiddenChipsCount = Math.max(
+      0,
+      selectedChipCount - newSelectedVisibleChipsCount,
+    );
+    let hiddenCountChanged = false;
     if (newSelectedHiddenChipsCount !== this.selectedHiddenChipsCount) {
       this.selectedHiddenChipsCount = newSelectedHiddenChipsCount;
+      hiddenCountChanged = true;
     }
+
+    return hiddenCountChanged;
   }
 
   private getMaxScrollerHeight(): number {
@@ -1647,10 +1679,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
   }
 
-  private renderChipCount(count: number, scale: Scale, includePlus: boolean): JsxNode {
-    const label = includePlus
-      ? (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`)
-      : `${count}`;
+  private renderChipCount(count: number, scale: Scale): JsxNode {
+    const label =
+      this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`;
 
     return (
       <calcite-chip
@@ -1746,7 +1777,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (selectionDisplay === "fit") {
       const hiddenSelectedCount = this.selectedHiddenChipsCount;
       if (hiddenSelectedCount > 0) {
-        chips.push(this.renderChipCount(hiddenSelectedCount, scale, true));
+        chips.push(this.renderChipCount(hiddenSelectedCount, scale));
       }
     }
 
