@@ -123,9 +123,6 @@
   --calcite-internal-shell-panel-action-bar-border-block-end: 0;
   --calcite-internal-shell-panel-action-bar-border-block-start: 0;
 
-  // --calcite-internal-shell-panel-action-bar-inline-size: 48px;
-  // --calcite-internal-shell-panel-action-bar-block-size: 48px;
-
   --calcite-internal-shell-panel-action-bar-min-block-size: 48px;
   --calcite-internal-shell-panel-action-bar-min-inline-size: 48px;
 
@@ -168,9 +165,9 @@
   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
 }
 
-// :host([layout="vertical"][display-mode="overlay"]) {
-//   z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
-// }
+:host([layout="vertical"][display-mode="overlay"]) {
+  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
+}
 
 :host([layout="vertical"][display-mode="float-all"]) .content {
   flex: 2;
@@ -355,6 +352,8 @@
   border-block-end: var(--calcite-internal-shell-panel-action-bar-border-block-end);
   min-block-size: var(--calcite-internal-shell-panel-action-bar-min-block-size);
   min-inline-size: var(--calcite-internal-shell-panel-action-bar-min-inline-size);
+
+  overflow: hidden;
 }
 
 :host([position="start"][layout="vertical"]) {
@@ -895,7 +894,6 @@
 
   --calcite-internal-shell-panel-container-flex-direction: column;
   --calcite-internal-shell-panel-action-bar-container-overflow: hidden;
-  // --calcite-internal-shell-panel-action-bar-inline-size: 100%;
 
   --calcite-internal-shell-panel-c-panel-border-inline-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: auto;
