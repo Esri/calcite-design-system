@@ -381,20 +381,27 @@ describe("group filtering", () => {
 });
 
 describe("nested selection modes", () => {
-  it("preserves each nested list's selectionMode on its own items", async () => {
+  it("preserves each nested list's direct-item properties", async () => {
     await mount(
       <div>
         <calcite-list
           display-mode="nested"
           drag-enabled
+          id="root-list-one"
           label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
           selection-mode="single-persist"
         >
           <calcite-list-item expanded label="Top-level list-item">
             <calcite-list
               display-mode="flat"
               drag-enabled
+              id="nested-list-none-drag-enabled"
+              interaction-mode="static"
               label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
               selection-mode="none"
             >
               <calcite-list-item id="nested-none-item-drag-enabled" label="Sub-level item" />
@@ -404,11 +411,22 @@ describe("nested selection modes", () => {
         <calcite-list
           display-mode="nested"
           drag-enabled
+          id="root-list-two"
           label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
           selection-mode="single-persist"
         >
           <calcite-list-item expanded label="Top-level list-item">
-            <calcite-list display-mode="flat" label="Sub-level list" selection-mode="none">
+            <calcite-list
+              display-mode="flat"
+              id="nested-list-none"
+              interaction-mode="static"
+              label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
+              selection-mode="none"
+            >
               <calcite-list-item id="nested-none-item" label="Sub-level item" />
             </calcite-list>
           </calcite-list-item>
@@ -416,11 +434,22 @@ describe("nested selection modes", () => {
         <calcite-list
           display-mode="nested"
           drag-enabled
+          id="root-list-three"
           label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
           selection-mode="single-persist"
         >
           <calcite-list-item expanded label="Top-level list-item">
-            <calcite-list display-mode="flat" label="Sub-level list" selection-mode="multiple">
+            <calcite-list
+              display-mode="flat"
+              id="nested-list-multiple"
+              interaction-mode="interactive"
+              label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
+              selection-mode="multiple"
+            >
               <calcite-list-item id="nested-multiple-item" label="Sub-level item" />
             </calcite-list>
           </calcite-list-item>
@@ -430,14 +459,54 @@ describe("nested selection modes", () => {
 
     await afterNextFrame();
 
+    page.getBySelector("#nested-list-none-drag-enabled").element().setAttribute("scale", "s");
+    page
+      .getBySelector("#nested-list-none-drag-enabled")
+      .element()
+      .setAttribute("selection-appearance", "highlight");
+    page
+      .getBySelector("#nested-list-none-drag-enabled")
+      .element()
+      .setAttribute("interaction-mode", "static");
+
+    page.getBySelector("#nested-list-none").element().setAttribute("scale", "s");
+    page
+      .getBySelector("#nested-list-none")
+      .element()
+      .setAttribute("selection-appearance", "highlight");
+    page.getBySelector("#nested-list-none").element().setAttribute("interaction-mode", "static");
+
+    page.getBySelector("#nested-list-multiple").element().setAttribute("scale", "s");
+    page
+      .getBySelector("#nested-list-multiple")
+      .element()
+      .setAttribute("selection-appearance", "highlight");
+    page
+      .getBySelector("#nested-list-multiple")
+      .element()
+      .setAttribute("interaction-mode", "interactive");
+
+    await afterNextFrame();
+
     const nestedNoneDragEnabledItem = page
       .getBySelector("#nested-none-item-drag-enabled")
       .element();
     const nestedNoneItem = page.getBySelector("#nested-none-item").element();
     const nestedMultipleItem = page.getBySelector("#nested-multiple-item").element();
 
-    expect((nestedNoneDragEnabledItem as any).selectionMode).toBe("none");
-    expect((nestedNoneItem as any).selectionMode).toBe("none");
-    expect((nestedMultipleItem as any).selectionMode).toBe("multiple");
+    expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
+    expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+    expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
+    expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+
+    expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
+    expect(nestedNoneItem).toHaveProperty("scale", "s");
+    expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
+    expect(nestedNoneItem).toHaveProperty("interactionMode", "static");
+
+    expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
+    expect(nestedMultipleItem).toHaveProperty("scale", "s");
+    expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
+    expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
   });
 });
