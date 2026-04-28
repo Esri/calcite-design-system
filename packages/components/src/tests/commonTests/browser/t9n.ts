@@ -2,14 +2,18 @@ import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
 
-type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 type TagName = keyof DeclareElements;
 
-const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement => {
-  const root = host.shadowRoot ?? host;
-  return root.querySelector(tagName);
-};
-
+/**
+ * Helper to test t9n component setup.
+ *
+ * Note that this helper should be used within a describe block.
+ *
+ * @example
+ * describe("translation support", () => {
+ *   t9n("calcite-action");
+ * });
+ */
 export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?: TagName[]): Promise<void> {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -19,6 +23,8 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
   it("overrides messages", async () => await assertOverrides(subComponents));
   it("switches messages", async () => await assertLangSwitch());
   it("does not throw when removed during message loading", async () => await assertNoErrorOnRemovalDuringMessageLoad());
+
+  type ComponentWithMessageOverrides = IntrinsicElementsWithProp<"messageOverrides">;
 
   async function getCurrentMessages(
     component: ComponentWithMessageOverrides,
@@ -30,6 +36,11 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     return component.messages;
   }
 
+  const findSubComponentElement = (host: Element, tagName: TagName): HTMLElement => {
+    const root = host.shadowRoot ?? host;
+    return root.querySelector(tagName);
+  };
+
   async function assertDefaultMessages(): Promise<void> {
     const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     expect(await getCurrentMessages(component)).toBeDefined();
@@ -39,9 +50,6 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
     const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
-    if (!firstMessageProp) {
-      return;
-    }
     const overrideValue = "override test";
     const messageOverride = { [firstMessageProp]: overrideValue };
     el.messageOverrides = messageOverride;
@@ -52,6 +60,7 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
       ...messageOverride,
     });
 
+    // reset test changes
     el.messageOverrides = undefined;
     await reRender();
 
