@@ -18,8 +18,10 @@
 //
 // --calcite-internal-navigation-user-background-color
 // --calcite-internal-navigation-user-full-name-font-size
+// --calcite-internal-navigation-user-full-name-line-height
 // --calcite-internal-navigation-user-padding-inline
 // --calcite-internal-navigation-user-username-font-size
+// --calcite-internal-navigation-user-username-line-height
 
 @use "../../styles/includes";
 
@@ -27,18 +29,24 @@
   --calcite-internal-navigation-user-padding-inline: var(--calcite-space-md);
   --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-base);
   --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-lg);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-lg);
 }
 
 :host([scale="m"]) {
   --calcite-internal-navigation-user-padding-inline: var(--calcite-space-lg);
   --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-md);
-  --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-xl);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-lg);
 }
 
 :host([scale="l"]) {
   --calcite-internal-navigation-user-padding-inline: var(--calcite-space-xl);
   --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-xl);
   --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-lg);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-2xl);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-2xl);
 }
 
 :host {
@@ -87,13 +95,13 @@ calcite-avatar ~ .text-container {
   color: var(--calcite-navigation-user-full-name-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-user-full-name-font-size);
   padding-block-start: var(--calcite-space-2xs);
-  line-height: var(--calcite-space-xl);
+  line-height: var(--calcite-internal-navigation-user-full-name-line-height);
 }
 
 .username {
   font-size: var(--calcite-internal-navigation-user-username-font-size);
   color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
-  line-height: var(--calcite-space-xl);
+  line-height: var(--calcite-internal-navigation-user-username-line-height);
 }
 
 :host(:hover) .button,
