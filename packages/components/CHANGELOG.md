@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.42...@esri/calcite-components@5.1.0-next.43) (2026-04-28)
+
+### Features
+
+- **navigation, navigation-logo, navigation-user:** add scale prop ([#14265](https://github.com/Esri/calcite-design-system/issues/14265)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
 ## [5.1.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.41...@esri/calcite-components@5.1.0-next.42) (2026-04-28)
 
 ### Features
