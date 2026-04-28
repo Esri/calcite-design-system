@@ -379,3 +379,65 @@ describe("group filtering", () => {
     expect(el.filteredItems).toHaveLength(4);
   });
 });
+
+describe("nested selection modes", () => {
+  it("preserves each nested list's selectionMode on its own items", async () => {
+    await mount(
+      <div>
+        <calcite-list
+          display-mode="nested"
+          drag-enabled
+          label="Top-level label"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list
+              display-mode="flat"
+              drag-enabled
+              label="Sub-level list"
+              selection-mode="none"
+            >
+              <calcite-list-item id="nested-none-item-drag-enabled" label="Sub-level item" />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+        <calcite-list
+          display-mode="nested"
+          drag-enabled
+          label="Top-level label"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list display-mode="flat" label="Sub-level list" selection-mode="none">
+              <calcite-list-item id="nested-none-item" label="Sub-level item" />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+        <calcite-list
+          display-mode="nested"
+          drag-enabled
+          label="Top-level label"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list display-mode="flat" label="Sub-level list" selection-mode="multiple">
+              <calcite-list-item id="nested-multiple-item" label="Sub-level item" />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      </div>,
+    );
+
+    await afterNextFrame();
+
+    const nestedNoneDragEnabledItem = page
+      .getBySelector("#nested-none-item-drag-enabled")
+      .element();
+    const nestedNoneItem = page.getBySelector("#nested-none-item").element();
+    const nestedMultipleItem = page.getBySelector("#nested-multiple-item").element();
+
+    expect((nestedNoneDragEnabledItem as any).selectionMode).toBe("none");
+    expect((nestedNoneItem as any).selectionMode).toBe("none");
+    expect((nestedMultipleItem as any).selectionMode).toBe("multiple");
+  });
+});
