@@ -101,14 +101,7 @@
 }
 
 :host([display-mode="float"]) .content {
-  --tw-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.16);
-  --tw-shadow-colored: 0 2px 12px -4px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-sheet-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
-  );
+  box-shadow: var(--calcite-sheet-shadow, var(--calcite-shadow-sm));
 }
 
 :host([display-mode="overlay"][position="inline-start"]) .container {
