@@ -1,4 +1,3 @@
-import { describe } from "vitest";
 import rule from "../../../../src/rules/ban-events";
 import good from "./ban-events.good.tsx?raw";
 import wrong from "./ban-events.wrong.tsx?raw";
