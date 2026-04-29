@@ -17,6 +17,18 @@ export function validate({
   value: any;
 }): ValidationResult {
   if (!Array.isArray(value)) {
+    /*
+     * This logic handles syncing each radio component's validity in a group, which is different than other form components whose validity state only depends upon itself.
+     *
+     * It does this by:
+     * 1) Finding every element in the component's form whose name matches the component's name
+     * 2) Filtering that set of elements by the component's tagName (to ensure they're all of the same element type)
+     * 3) Checking if any element in the group has required set (if any or all or some have required, the whole group is required)
+     * 4) Checking if any element in the group is currently checked/selected
+     * 5) If #3 is true and #4 is false, it is invalid since a required radio group must have a selected value
+     * 6) The validity and validationMessage properties are captured from the native input element passed in based on #3 and #4
+     * 7) The properties in #6 are applied just to the other radio elements in the same group as the current component
+     */
     if (component && input.type === "radio") {
       let group = component.elementInternals.form?.elements[component.name];
       if (group?.length > 0) {
