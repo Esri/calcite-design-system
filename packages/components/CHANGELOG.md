@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.43...@esri/calcite-components@5.1.0-next.44) (2026-04-29)
+
+### Bug Fixes
+
+- **list:** fix nested list-item property inheritance in calcite-list ([#14344](https://github.com/Esri/calcite-design-system/issues/14344)), closes [#14228](https://github.com/Esri/calcite-design-system/issues/14228)
+
 ## [5.1.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.42...@esri/calcite-components@5.1.0-next.43) (2026-04-28)
 
 ### Features
