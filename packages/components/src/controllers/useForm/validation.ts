@@ -17,13 +17,10 @@ export function validate({
   value: any;
 }): ValidationResult {
   if (!Array.isArray(value)) {
-    let validity = getValidityFlags(inputDelegate.validity);
-    let validationMessage = inputDelegate.validationMessage;
-
     if (component?.el && inputDelegate.type === "radio") {
-      let group = component.elementInternals?.form?.elements[component.name];
+      let group = component.elementInternals.form?.elements[component.name];
       if (group && group.length > 0) {
-        group = Array.from(group).filter((element: any) => element.tagName === component.el.tagName);
+        group = Array.from(group).filter((element: any) => element.tagName === component.el.tagName) as FormComponent[];
 
         const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
         const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
@@ -32,11 +29,11 @@ export function validate({
 
         inputDelegate.required = !!valueMissing;
 
-        validity = getValidityFlags(inputDelegate.validity);
-        validationMessage = inputDelegate.validationMessage;
+        const validity = getValidityFlags(inputDelegate.validity);
+        const validationMessage = inputDelegate.validationMessage;
 
         if (others && others.length > 0) {
-          others.forEach((other: FormComponent) => {
+          others.forEach((other) => {
             if (valueMissing !== other.validity?.valueMissing && other.setValidity) {
               other.setValidity(validity, validationMessage);
             }
@@ -50,8 +47,8 @@ export function validate({
     }
 
     return {
-      validity,
-      validationMessage,
+      validity: getValidityFlags(inputDelegate.validity),
+      validationMessage: inputDelegate.validationMessage,
     };
   }
 
