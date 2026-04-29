@@ -17,9 +17,9 @@ export function validate({
   value: any;
 }): ValidationResult {
   if (!Array.isArray(value)) {
-    if (component?.el && input.type === "radio") {
+    if (component && input.type === "radio") {
       let group = component.elementInternals.form?.elements[component.name];
-      if (group && group.length > 0) {
+      if (group?.length > 0) {
         group = Array.from(group).filter((element: any) => element.tagName === component.el.tagName) as FormComponent[];
 
         const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
@@ -32,7 +32,7 @@ export function validate({
         const validity = getValidityFlags(input.validity);
         const validationMessage = input.validationMessage;
 
-        if (others && others.length > 0) {
+        if (others?.length > 0) {
           others.forEach((other) => {
             if (valueMissing !== other.validity?.valueMissing && other.setValidity) {
               other.setValidity(validity, validationMessage);
