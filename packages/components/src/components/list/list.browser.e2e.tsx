@@ -515,6 +515,34 @@ describe("nested selection modes", () => {
       expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
     };
 
+    const nestedPropertiesSettled = (): boolean => {
+      return (
+        nestedNoneDragEnabledItem.selectionMode === "none" &&
+        nestedNoneDragEnabledItem.scale === "s" &&
+        nestedNoneDragEnabledItem.selectionAppearance === "highlight" &&
+        nestedNoneDragEnabledItem.interactionMode === "static" &&
+        nestedNoneItem.selectionMode === "none" &&
+        nestedNoneItem.scale === "s" &&
+        nestedNoneItem.selectionAppearance === "highlight" &&
+        nestedNoneItem.interactionMode === "interactive" &&
+        nestedMultipleItem.selectionMode === "multiple" &&
+        nestedMultipleItem.scale === "s" &&
+        nestedMultipleItem.selectionAppearance === "highlight" &&
+        nestedMultipleItem.interactionMode === "interactive"
+      );
+    };
+
+    const waitForNestedPropertiesToSettle = async (): Promise<void> => {
+      for (let i = 0; i < 10; i++) {
+        if (nestedPropertiesSettled()) {
+          return;
+        }
+
+        await afterNextTask();
+        await afterNextFrame();
+      }
+    };
+
     // Assert immediately after initial render.
     assertSelectionModes();
 
@@ -543,8 +571,7 @@ describe("nested selection modes", () => {
     nestedListMultiple.selectionAppearance = "highlight";
     nestedListMultiple.interactionMode = "interactive";
 
-    await afterNextTask();
-    await afterNextFrame();
+    await waitForNestedPropertiesToSettle();
     assertAllNestedProperties();
 
     // Trigger parent-list updates that should not overwrite nested-list item props.
@@ -563,8 +590,7 @@ describe("nested selection modes", () => {
     rootListThree.selectionAppearance = "icon";
     rootListThree.interactionMode = "static";
 
-    await afterNextTask();
-    await afterNextFrame();
+    await waitForNestedPropertiesToSettle();
     assertAllNestedProperties();
   });
 });
