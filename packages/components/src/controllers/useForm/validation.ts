@@ -20,7 +20,9 @@ export function validate({
     if (component && input.type === "radio") {
       let group = component.elementInternals.form?.elements[component.name];
       if (group?.length > 0) {
-        group = Array.from(group).filter((element: any) => element.tagName === component.el.tagName) as FormComponent[];
+        group = Array.from(group).filter(
+          (element) => (element as HTMLElement).tagName === component.el.tagName,
+        ) as FormComponent[];
 
         const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
         const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
