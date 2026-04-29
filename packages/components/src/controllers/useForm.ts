@@ -379,7 +379,7 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate({ component, inputDelegate, value: getComponentValue() }));
+        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
       }
 
       if (customValidityMessage) {

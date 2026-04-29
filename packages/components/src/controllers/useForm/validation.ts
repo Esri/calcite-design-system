@@ -9,15 +9,15 @@ const allValid = Object.freeze({ validity: {}, validationMessage: "" });
 
 export function validate({
   component,
-  inputDelegate,
+  input,
   value,
 }: {
   component?: FormComponent;
-  inputDelegate: HTMLInputElement;
+  input: HTMLInputElement;
   value: any;
 }): ValidationResult {
   if (!Array.isArray(value)) {
-    if (component?.el && inputDelegate.type === "radio") {
+    if (component?.el && input.type === "radio") {
       let group = component.elementInternals.form?.elements[component.name];
       if (group && group.length > 0) {
         group = Array.from(group).filter((element: any) => element.tagName === component.el.tagName) as FormComponent[];
@@ -27,10 +27,10 @@ export function validate({
         const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
         const valueMissing = isRequired && !isChecked;
 
-        inputDelegate.required = !!valueMissing;
+        input.required = !!valueMissing;
 
-        const validity = getValidityFlags(inputDelegate.validity);
-        const validationMessage = inputDelegate.validationMessage;
+        const validity = getValidityFlags(input.validity);
+        const validationMessage = input.validationMessage;
 
         if (others && others.length > 0) {
           others.forEach((other) => {
@@ -42,24 +42,24 @@ export function validate({
       }
     }
 
-    if (validateValue(inputDelegate, value)) {
+    if (validateValue(input, value)) {
       return allValid;
     }
 
     return {
-      validity: getValidityFlags(inputDelegate.validity),
-      validationMessage: inputDelegate.validationMessage,
+      validity: getValidityFlags(input.validity),
+      validationMessage: input.validationMessage,
     };
   }
 
-  if (joinableValueTypes.includes(inputDelegate.type)) {
-    if (validateValue(inputDelegate, value.join(","))) {
+  if (joinableValueTypes.includes(input.type)) {
+    if (validateValue(input, value.join(","))) {
       return allValid;
     }
 
     return {
-      validity: getValidityFlags(inputDelegate.validity),
-      validationMessage: inputDelegate.validationMessage,
+      validity: getValidityFlags(input.validity),
+      validationMessage: input.validationMessage,
     };
   }
 
@@ -67,14 +67,14 @@ export function validate({
   const validationMessages: string[] = [];
 
   for (const item of value) {
-    if (validateValue(inputDelegate, item)) {
+    if (validateValue(input, item)) {
       continue;
     }
 
-    Object.assign(mergedValidity, getValidityFlags(inputDelegate.validity));
+    Object.assign(mergedValidity, getValidityFlags(input.validity));
 
-    if (inputDelegate.validationMessage) {
-      validationMessages.push(inputDelegate.validationMessage);
+    if (input.validationMessage) {
+      validationMessages.push(input.validationMessage);
     }
   }
 
