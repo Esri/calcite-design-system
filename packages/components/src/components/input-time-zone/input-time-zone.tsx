@@ -495,7 +495,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <calcite-combobox
-          clearDisabled={!this.clearable}
+          clearDisabled={this.clearable ? false : undefined}
           disabled={this.disabled}
           label={this.messages.chooseTimeZone}
           labelText={this.labelText}

@@ -371,6 +371,17 @@ describe("mode", () => {
 });
 
 describe("clearable", () => {
+  it("does not trigger the internal combobox warning when clearable is disabled", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone(testTimeZoneItems[0].name);
+    await page.setContent(html`<calcite-input-time-zone></calcite-input-time-zone>`);
+    await page.waitForChanges();
+
+    expect(console.warn).not.toHaveBeenCalledWith(
+      'clearDisabled is ignored when selection-mode is set to "single-persist"',
+    );
+  });
+
   it("does not allow users to deselect a time zone value by default", async () => {
     const page = await newE2EPage();
     await page.emulateTimezone(testTimeZoneItems[1].name);
