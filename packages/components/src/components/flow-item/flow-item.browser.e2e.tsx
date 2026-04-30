@@ -175,7 +175,7 @@ describe("delegates to floating-ui-owner component", () => {
 });
 
 describe("translation support", () => {
-  t9n(() => mount("calcite-flow-item"));
+  t9n(() => mount("calcite-flow-item"), ["calcite-panel"]);
 });
 
 describe("disabled", () => {
