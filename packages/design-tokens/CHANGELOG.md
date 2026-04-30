@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.0-next.7...@esri/calcite-design-tokens@4.1.0-next.8) (2026-04-28)
+
+### Features
+
+- **semantic-tokens:** update shadow token styles ([#14152](https://github.com/Esri/calcite-design-system/issues/14152)), closes [#10050](https://github.com/Esri/calcite-design-system/issues/10050)
+
 ## [4.1.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.1.0-next.6...@esri/calcite-design-tokens@4.1.0-next.7) (2026-04-20)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

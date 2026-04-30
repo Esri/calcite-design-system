@@ -96,6 +96,13 @@ export interface FormComponent<T = any>
    */
   defaultValue: T;
 
+  /**
+   * Sets the component's form validity state.
+   *
+   * This is needed specifically for radio-type elements whose validity state is synced with other elements in the same group.
+   */
+  setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
+
   /** The validation icon to display. */
   validationIcon?: IconName | boolean;
 
@@ -153,9 +160,10 @@ function displayValidationMessage(component: FormComponent, { status, message, i
 }
 
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
-  const { disabled, required } = component;
+  const { disabled, name, required } = component;
 
   input.disabled = disabled;
+  input.name = name;
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -355,8 +363,12 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateValidity();
+      if (component.hasUpdated) {
+        updateValidity();
+      }
     });
+
+    controller.onLoaded(() => updateValidity());
 
     function updateValidity(): void {
       const { elementInternals } = component;
@@ -367,7 +379,7 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
       }
 
       if (customValidityMessage) {
