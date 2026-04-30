@@ -6,7 +6,7 @@ import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { ensureFocusedTableCellVisible, isStickyHeaderActive } from "../table/sticky-header";
+import { ensureFocusedTableCellVisible } from "../table/sticky-header";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -112,6 +112,9 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() scale: Scale;
+
+  /** @private */
+  @property() stickyHeaderActive = false;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true })
@@ -253,13 +256,12 @@ export class TableRow extends LitElement {
         if (cellPosition) {
           const table: HTMLCalciteTableElement | null = this.el.closest("calcite-table");
           const hasStickyHeader = !!table?.stickyHeader;
-          const stickyHeaderActive = hasStickyHeader && isStickyHeaderActive(table);
           const firstVisibleBodyRow = this.isFirstVisibleBodyRow();
           const useManualBodyRowScrolling = this.rowType === "body";
 
           if (
             useManualBodyRowScrolling ||
-            stickyHeaderActive ||
+            this.stickyHeaderActive ||
             (firstVisibleBodyRow && hasStickyHeader) ||
             (this.rowType === "head" && hasStickyHeader)
           ) {

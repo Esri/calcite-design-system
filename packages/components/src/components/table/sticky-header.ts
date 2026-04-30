@@ -45,11 +45,6 @@ function getStickyAdjustedTargetTop(
 
   return Math.max(scrollContainerTop, tableTop) + stickyHeaderOffset;
 }
-
-export function isStickyHeaderActive(table: HTMLElement): boolean {
-  return getComputedStyle(table).getPropertyValue("--calcite-internal-table-header-active").trim() === "1";
-}
-
 export function ensureFocusedTableCellVisible(
   table: TableHost,
   cell: FocusableTablePart,

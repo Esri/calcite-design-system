@@ -71,6 +71,8 @@ export class Table extends LitElement {
 
   private stickyHeaderSettleTimeouts: number[] = [];
 
+  private stickyHeaderActive = false;
+
   private stickyHeaderTotalHeight = 0;
 
   private stickyHeaderResizeObserver: ResizeObserver | null =
@@ -569,10 +571,17 @@ export class Table extends LitElement {
     });
   }
 
+  private setStickyHeaderActive(active: boolean): void {
+    this.stickyHeaderActive = active;
+    this.allRows?.forEach((row) => {
+      row.stickyHeaderActive = active;
+    });
+  }
+
   private updateStickyHeaderPosition(): void {
     if (!this.stickyHeader || this.stickyHeaderTotalHeight <= 0) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      this.el.style.setProperty("--calcite-internal-table-header-active", "0");
+      this.setStickyHeaderActive(false);
       return;
     }
 
@@ -585,17 +594,17 @@ export class Table extends LitElement {
 
     if (tableBottom == null || scrollContainerTop == null) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      this.el.style.setProperty("--calcite-internal-table-header-active", "0");
+      this.setStickyHeaderActive(false);
       return;
     }
 
     const stickyHeaderPosition =
       tableBottom > scrollContainerTop + this.stickyHeaderTotalHeight ? "sticky" : "static";
     const stickyHeaderActive =
-      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= scrollContainerTop ? "1" : "0";
+      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= scrollContainerTop;
 
     this.el.style.setProperty("--calcite-internal-table-header-position", stickyHeaderPosition);
-    this.el.style.setProperty("--calcite-internal-table-header-active", stickyHeaderActive);
+    this.setStickyHeaderActive(stickyHeaderActive);
   }
 
   private updateStickyHeaderOffsets(): void {
@@ -677,6 +686,7 @@ export class Table extends LitElement {
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
+      row.stickyHeaderActive = this.stickyHeaderActive;
     });
 
     const colCount =
