@@ -2,7 +2,7 @@ import type { Filter, TransformedToken, ValueTransform } from "style-dictionary/
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../../types/interfaces.d.ts";
 
-const correctedValueTypes = ["shadow"] as const;
+const correctedValueTypes = ["boxShadow"] as const;
 const filterTypes: Filter["filter"] = (token) =>
   correctedValueTypes.includes(token.$type) && typeof token.$value === "object";
 
@@ -22,8 +22,8 @@ function hasShadowOffset(value: unknown): value is ShadowWithOffset {
   return typeof value === "object" && value !== null && "offsetX" in value && "offsetY" in value;
 }
 
-function fixableShadowToken(token: TransformedToken): token is TransformedToken & { $type: "shadow" } {
-  return token.$type === "shadow";
+function fixableShadowToken(token: TransformedToken): token is TransformedToken & { $type: "boxShadow" } {
+  return token.$type === "boxShadow";
 }
 
 function normalizeShadowOffset(shadow: ShadowWithOffset): NormalizedShadow {
