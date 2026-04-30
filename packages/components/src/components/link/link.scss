@@ -12,6 +12,11 @@
   display: inline;
 }
 
+:host(:not([href])) {
+  display: inline-block;
+  text-align: center;
+}
+
 :host a {
   @apply font-inherit
     no-underline 
@@ -26,9 +31,9 @@
   background-image:
     linear-gradient(currentColor, currentColor),
     linear-gradient(var(--calcite-color-brand-underline), var(--calcite-color-brand-underline));
-  background-position-x: 0%, 100%;
+  background-position-x: 0 100%;
   background-position-y: min(1.5em, 100%);
-  background-repeat: no-repeat, no-repeat;
+  background-repeat: no-repeat;
   background-size:
     0% var(--calcite-border-width-sm),
     100% var(--calcite-border-width-sm);
