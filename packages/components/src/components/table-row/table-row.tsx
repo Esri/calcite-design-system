@@ -251,9 +251,7 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          const table = this.el.closest("calcite-table") as HTMLElement & {
-            stickyHeader?: boolean;
-          };
+          const table: HTMLCalciteTableElement | null = this.el.closest("calcite-table");
           const hasStickyHeader = !!table?.stickyHeader;
           const stickyHeaderActive = hasStickyHeader && isStickyHeaderActive(table);
           const firstVisibleBodyRow = this.isFirstVisibleBodyRow();

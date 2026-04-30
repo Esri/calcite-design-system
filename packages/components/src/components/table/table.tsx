@@ -23,6 +23,8 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
 
 declare global {
+  type HTMLCalciteTableElement = Table["el"];
+
   interface DeclareElements {
     "calcite-table": Table;
   }
