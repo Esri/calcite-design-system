@@ -9,6 +9,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
@@ -47,6 +48,8 @@ export class Rating extends LitElement implements LabelableComponent {
   //#region Private Properties
 
   defaultValue: Rating["value"];
+
+  private direction = useDirection();
 
   private emit = false;
 
@@ -286,12 +289,18 @@ export class Rating extends LitElement implements LabelableComponent {
           this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = this.getPreviousRatingValue(inputValue);
+          this.value =
+            this.direction === "rtl"
+              ? this.getNextRatingValue(inputValue)
+              : this.getPreviousRatingValue(inputValue);
           this.updateFocus();
           event.preventDefault();
           break;
         case "ArrowRight":
-          this.value = this.getNextRatingValue(inputValue);
+          this.value =
+            this.direction === "rtl"
+              ? this.getPreviousRatingValue(inputValue)
+              : this.getNextRatingValue(inputValue);
           this.updateFocus();
           event.preventDefault();
           break;

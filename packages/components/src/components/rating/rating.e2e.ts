@@ -665,6 +665,38 @@ describe("keyboard interaction", () => {
     expect(changeEvent).toHaveReceivedEventTimes(3);
   });
 
+  it("should update the UI in the physical arrow key direction when dir is rtl", async () => {
+    const page = await newE2EPage();
+    await page.setContent('<calcite-rating dir="rtl" value="3"></calcite-rating>');
+    const element = await page.find("calcite-rating");
+    const labels = await findAll(page, "calcite-rating >>> .star");
+    const changeEvent = await element.spyOnEvent("calciteRatingChange");
+
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("ArrowRight");
+    await page.waitForChanges();
+
+    let hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+    let selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+
+    expect(element).toEqualAttribute("value", "2");
+    expect(await isElementFocused(page, `[for=${labels[1].getAttribute("for")}]`, { shadowed: true })).toBe(true);
+    expect(hoveredElements.length).toBe(2);
+    expect(selectedElements.length).toBe(2);
+
+    await page.keyboard.press("ArrowLeft");
+    await page.waitForChanges();
+
+    hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered");
+    selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
+
+    expect(element).toEqualAttribute("value", "3");
+    expect(await isElementFocused(page, `[for=${labels[2].getAttribute("for")}]`, { shadowed: true })).toBe(true);
+    expect(hoveredElements.length).toBe(3);
+    expect(selectedElements.length).toBe(3);
+    expect(changeEvent).toHaveReceivedEventTimes(2);
+  });
+
   it("should update the rating when a number key is pressed", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-rating></calcite-rating>");
