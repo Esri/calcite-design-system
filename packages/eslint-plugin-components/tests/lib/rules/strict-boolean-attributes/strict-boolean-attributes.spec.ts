@@ -1,4 +1,3 @@
-import { describe } from "vitest";
 import rule from "../../../../src/rules/strict-boolean-attributes";
 import good from "./strict-boolean-attributes.good.tsx?raw";
 import wrong from "./strict-boolean-attributes.wrong.tsx?raw";

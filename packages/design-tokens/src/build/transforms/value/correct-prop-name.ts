@@ -6,23 +6,43 @@ const correctedValueTypes = ["shadow"] as const;
 const filterTypes: Filter["filter"] = (token) =>
   correctedValueTypes.includes(token.$type) && typeof token.$value === "object";
 
-function fixableShadowToken(
-  token: TransformedToken,
-): token is TransformedToken & { $value: { offsetX: number; offsetY: number } } {
-  return (
-    token.$type === "shadow" &&
-    typeof token.$value === "object" &&
-    "offsetX" in token.$value &&
-    "offsetY" in token.$value
-  );
+type ShadowWithOffset = {
+  offsetX: string | number;
+  offsetY: string | number;
+  x?: string | number;
+  y?: string | number;
+};
+
+type NormalizedShadow = Omit<ShadowWithOffset, "offsetX" | "offsetY"> & {
+  x: string | number;
+  y: string | number;
+};
+
+function hasShadowOffset(value: unknown): value is ShadowWithOffset {
+  return typeof value === "object" && value !== null && "offsetX" in value && "offsetY" in value;
+}
+
+function fixableShadowToken(token: TransformedToken): token is TransformedToken & { $type: "shadow" } {
+  return token.$type === "shadow";
+}
+
+function normalizeShadowOffset(shadow: ShadowWithOffset): NormalizedShadow {
+  const { offsetX, offsetY, ...rest } = shadow;
+
+  return {
+    ...rest,
+    x: offsetX,
+    y: offsetY,
+  };
 }
 
 const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   if (fixableShadowToken(token)) {
-    token.$value["x"] = token.$value.offsetX;
-    delete token.$value.offsetX;
-    token.$value["y"] = token.$value.offsetY;
-    delete token.$value.offsetY;
+    token.$value = Array.isArray(token.$value)
+      ? token.$value.map((value) => (hasShadowOffset(value) ? normalizeShadowOffset(value) : value))
+      : hasShadowOffset(token.$value)
+        ? normalizeShadowOffset(token.$value)
+        : token.$value;
   }
 
   return token.$value;

@@ -1,25 +1,35 @@
 import { boolean } from "../../../.storybook/utils";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CalciteNavigationLogo } from "./navigation-logo";
+const { scale } = ATTRIBUTES;
 
-type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "description" | "heading" | "active">;
+type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "active" | "description" | "heading" | "scale">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
   args: {
+    active: false,
     description: "City of AcmeCo",
     heading: "ArcGIS Online",
-    active: false,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: NavigationLogoStoryArgs): string =>
   html`<calcite-navigation-logo
+    ${boolean("active", args.active)}
     description="${args.description}"
     heading="${args.heading}"
+    scale="${args.scale}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
-    ${boolean("active", args.active)}
   />`;
 
 export const heading = (): string => html`<calcite-navigation-logo heading="ArcGIS Online" />`;
