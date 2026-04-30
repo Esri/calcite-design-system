@@ -160,7 +160,7 @@ export function createFocusTrapOptions(
       }
       return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
     },
-    onActivate: () => {
+    onActivate: (params) => {
       if (options?.escapeDeactivates) {
         abortController = new AbortController();
         hostEl.addEventListener(
@@ -177,12 +177,12 @@ export function createFocusTrapOptions(
         );
       }
 
-      options?.onActivate?.();
+      options?.onActivate?.(params);
     },
-    onDeactivate: () => {
+    onDeactivate: (params) => {
       abortController?.abort();
       abortController = undefined;
-      options?.onDeactivate?.();
+      options?.onDeactivate?.(params);
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);

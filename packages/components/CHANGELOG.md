@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.44...@esri/calcite-components@5.1.0-next.45) (2026-04-29)
+
+### Bug Fixes
+
+- **flow-item:** support overriding collapse message ([#14305](https://github.com/Esri/calcite-design-system/issues/14305)), closes [#14292](https://github.com/Esri/calcite-design-system/issues/14292)
+
+## [5.1.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.43...@esri/calcite-components@5.1.0-next.44) (2026-04-29)
+
+### Bug Fixes
+
+- **list:** fix nested list-item property inheritance in calcite-list ([#14344](https://github.com/Esri/calcite-design-system/issues/14344)), closes [#14228](https://github.com/Esri/calcite-design-system/issues/14228)
+
+## [5.1.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.42...@esri/calcite-components@5.1.0-next.43) (2026-04-28)
+
+### Features
+
+- **navigation, navigation-logo, navigation-user:** add scale prop ([#14265](https://github.com/Esri/calcite-design-system/issues/14265)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+## [5.1.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.41...@esri/calcite-components@5.1.0-next.42) (2026-04-28)
+
+### Features
+
+- **card:** update scale prop from private to public ([#14342](https://github.com/Esri/calcite-design-system/issues/14342)), closes [#12345](https://github.com/Esri/calcite-design-system/issues/12345)
+
 ## [5.1.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.40...@esri/calcite-components@5.1.0-next.41) (2026-04-28)
 
 **Note:** Version bump only for package @esri/calcite-components

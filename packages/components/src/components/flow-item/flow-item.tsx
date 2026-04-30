@@ -120,7 +120,7 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** Overrides individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
   /**
    * Specifies the type of positioning to use for overlaid content, where:
@@ -309,7 +309,7 @@ export class FlowItem extends LitElement {
       headingLevel,
       loading,
       menuOpen,
-      messages,
+      messageOverrides,
       overlayPositioning,
       beforeClose,
       icon,
@@ -332,7 +332,7 @@ export class FlowItem extends LitElement {
           iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
-          messageOverrides={messages}
+          messageOverrides={messageOverrides}
           oncalcitePanelClose={this.handleInternalPanelClose}
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}
