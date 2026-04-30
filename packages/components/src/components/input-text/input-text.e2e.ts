@@ -263,6 +263,10 @@ describe("theme", () => {
         shadowSelector: `input`,
         targetProp: "borderRadius",
       },
+      "--calcite-input-text-placeholder-text-color": {
+        shadowSelector: `input::placeholder`,
+        targetProp: "color",
+      },
     };
     themed(html`<calcite-input-text></calcite-input-text>`, componentTokens);
   });
