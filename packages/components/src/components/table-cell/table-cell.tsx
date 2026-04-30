@@ -85,7 +85,7 @@ export class TableCell extends LitElement {
   @property() numberCell: boolean;
 
   /** @private */
-  @property() borderBlockEndDisabled = false;
+  @property() reachesBodyEnd = false;
 
   /** @private */
   @property() parentRowAlignment: Alignment = "start";
@@ -184,7 +184,7 @@ export class TableCell extends LitElement {
           class={{
             [CSS.footerCell]: this.parentRowType === "foot",
             [CSS.contentCell]: !this.numberCell && !this.selectionCell,
-            [CSS.borderBlockEndDisabled]: this.borderBlockEndDisabled,
+            [CSS.reachesBodyEnd]: this.reachesBodyEnd,
             [CSS.numberCell]: this.numberCell,
             [CSS.selectionCell]: this.selectionCell,
             [CSS.selectedCell]: this.parentRowIsSelected,
