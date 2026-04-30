@@ -871,9 +871,9 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
-    const { id: syncId } = await getId();
+    const { id: syncId, source } = await getId();
     if (syncId) {
-      core.notice(`Sync ID "${syncId}" provided, updating existing item instead of creating new.`, logParams);
+      core.notice(`Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`, logParams);
       setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
