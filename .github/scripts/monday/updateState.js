@@ -9,6 +9,13 @@ module.exports = async ({ github, context, core }) => {
       context.payload
     );
   const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
-  monday.handleState(action);
+
+  if (action === "reopened") {
+    core.notice(`Issue reopened, creating or re-syncing task.`, { title: "Create Task" });
+    await monday.createTask();
+  } else {
+    monday.handleState(action);
+  }
+  
   await monday.commit();
 };
