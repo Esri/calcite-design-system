@@ -21,6 +21,10 @@
 
 :host {
   @apply contents;
+
+  ::slotted(calcite-link) {
+    text-align: start;
+  }
 }
 
 :host([top-layer-disabled]) {

@@ -86,6 +86,10 @@
 :host {
   @apply mx-auto hidden max-w-full items-center;
   inline-size: var(--calcite-notice-width);
+
+  ::slotted(calcite-link) {
+    text-align: start;
+  }
 }
 
 .container {
