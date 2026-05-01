@@ -5,5 +5,5 @@
   "pause": "Atura temporalment",
   "carousel": "Carrusel",
   "carouselItemProgress": "Indicador de progrés de l'element de carrusel",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Element {current}/{total}"
 }

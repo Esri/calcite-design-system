@@ -10,157 +10,155 @@ const placeholder = placeholderImage({
   height: 150,
 });
 
-describe("calcite-card", () => {
-  describe("accessible", () => {
-    accessible("calcite-card");
-  });
+describe("accessible", () => {
+  accessible("calcite-card");
+});
 
-  describe("accessible when selectable (deprecated)", () => {
-    accessible(
-      html`<calcite-card label="example-label" selectable>
-        <img slot="thumbnail" src="${placeholder}" alt="Test image" />
-      </calcite-card>`,
-    );
-  });
+describe("accessible when selectable (deprecated)", () => {
+  accessible(
+    html`<calcite-card label="example-label" selectable>
+      <img slot="thumbnail" src="${placeholder}" alt="Test image" />
+    </calcite-card>`,
+  );
+});
 
-  it("renders with default props if none are provided", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("renders with default props if none are provided", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
       <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
-    const element = await page.find("calcite-card");
-    expect(element).not.toHaveAttribute("disabled");
-    expect(element).not.toHaveAttribute("loading");
-    expect(element).not.toHaveAttribute("selected");
-  });
+  const element = await page.find("calcite-card");
+  expect(element).not.toHaveAttribute("disabled");
+  expect(element).not.toHaveAttribute("loading");
+  expect(element).not.toHaveAttribute("selected");
+});
 
-  it("renders with requested props", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("renders with requested props", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
       <calcite-card label="example-label" loading selected disabled>
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>`);
 
-    const element = await page.find("calcite-card");
-    expect(element).toHaveAttribute("disabled");
-    expect(element).toHaveAttribute("loading");
-    expect(element).toHaveAttribute("selected");
-  });
+  const element = await page.find("calcite-card");
+  expect(element).toHaveAttribute("disabled");
+  expect(element).toHaveAttribute("loading");
+  expect(element).toHaveAttribute("selected");
+});
 
-  it("should have a thumbnail container", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`
+it("should have a thumbnail container", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
       <calcite-card label="example-label">
         <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
 
-    const thumbContainer = await page.find(`calcite-card >>> .${CSS.thumbnailWrapper}`);
+  const thumbContainer = await page.find(`calcite-card >>> .${CSS.thumbnailWrapper}`);
 
-    expect(thumbContainer).not.toBeNull();
-  });
+  expect(thumbContainer).not.toBeNull();
+});
 
-  describe("when a card is selectable (deprecated)", () => {
-    it("should update the card's selected state when its checkbox is clicked", async () => {
-      const page = await newE2EPage();
-      await page.setContent(html`
-        <calcite-card label="example-label" selectable>
-          <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
-          <span slot="description">
-            A great example of a study description that might wrap to a line or two, but isn't overly verbose.
-          </span>
-        </calcite-card>
-      `);
-      const card = await page.find("calcite-card");
-      const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapperDeprecated} calcite-checkbox`);
-      const cardSelectSpy = await card.spyOnEvent("calciteCardSelect");
-
-      await checkbox.click();
-      await page.waitForChanges();
-
-      expect(cardSelectSpy).toHaveReceivedEventTimes(1);
-      expect(await checkbox.getProperty("checked")).toBe(true);
-      expect(await card.getProperty("selected")).toBe(true);
-    });
-  });
-
-  it("should have aria-live attribute set to polite on loader container when loading", async () => {
+describe("when a card is selectable (deprecated)", () => {
+  it("should update the card's selected state when its checkbox is clicked", async () => {
     const page = await newE2EPage();
-    await page.setContent(`
+    await page.setContent(html`
+      <calcite-card label="example-label" selectable>
+        <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+        <span slot="description">
+          A great example of a study description that might wrap to a line or two, but isn't overly verbose.
+        </span>
+      </calcite-card>
+    `);
+    const card = await page.find("calcite-card");
+    const checkbox = await page.find(`calcite-card >>> .${CSS.checkboxWrapperDeprecated} calcite-checkbox`);
+    const cardSelectSpy = await card.spyOnEvent("calciteCardSelect");
+
+    await checkbox.click();
+    await page.waitForChanges();
+
+    expect(cardSelectSpy).toHaveReceivedEventTimes(1);
+    expect(await checkbox.getProperty("checked")).toBe(true);
+    expect(await card.getProperty("selected")).toBe(true);
+  });
+});
+
+it("should have aria-live attribute set to polite on loader container when loading", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
       <calcite-card label="example-label" selectable loading>
       <img slot="thumbnail" src="${placeholder}" alt="Test image" />
       </calcite-card>
     `);
 
-    const loaderContainer = await page.find("calcite-card >>> .calcite-card-loader-container");
-    expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
-  });
+  const loaderContainer = await page.find("calcite-card >>> .calcite-card-loader-container");
+  expect(loaderContainer.getAttribute("aria-live")).toBe("polite");
+});
 
-  describe("theme", () => {
-    describe("default", () => {
-      themed("calcite-card", {
-        "--calcite-card-background-color": {
-          shadowSelector: `.${CSS.contentWrapper}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-card-border-color": {
-          shadowSelector: `.${CSS.contentWrapper}`,
-          targetProp: "borderColor",
-        },
-        "--calcite-card-corner-radius": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "borderRadius" },
-        "--calcite-card-shadow": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "boxShadow" },
-      });
+describe("theme", () => {
+  describe("default", () => {
+    themed("calcite-card", {
+      "--calcite-card-background-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-card-border-color": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-card-corner-radius": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "borderRadius" },
+      "--calcite-card-shadow": { shadowSelector: `.${CSS.contentWrapper}`, targetProp: "boxShadow" },
     });
-    describe("selectable", () => {
-      describe("default", () => {
-        themed(
-          html`<calcite-card label="example-label" selectable>
-            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="description">
-              A great example of a study description that might wrap to a line or two, but isn't overly verbose.
-            </span>
-          </calcite-card>`,
-          {
-            "--calcite-card-selection-background-color-hover": {
-              shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-            "--calcite-card-selection-background-color-press": {
-              shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-              targetProp: "backgroundColor",
-              state: { press: { attribute: "class", value: CSS.checkboxWrapperDeprecated } },
-            },
-            "--calcite-card-selection-color": {
-              shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-              targetProp: "color",
-            },
-            "--calcite-card-selection-color-hover": {
-              shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-              targetProp: "color",
-              state: "hover",
-            },
+  });
+  describe("selectable", () => {
+    describe("default", () => {
+      themed(
+        html`<calcite-card label="example-label" selectable>
+          <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="description">
+            A great example of a study description that might wrap to a line or two, but isn't overly verbose.
+          </span>
+        </calcite-card>`,
+        {
+          "--calcite-card-selection-background-color-hover": {
+            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            targetProp: "backgroundColor",
+            state: "hover",
           },
-        );
-      });
-      describe("selected", () => {
-        themed(
-          html`<calcite-card label="example-label" selectable selected>
-            <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
-            <span slot="description">
-              A great example of a study description that might wrap to a line or two, but isn't overly verbose.
-            </span>
-          </calcite-card>`,
-          {
-            "--calcite-card-accent-color-selected": {
-              shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-              targetProp: "color",
-            },
+          "--calcite-card-selection-background-color-press": {
+            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            targetProp: "backgroundColor",
+            state: { press: { attribute: "class", value: CSS.checkboxWrapperDeprecated } },
           },
-        );
-      });
+          "--calcite-card-selection-color": {
+            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            targetProp: "color",
+          },
+          "--calcite-card-selection-color-hover": {
+            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            targetProp: "color",
+            state: "hover",
+          },
+        },
+      );
+    });
+    describe("selected", () => {
+      themed(
+        html`<calcite-card label="example-label" selectable selected>
+          <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+          <span slot="description">
+            A great example of a study description that might wrap to a line or two, but isn't overly verbose.
+          </span>
+        </calcite-card>`,
+        {
+          "--calcite-card-accent-color-selected": {
+            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            targetProp: "color",
+          },
+        },
+      );
     });
   });
 });

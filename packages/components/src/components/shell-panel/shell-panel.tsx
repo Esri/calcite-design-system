@@ -4,8 +4,8 @@ import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  getElementDir,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -13,6 +13,7 @@ import {
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
@@ -43,6 +44,8 @@ export class ShellPanel extends LitElement {
 
   //#region Private Properties
 
+  direction = useDirection();
+
   private resizeHandleEl: HTMLDivElement;
 
   private interaction: Interactable;
@@ -64,6 +67,9 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   //#endregion
@@ -113,7 +119,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's direction.
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -123,7 +129,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
@@ -146,10 +152,12 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Public Methods
+
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * @param size - An object specifying the new inline and/or block size values.
+   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
@@ -183,7 +191,16 @@ export class ShellPanel extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+      this.setupInteractions();
     }
+
+    if (
+      (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
+    ) {
+      this.setupInteractions();
+    }
+
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calciteShellPanelCollapse.emit();
@@ -210,18 +227,7 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -231,7 +237,6 @@ export class ShellPanel extends LitElement {
       layout,
       resizable,
       contentRef,
-      el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
@@ -245,7 +250,7 @@ export class ShellPanel extends LitElement {
     }
 
     const rect = this.getContentElDOMRect();
-    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
@@ -323,7 +328,7 @@ export class ShellPanel extends LitElement {
 
     this.resizeValues = values;
 
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = this.direction === "rtl";
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -405,20 +410,29 @@ export class ShellPanel extends LitElement {
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
+    const isBlockPosition = layout === "horizontal";
 
     const separatorNode =
       !collapsed && resizable ? (
         <div
           ariaLabel={this.messages.resize}
-          ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          ariaValueMax={
-            layout == "horizontal" ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-          }
-          ariaValueMin={
-            layout == "horizontal" ? resizeValues.minBlockSize : resizeValues.minInlineSize
-          }
-          ariaValueNow={layout == "horizontal" ? resizeValues.blockSize : resizeValues.inlineSize}
+          ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+          ariaValueMax={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.maxBlockSize,
+            resizeValues.maxInlineSize,
+          )}
+          ariaValueMin={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.minBlockSize,
+            resizeValues.minInlineSize,
+          )}
+          ariaValueNow={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.blockSize,
+            resizeValues.inlineSize,
+          )}
           class={CSS.resizeHandle}
           key="resize-handle"
           onKeyDown={this.handleKeyDown}

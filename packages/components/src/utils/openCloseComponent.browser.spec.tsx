@@ -1,94 +1,92 @@
 import { describe, expect, it, vi } from "vitest";
 import { JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { createControlledPromise } from "../tests/utils/promises";
 import { toggleOpenClose } from "./openCloseComponent";
 
-describe("openCloseComponent", () => {
-  describe("toggleOpenClose()", () => {
-    it("emits beforeOpen/beforeClose events when the transition starts and open/close events when the transition is done", async () => {
-      const emittedEvents: string[] = [];
+describe(toggleOpenClose, () => {
+  it("emits beforeOpen/beforeClose events when the transition starts and open/close events when the transition is done", async () => {
+    const emittedEvents: string[] = [];
 
-      class Test extends LitElement {
-        open = false;
+    class Test extends LitElement {
+      open = false;
 
-        transitionEl!: HTMLDivElement;
-        openProp = "open";
-        transitionProp = "opacity" as const;
+      transitionEl!: HTMLDivElement;
+      openProp = "open";
+      transitionProp = "opacity" as const;
 
-        onBeforeOpen(): void {
-          emittedEvents.push("beforeOpen");
-        }
-
-        onOpen(): void {
-          emittedEvents.push("open");
-        }
-
-        onBeforeClose(): void {
-          emittedEvents.push("beforeClose");
-        }
-
-        onClose(): void {
-          emittedEvents.push("close");
-        }
-
-        override render(): JsxNode {
-          return (
-            <div
-              ref={(el) => {
-                if (!el) {
-                  return;
-                }
-                this.transitionEl = el;
-              }}
-            />
-          );
-        }
+      onBeforeOpen(): void {
+        emittedEvents.push("beforeOpen");
       }
 
-      const { component } = await mount(Test);
+      onOpen(): void {
+        emittedEvents.push("open");
+      }
 
-      expect(emittedEvents).toEqual([]);
+      onBeforeClose(): void {
+        emittedEvents.push("beforeClose");
+      }
 
-      const openingControlledPromise = createControlledPromise<void>();
+      onClose(): void {
+        emittedEvents.push("close");
+      }
 
-      const getAnimationsSpy = vi.spyOn(component.transitionEl, "getAnimations");
+      override render(): JsxNode {
+        return (
+          <div
+            ref={(el) => {
+              if (!el) {
+                return;
+              }
+              this.transitionEl = el;
+            }}
+          />
+        );
+      }
+    }
 
-      getAnimationsSpy.mockImplementation(() => [
-        {
-          transitionProperty: "opacity",
-          finished: openingControlledPromise.promise,
-        } as unknown as CSSTransition,
-      ]);
+    const { component } = await mount(Test);
 
-      component.open = true;
-      toggleOpenClose(component);
-      await waitForAnimationFrame();
-      expect(emittedEvents).toEqual(["beforeOpen"]);
+    expect(emittedEvents).toEqual([]);
 
-      openingControlledPromise.resolve();
-      await waitForAnimationFrame();
-      expect(emittedEvents).toEqual(["beforeOpen", "open"]);
+    const openingControlledPromise = createControlledPromise<void>();
 
-      const closingControlledPromise = createControlledPromise<void>();
-      getAnimationsSpy.mockImplementation(() => [
-        {
-          transitionProperty: "opacity",
-          finished: closingControlledPromise.promise,
-        } as unknown as CSSTransition,
-      ]);
+    const getAnimationsSpy = vi.spyOn(component.transitionEl, "getAnimations");
 
-      component.open = false;
-      toggleOpenClose(component);
-      await waitForAnimationFrame();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: openingControlledPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
 
-      expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
+    component.open = true;
+    toggleOpenClose(component);
+    await afterNextFrame();
+    expect(emittedEvents).toEqual(["beforeOpen"]);
 
-      closingControlledPromise.resolve();
-      await waitForAnimationFrame();
+    openingControlledPromise.resolve();
+    await afterNextFrame();
+    expect(emittedEvents).toEqual(["beforeOpen", "open"]);
 
-      expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
-    });
+    const closingControlledPromise = createControlledPromise<void>();
+    getAnimationsSpy.mockImplementation(() => [
+      {
+        transitionProperty: "opacity",
+        finished: closingControlledPromise.promise,
+      } as unknown as CSSTransition,
+    ]);
+
+    component.open = false;
+    toggleOpenClose(component);
+    await afterNextFrame();
+
+    expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose"]);
+
+    closingControlledPromise.resolve();
+    await afterNextFrame();
+
+    expect(emittedEvents).toEqual(["beforeOpen", "open", "beforeClose", "close"]);
   });
 });

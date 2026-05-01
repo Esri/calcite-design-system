@@ -228,7 +228,7 @@ export const headingLevelAllScales = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-accordion scale="m" appearance="solid" selection-mode="multiple" class="calcite-mode-dark" dir="rtl">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana">
       ${accordionItemContent}
@@ -245,9 +245,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-accordion>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const transparentAppearance_TestOnly = (): string => html`
+export const transparentAppearance = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item">
       ${accordionItemContent}
@@ -264,7 +264,7 @@ export const transparentAppearance_TestOnly = (): string => html`
   </calcite-accordion>
 `;
 
-export const withIconStartAndEnd_TestOnly = (): string => html`
+export const withIconStartAndEnd = (): string => html`
   <calcite-accordion scale="m" selection-mode="multiple" appearance="transparent">
     <calcite-accordion-item heading="Heading" description="Description for item" icon-start="banana" expanded>
       ${accordionItemContent}
@@ -323,9 +323,10 @@ const accordionItemsIconHeaderUseCases = iconHeaderUseCasesArr
   )
   .join("");
 
-export const longHeading_MediumIconForLargeAccordionItem_TestOnly = (): string => html`
+export const longHeading_MediumIconForLargeAccordionItem = (): string => html`
   <calcite-accordion scale="l" style="width: 600px"> ${accordionItemsIconHeaderUseCases} </calcite-accordion>
 `;
+
 export const slottedItemsStretched = (): string => html`
   <calcite-accordion scale="l">
     <calcite-accordion-item description="Yachts, boats, and dinghies" heading="Watercraft" icon-start="embark">

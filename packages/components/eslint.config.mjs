@@ -7,6 +7,7 @@ import tseslint from "typescript-eslint";
 import unusedImports from "eslint-plugin-unused-imports";
 import { luminaPlugin } from "@arcgis/eslint-config/plugins/lumina";
 import unicornPlugin from "eslint-plugin-unicorn";
+import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
@@ -98,7 +99,7 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {
       vitest: {
@@ -115,6 +116,14 @@ export default tseslint.config(
         ...globals.browser,
         ...vitestPlugin.environments?.env.globals,
       },
+    },
+  },
+
+  {
+    files: ["src/**/*.stories.ts"],
+    extends: [storybookPlugin.configs["flat/recommended"]],
+    rules: {
+      "storybook/prefer-pascal-case": "off",
     },
   },
 

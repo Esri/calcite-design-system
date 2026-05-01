@@ -619,6 +619,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
+            this.component.value = "";
             break;
         }
         this.localizedHour = localizeTimePart({
@@ -668,4 +669,5 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
+/** @public */
 export const useTime = toFunction(TimeController);

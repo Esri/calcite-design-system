@@ -5,5 +5,5 @@
   "pause": "Jeda",
   "carousel": "Karosel",
   "carouselItemProgress": "Indikator Progres untuk Item Karosel",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Item {current} dari {total}"
 }

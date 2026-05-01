@@ -87,7 +87,7 @@ export const withAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice dir="rtl" class="calcite-mode-dark" icon open scale="m" width="auto" kind="danger">
       <div slot="title">This is a destructive action</div>
@@ -96,7 +96,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 const appearances: Notice["appearance"][] = ["outline-fill", "transparent"];
 const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];

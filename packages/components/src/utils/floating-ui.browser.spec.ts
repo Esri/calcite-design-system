@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
-import { waitForAnimationFrame } from "../tests/utils/timing";
+import { afterNextFrame } from "../tests/utils/timing";
 import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
@@ -39,6 +39,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
     open: false,
     reposition: async () => {
       await reposition(fake, {
+        direction: "ltr",
         floatingEl,
         referenceEl,
         overlayPositioning: fake.overlayPositioning,
@@ -56,7 +57,7 @@ function createFakeFloatingUiComponent(referenceEl: HTMLElement, floatingEl: HTM
   return fake;
 }
 
-describe("repositioning", () => {
+describe.each(["ltr", "rtl"] as const)("repositioning (%s)", (direction) => {
   let fakeFloatingUiComponent: FloatingUIComponent;
   let floatingEl: HTMLDivElement;
   let referenceEl: HTMLButtonElement;
@@ -71,6 +72,7 @@ describe("repositioning", () => {
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
 
     positionOptions = {
+      direction,
       floatingEl,
       referenceEl,
       overlayPositioning: fakeFloatingUiComponent.overlayPositioning,
@@ -134,7 +136,7 @@ describe("repositioning", () => {
 
     assertPreOpenPositioning(floatingEl);
 
-    await waitForAnimationFrame();
+    await afterNextFrame();
     assertOpenPositioning(floatingEl);
   });
 

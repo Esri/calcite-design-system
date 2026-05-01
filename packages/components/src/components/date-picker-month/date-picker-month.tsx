@@ -653,7 +653,7 @@ export class DatePickerMonth extends LitElement {
             [CSS.currentDay]: currentDay,
             [CSS.insideRangeHover]: this.isHoverInRange(),
             [CSS.outsideRangeHover]: !this.isHoverInRange(),
-            [CSS.noncurrent]: this.range && !currentMonth,
+            [CSS.noncurrent]: this.range && this.calendars === 2 && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}

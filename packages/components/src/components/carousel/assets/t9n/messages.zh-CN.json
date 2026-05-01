@@ -5,5 +5,5 @@
   "pause": "暂停",
   "carousel": "转盘",
   "carouselItemProgress": "转盘项目的进度指示器",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "第 {current} 个项目，共 {total} 个项目"
 }

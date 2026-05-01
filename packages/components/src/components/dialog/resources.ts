@@ -9,7 +9,6 @@ export const CSS = {
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
   assistiveText: "assistive-text",
-  openingActive: "dialog--opening-active",
 };
 
 export const SLOTS = {
@@ -20,6 +19,8 @@ export const SLOTS = {
   contentBottom: "content-bottom",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
+  description: "description",
+  heading: "heading",
   headerMenuActions: "header-menu-actions",
   headerContent: "header-content",
   fab: "fab",

@@ -5,5 +5,5 @@
   "pause": "Pauze",
   "carousel": "Carousel",
   "carouselItemProgress": "Voortgangsindicator voor Carousel-item",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Item {current} van {total}"
 }

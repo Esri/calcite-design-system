@@ -5,5 +5,5 @@
   "pause": "Pozastavit",
   "carousel": "Karusel",
   "carouselItemProgress": "Ukazatel průběhu pro položku karuselu",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Položka {current} z {total}"
 }

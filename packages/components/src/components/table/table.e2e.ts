@@ -17,262 +17,260 @@ import type { TableCell } from "../table-cell/table-cell";
 import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
 
-describe("calcite-table", () => {
-  describe("accessible", () => {
-    describe("is accessible simple", () => {
-      accessible(
-        html`<calcite-table caption="Simple table">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+describe("accessible", () => {
+  describe("is accessible simple", () => {
+    accessible(
+      html`<calcite-table caption="Simple table">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with selection mode multiple", () => {
-      accessible(
-        html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with selection mode multiple", () => {
+    accessible(
+      html`<calcite-table caption="Simple table" selection-mode="multiple">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with selection mode multiple selected at load", () => {
-      accessible(
-        html`<calcite-table caption="Simple table" selection-mode="multiple">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row selected>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row selected>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with selection mode multiple selected at load", () => {
+    accessible(
+      html`<calcite-table caption="Simple table" selection-mode="multiple">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row selected>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with selection mode single", () => {
-      accessible(
-        html`<calcite-table caption="Simple table" selection-mode="single">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with selection mode single", () => {
+    accessible(
+      html`<calcite-table caption="Simple table" selection-mode="single">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with numbered", () => {
-      accessible(
-        html`<calcite-table caption="Simple table" numbered>
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with numbered", () => {
+    accessible(
+      html`<calcite-table caption="Simple table" numbered>
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with numbered and selection", () => {
-      accessible(
-        html`<calcite-table caption="Simple table" numbered selection-mode="multiple">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with numbered and selection", () => {
+    accessible(
+      html`<calcite-table caption="Simple table" numbered selection-mode="multiple">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with pagination", () => {
-      accessible(
-        html`<calcite-table page-size="4" caption="Simple table">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with pagination", () => {
+    accessible(
+      html`<calcite-table page-size="4" caption="Simple table">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with pagination and interaction mode static", () => {
-      accessible(
-        html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with pagination and interaction mode static", () => {
+    accessible(
+      html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
+  });
 
-    describe("is accessible with pagination and selection mode", () => {
-      accessible(
-        html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
-          <calcite-table-row slot="${SLOTS.tableHeader}">
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-            <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-          <calcite-table-row>
-            <calcite-table-cell>cell</calcite-table-cell>
-            <calcite-table-cell>cell</calcite-table-cell>
-          </calcite-table-row>
-        </calcite-table>`,
-      );
-    });
+  describe("is accessible with pagination and selection mode", () => {
+    accessible(
+      html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+        <calcite-table-row>
+          <calcite-table-cell>cell</calcite-table-cell>
+          <calcite-table-cell>cell</calcite-table-cell>
+        </calcite-table-row>
+      </calcite-table>`,
+    );
   });
 });
 

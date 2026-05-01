@@ -16,7 +16,7 @@
       "cache": false
     },
     "lint": {},
-    "util:update-3rd-party-licenses": {
+    "util:update-3rd-party-notices": {
       "cache": false
     }
   }

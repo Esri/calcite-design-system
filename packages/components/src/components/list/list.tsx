@@ -1,9 +1,8 @@
 // @ts-strict-ignore
-import Sortable from "sortablejs";
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { getRootNode, slotChangeHasAssignedElement } from "../../utils/dom";
+import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
 import { ItemData } from "../list-item/interfaces";
@@ -15,11 +14,6 @@ import {
   listSelector,
   updateListItemChildren,
 } from "../list-item/utils";
-import {
-  connectSortableComponent,
-  disconnectSortableComponent,
-  SortableComponent,
-} from "../../utils/sortableComponent";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
@@ -37,6 +31,7 @@ import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
@@ -54,11 +49,12 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
  *
  * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+ * @slot empty-content - A slot for adding content to display when the component has no `calcite-list-item`s.
  * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
  * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
  * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
-export class List extends LitElement implements SortableComponent {
+export class List extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -90,9 +86,9 @@ export class List extends LitElement implements SortableComponent {
 
   private parentListEl: List["el"];
 
-  sortable: Sortable;
-
   private cancelable = useCancelable<this>()(this);
+
+  private sortable = useSortable<this>()(this);
 
   private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
@@ -121,6 +117,10 @@ export class List extends LitElement implements SortableComponent {
     );
   }
 
+  get showEmptyContentContainer(): boolean {
+    return !this.hasContent && this.hasEmptyContent;
+  }
+
   get showNoResultsContainer(): boolean {
     return (
       this.filterEnabled &&
@@ -141,6 +141,15 @@ export class List extends LitElement implements SortableComponent {
     return this.filterProps.filter((prop) => prop !== "el");
   }
 
+  private filterRowResizeObserver = createObserver("resize", () => this.updateFilterRowHeight());
+
+  private setFilterContainerEl = (el: HTMLDivElement): void => {
+    this.filterContainerEl = el;
+    this.observeFilterRow();
+  };
+
+  private filterContainerEl?: HTMLDivElement;
+
   //#endregion
 
   //#region State Properties
@@ -156,6 +165,12 @@ export class List extends LitElement implements SortableComponent {
   @state() hasFilterNoResults = false;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
+
+  @state() hasContent = false;
+
+  @state() hasEmptyContent = false;
+
+  @state() filterRowHeight = 0;
 
   //#endregion
 
@@ -324,7 +339,7 @@ export class List extends LitElement implements SortableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -448,7 +463,7 @@ export class List extends LitElement implements SortableComponent {
 
   override disconnectedCallback(): void {
     this.disconnectObserver();
-    disconnectSortableComponent(this);
+    this.unobserveFilterRow();
   }
 
   //#endregion
@@ -476,11 +491,12 @@ export class List extends LitElement implements SortableComponent {
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
 
     items.forEach((item) => {
-      item.scale = scale;
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
+        item.scale = scale;
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
           this.validateSortMenuItem({
             type: "move",
@@ -531,6 +547,24 @@ export class List extends LitElement implements SortableComponent {
     this.setActiveListItem();
     this.updateSelectedItems();
     this.setUpSorting();
+  }
+
+  private unobserveFilterRow(): void {
+    this.filterRowResizeObserver?.disconnect();
+  }
+
+  private observeFilterRow(): void {
+    this.unobserveFilterRow();
+
+    const filterRowEl = this.filterContainerEl;
+
+    if (filterRowEl) {
+      this.filterRowResizeObserver?.observe(filterRowEl);
+    }
+  }
+
+  private updateFilterRowHeight(): void {
+    this.filterRowHeight = this.filterContainerEl?.clientHeight ?? 0;
   }
 
   private handleListItemChange(): void {
@@ -686,15 +720,11 @@ export class List extends LitElement implements SortableComponent {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (!dragEnabled) {
-      return;
-    }
-
-    if (defaultSlotEl) {
+    if (dragEnabled && defaultSlotEl) {
       updateListItemChildren(defaultSlotEl);
     }
 
-    connectSortableComponent(this);
+    this.sortable.reset();
   }
 
   onGlobalDragStart(): void {
@@ -725,10 +755,15 @@ export class List extends LitElement implements SortableComponent {
     this.parentListEl = this.el.parentElement?.closest(listSelector);
   }
 
-  private handleDefaultSlotChange(): void {
+  private handleDefaultSlotChange(event: Event): void {
     if (this.parentListEl) {
       this.calciteInternalListDefaultSlotChange.emit();
     }
+    this.hasContent = slotChangeHasContent(event);
+  }
+
+  private handleEmptyContentSlotChange(event: Event): void {
+    this.hasEmptyContent = slotChangeHasContent(event);
   }
 
   private setListItemGroups(): void {
@@ -1203,6 +1238,9 @@ export class List extends LitElement implements SortableComponent {
             [CSS.container]: true,
             [CSS.containerHeight]: this.listItems.length < 1 && loading,
           }}
+          style={{
+            ["--calcite-internal-filter-enabled-offset"]: `${this.filterRowHeight}px`,
+          }}
         >
           {this.dragEnabled ? (
             <span ariaLive="assertive" class={CSS.assistiveText}>
@@ -1219,7 +1257,7 @@ export class List extends LitElement implements SortableComponent {
             role="treegrid"
           >
             {filterEnabled || hasFilterActionsStart || hasFilterActionsEnd ? (
-              <div class={CSS.sticky} role="rowgroup">
+              <div class={CSS.sticky} ref={this.setFilterContainerEl} role="rowgroup">
                 <div role="row">
                   <div role="columnheader">
                     <calcite-stack class={CSS.stack}>
@@ -1251,6 +1289,9 @@ export class List extends LitElement implements SortableComponent {
               </div>
             ) : null}
             <div class={CSS.tableContainer} role="rowgroup">
+              <div hidden={!this.showEmptyContentContainer}>
+                <slot name={SLOTS.emptyContent} onSlotChange={this.handleEmptyContentSlotChange} />
+              </div>
               <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
             </div>
           </div>

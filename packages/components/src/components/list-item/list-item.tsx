@@ -2,11 +2,12 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
-import { SortableComponentItem } from "../../utils/sortableComponent";
+import { type SortableComponentItem } from "../../controllers/useSortable";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
@@ -56,6 +57,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   private contentRef = createRef<HTMLDivElement>();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private direction = useDirection();
 
   private handleGridRef = createRef<HTMLDivElement>();
 
@@ -274,7 +277,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -287,7 +290,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -818,13 +821,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   private renderExpanded(): JsxNode {
-    const { el, expanded, expandable, messages, displayMode, scale } = this;
+    const { expanded, expandable, messages, displayMode, scale } = this;
 
     if (displayMode !== "nested") {
       return null;
     }
 
-    const dir = getElementDir(el);
+    const dir = this.direction;
 
     const icon = expandable
       ? expanded

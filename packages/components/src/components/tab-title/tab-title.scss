@@ -24,7 +24,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
-// --calcite-internal-action-height
+// --calcite-internal-action-min-height
 // --calcite-internal-action-spacing
 // --calcite-internal-tab-shadow-length
 // --calcite-internal-tab-title-close-margin-start
@@ -185,11 +185,11 @@
   color: var(--calcite-tab-text-color, var(--calcite-color-text-3));
 
   .icon-start {
-    color: var(--calcite-tab-icon-color-start, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-start, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   .icon-end {
-    color: var(--calcite-tab-icon-color-end, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+    color: var(--calcite-tab-icon-color-end, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
   }
 
   &:hover,
@@ -198,11 +198,11 @@
     color: var(--calcite-tab-text-color-press, var(--calcite-color-text-1));
 
     .icon-start {
-      color: var(--calcite-tab-icon-color-start-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-start-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
 
     .icon-end {
-      color: var(--calcite-tab-icon-color-end-press, var(--calcite-ui-icon-color, var(--calcite-icon-color)));
+      color: var(--calcite-tab-icon-color-end-press, var(--calcite-icon-color, var(--calcite-ui-icon-color)));
     }
   }
 }
@@ -227,18 +227,6 @@
   border-inline-width: var(--calcite-spacing-px);
   border-inline-style: solid;
 
-  .x-button {
-    & calcite-icon {
-      margin-block-start: var(--calcite-spacing-px);
-    }
-
-    &:focus,
-    &:hover,
-    &:active {
-      box-shadow: 0 2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
-    }
-  }
-
   &.container--bottom {
     border-block-start-style: solid;
     border-block-start-width: 1px;
@@ -247,30 +235,11 @@
       inset-block-start: unset;
       inset-block-end: 0;
     }
-
-    .x-button {
-      box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color, var(--calcite-color-transparent));
-
-      &:focus,
-      &:hover,
-      &:active {
-        box-shadow: 0 -2px 0 0 var(--calcite-tab-close-icon-background-color-press, var(--calcite-color-foreground-3));
-      }
-
-      calcite-icon {
-        margin-block-end: var(--calcite-spacing-px);
-      }
-    }
   }
 
   &:not(.container--bottom) {
     border-block-end-style: solid;
     border-block-end-width: 1px;
-
-    .x-button {
-      block-size: calc(100% - var(--calcite-spacing-px));
-      margin-block-start: -1px;
-    }
   }
 
   .selected-indicator {
@@ -282,7 +251,7 @@
   }
 
   &:host(:not([selected])) {
-    .container .x-button {
+    .container {
       box-shadow: 0 2px 0 0 transparent;
     }
 
@@ -388,7 +357,7 @@
 
 .close {
   --calcite-internal-action-spacing: var(--calcite-internal-tab-title-close-padding);
-  --calcite-internal-action-height: unset;
+  --calcite-internal-action-min-height: unset;
   --calcite-action-text-color: var(--calcite-tab-close-icon-color);
   --calcite-action-text-color-press: var(--calcite-tab-close-icon-color-press);
   --calcite-action-background-color: var(--calcite-tab-close-icon-background-color);

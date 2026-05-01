@@ -74,3 +74,11 @@ Calcite components' assets need to be copied to the `./public` directory when [u
 ```sh
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/ ./public
 ```
+
+### Import CSS styles
+
+Angular does not automatically load `.css` assets from external libraries. To ensure all component styles load correctly, explicitly import Calcite’s CSS in the project's root stylesheet (`src/styles.css`):
+
+```css
+@import "@esri/calcite-components/main.css";
+```

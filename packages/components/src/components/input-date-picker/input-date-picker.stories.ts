@@ -110,9 +110,9 @@ export const rangeWithMinMax = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -132,11 +132,11 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -270,7 +270,7 @@ export const rangeOneCalendarsAllScales = (): string => html`
   </div>
 `;
 
-export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
+export const arabicLocaleDarkModeRTL = (): string => html`
   <style>
     .container {
       display: flex;
@@ -337,9 +337,9 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
     </div>
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+arabicLocaleDarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );

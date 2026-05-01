@@ -201,34 +201,6 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
     : null;
 }
 
-/**
- * This utility helps invoke a callback as it traverses a node and its ancestors until reaching the root document.
- *
- * Returning early or undefined in `onVisit` will continue traversing up the DOM tree. Otherwise, traversal will halt with the returned value as the result of the function
- *
- * @param element An element.
- * @param onVisit The callback.
- * @returns The result.
- */
-export function walkUpAncestry<T = any>(element: Element, onVisit: (node: Node) => T): T {
-  return visit(element, onVisit);
-}
-
-function visit<T = any>(node: Node, onVisit: (node: Node) => T): T {
-  if (!node) {
-    return;
-  }
-
-  const result = onVisit(node);
-  if (result !== undefined) {
-    return result;
-  }
-
-  const { parentNode } = node;
-
-  return visit(parentNode instanceof ShadowRoot ? parentNode.host : parentNode, onVisit);
-}
-
 export type FocusableElement = SetFocusable | HTMLElement;
 
 export interface SetFocusable extends LitElement {
@@ -254,7 +226,7 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @param context The element invoking the focus – use when the host is focusable to short-circuit the focus call.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
   el: FocusableElement,
@@ -298,7 +270,7 @@ export function getFirstTabbable(element: HTMLElement, includeContainer?: boolea
  * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
  *
- * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+ * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export function focusFirstTabbable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstTabbable(element, includeContainer)?.focus(options);
@@ -390,18 +362,6 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
-}
-
-/**
- * This helper makes sure that boolean aria attributes are properly converted to a string.
- *
- * It should only be used for aria attributes that require a string value of "true" or "false".
- *
- * @param value The value.
- * @returns The string conversion of a boolean value ("true" | "false").
- */
-export function toAriaBoolean(value: boolean): string {
-  return Boolean(value).toString();
 }
 
 /**
@@ -520,7 +480,7 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  * @param selector The CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] | null {
+export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
   return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
 }
 
@@ -531,7 +491,7 @@ export function slotChangeGetAssignedElements<T extends Element>(event: Event, s
  * @param selector CSS selector string to filter the returned elements by.
  * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] | null {
+export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
   const assignedElements = slot.assignedElements({
     flatten: true,
   });

@@ -8,5 +8,6 @@
   "required": "Gerekli",
   "selectAll": "Tümünü seç",
   "selected": "seçili",
-  "nonEditable": "Salt okunur {value}"
+  "nonEditable": "Salt okunur {value}",
+  "disabledSelectedCount": "+{count}"
 }

@@ -2,13 +2,13 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   filterDirectChildren,
-  getElementDir,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
-  toAriaBoolean,
 } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -42,6 +42,8 @@ export class TreeItem extends LitElement {
   private actionSlotWrapperRef = createRef<HTMLDivElement>();
 
   private childTree: Tree["el"];
+
+  private direction = useDirection();
 
   private isSelectionMultiLike: boolean;
 
@@ -360,14 +362,29 @@ export class TreeItem extends LitElement {
     }
   }
 
+  private getSelectionIcon(): IconName {
+    const { selectionMode, hasChildren } = this;
+    if (
+      selectionMode === "single" ||
+      selectionMode === "children" ||
+      selectionMode === "single-persist"
+    ) {
+      return ICONS.bulletPoint;
+    } else if (selectionMode === "multiple" || selectionMode === "multichildren") {
+      return ICONS.checkmark;
+    } else if (selectionMode === "none" && !hasChildren) {
+      return ICONS.blank;
+    }
+    return null;
+  }
+
   //#endregion
 
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = getElementDir(this.el) === "rtl";
-    const showCheckmark = this.selectionMode !== "none" && this.selectionMode !== "ancestors";
-    const showBlank = this.selectionMode === "none" && !this.hasChildren;
+    const rtl = this.direction === "rtl";
+    const selectionIcon = this.getSelectionIcon();
     const checkboxIsIndeterminate = this.hasChildren && this.indeterminate;
 
     const chevron =
@@ -401,14 +418,14 @@ export class TreeItem extends LitElement {
           />
         </div>
       ) : null;
-    const selectedIcon = showCheckmark ? ICONS.checkmark : showBlank ? ICONS.blank : null;
-    const itemIndicator = selectedIcon ? (
+
+    const itemIndicator = selectionIcon ? (
       <calcite-icon
         class={{
-          [CSS.checkmarkIcon]: selectedIcon === ICONS.checkmark,
+          [CSS.selectionIcon]: true,
           [CSS_UTILITY.rtl]: rtl,
         }}
-        icon={selectedIcon}
+        icon={selectionIcon}
         scale={getIconScale(this.scale)}
       />
     ) : null;
@@ -452,7 +469,6 @@ export class TreeItem extends LitElement {
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
         : undefined;
-    this.el.toggleAttribute("calcite-hydrated-hidden", hidden);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

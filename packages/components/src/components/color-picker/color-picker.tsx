@@ -4,7 +4,8 @@ import { throttle } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { Direction, getElementDir, isPrimaryPointerButton } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { Direction, isPrimaryPointerButton } from "../../utils/dom";
 import { Dimensions, Scale } from "../interfaces";
 import { isActivationKey } from "../../utils/key";
 import { NumberingSystem } from "../../utils/locale";
@@ -87,6 +88,8 @@ export class ColorPicker extends LitElement {
   private colorFieldRenderingContext: CanvasRenderingContext2D;
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
+
+  private direction = useDirection();
 
   private hueScopeRef = createRef<HTMLDivElement>();
 
@@ -346,7 +349,7 @@ export class ColorPicker extends LitElement {
    *
    * The type will be preserved as the color is updated.
    *
-   * @see [CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
+   * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
    */
   @property()
@@ -369,7 +372,7 @@ export class ColorPicker extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -1663,7 +1666,7 @@ export class ColorPicker extends LitElement {
     const channelAriaLabels = isRgb
       ? [messages.red, messages.green, messages.blue]
       : [messages.hue, messages.saturation, messages.value];
-    const direction = getElementDir(this.el);
+    const direction = this.direction;
     const channelsToRender = alphaChannel ? channels : channels.slice(0, 3);
 
     return (
