@@ -221,8 +221,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private clearButtonRef = createRef<HTMLDivElement>();
 
-  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
-
   private textInputRef = createRef<HTMLInputElement>();
 
   transitionEl: HTMLDivElement;

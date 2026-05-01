@@ -75,14 +75,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   labelEl: Label["el"];
 
-  private onHiddenFormInputInput = (event: Event): void => {
-    if ((event.target as HTMLInputElement).name === this.name) {
-      this.value = (event.target as HTMLInputElement).value;
-    }
-    this.setFocus();
-    event.stopPropagation();
-  };
-
   /** the computed icon to render */
   private requestedIcon?: IconName;
 
