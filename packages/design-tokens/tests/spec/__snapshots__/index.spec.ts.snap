@@ -7,11 +7,9 @@ exports[`CSS > breakpoints should match 1`] = `
  */
 
 :root {
-  --calcite-container-size-height-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
+  --calcite-container-size-height-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead. */
+  --calcite-container-size-height-xxs-max: 154px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead. */
   --calcite-container-size-height-2xs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-width-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
-  --calcite-container-size-width-2xs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-height-xxs-max: 154px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
   --calcite-container-size-height-2xs-max: 154px; /** Small handheld devices and mini-windows */
   --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
   --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
@@ -22,7 +20,9 @@ exports[`CSS > breakpoints should match 1`] = `
   --calcite-container-size-height-lg-min: 679px; /** Large laptops and desktop computers */
   --calcite-container-size-height-lg-max: 854px; /** Large laptops and desktop computers */
   --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
-  --calcite-container-size-width-xxs-max: 320px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
+  --calcite-container-size-width-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead. */
+  --calcite-container-size-width-xxs-max: 320px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead. */
+  --calcite-container-size-width-2xs-min: 0; /** Small handheld devices and mini-windows */
   --calcite-container-size-width-2xs-max: 320px; /** Small handheld devices and mini-windows */
   --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
   --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
@@ -19829,31 +19829,28 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["border", "width", "lg"]
     },
     {
-      "key": "{container-size.height.xxs}",
-      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"154px\\"}",
+      "key": "{container-size.height.xxs.min}",
+      "value": "0",
       "type": "dimension",
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.",
       "attributes": {
         "category": "breakpoint",
         "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
-        "value": {
-          "min": "0",
-          "max": "154px"
-        },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.",
+        "subitem": "min",
+        "value": "0",
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.xxs}",
-        "name": "calcite-container-size-height-xxs",
-        "path": ["container-size", "height", "xxs"],
-        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.",
+        "key": "{container-size.height.xxs.min}",
+        "name": "calcite-container-size-height-xxs-min",
+        "path": ["container-size", "height", "xxs", "min"],
+        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.",
         "names": {
-          "scss": "$calcite-container-size-height-xxs",
-          "css": "var(--calcite-container-size-height-xxs)",
-          "docs": "container-size.height.xxs",
-          "es6": "calciteContainerSizeHeightXxs"
+          "scss": "$calcite-container-size-height-xxs-min",
+          "css": "var(--calcite-container-size-height-xxs-min)",
+          "docs": "container-size.height.xxs.min",
+          "es6": "calciteContainerSizeHeightXxsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19861,37 +19858,72 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Xxs",
-      "path": ["container-size", "height", "xxs"],
-      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead."
+      "name": "Container Size Height Xxs Min",
+      "path": ["container-size", "height", "xxs", "min"],
+      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead."
     },
     {
-      "key": "{container-size.height.2xs}",
-      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"154px\\"}",
+      "key": "{container-size.height.xxs.max}",
+      "value": "154px",
       "type": "dimension",
-      "description": "Small handheld devices and mini-windows",
+      "attributes": {
+        "category": "breakpoint",
+        "docs": "deprecated",
+        "type": "dimension",
+        "item": "xxs",
+        "subitem": "max",
+        "value": "154px",
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.xxs.max}",
+        "name": "calcite-container-size-height-xxs-max",
+        "path": ["container-size", "height", "xxs", "max"],
+        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.",
+        "names": {
+          "scss": "$calcite-container-size-height-xxs-max",
+          "css": "var(--calcite-container-size-height-xxs-max)",
+          "docs": "container-size.height.xxs.max",
+          "es6": "calciteContainerSizeHeightXxsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height Xxs Max",
+      "path": ["container-size", "height", "xxs", "max"],
+      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead."
+    },
+    {
+      "key": "{container-size.height.2xs.min}",
+      "value": "0",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "2xs",
-        "value": {
-          "min": "0",
-          "max": "154px"
-        },
+        "subitem": "min",
+        "value": "0",
         "description": "Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.2xs}",
-        "name": "calcite-container-size-height-2xs",
-        "path": ["container-size", "height", "2xs"],
+        "key": "{container-size.height.2xs.min}",
+        "name": "calcite-container-size-height-2xs-min",
+        "path": ["container-size", "height", "2xs", "min"],
         "comment": "Small handheld devices and mini-windows",
         "names": {
-          "scss": "$calcite-container-size-height-2xs",
-          "css": "var(--calcite-container-size-height-2xs)",
-          "docs": "container-size.height.2xs",
-          "es6": "calciteContainerSizeHeight2xs"
+          "scss": "$calcite-container-size-height-2xs-min",
+          "css": "var(--calcite-container-size-height-2xs-min)",
+          "docs": "container-size.height.2xs.min",
+          "es6": "calciteContainerSizeHeight2xsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19899,37 +19931,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height 2xs",
-      "path": ["container-size", "height", "2xs"],
+      "name": "Container Size Height 2xs Min",
+      "path": ["container-size", "height", "2xs", "min"],
       "comment": "Small handheld devices and mini-windows"
     },
     {
-      "key": "{container-size.height.xs}",
-      "value": "{\\"min\\":\\"155px\\",\\"max\\":\\"328px\\"}",
+      "key": "{container-size.height.2xs.max}",
+      "value": "154px",
       "type": "dimension",
-      "description": "Handheld devices",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "2xs",
+        "subitem": "max",
+        "value": "154px",
+        "description": "Small handheld devices and mini-windows",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.2xs.max}",
+        "name": "calcite-container-size-height-2xs-max",
+        "path": ["container-size", "height", "2xs", "max"],
+        "comment": "Small handheld devices and mini-windows",
+        "names": {
+          "scss": "$calcite-container-size-height-2xs-max",
+          "css": "var(--calcite-container-size-height-2xs-max)",
+          "docs": "container-size.height.2xs.max",
+          "es6": "calciteContainerSizeHeight2xsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small handheld devices and mini-windows",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height 2xs Max",
+      "path": ["container-size", "height", "2xs", "max"],
+      "comment": "Small handheld devices and mini-windows"
+    },
+    {
+      "key": "{container-size.height.xs.min}",
+      "value": "155px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "xs",
-        "value": {
-          "min": "154px + 1",
-          "max": "328px"
-        },
+        "subitem": "min",
+        "value": "154px + 1",
         "description": "Handheld devices",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.xs}",
-        "name": "calcite-container-size-height-xs",
-        "path": ["container-size", "height", "xs"],
+        "key": "{container-size.height.xs.min}",
+        "name": "calcite-container-size-height-xs-min",
+        "path": ["container-size", "height", "xs", "min"],
         "comment": "Handheld devices",
         "names": {
-          "scss": "$calcite-container-size-height-xs",
-          "css": "var(--calcite-container-size-height-xs)",
-          "docs": "container-size.height.xs",
-          "es6": "calciteContainerSizeHeightXs"
+          "scss": "$calcite-container-size-height-xs-min",
+          "css": "var(--calcite-container-size-height-xs-min)",
+          "docs": "container-size.height.xs.min",
+          "es6": "calciteContainerSizeHeightXsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19937,37 +20003,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Xs",
-      "path": ["container-size", "height", "xs"],
+      "name": "Container Size Height Xs Min",
+      "path": ["container-size", "height", "xs", "min"],
       "comment": "Handheld devices"
     },
     {
-      "key": "{container-size.height.sm}",
-      "value": "{\\"min\\":\\"329px\\",\\"max\\":\\"504px\\"}",
+      "key": "{container-size.height.xs.max}",
+      "value": "328px",
       "type": "dimension",
-      "description": "Small tablets",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "xs",
+        "subitem": "max",
+        "value": "328px",
+        "description": "Handheld devices",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.xs.max}",
+        "name": "calcite-container-size-height-xs-max",
+        "path": ["container-size", "height", "xs", "max"],
+        "comment": "Handheld devices",
+        "names": {
+          "scss": "$calcite-container-size-height-xs-max",
+          "css": "var(--calcite-container-size-height-xs-max)",
+          "docs": "container-size.height.xs.max",
+          "es6": "calciteContainerSizeHeightXsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Handheld devices",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height Xs Max",
+      "path": ["container-size", "height", "xs", "max"],
+      "comment": "Handheld devices"
+    },
+    {
+      "key": "{container-size.height.sm.min}",
+      "value": "329px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "sm",
-        "value": {
-          "min": "328px + 1",
-          "max": "504px"
-        },
+        "subitem": "min",
+        "value": "328px + 1",
         "description": "Small tablets",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.sm}",
-        "name": "calcite-container-size-height-sm",
-        "path": ["container-size", "height", "sm"],
+        "key": "{container-size.height.sm.min}",
+        "name": "calcite-container-size-height-sm-min",
+        "path": ["container-size", "height", "sm", "min"],
         "comment": "Small tablets",
         "names": {
-          "scss": "$calcite-container-size-height-sm",
-          "css": "var(--calcite-container-size-height-sm)",
-          "docs": "container-size.height.sm",
-          "es6": "calciteContainerSizeHeightSm"
+          "scss": "$calcite-container-size-height-sm-min",
+          "css": "var(--calcite-container-size-height-sm-min)",
+          "docs": "container-size.height.sm.min",
+          "es6": "calciteContainerSizeHeightSmMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -19975,37 +20075,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Sm",
-      "path": ["container-size", "height", "sm"],
+      "name": "Container Size Height Sm Min",
+      "path": ["container-size", "height", "sm", "min"],
       "comment": "Small tablets"
     },
     {
-      "key": "{container-size.height.md}",
-      "value": "{\\"min\\":\\"505px\\",\\"max\\":\\"678px\\"}",
+      "key": "{container-size.height.sm.max}",
+      "value": "504px",
       "type": "dimension",
-      "description": "Small laptops",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "sm",
+        "subitem": "max",
+        "value": "504px",
+        "description": "Small tablets",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.sm.max}",
+        "name": "calcite-container-size-height-sm-max",
+        "path": ["container-size", "height", "sm", "max"],
+        "comment": "Small tablets",
+        "names": {
+          "scss": "$calcite-container-size-height-sm-max",
+          "css": "var(--calcite-container-size-height-sm-max)",
+          "docs": "container-size.height.sm.max",
+          "es6": "calciteContainerSizeHeightSmMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small tablets",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height Sm Max",
+      "path": ["container-size", "height", "sm", "max"],
+      "comment": "Small tablets"
+    },
+    {
+      "key": "{container-size.height.md.min}",
+      "value": "505px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "md",
-        "value": {
-          "min": "504px + 1",
-          "max": "678px"
-        },
+        "subitem": "min",
+        "value": "504px + 1",
         "description": "Small laptops",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.md}",
-        "name": "calcite-container-size-height-md",
-        "path": ["container-size", "height", "md"],
+        "key": "{container-size.height.md.min}",
+        "name": "calcite-container-size-height-md-min",
+        "path": ["container-size", "height", "md", "min"],
         "comment": "Small laptops",
         "names": {
-          "scss": "$calcite-container-size-height-md",
-          "css": "var(--calcite-container-size-height-md)",
-          "docs": "container-size.height.md",
-          "es6": "calciteContainerSizeHeightMd"
+          "scss": "$calcite-container-size-height-md-min",
+          "css": "var(--calcite-container-size-height-md-min)",
+          "docs": "container-size.height.md.min",
+          "es6": "calciteContainerSizeHeightMdMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20013,37 +20147,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Md",
-      "path": ["container-size", "height", "md"],
+      "name": "Container Size Height Md Min",
+      "path": ["container-size", "height", "md", "min"],
       "comment": "Small laptops"
     },
     {
-      "key": "{container-size.height.lg}",
-      "value": "{\\"min\\":\\"679px\\",\\"max\\":\\"854px\\"}",
+      "key": "{container-size.height.md.max}",
+      "value": "678px",
       "type": "dimension",
-      "description": "Large laptops and desktop computers",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "md",
+        "subitem": "max",
+        "value": "678px",
+        "description": "Small laptops",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.md.max}",
+        "name": "calcite-container-size-height-md-max",
+        "path": ["container-size", "height", "md", "max"],
+        "comment": "Small laptops",
+        "names": {
+          "scss": "$calcite-container-size-height-md-max",
+          "css": "var(--calcite-container-size-height-md-max)",
+          "docs": "container-size.height.md.max",
+          "es6": "calciteContainerSizeHeightMdMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small laptops",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height Md Max",
+      "path": ["container-size", "height", "md", "max"],
+      "comment": "Small laptops"
+    },
+    {
+      "key": "{container-size.height.lg.min}",
+      "value": "679px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "lg",
-        "value": {
-          "min": "678px + 1",
-          "max": "854px"
-        },
+        "subitem": "min",
+        "value": "678px + 1",
         "description": "Large laptops and desktop computers",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.lg}",
-        "name": "calcite-container-size-height-lg",
-        "path": ["container-size", "height", "lg"],
+        "key": "{container-size.height.lg.min}",
+        "name": "calcite-container-size-height-lg-min",
+        "path": ["container-size", "height", "lg", "min"],
         "comment": "Large laptops and desktop computers",
         "names": {
-          "scss": "$calcite-container-size-height-lg",
-          "css": "var(--calcite-container-size-height-lg)",
-          "docs": "container-size.height.lg",
-          "es6": "calciteContainerSizeHeightLg"
+          "scss": "$calcite-container-size-height-lg-min",
+          "css": "var(--calcite-container-size-height-lg-min)",
+          "docs": "container-size.height.lg.min",
+          "es6": "calciteContainerSizeHeightLgMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20051,36 +20219,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Lg",
-      "path": ["container-size", "height", "lg"],
+      "name": "Container Size Height Lg Min",
+      "path": ["container-size", "height", "lg", "min"],
       "comment": "Large laptops and desktop computers"
     },
     {
-      "key": "{container-size.height.xl}",
-      "value": "{\\"min\\":\\"855px\\"}",
+      "key": "{container-size.height.lg.max}",
+      "value": "854px",
       "type": "dimension",
-      "description": "Projectors and televisions",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "lg",
+        "subitem": "max",
+        "value": "854px",
+        "description": "Large laptops and desktop computers",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.height.lg.max}",
+        "name": "calcite-container-size-height-lg-max",
+        "path": ["container-size", "height", "lg", "max"],
+        "comment": "Large laptops and desktop computers",
+        "names": {
+          "scss": "$calcite-container-size-height-lg-max",
+          "css": "var(--calcite-container-size-height-lg-max)",
+          "docs": "container-size.height.lg.max",
+          "es6": "calciteContainerSizeHeightLgMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Large laptops and desktop computers",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Height Lg Max",
+      "path": ["container-size", "height", "lg", "max"],
+      "comment": "Large laptops and desktop computers"
+    },
+    {
+      "key": "{container-size.height.xl.min}",
+      "value": "855px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "xl",
-        "value": {
-          "min": "854px + 1"
-        },
+        "subitem": "min",
+        "value": "854px + 1",
         "description": "Projectors and televisions",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.height.xl}",
-        "name": "calcite-container-size-height-xl",
-        "path": ["container-size", "height", "xl"],
+        "key": "{container-size.height.xl.min}",
+        "name": "calcite-container-size-height-xl-min",
+        "path": ["container-size", "height", "xl", "min"],
         "comment": "Projectors and televisions",
         "names": {
-          "scss": "$calcite-container-size-height-xl",
-          "css": "var(--calcite-container-size-height-xl)",
-          "docs": "container-size.height.xl",
-          "es6": "calciteContainerSizeHeightXl"
+          "scss": "$calcite-container-size-height-xl-min",
+          "css": "var(--calcite-container-size-height-xl-min)",
+          "docs": "container-size.height.xl.min",
+          "es6": "calciteContainerSizeHeightXlMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20088,38 +20291,36 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Projectors and televisions",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Height Xl",
-      "path": ["container-size", "height", "xl"],
+      "name": "Container Size Height Xl Min",
+      "path": ["container-size", "height", "xl", "min"],
       "comment": "Projectors and televisions"
     },
     {
-      "key": "{container-size.width.xxs}",
-      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"320px\\"}",
+      "key": "{container-size.width.xxs.min}",
+      "value": "0",
       "type": "dimension",
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.",
       "attributes": {
         "category": "breakpoint",
         "docs": "deprecated",
         "type": "dimension",
         "item": "xxs",
-        "value": {
-          "min": "0",
-          "max": "320px"
-        },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.",
+        "subitem": "min",
+        "value": "0",
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.xxs}",
-        "name": "calcite-container-size-width-xxs",
-        "path": ["container-size", "width", "xxs"],
-        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.",
+        "key": "{container-size.width.xxs.min}",
+        "name": "calcite-container-size-width-xxs-min",
+        "path": ["container-size", "width", "xxs", "min"],
+        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.",
         "names": {
-          "scss": "$calcite-container-size-width-xxs",
-          "css": "var(--calcite-container-size-width-xxs)",
-          "docs": "container-size.width.xxs",
-          "es6": "calciteContainerSizeWidthXxs"
+          "scss": "$calcite-container-size-width-xxs-min",
+          "css": "var(--calcite-container-size-width-xxs-min)",
+          "docs": "container-size.width.xxs.min",
+          "es6": "calciteContainerSizeWidthXxsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20127,37 +20328,74 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Xxs",
-      "path": ["container-size", "width", "xxs"],
-      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead."
+      "name": "Container Size Width Xxs Min",
+      "path": ["container-size", "width", "xxs", "min"],
+      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead."
     },
     {
-      "key": "{container-size.width.2xs}",
-      "value": "{\\"min\\":\\"0\\",\\"max\\":\\"320px\\"}",
+      "key": "{container-size.width.xxs.max}",
+      "value": "320px",
       "type": "dimension",
-      "description": "Small handheld devices and mini-windows",
+      "attributes": {
+        "category": "breakpoint",
+        "docs": "deprecated",
+        "type": "dimension",
+        "item": "xxs",
+        "subitem": "max",
+        "value": "320px",
+        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.xxs.max}",
+        "name": "calcite-container-size-width-xxs-max",
+        "path": ["container-size", "width", "xxs", "max"],
+        "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.",
+        "names": {
+          "scss": "$calcite-container-size-width-xxs-max",
+          "css": "var(--calcite-container-size-width-xxs-max)",
+          "docs": "container-size.width.xxs.max",
+          "es6": "calciteContainerSizeWidthXxsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width Xxs Max",
+      "path": ["container-size", "width", "xxs", "max"],
+      "comment": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead."
+    },
+    {
+      "key": "{container-size.width.2xs.min}",
+      "value": "0",
+      "max": "320px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "2xs",
-        "value": {
-          "min": "0",
-          "max": "320px"
-        },
+        "subitem": "min",
+        "value": "0",
+        "max": "320px",
         "description": "Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.2xs}",
-        "name": "calcite-container-size-width-2xs",
-        "path": ["container-size", "width", "2xs"],
+        "key": "{container-size.width.2xs.min}",
+        "name": "calcite-container-size-width-2xs-min",
+        "path": ["container-size", "width", "2xs", "min"],
         "comment": "Small handheld devices and mini-windows",
         "names": {
-          "scss": "$calcite-container-size-width-2xs",
-          "css": "var(--calcite-container-size-width-2xs)",
-          "docs": "container-size.width.2xs",
-          "es6": "calciteContainerSizeWidth2xs"
+          "scss": "$calcite-container-size-width-2xs-min",
+          "css": "var(--calcite-container-size-width-2xs-min)",
+          "docs": "container-size.width.2xs.min",
+          "es6": "calciteContainerSizeWidth2xsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20165,37 +20403,73 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width 2xs",
-      "path": ["container-size", "width", "2xs"],
+      "name": "Container Size Width 2xs Min",
+      "path": ["container-size", "width", "2xs", "min"],
       "comment": "Small handheld devices and mini-windows"
     },
     {
-      "key": "{container-size.width.xs}",
-      "value": "{\\"min\\":\\"321px\\",\\"max\\":\\"476px\\"}",
+      "key": "{container-size.width.2xs.max}",
+      "value": "320px",
+      "max": "320px",
       "type": "dimension",
-      "description": "Handheld devices",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "2xs",
+        "subitem": "max",
+        "value": "320px",
+        "max": "320px",
+        "description": "Small handheld devices and mini-windows",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.2xs.max}",
+        "name": "calcite-container-size-width-2xs-max",
+        "path": ["container-size", "width", "2xs", "max"],
+        "comment": "Small handheld devices and mini-windows",
+        "names": {
+          "scss": "$calcite-container-size-width-2xs-max",
+          "css": "var(--calcite-container-size-width-2xs-max)",
+          "docs": "container-size.width.2xs.max",
+          "es6": "calciteContainerSizeWidth2xsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small handheld devices and mini-windows",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width 2xs Max",
+      "path": ["container-size", "width", "2xs", "max"],
+      "comment": "Small handheld devices and mini-windows"
+    },
+    {
+      "key": "{container-size.width.xs.min}",
+      "value": "321px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "xs",
-        "value": {
-          "min": "320px + 1",
-          "max": "476px"
-        },
+        "subitem": "min",
+        "value": "320px + 1",
         "description": "Handheld devices",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.xs}",
-        "name": "calcite-container-size-width-xs",
-        "path": ["container-size", "width", "xs"],
+        "key": "{container-size.width.xs.min}",
+        "name": "calcite-container-size-width-xs-min",
+        "path": ["container-size", "width", "xs", "min"],
         "comment": "Handheld devices",
         "names": {
-          "scss": "$calcite-container-size-width-xs",
-          "css": "var(--calcite-container-size-width-xs)",
-          "docs": "container-size.width.xs",
-          "es6": "calciteContainerSizeWidthXs"
+          "scss": "$calcite-container-size-width-xs-min",
+          "css": "var(--calcite-container-size-width-xs-min)",
+          "docs": "container-size.width.xs.min",
+          "es6": "calciteContainerSizeWidthXsMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20203,37 +20477,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Xs",
-      "path": ["container-size", "width", "xs"],
+      "name": "Container Size Width Xs Min",
+      "path": ["container-size", "width", "xs", "min"],
       "comment": "Handheld devices"
     },
     {
-      "key": "{container-size.width.sm}",
-      "value": "{\\"min\\":\\"477px\\",\\"max\\":\\"768px\\"}",
+      "key": "{container-size.width.xs.max}",
+      "value": "476px",
       "type": "dimension",
-      "description": "Small tablets",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "xs",
+        "subitem": "max",
+        "value": "476px",
+        "description": "Handheld devices",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.xs.max}",
+        "name": "calcite-container-size-width-xs-max",
+        "path": ["container-size", "width", "xs", "max"],
+        "comment": "Handheld devices",
+        "names": {
+          "scss": "$calcite-container-size-width-xs-max",
+          "css": "var(--calcite-container-size-width-xs-max)",
+          "docs": "container-size.width.xs.max",
+          "es6": "calciteContainerSizeWidthXsMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Handheld devices",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width Xs Max",
+      "path": ["container-size", "width", "xs", "max"],
+      "comment": "Handheld devices"
+    },
+    {
+      "key": "{container-size.width.sm.min}",
+      "value": "477px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "sm",
-        "value": {
-          "min": "476px + 1",
-          "max": "768px"
-        },
+        "subitem": "min",
+        "value": "476px + 1",
         "description": "Small tablets",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.sm}",
-        "name": "calcite-container-size-width-sm",
-        "path": ["container-size", "width", "sm"],
+        "key": "{container-size.width.sm.min}",
+        "name": "calcite-container-size-width-sm-min",
+        "path": ["container-size", "width", "sm", "min"],
         "comment": "Small tablets",
         "names": {
-          "scss": "$calcite-container-size-width-sm",
-          "css": "var(--calcite-container-size-width-sm)",
-          "docs": "container-size.width.sm",
-          "es6": "calciteContainerSizeWidthSm"
+          "scss": "$calcite-container-size-width-sm-min",
+          "css": "var(--calcite-container-size-width-sm-min)",
+          "docs": "container-size.width.sm.min",
+          "es6": "calciteContainerSizeWidthSmMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20241,37 +20549,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Sm",
-      "path": ["container-size", "width", "sm"],
+      "name": "Container Size Width Sm Min",
+      "path": ["container-size", "width", "sm", "min"],
       "comment": "Small tablets"
     },
     {
-      "key": "{container-size.width.md}",
-      "value": "{\\"min\\":\\"769px\\",\\"max\\":\\"1152px\\"}",
+      "key": "{container-size.width.sm.max}",
+      "value": "768px",
       "type": "dimension",
-      "description": "Small laptops",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "sm",
+        "subitem": "max",
+        "value": "768px",
+        "description": "Small tablets",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.sm.max}",
+        "name": "calcite-container-size-width-sm-max",
+        "path": ["container-size", "width", "sm", "max"],
+        "comment": "Small tablets",
+        "names": {
+          "scss": "$calcite-container-size-width-sm-max",
+          "css": "var(--calcite-container-size-width-sm-max)",
+          "docs": "container-size.width.sm.max",
+          "es6": "calciteContainerSizeWidthSmMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small tablets",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width Sm Max",
+      "path": ["container-size", "width", "sm", "max"],
+      "comment": "Small tablets"
+    },
+    {
+      "key": "{container-size.width.md.min}",
+      "value": "769px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "md",
-        "value": {
-          "min": "768px + 1",
-          "max": "1152px"
-        },
+        "subitem": "min",
+        "value": "768px + 1",
         "description": "Small laptops",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.md}",
-        "name": "calcite-container-size-width-md",
-        "path": ["container-size", "width", "md"],
+        "key": "{container-size.width.md.min}",
+        "name": "calcite-container-size-width-md-min",
+        "path": ["container-size", "width", "md", "min"],
         "comment": "Small laptops",
         "names": {
-          "scss": "$calcite-container-size-width-md",
-          "css": "var(--calcite-container-size-width-md)",
-          "docs": "container-size.width.md",
-          "es6": "calciteContainerSizeWidthMd"
+          "scss": "$calcite-container-size-width-md-min",
+          "css": "var(--calcite-container-size-width-md-min)",
+          "docs": "container-size.width.md.min",
+          "es6": "calciteContainerSizeWidthMdMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20279,37 +20621,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Md",
-      "path": ["container-size", "width", "md"],
+      "name": "Container Size Width Md Min",
+      "path": ["container-size", "width", "md", "min"],
       "comment": "Small laptops"
     },
     {
-      "key": "{container-size.width.lg}",
-      "value": "{\\"min\\":\\"1153px\\",\\"max\\":\\"1440px\\"}",
+      "key": "{container-size.width.md.max}",
+      "value": "1152px",
       "type": "dimension",
-      "description": "Large laptops and desktop computers",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "md",
+        "subitem": "max",
+        "value": "1152px",
+        "description": "Small laptops",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.md.max}",
+        "name": "calcite-container-size-width-md-max",
+        "path": ["container-size", "width", "md", "max"],
+        "comment": "Small laptops",
+        "names": {
+          "scss": "$calcite-container-size-width-md-max",
+          "css": "var(--calcite-container-size-width-md-max)",
+          "docs": "container-size.width.md.max",
+          "es6": "calciteContainerSizeWidthMdMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Small laptops",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width Md Max",
+      "path": ["container-size", "width", "md", "max"],
+      "comment": "Small laptops"
+    },
+    {
+      "key": "{container-size.width.lg.min}",
+      "value": "1153px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "lg",
-        "value": {
-          "min": "1152px + 1",
-          "max": "1440px"
-        },
+        "subitem": "min",
+        "value": "1152px + 1",
         "description": "Large laptops and desktop computers",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.lg}",
-        "name": "calcite-container-size-width-lg",
-        "path": ["container-size", "width", "lg"],
+        "key": "{container-size.width.lg.min}",
+        "name": "calcite-container-size-width-lg-min",
+        "path": ["container-size", "width", "lg", "min"],
         "comment": "Large laptops and desktop computers",
         "names": {
-          "scss": "$calcite-container-size-width-lg",
-          "css": "var(--calcite-container-size-width-lg)",
-          "docs": "container-size.width.lg",
-          "es6": "calciteContainerSizeWidthLg"
+          "scss": "$calcite-container-size-width-lg-min",
+          "css": "var(--calcite-container-size-width-lg-min)",
+          "docs": "container-size.width.lg.min",
+          "es6": "calciteContainerSizeWidthLgMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20317,36 +20693,71 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Lg",
-      "path": ["container-size", "width", "lg"],
+      "name": "Container Size Width Lg Min",
+      "path": ["container-size", "width", "lg", "min"],
       "comment": "Large laptops and desktop computers"
     },
     {
-      "key": "{container-size.width.xl}",
-      "value": "{\\"min\\":\\"1441px\\"}",
+      "key": "{container-size.width.lg.max}",
+      "value": "1440px",
       "type": "dimension",
-      "description": "Projectors and televisions",
+      "attributes": {
+        "category": "breakpoint",
+        "type": "dimension",
+        "item": "lg",
+        "subitem": "max",
+        "value": "1440px",
+        "description": "Large laptops and desktop computers",
+        "filePath": "src/tokens/semantic/container-size.json",
+        "isSource": true,
+        "key": "{container-size.width.lg.max}",
+        "name": "calcite-container-size-width-lg-max",
+        "path": ["container-size", "width", "lg", "max"],
+        "comment": "Large laptops and desktop computers",
+        "names": {
+          "scss": "$calcite-container-size-width-lg-max",
+          "css": "var(--calcite-container-size-width-lg-max)",
+          "docs": "container-size.width.lg.max",
+          "es6": "calciteContainerSizeWidthLgMax"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "semantic",
+          "type": "dimension"
+        }
+      },
+      "description": "Large laptops and desktop computers",
+      "filePath": "src/tokens/semantic/container-size.json",
+      "isSource": true,
+      "name": "Container Size Width Lg Max",
+      "path": ["container-size", "width", "lg", "max"],
+      "comment": "Large laptops and desktop computers"
+    },
+    {
+      "key": "{container-size.width.xl.min}",
+      "value": "1441px",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
         "item": "xl",
-        "value": {
-          "min": "1440px + 1"
-        },
+        "subitem": "min",
+        "value": "1440px + 1",
         "description": "Projectors and televisions",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
-        "key": "{container-size.width.xl}",
-        "name": "calcite-container-size-width-xl",
-        "path": ["container-size", "width", "xl"],
+        "key": "{container-size.width.xl.min}",
+        "name": "calcite-container-size-width-xl-min",
+        "path": ["container-size", "width", "xl", "min"],
         "comment": "Projectors and televisions",
         "names": {
-          "scss": "$calcite-container-size-width-xl",
-          "css": "var(--calcite-container-size-width-xl)",
-          "docs": "container-size.width.xl",
-          "es6": "calciteContainerSizeWidthXl"
+          "scss": "$calcite-container-size-width-xl-min",
+          "css": "var(--calcite-container-size-width-xl-min)",
+          "docs": "container-size.width.xl.min",
+          "es6": "calciteContainerSizeWidthXlMin"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -20354,10 +20765,11 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
+      "description": "Projectors and televisions",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
-      "name": "Container Size Width Xl",
-      "path": ["container-size", "width", "xl"],
+      "name": "Container Size Width Xl Min",
+      "path": ["container-size", "width", "xl", "min"],
       "comment": "Projectors and televisions"
     },
     {
@@ -32022,20 +32434,32 @@ exports[`ES6 > breakpoints should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
-export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
-export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
-export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
-export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
-export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
-export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
-export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
-export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
-export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
-export const calciteContainerSizeWidthLg = { min: "1153px", max: "1440px" }; // Large laptops and desktop computers
-export const calciteContainerSizeWidthXl = { min: "1441px" }; // Projectors and televisions
+export const calciteContainerSizeHeightXxsMin = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.
+export const calciteContainerSizeHeightXxsMax = "154px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.
+export const calciteContainerSizeHeight2xsMin = "0"; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xsMax = "154px"; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeightXsMin = "155px"; // Handheld devices
+export const calciteContainerSizeHeightXsMax = "328px"; // Handheld devices
+export const calciteContainerSizeHeightSmMin = "329px"; // Small tablets
+export const calciteContainerSizeHeightSmMax = "504px"; // Small tablets
+export const calciteContainerSizeHeightMdMin = "505px"; // Small laptops
+export const calciteContainerSizeHeightMdMax = "678px"; // Small laptops
+export const calciteContainerSizeHeightLgMin = "679px"; // Large laptops and desktop computers
+export const calciteContainerSizeHeightLgMax = "854px"; // Large laptops and desktop computers
+export const calciteContainerSizeHeightXlMin = "855px"; // Projectors and televisions
+export const calciteContainerSizeWidthXxsMin = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.
+export const calciteContainerSizeWidthXxsMax = "320px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.
+export const calciteContainerSizeWidth2xsMin = "0"; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xsMax = "320px"; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidthXsMin = "321px"; // Handheld devices
+export const calciteContainerSizeWidthXsMax = "476px"; // Handheld devices
+export const calciteContainerSizeWidthSmMin = "477px"; // Small tablets
+export const calciteContainerSizeWidthSmMax = "768px"; // Small tablets
+export const calciteContainerSizeWidthMdMin = "769px"; // Small laptops
+export const calciteContainerSizeWidthMdMax = "1152px"; // Small laptops
+export const calciteContainerSizeWidthLgMin = "1153px"; // Large laptops and desktop computers
+export const calciteContainerSizeWidthLgMax = "1440px"; // Large laptops and desktop computers
+export const calciteContainerSizeWidthXlMin = "1441px"; // Projectors and televisions
 "
 `;
 
@@ -32045,34 +32469,58 @@ exports[`ES6 > breakpoints types should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
-export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead. */
+export const calciteContainerSizeHeightXxsMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead. */
+export const calciteContainerSizeHeightXxsMax: string;
 /** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeight2xs: { min: string; max: string };
-/** Handheld devices */
-export const calciteContainerSizeHeightXs: { min: string; max: string };
-/** Small tablets */
-export const calciteContainerSizeHeightSm: { min: string; max: string };
-/** Small laptops */
-export const calciteContainerSizeHeightMd: { min: string; max: string };
-/** Large laptops and desktop computers */
-export const calciteContainerSizeHeightLg: { min: string; max: string };
-/** Projectors and televisions */
-export const calciteContainerSizeHeightXl: { min: string };
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
-export const calciteContainerSizeWidthXxs: { min: string; max: string };
+export const calciteContainerSizeHeight2xsMin: string;
 /** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidth2xs: { min: string; max: string };
+export const calciteContainerSizeHeight2xsMax: string;
 /** Handheld devices */
-export const calciteContainerSizeWidthXs: { min: string; max: string };
+export const calciteContainerSizeHeightXsMin: string;
+/** Handheld devices */
+export const calciteContainerSizeHeightXsMax: string;
 /** Small tablets */
-export const calciteContainerSizeWidthSm: { min: string; max: string };
+export const calciteContainerSizeHeightSmMin: string;
+/** Small tablets */
+export const calciteContainerSizeHeightSmMax: string;
 /** Small laptops */
-export const calciteContainerSizeWidthMd: { min: string; max: string };
+export const calciteContainerSizeHeightMdMin: string;
+/** Small laptops */
+export const calciteContainerSizeHeightMdMax: string;
 /** Large laptops and desktop computers */
-export const calciteContainerSizeWidthLg: { min: string; max: string };
+export const calciteContainerSizeHeightLgMin: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLgMax: string;
 /** Projectors and televisions */
-export const calciteContainerSizeWidthXl: { min: string };
+export const calciteContainerSizeHeightXlMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead. */
+export const calciteContainerSizeWidthXxsMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead. */
+export const calciteContainerSizeWidthXxsMax: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xsMin: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xsMax: string;
+/** Handheld devices */
+export const calciteContainerSizeWidthXsMin: string;
+/** Handheld devices */
+export const calciteContainerSizeWidthXsMax: string;
+/** Small tablets */
+export const calciteContainerSizeWidthSmMin: string;
+/** Small tablets */
+export const calciteContainerSizeWidthSmMax: string;
+/** Small laptops */
+export const calciteContainerSizeWidthMdMin: string;
+/** Small laptops */
+export const calciteContainerSizeWidthMdMax: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLgMin: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLgMax: string;
+/** Projectors and televisions */
+export const calciteContainerSizeWidthXlMin: string;
 "
 `;
 
@@ -33480,20 +33928,32 @@ export const calciteBorderWidthNone = "0";
 export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
-export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
-export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
-export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
-export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
-export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
-export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
-export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
-export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
-export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
-export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
-export const calciteContainerSizeWidthLg = { min: "1153px", max: "1440px" }; // Large laptops and desktop computers
-export const calciteContainerSizeWidthXl = { min: "1441px" }; // Projectors and televisions
+export const calciteContainerSizeHeightXxsMin = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.
+export const calciteContainerSizeHeightXxsMax = "154px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.
+export const calciteContainerSizeHeight2xsMin = "0"; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xsMax = "154px"; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeightXsMin = "155px"; // Handheld devices
+export const calciteContainerSizeHeightXsMax = "328px"; // Handheld devices
+export const calciteContainerSizeHeightSmMin = "329px"; // Small tablets
+export const calciteContainerSizeHeightSmMax = "504px"; // Small tablets
+export const calciteContainerSizeHeightMdMin = "505px"; // Small laptops
+export const calciteContainerSizeHeightMdMax = "678px"; // Small laptops
+export const calciteContainerSizeHeightLgMin = "679px"; // Large laptops and desktop computers
+export const calciteContainerSizeHeightLgMax = "854px"; // Large laptops and desktop computers
+export const calciteContainerSizeHeightXlMin = "855px"; // Projectors and televisions
+export const calciteContainerSizeWidthXxsMin = "0"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.
+export const calciteContainerSizeWidthXxsMax = "320px"; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.
+export const calciteContainerSizeWidth2xsMin = "0"; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xsMax = "320px"; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidthXsMin = "321px"; // Handheld devices
+export const calciteContainerSizeWidthXsMax = "476px"; // Handheld devices
+export const calciteContainerSizeWidthSmMin = "477px"; // Small tablets
+export const calciteContainerSizeWidthSmMax = "768px"; // Small tablets
+export const calciteContainerSizeWidthMdMin = "769px"; // Small laptops
+export const calciteContainerSizeWidthMdMax = "1152px"; // Small laptops
+export const calciteContainerSizeWidthLgMin = "1153px"; // Large laptops and desktop computers
+export const calciteContainerSizeWidthLgMax = "1440px"; // Large laptops and desktop computers
+export const calciteContainerSizeWidthXlMin = "1441px"; // Projectors and televisions
 export const calciteContainerSizeMargin = "24px";
 export const calciteContainerSizeGutter = "16px";
 export const calciteContainerSizeContentFluid = "100%"; // for fluid grid widths
@@ -34019,34 +34479,58 @@ export const calciteBorderWidthNone: string;
 export const calciteBorderWidthSm: string;
 export const calciteBorderWidthMd: string;
 export const calciteBorderWidthLg: string;
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
-export const calciteContainerSizeHeightXxs: { min: string; max: string };
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead. */
+export const calciteContainerSizeHeightXxsMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead. */
+export const calciteContainerSizeHeightXxsMax: string;
 /** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeight2xs: { min: string; max: string };
-/** Handheld devices */
-export const calciteContainerSizeHeightXs: { min: string; max: string };
-/** Small tablets */
-export const calciteContainerSizeHeightSm: { min: string; max: string };
-/** Small laptops */
-export const calciteContainerSizeHeightMd: { min: string; max: string };
-/** Large laptops and desktop computers */
-export const calciteContainerSizeHeightLg: { min: string; max: string };
-/** Projectors and televisions */
-export const calciteContainerSizeHeightXl: { min: string };
-/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
-export const calciteContainerSizeWidthXxs: { min: string; max: string };
+export const calciteContainerSizeHeight2xsMin: string;
 /** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidth2xs: { min: string; max: string };
+export const calciteContainerSizeHeight2xsMax: string;
 /** Handheld devices */
-export const calciteContainerSizeWidthXs: { min: string; max: string };
+export const calciteContainerSizeHeightXsMin: string;
+/** Handheld devices */
+export const calciteContainerSizeHeightXsMax: string;
 /** Small tablets */
-export const calciteContainerSizeWidthSm: { min: string; max: string };
+export const calciteContainerSizeHeightSmMin: string;
+/** Small tablets */
+export const calciteContainerSizeHeightSmMax: string;
 /** Small laptops */
-export const calciteContainerSizeWidthMd: { min: string; max: string };
+export const calciteContainerSizeHeightMdMin: string;
+/** Small laptops */
+export const calciteContainerSizeHeightMdMax: string;
 /** Large laptops and desktop computers */
-export const calciteContainerSizeWidthLg: { min: string; max: string };
+export const calciteContainerSizeHeightLgMin: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeHeightLgMax: string;
 /** Projectors and televisions */
-export const calciteContainerSizeWidthXl: { min: string };
+export const calciteContainerSizeHeightXlMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead. */
+export const calciteContainerSizeWidthXxsMin: string;
+/** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead. */
+export const calciteContainerSizeWidthXxsMax: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xsMin: string;
+/** Small handheld devices and mini-windows */
+export const calciteContainerSizeWidth2xsMax: string;
+/** Handheld devices */
+export const calciteContainerSizeWidthXsMin: string;
+/** Handheld devices */
+export const calciteContainerSizeWidthXsMax: string;
+/** Small tablets */
+export const calciteContainerSizeWidthSmMin: string;
+/** Small tablets */
+export const calciteContainerSizeWidthSmMax: string;
+/** Small laptops */
+export const calciteContainerSizeWidthMdMin: string;
+/** Small laptops */
+export const calciteContainerSizeWidthMdMax: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLgMin: string;
+/** Large laptops and desktop computers */
+export const calciteContainerSizeWidthLgMax: string;
+/** Projectors and televisions */
+export const calciteContainerSizeWidthXlMin: string;
 export const calciteContainerSizeMargin: string;
 export const calciteContainerSizeGutter: string;
 /** for fluid grid widths */
@@ -34992,11 +35476,9 @@ exports[`SCSS > breakpoints should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
-$calcite-container-size-height-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
+$calcite-container-size-height-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.
+$calcite-container-size-height-xxs-max: 154px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.
 $calcite-container-size-height-2xs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-width-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-$calcite-container-size-width-2xs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-height-xxs-max: 154px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
 $calcite-container-size-height-2xs-max: 154px; // Small handheld devices and mini-windows
 $calcite-container-size-height-xs-min: 155px; // Handheld devices
 $calcite-container-size-height-xs-max: 328px; // Handheld devices
@@ -35007,7 +35489,9 @@ $calcite-container-size-height-md-max: 678px; // Small laptops
 $calcite-container-size-height-lg-min: 679px; // Large laptops and desktop computers
 $calcite-container-size-height-lg-max: 854px; // Large laptops and desktop computers
 $calcite-container-size-height-xl-min: 855px; // Projectors and televisions
-$calcite-container-size-width-xxs-max: 320px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
+$calcite-container-size-width-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.
+$calcite-container-size-width-xxs-max: 320px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.
+$calcite-container-size-width-2xs-min: 0; // Small handheld devices and mini-windows
 $calcite-container-size-width-2xs-max: 320px; // Small handheld devices and mini-windows
 $calcite-container-size-width-xs-min: 321px; // Handheld devices
 $calcite-container-size-width-xs-max: 476px; // Handheld devices
