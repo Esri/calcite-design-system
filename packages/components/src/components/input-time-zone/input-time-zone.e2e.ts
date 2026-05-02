@@ -337,6 +337,7 @@ describe("mode", () => {
 
       currItem = await page.find(itemSelector);
       currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
       expect(currItem).not.toBe(prevItem);
       expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from same mode update
       expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from same mode update
