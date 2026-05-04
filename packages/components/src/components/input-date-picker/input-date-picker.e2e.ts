@@ -657,7 +657,7 @@ it("ensures initial value is in range", async () => {
   expect(await getDateInputValue(page)).toEqual("1/1/2018");
 });
 
-it("updates internally when min attribute is updated after initialization", async () => {
+it("updates minAsDate when min attribute is updated after initialization", async () => {
   const page = await newE2EPage();
   await page.emulateTimezone("America/Los_Angeles");
   await page.setContent(
@@ -673,6 +673,24 @@ it("updates internally when min attribute is updated after initialization", asyn
     picker.minAsDate.getTime(),
   );
   expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
+});
+
+it("updates maxAsDate when max attribute is updated after initialization", async () => {
+  const page = await newE2EPage();
+  await page.emulateTimezone("America/Los_Angeles");
+  await page.setContent(
+    html`<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
+  );
+
+  const element = await page.find("calcite-input-date-picker");
+  element.setProperty("min", "2021-11-15");
+  element.setProperty("max", "2023-11-15");
+  await page.waitForChanges();
+  const maxDateString = "Mon Nov 15 2023 00:00:00 GMT-0800 (Pacific Standard Time)";
+  const maxDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
+    picker.maxAsDate.getTime(),
+  );
+  expect(maxDateAsTime).toEqual(new Date(maxDateString).getTime());
 });
 
 it("unsetting min/max updates internally", async () => {

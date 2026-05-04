@@ -50,6 +50,7 @@ import {
   getLocaleData,
   getValueAsDateRange,
   applyLocaleOverride,
+  minMaxSource,
 } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -421,14 +422,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
-    }
-
     if (Array.isArray(this.value)) {
       this.valueAsDate = getValueAsDateRange(this.value);
     } else if (this.value) {
@@ -456,8 +449,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   async load(): Promise<void> {
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -481,12 +472,19 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.flipPlacementsHandler();
     }
 
-    if (changes.has("min")) {
-      this.onMinChanged(this.min);
+    const minSource = minMaxSource(changes, "min");
+    const maxSource = minMaxSource(changes, "max");
+
+    if (minSource === "min") {
+      this.minAsDate = dateFromISO(this.min);
+    } else if (minSource === "minAsDate") {
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
     }
 
-    if (changes.has("max")) {
-      this.onMaxChanged(this.max);
+    if (maxSource === "max") {
+      this.maxAsDate = dateFromISO(this.max);
+    } else if (maxSource === "maxAsDate") {
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
@@ -548,7 +546,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
         this.valueAsDate = newValueAsDate;
       }
-
       this.localizeInputValues();
     }
     this.userChangedValue = false;
@@ -570,14 +567,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
-  }
-
-  private onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
-  }
-
-  private onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
   }
 
   private openHandler(): void {
@@ -841,7 +830,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     };
 
     this.localeData = await getLocaleData(locale);
-    this.localizeInputValues();
   }
 
   /**
