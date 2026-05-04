@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
@@ -54,7 +55,7 @@ describe("is focusable", () => {
 
 describe("fullName", () => {
   it("renders standalone fullName when username is not provided", async () => {
-    await mount(`<calcite-navigation-user full-name="John Doe"></calcite-navigation-user>`);
+    await mount(<calcite-navigation-user fullName="John Doe" />);
 
     const fullName = page.getBySelector(`calcite-navigation-user .${CSS.fullName}`);
     const standaloneFullName = page.getBySelector(

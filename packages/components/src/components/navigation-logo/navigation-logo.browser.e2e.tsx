@@ -83,7 +83,7 @@ describe("is focusable", () => {
 
 describe("heading", () => {
   it("renders standalone heading when description is not provided", async () => {
-    await mount(`<calcite-navigation-logo heading="John Doe"></calcite-navigation-logo>`);
+    await mount(<calcite-navigation-logo heading="John Doe" />);
 
     const heading = page.getBySelector(`calcite-navigation-logo .${CSS.heading}`);
     const standaloneHeading = page.getBySelector(
