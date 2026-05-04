@@ -3,7 +3,6 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
-import { NavigationUser } from "./navigation-user";
 
 describe("defaults", () => {
   defaults(
@@ -55,7 +54,7 @@ describe("is focusable", () => {
 
 describe("fullName", () => {
   it("renders standalone fullName when username is not provided", async () => {
-    await mount<NavigationUser>(<calcite-navigation-user full-name="John Doe" />);
+    await mount(`<calcite-navigation-user full-name="John Doe"></calcite-navigation-user>`);
 
     const fullName = page.getBySelector(`calcite-navigation-user .${CSS.fullName}`);
     const standaloneFullName = page.getBySelector(

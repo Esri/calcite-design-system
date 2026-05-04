@@ -4,7 +4,6 @@ import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
-import { NavigationLogo } from "./navigation-logo";
 
 describe("defaults", () => {
   defaults(
@@ -84,7 +83,7 @@ describe("is focusable", () => {
 
 describe("heading", () => {
   it("renders standalone heading when description is not provided", async () => {
-    await mount<NavigationLogo>(<calcite-navigation-logo heading="John Doe" />);
+    await mount(`<calcite-navigation-logo heading="John Doe"></calcite-navigation-logo>`);
 
     const heading = page.getBySelector(`calcite-navigation-logo .${CSS.heading}`);
     const standaloneHeading = page.getBySelector(
