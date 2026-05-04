@@ -157,7 +157,7 @@
   @include notice-element-base;
   @apply flex min-w-0 flex-col break-words;
   flex: 1 1 0;
-  align-items: baseline;
+  align-items: start;
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: 0 var(--calcite-notice-spacing-token-large);
 
