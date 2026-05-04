@@ -50,7 +50,7 @@ import {
   getLocaleData,
   getValueAsDateRange,
   applyLocaleOverride,
-  minMaxSource,
+  getMinMaxSource,
 } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -472,8 +472,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.flipPlacementsHandler();
     }
 
-    const minSource = minMaxSource(changes, "min");
-    const maxSource = minMaxSource(changes, "max");
+    const minSource = getMinMaxSource(changes, "min");
+    const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
       this.minAsDate = dateFromISO(this.min);

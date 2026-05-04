@@ -142,7 +142,7 @@ export function getValueAsDateRange(value: string[]): Date[] {
  * - For "max": returns "max" or "maxAsDate"
  *
  */
-export function minMaxSource(changes: PropertyValues, type: MinMaxType): MinSource | MaxSource {
+export function getMinMaxSource(changes: PropertyValues, type: MinMaxType): MinSource | MaxSource {
   if (type === "min") {
     if (changes.has("min") && !changes.has("minAsDate")) {
       return "min";

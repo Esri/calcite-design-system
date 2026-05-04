@@ -33,7 +33,7 @@ import {
   getLocaleData,
   getValueAsDateRange,
   applyLocaleOverride,
-  minMaxSource,
+  getMinMaxSource,
 } from "./utils";
 import { styles } from "./date-picker.scss";
 
@@ -208,8 +208,8 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    const minSource = minMaxSource(changes, "min");
-    const maxSource = minMaxSource(changes, "max");
+    const minSource = getMinMaxSource(changes, "min");
+    const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
       this.minAsDate = dateFromISO(this.min);
