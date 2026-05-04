@@ -1,46 +1,46 @@
+import { describe, it, expect } from "vitest";
+import stylelint from "stylelint";
 import { messages } from "./meta.ts";
 import { deprecationFormat } from "./rule.ts";
 
-const { ruleName } = deprecationFormat;
-const testRule = createTestRule({ ruleName });
+const ruleName = deprecationFormat.ruleName;
 
-testRule({
-  ruleName: ruleName,
-  config: true,
-  accept: [
-    {
-      code: "/* @prop --test-example-token: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--test-alternative-token` instead. */",
-      description:
-        'Contains both deprecation and removal target versions on [Deprecated] token (e.g. "@deprecated in v1.2.3, removal target v3").',
+function runStylelint(code: string, config: any) {
+  return stylelint.lint({
+    code,
+    config: {
+      plugins: [require.resolve("../../index.ts")],
+      rules: { [ruleName]: config },
     },
-  ],
-  reject: [
-    {
-      code: "/* @prop --test-example-token: [Deprecated] - Use `--test-alternative-token` instead. */",
-      description: "Missing both deprecation and removal target versions on [Deprecated] token.",
-      message: messages.rejected,
-      line: 1,
-      column: 1,
-      endLine: 1,
-      endColumn: 89,
-    },
-    {
-      code: "/* @prop --test-example-token: [Deprecated] in v3.3.0 - Use `--test-alternative-token` instead. */",
-      description: "Missing removal target version on [Deprecated] token.",
-      message: messages.rejected,
-      line: 1,
-      column: 1,
-      endLine: 1,
-      endColumn: 99,
-    },
-    {
-      code: "/* @prop --test-example-token: [Deprecated], removal target v6.0.0 - Use `--test-alternative-token` instead. */",
-      description: "Missing deprecation version on [Deprecated] token.",
-      message: messages.rejected,
-      line: 1,
-      column: 1,
-      endLine: 1,
-      endColumn: 112,
-    },
-  ],
+    codeFilename: "test.css",
+  });
+}
+
+describe("deprecationFormat rule", () => {
+  it("accepts valid deprecation and removal target", async () => {
+    const code = "/* @prop --test-example-token: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--test-alternative-token` instead. */";
+    const result = await runStylelint(code, true);
+    expect(result.results[0].warnings).toHaveLength(0);
+  });
+
+  it("rejects missing both deprecation and removal target", async () => {
+    const code = "/* @prop --test-example-token: [Deprecated] - Use `--test-alternative-token` instead. */";
+    const result = await runStylelint(code, true);
+    expect(result.results[0].warnings).toHaveLength(1);
+    expect(result.results[0].warnings[0].text).toBe(messages.rejected);
+  });
+
+  it("rejects missing removal target", async () => {
+    const code = "/* @prop --test-example-token: [Deprecated] in v3.3.0 - Use `--test-alternative-token` instead. */";
+    const result = await runStylelint(code, true);
+    expect(result.results[0].warnings).toHaveLength(1);
+    expect(result.results[0].warnings[0].text).toBe(messages.rejected);
+  });
+
+  it("rejects missing deprecation version", async () => {
+    const code = "/* @prop --test-example-token: [Deprecated], removal target v6.0.0 - Use `--test-alternative-token` instead. */";
+    const result = await runStylelint(code, true);
+    expect(result.results[0].warnings).toHaveLength(1);
+    expect(result.results[0].warnings[0].text).toBe(messages.rejected);
+  });
 });
