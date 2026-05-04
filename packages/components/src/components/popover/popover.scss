@@ -21,10 +21,6 @@
 
 :host {
   @apply contents;
-
-  ::slotted(calcite-link) {
-    text-align: start;
-  }
 }
 
 :host([top-layer-disabled]) {
@@ -133,6 +129,7 @@
   flex-col
   flex-nowrap
   self-center;
+  align-items: start;
 }
 
 .close-button {
