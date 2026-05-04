@@ -284,6 +284,10 @@ $border-style: 1px solid var(--calcite-color-border-3);
   @apply text-color-link;
 }
 
+slot[name="link"]::slotted(:not(calcite-link)) {
+  @apply inline-flex;
+}
+
 $alert-kinds:
   "brand" var(--calcite-color-brand),
   "info" var(--calcite-color-status-info),
