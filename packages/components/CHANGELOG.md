@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.45...@esri/calcite-components@5.1.0-next.46) (2026-05-05)
+
+### Features
+
+- **navigation-logo, navigation-user:** remove heading's padding top when there is no description ([#14374](https://github.com/Esri/calcite-design-system/issues/14374)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
 ## [5.1.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.44...@esri/calcite-components@5.1.0-next.45) (2026-04-29)
 
 ### Bug Fixes

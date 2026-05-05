@@ -98,6 +98,10 @@ calcite-avatar ~ .text-container {
   line-height: var(--calcite-internal-navigation-user-full-name-line-height);
 }
 
+.standalone {
+  padding-block-start: 0;
+}
+
 .username {
   font-size: var(--calcite-internal-navigation-user-username-font-size);
   color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
