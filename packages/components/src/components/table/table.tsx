@@ -198,7 +198,7 @@ export class Table extends LitElement {
   @property({ reflect: true }) striped = false;
 
   /** When `true`, displays the table header as sticky while the table remains in view. */
-  @property({ attribute: "sticky-header", reflect: true }) stickyHeader = false;
+  @property({ reflect: true }) stickyHeader = false;
 
   //#endregion
 
