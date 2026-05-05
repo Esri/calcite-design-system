@@ -129,7 +129,10 @@
   flex-col
   flex-nowrap
   self-center;
-  align-items: start;
+
+  ::slotted(calcite-link) {
+    align-self: baseline;
+  }
 }
 
 .close-button {
