@@ -127,14 +127,18 @@ export class Sheet extends LitElement {
   })(this);
 
   openCloseController = useOpenClose<Sheet>({
-    lifecycle: {
-      onBeforeOpen: (host) => host.onBeforeOpen(),
-      onOpen: (host) => host.onOpen(),
-      onBeforeClose: (host) => host.onBeforeClose(),
-      onClose: (host) => host.onClose(),
-    },
-    watchedProps: ["opened"],
-    isOpen: (host) => host.opened,
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["opened"],
+        isOpen: (host) => host.opened,
+      },
+    ],
   })(this);
 
   //#endregion

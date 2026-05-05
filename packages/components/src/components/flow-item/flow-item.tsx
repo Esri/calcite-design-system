@@ -8,6 +8,7 @@ import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -60,9 +61,38 @@ export class FlowItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  transitionProp = "opacity" as const;
+
+  get transitionEl(): Panel["el"] {
+    return this.containerRef.value;
+  }
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: () => {},
+          onOpen: () => {},
+          onBeforeClose: () => {},
+          onClose: () => {},
+        },
+        watchedProps: ["closed"],
+      },
+      {
+        lifecycle: {
+          onBeforeOpen: () => {},
+          onOpen: (host) => host.calciteFlowItemExpand.emit(),
+          onBeforeClose: () => {},
+          onClose: (host) => host.calciteFlowItemCollapse.emit(),
+        },
+        watchedProps: ["collapsed"],
+      },
+    ],
+  })(this);
 
   //#endregion
 
@@ -221,13 +251,6 @@ export class FlowItem extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.calciteInternalFlowItemChange.emit();
-    }
-    if (changes.has("collapsed") && this.hasUpdated) {
-      if (this.collapsed) {
-        this.calciteFlowItemCollapse.emit();
-      } else {
-        this.calciteFlowItemExpand.emit();
-      }
     }
   }
 

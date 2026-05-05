@@ -124,14 +124,18 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   })(this);
 
   openCloseController = useOpenClose<Dialog>({
-    lifecycle: {
-      onBeforeOpen: (host) => host.onBeforeOpen(),
-      onOpen: (host) => host.onOpen(),
-      onBeforeClose: (host) => host.onBeforeClose(),
-      onClose: (host) => host.onClose(),
-    },
-    watchedProps: ["opened"],
-    isOpen: (host) => host.opened,
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["opened"],
+        isOpen: (host) => host.opened,
+      },
+    ],
   })(this);
 
   //#endregion

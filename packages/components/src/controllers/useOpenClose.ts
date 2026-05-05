@@ -19,43 +19,18 @@ export type ExpandedCollapseState = ExclusiveState<"expanded", "collapsed">;
  */
 export type OpenCloseExpandedCollapseState = OpenCloseState & ExpandedCollapseState;
 
-type OpenCloseVisibilityProp = keyof OpenCloseState & string;
-
-type ExpandedCollapseVisibilityProp = keyof ExpandedCollapseState & string;
-
 type VisibilityProp = keyof OpenCloseExpandedCollapseState & string;
 
 /**
- * Standard mode watches a single built-in visibility prop and lets the controller
- * infer whether the host is open or closed.
+ * Built-in visibility props have standardized semantics, so the controller can
+ * infer open state for a single prop per channel.
  */
-type StandardWatchedProps = readonly [VisibilityProp];
+type BuiltInWatchedProps = readonly [VisibilityProp];
 
-/**
- * Derived built-in mode supports only cross-axis pairs. Same-axis pairs are
- * intentionally excluded by typing.
- */
-type DerivedBuiltInWatchedProps =
-  | readonly [OpenCloseVisibilityProp, ExpandedCollapseVisibilityProp]
-  | readonly [ExpandedCollapseVisibilityProp, OpenCloseVisibilityProp];
-
-/**
- * Custom watched props are host string keys that are not built-in visibility props.
- * Example: "opened"
- */
-type CustomWatchedProp<T extends UseOpenCloseComponent> = Exclude<Extract<keyof T, string>, VisibilityProp>;
-
-type DerivedCustomWatchedProps<T extends UseOpenCloseComponent> = readonly [
-  CustomWatchedProp<T>,
-  ...CustomWatchedProp<T>[],
+type MultiWatchedProps<T extends UseOpenCloseComponent> = readonly [
+  Extract<keyof T, string>,
+  ...Extract<keyof T, string>[],
 ];
-
-/**
- * Derived mode supports:
- * - cross-axis built-in watched props, or
- * - one or more custom watched props with an explicit `isOpen` resolver.
- */
-type DerivedWatchedProps<T extends UseOpenCloseComponent> = DerivedBuiltInWatchedProps | DerivedCustomWatchedProps<T>;
 
 type UseOpenCloseLifecycleHooks<T extends UseOpenCloseComponent> = {
   onBeforeOpen: (host: T) => void;
@@ -78,10 +53,6 @@ type UseOpenCloseComponent = LitElement &
 
 type UseOpenCloseBaseOptions<T extends UseOpenCloseComponent> = {
   /**
-   * Hooks invoked when the controller detects an open/close state transition.
-   */
-  lifecycle: UseOpenCloseLifecycleHooks<T>;
-  /**
    * Use `shouldToggle` to suppress open/close lifecycle events when host state
    * such as `disabled` or `readOnly` should prevent toggling.
    *
@@ -91,24 +62,45 @@ type UseOpenCloseBaseOptions<T extends UseOpenCloseComponent> = {
   shouldToggle?: (host: T, isOpen: boolean) => boolean;
 };
 
-type UseOpenCloseStandardOptions<T extends UseOpenCloseComponent> = UseOpenCloseBaseOptions<T> & {
-  watchedProps: StandardWatchedProps;
+type UseOpenCloseChannelBaseOptions<T extends UseOpenCloseComponent> = UseOpenCloseBaseOptions<T> & {
+  /**
+   * Hooks invoked when the controller detects an open/close state transition.
+   */
+  lifecycle: UseOpenCloseLifecycleHooks<T>;
+};
+
+type UseOpenCloseInferredOptions<T extends UseOpenCloseComponent> = UseOpenCloseChannelBaseOptions<T> & {
+  watchedProps: BuiltInWatchedProps;
   isOpen?: never;
 };
 
-type UseOpenCloseDerivedOptions<T extends UseOpenCloseComponent> = UseOpenCloseBaseOptions<T> & {
-  watchedProps: DerivedWatchedProps<T>;
+type UseOpenCloseMultiPropOptions<T extends UseOpenCloseComponent> = UseOpenCloseChannelBaseOptions<T> & {
+  watchedProps: MultiWatchedProps<T>;
   isOpen: (host: T) => boolean;
 };
 
-type UseOpenCloseOptions<T extends UseOpenCloseComponent> =
-  | UseOpenCloseStandardOptions<T>
-  | UseOpenCloseDerivedOptions<T>;
+type UseOpenCloseChannelOptions<T extends UseOpenCloseComponent> =
+  | UseOpenCloseInferredOptions<T>
+  | UseOpenCloseMultiPropOptions<T>;
 
-function usesDerivedOpenState<T extends UseOpenCloseComponent>(
-  options: UseOpenCloseOptions<T>,
-): options is UseOpenCloseDerivedOptions<T> {
+type UseOpenCloseChannelGroupOptions<T extends UseOpenCloseComponent> = {
+  channels: readonly [UseOpenCloseChannelOptions<T>, ...UseOpenCloseChannelOptions<T>[]];
+};
+
+function usesMultiPropOpenState<T extends UseOpenCloseComponent>(
+  options: UseOpenCloseChannelOptions<T>,
+): options is UseOpenCloseMultiPropOptions<T> {
   return "isOpen" in options;
+}
+
+function isVisibilityProp(prop: string): prop is VisibilityProp {
+  return prop === "open" || prop === "closed" || prop === "expanded" || prop === "collapsed";
+}
+
+function usesInferredBuiltInOpenState<T extends UseOpenCloseComponent>(
+  options: UseOpenCloseChannelOptions<T>,
+): options is UseOpenCloseInferredOptions<T> {
+  return options.watchedProps.every(isVisibilityProp);
 }
 
 function getOpenStateForBuiltInProp(host: OpenCloseExpandedCollapseState, visibilityProp: VisibilityProp): boolean {
@@ -128,48 +120,17 @@ function getOpenStateForBuiltInProp(host: OpenCloseExpandedCollapseState, visibi
 }
 
 /**
- * Standard mode:
- * - watches exactly one built-in prop
- * - infers open state automatically
- * - does not allow `isOpen`
+ * Channel mode:
+ * - accepts one or more channels under a single `channels` option
+ * - each channel can use inferred built-in state or custom `isOpen` resolution
+ * - keeps previous open state per channel so each event family can emit independently
  *
  * Valid examples:
- * - `watchedProps: ["open"]`
- * - `watchedProps: ["closed"]`
- * - `watchedProps: ["expanded"]`
- * - `watchedProps: ["collapsed"]`
+ * - `channels: [{ watchedProps: ["open"], lifecycle: ... }]`
+ * - `channels: [{ watchedProps: ["closed"], ... }, { watchedProps: ["collapsed"], ... }]`
  */
-export function useOpenClose<
-  T extends UseOpenCloseComponent,
-  const TWatchedProps extends StandardWatchedProps = StandardWatchedProps,
->(
-  options: UseOpenCloseBaseOptions<T> & {
-    watchedProps: TWatchedProps;
-    isOpen?: never;
-  },
-): ReturnType<typeof makeGenericController<void, T>>;
-
-/**
- * Derived mode:
- * - watches cross-axis built-in props or custom props
- * - requires `isOpen` to resolve the effective open state
- *
- * Valid examples:
- * - `watchedProps: ["open", "expanded"]`
- * - `watchedProps: ["closed", "collapsed"]`
- * - `watchedProps: ["opened"]`
- *
- * Invalid same-axis combinations such as `["open", "closed"]` and
- * `["expanded", "collapsed"]` are intentionally rejected by typing.
- */
-export function useOpenClose<
-  T extends UseOpenCloseComponent,
-  const TWatchedProps extends DerivedWatchedProps<T> = DerivedWatchedProps<T>,
->(
-  options: UseOpenCloseBaseOptions<T> & {
-    watchedProps: TWatchedProps;
-    isOpen: (host: T) => boolean;
-  },
+export function useOpenClose<T extends UseOpenCloseComponent>(
+  options: UseOpenCloseChannelGroupOptions<T>,
 ): ReturnType<typeof makeGenericController<void, T>>;
 
 /**
@@ -180,48 +141,58 @@ export function useOpenClose<
  * - waits for the configured CSS transition to finish before final open/close hooks
  */
 export function useOpenClose<T extends UseOpenCloseComponent>(
-  options: UseOpenCloseOptions<T>,
+  options: UseOpenCloseChannelGroupOptions<T>,
 ): ReturnType<typeof makeGenericController<void, T>> {
   return makeGenericController<void, T>((component, controller) => {
-    const watchedProps = options.watchedProps;
+    const { channels } = options;
 
-    let previousOpenState = getOpenState(component);
+    const previousOpenStates = channels.map((channel) => getOpenState(component, channel));
 
     controller.onUpdate((changes) => {
-      const watchedPropChanged = watchedProps.some((watchedProp) => changes.has(watchedProp));
+      channels.forEach((channel, channelIndex) => {
+        const watchedPropChanged = channel.watchedProps.some((watchedProp) => changes.has(watchedProp));
 
-      if (!watchedPropChanged) {
-        return;
-      }
+        if (!watchedPropChanged) {
+          return;
+        }
 
-      const currentOpenState = getOpenState(component);
+        const currentOpenState = getOpenState(component, channel);
 
-      if (previousOpenState === currentOpenState) {
-        return;
-      }
+        if (previousOpenStates[channelIndex] === currentOpenState) {
+          return;
+        }
 
-      if (options.shouldToggle?.(component, currentOpenState) ?? true) {
-        void emitOpenCloseEventsAfterUpdate(component, currentOpenState);
-      }
+        if (channel.shouldToggle?.(component, currentOpenState) ?? true) {
+          void emitOpenCloseEventsAfterUpdate(component, currentOpenState, channel.lifecycle);
+        }
 
-      previousOpenState = currentOpenState;
+        previousOpenStates[channelIndex] = currentOpenState;
+      });
     });
 
-    function getOpenState(host: T): boolean {
-      if (usesDerivedOpenState(options)) {
-        return !!options.isOpen(host);
+    function getOpenState(host: T, channel: UseOpenCloseChannelOptions<T>): boolean {
+      if (usesMultiPropOpenState(channel)) {
+        return !!channel.isOpen(host);
       }
 
-      return getOpenStateForBuiltInProp(host, options.watchedProps[0]);
+      if (usesInferredBuiltInOpenState(channel)) {
+        return getOpenStateForBuiltInProp(host, channel.watchedProps[0]);
+      }
+
+      return false;
     }
 
-    async function emitOpenCloseEventsAfterUpdate(host: T, isOpen: boolean): Promise<void> {
+    async function emitOpenCloseEventsAfterUpdate(
+      host: T,
+      isOpen: boolean,
+      lifecycle: UseOpenCloseLifecycleHooks<T>,
+    ): Promise<void> {
       await host.updateComplete;
 
       if (isOpen) {
-        options.lifecycle.onBeforeOpen(host);
+        lifecycle.onBeforeOpen(host);
       } else {
-        options.lifecycle.onBeforeClose(host);
+        lifecycle.onBeforeClose(host);
       }
 
       await host.updateComplete;
@@ -232,9 +203,9 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
       }
 
       if (isOpen) {
-        options.lifecycle.onOpen(host);
+        lifecycle.onOpen(host);
       } else {
-        options.lifecycle.onClose(host);
+        lifecycle.onClose(host);
       }
     }
   });

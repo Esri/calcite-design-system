@@ -186,14 +186,18 @@ export class InputDatePicker
   })(this);
 
   openCloseController = useOpenClose<this>({
-    lifecycle: {
-      onBeforeOpen: (host) => host.onBeforeOpen(),
-      onOpen: (host) => host.onOpen(),
-      onBeforeClose: (host) => host.onBeforeClose(),
-      onClose: (host) => host.onClose(),
-    },
-    watchedProps: ["open"],
-    shouldToggle: (host) => !host.disabled && !host.readOnly,
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+        shouldToggle: (host) => !host.disabled && !host.readOnly,
+      },
+    ],
   })(this);
 
   //#endregion

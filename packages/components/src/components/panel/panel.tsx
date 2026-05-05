@@ -1,5 +1,4 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -15,6 +14,7 @@ import {
 } from "../../utils/floating-ui";
 import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -70,9 +70,38 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
+  transitionProp = "opacity" as const;
+
+  get transitionEl(): HTMLElement {
+    return this.panelScrollEl;
+  }
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: () => {},
+          onOpen: () => {},
+          onBeforeClose: () => {},
+          onClose: () => {},
+        },
+        watchedProps: ["closed"],
+      },
+      {
+        lifecycle: {
+          onBeforeOpen: () => {},
+          onOpen: (host) => host.calcitePanelExpand.emit(),
+          onBeforeClose: () => {},
+          onClose: (host) => host.calcitePanelCollapse.emit(),
+        },
+        watchedProps: ["collapsed"],
+      },
+    ],
+  })(this);
 
   //#endregion
 
@@ -247,16 +276,6 @@ export class Panel extends LitElement {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen("calcitePanelClose", this.panelCloseHandler);
-  }
-
-  override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("collapsed") && this.hasUpdated) {
-      if (this.collapsed) {
-        this.calcitePanelCollapse.emit();
-      } else {
-        this.calcitePanelExpand.emit();
-      }
-    }
   }
 
   override disconnectedCallback(): void {
