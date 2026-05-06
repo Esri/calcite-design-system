@@ -11,7 +11,7 @@ import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
+    ignores: ["**/dist", "**/docs", "**/*.d.ts"],
   },
 
   {
