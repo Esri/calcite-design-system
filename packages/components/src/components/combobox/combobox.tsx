@@ -637,10 +637,6 @@ export class Combobox
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      this.openHandler();
-    }
-
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
       this.handleDisabledChange(this.disabled);
     }
@@ -692,12 +688,6 @@ export class Combobox
   private filterTextChange(value: string): void {
     this.updateActiveItemIndex(-1);
     this.filterItems(value, true);
-  }
-
-  private openHandler(): void {
-    if (this.disabled) {
-      return;
-    }
   }
 
   private handleDisabledChange(value: boolean): void {

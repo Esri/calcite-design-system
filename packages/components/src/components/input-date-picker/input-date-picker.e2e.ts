@@ -2048,6 +2048,7 @@ it("should not shift focus back on input-date-picker when other input elements a
     html`<calcite-input id="input"></calcite-input>
       <calcite-input-date-picker id="input-date"></calcite-input-date-picker>`,
   );
+  await skipAnimations(page);
 
   const input = await page.find("calcite-input");
   const inputDatePicker = await page.find("calcite-input-date-picker");
