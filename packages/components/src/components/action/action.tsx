@@ -466,7 +466,13 @@ export class Action extends LitElement {
 
     this._menuOpen = value;
     this.activeMenuItemIndex = value ? 0 : -1;
-    this.calciteActionMenuOpen.emit();
+
+    if (value) {
+      this.calciteActionMenuOpen.emit();
+    } else {
+      this.calciteActionMenuClose.emit();
+    }
+
     this.setTooltipReferenceElement();
   }
 
@@ -516,8 +522,11 @@ export class Action extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's `menuOpen` property is toggled. */
+  /** Fires when the component's menu is opened. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component's menu is closed. */
+  calciteActionMenuClose = createEvent({ cancelable: false });
 
   //#endregion
 

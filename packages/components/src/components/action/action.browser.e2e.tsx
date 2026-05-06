@@ -194,6 +194,42 @@ describe("disabled", () => {
   disabled(() => mount("calcite-action"));
 });
 
+describe("menu events", () => {
+  it("emits open when opening and close when closing", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="menu" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const openSpy = vi.fn();
+    const closeSpy = vi.fn();
+
+    el.addEventListener("calciteActionMenuOpen", openSpy);
+    el.addEventListener("calciteActionMenuClose", closeSpy);
+
+    const triggerButton = el.shadowRoot?.querySelector(`.${CSS.button}`);
+
+    expect(triggerButton).not.toBeNull();
+
+    await userEvent.click(triggerButton!);
+
+    await vi.waitFor(() => {
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(closeSpy).toHaveBeenCalledTimes(0);
+      expect(el.menuOpen).toBe(true);
+    });
+
+    await userEvent.click(triggerButton!);
+
+    await vi.waitFor(() => {
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(closeSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(false);
+    });
+  });
+});
+
 describe("inline menu accessibility", () => {
   it("sets aria-labelledby on the menu container with the trigger button's id", async () => {
     const { el } = await mount<"calcite-action">(
