@@ -1,6 +1,7 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -16,6 +17,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextTask } from "../../tests/utils/timing";
 
 describe("defaults", () => {
   defaults(
@@ -117,6 +119,38 @@ describe("is form-associated", () => {
         submitsOnEnter: true,
         inputType: "date",
       },
+    );
+  });
+});
+
+describe("focus-trap behavior", () => {
+  mockConsole();
+
+  it("restores focus to input-date-picker after closing when inside a focus-trapping parent in shadow DOM", async () => {
+    const dialogTestId = "test-dialog";
+    const pickerTestId = "test-picker";
+
+    class Test extends LitElement {
+      render(): JsxNode {
+        return (
+          <calcite-dialog data-testid={dialogTestId} open>
+            <calcite-input-date-picker data-testid={pickerTestId} value="2024-05-05" />
+          </calcite-dialog>
+        );
+      }
+    }
+
+    await mount(Test);
+    const picker = page.getByTestId(pickerTestId);
+
+    await userEvent.click(picker);
+    await userEvent.keyboard("{Tab}{Enter}");
+
+    await afterNextTask(); // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
+
+    expect(document).toHaveProperty(
+      "activeElement.shadowRoot.activeElement.dataset.testid",
+      pickerTestId,
     );
   });
 });
