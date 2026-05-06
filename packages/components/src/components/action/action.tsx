@@ -451,7 +451,6 @@ export class Action extends LitElement {
   /** Specifies the action type for menu-enabled interactions. */
   @property({ reflect: true }) buttonType?: ActionButtonType;
 
-  /** When `true`, displays `text` adjacent to the `icon`. */
   /**
    * When `true`, displays `text` adjacent to the `icon`.
    *
