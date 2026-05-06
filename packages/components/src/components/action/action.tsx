@@ -452,6 +452,11 @@ export class Action extends LitElement {
   @property({ reflect: true }) buttonType?: ActionButtonType;
 
   /** When `true`, displays `text` adjacent to the `icon`. */
+  /**
+   * When `true`, displays `text` adjacent to the `icon`.
+   *
+   * When `true` and the component is used as a child of `calcite-action-bar`, the text will be shown initially regardless of the parent components `expanded` state.
+   */
   @property({ reflect: true }) textEnabled = false;
 
   /** When `true`, the component's slotted menu is open. */

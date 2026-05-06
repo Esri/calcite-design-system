@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Create estimates data
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/trackMilestoneEstimates.js')
