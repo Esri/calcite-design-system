@@ -290,14 +290,7 @@ export class Table extends LitElement {
       if (this.stickyHeader) {
         this.scheduleInitialStickyHeaderOffsetUpdate();
       } else {
-        this.clearStickyHeaderSettleTimeouts();
-        this.stickyHeaderResizeObserver?.disconnect();
-        this.stickyHeaderMutationObserver?.disconnect();
-        this.clearStickyHeaderRowStyles();
-        this.stickyHeaderTotalHeight = 0;
-        this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
-        this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-        this.el.style.setProperty("--calcite-internal-table-header-active", "0");
+        this.resetStickyHeaderState();
       }
     }
   }
@@ -338,6 +331,46 @@ export class Table extends LitElement {
       row.style.removeProperty("--calcite-internal-table-header-offset");
       row.style.removeProperty("--calcite-internal-table-header-overlap");
       row.style.removeProperty("--calcite-internal-table-header-z-index");
+    });
+  }
+
+  private resetStickyHeaderState(): void {
+    this.clearStickyHeaderSettleTimeouts();
+    this.stickyHeaderResizeObserver?.disconnect();
+    this.stickyHeaderMutationObserver?.disconnect();
+    this.clearStickyHeaderRowStyles();
+    this.stickyHeaderTotalHeight = 0;
+    this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
+    this.el.style.setProperty("--calcite-internal-table-header-position", "static");
+    this.el.style.setProperty("--calcite-internal-table-header-active", "0");
+  }
+
+  private scheduleAnimationFrameUpdate(
+    frameKey: "stickyHeaderViewportAnimationFrame" | "tableContainerOverflowAnimationFrame",
+    callback: () => void,
+  ): void {
+    const frameId = this[frameKey];
+
+    if (frameId !== null) {
+      cancelAnimationFrame(frameId);
+    }
+
+    this[frameKey] = requestAnimationFrame(() => {
+      this[frameKey] = null;
+      callback();
+    });
+  }
+
+  private scheduleNestedAnimationFrameUpdate(callback: () => void): void {
+    if (this.stickyHeaderOffsetAnimationFrame !== null) {
+      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
+    }
+
+    this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
+      this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
+        this.stickyHeaderOffsetAnimationFrame = null;
+        callback();
+      });
     });
   }
 
@@ -536,39 +569,20 @@ export class Table extends LitElement {
       return;
     }
 
-    if (this.stickyHeaderOffsetAnimationFrame !== null) {
-      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
-    }
-
     // Wait for nested component renders so height/position measurements are current.
-    this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
-      this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
-        this.stickyHeaderOffsetAnimationFrame = null;
-        this.updateStickyHeaderOffsets();
-      });
-    });
+    this.scheduleNestedAnimationFrameUpdate(() => this.updateStickyHeaderOffsets());
   }
 
   private scheduleStickyHeaderViewportUpdate(): void {
-    if (this.stickyHeaderViewportAnimationFrame !== null) {
-      cancelAnimationFrame(this.stickyHeaderViewportAnimationFrame);
-    }
-
-    this.stickyHeaderViewportAnimationFrame = requestAnimationFrame(() => {
-      this.stickyHeaderViewportAnimationFrame = null;
-      this.updateStickyHeaderPosition();
-    });
+    this.scheduleAnimationFrameUpdate("stickyHeaderViewportAnimationFrame", () =>
+      this.updateStickyHeaderPosition(),
+    );
   }
 
   private scheduleTableContainerOverflowUpdate(): void {
-    if (this.tableContainerOverflowAnimationFrame !== null) {
-      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
-    }
-
-    this.tableContainerOverflowAnimationFrame = requestAnimationFrame(() => {
-      this.tableContainerOverflowAnimationFrame = null;
-      this.updateTableContainerOverflow();
-    });
+    this.scheduleAnimationFrameUpdate("tableContainerOverflowAnimationFrame", () =>
+      this.updateTableContainerOverflow(),
+    );
   }
 
   private setStickyHeaderActive(active: boolean): void {
