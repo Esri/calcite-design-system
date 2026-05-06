@@ -39,19 +39,6 @@ export default tseslint.config(
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
       "@typescript-eslint/explicit-module-boundary-types": "off", // enabled in override config object below, see https://typescript-eslint.io/rules/explicit-module-boundary-types/#configuring-in-a-mixed-jsts-codebase
 
-      "import/no-dynamic-require": [
-        "error",
-        {
-          esmodule: true,
-        },
-      ],
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "never",
-        },
-      ],
-
       "jsdoc/check-param-names": "off",
       "jsdoc/require-jsdoc": "off",
       "jsdoc/require-param": "off",
