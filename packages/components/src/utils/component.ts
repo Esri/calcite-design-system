@@ -31,7 +31,7 @@ export function warnIfMissingRequiredProp<C extends LitElement>(
 }
 
 export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | TableRow["el"]>(el: C): boolean {
-  return el.hidden || el.itemHidden;
+  return el.hidden !== false || el.itemHidden;
 }
 
 /**
