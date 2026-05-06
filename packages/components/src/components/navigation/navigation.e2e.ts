@@ -1,5 +1,4 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
 import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
@@ -11,31 +10,6 @@ describe("accessible", () => {
       ><calcite-navigation-logo heading="Test"
     /></calcite-navigation>`,
   );
-});
-
-it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-navigation navigation-action><calcite-navigation-logo heading="Test" /></calcite-navigation>`,
-  );
-  const eventSpy = await page.spyOnEvent("calciteNavigationActionSelect");
-  const hamburgerMenu = await page.find(`calcite-navigation >>> calcite-action`);
-
-  await page.keyboard.press("Tab");
-  expect(eventSpy).toHaveReceivedEventTimes(0);
-
-  await page.keyboard.press("Enter");
-  expect(eventSpy).toHaveReceivedEventTimes(1);
-
-  await page.keyboard.press("Space");
-  await page.waitForChanges();
-  expect(eventSpy).toHaveReceivedEventTimes(2);
-
-  await page.keyboard.press("Tab");
-  expect(eventSpy).toHaveReceivedEventTimes(2);
-
-  await hamburgerMenu.click();
-  expect(eventSpy).toHaveReceivedEventTimes(3);
 });
 
 describe("theme", () => {

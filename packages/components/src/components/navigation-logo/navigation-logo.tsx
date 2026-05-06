@@ -3,6 +3,7 @@ import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumi
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
@@ -70,6 +71,13 @@ export class NavigationLogo extends LitElement {
   /** Specifies the `src` to an image. */
   @property() thumbnail: string;
 
+  /**
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
+   *
+   * @private
+   */
+  @property({ reflect: true }) scale: Scale = "m";
+
   // #endregion
 
   // #region Public Methods
@@ -91,8 +99,14 @@ export class NavigationLogo extends LitElement {
   // #region Rendering
 
   private renderIcon(): JsxNode {
-    /** Icon scale is not variable as the component does not have a scale property */
-    return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
+    return (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "s" ? "m" : "l"}
+      />
+    );
   }
 
   private renderHeaderContent(): JsxNode {

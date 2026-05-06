@@ -7,6 +7,7 @@ import {
   LitElement,
   method,
   property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -68,10 +69,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private normalizer: (timeZone: TimeZone) => TimeZone;
 
-  private selectedTimeZoneItem: TimeZoneItem;
-
-  private timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
-
   private _value: string;
 
   /**
@@ -89,6 +86,14 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
    */
   #valueUpdateContext: "user" | "internal" | null = null;
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() selectedTimeZoneItem: TimeZoneItem;
+
+  @state() timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[];
 
   //#endregion
 

@@ -491,11 +491,12 @@ export class List extends LitElement {
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
 
     items.forEach((item) => {
-      item.scale = scale;
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
+        item.scale = scale;
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
           this.validateSortMenuItem({
             type: "move",
@@ -719,11 +720,7 @@ export class List extends LitElement {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (!dragEnabled) {
-      return;
-    }
-
-    if (defaultSlotEl) {
+    if (dragEnabled && defaultSlotEl) {
       updateListItemChildren(defaultSlotEl);
     }
 

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -13,7 +13,8 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
-import { afterNextFrame } from "../../tests/utils/timing";
+import type { ListItem } from "../list-item/list-item";
+import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
@@ -377,5 +378,219 @@ describe("group filtering", () => {
 
     expect(el).toHaveProperty("filterText", "Be");
     expect(el.filteredItems).toHaveLength(4);
+  });
+});
+
+describe("nested selection modes", () => {
+  it("preserves each nested list's direct-item properties", async () => {
+    await mount(
+      <>
+        <calcite-list
+          data-testid="root-list-one"
+          display-mode="nested"
+          drag-enabled
+          id="root-list-one"
+          label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list
+              data-testid="nested-list-none-drag-enabled"
+              display-mode="flat"
+              drag-enabled
+              id="nested-list-none-drag-enabled"
+              interaction-mode="static"
+              label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
+              selection-mode="none"
+            >
+              <calcite-list-item
+                data-testid="nested-none-item-drag-enabled"
+                id="nested-none-item-drag-enabled"
+                label="Sub-level item"
+              />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+        <calcite-list
+          data-testid="root-list-two"
+          display-mode="nested"
+          drag-enabled
+          id="root-list-two"
+          label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list
+              data-testid="nested-list-none"
+              display-mode="flat"
+              id="nested-list-none"
+              interaction-mode="interactive"
+              label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
+              selection-mode="none"
+            >
+              <calcite-list-item
+                data-testid="nested-none-item"
+                id="nested-none-item"
+                label="Sub-level item"
+              />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+        <calcite-list
+          data-testid="root-list-three"
+          display-mode="nested"
+          drag-enabled
+          id="root-list-three"
+          label="Top-level label"
+          scale="l"
+          selection-appearance="icon"
+          selection-mode="single-persist"
+        >
+          <calcite-list-item expanded label="Top-level list-item">
+            <calcite-list
+              data-testid="nested-list-multiple"
+              display-mode="flat"
+              id="nested-list-multiple"
+              interaction-mode="interactive"
+              label="Sub-level list"
+              scale="s"
+              selection-appearance="highlight"
+              selection-mode="multiple"
+            >
+              <calcite-list-item
+                data-testid="nested-multiple-item"
+                id="nested-multiple-item"
+                label="Sub-level item"
+              />
+            </calcite-list>
+          </calcite-list-item>
+        </calcite-list>
+      </>,
+    );
+
+    await afterNextFrame();
+
+    const nestedNoneDragEnabledItem = page
+      .getByTestId("nested-none-item-drag-enabled")
+      .element() as ListItem["el"];
+    const nestedNoneItem = page.getByTestId("nested-none-item").element() as ListItem["el"];
+    const nestedMultipleItem = page.getByTestId("nested-multiple-item").element() as ListItem["el"];
+
+    const rootListOne = page.getByTestId("root-list-one").element() as List["el"];
+    const rootListTwo = page.getByTestId("root-list-two").element() as List["el"];
+    const rootListThree = page.getByTestId("root-list-three").element() as List["el"];
+    const nestedListNoneDragEnabled = page
+      .getByTestId("nested-list-none-drag-enabled")
+      .element() as List["el"];
+    const nestedListNone = page.getByTestId("nested-list-none").element() as List["el"];
+    const nestedListMultiple = page.getByTestId("nested-list-multiple").element() as List["el"];
+
+    const assertSelectionModes = (): void => {
+      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
+      expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
+      expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
+    };
+
+    const assertAllNestedProperties = (): void => {
+      assertSelectionModes();
+
+      expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+
+      expect(nestedNoneItem).toHaveProperty("scale", "s");
+      expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
+
+      expect(nestedMultipleItem).toHaveProperty("scale", "s");
+      expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
+      expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
+    };
+
+    const nestedPropertiesSettled = (): boolean => {
+      return (
+        nestedNoneDragEnabledItem.selectionMode === "none" &&
+        nestedNoneDragEnabledItem.scale === "s" &&
+        nestedNoneDragEnabledItem.selectionAppearance === "highlight" &&
+        nestedNoneDragEnabledItem.interactionMode === "static" &&
+        nestedNoneItem.selectionMode === "none" &&
+        nestedNoneItem.scale === "s" &&
+        nestedNoneItem.selectionAppearance === "highlight" &&
+        nestedNoneItem.interactionMode === "interactive" &&
+        nestedMultipleItem.selectionMode === "multiple" &&
+        nestedMultipleItem.scale === "s" &&
+        nestedMultipleItem.selectionAppearance === "highlight" &&
+        nestedMultipleItem.interactionMode === "interactive"
+      );
+    };
+
+    const waitForNestedPropertiesToSettle = async (): Promise<void> => {
+      for (let i = 0; i < 10; i++) {
+        if (nestedPropertiesSettled()) {
+          return;
+        }
+
+        await afterNextTask();
+        await afterNextFrame();
+      }
+    };
+
+    // Assert immediately after initial render.
+    assertSelectionModes();
+
+    // Establish nested list-item baselines from nested list updates.
+    nestedListNoneDragEnabled.scale = "l";
+    nestedListNoneDragEnabled.selectionAppearance = "icon";
+    nestedListNoneDragEnabled.interactionMode = "interactive";
+
+    nestedListNoneDragEnabled.scale = "s";
+    nestedListNoneDragEnabled.selectionAppearance = "highlight";
+    nestedListNoneDragEnabled.interactionMode = "static";
+
+    nestedListNone.scale = "l";
+    nestedListNone.selectionAppearance = "icon";
+    nestedListNone.interactionMode = "static";
+
+    nestedListNone.scale = "s";
+    nestedListNone.selectionAppearance = "highlight";
+    nestedListNone.interactionMode = "interactive";
+
+    nestedListMultiple.scale = "l";
+    nestedListMultiple.selectionAppearance = "icon";
+    nestedListMultiple.interactionMode = "static";
+
+    nestedListMultiple.scale = "s";
+    nestedListMultiple.selectionAppearance = "highlight";
+    nestedListMultiple.interactionMode = "interactive";
+
+    await waitForNestedPropertiesToSettle();
+    assertAllNestedProperties();
+
+    // Trigger parent-list updates that should not overwrite nested-list item props.
+    rootListOne.selectionMode = "single";
+    rootListOne.scale = "m";
+    rootListOne.selectionAppearance = "icon";
+    rootListOne.interactionMode = "static";
+
+    rootListTwo.selectionMode = "single";
+    rootListTwo.scale = "m";
+    rootListTwo.selectionAppearance = "icon";
+    rootListTwo.interactionMode = "static";
+
+    rootListThree.selectionMode = "single";
+    rootListThree.scale = "m";
+    rootListThree.selectionAppearance = "icon";
+    rootListThree.interactionMode = "static";
+
+    await waitForNestedPropertiesToSettle();
+    assertAllNestedProperties();
   });
 });

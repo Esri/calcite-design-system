@@ -1,4 +1,3 @@
-import { describe } from "vitest";
 import rule from "../../../../src/rules/no-dynamic-createelement";
 import good from "./no-dynamic-createelement.good.tsx?raw";
 import wrong from "./no-dynamic-createelement.wrong.tsx?raw";

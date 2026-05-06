@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -7,6 +6,7 @@ import { FlipContext } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { isActivationKey } from "../../utils/key";
 import { styles } from "./link.scss";
 import { CSS } from "./resources";
 
@@ -34,7 +34,7 @@ export class Link extends LitElement {
 
   //#region Private Properties
 
-  private childRef = createRef<HTMLAnchorElement>();
+  private anchorRef = createRef<HTMLAnchorElement>();
 
   private direction = useDirection();
 
@@ -43,25 +43,15 @@ export class Link extends LitElement {
   private interactiveContainer = useInteractive(this);
 
   private keyDownHandler = (event: KeyboardEvent): void => {
-    if (this.disabled) {
-      return;
-    }
-
-    const { key } = event;
-
-    if (key === "Enter" || key === " ") {
+    if (isActivationKey(event.key)) {
       event.preventDefault();
       this.el.click();
     }
   };
 
-  private childElClickHandler = (event: MouseEvent): void => {
-    if (this.disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
+  private anchorClickHandler = (event: MouseEvent): void => {
     if (!event.isTrusted) {
+      // click was invoked internally, we stop it here
       event.stopPropagation();
     }
   };
@@ -82,22 +72,22 @@ export class Link extends LitElement {
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
-  @property() rel: string;
+  @property() rel?: string;
 
   /** Specifies the frame or window to open the linked resource. */
-  @property() target: string;
+  @property() target?: string;
 
   //#endregion
 
@@ -112,7 +102,7 @@ export class Link extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.childRef.value, options);
+    return this.focusSetter(() => this.anchorRef.value, options);
   }
 
   //#endregion
@@ -129,12 +119,8 @@ export class Link extends LitElement {
   //#region Private Methods
 
   private clickHandler(event: PointerEvent): void {
-    if (this.disabled) {
-      return;
-    }
-
     if (!event.isTrusted) {
-      this.childRef.value.click();
+      this.anchorRef.value?.click();
     }
   }
 
@@ -145,49 +131,51 @@ export class Link extends LitElement {
   override render(): JsxNode {
     const { download } = this;
     const dir = this.direction;
-    const iconStartEl = (
-      <calcite-icon
-        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconStart]: true }}
-        flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
-        icon={this.iconStart}
-        scale="s"
-      />
-    );
-
-    const iconEndEl = (
-      <calcite-icon
-        class={{ [CSS.calciteLinkIcon]: true, [CSS.iconEnd]: true }}
-        flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
-        icon={this.iconEnd}
-        scale="s"
-      />
-    );
-
     const actAsButton = !this.href;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "presentation";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        {/* prettier-ignore */}
         <a
-          aria-disabled={this.disabled || undefined}
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
           /*
             When the 'download' property of type 'boolean | string' is set to true, the value is "".
             This works around that issue for now.
           */
-          download={download === true || download === "" ? "" : download || null}
-          href={this.href}
-          onClick={this.childElClickHandler}
+          download={download === true || download === "" ? "" : download || undefined}
+          href={this.href || undefined}
+          onClick={this.anchorClickHandler}
           onKeyDown={actAsButton ? this.keyDownHandler : undefined}
-          ref={this.childRef}
+          ref={this.anchorRef}
           rel={this.rel}
-          role={actAsButton ? "button" : null}
+          role={actAsButton ? "button" : undefined}
           tabIndex={actAsButton ? 0 : undefined}
           target={this.href ? this.target : undefined}
-        >{this.iconStart ? iconStartEl : null}<slot />{this.iconEnd ? iconEndEl : null}</a>
+        >
+          {this.iconStart ? this.renderIcon("start") : null}
+          <slot />
+          {this.iconEnd ? this.renderIcon("end") : null}
+        </a>
       </this.interactiveContainer>
+    );
+  }
+
+  private renderIcon(position: "start" | "end"): JsxNode {
+    const isStart = position === "start";
+    const icon = isStart ? this.iconStart : this.iconEnd;
+    const shouldFlip = this.iconFlipRtl === "both" || this.iconFlipRtl === position;
+
+    return (
+      <calcite-icon
+        class={{
+          [CSS.calciteLinkIcon]: true,
+          [isStart ? CSS.iconStart : CSS.iconEnd]: true,
+        }}
+        flipRtl={shouldFlip}
+        icon={icon}
+        scale="s"
+      />
     );
   }
 
