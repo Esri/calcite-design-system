@@ -8,19 +8,20 @@ import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import type { ActionMenu } from "../action-menu/action-menu";
+import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
   expandText: string;
   collapseText: string;
-  direction: "ltr" | "rtl";
   expandLabel: string;
   collapseLabel: string;
+  direction: Direction;
   el: HTMLElement;
-  position: Position;
+  position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
-  ref?: (el: HTMLElement) => void;
+  ref?: (el: Action["el"]) => void;
   scale?: Scale;
 }
 
@@ -29,7 +30,7 @@ const ICONS = {
   chevronsRight: "chevrons-right",
 } as const;
 
-function getCalcitePosition(position: Position, el: HTMLElement): Position {
+function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
@@ -57,7 +58,7 @@ const setTooltipReference = ({
   tooltip: Tooltip["el"];
   referenceElement: Action["el"];
   expanded: boolean;
-  ref?: (el: HTMLElement) => void;
+  ref?: (el: Action["el"]) => void;
 }): Action["el"] => {
   if (tooltip) {
     tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
@@ -94,7 +95,7 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = getCalcitePosition(position, el) === "end";
+  const end = getCalcitePosition(el, position) === "end";
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 

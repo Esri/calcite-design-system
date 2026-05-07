@@ -88,6 +88,9 @@
     },
     "packages/eslint-plugin-components": {
       "component": "@esri/eslint-plugin-calcite-components"
+    },
+    "packages/stylelint-plugin-components": {
+      "component": "@esri/stylelint-plugin-calcite-components"
     }
   },
   "plugins": [

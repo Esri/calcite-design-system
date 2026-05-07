@@ -11,7 +11,7 @@ import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
+    ignores: ["**/dist", "**/docs", "**/*.d.ts"],
   },
 
   {
@@ -99,7 +99,7 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.{e2e,spec}.ts", "src/tests/**/*"],
+    files: ["**/*.{e2e,spec}.{ts,tsx}", "src/tests/**/*"],
     extends: [vitestPlugin.configs.recommended],
     settings: {
       vitest: {

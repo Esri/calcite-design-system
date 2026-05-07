@@ -1,11 +1,13 @@
-import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import { it, expect, describe } from "vitest";
-import { commands, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import { defaults, reflects, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
-import { SLOTS } from "./resources";
+import { Dir, Layout } from "../interfaces";
+import { CSS, SLOTS } from "./resources";
+import type { ShellPanel } from "./shell-panel";
 
 mockConsole();
 
@@ -68,142 +70,245 @@ describe("translation support", () => {
 describe("shell-panel updateSize public method", () => {
   mockConsole();
 
-  describe("vertical panel", () => {
-    async function setupVerticalPanel(initialToken: number) {
-      const { el, component } = await mount<"calcite-shell">(
-        <calcite-shell>
-          <calcite-shell-panel resizable slot="panel-start">
-            <calcite-panel>Content</calcite-panel>
-          </calcite-shell-panel>
-        </calcite-shell>,
-      );
+  type TestCase = {
+    dir: Dir;
+    changeAfterMount?: "dir" | "slot" | "position";
+    slot: "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+    position: ShellPanel["position"];
+  };
 
-      const panel = el.querySelector("calcite-shell-panel")!;
+  /**
+   * Options representing supported use cases to test.
+   *
+   * Note: mismatched slot and position are not supported (e.g., slot=panel-start + position=end)
+   */
+  const testCases: TestCase[] = [
+    { dir: "ltr", slot: "panel-start", position: "start" },
+    { dir: "ltr", slot: "panel-end", position: "end" },
+    { dir: "rtl", slot: "panel-start", position: "start" },
+    { dir: "rtl", slot: "panel-end", position: "end" },
 
-      const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
-      const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "dir" },
 
-      panel.style.setProperty("--calcite-shell-panel-width", `${initialToken}px`);
-      await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialToken}px`);
+    { dir: "ltr", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-end", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-start", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-end", position: "end", changeAfterMount: "slot" },
 
-      return { panel, content, handle, component };
+    { dir: "ltr", slot: "panel-top", position: "start" },
+    { dir: "ltr", slot: "panel-bottom", position: "end" },
+    { dir: "rtl", slot: "panel-top", position: "start" },
+    { dir: "rtl", slot: "panel-bottom", position: "end" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "dir" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "dir" },
+
+    { dir: "ltr", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "ltr", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-top", position: "start", changeAfterMount: "slot" },
+    { dir: "rtl", slot: "panel-bottom", position: "end", changeAfterMount: "slot" },
+  ];
+
+  function layoutFromPanelSlot(
+    slot: `panel-${"start" | "end" | "top" | "bottom"}`,
+  ): Extract<Layout, "vertical" | "horizontal"> {
+    return slot === "panel-start" || slot === "panel-end" ? "vertical" : "horizontal";
+  }
+
+  async function setUpShellPanel({ dir, changeAfterMount, slot, position }: Omit<TestCase, never>) {
+    const layout = layoutFromPanelSlot(slot);
+    const requestedShellPanelSlot = slot;
+    const requestedPosition = position;
+    const initialShellPanelSlot =
+      changeAfterMount === "slot"
+        ? layout === "horizontal"
+          ? // we use cross-axis slot for additional coverage
+            requestedShellPanelSlot === "panel-bottom"
+            ? "panel-end"
+            : "panel-start"
+          : requestedShellPanelSlot === "panel-start"
+            ? // we use cross-axis slot for additional coverage
+              "panel-top"
+            : "panel-bottom"
+        : requestedShellPanelSlot;
+    const initialPosition =
+      changeAfterMount === "position"
+        ? requestedPosition === "start"
+          ? "end"
+          : "start"
+        : requestedPosition;
+
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir}>
+        <calcite-shell-panel position={initialPosition} resizable slot={initialShellPanelSlot}>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = el.querySelector("calcite-shell-panel")!;
+
+    if (changeAfterMount === "dir") {
+      el.dir = dir;
+    } else if (changeAfterMount === "slot") {
+      panel.slot = requestedShellPanelSlot;
+    } else if (changeAfterMount === "position") {
+      panel.position = requestedPosition;
     }
 
-    it("should update vertical panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-      const initialSize = 320;
-      const overrideSize = 400;
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
 
-      const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
+    const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
+    const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
 
-      handle.focus();
-      await userEvent.keyboard("{ArrowRight}");
-      expect(getComputedStyle(content).inlineSize).not.toBe(initialSize);
+    const dimensionCssProp =
+      layout === "horizontal" ? "--calcite-shell-panel-height" : "--calcite-shell-panel-width";
+    const dimensionProp = layout === "horizontal" ? "blockSize" : "inlineSize";
 
-      await panel.updateSize({ inline: overrideSize });
+    const initialSize = parseFloat(getComputedStyle(content)[dimensionProp]);
+    const overrideSize = Math.round(initialSize + 10);
+
+    return {
+      panel,
+      content,
+      handle,
+      component,
+      dimensionProp,
+      dimensionCssProp,
+      initialSize,
+      overrideSize,
+      requestedPosition,
+    };
+  }
+
+  function getUserInteraction({ dir, slot }: Pick<TestCase, "dir" | "slot" | "position">): {
+    keyboardKey: string;
+    mouseDelta: {
+      dx: number;
+      dy: number;
+    };
+  } {
+    const layout = layoutFromPanelSlot(slot);
+    const isVertical = layout === "vertical";
+    const isRtl = dir === "rtl";
+    const direction = isVertical
+      ? slot === "panel-start"
+        ? isRtl
+          ? "left"
+          : "right"
+        : isRtl
+          ? "right"
+          : "left"
+      : slot === "panel-bottom"
+        ? "up"
+        : "down";
+
+    const keyboardKey =
+      direction === "left"
+        ? "{ArrowLeft}"
+        : direction === "right"
+          ? "{ArrowRight}"
+          : direction === "up"
+            ? "{ArrowUp}"
+            : "{ArrowDown}";
+
+    const sign = direction === "left" || direction === "up" ? -1 : 1;
+    const deltaAmount = sign * 10;
+    const mouseDelta =
+      layout === "vertical" ? { dx: deltaAmount, dy: 0 } : { dx: 0, dy: deltaAmount };
+
+    return {
+      keyboardKey,
+      mouseDelta,
+    };
+  }
+
+  testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
+    const layout = layoutFromPanelSlot(slot);
+    const axis = layout === "vertical" ? "inline" : "block";
+    const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot, position });
+
+    const testLabel = `${layout} panel [dir=${dir}, changeAfterMount=${changeAfterMount ?? "none"}, slot=${slot}, position=${position}]`;
+
+    it(`default size → token resize → KEYBOARD resize → method resize → clear method override (${testLabel})`, async () => {
+      const {
+        panel,
+        content,
+        component,
+        dimensionProp,
+        dimensionCssProp,
+        initialSize,
+        overrideSize,
+      } = await setUpShellPanel({
+        dir,
+        changeAfterMount,
+        slot,
+        position,
+      });
+
+      panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
       await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${overrideSize}px`);
 
-      await panel.updateSize({ inline: null });
+      expect(getComputedStyle(content)).toHaveProperty(dimensionProp, `${initialSize}px`);
+
+      await userEvent.keyboard(`{Tab}${keyboardKey}`);
+      const afterUserResize = parseFloat(getComputedStyle(content)[dimensionProp]);
+      expect(afterUserResize).toBeGreaterThan(initialSize);
+
+      await panel.updateSize({ [axis]: overrideSize });
       await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
+      expect(getComputedStyle(content)[dimensionProp]).toBe(`${overrideSize}px`);
+
+      await panel.updateSize({ [axis]: null });
+      await component.updateComplete;
+      expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
     });
 
-    it("should update vertical panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-      const initialSize = 320;
-      const overrideSize = 400;
+    it(`default size → token resize → MOUSE resize → method resize → clear method override (${testLabel})`, async () => {
+      const {
+        panel,
+        content,
+        handle,
+        component,
+        dimensionProp,
+        dimensionCssProp,
+        initialSize,
+        overrideSize,
+      } = await setUpShellPanel({
+        dir,
+        changeAfterMount,
+        slot,
+        position,
+      });
 
-      const { panel, content, handle, component } = await setupVerticalPanel(initialSize);
+      panel.style.setProperty(dimensionCssProp, `${initialSize}px`);
+      await component.updateComplete;
+      expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
 
-      await userEvent.click(handle);
       const handleRect = handle.getBoundingClientRect();
+      const startX = handleRect.left + handleRect.width / 2 + mouseDelta.dx;
+      const startY = handleRect.top + handleRect.height / 2 + mouseDelta.dy;
+
+      await userEvent.hover(handle);
       await commands.mouseDown();
-      await commands.mouseMove(
-        handleRect.left + handleRect.width / 2,
-        handleRect.top + handleRect.height / 2,
-      );
+      await commands.mouseMove(startX, startY);
       await commands.mouseUp();
 
-      expect(getComputedStyle(content).inlineSize).not.toBe(`${initialSize}px`);
+      const afterUserResize = parseFloat(getComputedStyle(content)[dimensionProp]);
+      expect(afterUserResize).toBeGreaterThan(initialSize);
 
-      await panel.updateSize({ inline: overrideSize });
+      await panel.updateSize({ [axis]: overrideSize });
       await component.updateComplete;
+      expect(getComputedStyle(content)[dimensionProp]).toBe(`${overrideSize}px`);
 
-      expect(getComputedStyle(content).inlineSize).toBe(`${overrideSize}px`);
-      await panel.updateSize({ inline: null });
+      await panel.updateSize({ [axis]: null });
       await component.updateComplete;
-      expect(getComputedStyle(content).inlineSize).toBe(`${initialSize}px`);
-    });
-  });
-
-  describe("horizontal panel", () => {
-    async function setupHorizontalPanel(initialSize: number) {
-      const { el, component } = await mount<"calcite-shell">(
-        <calcite-shell>
-          <calcite-shell-panel resizable slot="panel-bottom">
-            <calcite-panel>Content</calcite-panel>
-          </calcite-shell-panel>
-        </calcite-shell>,
-      );
-
-      const panel = el.querySelector("calcite-shell-panel")!;
-      expect(panel).toBeTruthy();
-
-      const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
-      const handle = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
-      expect(content).toBeTruthy();
-      expect(handle).toBeTruthy();
-
-      panel.style.setProperty("--calcite-shell-panel-height", `${initialSize}px`);
-      await component.updateComplete;
-      expect(getComputedStyle(content).height).toBe(`${initialSize}px`);
-
-      return { panel, content, handle, component };
-    }
-
-    it("should update horizontal panel: default size → token resize → KEYBOARD resize → method resize → clear method override", async () => {
-      const initialSize = 200;
-      const overrideSize = 250;
-
-      const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
-
-      handle.focus();
-      await userEvent.keyboard("{ArrowDown}");
-      const afterKeyboard = parseFloat(getComputedStyle(content).blockSize);
-      expect(afterKeyboard).not.toBe(initialSize);
-
-      await panel.updateSize({ block: overrideSize });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
-
-      await panel.updateSize({ block: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
-    });
-
-    it("should update horizontal panel: default size → token resize → MOUSE resize → method resize → clear method override", async () => {
-      const initialSize = 200;
-      const overrideSize = 250;
-
-      const { panel, content, handle, component } = await setupHorizontalPanel(initialSize);
-
-      await userEvent.click(handle);
-      const handleRect = handle.getBoundingClientRect();
-      await commands.mouseMove(
-        handleRect.left + handleRect.width / 2,
-        handleRect.top + handleRect.height / 2,
-      );
-      await commands.mouseDown();
-      await commands.mouseUp();
-
-      expect(getComputedStyle(content).blockSize).not.toBe(initialSize);
-
-      await panel.updateSize({ block: overrideSize });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${overrideSize}px`);
-      await panel.updateSize({ block: null });
-      await component.updateComplete;
-      expect(getComputedStyle(content).blockSize).toBe(`${initialSize}px`);
+      expect(getComputedStyle(content)[dimensionProp]).toBe(`${initialSize}px`);
     });
   });
 });

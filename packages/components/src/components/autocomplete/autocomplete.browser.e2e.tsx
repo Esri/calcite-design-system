@@ -1,5 +1,6 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   focusable,
@@ -13,10 +14,14 @@ import {
   floatingUIOwner,
   t9n,
   disabled,
+  formAssociated,
+  openClose,
   topLayer,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -135,19 +140,7 @@ describe("defaults", () => {
       },
       {
         propertyName: "validity",
-        defaultValue: {
-          badInput: false,
-          customError: false,
-          patternMismatch: false,
-          rangeOverflow: false,
-          rangeUnderflow: false,
-          stepMismatch: false,
-          tooLong: false,
-          tooShort: false,
-          typeMismatch: false,
-          valid: false,
-          valueMissing: false,
-        },
+        defaultValue: defaultValidity,
       },
       {
         propertyName: "value",
@@ -274,6 +267,28 @@ describe("floating-ui", () => {
   });
 });
 
+describe("is form-associated", () => {
+  formAssociated(() => mount(renderAutocomplete), {
+    testValue: "two",
+    submitsOnEnter: true,
+  });
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) =>
+    mount(
+      <calcite-autocomplete id="myAutocomplete" label="Item list">
+        <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+        <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+        <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+        <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+      </calcite-autocomplete>,
+      mountOptions,
+    ),
+  );
+});
+
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-autocomplete"));
 });
@@ -284,4 +299,30 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-autocomplete"));
+});
+
+describe("keyboard selection", () => {
+  it("toggles active item selection on Enter and emits calciteAutocompleteItemSelect", async () => {
+    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const firstItem = el.querySelector("calcite-autocomplete-item")!;
+    const itemSelectSpy = vi.fn();
+
+    el.addEventListener("calciteAutocompleteItemSelect", itemSelectSpy);
+
+    expect(firstItem.selected).toBe(false);
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await reRender();
+
+    expect(firstItem.selected).toBe(true);
+    expect(itemSelectSpy).toHaveBeenCalledTimes(1);
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await reRender();
+
+    expect(firstItem.selected).toBe(false);
+    expect(itemSelectSpy).toHaveBeenCalledTimes(2);
+  });
 });

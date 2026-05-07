@@ -249,3 +249,5 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input-number icon="check-square-f"></calcite-input-number>
     <div class="overlay"></div>`;
+
+export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;

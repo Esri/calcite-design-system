@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generated tokens > CSS > breakpoints should match 1`] = `
+exports[`CSS > breakpoints should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -37,7 +37,7 @@ exports[`generated tokens > CSS > breakpoints should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > classes should match 1`] = `
+exports[`CSS > classes should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -313,7 +313,7 @@ exports[`generated tokens > CSS > classes should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > core should match 1`] = `
+exports[`CSS > core should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -918,7 +918,7 @@ exports[`generated tokens > CSS > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > dark should match 1`] = `
+exports[`CSS > dark should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -979,7 +979,7 @@ exports[`generated tokens > CSS > dark should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > global should match 1`] = `
+exports[`CSS > global should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -1074,6 +1074,9 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-opacity-half: 0.5;
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-full: 1;
+  --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1146,14 +1149,11 @@ exports[`generated tokens > CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 "
 `;
 
-exports[`generated tokens > CSS > index should match 1`] = `
+exports[`CSS > index should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1478,7 +1478,7 @@ exports[`generated tokens > CSS > index should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > light should match 1`] = `
+exports[`CSS > light should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1539,7 +1539,7 @@ exports[`generated tokens > CSS > light should match 1`] = `
 "
 `;
 
-exports[`generated tokens > CSS > semantic should match 1`] = `
+exports[`CSS > semantic should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -1632,6 +1632,9 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-opacity-half: 0.5;
   --calcite-opacity-dark: 0.85;
   --calcite-opacity-full: 1;
+  --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xxs: 4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-size-fixed-xs: 6px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1704,14 +1707,11 @@ exports[`generated tokens > CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-  --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-  --calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > core should match 1`] = `
+exports[`DOCS (internal) > core should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -18304,7 +18304,7 @@ exports[`generated tokens > DOCS (internal) > core should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > global should match 1`] = `
+exports[`DOCS (internal) > global should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -21149,6 +21149,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -21176,6 +21177,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -21203,6 +21205,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -21230,6 +21233,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -21257,6 +21261,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -21284,6 +21289,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -21311,6 +21317,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -21338,6 +21345,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -21365,6 +21373,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -21392,6 +21401,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -21419,6 +21429,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -21446,6 +21457,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -22027,7 +22039,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -22054,7 +22065,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -22081,7 +22091,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -22108,7 +22117,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -22135,7 +22143,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -22162,7 +22169,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -22189,7 +22195,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -22216,7 +22221,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -22243,7 +22247,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -22270,7 +22273,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -22297,7 +22299,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -22324,7 +22325,6 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
@@ -22859,7 +22859,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{shadow.sm}",
-      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"16px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -22883,7 +22883,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"},{\\"blur\\":\\"32px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"12px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -27226,7 +27226,7 @@ exports[`generated tokens > DOCS (internal) > global should match 1`] = `
 "
 `;
 
-exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
+exports[`DOCS (internal) > semantic should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
   "tokens": [
@@ -28123,6 +28123,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xs",
@@ -28150,6 +28151,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "sm",
@@ -28177,6 +28179,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "base",
@@ -28204,6 +28207,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "md",
@@ -28231,6 +28235,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "lg",
@@ -28258,6 +28263,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "xl",
@@ -28285,6 +28291,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "2xl",
@@ -28312,6 +28319,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "3xl",
@@ -28339,6 +28347,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "4xl",
@@ -28366,6 +28375,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "5xl",
@@ -28393,6 +28403,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "6xl",
@@ -28420,6 +28431,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "size",
+        "kind": "relative",
         "type": "size",
         "item": "relative",
         "subitem": "7xl",
@@ -29001,7 +29013,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xs",
         "names": {
@@ -29028,7 +29039,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "sm",
         "names": {
@@ -29055,7 +29065,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "base",
         "names": {
@@ -29082,7 +29091,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "md",
         "names": {
@@ -29109,7 +29117,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "lg",
         "names": {
@@ -29136,7 +29143,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "xl",
         "names": {
@@ -29163,7 +29169,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "2xl",
         "names": {
@@ -29190,7 +29195,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "3xl",
         "names": {
@@ -29217,7 +29221,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "4xl",
         "names": {
@@ -29244,7 +29247,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "5xl",
         "names": {
@@ -29271,7 +29273,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "6xl",
         "names": {
@@ -29298,7 +29299,6 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
       "attributes": {
         "category": "font",
         "group": "line-height",
-        "kind": "relative",
         "type": "line-height",
         "item": "7xl",
         "names": {
@@ -29833,7 +29833,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{shadow.sm}",
-      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"16px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
+      "value": "[{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"},{\\"blur\\":\\"8px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.04)\\",\\"x\\":\\"0\\",\\"y\\":\\"2px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -29857,7 +29857,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{shadow.md}",
-      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"0\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"},{\\"blur\\":\\"32px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"12px\\"}]",
+      "value": "[{\\"blur\\":\\"20px\\",\\"spread\\":\\"-4px\\",\\"color\\":\\"rgba(0, 0, 0, 0.1)\\",\\"x\\":\\"0\\",\\"y\\":\\"6px\\"},{\\"blur\\":\\"12px\\",\\"spread\\":\\"-2px\\",\\"color\\":\\"rgba(0, 0, 0, 0.08)\\",\\"x\\":\\"0\\",\\"y\\":\\"4px\\"}]",
       "type": "shadow",
       "attributes": {
         "category": "shadow",
@@ -32016,7 +32016,7 @@ exports[`generated tokens > DOCS (internal) > semantic should match 1`] = `
 "
 `;
 
-exports[`generated tokens > ES6 > breakpoints should match 1`] = `
+exports[`ES6 > breakpoints should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32039,7 +32039,7 @@ export const calciteContainerSizeWidthXl = { min: "1441px" }; // Projectors and 
 "
 `;
 
-exports[`generated tokens > ES6 > breakpoints types should match 1`] = `
+exports[`ES6 > breakpoints types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32076,7 +32076,7 @@ export const calciteContainerSizeWidthXl: { min: string };
 "
 `;
 
-exports[`generated tokens > ES6 > core should match 1`] = `
+exports[`ES6 > core should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -32709,7 +32709,7 @@ export const calciteZIndex9 = "900";
 "
 `;
 
-exports[`generated tokens > ES6 > core types should match 1`] = `
+exports[`ES6 > core types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -33362,7 +33362,7 @@ export const calciteZIndex9: string;
 "
 `;
 
-exports[`generated tokens > ES6 > global should match 1`] = `
+exports[`ES6 > global should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -33596,17 +33596,23 @@ export const calciteShadowNone = {
   y: "0",
 };
 export const calciteShadowSm = [
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.1)", x: "0", y: "2px" },
   { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.04)", x: "0", y: "2px" },
-  { blur: "16px", spread: "0", color: "rgba(0, 0, 0, 0.08)", x: "0", y: "4px" },
 ];
 export const calciteShadowMd = [
-  { blur: "20px", spread: "0", color: "rgba(0, 0, 0, 0.08)", x: "0", y: "4px" },
   {
-    blur: "32px",
-    spread: "-2px",
+    blur: "20px",
+    spread: "-4px",
     color: "rgba(0, 0, 0, 0.1)",
     x: "0",
-    y: "12px",
+    y: "6px",
+  },
+  {
+    blur: "12px",
+    spread: "-2px",
+    color: "rgba(0, 0, 0, 0.08)",
+    x: "0",
+    y: "4px",
   },
 ];
 export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -33938,7 +33944,7 @@ export const calciteZIndexTooltip = "901";
 "
 `;
 
-exports[`generated tokens > ES6 > global types should match 1`] = `
+exports[`ES6 > global types should match 1`] = `
 "/**
  * Calcite Design System
  * File to be deprecated in next major release
@@ -34057,9 +34063,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -34158,20 +34164,14 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
+export const calciteShadowSm: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
+export const calciteShadowMd: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -34270,7 +34270,7 @@ export const calciteSpace2xl: string;
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34305,7 +34305,7 @@ export const calciteTypographyRegularMinus3h: {
 };
 export const calciteTypographyRegularMinus2h: { fontSize: string };
 export const calciteTypographyRegularMinus1h: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34506,7 +34506,7 @@ export const calciteTypographyHierarchyHeading5: {
 };
 export const calciteTypographyHierarchyBodySnug: { lineHeight: string };
 export const calciteTypographyHierarchyBody: {
-  fontFamily: string[];
+  fontFamily: [string, string, string, string];
   fontSize: string;
   fontWeight: string;
   letterSpacing: string;
@@ -34537,7 +34537,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > ES6 > semantic should match 1`] = `
+exports[`ES6 > semantic should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -34649,17 +34649,23 @@ export const calciteShadowNone = {
   y: "0",
 };
 export const calciteShadowSm = [
+  { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.1)", x: "0", y: "2px" },
   { blur: "8px", spread: "0", color: "rgba(0, 0, 0, 0.04)", x: "0", y: "2px" },
-  { blur: "16px", spread: "0", color: "rgba(0, 0, 0, 0.08)", x: "0", y: "4px" },
 ];
 export const calciteShadowMd = [
-  { blur: "20px", spread: "0", color: "rgba(0, 0, 0, 0.08)", x: "0", y: "4px" },
   {
-    blur: "32px",
-    spread: "-2px",
+    blur: "20px",
+    spread: "-4px",
     color: "rgba(0, 0, 0, 0.1)",
     x: "0",
-    y: "12px",
+    y: "6px",
+  },
+  {
+    blur: "12px",
+    spread: "-2px",
+    color: "rgba(0, 0, 0, 0.08)",
+    x: "0",
+    y: "4px",
   },
 ];
 export const calciteSizeFixedXxxs = "2px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -34736,7 +34742,7 @@ export const calciteZIndexTooltip = "901";
 "
 `;
 
-exports[`generated tokens > ES6 > semantic types should match 1`] = `
+exports[`ES6 > semantic types should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -34762,9 +34768,9 @@ export const calciteCornerRadiusSm: string;
 export const calciteCornerRadiusRound: string;
 export const calciteCornerRadiusPill: string;
 /** Primary font with fallbacks */
-export const calciteFontFamily: string[];
+export const calciteFontFamily: [string, string, string, string];
 /** Font family for code with fallbacks */
-export const calciteFontFamilyCode: string[];
+export const calciteFontFamilyCode: [string, string, string, string, string];
 /** For Avenir Next World (secondary font family) */
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
@@ -34863,20 +34869,14 @@ export const calciteShadowNone: {
   x: string;
   y: string;
 };
-export const calciteShadowSm: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
-export const calciteShadowMd: {
-  blur: string;
-  spread: string;
-  color: string;
-  x: string;
-  y: string;
-}[];
+export const calciteShadowSm: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
+export const calciteShadowMd: [
+  { blur: string; spread: string; color: string; x: string; y: string },
+  { blur: string; spread: string; color: string; x: string; y: string },
+];
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
 export const calciteSizeFixedXxxs: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -34987,7 +34987,7 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
-exports[`generated tokens > SCSS > breakpoints should match 1`] = `
+exports[`SCSS > breakpoints should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35021,7 +35021,7 @@ $calcite-container-size-width-xl-min: 1441px; // Projectors and televisions
 "
 `;
 
-exports[`generated tokens > SCSS > core should match 1`] = `
+exports[`SCSS > core should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35623,7 +35623,7 @@ $calcite-shadow-4: 0 12px 32px -2px rgba(0, 0, 0, 0.1);
 "
 `;
 
-exports[`generated tokens > SCSS > dark should match 1`] = `
+exports[`SCSS > dark should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -35681,7 +35681,7 @@ $calcite-color-focus: $calcite-color-brand;
 "
 `;
 
-exports[`generated tokens > SCSS > global should match 1`] = `
+exports[`SCSS > global should match 1`] = `
 "
 // Calcite Design System
 // File to be deprecated in next major release
@@ -35774,6 +35774,9 @@ $calcite-opacity-light: 0.4;
 $calcite-opacity-half: 0.5;
 $calcite-opacity-dark: 0.85;
 $calcite-opacity-full: 1;
+$calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
 $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -35846,13 +35849,10 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-$calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 "
 `;
 
-exports[`generated tokens > SCSS > index should match 1`] = `
+exports[`SCSS > index should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -35988,7 +35988,7 @@ exports[`generated tokens > SCSS > index should match 1`] = `
 "
 `;
 
-exports[`generated tokens > SCSS > light should match 1`] = `
+exports[`SCSS > light should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -36046,7 +36046,7 @@ $calcite-color-focus: $calcite-color-brand;
 "
 `;
 
-exports[`generated tokens > SCSS > mixins should match 1`] = `
+exports[`SCSS > mixins should match 1`] = `
 "/**
  * Calcite Design System
  * Do not edit directly, this file was auto-generated.
@@ -36376,7 +36376,7 @@ exports[`generated tokens > SCSS > mixins should match 1`] = `
 "
 `;
 
-exports[`generated tokens > SCSS > semantic should match 1`] = `
+exports[`SCSS > semantic should match 1`] = `
 "
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
@@ -36467,6 +36467,9 @@ $calcite-opacity-light: 0.4;
 $calcite-opacity-half: 0.5;
 $calcite-opacity-dark: 0.85;
 $calcite-opacity-full: 1;
+$calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
+$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+$calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
 $calcite-size-fixed-xxxs: 2px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xxs: 4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-size-fixed-xs: 6px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -36539,8 +36542,5 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-shadow-none: 0 0 0 0 rgba(0, 0, 0, 0);
-$calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 4px 16px 0 rgba(0, 0, 0, 0.08);
-$calcite-shadow-md: 0 4px 20px 0 rgba(0, 0, 0, 0.08), 0 12px 30px rgba(0, 0, 0, 0.1);
 "
 `;

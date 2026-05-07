@@ -1,6 +1,7 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -215,6 +216,66 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
+});
+
+describe("header slots", () => {
+  it("renders heading and description properties when heading/description slots are empty", async () => {
+    await mount(
+      <calcite-panel description="test description" heading="test heading">
+        <span slot="heading" />
+        <span slot="description" />
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByText("test heading")).toBeVisible();
+    await expect.element(page.getByText("test description")).toBeVisible();
+  });
+
+  it("renders slotted header heading and description in the default header with precedence over properties", async () => {
+    await mount(
+      <calcite-panel description="Property description" heading="Property heading">
+        <span slot="heading">
+          <strong>HTML heading</strong>
+        </span>
+        <span slot="description">
+          <em>HTML description</em>
+        </span>
+      </calcite-panel>,
+    );
+
+    const slottedHeading = page.getByText("HTML heading");
+    const slottedDescription = page.getByText("HTML description");
+
+    await expect.element(slottedHeading).toBeVisible();
+    await expect.element(slottedDescription).toBeVisible();
+    await expect.element(page.getByText("Property heading")).not.toBeInTheDocument();
+    await expect.element(page.getByText("Property description")).not.toBeInTheDocument();
+  });
+
+  it("renders non-empty slotted heading and description content over properties", async () => {
+    await mount(
+      <calcite-panel description="test description" heading="test heading">
+        <span slot="heading">slotted heading</span>
+        <span slot="description">slotted description</span>
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByText("slotted heading")).toBeVisible();
+    await expect.element(page.getByText("slotted description")).toBeVisible();
+    await expect.element(page.getByText("test heading")).not.toBeInTheDocument();
+    await expect.element(page.getByText("test description")).not.toBeInTheDocument();
+  });
+
+  it("conditionally renders heading/description wrappers and updates when slotted content changes", async () => {
+    const { component, el } = await mount(<calcite-panel heading="Property heading" />);
+
+    await expect.element(page.getByText("Property heading")).toBeVisible();
+    el.innerHTML = "<span slot='description'>Slotted description</span>";
+
+    await component.updateComplete;
+
+    await expect.element(page.getByText("Slotted description")).toBeVisible();
+  });
 });
 
 describe("floating-ui", () => {

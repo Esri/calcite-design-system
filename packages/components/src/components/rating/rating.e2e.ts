@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -24,10 +24,6 @@ describe("common tests", () => {
     labelable("<calcite-rating value='3'></calcite-rating>", {
       shadowFocusTargetSelector: "label[data-value='3']",
     });
-  });
-
-  describe("is form-associated", () => {
-    formAssociated("calcite-rating", { testValue: 3 });
   });
 });
 

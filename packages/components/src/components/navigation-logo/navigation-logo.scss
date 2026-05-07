@@ -12,6 +12,13 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-navigation-logo-background-color
+// --calcite-internal-navigation-logo-description-font-size
+// --calcite-internal-navigation-logo-description-line-height
+// --calcite-internal-navigation-logo-heading-font-size
+// --calcite-internal-navigation-logo-heading-line-height
+// --calcite-internal-navigation-logo-heading-standalone-font-size
+// --calcite-internal-navigation-logo-image-size
+// --calcite-internal-navigation-logo-padding-inline
 // --calcite-internal-navigation-logo-text-color
 
 @use "../../styles/includes";
@@ -20,12 +27,43 @@
   @apply inline-flex;
 }
 
+:host([scale="s"]) {
+  --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-md);
+  --calcite-internal-navigation-logo-image-size: 1.75rem;
+  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-1);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-navigation-logo-heading-line-height: var(--calcite-space-lg);
+  --calcite-internal-navigation-logo-description-line-height: var(--calcite-space-lg);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-lg);
+  --calcite-internal-navigation-logo-image-size: 1.75rem;
+  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-md);
+  --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-relative-lg);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-navigation-logo-heading-line-height: var(--calcite-space-xl);
+  --calcite-internal-navigation-logo-description-line-height: var(--calcite-space-lg);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-navigation-logo-padding-inline: var(--calcite-space-xl);
+  --calcite-internal-navigation-logo-image-size: 2.75rem;
+  --calcite-internal-navigation-logo-heading-font-size: var(--calcite-font-size-relative-xl);
+  --calcite-internal-navigation-logo-heading-standalone-font-size: var(--calcite-font-size-relative-xl);
+  --calcite-internal-navigation-logo-description-font-size: var(--calcite-font-size-relative-lg);
+  --calcite-internal-navigation-logo-heading-line-height: var(--calcite-space-2xl);
+  --calcite-internal-navigation-logo-description-line-height: var(--calcite-space-2xl);
+}
+
 .container {
   @apply flex
     m-0
     items-center
     justify-center
     text-0h;
+
   background-color: var(
     --calcite-navigation-background-color,
     var(--calcite-internal-navigation-logo-background-color, var(--calcite-color-foreground-1))
@@ -46,13 +84,19 @@
   }
 }
 
+.image {
+  block-size: var(--calcite-internal-navigation-logo-image-size);
+}
+
 .image,
 .icon {
-  @apply flex h-7 m-0 px-4;
+  @apply flex m-0;
+
   color: var(
     --calcite-navigation-logo-text-color,
     var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, var(--calcite-ui-icon-color, inherit)))
   );
+  padding-inline: var(--calcite-internal-navigation-logo-padding-inline);
 }
 
 .image ~ .icon {
@@ -87,26 +131,31 @@
   flex-col
   truncate
   text-start
-  px-4
   mt-0.5;
+
+  padding-inline: var(--calcite-internal-navigation-logo-padding-inline);
 }
 
 .heading {
-  @apply text-0
-  ms-0
+  @apply ms-0
   truncate
   font-medium;
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
+  font-size: var(--calcite-internal-navigation-logo-heading-font-size);
+  padding-block-start: var(--calcite-space-2xs);
+  line-height: var(--calcite-internal-navigation-logo-heading-line-height);
 }
 
 .standalone {
-  @apply text-1;
+  font-size: var(--calcite-internal-navigation-logo-heading-standalone-font-size);
+  padding-block-start: 0;
 }
 
 .description {
   @apply text-color-2 truncate;
   color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
-  font-size: var(--calcite-font-size--1);
+  font-size: var(--calcite-internal-navigation-logo-description-font-size);
+  line-height: var(--calcite-internal-navigation-logo-description-line-height);
 }
 
 @include includes.base-component();
