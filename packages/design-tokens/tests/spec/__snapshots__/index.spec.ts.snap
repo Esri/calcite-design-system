@@ -19831,6 +19831,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.xxs.min}",
       "value": "0",
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -19858,7 +19859,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Xxs Min",
@@ -19868,6 +19868,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.xxs.max}",
       "value": "154px",
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -19895,7 +19896,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-max\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Xxs Max",
@@ -19905,6 +19905,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.2xs.min}",
       "value": "0",
+      "description": "Small handheld devices and mini-windows",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -19931,7 +19932,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height 2xs Min",
@@ -19941,6 +19941,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.2xs.max}",
       "value": "154px",
+      "description": "Small handheld devices and mini-windows",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -19967,7 +19968,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height 2xs Max",
@@ -19977,6 +19977,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.xs.min}",
       "value": "155px",
+      "description": "Handheld devices",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20003,7 +20004,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Xs Min",
@@ -20013,6 +20013,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.xs.max}",
       "value": "328px",
+      "description": "Handheld devices",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20039,7 +20040,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Xs Max",
@@ -20049,6 +20049,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.sm.min}",
       "value": "329px",
+      "description": "Small tablets",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20075,7 +20076,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Sm Min",
@@ -20085,6 +20085,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.sm.max}",
       "value": "504px",
+      "description": "Small tablets",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20111,7 +20112,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Sm Max",
@@ -20121,6 +20121,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.md.min}",
       "value": "505px",
+      "description": "Small laptops",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20147,7 +20148,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Md Min",
@@ -20157,6 +20157,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.md.max}",
       "value": "678px",
+      "description": "Small laptops",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20183,7 +20184,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Md Max",
@@ -20193,6 +20193,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.lg.min}",
       "value": "679px",
+      "description": "Large laptops and desktop computers",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20219,7 +20220,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Lg Min",
@@ -20229,6 +20229,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.lg.max}",
       "value": "854px",
+      "description": "Large laptops and desktop computers",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20255,7 +20256,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Lg Max",
@@ -20265,6 +20265,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.height.xl.min}",
       "value": "855px",
+      "description": "Projectors and televisions",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20291,7 +20292,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Projectors and televisions",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height Xl Min",
@@ -20301,6 +20301,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.xxs.min}",
       "value": "0",
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20328,7 +20329,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Xxs Min",
@@ -20338,6 +20338,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.xxs.max}",
       "value": "320px",
+      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20365,7 +20366,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-max\` instead.",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Xxs Max",
@@ -20375,7 +20375,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.2xs.min}",
       "value": "0",
-      "max": "320px",
+      "description": "Small handheld devices and mini-windows",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20383,7 +20383,6 @@ exports[`DOCS (internal) > global should match 1`] = `
         "item": "2xs",
         "subitem": "min",
         "value": "0",
-        "max": "320px",
         "description": "Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
@@ -20403,7 +20402,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width 2xs Min",
@@ -20413,7 +20411,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.2xs.max}",
       "value": "320px",
-      "max": "320px",
+      "description": "Small handheld devices and mini-windows",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20421,7 +20419,6 @@ exports[`DOCS (internal) > global should match 1`] = `
         "item": "2xs",
         "subitem": "max",
         "value": "320px",
-        "max": "320px",
         "description": "Small handheld devices and mini-windows",
         "filePath": "src/tokens/semantic/container-size.json",
         "isSource": true,
@@ -20441,7 +20438,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small handheld devices and mini-windows",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width 2xs Max",
@@ -20451,6 +20447,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.xs.min}",
       "value": "321px",
+      "description": "Handheld devices",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20477,7 +20474,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Xs Min",
@@ -20487,6 +20483,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.xs.max}",
       "value": "476px",
+      "description": "Handheld devices",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20513,7 +20510,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Handheld devices",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Xs Max",
@@ -20523,6 +20519,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.sm.min}",
       "value": "477px",
+      "description": "Small tablets",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20549,7 +20546,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Sm Min",
@@ -20559,6 +20555,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.sm.max}",
       "value": "768px",
+      "description": "Small tablets",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20585,7 +20582,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small tablets",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Sm Max",
@@ -20595,6 +20591,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.md.min}",
       "value": "769px",
+      "description": "Small laptops",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20621,7 +20618,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Md Min",
@@ -20631,6 +20627,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.md.max}",
       "value": "1152px",
+      "description": "Small laptops",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20657,7 +20654,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Small laptops",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Md Max",
@@ -20667,6 +20663,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.lg.min}",
       "value": "1153px",
+      "description": "Large laptops and desktop computers",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20693,7 +20690,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Lg Min",
@@ -20703,6 +20699,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.lg.max}",
       "value": "1440px",
+      "description": "Large laptops and desktop computers",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20729,7 +20726,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Large laptops and desktop computers",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Lg Max",
@@ -20739,6 +20735,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.width.xl.min}",
       "value": "1441px",
+      "description": "Projectors and televisions",
       "type": "dimension",
       "attributes": {
         "category": "breakpoint",
@@ -20765,7 +20762,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "type": "dimension"
         }
       },
-      "description": "Projectors and televisions",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width Xl Min",
@@ -20823,8 +20819,8 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.content.fluid}",
       "value": "100%",
-      "type": "dimension",
       "description": "for fluid grid widths",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
@@ -20858,8 +20854,8 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{container-size.content.fixed}",
       "value": "1440px",
-      "type": "dimension",
       "description": "only for lg breakpoint fixed grid width",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
@@ -27797,8 +27793,8 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     {
       "key": "{container-size.content.fluid}",
       "value": "100%",
-      "type": "dimension",
       "description": "for fluid grid widths",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
@@ -27832,8 +27828,8 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     {
       "key": "{container-size.content.fixed}",
       "value": "1440px",
-      "type": "dimension",
       "description": "only for lg breakpoint fixed grid width",
+      "type": "dimension",
       "attributes": {
         "category": "breakpoint",
         "type": "dimension",
