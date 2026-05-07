@@ -210,7 +210,7 @@ darkModeRTL.decorators = [allScaleTreeBuilder];
 
 export const OverflowingSubtree = (): string =>
   html`<div style="width:400px">
-      <calcite-tree>
+      <calcite-tree lines>
         <calcite-tree-item label="nested items" expanded>
           Layer 2
           <calcite-tree slot="children">
