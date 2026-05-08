@@ -163,7 +163,7 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
         }
 
         if (channel.shouldToggle?.(component, currentOpenState) ?? true) {
-          void emitOpenCloseEventsAfterUpdate(component, currentOpenState, channel.lifecycle);
+          void emitOpenCloseEventsAfterUpdate(component, () => getOpenState(component, channel), channel.lifecycle);
         }
 
         previousOpenStates[channelIndex] = currentOpenState;
@@ -184,10 +184,12 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
 
     async function emitOpenCloseEventsAfterUpdate(
       host: T,
-      isOpen: boolean,
+      getCurrentOpenState: () => boolean,
       lifecycle: UseOpenCloseLifecycleHooks<T>,
     ): Promise<void> {
       await host.updateComplete;
+
+      const isOpen = getCurrentOpenState();
 
       if (isOpen) {
         lifecycle.onBeforeOpen(host);
@@ -202,7 +204,9 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
         await whenTransitionDone(transitionNode, host.transitionProp);
       }
 
-      if (isOpen) {
+      const latestOpenState = getCurrentOpenState();
+
+      if (latestOpenState) {
         lifecycle.onOpen(host);
       } else {
         lifecycle.onClose(host);
