@@ -15,10 +15,10 @@ import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom"
 import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Kind, Scale } from "../interfaces";
 import { KindIcons, KindIconsFilled } from "../resources";
 import { IconName } from "../icon/interfaces";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -78,6 +78,20 @@ export class Alert extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
+  })(this);
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
@@ -271,7 +285,6 @@ export class Alert extends LitElement {
   //#region Private Methods
 
   private handleActiveChange(): void {
-    toggleOpenClose(this);
     this.clearAutoCloseTimeout();
     if (this.active && this.autoClose && !this.autoCloseTimeoutId) {
       this.initialOpenTime = Date.now();
