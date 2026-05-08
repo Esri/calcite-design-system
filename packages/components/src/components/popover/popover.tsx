@@ -18,7 +18,7 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
 import { createObserver } from "../../utils/observers";
@@ -89,6 +89,20 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   transitionProp = "opacity" as const;
 
   transitionRef = createRef<HTMLDivElement>();
+
+  openCloseController = useOpenClose<Popover>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
+  })(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -357,7 +371,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   }
 
   private openHandler(): void {
-    toggleOpenClose(this);
     this.reposition(true);
   }
 
