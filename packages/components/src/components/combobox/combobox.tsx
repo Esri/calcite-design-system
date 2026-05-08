@@ -990,8 +990,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   onBeforeOpen(): void {
     this.topLayer.show();
-    this.reposition();
     this.calciteComboboxBeforeOpen.emit();
+
+    requestAnimationFrame(() => this.reposition());
 
     // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
     // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
@@ -1020,8 +1021,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
-    listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
+    const nextMaxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const nextInlineSize = `${referenceEl.clientWidth}px`;
+
+    if (listContainerEl.style.maxBlockSize !== nextMaxBlockSize) {
+      listContainerEl.style.maxBlockSize = nextMaxBlockSize;
+    }
+
+    if (listContainerEl.style.inlineSize !== nextInlineSize) {
+      listContainerEl.style.inlineSize = nextInlineSize;
+    }
   }
 
   private calciteChipCloseHandler(comboboxItem: HTMLCalciteComboboxItemElement["el"]): void {
