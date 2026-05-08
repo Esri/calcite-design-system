@@ -6,6 +6,7 @@
  * @prop --calcite-segmented-control-color: Specifies the component's color.
  * @prop --calcite-segmented-control-background-color: Specifies the component's background color.
  * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
+ * @prop --calcite-segmented-control-item-corner-radius: Specifies the component item's corner radius.
  * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
  * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
  */
@@ -41,6 +42,10 @@
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
   border-color: var(--calcite-segmented-control-border-color);
+  border-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-internal-animation-timing-fast) ease-in-out,

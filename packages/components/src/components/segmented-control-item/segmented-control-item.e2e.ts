@@ -115,6 +115,10 @@ describe("theme", () => {
       shadowSelector: `.${CSS.label}`,
       targetProp: "borderColor",
     },
+    "--calcite-segmented-control-item-corner-radius": {
+      shadowSelector: `.${CSS.label}`,
+      targetProp: "borderRadius",
+    },
     "--calcite-segmented-control-shadow": {
       shadowSelector: `.${CSS.label}`,
       targetProp: "boxShadow",
