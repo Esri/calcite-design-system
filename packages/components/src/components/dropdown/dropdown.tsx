@@ -19,7 +19,7 @@ import {
 } from "../../utils/floating-ui";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
 import { Scale, Width } from "../interfaces";
@@ -95,6 +95,20 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
   private focusSetter = useSetFocus<this>()(this);
+
+  openCloseController = useOpenClose<Dropdown>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -359,7 +373,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       return;
     }
 
-    toggleOpenClose(this);
     this.reposition(true);
   }
 
