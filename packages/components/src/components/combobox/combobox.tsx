@@ -215,7 +215,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private resizeObserver = createObserver("resize", () => {
     this.setMaxScrollerHeight();
-    this.refreshSelectionDisplay();
+    // this.refreshSelectionDisplay();
   });
 
   private selectedIndicatorChipRef = createRef<Chip["el"]>();
