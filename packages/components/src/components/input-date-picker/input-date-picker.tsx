@@ -331,11 +331,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
   set value(value: string | string[]) {
     const valueChanged = value !== this._value;
+    // [TODO] : check for validity when date is set initially
     const invalidValueCleared =
       value === "" &&
       (this.startInputRef.value?.value !== "" || this.endInputRef.value?.value !== "");
 
     if (valueChanged || invalidValueCleared) {
+      //const isValueInRange = dateFromRange();
       this._value = value;
       this.valueWatcher(value);
     }
@@ -422,24 +424,26 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    if (Array.isArray(this.value)) {
-      this.valueAsDate = getValueAsDateRange(this.value);
-    } else if (this.value) {
-      try {
-        const date = dateFromISO(this.value);
-        const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
-        this.valueAsDate = dateInRange;
-      } catch {
-        this.warnAboutInvalidValue(this.value);
-        this.value = "";
-      }
-    } else if (this.valueAsDate) {
-      if (this.range && Array.isArray(this.valueAsDate)) {
-        this.value = [dateToISO(this.valueAsDate[0]), dateToISO(this.valueAsDate[1])];
-      } else if (!this.range && !Array.isArray(this.valueAsDate)) {
-        this.value = dateToISO(this.valueAsDate);
-      }
-    }
+    // breaks validity
+    // if (this.min && !this.minAsDate) {
+    //   this.minAsDate = dateFromISO(this.min);
+    // } else if (this.minAsDate && !this.min) {
+    //   this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
+    // }
+
+    // if (this.max && !this.maxAsDate) {
+    //   this.maxAsDate = dateFromISO(this.max);
+    // } else if (this.maxAsDate && !this.max) {
+    //   this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
+    // }
+
+    // if (!Array.isArray(this.value) && this.value) {
+    //   const isValidDate = dateFromISO(this.value) instanceof Date;
+    //   if (!isValidDate) {
+    //     this.warnAboutInvalidValue(this.value);
+    //     this.value = "";
+    //   }
+    // }
 
     connectLabel(this);
     this.setFilteredPlacements();
@@ -462,10 +466,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     if (changes.has("readOnly") && (this.hasUpdated || this.readOnly !== false)) {
       this.handleDisabledAndReadOnlyChange(this.readOnly);
-    }
-
-    if (changes.has("valueAsDate")) {
-      this.valueAsDateWatcher(this.valueAsDate);
     }
 
     if (changes.has("flipPlacements")) {
@@ -506,12 +506,19 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.setReferenceEl();
     }
 
+    if (changes.has("valueAsDate")) {
+      this.valueAsDateWatcher(this.valueAsDate);
+    }
+
     if (changes.has("messages")) {
+      // debugger;
       this.loadLocaleData();
+      this.localizeInputValues();
     }
   }
 
   loaded(): void {
+    //console.log("loaded");
     this.localizeInputValues();
     connectFloatingUI(this);
   }
@@ -546,6 +553,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
         this.valueAsDate = newValueAsDate;
       }
+      //console.log("yup");
       this.localizeInputValues();
     }
     this.userChangedValue = false;
@@ -724,6 +732,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       if (dateAsISO === value) {
         return;
       }
+      // debugger;
       this.setValue(date);
       this.localizeInputValues();
     }
@@ -830,6 +839,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     };
 
     this.localeData = await getLocaleData(locale);
+    this.localizeInputValues();
   }
 
   /**
@@ -917,7 +927,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
           this.maxAsDate,
         )
       : null;
-
+    // debugger;
+    //console.log("localizeInputValues", { date, endDate });
     this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
     this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
@@ -932,6 +943,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
     inputRef.value.value = newValue;
+    // debugger;
   }
 
   private setRangeValue(valueAsDate: Date[]): void {
@@ -995,7 +1007,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = true;
     this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
     this.value = newValue || "";
-
+    // debugger;
     const changeEvent = this.calciteInputDatePickerChange.emit();
 
     if (changeEvent.defaultPrevented) {
