@@ -351,6 +351,10 @@ it("inheritable props: `appearance`, `layout`, and `scale` modified on the paren
 
 describe("theme", () => {
   themed("calcite-segmented-control", {
+    "--calcite-segmented-control-corner-radius": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "borderRadius",
+    },
     "--calcite-segmented-control-border-color": {
       shadowSelector: `.${CSS.itemWrapper}`,
       targetProp: "outlineColor",
