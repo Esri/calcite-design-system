@@ -14,9 +14,9 @@ import {
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
 import { Appearance, Kind, Scale, Width } from "../interfaces";
 import { KindIcons, KindIconsFilled } from "../resources";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
@@ -70,6 +70,20 @@ export class Notice extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
+  })(this);
 
   //#endregion
 
@@ -157,14 +171,6 @@ export class Notice extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
-    To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
-    Please refactor your code to reduce the need for this check.
-    Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
-      toggleOpenClose(this);
-    }
-
     if (
       changes.has("icon") ||
       (changes.has("kind") && (this.hasUpdated || this.kind !== "brand"))
