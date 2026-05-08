@@ -228,6 +228,156 @@ describe("menu events", () => {
       expect(el.menuOpen).toBe(false);
     });
   });
+
+  it("emits open and close for split secondary toggle", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="split" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const openSpy = vi.fn();
+    const closeSpy = vi.fn();
+
+    el.addEventListener("calciteActionMenuOpen", openSpy);
+    el.addEventListener("calciteActionMenuClose", closeSpy);
+
+    const splitSecondaryButton = el.shadowRoot?.querySelector(`.${CSS.buttonSplitSecondary}`);
+
+    expect(splitSecondaryButton).not.toBeNull();
+
+    await userEvent.click(splitSecondaryButton!);
+
+    await vi.waitFor(() => {
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(closeSpy).toHaveBeenCalledTimes(0);
+      expect(el.menuOpen).toBe(true);
+    });
+
+    await userEvent.click(splitSecondaryButton!);
+
+    await vi.waitFor(() => {
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(closeSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(false);
+    });
+  });
+});
+
+describe("click events", () => {
+  it("emits calciteActionClick for default action click", async () => {
+    const { el } = await mount<"calcite-action">(<calcite-action text="Action" />);
+
+    const clickSpy = vi.fn();
+    el.addEventListener("calciteActionClick", clickSpy);
+
+    const button = el.shadowRoot?.querySelector(`.${CSS.button}`);
+
+    expect(button).not.toBeNull();
+
+    await userEvent.click(button!);
+
+    await vi.waitFor(() => {
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("does not emit calciteActionClick for menu trigger click", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="menu" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const clickSpy = vi.fn();
+    const openSpy = vi.fn();
+    el.addEventListener("calciteActionClick", clickSpy);
+    el.addEventListener("calciteActionMenuOpen", openSpy);
+
+    const triggerButton = el.shadowRoot?.querySelector(`.${CSS.button}`);
+
+    expect(triggerButton).not.toBeNull();
+
+    await userEvent.click(triggerButton!);
+
+    await vi.waitFor(() => {
+      expect(clickSpy).toHaveBeenCalledTimes(0);
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(true);
+    });
+  });
+
+  it("does not emit calciteActionClick for overflow trigger click", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="overflow" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const clickSpy = vi.fn();
+    const openSpy = vi.fn();
+    el.addEventListener("calciteActionClick", clickSpy);
+    el.addEventListener("calciteActionMenuOpen", openSpy);
+
+    const triggerButton = el.shadowRoot?.querySelector(`.${CSS.button}`);
+
+    expect(triggerButton).not.toBeNull();
+
+    await userEvent.click(triggerButton!);
+
+    await vi.waitFor(() => {
+      expect(clickSpy).toHaveBeenCalledTimes(0);
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(true);
+    });
+  });
+
+  it("emits calciteActionClick for split primary click", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="split" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const clickSpy = vi.fn();
+    el.addEventListener("calciteActionClick", clickSpy);
+
+    const splitPrimaryButton = el.shadowRoot?.querySelector(`.${CSS.buttonSplitPrimary}`);
+
+    expect(splitPrimaryButton).not.toBeNull();
+
+    await userEvent.click(splitPrimaryButton!);
+
+    await vi.waitFor(() => {
+      expect(clickSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(false);
+    });
+  });
+
+  it("does not emit calciteActionClick for split secondary click", async () => {
+    const { el } = await mount<"calcite-action">(
+      <calcite-action button-type="split" text="Options">
+        <calcite-action slot="menu-actions" text="Item" text-enabled />
+      </calcite-action>,
+    );
+
+    const clickSpy = vi.fn();
+    const openSpy = vi.fn();
+    el.addEventListener("calciteActionClick", clickSpy);
+    el.addEventListener("calciteActionMenuOpen", openSpy);
+
+    const splitSecondaryButton = el.shadowRoot?.querySelector(`.${CSS.buttonSplitSecondary}`);
+
+    expect(splitSecondaryButton).not.toBeNull();
+
+    await userEvent.click(splitSecondaryButton!);
+
+    await vi.waitFor(() => {
+      expect(clickSpy).toHaveBeenCalledTimes(0);
+      expect(openSpy).toHaveBeenCalledTimes(1);
+      expect(el.menuOpen).toBe(true);
+    });
+  });
 });
 
 describe("inline menu accessibility", () => {
@@ -264,17 +414,6 @@ describe("inline menu accessibility", () => {
     await vi.waitFor(() => {
       expect(el.shadowRoot?.activeElement).toBe(triggerButton);
     });
-  });
-
-  it("enables text on actions slotted into the menu slot", async () => {
-    const { el } = await mount<"calcite-action">(
-      <calcite-action button-type="menu" text="Options">
-        <calcite-action id="menu-action" slot="menu-actions" text="Item" />
-      </calcite-action>,
-    );
-
-    const menuAction = el.querySelector<Action["el"]>("#menu-action");
-    expect(menuAction?.textEnabled).toBe(true);
   });
 
   it("supports Arrow key navigation from split secondary trigger", async () => {

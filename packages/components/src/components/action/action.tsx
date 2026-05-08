@@ -31,7 +31,6 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import type { Popover } from "../popover/popover";
-import type { Tooltip } from "../tooltip/tooltip";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS, isAction } from "./resources";
 import { styles } from "./action.scss";
@@ -55,7 +54,6 @@ const ACTION_MENU_OPEN_EVENT = "calcite-action-menu-open";
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  * @slot menu-actions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
- * @slot tooltip - A slot for adding a tooltip for the menu.
  */
 export class Action extends LitElement {
   //#region Static Members
@@ -192,8 +190,7 @@ export class Action extends LitElement {
     this.menuOpen = false;
   };
 
-  private handleSplitSecondaryClick = (event: MouseEvent): void => {
-    event.stopPropagation();
+  private handleSplitSecondaryClick = (): void => {
     this.toggleOpen();
   };
 
@@ -205,8 +202,6 @@ export class Action extends LitElement {
     this.menuOpen = false;
     this.menuButtonEl?.focus();
   };
-
-  private tooltipEl: Tooltip["el"];
 
   private actionElements: Action["el"][] = [];
 
@@ -223,7 +218,6 @@ export class Action extends LitElement {
     const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("role", "menuitem");
-    action.textEnabled = true;
 
     if (!action.id) {
       action.id = id;
@@ -257,23 +251,6 @@ export class Action extends LitElement {
     await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
     this.updateActions(this.actionElements);
-  };
-
-  private updateTooltip = (event: Event): void => {
-    const tooltips = (event.target as HTMLSlotElement)
-      .assignedElements({ flatten: true })
-      .filter((el): el is Tooltip["el"] => el?.matches("calcite-tooltip"));
-
-    this.tooltipEl = tooltips[0];
-    this.setTooltipReferenceElement();
-  };
-
-  private setTooltipReferenceElement = (): void => {
-    const { tooltipEl, menuOpen } = this;
-
-    if (tooltipEl) {
-      tooltipEl.referenceElement = !menuOpen ? this.menuButtonEl : null;
-    }
   };
 
   private handleActionMenuOpen = (event: CustomEvent<{ menuElement: HTMLElement }>): void => {
@@ -476,8 +453,6 @@ export class Action extends LitElement {
     } else {
       this.calciteActionMenuClose.emit();
     }
-
-    this.setTooltipReferenceElement();
   }
 
   /**
@@ -525,6 +500,9 @@ export class Action extends LitElement {
   //#endregion
 
   //#region Events
+
+  /** Fires when the component is clicked. */
+  calciteActionClick = createEvent({ cancelable: false });
 
   /** Fires when the component's menu is opened. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
@@ -608,11 +586,13 @@ export class Action extends LitElement {
     }
   }
 
-  private handleClick(event: MouseEvent): void {
+  private handleClick(): void {
     if (this.isMenuTriggerType && this.hasSlottedMenu) {
-      event.stopPropagation();
       this.toggleOpen();
+      return;
     }
+
+    this.calciteActionClick.emit();
   }
 
   private getMenuTriggerAriaExpanded(): boolean | "true" | "false" {
@@ -888,7 +868,6 @@ export class Action extends LitElement {
         {this.isSplitType ? this.renderSplitButton() : this.renderButton()}
         {this.renderMenu()}
         {this.renderIndicatorText()}
-        <slot name={SLOTS.tooltip} onSlotChange={this.updateTooltip} />
       </this.interactiveContainer>
     );
   }

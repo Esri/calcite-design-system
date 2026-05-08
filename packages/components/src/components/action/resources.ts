@@ -36,7 +36,6 @@ export const IDS = {
 
 export const SLOTS = {
   menuActions: "menu-actions",
-  tooltip: "tooltip",
 };
 
 export const ICONS: Record<string, IconName> = {
