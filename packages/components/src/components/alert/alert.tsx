@@ -79,16 +79,17 @@ export class Alert extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  openCloseController = useOpenClose<this>({
+  openCloseController = useOpenClose<Alert>({
     channels: [
       {
+        isOpen: (host) => host.open && host.active,
         lifecycle: {
           onBeforeOpen: (host) => host.onBeforeOpen(),
           onOpen: (host) => host.onOpen(),
           onBeforeClose: (host) => host.onBeforeClose(),
           onClose: (host) => host.onClose(),
         },
-        watchedProps: ["open"],
+        watchedProps: ["open", "active"] as const,
       },
     ],
   })(this);
