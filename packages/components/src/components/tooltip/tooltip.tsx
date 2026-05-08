@@ -16,7 +16,7 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { FloatingArrow } from "../functional/FloatingArrow";
 import { Scale } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
@@ -60,6 +60,20 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   transitionProp = "opacity" as const;
 
   transitionRef = createRef<HTMLDivElement>();
+
+  openCloseController = useOpenClose<Tooltip>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: (host) => host.onBeforeOpen(),
+          onOpen: (host) => host.onOpen(),
+          onBeforeClose: (host) => host.onBeforeClose(),
+          onClose: (host) => host.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
+  })(this);
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.open && !this.referenceEl,
@@ -235,7 +249,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   // #region Private Methods
 
   private openHandler(): void {
-    toggleOpenClose(this);
     this.reposition(true);
   }
 
