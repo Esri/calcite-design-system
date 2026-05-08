@@ -42,14 +42,55 @@
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
   border-color: var(--calcite-segmented-control-border-color);
-  border-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
-  );
+  border-radius: var(--calcite-segmented-control-item-corner-radius, var(--calcite-corner-radius-none));
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;
+}
+
+:host(:first-of-type) .label--horizontal {
+  border-start-start-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+  border-end-start-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+}
+
+:host(:last-of-type) .label--horizontal {
+  border-start-end-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+  border-end-end-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+}
+
+:host(:first-of-type) .label:not(.label--horizontal) {
+  border-start-start-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+  border-start-end-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+}
+
+:host(:last-of-type) .label:not(.label--horizontal) {
+  border-end-start-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
+  border-end-end-radius: var(
+    --calcite-segmented-control-item-corner-radius,
+    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  );
 }
 
 .label--horizontal {
