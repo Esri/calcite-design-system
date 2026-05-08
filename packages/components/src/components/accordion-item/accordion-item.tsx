@@ -1,11 +1,11 @@
 // @ts-strict-ignore
-import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { createRef } from "lit/directives/ref.js";
 import { closestElementCrossShadowBoundary, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import type { Accordion } from "../accordion/accordion";
@@ -44,6 +44,20 @@ export class AccordionItem extends LitElement {
   private headerRef = createRef<HTMLButtonElement>();
 
   private focusSetter = useSetFocus<this>()(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: () => {},
+          onOpen: (host) => host.calciteAccordionItemExpand.emit(),
+          onBeforeClose: () => {},
+          onClose: (host) => host.calciteAccordionItemCollapse.emit(),
+        },
+        watchedProps: ["expanded"],
+      },
+    ],
+  })(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -176,16 +190,6 @@ export class AccordionItem extends LitElement {
       "calciteInternalAccordionItemsSync",
       this.accordionItemSyncHandler,
     );
-  }
-
-  override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("expanded") && this.hasUpdated) {
-      if (this.expanded) {
-        this.calciteAccordionItemExpand.emit();
-      } else {
-        this.calciteAccordionItemCollapse.emit();
-      }
-    }
   }
 
   //#endregion
