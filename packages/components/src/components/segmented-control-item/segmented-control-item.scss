@@ -7,6 +7,7 @@
  * @prop --calcite-segmented-control-background-color: Specifies the component's background color.
  * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
  * @prop --calcite-segmented-control-item-corner-radius: Specifies the component item's corner radius.
+ * @prop --calcite-segmented-control-item-outer-corner-radius: Specifies the component's outer corner radius for edge items.
  * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
  * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
  */
@@ -50,46 +51,86 @@
 }
 
 :host(:first-of-type) .label--horizontal {
-  border-start-start-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-start-start-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
-  border-end-start-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-end-start-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
 }
 
 :host(:last-of-type) .label--horizontal {
-  border-start-end-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-start-end-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
-  border-end-end-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-end-end-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
 }
 
 :host(:first-of-type) .label:not(.label--horizontal) {
-  border-start-start-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-start-start-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
-  border-start-end-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-start-end-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
 }
 
 :host(:last-of-type) .label:not(.label--horizontal) {
-  border-end-start-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-end-start-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
-  border-end-end-radius: var(
-    --calcite-segmented-control-item-corner-radius,
-    var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none))
+  border-end-end-radius: max(
+    0px,
+    calc(
+      var(
+        --calcite-segmented-control-item-outer-corner-radius,
+        calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
+      )
+    )
   );
 }
 
