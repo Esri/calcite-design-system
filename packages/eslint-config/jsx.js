@@ -14,7 +14,7 @@ const kit = eslintReactKit()
       },
       {
         propName: "onKeyUp",
-        message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc).",
+        message: "Use onKeyDown instead for consistent interaction behavior (e.g., closing, moving focus, etc.).",
       },
     ],
   })
