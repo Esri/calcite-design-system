@@ -3,7 +3,7 @@ import eslintReactKit from "@eslint-react/kit";
 import perfectionist from "eslint-plugin-perfectionist";
 import stylistic from "@stylistic/eslint-plugin";
 import tseslint from "typescript-eslint";
-import { forbidDomProps, jsxPropsNoSpreading } from "./eslint-react/custom/index.js";
+import { forbidDomProps, jsxPropsNoSpreading } from "./extensions/eslint-react/index.js";
 
 const kit = eslintReactKit()
   .use(forbidDomProps, {
