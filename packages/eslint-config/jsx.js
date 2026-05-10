@@ -43,6 +43,7 @@ export default tseslint.config({
     "@eslint-react/dom-no-void-elements-with-children": "error",
 
     "@eslint-react/kit/forbid-dom-props": "warn",
+    "@eslint-react/kit/jsx-props-no-spreading": "error",
 
     "perfectionist/sort-jsx-props": "error",
   },
