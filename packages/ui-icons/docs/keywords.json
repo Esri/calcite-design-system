@@ -11999,5 +11999,10 @@
     "alias": ["5.0.0", "objects", "survey", "measuring", "distance", "data-collection"],
     "category": "Objects",
     "release": "5.0.0"
+  },
+  "buttons": {
+    "alias": ["5.0.0", "symbols", "user-experience", "keys", "triggers", "quickcapture"],
+    "category": "Symbols",
+    "release": "5.0.0"
   }
 }
