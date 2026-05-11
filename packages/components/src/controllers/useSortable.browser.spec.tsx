@@ -9,10 +9,9 @@ const { createSpy, destroySpy } = vi.hoisted(() => ({
   destroySpy: vi.fn(),
 }));
 
-vi.mock("sortablejs", () => ({
-  default: {
-    create: createSpy.mockImplementation(() => ({ destroy: destroySpy })),
-  },
+vi.mock("@formkit/drag-and-drop", () => ({
+  dragAndDrop: createSpy.mockImplementation(() => undefined),
+  tearDown: destroySpy,
 }));
 
 class Test extends LitElement {
@@ -65,6 +64,6 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
   component.dragEnabled = false;
   component.sortable.reset();
 
-  expect(destroySpy).toHaveBeenCalledTimes(1);
+  expect(destroySpy).toHaveBeenCalledTimes(2);
   expect(createSpy).toHaveBeenCalledTimes(1);
 });

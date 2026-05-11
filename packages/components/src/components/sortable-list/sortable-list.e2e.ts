@@ -8,7 +8,11 @@ describe("accessible", () => {
 });
 
 const worksUsingMouse = async (page: E2EPage): Promise<void> => {
-  await dragAndDrop(page, `#one calcite-handle`, `#two calcite-handle`);
+  await dragAndDrop(page, {
+    originElement: "#one",
+    handleElement: "#one calcite-handle",
+    destinationElement: "#two",
+  });
 
   const [first, second] = await findAll(page, "div");
   expect(await first.getProperty("id")).toBe("two");

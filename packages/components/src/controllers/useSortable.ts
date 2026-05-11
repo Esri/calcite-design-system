@@ -1,6 +1,7 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import Sortable from "sortablejs";
+import { dragAndDrop, tearDown } from "@formkit/drag-and-drop";
+import { guid } from "../utils/guid";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
@@ -24,7 +25,7 @@ export interface DragDetail<
   toEl: To;
   fromEl: From;
   dragEl: Drag;
-  newIndex: number;
+  newIndex: number | null;
   oldIndex: number;
 }
 
@@ -110,66 +111,246 @@ interface UseSortable {
 }
 
 const globalDragState: { active: boolean } = { active: false };
+const dragHandlePointerState = new WeakMap<SortableComponent, EventTarget[]>();
+const dragHandlePointerController = new WeakMap<SortableComponent, AbortController>();
+const sortableItemKey = "data-calcite-sortable-key";
+const sortableItems = new Map<string, HTMLElement>();
 
-function createSortable(component: SortableComponent): ReturnType<(typeof Sortable)["create"]> {
-  const dataIdAttr = "id";
-  const { el, group, handleSelector: handle, dragSelector: draggable, sortDisabled } = component;
+function getSortableItems(component: SortableComponent): HTMLElement[] {
+  if (component.dragSelector) {
+    return Array.from(component.el.querySelectorAll<HTMLElement>(component.dragSelector));
+  }
 
-  return Sortable.create(el, {
-    dataIdAttr,
-    swapThreshold: 0.5,
-    ...CSS,
-    ...(!!draggable && { draggable }),
-    ...(!!group && {
-      sort: !sortDisabled,
-      group: {
-        name: group,
-        ...(!!component.canPull && {
-          pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPull({
-              toEl: to.el,
-              fromEl: from.el,
-              dragEl,
-              newIndex,
-              oldIndex,
-            });
-          },
-        }),
-        ...(!!component.canPut && {
-          put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPut({
-              toEl: to.el,
-              fromEl: from.el,
-              dragEl,
-              newIndex,
-              oldIndex,
-            });
-          },
-        }),
-      },
-    }),
-    onMove: ({ from: fromEl, dragged: dragEl, to: toEl, related: relatedEl }) => {
-      if (!component.onDragMove) {
-        return;
+  return Array.from(component.el.children) as HTMLElement[];
+}
+
+function getSortableValues(component: SortableComponent): string[] {
+  return getSortableItems(component).map((item) => getSortableItemKey(item));
+}
+
+function getSortableItemKey(item: HTMLElement, forceNew = false): string {
+  if (forceNew || !item.getAttribute(sortableItemKey)) {
+    item.setAttribute(sortableItemKey, item.id || guid());
+  }
+
+  const key = item.getAttribute(sortableItemKey);
+
+  sortableItems.set(key, item);
+
+  return key;
+}
+
+function setUpDragHandleTracking(component: SortableComponent): void {
+  dragHandlePointerController.get(component)?.abort();
+
+  const controller = new AbortController();
+  const { handleSelector } = component;
+
+  component.el.addEventListener(
+    "pointerdown",
+    (event) => {
+      dragHandlePointerState.set(component, event.composedPath());
+    },
+    { signal: controller.signal },
+  );
+
+  const clearPointerState = (): void => {
+    dragHandlePointerState.delete(component);
+  };
+
+  component.el.addEventListener("pointerup", clearPointerState, { signal: controller.signal });
+  component.el.addEventListener("pointercancel", clearPointerState, { signal: controller.signal });
+  component.el.addEventListener("dragend", clearPointerState, { signal: controller.signal });
+
+  component.el.addEventListener(
+    "dragstart",
+    (event) => {
+      const pointerPath = dragHandlePointerState.get(component);
+      const isSortableItem = getSortableItems(component).some((item) => item === event.target);
+      const startedFromHandle = pointerPath?.some(
+        (target) => target instanceof Element && target.matches(handleSelector),
+      );
+
+      if (isSortableItem && pointerPath && !startedFromHandle) {
+        event.preventDefault();
+        event.stopPropagation();
       }
+    },
+    { capture: true, signal: controller.signal },
+  );
 
-      component.onDragMove({ fromEl, dragEl, toEl, relatedEl });
+  dragHandlePointerController.set(component, controller);
+}
+
+function tearDownDragHandleTracking(component: SortableComponent): void {
+  dragHandlePointerController.get(component)?.abort();
+  dragHandlePointerController.delete(component);
+  dragHandlePointerState.delete(component);
+}
+
+function setSortableItems(component: SortableComponent, values: string[]): void {
+  values.forEach((value) => {
+    const item = sortableItems.get(value);
+
+    if (item) {
+      component.el.appendChild(item);
+    }
+  });
+}
+
+function createSortable(component: SortableComponent): void {
+  const { el, group, dragSelector: draggable, sortDisabled } = component;
+
+  setUpDragHandleTracking(component);
+
+  dragAndDrop({
+    parent: el,
+    getValues: () => getSortableValues(component),
+    setValues: (values) => {
+      setSortableItems(component, values);
     },
-    handle,
-    filter: `${handle}[disabled]`,
-    onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      globalDragState.active = true;
-      onGlobalDragStart();
-      component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
-    },
-    onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      globalDragState.active = false;
-      onGlobalDragEnd();
-      component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
-    },
-    onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      component.onDragSort({ fromEl, dragEl, toEl, newIndex, oldIndex });
-    },
+    config: {
+      group,
+      sortable: !sortDisabled,
+      draggable: draggable ? (child: HTMLElement) => child.matches(draggable) : undefined,
+      accepts: (targetParent, initialParent, currentParent, state) => {
+        const targetComponent = targetParent.el as unknown as SortableComponent;
+        const initialComponent = initialParent.el as unknown as SortableComponent;
+        const currentComponent = currentParent.el as unknown as SortableComponent;
+
+        const dragEl = state.draggedNodes[0]?.el as HTMLElement;
+        const newIndex = targetParent.data.enabledNodes.length;
+        const oldIndex = state.initialIndex;
+
+        if (!targetComponent.group || targetComponent.group !== initialComponent.group) {
+          return false;
+        }
+
+        if (
+          targetComponent.canPut?.({
+            toEl: targetComponent.el,
+            fromEl: initialComponent.el,
+            dragEl,
+            newIndex,
+            oldIndex,
+          }) === false
+        ) {
+          return false;
+        }
+
+        const canPull = initialComponent.canPull?.({
+          toEl: targetComponent.el,
+          fromEl: currentComponent.el,
+          dragEl,
+          newIndex,
+          oldIndex,
+        });
+
+        return canPull !== false;
+      },
+      onDragstart: (state: any) => {
+        const dragState = state.state ?? state;
+
+        if (!globalDragState.active) {
+          globalDragState.active = true;
+          onGlobalDragStart();
+        }
+
+        const dragEl = state.draggedNode?.el as HTMLElement;
+
+        component.onDragStart({
+          fromEl: dragState.initialParent.el as HTMLElement,
+          dragEl,
+          toEl: dragState.currentParent.el as HTMLElement,
+          newIndex: null,
+          oldIndex: dragState.initialIndex,
+        });
+      },
+      onSort: (event: any) => {
+        const dragEl = event.draggedNodes[0].el as HTMLElement;
+        const fromEl = event.parent.el as HTMLElement;
+        const toEl = event.parent.el as HTMLElement;
+
+        setSortableItems(component, event.values as string[]);
+
+        component.onDragSort({
+          fromEl,
+          dragEl,
+          toEl,
+          newIndex: event.position,
+          oldIndex: event.previousPosition,
+        });
+      },
+      onTransfer: (event: any) => {
+        const dragEl = event.draggedNodes[0].el as HTMLElement;
+        const fromEl = event.sourceParent.el as HTMLElement;
+        const toEl = event.targetParent.el as HTMLElement;
+        const sourceValues = event.sourceParent.data.getValues(event.sourceParent.el) as string[];
+        const targetValues = event.targetParent.data.getValues(event.targetParent.el) as string[];
+
+        if (component.el === event.sourceParent.el) {
+          setSortableItems(component, sourceValues);
+        }
+
+        if (component.el === event.targetParent.el) {
+          setSortableItems(component, targetValues);
+        }
+
+        if (event.initialParent.el === component.el) {
+          const canPull = component.canPull?.({
+            toEl,
+            fromEl,
+            dragEl,
+            newIndex: event.targetIndex,
+            oldIndex: event.state.initialIndex,
+          });
+
+          if (canPull === "clone") {
+            const clone = dragEl.cloneNode(true) as HTMLElement;
+            const dragKey = getSortableItemKey(dragEl);
+            const cloneKey = getSortableItemKey(clone, true);
+            const values = getSortableValues(component).filter((value) => value !== dragKey);
+            values.splice(event.state.initialIndex, 0, cloneKey);
+            const existingItem = getSortableItems(component).find((item) => getSortableItemKey(item) === dragKey);
+
+            if (existingItem) {
+              existingItem.parentElement?.insertBefore(clone, existingItem);
+            }
+
+            setSortableItems(component, values);
+          }
+        }
+
+        component.onDragSort({
+          fromEl,
+          dragEl,
+          toEl,
+          newIndex: event.targetIndex,
+          oldIndex: event.state.initialIndex,
+        });
+      },
+      onDragend: (state: any) => {
+        const dragState = state.state ?? state;
+
+        if (globalDragState.active) {
+          globalDragState.active = false;
+          onGlobalDragEnd();
+        }
+
+        const dragEl = dragState.draggedNode.el as HTMLElement;
+        const toEl = dragState.currentParent.el as HTMLElement;
+        const currentValues = dragState.currentParent.data.getValues(dragState.currentParent.el) as string[];
+        const dragKey = getSortableItemKey(dragEl);
+
+        component.onDragEnd({
+          fromEl: dragState.initialParent.el as HTMLElement,
+          dragEl,
+          toEl,
+          newIndex: currentValues.findIndex((value) => value === dragKey),
+          oldIndex: dragState.initialIndex,
+        });
+      },
+    } as any,
   });
 }
 
@@ -180,8 +361,6 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
   typeof makeGenericController<UseSortable, T>
 > => {
   return makeGenericController<UseSortable, T>((component, controller) => {
-    let sortable: ReturnType<(typeof Sortable)["create"]> | undefined;
-
     function dragActive(component: SortableComponent): boolean {
       return component.dragEnabled && globalDragState.active;
     }
@@ -198,7 +377,7 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
       }
 
       sortableComponentSet.add(component);
-      sortable = createSortable(component);
+      createSortable(component);
     }
 
     function tearDownSortable(component: SortableComponent): void {
@@ -207,9 +386,9 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
       }
 
       sortableComponentSet.delete(component);
+      tearDownDragHandleTracking(component);
 
-      sortable?.destroy();
-      sortable = undefined;
+      tearDown(component.el);
     }
 
     controller.onConnected(() => {

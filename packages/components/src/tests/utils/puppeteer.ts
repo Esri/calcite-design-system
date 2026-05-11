@@ -9,6 +9,12 @@ import { GlobalTestProps } from "./interfaces";
 
 type DragAndDropSelector = string | SelectorOptions;
 
+interface DragAndDropAction {
+  originElement: DragAndDropSelector;
+  destinationElement: DragAndDropSelector;
+  handleElement?: DragAndDropSelector;
+}
+
 type PointerPosition = {
   vertical?: "bottom" | "center" | "top";
   horizontal?: "left" | "center" | "right";
@@ -33,11 +39,7 @@ type MouseInitEvent = Pick<
  * @param dragStartSelector - Selector for the drag's start
  * @param dragEndSelector - Selector for the drag's end
  */
-export async function dragAndDrop(
-  page: E2EPage,
-  dragStartSelector: DragAndDropSelector,
-  dragEndSelector: DragAndDropSelector,
-): Promise<void> {
+export async function dragAndDrop(page: E2EPage, action: DragAndDropAction): Promise<void> {
   async function getBounds(selector: DragAndDropSelector): Promise<BoundingBox> {
     const elementHandle =
       typeof selector === "string"
@@ -78,10 +80,10 @@ export async function dragAndDrop(
   }
 
   async function browserContextFunction(
-    dragStartSelector: DragAndDropSelector,
-    dragEndSelector: DragAndDropSelector,
-    dragStartInitializer: MouseInitEvent,
-    dragEndInitializer: MouseInitEvent,
+    action: DragAndDropAction,
+    handleInitializer: MouseInitEvent,
+    originInitializer: MouseInitEvent,
+    destinationInitializer: MouseInitEvent,
   ): Promise<void> {
     function getElement(selector: DragAndDropSelector): Element {
       if (typeof selector === "string") {
@@ -93,27 +95,47 @@ export async function dragAndDrop(
       return selector.shadow ? element.shadowRoot.querySelector(selector.shadow) : element;
     }
 
-    const dragStart = getElement(dragStartSelector);
-    let dragEnd = getElement(dragEndSelector);
+    const originElement = getElement(action.originElement);
+    const handleElement = getElement(action.handleElement || action.originElement);
+    const destinationElement = getElement(action.destinationElement);
 
-    // if has child, put at the end.
-    dragEnd = dragEnd.lastElementChild || dragEnd;
+    if (!originElement || !handleElement || !destinationElement) {
+      return;
+    }
 
-    dragStart.dispatchEvent(new PointerEvent("pointerdown", dragStartInitializer));
-    dragStart.dispatchEvent(new DragEvent("dragstart", dragStartInitializer));
+    const createDragEvent = (type: string, init: MouseInitEvent): DragEvent =>
+      new DragEvent(type, {
+        ...init,
+        dataTransfer,
+      });
 
-    await new Promise((resolve) => window.setTimeout(resolve, 2000));
+    const dataTransfer = new DataTransfer();
 
-    dragEnd.dispatchEvent(new MouseEvent("dragenter", dragEndInitializer));
-    dragStart.dispatchEvent(new DragEvent("dragend", dragEndInitializer));
+    handleElement.dispatchEvent(new PointerEvent("pointerdown", handleInitializer));
+    originElement.dispatchEvent(createDragEvent("dragstart", originInitializer));
+
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
+
+    originElement.dispatchEvent(createDragEvent("dragover", originInitializer));
+
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
+
+    destinationElement.dispatchEvent(createDragEvent("dragover", destinationInitializer));
+
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
+
+    destinationElement.dispatchEvent(createDragEvent("dragover", destinationInitializer));
+    destinationElement.dispatchEvent(createDragEvent("drop", destinationInitializer));
+
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
   }
 
   return page.evaluate(
     browserContextFunction,
-    dragStartSelector,
-    dragEndSelector,
-    await createEventInitializer(dragStartSelector),
-    await createEventInitializer(dragEndSelector),
+    action,
+    await createEventInitializer(action.handleElement || action.originElement),
+    await createEventInitializer(action.originElement),
+    await createEventInitializer(action.destinationElement),
   );
 }
 
