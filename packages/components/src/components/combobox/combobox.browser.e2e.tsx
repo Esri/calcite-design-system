@@ -1038,9 +1038,15 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        test.for(selectionModes)("does not clear the value in %s selection mode", (selectionMode) =>
-          assertValueClearing(selectionMode, false, "keyboard", "no-clear"),
-        );
+        selectionModes.forEach((selectionMode) => {
+          if (selectionMode === "single-persist") {
+            it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "no-clear"));
+          } else {
+            it(`clears the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "clear"));
+          }
+        });
       });
     });
 
