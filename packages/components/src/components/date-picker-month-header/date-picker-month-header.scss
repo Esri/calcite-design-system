@@ -6,6 +6,7 @@
 // --calcite-internal-select-block-size
 // --calcite-internal-select-font-weight
 // --calcite-internal-select-icon-container-padding-inline
+// --calcite-internal-select-icon-container-padding-inline-end
 // --calcite-internal-select-line-height
 // --calcite-internal-select-spacing-block
 
@@ -152,6 +153,7 @@
 
   --calcite-internal-select-spacing-block: var(--calcite-spacing-xxs);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-xxs);
+  --calcite-internal-select-icon-container-padding-inline-end: var(--calcite-spacing-xxs);
   --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-lg);
   --calcite-internal-select-font-weight: var(--calcite-font-weight-medium);
 }
@@ -163,6 +165,7 @@
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-base);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-base);
+    --calcite-internal-select-icon-container-padding-inline-end: var(--calcite-spacing-base);
     --calcite-internal-select-block-size: #{core.$calcite-size-24};
     --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-base);
   }
@@ -185,6 +188,7 @@
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-sm);
     --calcite-internal-select-icon-container-padding-inline: var(--calcite-spacing-sm);
+    --calcite-internal-select-icon-container-padding-inline-end: var(--calcite-spacing-sm);
     --calcite-internal-select-block-size: #{core.$calcite-size-44};
     --calcite-internal-select-line-height: var(--calcite-font-line-height-fixed-xl);
   }
