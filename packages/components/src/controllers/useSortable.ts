@@ -212,6 +212,12 @@ function createSortable(component: SortableComponent): void {
     config: {
       group,
       sortable: !sortDisabled,
+      draggingClass: CSS.dragClass,
+      synthDraggingClass: CSS.fallbackClass,
+      dragPlaceholderClass: CSS.chosenClass,
+      synthDragPlaceholderClass: CSS.chosenClass,
+      dropZoneClass: CSS.ghostClass,
+      synthDropZoneClass: CSS.ghostClass,
       draggable: draggable ? (child: HTMLElement) => child.matches(draggable) : undefined,
       accepts: (targetParent, initialParent, currentParent, state) => {
         const targetComponent = targetParent.el as unknown as SortableComponent;

@@ -2,7 +2,7 @@ import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, expect, it, vi } from "vitest";
-import { useSortable } from "./useSortable";
+import { CSS, useSortable } from "./useSortable";
 
 const { createSpy, destroySpy } = vi.hoisted(() => ({
   createSpy: vi.fn(),
@@ -56,6 +56,19 @@ it("creates Sortable when dragEnabled is true", async () => {
   await mountDragEnabled();
 
   expect(createSpy).toHaveBeenCalledTimes(1);
+});
+
+it("uses existing sortable classes in FormKit config", async () => {
+  await mountDragEnabled();
+
+  const call = createSpy.mock.calls[0][0];
+
+  expect(call.config.draggingClass).toBe(CSS.dragClass);
+  expect(call.config.synthDraggingClass).toBe(CSS.fallbackClass);
+  expect(call.config.dragPlaceholderClass).toBe(CSS.chosenClass);
+  expect(call.config.synthDragPlaceholderClass).toBe(CSS.chosenClass);
+  expect(call.config.dropZoneClass).toBe(CSS.ghostClass);
+  expect(call.config.synthDropZoneClass).toBe(CSS.ghostClass);
 });
 
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
