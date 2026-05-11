@@ -16,8 +16,13 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { getTableScrollContainer } from "./scroll-container";
-import { ensureFirstVisibleTableCellBelowStickyHeader } from "./sticky-header";
+import { getTableTop } from "./scroll-container";
+import {
+  ensureFirstVisibleTableCellBelowStickyHeader,
+  ensureFocusedTableCellVisible,
+  StickyTableMeasurements,
+} from "./sticky-header";
+import { getFocusableRowCell } from "./focusable-row-cells";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -56,6 +61,8 @@ export class Table extends LitElement {
   private paginationRef = createRef<Pagination["el"]>();
 
   private tableContainerRef = createRef<HTMLDivElement>();
+
+  private tableElement: HTMLTableElement | null = null;
 
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
@@ -285,6 +292,10 @@ export class Table extends LitElement {
     }
 
     if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
+      this.allRows?.forEach((row) => {
+        row.stickyHeaderEnabled = this.stickyHeader;
+      });
+
       this.setStickyHeaderListeners(this.stickyHeader);
 
       if (this.stickyHeader) {
@@ -452,6 +463,8 @@ export class Table extends LitElement {
       (row) => row.positionAll === rowPosition,
     )?.cellCount;
 
+    const targetRow = this.allRows?.find((row) => row.positionAll === rowPosition);
+
     const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
 
     if (rowPosition !== undefined) {
@@ -461,7 +474,26 @@ export class Table extends LitElement {
         destination,
         lastCell,
       });
+
+      const targetCell = targetRow ? getFocusableRowCell(targetRow, adjustedPos, lastCell) : null;
+
+      if (targetRow?.rowType === "body" && !targetRow.disabled && targetCell) {
+        ensureFocusedTableCellVisible(
+          this.getStickyTableMeasurements(),
+          targetCell,
+          targetRow.isFirstVisibleBodyRow,
+        );
+      }
     }
+  }
+
+  private getStickyTableMeasurements(): StickyTableMeasurements {
+    return {
+      table: this.el,
+      getScrollContainer: () => this.tableContainerRef.value,
+      getTableTop: (scrollContainer?: HTMLElement | null) =>
+        getTableTop(this.tableElement, scrollContainer),
+    };
   }
 
   private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
@@ -471,7 +503,7 @@ export class Table extends LitElement {
   }
 
   private setStickyHeaderListeners(active: boolean): void {
-    const scrollContainer = this.tableContainerRef.value ?? getTableScrollContainer(this.el);
+    const scrollContainer = this.tableContainerRef.value;
 
     if (!active) {
       this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
@@ -511,7 +543,7 @@ export class Table extends LitElement {
     this.tableContainerResizeObserver?.disconnect();
 
     const tableContainer = this.tableContainerRef.value;
-    const table = this.el.shadowRoot?.querySelector("table");
+    const table = this.tableElement;
 
     if (tableContainer) {
       this.tableContainerResizeObserver?.observe(tableContainer);
@@ -599,8 +631,8 @@ export class Table extends LitElement {
       return;
     }
 
-    const table = this.el.shadowRoot?.querySelector("table");
-    const scrollContainer = getTableScrollContainer(this.el);
+    const table = this.tableElement;
+    const scrollContainer = this.tableContainerRef.value;
     const tableRect = table?.getBoundingClientRect();
     const scrollContainerRect = scrollContainer?.getBoundingClientRect();
     const tableBottom = tableRect?.bottom;
@@ -693,6 +725,7 @@ export class Table extends LitElement {
 
     allRows?.forEach((row) => {
       row.interactionMode = this.interactionMode;
+      row.isFirstVisibleBodyRow = false;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
@@ -700,6 +733,7 @@ export class Table extends LitElement {
       row.scale = this.scale;
       row.readCellContentsToAT = this.readCellContentsToAT;
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
+      row.stickyHeaderEnabled = this.stickyHeader;
       row.stickyHeaderActive = this.stickyHeaderActive;
     });
 
@@ -752,16 +786,26 @@ export class Table extends LitElement {
       "calcite-table-cell, calcite-table-header",
     ) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
 
-    ensureFirstVisibleTableCellBelowStickyHeader(this.el, firstVisibleCell);
+    ensureFirstVisibleTableCellBelowStickyHeader(
+      this.getStickyTableMeasurements(),
+      firstVisibleCell,
+    );
   }
 
   private paginateRows(): void {
+    let firstVisibleBodyRowFound = false;
+
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
       row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
+      row.isFirstVisibleBodyRow = !row.itemHidden && !firstVisibleBodyRowFound;
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
+
+      if (row.isFirstVisibleBodyRow) {
+        firstVisibleBodyRowFound = true;
+      }
     });
   }
 
@@ -932,6 +976,8 @@ export class Table extends LitElement {
               if (!el) {
                 return;
               }
+
+              this.tableElement = el;
 
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(

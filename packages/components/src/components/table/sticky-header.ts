@@ -1,12 +1,15 @@
-import { getTableScrollContainer, getTableTop } from "./scroll-container";
-
 type TableHost = HTMLElement & {
-  shadowRoot: ShadowRoot | null;
   stickyHeader?: boolean;
 };
 
 type FocusableTablePart = HTMLElement & {
   shadowRoot: ShadowRoot | null;
+};
+
+export type StickyTableMeasurements = {
+  table: TableHost;
+  getScrollContainer: () => HTMLElement | null;
+  getTableTop: (scrollContainer?: HTMLElement | null) => number | null;
 };
 
 type StickyMeasurementContext = {
@@ -38,14 +41,15 @@ function getFocusableCellElement(cell: FocusableTablePart | null): HTMLElement |
 }
 
 function getStickyAdjustedTargetTop(
-  table: TableHost,
+  tableState: StickyTableMeasurements,
   scrollContainer: HTMLElement,
   stickyHeaderHeight: number,
   stickyHeaderPosition: string,
 ): number | null {
   const scrollContainerTop = scrollContainer.getBoundingClientRect().top + scrollContainer.clientTop;
-  const tableTop = getTableTop(table, scrollContainer);
-  const stickyHeaderOffset = table.stickyHeader && stickyHeaderPosition === "sticky" ? stickyHeaderHeight : 0;
+  const tableTop = tableState.getTableTop(scrollContainer);
+  const stickyHeaderOffset =
+    tableState.table.stickyHeader && stickyHeaderPosition === "sticky" ? stickyHeaderHeight : 0;
 
   if (tableTop == null) {
     return scrollContainerTop + stickyHeaderOffset;
@@ -55,24 +59,24 @@ function getStickyAdjustedTargetTop(
 }
 
 function getStickyMeasurementContext(
-  table: TableHost,
+  tableState: StickyTableMeasurements,
   cell: FocusableTablePart | null,
   requireStickyHeader = false,
 ): StickyMeasurementContext | null {
-  const scrollContainer = getTableScrollContainer(table);
+  const scrollContainer = tableState.getScrollContainer();
   const cellElement = getFocusableCellElement(cell);
 
-  if (!scrollContainer || !cellElement || !table.isConnected || !cellElement.isConnected) {
+  if (!scrollContainer || !cellElement || !tableState.table.isConnected || !cellElement.isConnected) {
     return null;
   }
 
-  const { stickyHeaderHeight, stickyHeaderPosition } = getStickyHeaderState(table);
+  const { stickyHeaderHeight, stickyHeaderPosition } = getStickyHeaderState(tableState.table);
 
   if (requireStickyHeader && (stickyHeaderPosition !== "sticky" || !stickyHeaderHeight)) {
     return null;
   }
 
-  const targetTop = getStickyAdjustedTargetTop(table, scrollContainer, stickyHeaderHeight, stickyHeaderPosition);
+  const targetTop = getStickyAdjustedTargetTop(tableState, scrollContainer, stickyHeaderHeight, stickyHeaderPosition);
 
   if (targetTop == null) {
     return null;
@@ -88,13 +92,13 @@ function getStickyMeasurementContext(
 }
 
 function retryWithStickyMeasurements(
-  table: TableHost,
+  tableState: StickyTableMeasurements,
   cell: FocusableTablePart | null,
   callback: (context: StickyMeasurementContext) => void,
   remainingFrames = 5,
   requireStickyHeader = false,
 ): void {
-  const context = getStickyMeasurementContext(table, cell, requireStickyHeader);
+  const context = getStickyMeasurementContext(tableState, cell, requireStickyHeader);
 
   if (context) {
     callback(context);
@@ -102,13 +106,13 @@ function retryWithStickyMeasurements(
 
   if (remainingFrames > 1) {
     requestAnimationFrame(() => {
-      retryWithStickyMeasurements(table, cell, callback, remainingFrames - 1, requireStickyHeader);
+      retryWithStickyMeasurements(tableState, cell, callback, remainingFrames - 1, requireStickyHeader);
     });
   }
 }
 
 export function ensureFocusedTableCellVisible(
-  table: TableHost,
+  tableState: StickyTableMeasurements,
   cell: FocusableTablePart,
   isFirstVisibleBodyRow: boolean,
 ): void {
@@ -131,7 +135,7 @@ export function ensureFocusedTableCellVisible(
     }
   };
 
-  if (isFirstVisibleBodyRow && table.stickyHeader) {
+  if (isFirstVisibleBodyRow && tableState.table.stickyHeader) {
     const correctFirstBodyRowPosition = ({
       cellElement,
       scrollContainer,
@@ -145,20 +149,23 @@ export function ensureFocusedTableCellVisible(
       }
     };
 
-    retryWithStickyMeasurements(table, cell, correctFirstBodyRowPosition, 5, true);
+    retryWithStickyMeasurements(tableState, cell, correctFirstBodyRowPosition, 5, true);
     return;
   }
 
-  retryWithStickyMeasurements(table, cell, ensureFocusedBodyCellVisible);
+  retryWithStickyMeasurements(tableState, cell, ensureFocusedBodyCellVisible);
 }
 
-export function ensureFirstVisibleTableCellBelowStickyHeader(table: TableHost, cell: FocusableTablePart | null): void {
-  if (!table.stickyHeader || !cell) {
+export function ensureFirstVisibleTableCellBelowStickyHeader(
+  tableState: StickyTableMeasurements,
+  cell: FocusableTablePart | null,
+): void {
+  if (!tableState.table.stickyHeader || !cell) {
     return;
   }
 
   retryWithStickyMeasurements(
-    table,
+    tableState,
     cell,
     ({ cellElement, scrollContainer, targetTop }: StickyMeasurementContext) => {
       const cellTop = cellElement.getBoundingClientRect().top;

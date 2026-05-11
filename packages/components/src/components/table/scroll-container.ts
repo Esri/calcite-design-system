@@ -1,17 +1,5 @@
-type TableHost = HTMLElement & {
-  shadowRoot: ShadowRoot | null;
-};
-
-export const tableScrollContainerSelector = "[data-scroll-container]";
-
-export function getTableScrollContainer(table: TableHost): HTMLDivElement | null {
-  return table.shadowRoot?.querySelector(tableScrollContainerSelector) as HTMLDivElement | null;
-}
-
-export function getTableTop(table: TableHost, scrollContainer?: HTMLElement | null): number | null {
-  const tableElement = table.shadowRoot?.querySelector("table");
-
-  if (tableElement instanceof HTMLElement) {
+export function getTableTop(tableElement?: HTMLElement | null, scrollContainer?: HTMLElement | null): number | null {
+  if (tableElement) {
     return tableElement.getBoundingClientRect().top;
   }
 

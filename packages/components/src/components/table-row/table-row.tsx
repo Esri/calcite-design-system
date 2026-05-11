@@ -1,12 +1,11 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
 import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { ensureFocusedTableCellVisible } from "../table/sticky-header";
+import { getFocusableRowCells } from "../table/focusable-row-cells";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -36,8 +35,6 @@ export class TableRow extends LitElement {
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
   private tableRowEl: HTMLTableRowElement;
-
-  private tableRowSlotRef = createRef<HTMLSlotElement>();
 
   private userTriggered = false;
 
@@ -90,6 +87,9 @@ export class TableRow extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
+  @property() isFirstVisibleBodyRow = false;
+
+  /** @private */
   @property() lastVisibleRow: boolean;
 
   /** @private */
@@ -112,6 +112,9 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() scale: Scale;
+
+  /** @private */
+  @property() stickyHeaderEnabled = false;
 
   /** @private */
   @property() stickyHeaderActive = false;
@@ -225,16 +228,6 @@ export class TableRow extends LitElement {
     }
   }
 
-  private isFirstVisibleBodyRow(): boolean {
-    const parentRows = Array.from(this.el.parentElement?.children || []) as TableRow["el"][];
-    const currentRowIndex = parentRows.indexOf(this.el);
-    const hasVisibleBodyRowAbove =
-      currentRowIndex > 0 &&
-      parentRows.slice(0, currentRowIndex).some((row) => row.rowType === "body" && !row.itemHidden);
-
-    return this.rowType === "body" && !this.itemHidden && !hasVisibleBodyRowAbove;
-  }
-
   private calciteInternalTableRowFocusChangeHandler(event: CustomEvent): void {
     if ((event.target as Element).contains(this.el)) {
       const position = event.detail.cellPosition;
@@ -254,24 +247,18 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          const table: HTMLCalciteTableElement | null = this.el.closest("calcite-table");
-          const hasStickyHeader = !!table?.stickyHeader;
-          const firstVisibleBodyRow = this.isFirstVisibleBodyRow();
+          const firstVisibleBodyRow = this.isFirstVisibleBodyRow;
           const useManualBodyRowScrolling = this.rowType === "body";
 
           if (
             useManualBodyRowScrolling ||
             this.stickyHeaderActive ||
-            (firstVisibleBodyRow && hasStickyHeader) ||
-            (this.rowType === "head" && hasStickyHeader)
+            (firstVisibleBodyRow && this.stickyHeaderEnabled) ||
+            (this.rowType === "head" && this.stickyHeaderEnabled)
           ) {
             cellPosition.setFocus({ preventScroll: true });
           } else {
             cellPosition.setFocus();
-          }
-
-          if (this.rowType === "body") {
-            ensureFocusedTableCellVisible(table, cellPosition, firstVisibleBodyRow);
           }
         }
       }
@@ -354,18 +341,7 @@ export class TableRow extends LitElement {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotRef.value
-      ?.assignedElements({ flatten: true })
-      ?.filter(
-        (el: TableCell["el"] | TableHeader["el"]) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
-      );
-
-    const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
-    )?.filter((el: TableCell["el"] | TableHeader["el"]) => el.numberCell || el.selectionCell);
-
-    const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
+    const cells = getFocusableRowCells(this.el);
 
     if (cells.length > 0) {
       cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
@@ -505,7 +481,7 @@ export class TableRow extends LitElement {
               <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot ref={this.tableRowSlotRef} />
+                <slot />
               </>,
               el,
             );
