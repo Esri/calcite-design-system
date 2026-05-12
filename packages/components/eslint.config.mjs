@@ -23,7 +23,11 @@ export default tseslint.config(
     },
 
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: tseslint.parser,
       parserOptions: {
+        jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],
       },
