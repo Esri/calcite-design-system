@@ -15,20 +15,12 @@ export default tseslint.config(
       "@cspell": cspellPlugin,
       unicorn: unicornPlugin,
     },
-
-    languageOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module",
-      parser: tseslint.parser,
-    },
-
     settings: {
       jsdoc: {
         ignoreInternal: true,
         ignorePrivate: true,
       },
     },
-
     rules: {
       "@cspell/spellchecker": ["warn", {}],
 
@@ -81,7 +73,7 @@ export default tseslint.config(
           max: 1,
         },
       ],
-      radix: ["error", "as-needed"],
+      radix: ["warn"], // "error" severity will be restored by https://github.com/Esri/calcite-design-system/issues/14401
 
       "unicorn/filename-case": [
         "error",
