@@ -93,6 +93,7 @@ describe("connectLabel/disconnectLabel", () => {
       );
       const labelable =
         document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+      vi.spyOn(labelable.manager.component, "onLabelClick");
       const interceptor = page.getByTestId("interceptor");
       const clickHandler = vi.fn((event: MouseEvent) => event.preventDefault());
       interceptor.element().addEventListener("click", clickHandler, { once: true });
@@ -101,6 +102,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       await userEvent.click(interceptor);
 
+      expect(labelable.manager.component.onLabelClick).toHaveBeenCalledTimes(0);
       await expect.element(labelable).not.toHaveFocus();
       expect(clickHandler).toHaveBeenCalledTimes(1);
       expect(clickHandler.mock.lastCall[0]).toHaveProperty("defaultPrevented", true);
