@@ -307,21 +307,19 @@ describe("theme", () => {
           shadowSelector: `.${CSS.description}`,
           targetProp: "color",
         },
-        "--calcite-block-icon-color": [
-          {
-            shadowSelector: `.${CSS.iconStart}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.iconEnd}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-          },
-        ],
-        "--calcite-block-icon-color-hover": {
+        "--calcite-block-icon-start-color": {
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+        "--calcite-block-icon-end-color": {
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        "--calcite-block-expandable-icon-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+        },
+        "--calcite-block-expandable-icon-color-hover": {
           shadowSelector: `.${CSS.toggleIcon}`,
           targetProp: "color",
           state: "hover",
@@ -359,6 +357,25 @@ describe("theme", () => {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
           state: { press: { attribute: "class", value: CSS.heading } },
+        },
+        "--calcite-block-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-block-icon-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+          state: "hover",
         },
       },
     );
