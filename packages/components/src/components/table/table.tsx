@@ -77,8 +77,6 @@ export class Table extends LitElement {
 
   private tableContainerOverflowAnimationFrame: number | null = null;
 
-  private stickyHeaderSettleTimeouts: number[] = [];
-
   private stickyHeaderActive = false;
 
   private stickyHeaderTotalHeight = 0;
@@ -259,8 +257,6 @@ export class Table extends LitElement {
       this.tableContainerOverflowAnimationFrame = null;
     }
 
-    this.clearStickyHeaderSettleTimeouts();
-
     this.setStickyHeaderListeners(false);
 
     this.stickyHeaderResizeObserver?.disconnect();
@@ -320,22 +316,7 @@ export class Table extends LitElement {
       return;
     }
 
-    this.scheduleStickyHeaderOffsetSettlingUpdates();
-
-    if (typeof document !== "undefined" && "fonts" in document) {
-      void document.fonts.ready.then(() => {
-        if (!this.isConnected || !this.stickyHeader) {
-          return;
-        }
-
-        this.scheduleStickyHeaderOffsetSettlingUpdates();
-      });
-    }
-  }
-
-  private clearStickyHeaderSettleTimeouts(): void {
-    this.stickyHeaderSettleTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-    this.stickyHeaderSettleTimeouts = [];
+    this.scheduleStickyHeaderOffsetUpdate();
   }
 
   private clearStickyHeaderRowStyles(): void {
@@ -347,7 +328,6 @@ export class Table extends LitElement {
   }
 
   private resetStickyHeaderState(): void {
-    this.clearStickyHeaderSettleTimeouts();
     this.stickyHeaderResizeObserver?.disconnect();
     this.stickyHeaderMutationObserver?.disconnect();
     this.clearStickyHeaderRowStyles();
@@ -383,28 +363,6 @@ export class Table extends LitElement {
         this.stickyHeaderOffsetAnimationFrame = null;
         callback();
       });
-    });
-  }
-
-  private scheduleStickyHeaderOffsetSettlingUpdates(): void {
-    this.clearStickyHeaderSettleTimeouts();
-    this.scheduleStickyHeaderOffsetUpdate();
-
-    // Firefox can miss table row resize notifications during initial font/layout settling.
-    [50, 150, 300].forEach((delay) => {
-      const timeoutId = window.setTimeout(() => {
-        this.stickyHeaderSettleTimeouts = this.stickyHeaderSettleTimeouts.filter(
-          (id) => id !== timeoutId,
-        );
-
-        if (!this.isConnected || !this.stickyHeader) {
-          return;
-        }
-
-        this.scheduleStickyHeaderOffsetUpdate();
-      }, delay);
-
-      this.stickyHeaderSettleTimeouts.push(timeoutId);
     });
   }
 
