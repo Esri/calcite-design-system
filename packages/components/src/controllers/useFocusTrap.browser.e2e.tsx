@@ -267,25 +267,25 @@ describe("focusTrapDisabledOverride", () => {
 
       expect(activateSpy).toHaveBeenCalledTimes(0);
     });
-  });
 
-  it("does not try to restore focus to the document when there was no previously focused element", async () => {
-    const { el, component } = await mount<FocusTrapDisabledOverride>(
-      html`
-        <input value="should not focus here" />
-        <focus-trap-disabled-override></focus-trap-disabled-override>
-      `,
-      { dynamicComponents: [FocusTrapDisabledOverride] },
-    );
+    it("does not try to restore focus to the document when there was no previously focused element", async () => {
+      const { el, component } = await mount<FocusTrapDisabledOverride>(
+        html`
+          <input value="should not focus here" />
+          <focus-trap-disabled-override></focus-trap-disabled-override>
+        `,
+        { dynamicComponents: [FocusTrapDisabledOverride] },
+      );
 
-    el.open = true;
-    await component.updateComplete;
-    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
-    override = true;
+      el.open = true;
+      await component.updateComplete;
+      const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+      override = true;
 
-    component.focusTrap.activate();
+      component.focusTrap.activate();
 
-    expect(activateSpy).toHaveBeenCalledTimes(0);
+      expect(activateSpy).toHaveBeenCalledTimes(0);
+    });
   });
 });
 
