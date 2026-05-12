@@ -5,7 +5,7 @@ import { JsxNode, LitElement, property } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
-import { Label } from "../components/label/label";
+import type { Label } from "../components/label/label";
 
 class LabelableComponent extends LitElement {
   static tagName = "labelable-component";
