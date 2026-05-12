@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Calcite Design System
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:String x:Key="calcite-border-width-lg">4px</x:String>
+  <x:String x:Key="calcite-border-width-md">2px</x:String>
+  <x:String x:Key="calcite-border-width-none">0</x:String>
+  <x:String x:Key="calcite-border-width-sm">1px</x:String>
+  <x:String x:Key="calcite-container-size-content-fixed">1440px</x:String>
+  <x:String x:Key="calcite-container-size-content-fluid">100%</x:String>
+  <x:String x:Key="calcite-container-size-gutter">16px</x:String>
+  <x:String x:Key="calcite-container-size-margin">24px</x:String>
+  <x:String x:Key="calcite-corner-radius">0</x:String>
+  <x:String x:Key="calcite-corner-radius-none">0</x:String>
+  <x:String x:Key="calcite-corner-radius-pill">9999px</x:String>
+  <x:String x:Key="calcite-corner-radius-sm">4px</x:String>
+  <x:String x:Key="calcite-corner-radius-xs">2px</x:String>
+  <x:String x:Key="calcite-font-family">'Avenir Next', Avenir, 'Helvetica Neue', sans-serif</x:String>
+  <x:String x:Key="calcite-font-family-code">Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace</x:String>
+  <x:String x:Key="calcite-font-line-height-2xl">2rem</x:String>
+  <x:String x:Key="calcite-font-line-height-3xl">2.5rem</x:String>
+  <x:String x:Key="calcite-font-line-height-4xl">3rem</x:String>
+  <x:String x:Key="calcite-font-line-height-5xl">4rem</x:String>
+  <x:String x:Key="calcite-font-line-height-6xl">4rem</x:String>
+  <x:String x:Key="calcite-font-line-height-7xl">5rem</x:String>
+  <x:String x:Key="calcite-font-line-height-base">1rem</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-2xl">32px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-3xl">40px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-4xl">48px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-5xl">64px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-6xl">80px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-base">16px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-lg">20px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-sm">12px</x:String>
+  <x:String x:Key="calcite-font-line-height-fixed-xl">24px</x:String>
+  <x:String x:Key="calcite-font-line-height-lg">1.5rem</x:String>
+  <x:String x:Key="calcite-font-line-height-md">1.25rem</x:String>
+  <x:String x:Key="calcite-font-line-height-relative">normal</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-base">1</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-loose">2</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-normal">1.5</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-relaxed">1.625</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-snug">1.375</x:String>
+  <x:String x:Key="calcite-font-line-height-relative-tight">1.25</x:String>
+  <x:String x:Key="calcite-font-line-height-sm">1rem</x:String>
+  <x:String x:Key="calcite-font-line-height-xl">1.5rem</x:String>
+  <x:String x:Key="calcite-font-line-height-xs">0.75rem</x:String>
+  <x:String x:Key="calcite-font-size">14px</x:String>
+  <x:String x:Key="calcite-font-size-2xl">24px</x:String>
+  <x:String x:Key="calcite-font-size-lg">18px</x:String>
+  <x:String x:Key="calcite-font-size-md">16px</x:String>
+  <x:String x:Key="calcite-font-size-relative-2xl">1.625rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-3xl">2rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-4xl">2.5rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-5xl">3rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-6xl">3.5rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-7xl">4rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-base">0.875rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-lg">1.125rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-md">1rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-sm">0.75rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-xl">1.25rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-xs">0.625rem</x:String>
+  <x:String x:Key="calcite-font-size-sm">12px</x:String>
+  <x:String x:Key="calcite-font-size-xl">20px</x:String>
+  <x:String x:Key="calcite-font-size-xs">10px</x:String>
+  <x:String x:Key="calcite-font-style-emphasis">italic</x:String>
+  <x:String x:Key="calcite-font-weight-bold">600</x:String>
+  <x:String x:Key="calcite-font-weight-light">300</x:String>
+  <x:String x:Key="calcite-font-weight-medium">500</x:String>
+  <x:String x:Key="calcite-font-weight-regular">400</x:String>
+  <x:String x:Key="calcite-font-weight-semibold">600</x:String>
+  <x:String x:Key="calcite-opacity-dark">0.85</x:String>
+  <x:String x:Key="calcite-opacity-disabled">0.5</x:String>
+  <x:String x:Key="calcite-opacity-full">1</x:String>
+  <x:String x:Key="calcite-opacity-half">0.5</x:String>
+  <x:String x:Key="calcite-opacity-light">0.4</x:String>
+  <x:String x:Key="calcite-shadow-md">0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)</x:String>
+  <x:String x:Key="calcite-shadow-none">0 0 0 0 rgba(0, 0, 0, 0)</x:String>
+  <x:String x:Key="calcite-shadow-sm">0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04)</x:String>
+  <x:String x:Key="calcite-size-2xl">4rem</x:String>
+  <x:String x:Key="calcite-size-2xs">0.875rem</x:String>
+  <x:String x:Key="calcite-size-3xl">6rem</x:String>
+  <x:String x:Key="calcite-size-3xs">0.75rem</x:String>
+  <x:String x:Key="calcite-size-4xs">0.625rem</x:String>
+  <x:String x:Key="calcite-size-lg">2.75rem</x:String>
+  <x:String x:Key="calcite-size-md">2rem</x:String>
+  <x:String x:Key="calcite-size-px">1px</x:String>
+  <x:String x:Key="calcite-size-sm">1.5rem</x:String>
+  <x:String x:Key="calcite-size-xl">3rem</x:String>
+  <x:String x:Key="calcite-size-xs">1rem</x:String>
+  <x:String x:Key="calcite-space-2xl">1.5rem</x:String>
+  <x:String x:Key="calcite-space-2xs">0.25rem</x:String>
+  <x:String x:Key="calcite-space-3xl">2rem</x:String>
+  <x:String x:Key="calcite-space-4xl">2.75rem</x:String>
+  <x:String x:Key="calcite-space-base">2px</x:String>
+  <x:String x:Key="calcite-space-lg">1rem</x:String>
+  <x:String x:Key="calcite-space-md">0.75rem</x:String>
+  <x:String x:Key="calcite-space-md-plus">0.875rem</x:String>
+  <x:String x:Key="calcite-space-none">0</x:String>
+  <x:String x:Key="calcite-space-px">1px</x:String>
+  <x:String x:Key="calcite-space-sm">0.5rem</x:String>
+  <x:String x:Key="calcite-space-sm-plus">0.625rem</x:String>
+  <x:String x:Key="calcite-space-xl">1.25rem</x:String>
+  <x:String x:Key="calcite-space-xs">0.375rem</x:String>
+  <x:String x:Key="calcite-z-index">1</x:String>
+  <x:String x:Key="calcite-z-index-deep">-999999</x:String>
+  <x:String x:Key="calcite-z-index-dropdown">600</x:String>
+  <x:String x:Key="calcite-z-index-header">400</x:String>
+  <x:String x:Key="calcite-z-index-modal">800</x:String>
+  <x:String x:Key="calcite-z-index-overlay">700</x:String>
+  <x:String x:Key="calcite-z-index-popup">900</x:String>
+  <x:String x:Key="calcite-z-index-sticky">300</x:String>
+  <x:String x:Key="calcite-z-index-toast">500</x:String>
+  <x:String x:Key="calcite-z-index-tooltip">901</x:String>
+
+  <!-- Deprecated in v3.1.0, removal target v5.0.0 - Use `calcite-corner-radius-sm` instead. -->
+  <x:String x:Key="calcite-corner-radius-round">4px</x:String>
+  <!-- Deprecated in v3.1.0, removal target v5.0.0 - Use `calcite-corner-radius-none` instead. -->
+  <x:String x:Key="calcite-corner-radius-sharp">0</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-letter-spacing-normal">0</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-letter-spacing-tight">-0.4px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-letter-spacing-wide">0.4px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-paragraph-spacing-normal">4px</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-font-size-2xl` instead. -->
+  <x:String x:Key="calcite-font-size-xxl">24px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-capitalize">capitalize</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-lowercase">lowercase</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-none">none</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-uppercase">uppercase</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-decoration-none">none</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-decoration-underline">underline</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-font-weight-regular` instead. -->
+  <x:String x:Key="calcite-font-weight-normal">400</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-xs` instead. -->
+  <x:String x:Key="calcite-size-fixed-lg">16px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-3xs` instead. -->
+  <x:String x:Key="calcite-size-fixed-md">12px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-2xs` instead. -->
+  <x:String x:Key="calcite-size-fixed-md-plus">14px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-size-fixed-sm">8px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-4xs` instead. -->
+  <x:String x:Key="calcite-size-fixed-sm-plus">10px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-size-fixed-xl">20px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-size-fixed-xs">6px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-sm` instead. -->
+  <x:String x:Key="calcite-size-fixed-xxl">24px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-size-fixed-xxs">4px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-size-md` instead. -->
+  <x:String x:Key="calcite-size-fixed-xxxl">32px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-size-fixed-xxxs">2px</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-size-2xl` instead. -->
+  <x:String x:Key="calcite-size-xxl">4rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-size-2xs` instead. -->
+  <x:String x:Key="calcite-size-xxs">0.875rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-size-3xl` instead. -->
+  <x:String x:Key="calcite-size-xxxl">6rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-size-3xs` instead. -->
+  <x:String x:Key="calcite-size-xxxs">0.75rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-base` instead. -->
+  <x:String x:Key="calcite-spacing-base">2px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-md-plus` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-lg">14px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-md` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-md">12px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-sm` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-sm">8px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-lg` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-xl">16px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-xs` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-xs">6px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-xl` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-xxl">20px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-2xs` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-xxs">4px</x:String>
+  <!-- Deprecated in v3.0.0, removal target v5.0.0 - Use `calcite-space-3xl` instead. -->
+  <x:String x:Key="calcite-spacing-fixed-xxxl">32px</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-lg` instead. -->
+  <x:String x:Key="calcite-spacing-lg">1rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-md` instead. -->
+  <x:String x:Key="calcite-spacing-md">0.75rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-md-plus` instead. -->
+  <x:String x:Key="calcite-spacing-md-plus">0.875rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-none` instead. -->
+  <x:String x:Key="calcite-spacing-none">0</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-px` instead. -->
+  <x:String x:Key="calcite-spacing-px">1px</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-sm` instead. -->
+  <x:String x:Key="calcite-spacing-sm">0.5rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-sm-plus` instead. -->
+  <x:String x:Key="calcite-spacing-sm-plus">0.625rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-xl` instead. -->
+  <x:String x:Key="calcite-spacing-xl">1.25rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-xs` instead. -->
+  <x:String x:Key="calcite-spacing-xs">0.375rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-2xl` instead. -->
+  <x:String x:Key="calcite-spacing-xxl">1.5rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-2xs` instead. -->
+  <x:String x:Key="calcite-spacing-xxs">0.25rem</x:String>
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-space-3xl` instead. -->
+  <x:String x:Key="calcite-spacing-xxxl">2rem</x:String>
+</ResourceDictionary>
