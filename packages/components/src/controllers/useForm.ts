@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
-import { makeGenericController } from "@arcgis/lumina/controllers";
+import { bypassReadOnly, makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
@@ -40,7 +40,7 @@ export type MutableValidityState = Writable<ValidityState>;
  *
  * Allows calling submit/reset methods on the form.
  */
-interface FormOwner extends LitElement {
+export interface FormOwnerComponent extends LitElement {
   /**
    * The ID of the form to associate with the component.
    *
@@ -48,7 +48,7 @@ interface FormOwner extends LitElement {
    *
    * Note that this prop should use the `@property` decorator.
    */
-  form: string;
+  form?: string;
 }
 
 /**
@@ -58,7 +58,7 @@ interface FormOwner extends LitElement {
  */
 export interface FormComponent<T = any>
   extends
-    FormOwner,
+    FormOwnerComponent,
     LitElement,
     SetFocusable,
     // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
@@ -78,7 +78,7 @@ export interface FormComponent<T = any>
    *
    * Note that this prop should use the `@property` decorator.
    */
-  name: string;
+  name?: string;
 
   /**
    * This form component's value.
@@ -94,7 +94,14 @@ export interface FormComponent<T = any>
    *
    * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
-  defaultValue: T;
+  defaultValue?: T;
+
+  /**
+   * Sets the component's form validity state.
+   *
+   * This is needed specifically for radio-type elements whose validity state is synced with other elements in the same group.
+   */
+  setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
 
   /** The validation icon to display. */
   validationIcon?: IconName | boolean;
@@ -153,9 +160,10 @@ function displayValidationMessage(component: FormComponent, { status, message, i
 }
 
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
-  const { disabled, required } = component;
+  const { disabled, name, required } = component;
 
   input.disabled = disabled;
+  input.name = name;
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -355,8 +363,12 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateValidity();
+      if (component.hasUpdated) {
+        updateValidity();
+      }
     });
+
+    controller.onLoaded(() => updateValidity());
 
     function updateValidity(): void {
       const { elementInternals } = component;
@@ -367,7 +379,7 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
       }
 
       if (customValidityMessage) {
@@ -378,7 +390,9 @@ export const useForm = <T extends FormComponent>(
       elementInternals.setValidity(validity, validationMessage);
 
       if ("validity" in component) {
-        component.validity = elementInternals.validity;
+        bypassReadOnly(() => {
+          component.validity = elementInternals.validity;
+        });
       }
     }
 

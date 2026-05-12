@@ -3,16 +3,11 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("openClose", () => {
-  openClose("calcite-block");
-});
 
 describe("accessible", () => {
   accessible(html`

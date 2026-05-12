@@ -1,12 +1,15 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, openClose } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
+
+mockConsole();
 
 async function openSortHandle(page): Promise<void> {
   const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
@@ -312,8 +315,4 @@ it("doesn't render reorder group when sortDisabled is true", async () => {
   await page.waitForChanges();
 
   expect(await page.find(`calcite-sort-handle >>> #${IDS.reorder}`)).toBeNull();
-});
-
-describe("openClose", () => {
-  openClose(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
 });

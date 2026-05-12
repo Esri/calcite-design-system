@@ -1918,7 +1918,7 @@
   },
   "nodes-unmerge": {
     "alias": ["3.25.2", "arrows", "separate points", "separate nodes", "unmerge nodes", "unmerge points"],
-    "category": "Arrows",
+    "category": "Charts and Graphs",
     "release": "3.25.2",
     "codepoint": 59813
   },
@@ -11978,6 +11978,26 @@
   "velocity-server": {
     "alias": ["5.0.0", "gis", "data", "cloud", "analytics", "asset", "sensor"],
     "category": "GIS",
+    "release": "5.0.0"
+  },
+  "arcgis-quickcapture": {
+    "alias": ["5.0.0", "brand", "logo", "glyph"],
+    "category": "Brand",
+    "release": "5.0.0"
+  },
+  "arcgis-survey123": {
+    "alias": ["5.0.0", "brand", "logo", "glyph"],
+    "category": "Brand",
+    "release": "5.0.0"
+  },
+  "gps-receiver": {
+    "alias": ["5.0.0", "objects", "navigator", "locator", "direction", "map", "tracking"],
+    "category": "Objects",
+    "release": "5.0.0"
+  },
+  "total-station": {
+    "alias": ["5.0.0", "objects", "survey", "measuring", "distance", "data-collection"],
+    "category": "Objects",
     "release": "5.0.0"
   }
 }

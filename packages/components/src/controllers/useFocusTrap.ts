@@ -35,7 +35,7 @@ export interface UseFocusTrap {
   /**
    * Sets the extra containers to be used in the focus trap.
    *
-   * @see https://github.com/focus-trap/focus-trap#trapupdatecontainerelements
+   * @see [focus-trap trapUpdateContainerElements](https://github.com/focus-trap/focus-trap#trapupdatecontainerelements)
    */
   setExtraContainers: (extraContainers?: FocusTrapOptions["extraContainers"]) => void;
 
@@ -77,7 +77,7 @@ interface FocusTrapComponent extends LitElement {
 /** @public */
 export type FocusTrapOptions =
   /**
-   * @see https://github.com/focus-trap/focus-trap#createoptions
+   * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions)
    */
   Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
     /**
@@ -121,7 +121,7 @@ const outsideClickDeactivated = new WeakSet<HTMLElement | SVGElement>();
 /**
  * Default behavior for returning focus when the FocusTrap is deactivated.
  *
- * @see https://github.com/focus-trap/focus-trap#setreturnfocus
+ * @see [focus-trap setReturnFocus](https://github.com/focus-trap/focus-trap#setreturnfocus)
  */
 function defaultSetReturnFocus(hostEl: HTMLElement, el: HTMLElement | SVGElement): false {
   const hasPreviousRelatedFocusedEl = el && el !== document.body && el !== document.documentElement; // see https://developer.mozilla.org/en-US/docs/Web/API/Document/activeElement#value
@@ -144,6 +144,7 @@ export function createFocusTrapOptions(
 ): Options {
   const fallbackFocus = options?.fallbackFocus || hostEl;
   const clickOutsideDeactivates = options?.clickOutsideDeactivates ?? true;
+  let abortController: AbortController | undefined;
 
   return {
     fallbackFocus,
@@ -158,6 +159,30 @@ export function createFocusTrapOptions(
         outsideClickDeactivated.add(hostEl);
       }
       return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
+    },
+    onActivate: (params) => {
+      if (options?.escapeDeactivates) {
+        abortController = new AbortController();
+        hostEl.addEventListener(
+          "keydown",
+          (event) => {
+            // we check for Escape at each focus-trap host as the event bubbles
+            // in case non-focus-trapping elements in between handle (e.g., cancel) it
+            // before it reaches the focus-trap document-level listener
+            if (event.key === "Escape" && typeof options?.escapeDeactivates === "function") {
+              options.escapeDeactivates(event);
+            }
+          },
+          { signal: abortController.signal },
+        );
+      }
+
+      options?.onActivate?.(params);
+    },
+    onDeactivate: (params) => {
+      abortController?.abort();
+      abortController = undefined;
+      options?.onDeactivate?.(params);
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);

@@ -49,6 +49,22 @@ type InternalProps = {
    * The type of reference element interaction ("click" or "hover").
    */
   referenceElementType: ReferenceElementType | nil;
+
+  /**
+   * Keydown handler invoked when a keydown event occurs on this component's reference element.
+   *
+   * Can call `event.preventDefault()` to suppress default manager keydown behavior.
+   *
+   * @example
+   * ```ts
+   * onReferenceElementKeyDown(event: KeyboardEvent): void {
+   *   if (event.key === "Enter") {
+   *     event.preventDefault();
+   *   }
+   * }
+   * ```
+   */
+  onReferenceElementKeyDown?: (event: KeyboardEvent) => void;
 };
 
 /**

@@ -3,6 +3,156 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.46...@esri/calcite-components@5.1.0-next.47) (2026-05-05)
+
+### Bug Fixes
+
+- **input-time-zone:** ensure item labels update on locale/reference date change ([#14365](https://github.com/Esri/calcite-design-system/issues/14365)), closes [#12930](https://github.com/Esri/calcite-design-system/issues/12930)
+
+## [5.1.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.45...@esri/calcite-components@5.1.0-next.46) (2026-05-05)
+
+### Features
+
+- **navigation-logo, navigation-user:** remove heading's padding top when there is no description ([#14374](https://github.com/Esri/calcite-design-system/issues/14374)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+## [5.1.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.44...@esri/calcite-components@5.1.0-next.45) (2026-04-29)
+
+### Bug Fixes
+
+- **flow-item:** support overriding collapse message ([#14305](https://github.com/Esri/calcite-design-system/issues/14305)), closes [#14292](https://github.com/Esri/calcite-design-system/issues/14292)
+
+## [5.1.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.43...@esri/calcite-components@5.1.0-next.44) (2026-04-29)
+
+### Bug Fixes
+
+- **list:** fix nested list-item property inheritance in calcite-list ([#14344](https://github.com/Esri/calcite-design-system/issues/14344)), closes [#14228](https://github.com/Esri/calcite-design-system/issues/14228)
+
+## [5.1.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.42...@esri/calcite-components@5.1.0-next.43) (2026-04-28)
+
+### Features
+
+- **navigation, navigation-logo, navigation-user:** add scale prop ([#14265](https://github.com/Esri/calcite-design-system/issues/14265)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+## [5.1.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.41...@esri/calcite-components@5.1.0-next.42) (2026-04-28)
+
+### Features
+
+- **card:** update scale prop from private to public ([#14342](https://github.com/Esri/calcite-design-system/issues/14342)), closes [#12345](https://github.com/Esri/calcite-design-system/issues/12345)
+
+## [5.1.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.40...@esri/calcite-components@5.1.0-next.41) (2026-04-28)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.39...@esri/calcite-components@5.1.0-next.40) (2026-04-24)
+
+### Bug Fixes
+
+- **link:** prevent redirect on empty `href` ([#14318](https://github.com/Esri/calcite-design-system/issues/14318)), closes [#14315](https://github.com/Esri/calcite-design-system/issues/14315)
+- **tree-item:** ensure content grows to full height when expanded ([#14308](https://github.com/Esri/calcite-design-system/issues/14308)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
+## [5.1.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.38...@esri/calcite-components@5.1.0-next.39) (2026-04-23)
+
+### Bug Fixes
+
+- handle `Escape` in expected order with focus-trapping and non-focus-trapping hierarchies ([#14313](https://github.com/Esri/calcite-design-system/issues/14313)), closes [#13225](https://github.com/Esri/calcite-design-system/issues/13225) [/github.com/focus-trap/focus-trap/blob/master/index.js#L899](https://github.com/Esri//github.com/focus-trap/focus-trap/blob/master/index.js/issues/L899)
+- **shell-panel:** update resize-handling logic when layout is updated dynamically ([#14306](https://github.com/Esri/calcite-design-system/issues/14306)), closes [#13986](https://github.com/Esri/calcite-design-system/issues/13986) [#14279](https://github.com/Esri/calcite-design-system/issues/14279)
+
+## [5.1.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.37...@esri/calcite-components@5.1.0-next.38) (2026-04-21)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.36...@esri/calcite-components@5.1.0-next.37) (2026-04-21)
+
+### Features
+
+- **card, card-group:** add scale prop ([#14299](https://github.com/Esri/calcite-design-system/issues/14299)), closes [#12345](https://github.com/Esri/calcite-design-system/issues/12345)
+
+## [5.1.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.35...@esri/calcite-components@5.1.0-next.36) (2026-04-20)
+
+### Bug Fixes
+
+- only initialize `useSortable` if `dragEnabled` is `true` ([#14261](https://github.com/Esri/calcite-design-system/issues/14261)), closes [#14259](https://github.com/Esri/calcite-design-system/issues/14259)
+
+## [5.1.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.34...@esri/calcite-components@5.1.0-next.35) (2026-04-20)
+
+### Bug Fixes
+
+- **sheet, shell-panel:** fix mouse resizing when direction is changed dynamically ([#14279](https://github.com/Esri/calcite-design-system/issues/14279))
+
+## [5.1.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.33...@esri/calcite-components@5.1.0-next.34) (2026-04-15)
+
+### Bug Fixes
+
+- **tree:** fix content clipping ([#14262](https://github.com/Esri/calcite-design-system/issues/14262)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
+## [5.1.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.32...@esri/calcite-components@5.1.0-next.33) (2026-04-15)
+
+### Bug Fixes
+
+- **link:** display underline properly when text breaks to multiple lines ([#13784](https://github.com/Esri/calcite-design-system/issues/13784)), closes [#13356](https://github.com/Esri/calcite-design-system/issues/13356)
+
+## [5.1.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.31...@esri/calcite-components@5.1.0-next.32) (2026-04-14)
+
+### Bug Fixes
+
+- **tree:** restore lines containment ([#14251](https://github.com/Esri/calcite-design-system/issues/14251)), closes [#14187](https://github.com/Esri/calcite-design-system/issues/14187)
+
+## [5.1.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.30...@esri/calcite-components@5.1.0-next.31) (2026-04-13)
+
+### Bug Fixes
+
+- **combobox, menu, textarea:** apply line-height ([#14236](https://github.com/Esri/calcite-design-system/issues/14236)), closes [#14099](https://github.com/Esri/calcite-design-system/issues/14099)
+
+## [5.1.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.29...@esri/calcite-components@5.1.0-next.30) (2026-04-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.28...@esri/calcite-components@5.1.0-next.29) (2026-04-07)
+
+### Bug Fixes
+
+- **useSortable:** fix DragDetail typings ([#14223](https://github.com/Esri/calcite-design-system/issues/14223))
+
+## [5.1.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.27...@esri/calcite-components@5.1.0-next.28) (2026-04-06)
+
+### Bug Fixes
+
+- **avatar, meter, table, text area, time picker:** apply line-height ([#14161](https://github.com/Esri/calcite-design-system/issues/14161)), closes [#14099](https://github.com/Esri/calcite-design-system/issues/14099)
+
+## [5.1.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.26...@esri/calcite-components@5.1.0-next.27) (2026-04-03)
+
+### Bug Fixes
+
+- **combobox:** improve disabled chip handling and select-all behavior ([#14144](https://github.com/Esri/calcite-design-system/issues/14144)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287)
+
+## [5.1.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.25...@esri/calcite-components@5.1.0-next.26) (2026-03-31)
+
+### Features
+
+- **panel, flow-item, dialog:** Add rich `heading` and `description` slots ([#14179](https://github.com/Esri/calcite-design-system/issues/14179)), closes [#14150](https://github.com/Esri/calcite-design-system/issues/14150)
+
+## [5.1.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.24...@esri/calcite-components@5.1.0-next.25) (2026-03-31)
+
+### Features
+
+- **dropdown:** add `referenceElement` property ([#14172](https://github.com/Esri/calcite-design-system/issues/14172)), closes [#12426](https://github.com/Esri/calcite-design-system/issues/12426)
+
+## [5.1.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.23...@esri/calcite-components@5.1.0-next.24) (2026-03-27)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.1.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.22...@esri/calcite-components@5.1.0-next.23) (2026-03-26)
+
+### Features
+
+- **autocomplete-item:** add selected property ([#14137](https://github.com/Esri/calcite-design-system/issues/14137)), closes [#14058](https://github.com/Esri/calcite-design-system/issues/14058)
+
+## [5.1.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.21...@esri/calcite-components@5.1.0-next.22) (2026-03-25)
+
+### Bug Fixes
+
+- **meter:** update border color ([#14167](https://github.com/Esri/calcite-design-system/issues/14167)), closes [#14166](https://github.com/Esri/calcite-design-system/issues/14166)
+
 ## [5.1.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.20...@esri/calcite-components@5.1.0-next.21) (2026-03-25)
 
 ### Bug Fixes

@@ -11,7 +11,7 @@ import storybookPlugin from "eslint-plugin-storybook";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist", "**/docs", "**/hydrate", "**/*.d.ts"],
+    ignores: ["**/dist", "**/docs", "**/*.d.ts"],
   },
 
   {
@@ -23,7 +23,11 @@ export default tseslint.config(
     },
 
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: tseslint.parser,
       parserOptions: {
+        jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],
       },

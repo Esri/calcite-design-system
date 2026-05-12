@@ -87,6 +87,9 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
+
   /** Specifies the component's value. */
   @property() value: string;
 
@@ -95,12 +98,13 @@ export class AutocompleteItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Emits the `calciteAutocompleteItemSelect` event.
+   * Toggles selection and emits the `calciteAutocompleteItemSelect` event.
    *
    * @private
    */
   @method()
-  emitSelectEvent(): void {
+  toggleSelection(): void {
+    this.selected = !this.selected;
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -119,7 +123,12 @@ export class AutocompleteItem extends LitElement {
 
   private handleClick(event: MouseEvent): void {
     event.preventDefault();
-    this.emitSelectEvent();
+
+    if (this.disabled) {
+      return;
+    }
+
+    this.toggleSelection();
   }
 
   //#endregion

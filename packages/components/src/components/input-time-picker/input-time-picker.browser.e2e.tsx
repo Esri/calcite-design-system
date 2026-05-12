@@ -11,11 +11,13 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
   formAssociated,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
@@ -31,6 +33,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -47,6 +53,10 @@ describe("is focusable", () => {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
     });
   });
+});
+
+describe.skip("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
 });
 
 describe("reflects", () => {

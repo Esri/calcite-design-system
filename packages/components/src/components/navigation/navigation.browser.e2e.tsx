@@ -1,7 +1,9 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import type { Navigation } from "./navigation";
 
 describe("defaults", () => {
   defaults(
@@ -10,6 +12,10 @@ describe("defaults", () => {
       {
         propertyName: "navigationAction",
         defaultValue: false,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
     ],
   );
@@ -48,4 +54,63 @@ describe("is focusable", () => {
   focusable(() => mount(<calcite-navigation navigation-action />), {
     shadowFocusTargetSelector: "calcite-action",
   });
+});
+
+describe("scale propagation", () => {
+  it("applies initial navigation scale to slotted navigation-logo and navigation-user", async () => {
+    await mount<Navigation>(
+      <calcite-navigation scale="m">
+        <calcite-navigation-logo heading="Heading text" slot="logo" />
+        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
+      </calcite-navigation>,
+    );
+
+    const logo = page.getBySelector("calcite-navigation-logo");
+    const user = page.getBySelector("calcite-navigation-user");
+
+    await expect.element(logo).toHaveProperty("scale", "m");
+    await expect.element(user).toHaveProperty("scale", "m");
+  });
+
+  it("updates slotted navigation-logo and navigation-user scale when navigation scale changes", async () => {
+    const { el } = await mount<Navigation>(
+      <calcite-navigation>
+        <calcite-navigation-logo heading="Heading text" slot="logo" />
+        <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
+      </calcite-navigation>,
+    );
+
+    const logo = page.getBySelector("calcite-navigation-logo");
+    const user = page.getBySelector("calcite-navigation-user");
+
+    await expect.element(logo).toHaveProperty("scale", "m");
+    await expect.element(user).toHaveProperty("scale", "m");
+
+    el.scale = "l";
+
+    await expect.element(logo).toHaveProperty("scale", "l");
+    await expect.element(user).toHaveProperty("scale", "l");
+  });
+});
+
+it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
+  const { el } = await mount(<calcite-navigation label="Menu" navigation-action />);
+  const actionSelectHandler = vi.fn();
+  el.addEventListener("calciteNavigationActionSelect", actionSelectHandler);
+  const hamburgerMenu = page.getByRole("button", { name: "Menu" });
+
+  await userEvent.keyboard("{Tab}");
+  expect(actionSelectHandler).toHaveBeenCalledTimes(0);
+
+  await userEvent.keyboard("{Enter}");
+  expect(actionSelectHandler).toHaveBeenCalledTimes(1);
+
+  await userEvent.keyboard("{Space}");
+  expect(actionSelectHandler).toHaveBeenCalledTimes(2);
+
+  await userEvent.keyboard("{Tab}");
+  expect(actionSelectHandler).toHaveBeenCalledTimes(2);
+
+  await userEvent.click(hamburgerMenu);
+  expect(actionSelectHandler).toHaveBeenCalledTimes(3);
 });

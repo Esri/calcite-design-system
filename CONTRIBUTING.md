@@ -90,7 +90,15 @@ Certain labels indicate that an issue is not ready for development:
 - `spike`: Issues that need to research a question or resolve a complex task with uncertain outcomes. Once the spike has been performed a `spike complete` label is added to the issue, which means a developer can pick up the issue.
 - `need more info`: Issues that require more information and/or a clear, actionable description from the submitter. If there is no follow up after two weeks since the label was added, the issue will be automatically closed.
 - `needs refinement`: Issues that are supported, but need scope refinement or updated acceptance criteria before moving forward, as a result of a change in scope or effort. Refer to the [issue refinement section](#issue-refinement) for more details.
-- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue. In the body or comments of a blocked issue, include a link to the blocking issue. To track when an issue is unblocked, add a comment in the blocking issue's body referencing the blocked issue(s). Use the following format for the comment: "Blocked issues: #0000, #0000". List multiple blocked issues by separating them with commas. The format of the issues listed can be issue number only (e.g., #0000), or the full issue URL (e.g., github.com/Esri/calcite-design-system/issues/xxxxx).
+- `blocked`: Issues that cannot be worked on until a different issue is resolved. The blocking issue may be from an external library (Lit, Storybook, Jest, etc.) or a Calcite Components issue.
+
+#### Blocked issues process
+
+When an issue blocks or is blocked by other GitHub issues, they should be linked using GitHub’s issue relationships. To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
+
+- Retrieves the list of issues that were blocked by the closed issue
+- Checks each issue for any remaining open blocking issues
+- If none remain, adds a comment to notify product engineers that the issue is now unblocked
 
 ### Issue Refinement
 
@@ -367,11 +375,13 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog entry.
 
-By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
+
+See the [PR review guidelines](https://github.com/Esri/calcite-design-system/wiki/PR-Review-Guidelines) wiki page for detailed information on how pull requests are reviewed.
 
 ### Visual snapshots
 

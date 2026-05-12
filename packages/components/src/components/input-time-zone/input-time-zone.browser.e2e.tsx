@@ -9,8 +9,10 @@ import {
   reflects,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
 
@@ -28,6 +30,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -58,6 +64,10 @@ describe("renders", () => {
 
 describe("focusable", () => {
   focusable(() => mount("calcite-input-time-zone"));
+});
+
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
 });
 
 describe("translation support", () => {
