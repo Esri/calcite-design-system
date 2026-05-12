@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import { defaults, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import type { TreeItem } from "../tree-item/tree-item";
 
 mockConsole();
 
@@ -43,8 +44,8 @@ describe("renders", () => {
   );
 });
 
-describe("selection event detail", () => {
-  it("contains leaf itemType when a leaf item is selected", async () => {
+describe("itemType", () => {
+  it("returns leaf when a leaf item is selected", async () => {
     const { el } = await mount<"calcite-tree">(
       <calcite-tree selection-mode="single">
         <calcite-tree-item id="leaf">Leaf</calcite-tree-item>
@@ -53,18 +54,18 @@ describe("selection event detail", () => {
     const selectSpy = vi.fn();
     el.addEventListener("calciteTreeSelect", selectSpy);
 
-    const leafItem = el.querySelector<HTMLElement>("#leaf");
+    const leafItem = el.querySelector<TreeItem["el"]>("#leaf");
 
     await userEvent.click(leafItem);
 
     expect(selectSpy).toHaveBeenCalledTimes(1);
-    expect(selectSpy.mock.calls[0][0].detail.itemType).toBe("leaf");
+    expect(leafItem.itemType).toBe("leaf");
   });
 
-  it("contains header itemType when a header item is selected", async () => {
+  it("returns branch when a branch item is selected", async () => {
     const { el } = await mount<"calcite-tree">(
       <calcite-tree selection-mode="ancestors">
-        <calcite-tree-item id="header">
+        <calcite-tree-item id="branch">
           <calcite-tree slot="children">
             <calcite-tree-item>Leaf</calcite-tree-item>
           </calcite-tree>
@@ -74,11 +75,11 @@ describe("selection event detail", () => {
     const selectSpy = vi.fn();
     el.addEventListener("calciteTreeSelect", selectSpy);
 
-    const headerItem = el.querySelector<HTMLElement>("#header");
+    const branchItem = el.querySelector<TreeItem["el"]>("#branch");
 
-    await userEvent.click(headerItem);
+    await userEvent.click(branchItem);
 
     expect(selectSpy).toHaveBeenCalledTimes(1);
-    expect(selectSpy.mock.calls[0][0].detail.itemType).toBe("header");
+    expect(branchItem.itemType).toBe("branch");
   });
 });

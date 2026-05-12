@@ -15,7 +15,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import type { Tree } from "../tree/tree";
 import { useInteractive } from "../../controllers/useInteractive";
-import { TreeItemSelectDetail } from "./interfaces";
+import { TreeItemSelectDetail, TreeItemType } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tree-item.scss";
 
@@ -90,6 +90,11 @@ export class TreeItem extends LitElement {
 
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart: IconName;
+
+  /** Indicates whether the item behaves as a branch or leaf node. */
+  @property() get itemType(): TreeItemType {
+    return this.hasChildren ? "branch" : "leaf";
+  }
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -193,7 +198,6 @@ export class TreeItem extends LitElement {
       }
       this.calciteInternalTreeItemSelect.emit({
         modifyCurrentSelection: true,
-        itemType: this.getItemType(),
         updateItem: false,
       });
     }
@@ -207,10 +211,6 @@ export class TreeItem extends LitElement {
   private getSelectionMode(): void {
     this.isSelectionMultiLike =
       this.selectionMode === "multiple" || this.selectionMode === "multichildren";
-  }
-
-  private getItemType(): TreeItemSelectDetail["itemType"] {
-    return this.hasChildren ? "header" : "leaf";
   }
 
   private onClick(event: Event): void {
@@ -227,7 +227,6 @@ export class TreeItem extends LitElement {
     }
     this.calciteInternalTreeItemSelect.emit({
       modifyCurrentSelection: this.selectionMode === "ancestors" || this.isSelectionMultiLike,
-      itemType: this.getItemType(),
       updateItem: true,
     });
     this.userChangedValue = true;
@@ -252,7 +251,6 @@ export class TreeItem extends LitElement {
         this.userChangedValue = true;
         this.calciteInternalTreeItemSelect.emit({
           modifyCurrentSelection: this.isSelectionMultiLike,
-          itemType: this.getItemType(),
           updateItem: true,
         });
         event.preventDefault();
@@ -271,7 +269,6 @@ export class TreeItem extends LitElement {
         } else {
           this.calciteInternalTreeItemSelect.emit({
             modifyCurrentSelection: this.isSelectionMultiLike,
-            itemType: this.getItemType(),
             updateItem: true,
           });
         }
