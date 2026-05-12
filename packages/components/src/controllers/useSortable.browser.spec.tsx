@@ -80,3 +80,23 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
   expect(destroySpy).toHaveBeenCalledTimes(2);
   expect(createSpy).toHaveBeenCalledTimes(1);
 });
+
+it("does not reorder DOM when setValues receives the current order", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const appendChildSpy = vi.spyOn(component.el, "appendChild");
+
+  call.setValues(call.getValues());
+
+  expect(appendChildSpy).not.toHaveBeenCalled();
+});
