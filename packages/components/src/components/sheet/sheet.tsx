@@ -282,7 +282,7 @@ export class Sheet extends LitElement {
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
