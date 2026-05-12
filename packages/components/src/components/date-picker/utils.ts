@@ -135,6 +135,21 @@ export function getValueAsDateRange(value: string[]): Date[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
 }
 
+function getSource<T extends string>(changes: PropertyValues, stringProp: T, dateProp: T): T | null {
+  const stringPropChanged = changes.has(stringProp);
+  const datePropChanged = changes.has(dateProp);
+
+  if (stringPropChanged && !datePropChanged) {
+    return stringProp;
+  }
+
+  if (datePropChanged && !stringPropChanged) {
+    return dateProp;
+  }
+
+  return null;
+}
+
 /**
  * Returns the source of min/max.
  *
@@ -142,18 +157,6 @@ export function getValueAsDateRange(value: string[]): Date[] {
  * - For "max": returns "max" or "maxAsDate"
  *
  */
-export function getMinMaxSource(changes: PropertyValues, type: MinMaxType): MinSource | MaxSource {
-  if (type === "min") {
-    if (changes.has("min") && !changes.has("minAsDate")) {
-      return "min";
-    } else if (changes.has("minAsDate") && !changes.has("min")) {
-      return "minAsDate";
-    }
-  } else if (type === "max") {
-    if (changes.has("max") && !changes.has("maxAsDate")) {
-      return "max";
-    } else if (changes.has("maxAsDate") && !changes.has("max")) {
-      return "maxAsDate";
-    }
-  }
+export function getMinMaxSource(changes: PropertyValues, type: MinMaxType): MinSource | MaxSource | null {
+  return type === "min" ? getSource(changes, "min", "minAsDate") : getSource(changes, "max", "maxAsDate");
 }
