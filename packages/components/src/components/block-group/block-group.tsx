@@ -187,6 +187,7 @@ export class BlockGroup extends LitElement {
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("canPull") && this.hasUpdated) ||
       (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
@@ -338,7 +339,7 @@ export class BlockGroup extends LitElement {
     this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
       (el): el is Block["el"] | BlockGroup["el"] => {
         if (el.matches(blockSelector)) {
-          blockChildren.push(el as Block["el"]);
+          blockChildren.push(el);
         }
         return el.matches(blockSelector) || el.matches(blockGroupSelector);
       },

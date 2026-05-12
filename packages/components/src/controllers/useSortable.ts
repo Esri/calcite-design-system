@@ -2,6 +2,7 @@ import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { dragAndDrop, tearDown } from "@formkit/drag-and-drop";
 import { guid } from "../utils/guid";
+import { getRootNode } from "../utils/dom";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
@@ -50,6 +51,9 @@ function onGlobalDragEnd(): void {
 interface SortableComponent extends LitElement {
   /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
+
+  /** When `true`, interaction should be disabled. */
+  disabled?: boolean;
 
   /** When `true`, sorting is disabled. */
   sortDisabled?: boolean;
@@ -113,12 +117,65 @@ interface UseSortable {
 const globalDragState: { active: boolean } = { active: false };
 const dragHandlePointerState = new WeakMap<SortableComponent, EventTarget[]>();
 const dragHandlePointerController = new WeakMap<SortableComponent, AbortController>();
+const syntheticPointerEvents = new WeakSet<Event>();
 const sortableItemKey = "data-calcite-sortable-key";
-const sortableItems = new Map<string, HTMLElement>();
+
+function reEmitPointerEventIfStopped(
+  component: SortableComponent,
+  controller: AbortController,
+  event: PointerEvent,
+): void {
+  if (syntheticPointerEvents.has(event) || event.target === component.el) {
+    return;
+  }
+
+  let reachedHostBubblePhase = false;
+
+  const markBubblePhase = (bubbleEvent: Event): void => {
+    if (bubbleEvent === event) {
+      reachedHostBubblePhase = true;
+    }
+  };
+
+  component.el.addEventListener(event.type, markBubblePhase, {
+    once: true,
+    signal: controller.signal,
+  });
+
+  queueMicrotask(() => {
+    if (reachedHostBubblePhase) {
+      return;
+    }
+
+    const syntheticEvent = new PointerEvent(event.type, {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      pointerId: event.pointerId,
+      pointerType: event.pointerType,
+      isPrimary: event.isPrimary,
+      button: event.button,
+      buttons: event.buttons,
+      clientX: event.clientX,
+      clientY: event.clientY,
+      screenX: event.screenX,
+      screenY: event.screenY,
+      ctrlKey: event.ctrlKey,
+      shiftKey: event.shiftKey,
+      altKey: event.altKey,
+      metaKey: event.metaKey,
+    });
+
+    syntheticPointerEvents.add(syntheticEvent);
+    component.el.dispatchEvent(syntheticEvent);
+  });
+}
 
 function getSortableItems(component: SortableComponent): HTMLElement[] {
   if (component.dragSelector) {
-    return Array.from(component.el.querySelectorAll<HTMLElement>(component.dragSelector));
+    return Array.from(component.el.children).filter((child): child is HTMLElement => {
+      return child instanceof HTMLElement && child.matches(component.dragSelector);
+    });
   }
 
   return Array.from(component.el.children) as HTMLElement[];
@@ -133,11 +190,14 @@ function getSortableItemKey(item: HTMLElement, forceNew = false): string {
     item.setAttribute(sortableItemKey, item.id || guid());
   }
 
-  const key = item.getAttribute(sortableItemKey);
+  return item.getAttribute(sortableItemKey);
+}
 
-  sortableItems.set(key, item);
+function getSortableItemByKey(component: SortableComponent, key: string): HTMLElement | null {
+  const rootNode = getRootNode(component.el);
+  const escapedKey = globalThis.CSS?.escape?.(key) ?? key.replace(/(["\\])/g, "\\$1");
 
-  return key;
+  return rootNode.querySelector<HTMLElement>(`[${sortableItemKey}="${escapedKey}"]`);
 }
 
 function setUpDragHandleTracking(component: SortableComponent): void {
@@ -149,16 +209,24 @@ function setUpDragHandleTracking(component: SortableComponent): void {
   component.el.addEventListener(
     "pointerdown",
     (event) => {
+      reEmitPointerEventIfStopped(component, controller, event);
       dragHandlePointerState.set(component, event.composedPath());
     },
-    { signal: controller.signal },
+    { capture: true, signal: controller.signal },
   );
 
   const clearPointerState = (): void => {
     dragHandlePointerState.delete(component);
   };
 
-  component.el.addEventListener("pointerup", clearPointerState, { signal: controller.signal });
+  component.el.addEventListener(
+    "pointerup",
+    (event) => {
+      reEmitPointerEventIfStopped(component, controller, event);
+      clearPointerState();
+    },
+    { capture: true, signal: controller.signal },
+  );
   component.el.addEventListener("pointercancel", clearPointerState, { signal: controller.signal });
   component.el.addEventListener("dragend", clearPointerState, { signal: controller.signal });
 
@@ -166,7 +234,10 @@ function setUpDragHandleTracking(component: SortableComponent): void {
     "dragstart",
     (event) => {
       const pointerPath = dragHandlePointerState.get(component);
-      const isSortableItem = getSortableItems(component).some((item) => item === event.target);
+      const isSortableItem =
+        event.target instanceof HTMLElement &&
+        event.target.parentElement === component.el &&
+        (!component.dragSelector || event.target.matches(component.dragSelector));
       const startedFromHandle = pointerPath?.some(
         (target) => target instanceof Element && target.matches(handleSelector),
       );
@@ -189,8 +260,15 @@ function tearDownDragHandleTracking(component: SortableComponent): void {
 }
 
 function setSortableItems(component: SortableComponent, values: string[]): void {
+  const currentItems = getSortableItems(component);
+  const currentValues = currentItems.map((item) => getSortableItemKey(item));
+
+  if (currentValues.length === values.length && currentValues.every((value, index) => value === values[index])) {
+    return;
+  }
+
   values.forEach((value) => {
-    const item = sortableItems.get(value);
+    const item = getSortableItemByKey(component, value);
 
     if (item) {
       component.el.appendChild(item);
@@ -378,7 +456,7 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       tearDownSortable(component);
 
-      if (!component.dragEnabled) {
+      if (!component.dragEnabled || component.disabled) {
         return;
       }
 
