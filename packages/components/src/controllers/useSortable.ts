@@ -2,9 +2,10 @@ import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import {
   dragAndDrop,
-  isDragState,
   tearDown,
   type BaseDragState,
+  type DragState,
+  type SynthDragState,
   type DragendEventData,
   type DragstartEventData,
   type ParentRecord,
@@ -128,6 +129,10 @@ const dragHandlePointerState = new WeakMap<SortableComponent, EventTarget[]>();
 const dragHandlePointerController = new WeakMap<SortableComponent, AbortController>();
 const syntheticPointerEvents = new WeakSet<Event>();
 const sortableItemKeys = new WeakMap<HTMLElement, string>();
+
+function isDragState<T>(state: BaseDragState<T>): state is DragState<T> | SynthDragState<T> {
+  return "draggedNode" in state && !!state.draggedNode;
+}
 
 function getSyntheticPointerEventInit(event: PointerEvent): PointerEventInit {
   return {
