@@ -509,7 +509,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   loaded(): void {
-    //console.log("loaded");
     this.localizeInputValues();
     connectFloatingUI(this);
   }
@@ -544,6 +543,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
         this.valueAsDate = newValueAsDate;
       }
+
       this.localizeInputValues();
     }
     this.userChangedValue = false;
@@ -916,6 +916,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
           this.maxAsDate,
         )
       : null;
+
     this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
     this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
   }
@@ -993,6 +994,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = true;
     this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
     this.value = newValue || "";
+
     const changeEvent = this.calciteInputDatePickerChange.emit();
 
     if (changeEvent.defaultPrevented) {
