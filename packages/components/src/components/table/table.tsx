@@ -8,6 +8,7 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
+import type { TableHeader } from "../table-header/table-header";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
 import {
@@ -22,7 +23,7 @@ import {
   ensureFocusedTableCellVisible,
   StickyTableMeasurements,
 } from "./sticky-header";
-import { getFocusableRowCell } from "./focusable-row-cells";
+import { FocusableCell, getFocusableRowCell } from "./focusable-row-cells";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -475,7 +476,9 @@ export class Table extends LitElement {
         lastCell,
       });
 
-      const targetCell = targetRow ? getFocusableRowCell(targetRow, adjustedPos, lastCell) : null;
+      const targetCell = targetRow
+        ? getFocusableRowCell(targetRow.focusableCells || [], adjustedPos, lastCell)
+        : null;
 
       if (targetRow?.rowType === "body" && !targetRow.disabled && targetCell) {
         ensureFocusedTableCellVisible(
@@ -563,7 +566,7 @@ export class Table extends LitElement {
     }
 
     this.headRows?.forEach((row) => {
-      const tableRow = row.shadowRoot?.querySelector("tr");
+      const tableRow = this.getStickyHeaderRowElement(row);
 
       if (tableRow) {
         this.stickyHeaderResizeObserver?.observe(tableRow);
@@ -576,17 +579,15 @@ export class Table extends LitElement {
         attributes: true,
       });
 
-      const headers = row.querySelectorAll("calcite-table-header");
+      const headers = row.querySelectorAll<TableHeader["el"]>("calcite-table-header");
 
       headers.forEach((header) => {
-        const headerCell = header.shadowRoot?.querySelector("th");
+        const headerCell = this.getStickyHeaderCellElement(header);
 
         if (headerCell) {
           this.stickyHeaderResizeObserver?.observe(headerCell);
-        }
 
-        if (header.shadowRoot) {
-          this.stickyHeaderMutationObserver?.observe(header.shadowRoot, {
+          this.stickyHeaderMutationObserver?.observe(headerCell, {
             childList: true,
             subtree: true,
             characterData: true,
@@ -603,6 +604,30 @@ export class Table extends LitElement {
 
     // Wait for nested component renders so height/position measurements are current.
     this.scheduleNestedAnimationFrameUpdate(() => this.updateStickyHeaderOffsets());
+  }
+
+  private getStickyHeaderCellElement(header: TableHeader["el"]): HTMLTableCellElement | null {
+    try {
+      return header.getCellElement();
+    } catch {
+      return (
+        (
+          header as TableHeader["el"] & { renderRoot?: ShadowRoot | DocumentFragment }
+        ).renderRoot?.querySelector("th") || null
+      );
+    }
+  }
+
+  private getStickyHeaderRowElement(row: TableRow["el"]): HTMLTableRowElement | null {
+    try {
+      return row.getRowElement();
+    } catch {
+      return (
+        (
+          row as TableRow["el"] & { renderRoot?: ShadowRoot | DocumentFragment }
+        ).renderRoot?.querySelector("tr") || null
+      );
+    }
   }
 
   private scheduleStickyHeaderViewportUpdate(): void {
@@ -658,7 +683,7 @@ export class Table extends LitElement {
     const headerCount = this.headRows?.length || 0;
 
     this.headRows?.forEach((row, index) => {
-      const tableRow = row.shadowRoot?.querySelector("tr");
+      const tableRow = this.getStickyHeaderRowElement(row);
       const tableRowHeight =
         tableRow?.getBoundingClientRect().height || tableRow?.offsetHeight || 0;
 
@@ -782,9 +807,9 @@ export class Table extends LitElement {
 
   private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
     const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
-    const firstVisibleCell = firstVisibleBodyRow?.querySelector(
+    const firstVisibleCell = firstVisibleBodyRow?.querySelector<FocusableCell>(
       "calcite-table-cell, calcite-table-header",
-    ) as (HTMLElement & { shadowRoot: ShadowRoot | null }) | null;
+    );
 
     ensureFirstVisibleTableCellBelowStickyHeader(
       this.getStickyTableMeasurements(),

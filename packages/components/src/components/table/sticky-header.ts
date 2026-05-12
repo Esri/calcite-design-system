@@ -3,7 +3,7 @@ type TableHost = HTMLElement & {
 };
 
 type FocusableTablePart = HTMLElement & {
-  shadowRoot: ShadowRoot | null;
+  getCellElement?: () => HTMLElement | null;
 };
 
 export type StickyTableMeasurements = {
@@ -37,7 +37,7 @@ function getStickyHeaderState(table: HTMLElement): {
 }
 
 function getFocusableCellElement(cell: FocusableTablePart | null): HTMLElement | null {
-  return (cell?.shadowRoot?.querySelector("td, th") as HTMLElement) || null;
+  return cell?.getCellElement() || null;
 }
 
 function getStickyAdjustedTargetTop(

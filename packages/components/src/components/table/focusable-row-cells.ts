@@ -1,25 +1,21 @@
-type FocusableCell = HTMLElement & {
+export type FocusableCell = HTMLElement & {
+  getCellElement?: () => HTMLElement | null;
   numberCell?: boolean;
   selectionCell?: boolean;
 };
 
-type FocusableRow = HTMLElement & {
-  shadowRoot: ShadowRoot | null;
-};
-
-export function getFocusableRowCells(row: FocusableRow): FocusableCell[] {
-  const slottedCells = Array.from(row.querySelectorAll<FocusableCell>("calcite-table-cell, calcite-table-header"));
-
-  const renderedCells = Array.from(
-    row.shadowRoot?.querySelectorAll<FocusableCell>("calcite-table-header, calcite-table-cell") || [],
-  ).filter((cell) => cell.numberCell || cell.selectionCell);
-
+export function createFocusableRowCells(
+  renderedCells: FocusableCell[],
+  slottedCells: FocusableCell[],
+): FocusableCell[] {
   return renderedCells.concat(slottedCells);
 }
 
-export function getFocusableRowCell(row: FocusableRow, position: number, lastCell?: boolean): FocusableCell | null {
-  const cells = getFocusableRowCells(row);
-
+export function getFocusableRowCell(
+  cells: FocusableCell[],
+  position: number,
+  lastCell?: boolean,
+): FocusableCell | null {
   if (!cells.length) {
     return null;
   }

@@ -1,11 +1,11 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { Fragment, LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
 import { render } from "lit";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { getFocusableRowCells } from "../table/focusable-row-cells";
+import { createFocusableRowCells, FocusableCell } from "../table/focusable-row-cells";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -84,6 +84,9 @@ export class TableRow extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** @private */
+  @property({ attribute: false }) focusableCells: FocusableCell[] = [];
+
+  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
@@ -140,6 +143,16 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
+
+  //#endregion
+
+  //#region Public Methods
+
+  /** @private */
+  @method()
+  getRowElement(): HTMLTableRowElement | null {
+    return this.tableRowEl;
+  }
 
   //#endregion
 
@@ -341,7 +354,15 @@ export class TableRow extends LitElement {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const cells = getFocusableRowCells(this.el);
+    const slottedCells = Array.from(
+      this.el.querySelectorAll<FocusableCell>("calcite-table-cell, calcite-table-header"),
+    );
+    const renderedCells = Array.from(
+      this.tableRowEl?.querySelectorAll<FocusableCell>(
+        "calcite-table-header, calcite-table-cell",
+      ) || [],
+    ).filter((cell) => cell.numberCell || cell.selectionCell);
+    const cells = createFocusableRowCells(renderedCells, slottedCells);
 
     if (cells.length > 0) {
       cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
@@ -367,6 +388,7 @@ export class TableRow extends LitElement {
       });
     }
 
+    this.focusableCells = cells;
     this.rowCells = (cells as (TableCell["el"] | TableHeader["el"])[]) || [];
     this.cellCount = cells?.length;
   }
