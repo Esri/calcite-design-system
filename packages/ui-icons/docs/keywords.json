@@ -12004,5 +12004,10 @@
     "alias": ["5.0.0", "symbols", "user-experience", "keys", "triggers", "quickcapture"],
     "category": "Symbols",
     "release": "5.0.0"
+  },
+  "entity-types": {
+    "alias": ["5.0.0", "knowledge graph", "features", "vector", "raster", "polygons"],
+    "category": "Knowledge Graph",
+    "release": "5.0.0"
   }
 }
