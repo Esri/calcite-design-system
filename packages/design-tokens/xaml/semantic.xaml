@@ -7,10 +7,6 @@
   <x:String x:Key="calcite-border-width-md">2px</x:String>
   <x:String x:Key="calcite-border-width-none">0</x:String>
   <x:String x:Key="calcite-border-width-sm">1px</x:String>
-  <x:String x:Key="calcite-container-size-content-fixed">1440px</x:String>
-  <x:String x:Key="calcite-container-size-content-fluid">100%</x:String>
-  <x:String x:Key="calcite-container-size-gutter">16px</x:String>
-  <x:String x:Key="calcite-container-size-margin">24px</x:String>
   <x:String x:Key="calcite-corner-radius">0</x:String>
   <x:String x:Key="calcite-corner-radius-none">0</x:String>
   <x:String x:Key="calcite-corner-radius-pill">9999px</x:String>
