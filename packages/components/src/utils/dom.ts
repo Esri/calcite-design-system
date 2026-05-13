@@ -399,7 +399,8 @@ export function slotChangeGetTextContent(event: Event): string {
 /**
  * This helper checks if an element has visible content.
  *
- * @deprecated Has problems with nested slots and dynamic content, refer to https://github.com/Esri/calcite-design-system/issues/14270.
+ * @deprecated Using this utility with slots/content that start empty or may change creates incorrect behavior.
+ * It should not be used until a solution is found via https://github.com/Esri/calcite-design-system/issues/14270.
  *
  * @param element The element to check.
  * @returns True if the element has visible content, otherwise false.
