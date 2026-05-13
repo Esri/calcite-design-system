@@ -208,6 +208,10 @@ function getSortableItemKey(item: HTMLElement, forceNew = false): string {
   return key;
 }
 
+function pathIncludesHandle(path: EventTarget[] | undefined, handleSelector: string): boolean {
+  return path?.some((target) => target instanceof Element && target.matches(handleSelector)) ?? false;
+}
+
 function setUpDragHandleTracking(component: SortableComponent): void {
   dragHandlePointerController.get(component)?.abort();
 
@@ -218,6 +222,11 @@ function setUpDragHandleTracking(component: SortableComponent): void {
     "pointerdown",
     (event) => {
       reEmitPointerEventIfStopped(component, event);
+
+      if (syntheticPointerEvents.has(event)) {
+        return;
+      }
+
       dragHandlePointerState.set(component, event.composedPath());
     },
     { capture: true, signal: controller.signal },
@@ -242,15 +251,17 @@ function setUpDragHandleTracking(component: SortableComponent): void {
     "dragstart",
     (event) => {
       const pointerPath = dragHandlePointerState.get(component);
-      const isSortableItem =
+      const dragstartPath = event.composedPath();
+      const sortableItem =
         event.target instanceof HTMLElement &&
         event.target.parentElement === component.el &&
-        (!component.dragSelector || event.target.matches(component.dragSelector));
-      const startedFromHandle = pointerPath?.some(
-        (target) => target instanceof Element && target.matches(handleSelector),
-      );
+        (!component.dragSelector || event.target.matches(component.dragSelector))
+          ? event.target
+          : null;
+      const startedFromHandle =
+        pathIncludesHandle(pointerPath, handleSelector) || pathIncludesHandle(dragstartPath, handleSelector);
 
-      if (isSortableItem && pointerPath && !startedFromHandle) {
+      if (sortableItem && pointerPath && !startedFromHandle) {
         event.preventDefault();
         event.stopPropagation();
       }
@@ -316,6 +327,18 @@ function applyClonePull(component: SortableComponent, dragEl: HTMLElement, initi
   values.splice(initialIndex, 0, cloneKey);
   existingItem.parentElement?.insertBefore(clone, existingItem);
   setSortableItems(component, values);
+}
+
+function insertDraggedElement(component: SortableComponent, dragEl: HTMLElement, targetIndex: number): void {
+  const currentItems = getSortableItems(component);
+  const referenceItem = currentItems[targetIndex];
+
+  if (referenceItem) {
+    component.el.insertBefore(dragEl, referenceItem);
+    return;
+  }
+
+  component.el.appendChild(dragEl);
 }
 
 function getSortableComponentFromParent(parent: ParentRecord<string>): SortableComponent {
@@ -442,6 +465,7 @@ function createSortable(component: SortableComponent): void {
         }
 
         if (isTargetComponent) {
+          insertDraggedElement(component, dragEl, event.targetIndex);
           setSortableItems(component, targetValues);
         }
 
