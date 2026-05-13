@@ -4,7 +4,7 @@ import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
 import { getAssetPath } from "../../runtime";
 import { Locale } from "../../utils/locale";
-import { DatePicker } from "./date-picker";
+import type { DatePicker } from "./date-picker";
 
 type MinSource = Extract<keyof DatePicker, "min" | "minAsDate">;
 type MaxSource = Extract<keyof DatePicker, "max" | "maxAsDate">;
