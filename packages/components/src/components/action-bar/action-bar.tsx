@@ -501,8 +501,8 @@ export class ActionBar extends LitElement {
     this.actions.forEach((action) => {
       const tabIndex = !action.disabled && action === active ? 0 : -1;
 
-      // intentionally using setAttribute to avoid reflecting -1 so default browser behavior will occur
       if (tabIndex === 0) {
+        // action's internal button is tabbable by default, so we remove the attribute to avoid an extra tabbable element
         action.removeAttribute("tabindex");
       } else {
         action.tabIndex = tabIndex;
