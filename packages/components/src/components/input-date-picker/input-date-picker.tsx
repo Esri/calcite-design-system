@@ -472,7 +472,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
     }
 
-    if (minSource || maxSource) {
+    if ((minSource || maxSource) && !Array.isArray(this.valueAsDate)) {
       const validValueAsDate = dateFromRange(this.valueAsDate, this.minAsDate, this.maxAsDate);
       if (validValueAsDate !== this.valueAsDate) {
         this.valueAsDate = validValueAsDate;
