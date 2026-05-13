@@ -5,14 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>Demos</title>
     <script src="/src/demos/_assets/head.ts"></script>
+    <style>
+      demo-dom-swapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-inline-start: 1rem;
+        margin-block-start: 1rem;
+      }
+
+      calcite-action-bar[floating] {
+        align-self: flex-start;
+      }
+
+      calcite-notice {
+        margin-block: 1rem;
+      }
+    </style>
   </head>
 
   <body>
     <demo-dom-swapper>
       <!-- demo snippet start -->
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <calcite-notice open>
+        <div slot="title">This file will be reverted before merging.</div>
+      </calcite-notice>
+
+      Overflow disabled on Action Bar
+      <calcite-action-bar layout="horizontal" expand-disabled floating overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action text="Curve" icon="curve"></calcite-action>
+          <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+          <calcite-action text="Line" icon="line"></calcite-action>
+          <calcite-action text="Line straight" icon="line-straight"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
+          <calcite-action text="Stretch" icon="stretch"></calcite-action>
+          <calcite-action text="Trace" icon="trace"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+
+      Overflow disabled on first Action Group
+      <calcite-action-bar layout="horizontal" expand-disabled floating>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action text="Curve" icon="curve"></calcite-action>
+          <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+          <calcite-action text="Line" icon="line"></calcite-action>
+          <calcite-action text="Line straight" icon="line-straight"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
+          <calcite-action text="Stretch" icon="stretch"></calcite-action>
+          <calcite-action text="Trace" icon="trace"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+
+      Overflow disabled on second Action Group
+      <calcite-action-bar layout="horizontal" expand-disabled floating>
+        <calcite-action-group>
+          <calcite-action text="Curve" icon="curve"></calcite-action>
+          <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+          <calcite-action text="Line" icon="line"></calcite-action>
+          <calcite-action text="Line straight" icon="line-straight"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
+          <calcite-action text="Stretch" icon="stretch"></calcite-action>
+          <calcite-action text="Trace" icon="trace"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+
+      Overflow disabled on second Action Group and Action Bar
+      <calcite-action-bar layout="horizontal" expand-disabled floating overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action text="Curve" icon="curve"></calcite-action>
+          <calcite-action text="Right angle" icon="right-angle"></calcite-action>
+          <calcite-action text="Line" icon="line"></calcite-action>
+          <calcite-action text="Line straight" icon="line-straight"></calcite-action>
+        </calcite-action-group>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action text="Split geometry" icon="split-geometry"></calcite-action>
+          <calcite-action text="Stretch" icon="stretch"></calcite-action>
+          <calcite-action text="Trace" icon="trace"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
 
       <!-- demo snippet end -->
     </demo-dom-swapper>
