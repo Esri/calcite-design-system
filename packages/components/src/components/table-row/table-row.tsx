@@ -1,7 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { Fragment, LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
 import { render } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
@@ -33,6 +34,8 @@ export class TableRow extends LitElement {
   messages;
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
+
+  private rowSlotRef = createRef<HTMLSlotElement>();
 
   private tableRowEl: HTMLTableRowElement;
 
@@ -354,9 +357,14 @@ export class TableRow extends LitElement {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = Array.from(
-      this.el.querySelectorAll<FocusableCell>("calcite-table-cell, calcite-table-header"),
-    );
+    const slottedCells = this.rowSlotRef.value
+      ? this.rowSlotRef.value
+          .assignedElements({ flatten: true })
+          .filter(
+            (element): element is FocusableCell =>
+              element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
+          )
+      : [];
     const renderedCells = Array.from(
       this.tableRowEl?.querySelectorAll<FocusableCell>(
         "calcite-table-header, calcite-table-cell",
@@ -503,7 +511,7 @@ export class TableRow extends LitElement {
               <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
-                <slot />
+                <slot ref={this.rowSlotRef} />
               </>,
               el,
             );

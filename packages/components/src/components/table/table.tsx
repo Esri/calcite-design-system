@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
@@ -23,7 +23,7 @@ import {
   ensureFocusedTableCellVisible,
   StickyTableMeasurements,
 } from "./sticky-header";
-import { FocusableCell, getFocusableRowCell } from "./focusable-row-cells";
+import { getFocusableRowCell } from "./focusable-row-cells";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -537,7 +537,9 @@ export class Table extends LitElement {
         attributes: true,
       });
 
-      const headers = row.querySelectorAll<TableHeader["el"]>("calcite-table-header");
+      const headers = (row.focusableCells || []).filter((cell): cell is TableHeader["el"] =>
+        cell.matches("calcite-table-header"),
+      );
 
       headers.forEach((header) => {
         const headerCell = this.getStickyHeaderCellElement(header);
@@ -565,26 +567,26 @@ export class Table extends LitElement {
   }
 
   private getStickyHeaderCellElement(header: TableHeader["el"]): HTMLTableCellElement | null {
+    if (typeof header.getCellElement !== "function") {
+      return null;
+    }
+
     try {
       return header.getCellElement();
     } catch {
-      return (
-        (
-          header as TableHeader["el"] & { renderRoot?: ShadowRoot | DocumentFragment }
-        ).renderRoot?.querySelector("th") || null
-      );
+      return null;
     }
   }
 
   private getStickyHeaderRowElement(row: TableRow["el"]): HTMLTableRowElement | null {
+    if (typeof row.getRowElement !== "function") {
+      return null;
+    }
+
     try {
       return row.getRowElement();
     } catch {
-      return (
-        (
-          row as TableRow["el"] & { renderRoot?: ShadowRoot | DocumentFragment }
-        ).renderRoot?.querySelector("tr") || null
-      );
+      return null;
     }
   }
 
@@ -720,8 +722,7 @@ export class Table extends LitElement {
       row.stickyHeaderActive = this.stickyHeaderActive;
     });
 
-    const colCount =
-      headRows[0]?.cellCount || headRows[0]?.querySelectorAll("calcite-table-header")?.length;
+    const colCount = headRows[0]?.cellCount || headRows[0]?.focusableCells?.length || 0;
 
     this.colCount = colCount;
     this.headRows = headRows;
@@ -765,9 +766,9 @@ export class Table extends LitElement {
 
   private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
     const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
-    const firstVisibleCell = firstVisibleBodyRow?.querySelector<FocusableCell>(
-      "calcite-table-cell, calcite-table-header",
-    );
+    const firstVisibleCell = firstVisibleBodyRow
+      ? getFocusableRowCell(firstVisibleBodyRow.focusableCells || [], 1)
+      : null;
 
     ensureFirstVisibleTableCellBelowStickyHeader(
       this.getStickyTableMeasurements(),
