@@ -33,9 +33,13 @@ export class TableRow extends LitElement {
 
   messages;
 
+  private numberedCell: FocusableCell | null = null;
+
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
   private rowSlotRef = createRef<HTMLSlotElement>();
+
+  private selectionCell: FocusableCell | null = null;
 
   private tableRowEl: HTMLTableRowElement;
 
@@ -365,11 +369,9 @@ export class TableRow extends LitElement {
               element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
           )
       : [];
-    const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll<FocusableCell>(
-        "calcite-table-header, calcite-table-cell",
-      ) || [],
-    ).filter((cell) => cell.numberCell || cell.selectionCell);
+    const renderedCells = [this.numberedCell, this.selectionCell].filter(
+      (cell): cell is FocusableCell => cell != null,
+    );
     const cells = createFocusableRowCells(renderedCells, slottedCells);
 
     if (cells.length > 0) {
@@ -436,6 +438,9 @@ export class TableRow extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
+        ref={(el) => {
+          this.selectionCell = el;
+        }}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -450,6 +455,9 @@ export class TableRow extends LitElement {
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
+        ref={(el) => {
+          this.selectionCell = el;
+        }}
         selectionCell={true}
       >
         {this.renderSelectionIcon()}
@@ -459,6 +467,9 @@ export class TableRow extends LitElement {
         alignment="center"
         key="selection-foot"
         parentRowAlignment={this.alignment}
+        ref={(el) => {
+          this.selectionCell = el;
+        }}
         selectionCell={true}
       />
     );
@@ -471,6 +482,9 @@ export class TableRow extends LitElement {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={(el) => {
+          this.numberedCell = el;
+        }}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -478,6 +492,9 @@ export class TableRow extends LitElement {
         key="numbered-body"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={(el) => {
+          this.numberedCell = el;
+        }}
       >
         {this.positionSectionLocalized}
       </calcite-table-cell>
@@ -487,6 +504,9 @@ export class TableRow extends LitElement {
         key="numbered-foot"
         numberCell={true}
         parentRowAlignment={this.alignment}
+        ref={(el) => {
+          this.numberedCell = el;
+        }}
       />
     );
   }
