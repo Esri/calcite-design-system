@@ -1,16 +1,7 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  Fragment,
-  h,
-  method,
-  state,
-  JsxNode,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
 import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navigation-logo/navigation-logo";
@@ -54,6 +45,7 @@ export class Navigation extends LitElement {
   private mutationObserver = createObserver("mutation", () => {
     this.updateNavigationLogo();
     this.updateNavigationUser();
+    this.updateNestedNavigation();
   });
 
   // #endregion
@@ -122,6 +114,7 @@ export class Navigation extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true });
     this.updateNavigationLogo();
     this.updateNavigationUser();
+    this.updateNestedNavigation();
   }
 
   override updated(changes: PropertyValues<this>): void {
@@ -132,6 +125,7 @@ export class Navigation extends LitElement {
     ) {
       this.updateNavigationLogo();
       this.updateNavigationUser();
+      this.updateNestedNavigation();
     }
   }
 
@@ -223,6 +217,18 @@ export class Navigation extends LitElement {
   private updateNavigationUser(): void {
     this.getOwnedNavigationElements(SLOTS.user, "calcite-navigation-user").forEach((item) => {
       (item as HTMLCalciteNavigationUserElement).scale = this.scale;
+    });
+  }
+
+  private updateNestedNavigation(): void {
+    const nestedNavigation = [
+      ...this.getOwnedNavigationElements(SLOTS.navSecondary, "calcite-navigation"),
+      ...this.getOwnedNavigationElements(SLOTS.navTertiary, "calcite-navigation"),
+    ];
+    nestedNavigation.forEach((item) => {
+      if (item !== this.el) {
+        (item as Navigation).scale = this.scale;
+      }
     });
   }
 
