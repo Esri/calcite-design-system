@@ -13,6 +13,7 @@ import {
   type TransferEventData,
 } from "@formkit/drag-and-drop";
 import { guid } from "../utils/guid";
+import { getRootNode } from "../utils/dom";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
@@ -350,6 +351,7 @@ function createSortable(component: SortableComponent): void {
     getValues: () => getSortableValues(component),
     setValues: (values) => setSortableItems(component, values),
     config: {
+      root: getRootNode(el),
       group,
       sortable: !sortDisabled,
       draggingClass: CSS.dragClass,
