@@ -64,13 +64,14 @@ Also, make sure to add the `@internal` JSDoc tag to hide an event from the gener
 
 ### Event Details
 
-Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@Prop()` in the event details.
+Only attach additional data to your event if that data cannot be determined from the state of the component. This is because events also get a reference to the component that fired the event. For example you do not need to pass anything exposed as a `@property()` in the event details.
 
 ```tsx
-@Listen("calciteCustomEvent") customEventHandler(
-  event: CustomEvent
-) {
-  console.log(event.target.prop); // event.target is the component that fired the event.
+constructor() {
+  super();
+  this.listen("calciteCustomEvent", (event: CustomEvent) => {
+    console.log((event.target as SomeComponent).prop); // event.target is the component that fired the event.
+  });
 }
 ```
 
@@ -117,9 +118,9 @@ Pointer events should be used in favor of mouse events to maximize device compat
 
 There are a few ways to add event listeners within our components:
 
-1. `@Listen` decorator
+1. `this.listen()`
    - automatically cleaned up by component lifecycle
-   - can easily specify [different event listener options](https://stenciljs.com/docs/events#listen-decorator)
+   - ideal for listeners on the host element
    - does not provide event type information
    - event name is not type checked
 2. JSX event listener props
@@ -127,13 +128,13 @@ There are a few ways to add event listeners within our components:
    - cannot specify event listener options (some events may have a matching capture prop)
    - provides event type information
    - event name is type checked
-3. `addListener`
-   - not removed by the component lifecycle, so the listener needs to be explicitly removed to prevent memory leaks
-   - provides total flexibility regarding event listener options
+3. `this.listenOn()`
+   - automatically cleaned up by component lifecycle
+   - ideal for targets outside the host (e.g., `document`, `window`)
    - provides event type information
    - event name is not type checked
 
-1 and 2 should be used whenever possible (which one you use will depend on convenience). 3 should only be used whenever 1 and 2 are not possible or ideal.
+1 and 2 should be used whenever possible (which one you use will depend on convenience). 3 should be used when the event target is outside the host.
 
 ## Properties
 
@@ -290,24 +291,18 @@ Using dynamic classes:
 Many times it is necessary for components to have a `id="something"` attribute for things like `<label>` and various `aria-*` properties. To safely generate a unique id for a component but to also allow a user supplied `id` attribute to work follow the following pattern:
 
 ```tsx
+import { LitElement } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 
-@Component({
-  tag: "calcite-example",
-  styleUrl: "example.scss",
-  shadow: true,
-})
-export class Example {
-  // ...
+export class Example extends LitElement {
+  static tagName = "calcite-example";
 
-  guid: string = `calcite-example-${guid()}`;
+  private generatedId = `calcite-example-${guid()}`;
 
-  render() {
-    const id = this.el.id || this.guid;
-    return <Host id={id}></Host>;
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.id ||= this.generatedId;
   }
-
-  // ...
 }
 ```
 
@@ -367,33 +362,31 @@ type ChildComponentLikeElement = ChilcComponentLike & HTMLElement;
 ###### `parent/parent.tsx`
 
 ```tsx
-  @Prop() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
+  @property() selectedItem: HTMLChildComponentElement | ChildComponentLikeElement;
 ```
 
 ###### `custom-item/custom-item.tsx`
 
 ```tsx
-export class CustomItem implements ChildComponentLike {
+export class CustomItem extends LitElement implements ChildComponentLike {
   private childComponentEl: HTMLChildComponentLikeElement;
 
-  @Prop() required: boolean;
-  @Prop() props: string;
-  @Prop() from: number;
+  @property() required: boolean;
+  @property() props: string;
+  @property() from: number;
 
-  @Method() async parent(): Promise<string> {
-    await this.childComponentEl.parent();
+  async parent(): Promise<string> {
+    return this.childComponentEl.parent();
   }
 
-  render(): VNode {
+  override render(): JsxNode {
     return (
-      <Host>
-        <child-component
-          required={this.required}
-          props={this.props}
-          from={this.from}
-          ref={(el) => (this.childComponentEl = el)}
-        />
-      </Host>
+      <child-component
+        required={this.required}
+        props={this.props}
+        from={this.from}
+        ref={(el) => (this.childComponentEl = el)}
+      />
     );
   }
 }
