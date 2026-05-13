@@ -1,7 +1,16 @@
 // @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  Fragment,
+  h,
+  method,
+  state,
+  JsxNode,
+} from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
 import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navigation-logo/navigation-logo";
