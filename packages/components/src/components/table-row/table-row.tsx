@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, method } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, method, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
@@ -528,11 +528,11 @@ export class TableRow extends LitElement {
 
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(
-              <>
+              <Fragment>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
                 <slot ref={this.rowSlotRef} />
-              </>,
+              </Fragment>,
               el,
             );
           }}

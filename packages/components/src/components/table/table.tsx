@@ -2,7 +2,7 @@
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { createEvent, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
+import { createEvent, Fragment, h, JsxNode, LitElement, property, state } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
@@ -965,12 +965,12 @@ export class Table extends LitElement {
 
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(
-                <>
+                <Fragment>
                   <caption class={CSS.assistiveText}>{this.caption}</caption>
                   {this.renderTHead()}
                   {this.renderTBody()}
                   {this.renderTFoot()}
-                </>,
+                </Fragment>,
                 el,
               );
 
