@@ -164,7 +164,7 @@ describe("focusTrapDisabledOverride", () => {
   });
 
   it("should not activate focus trap when focusTrapDisabledOverride returns true", async () => {
-    const { el, component } = await mount(Test);
+    const { el, component } = await mount(FocusTrapDisabledOverride);
     el.open = true;
     await component.updateComplete;
     const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
