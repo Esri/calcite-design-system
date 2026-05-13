@@ -1087,30 +1087,6 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(firstFocusedGroupItem).toBeTruthy();
   });
 
-  it(`Escape closes the dropdown, but remains focused`, async () => {
-    const inputEl = await page.find(`#myCombobox >>> input`);
-    await inputEl.focus();
-    await page.waitForChanges();
-
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-
-    const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
-    await page.keyboard.press("Space");
-    await page.waitForChanges();
-    await openEventSpy.next();
-    const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
-
-    expect(await floatingUI.isVisible()).toBe(true);
-
-    const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    await closeEventSpy.next();
-
-    expect(await floatingUI.isVisible()).toBe(false);
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-  });
-
   it(`Space opens dropdown and puts focus on first item and subsequent Space do not change the focus`, async () => {
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();

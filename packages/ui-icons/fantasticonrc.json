@@ -1381,6 +1381,7 @@
     "arcgis-survey123": 61918,
     "arcgis-quickcapture": 61919,
     "total-station": 61920,
-    "gps-receiver": 61921
+    "gps-receiver": 61921,
+    "buttons": 61922
   }
 }
