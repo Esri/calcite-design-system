@@ -281,10 +281,9 @@ function tearDownDragHandleTracking(component: SortableComponent): void {
 function setSortableItems(component: SortableComponent, values: string[]): void {
   const currentItems = getSortableItems(component);
   const keyedItems = currentItems.map((item) => [getSortableItemKey(item), item] as const);
-  const currentValues = keyedItems.map(([key]) => key);
   const itemsByKey = new Map(keyedItems);
 
-  if (currentValues.length === values.length && currentValues.every((value, index) => value === values[index])) {
+  if (keyedItems.length === values.length && keyedItems.every(([key], index) => key === values[index])) {
     return;
   }
 
@@ -299,6 +298,10 @@ function setSortableItems(component: SortableComponent, values: string[]): void 
 
 function clampIndex(index: number, max: number): number {
   return Math.max(0, Math.min(max, index));
+}
+
+function getRectMidpoint(rect: DOMRect, vertical: boolean): number {
+  return vertical ? rect.top + rect.height / 2 : rect.left + rect.width / 2;
 }
 
 function createDragDetail(
@@ -384,7 +387,7 @@ function getTransferIndex<T>(event: TransferEventData<T>): number {
     }
 
     const rect = node.getBoundingClientRect();
-    const midpoint = vertical ? rect.top + rect.height / 2 : rect.left + rect.width / 2;
+    const midpoint = getRectMidpoint(rect, vertical);
 
     if (pointerCoordinate < midpoint) {
       return index;
