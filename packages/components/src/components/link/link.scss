@@ -12,11 +12,6 @@
   display: inline;
 }
 
-:host(:not([href])) {
-  display: inline-block;
-  text-align: center;
-}
-
 :host a {
   @apply font-inherit
     no-underline 

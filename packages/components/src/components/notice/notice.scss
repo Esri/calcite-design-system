@@ -167,10 +167,6 @@
     padding-block: var(--calcite-notice-spacing-token-small);
     padding-inline: var(--calcite-notice-spacing-token-large);
   }
-
-  ::slotted(calcite-link) {
-    align-self: baseline;
-  }
 }
 
 .notice-icon {

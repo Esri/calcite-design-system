@@ -36,7 +36,7 @@ describe("renders", () => {
 });
 
 describe("renders without href", () => {
-  renders(() => mount(<calcite-link>link</calcite-link>), { display: "inline-block" });
+  renders(() => mount(<calcite-link>link</calcite-link>), { display: "inline" });
 });
 
 describe("disabled", () => {

@@ -160,10 +160,6 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 .text-container {
   @apply box-border flex flex-auto min-w-0 flex-col break-words;
-
-  ::slotted(calcite-link) {
-    align-self: baseline;
-  }
 }
 
 .footer {
