@@ -19,6 +19,12 @@ describe("useForm", () => {
     @property()
     form?: string;
 
+    @property()
+    required: boolean = false;
+
+    @property()
+    validity: ValidityState;
+
     defaultValue?: TestComponent["value"];
 
     @method()
@@ -51,6 +57,16 @@ describe("useForm", () => {
       await reRender();
 
       expect(el).toHaveProperty("value", "");
+    });
+  });
+
+  describe("disabled", () => {
+    it("doesn't validate disabled components", async () => {
+      const { el } = await mount(<test-component disabled required />, {
+        parent: form,
+      });
+
+      expect(el.validity).toBeUndefined();
     });
   });
 });
