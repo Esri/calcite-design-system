@@ -121,7 +121,9 @@ export class Navigation extends LitElement {
     if (
       changes.has("scale") ||
       changes.has("logoSlotHasElements") ||
-      changes.has("userSlotHasElements")
+      changes.has("userSlotHasElements") ||
+      changes.has("secondarySlotHasElements") ||
+      changes.has("tertiarySlotHasElements")
     ) {
       this.updateNavigationLogo();
       this.updateNavigationUser();

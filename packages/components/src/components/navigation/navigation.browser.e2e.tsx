@@ -59,7 +59,7 @@ describe("is focusable", () => {
 describe("scale propagation", () => {
   it("applies initial navigation scale to slotted navigation-logo, navigation-user, and nested navigation", async () => {
     await mount<Navigation>(
-      <calcite-navigation scale="m">
+      <calcite-navigation scale="l">
         <calcite-navigation-logo heading="Heading text" slot="logo" />
         <calcite-navigation-user full-name="John Doe" slot="user" username="jdoe" />
         <calcite-navigation slot="navigation-secondary" />
@@ -74,10 +74,10 @@ describe("scale propagation", () => {
     );
     const tertiaryNavigation = page.getBySelector('calcite-navigation[slot="navigation-tertiary"]');
 
-    await expect.element(logo).toHaveProperty("scale", "m");
-    await expect.element(user).toHaveProperty("scale", "m");
-    await expect.element(secondaryNavigation).toHaveProperty("scale", "m");
-    await expect.element(tertiaryNavigation).toHaveProperty("scale", "m");
+    await expect.element(logo).toHaveProperty("scale", "l");
+    await expect.element(user).toHaveProperty("scale", "l");
+    await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
+    await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
   });
 
   it("updates slotted navigation-logo, navigation-user, and nested navigation scale when navigation scale changes", async () => {
@@ -108,6 +108,23 @@ describe("scale propagation", () => {
     await expect.element(user).toHaveProperty("scale", "l");
     await expect.element(secondaryNavigation).toHaveProperty("scale", "l");
     await expect.element(tertiaryNavigation).toHaveProperty("scale", "l");
+  });
+
+  it("updates nested navigation scale when slot is reassigned to navigation-secondary", async () => {
+    await mount<Navigation>(
+      <calcite-navigation scale="l">
+        <calcite-navigation id="nested-navigation" />
+      </calcite-navigation>,
+    );
+
+    const nestedNavigation = page.getBySelector("#nested-navigation");
+    const nestedNavigationEl = nestedNavigation.element() as Navigation["el"];
+
+    await expect.element(nestedNavigation).toHaveProperty("scale", "m");
+
+    nestedNavigationEl.slot = "navigation-secondary";
+
+    await expect.element(nestedNavigation).toHaveProperty("scale", "l");
   });
 });
 
