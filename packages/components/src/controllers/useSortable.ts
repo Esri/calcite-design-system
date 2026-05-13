@@ -300,10 +300,6 @@ function clampIndex(index: number, max: number): number {
   return Math.max(0, Math.min(max, index));
 }
 
-function getRectMidpoint(rect: DOMRect, vertical: boolean): number {
-  return vertical ? rect.top + rect.height / 2 : rect.left + rect.width / 2;
-}
-
 function createDragDetail(
   fromEl: HTMLElement,
   toEl: HTMLElement,
@@ -342,59 +338,6 @@ function getSortableComponentFromParent(parent: ParentRecord<string>): SortableC
 
 function getSortableValuesFromParent<T>(parent: ParentRecord<T>): string[] {
   return parent.data.getValues(parent.el) as string[];
-}
-
-function getTransferIndex<T>(event: TransferEventData<T>): number {
-  const fallbackIndex = event.targetIndex;
-  const dragState = event.state;
-
-  if (!isDragState(dragState)) {
-    return clampIndex(fallbackIndex, event.targetParent.data.enabledNodes.length);
-  }
-
-  const enabledNodes = event.targetParent.data.enabledNodes;
-
-  if (!enabledNodes.length) {
-    return 0;
-  }
-
-  const firstNode = enabledNodes[0].el;
-  const secondNode = enabledNodes[1]?.el;
-
-  if (!(firstNode instanceof HTMLElement)) {
-    return clampIndex(fallbackIndex, enabledNodes.length);
-  }
-
-  const pointer = dragState.coordinates;
-  let vertical = true;
-
-  if (secondNode instanceof HTMLElement) {
-    const firstRect = firstNode.getBoundingClientRect();
-    const secondRect = secondNode.getBoundingClientRect();
-    const deltaX = Math.abs(firstRect.left - secondRect.left);
-    const deltaY = Math.abs(firstRect.top - secondRect.top);
-
-    vertical = deltaY >= deltaX;
-  }
-
-  const pointerCoordinate = vertical ? pointer.y : pointer.x;
-
-  for (let index = 0; index < enabledNodes.length; index++) {
-    const node = enabledNodes[index].el;
-
-    if (!(node instanceof HTMLElement)) {
-      continue;
-    }
-
-    const rect = node.getBoundingClientRect();
-    const midpoint = getRectMidpoint(rect, vertical);
-
-    if (pointerCoordinate < midpoint) {
-      return index;
-    }
-  }
-
-  return enabledNodes.length;
 }
 
 function createSortable(component: SortableComponent): void {
@@ -507,9 +450,8 @@ function createSortable(component: SortableComponent): void {
         const isInitialComponent = event.initialParent.el === component.el;
         const targetValues = getSortableValuesFromParent(event.targetParent);
         const dragKey = getSortableItemKey(dragEl);
-        const transferIndex = getTransferIndex(event);
         const normalizedTargetValues = targetValues.filter((value) => value !== dragKey);
-        const boundedNewIndex = clampIndex(transferIndex, normalizedTargetValues.length);
+        const boundedNewIndex = clampIndex(event.targetIndex, normalizedTargetValues.length);
 
         normalizedTargetValues.splice(boundedNewIndex, 0, dragKey);
 
