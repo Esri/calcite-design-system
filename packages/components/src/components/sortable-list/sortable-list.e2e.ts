@@ -62,3 +62,37 @@ describe("drag and drop with dragSelector", () => {
 
   it("works using a keyboard", () => worksUsingKeyboard(page));
 });
+
+describe("drag and drop between horizontal lists", () => {
+  it("supports dropping at the end of the destination list", async () => {
+    const page = await newE2EPage({
+      html: `<calcite-sortable-list id="first" layout="horizontal" group="letters">
+        <div id="a"><calcite-handle></calcite-handle>A</div>
+        <div id="b"><calcite-handle></calcite-handle>B</div>
+      </calcite-sortable-list>
+      <calcite-sortable-list id="second" layout="horizontal" group="letters">
+        <div id="c"><calcite-handle></calcite-handle>C</div>
+        <div id="d"><calcite-handle></calcite-handle>D</div>
+      </calcite-sortable-list>`,
+    });
+
+    await dragAndDrop(page, {
+      originElement: "#d",
+      handleElement: "#d calcite-handle",
+      destinationElement: {
+        element: "#first",
+        pointerPosition: {
+          horizontal: "right",
+          vertical: "center",
+        },
+      },
+    });
+
+    const [first, second, third, fourth] = await findAll(page, "div");
+
+    expect(await first.getProperty("id")).toBe("a");
+    expect(await second.getProperty("id")).toBe("b");
+    expect(await third.getProperty("id")).toBe("d");
+    expect(await fourth.getProperty("id")).toBe("c");
+  });
+});
