@@ -388,6 +388,7 @@ export const multiple = (): string => html`
     </calcite-label>
   </div>
 `;
+multiple.parameters = { chromatic: { delay: 1000 } };
 
 export const nestedItems = (): string => html`
       <calcite-combobox-item value="ITEM-0-0" heading="Level 1">
