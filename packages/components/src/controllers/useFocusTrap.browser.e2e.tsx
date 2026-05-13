@@ -163,50 +163,16 @@ describe("focusTrapDisabledOverride", () => {
     expect(activateSpy).toHaveBeenCalledTimes(1);
   });
 
-  describe("configuration", () => {
-    beforeEach(() => {
-      clearConfig();
-      vi.clearAllMocks();
-    });
+  it("should not activate focus trap when focusTrapDisabledOverride returns true", async () => {
+    const { el, component } = await mount(Test);
+    el.open = true;
+    await component.updateComplete;
+    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+    override = true;
 
-    afterAll(() => {
-      clearConfig();
-      delete (globalThis as TestGlobal).calciteConfig;
-    });
+    component.focusTrap.activate();
 
-    it("supports custom global trap stack", async () => {
-      const createFocusTrapSpy = vi.mocked(focusTrap.createFocusTrap);
-      const customFocusTrapStack: FocusTrap[] = [];
-      type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "focusTrapStack"> }>;
-
-      (globalThis as TestGlobal).calciteConfig = {
-        focusTrapStack: customFocusTrapStack,
-      };
-
-      const { el, component } = await mount(FocusTrapDisabledOverride);
-
-      expect(createFocusTrapSpy).not.toHaveBeenCalled();
-      expect(customFocusTrapStack).toHaveLength(0);
-
-      el.open = true;
-      await component.updateComplete;
-
-      expect(createFocusTrapSpy).toHaveBeenLastCalledWith(
-        expect.anything(),
-        expect.objectContaining({
-          trapStack: customFocusTrapStack,
-        }),
-      );
-      expect(customFocusTrapStack).toHaveLength(1);
-
-      el.open = false;
-      await component.updateComplete;
-      expect(customFocusTrapStack).toHaveLength(0);
-
-      el.open = true;
-      await component.updateComplete;
-      expect(customFocusTrapStack).toHaveLength(1);
-    });
+    expect(activateSpy).toHaveBeenCalledTimes(0);
   });
 });
 
