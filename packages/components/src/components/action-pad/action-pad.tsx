@@ -252,7 +252,7 @@ export class ActionPad extends LitElement {
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
 
-    if (!isAction(current)) {
+    if (!isAction(current) || !actions.includes(current)) {
       return;
     }
 
@@ -287,9 +287,16 @@ export class ActionPad extends LitElement {
     });
   }
 
-  private updateTabIndexOfItems(target: Action["el"]): void {
-    this.actions.forEach((item: Action["el"]) => {
-      item.tabIndex = target !== item ? -1 : 0;
+  private updateTabIndexOfItems(active: Action["el"]): void {
+    this.actions.forEach((action) => {
+      const tabIndex = !action.disabled && action === active ? 0 : -1;
+
+      if (tabIndex === 0) {
+        // action's internal button is tabbable by default, so we remove the attribute to avoid an extra tabbable element
+        action.removeAttribute("tabindex");
+      } else {
+        action.tabIndex = tabIndex;
+      }
     });
   }
 
@@ -327,9 +334,9 @@ export class ActionPad extends LitElement {
         collapseText={messages.collapse}
         direction={this.direction}
         el={el}
+        expanded={expanded}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}
-        expanded={expanded}
         position={position}
         scale={scale}
         toggle={toggleExpand}
