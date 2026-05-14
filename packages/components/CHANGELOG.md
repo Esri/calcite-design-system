@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.48...@esri/calcite-components@5.1.0-next.49) (2026-05-14)
+
+### Features
+
+- **action-group:** add overflow-actions-disabled ([#14430](https://github.com/Esri/calcite-design-system/issues/14430)), closes [#14419](https://github.com/Esri/calcite-design-system/issues/14419)
+
 ## [5.1.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.47...@esri/calcite-components@5.1.0-next.48) (2026-05-14)
 
 ### Features
