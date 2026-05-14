@@ -351,6 +351,56 @@ describe("disabled chip labels", () => {
     expect(selectedChip).toHaveProperty("label", "Very long item one");
   });
 
+  it("renders only the all-selected chip for fit selection-display when select-all is checked", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox
+        select-all-enabled
+        selection-display="fit"
+        selection-mode="multiple"
+        style="width: 200px;"
+      >
+        <calcite-combobox-item heading="Trees">
+          <calcite-combobox-item heading="Pine" />
+          <calcite-combobox-item heading="Sequoia" />
+          <calcite-combobox-item heading="Cedar" />
+        </calcite-combobox-item>
+        <calcite-combobox-item heading="Flowers">
+          <calcite-combobox-item heading="Daffodil" />
+          <calcite-combobox-item heading="Nasturtium" />
+        </calcite-combobox-item>
+      </calcite-combobox>,
+    );
+
+    el.open = true;
+    await vi.waitFor(() => expect(el.open).toBe(true));
+
+    const selectAllItem = el.shadowRoot.querySelector(`calcite-combobox-item.${CSS.selectAll}`);
+    expect(selectAllItem).toBeTruthy();
+    await userEvent.click(selectAllItem as HTMLElement);
+
+    await vi.waitFor(() => {
+      expect(
+        el.shadowRoot.querySelector('calcite-chip[data-test-id="all-selected-indicator-chip"]'),
+      ).toBeTruthy();
+      expect(
+        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
+      ).toBeNull();
+      expect(el.shadowRoot.querySelectorAll("calcite-chip")).toHaveLength(1);
+    });
+  });
+
+  it("does not render an all-selected chip when fit selection-display is empty", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox select-all-enabled selection-display="fit" selection-mode="multiple" />,
+    );
+
+    await vi.waitFor(() => {
+      expect(
+        el.shadowRoot.querySelector('calcite-chip[data-test-id="all-selected-indicator-chip"]'),
+      ).toBeNull();
+    });
+  });
+
   it("includes disabled selected items in single display count", async () => {
     await mount<Combobox>(
       <calcite-combobox selection-display="single" selection-mode="multiple">
