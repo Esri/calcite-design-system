@@ -4,6 +4,9 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-split-button-background-color: Specifies the component's background color.
+ * @prop --calcite-split-button-background-color-hover: Specifies the component's background color when hovered.
+ * @prop --calcite-split-button-background-color-focus: Specifies the component's background color when focused.
+ * @prop --calcite-split-button-background-color-press: Specifies the component's background color when active.
  * @prop --calcite-split-button-border-color: Specifies the component's border color.
  * @prop --calcite-split-button-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-split-button-icon-color: Specifies the component's `iconStart` and `iconEnd` color.
@@ -172,6 +175,15 @@ calcite-button[split-child="secondary"] {
   --calcite-button-icon-color: var(--calcite-split-button-icon-color);
   --calcite-button-loading-color: var(--calcite-split-button-loading-color);
   --calcite-button-shadow: var(--calcite-split-button-shadow);
+  &:hover {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-hover);
+  }
+  &:focus {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-focus);
+  }
+  &:active {
+    --calcite-button-background-color: var(--calcite-split-button-background-color-press);
+  }
 }
 
 calcite-button[split-child="primary"] {

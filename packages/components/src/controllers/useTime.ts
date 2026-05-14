@@ -14,7 +14,6 @@ import {
   getMeridiemOrder,
   HourFormat,
   isValidTime,
-  LocalizedTime,
   localizeTimePart,
   localizeTimeString,
   maxTenthForMinuteAndSecond,
@@ -36,8 +35,6 @@ export interface TimeComponent extends LitElement {
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   hourFormat: HourFormat;
   /**
@@ -542,7 +539,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         parts: true,
         step,
         value: newValue,
-      }) as LocalizedTime;
+      });
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -566,13 +563,25 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       this.fractionalSecond = null;
       this.meridiem = null;
       this.localizedHour = null;
-      this.localizedHourSuffix = getLocalizedTimePartSuffix("hour", locale, numberingSystem);
+      this.localizedHourSuffix = getLocalizedTimePartSuffix({ hour12, part: "hour", locale, numberingSystem, step });
       this.localizedMinute = null;
-      this.localizedMinuteSuffix = getLocalizedTimePartSuffix("minute", locale, numberingSystem);
+      this.localizedMinuteSuffix = getLocalizedTimePartSuffix({
+        hour12,
+        part: "minute",
+        locale,
+        numberingSystem,
+        step,
+      });
       this.localizedSecond = null;
       this.localizedDecimalSeparator = getLocalizedDecimalSeparator(locale, numberingSystem);
       this.localizedFractionalSecond = null;
-      this.localizedSecondSuffix = getLocalizedTimePartSuffix("second", locale, numberingSystem);
+      this.localizedSecondSuffix = getLocalizedTimePartSuffix({
+        hour12,
+        part: "second",
+        locale,
+        numberingSystem,
+        step,
+      });
       this.localizedMeridiem = null;
     }
     if (newValue !== previousValue) {
@@ -616,6 +625,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
             }
             break;
           default:
+            this.userChangedValue = true;
             this.component.value = "";
             break;
         }
@@ -677,4 +687,5 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
+/** @public */
 export const useTime = toFunction(TimeController);

@@ -3,18 +3,20 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-flow-item-footer-padding: [Deprecated] Use `--calcite-flow-footer-space` instead. Specifies the padding of the component's footer.
- * @prop --calcite-flow-item-header-border-block-end: [Deprecated] Use `--calcite-flow-border-color` instead. Specifies the component header's block end border.
+ * @prop --calcite-flow-item-footer-padding: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-footer-space` instead. Specifies the padding of the component's footer.
+ * @prop --calcite-flow-item-header-border-block-end: [Deprecated] in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-border-color` instead. Specifies the component header's block end border.
  * @prop --calcite-flow-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-flow-heading-text-color: Specifies the text color of the component's `heading`.
- * @prop --calcite-flow-icon-color: Specifies the color of the component's icon.
+ * @prop --calcite-flow-icon-color: Specifies the color of the component's `icon`.
  * @prop --calcite-flow-description-text-color: Specifies the text color of the component's `description`.
  * @prop --calcite-flow-border-color: Specifies the component's border color.
  * @prop --calcite-flow-background-color: Specifies the component's background color.
+ * @prop --calcite-flow-content-top-space: Specifies the padding of the component's `content-top` slot.
+ * @prop --calcite-flow-content-bottom-space: Specifies the padding of the component's `content-bottom` slot.
  * @prop --calcite-flow-header-background-color: Specifies the background color of the component's header.
  * @prop --calcite-flow-footer-background-color: Specifies the background color of the component's footer.
- * @prop --calcite-flow-space: Specifies the padding of the component's `"unnamed (default)"` slot.
- * @prop --calcite-flow-header-content-space: Specifies the padding of the `"header-content"` slot.
+ * @prop --calcite-flow-space: Specifies the padding of the component's `unnamed (default)` slot.
+ * @prop --calcite-flow-header-content-space: Specifies the padding of the component's `header-content` slot.
  * @prop --calcite-flow-footer-space: Specifies the padding of the component's footer.
  * @prop --calcite-action-background-color: Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s. Applies to any slotted `calcite-action`s.
  * @prop --calcite-action-background-color-hover: Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
@@ -22,12 +24,12 @@
  * @prop --calcite-action-text-color-hover: Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
  * @prop --calcite-action-text-color-pressed: Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
  * @prop --calcite-popover-border-color: Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
- * @prop --calcite-flow-header-action-background-color-hover: Specifies the background color of the component's `calcite-action` items  in the flow item header when hovered.
- * @prop --calcite-flow-header-action-background-color-press: Specifies the background color of the component's `calcite-action` items  in the flow item header when pressed.
- * @prop --calcite-flow-header-action-background-color: Specifies the background color of the component's `calcite-action` items  in the flow item header.
- * @prop --calcite-flow-header-action-indicator-color: Specifies the color of the component's `calcite-action` items' indicator in the flow item header.
- * @prop --calcite-flow-header-action-text-color-press: Specifies the text color of the component's `calcite-action` items in the flow item header when pressed.
- * @prop --calcite-flow-header-action-text-color: Specifies the text color of the component's `calcite-action` items in the flow item header.
+ * @prop --calcite-flow-header-action-background-color-hover: Specifies the background color of any `calcite-action`s in the component's header when hovered.
+ * @prop --calcite-flow-header-action-background-color-press: Specifies the background color of any `calcite-action`s in the component's header when pressed.
+ * @prop --calcite-flow-header-action-background-color: Specifies the background color of any `calcite-action`s in the component's header.
+ * @prop --calcite-flow-header-action-indicator-color: Specifies the color of any `calcite-action`s indicator in the component's header.
+ * @prop --calcite-flow-header-action-text-color-press: Specifies the text color of any `calcite-action`s in the component's header when pressed.
+ * @prop --calcite-flow-header-action-text-color: Specifies the text color of any `calcite-action`s in the component's header.
  */
 
 @use "../../styles/includes";
@@ -61,6 +63,8 @@ calcite-panel {
   --calcite-panel-heading-text-color: var(--calcite-flow-heading-text-color);
   --calcite-panel-icon-color: var(--calcite-flow-icon-color);
   --calcite-panel-space: var(--calcite-flow-space);
+  --calcite-panel-content-top-space: var(--calcite-flow-content-top-space);
+  --calcite-panel-content-bottom-space: var(--calcite-flow-content-bottom-space);
 }
 
 @include includes.base-component();

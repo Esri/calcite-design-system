@@ -77,49 +77,49 @@ export const clearable = (): string => html`
   <calcite-input-time-zone mode="region" clearable value=""></calcite-input-time-zone>
 `;
 
-export const timeZoneNameMode_TestOnly = (): string => html`
+export const timeZoneNameMode = (): string => html`
   <calcite-input-time-zone mode="name" open></calcite-input-time-zone>
 `;
 
-export const timeZoneRegionMode_TestOnly = (): string => html`
+export const timeZoneRegionMode = (): string => html`
   <calcite-input-time-zone mode="region" open></calcite-input-time-zone>
 `;
 
-export const initialNameSelected_TestOnly = (): string =>
+export const initialNameSelected = (): string =>
   // for stability, we use a timezone unaffected by daylight savings time
   html`<calcite-input-time-zone mode="name" value="America/Phoenix"></calcite-input-time-zone>`;
 
-export const initialOffsetSelected_TestOnly = (): string => html`
+export const initialOffsetSelected = (): string => html`
   <calcite-input-time-zone value="-360"></calcite-input-time-zone>
 `;
 
-export const offsetAndGroupLabelsAreLocalized_TestOnly = (): string => html`
+export const offsetAndGroupLabelsAreLocalized = (): string => html`
   <calcite-input-time-zone lang="en"></calcite-input-time-zone>
   <calcite-input-time-zone lang="es"></calcite-input-time-zone>
   <calcite-input-time-zone lang="fr"></calcite-input-time-zone>
   <calcite-input-time-zone lang="zh"></calcite-input-time-zone>
 `;
 
-export const offsetAndGroupLabelsBasedOnReferenceDate_TestOnly = (): string => html`
+export const offsetAndGroupLabelsBasedOnReferenceDate = (): string => html`
   <calcite-input-time-zone></calcite-input-time-zone>
   <calcite-input-time-zone reference-date="2023-11-28T06:31:19.129Z"></calcite-input-time-zone>
 `;
 
-export const displayingTimeZoneOffsets_TestOnly = (): string => html`
+export const displayingTimeZoneOffsets = (): string => html`
   <div style="width: 450px; height: 500px;">
     <calcite-input-time-zone open></calcite-input-time-zone>
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
+export const disabled = (): string => html`<calcite-input-time-zone disabled></calcite-input-time-zone>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-input-time-zone dir="rtl" class="calcite-mode-dark"></calcite-input-time-zone>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;

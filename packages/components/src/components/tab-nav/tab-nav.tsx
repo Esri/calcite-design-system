@@ -6,13 +6,13 @@ import {
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   Direction,
   filterDirectChildren,
   focusElement,
   focusElementInGroup,
   FocusElementInGroupDestination,
-  getElementDir,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
@@ -41,6 +41,8 @@ export class TabNav extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  private direction = useDirection();
 
   private effectiveDir: Direction = "ltr";
 
@@ -85,13 +87,13 @@ export class TabNav extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
    *
-   *  `@internal`
+   *  @internal
    */
   @property() position: TabPosition = "bottom";
 
@@ -180,7 +182,7 @@ export class TabNav extends LitElement {
 
     this.layout = parentTabsEl?.layout;
     this.bordered = parentTabsEl?.bordered;
-    this.effectiveDir = getElementDir(this.el);
+    this.effectiveDir = this.direction;
   }
 
   loaded(): void {

@@ -4,5 +4,6 @@
   "play": "Predvajaj",
   "pause": "Premor",
   "carousel": "Vrtiljak",
-  "carouselItemProgress": "Indikator napredka za vrtljiv element"
+  "carouselItemProgress": "Indikator napredka za vrtljiv element",
+  "paginationStatus": "Element {current} od {total}"
 }

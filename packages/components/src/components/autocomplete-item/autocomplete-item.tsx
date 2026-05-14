@@ -41,7 +41,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property() active = false;
 
-  /** A description for the component. Displays below the label text. */
+  /** Specifies a description for the component. Displays below the label text. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -55,7 +55,7 @@ export class AutocompleteItem extends LitElement {
   @property() guid = IDS.host(guid());
 
   /**
-   * Specifies heading text for the component.
+   * Specifies the component's heading text.
    *
    * @required
    */
@@ -77,7 +77,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property({ reflect: true }) inputValueMatchPattern: RegExp;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /**
@@ -87,7 +87,10 @@ export class AutocompleteItem extends LitElement {
    */
   @property() scale: Scale = "m";
 
-  /** The component's value. */
+  /** When `true`, the component is selected. */
+  @property({ reflect: true }) selected = false;
+
+  /** Specifies the component's value. */
   @property() value: string;
 
   //#endregion
@@ -95,12 +98,13 @@ export class AutocompleteItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Emits the `calciteAutocompleteItemSelect` event.
+   * Toggles selection and emits the `calciteAutocompleteItemSelect` event.
    *
    * @private
    */
   @method()
-  emitSelectEvent(): void {
+  toggleSelection(): void {
+    this.selected = !this.selected;
     this.calciteAutocompleteItemSelect.emit();
   }
 
@@ -119,7 +123,12 @@ export class AutocompleteItem extends LitElement {
 
   private handleClick(event: MouseEvent): void {
     event.preventDefault();
-    this.emitSelectEvent();
+
+    if (this.disabled) {
+      return;
+    }
+
+    this.toggleSelection();
   }
 
   //#endregion

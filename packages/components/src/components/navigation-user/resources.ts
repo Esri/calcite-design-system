@@ -1,6 +1,7 @@
 export const CSS = {
-  textContainer: "text-container",
-  fullName: "full-name",
-  username: "username",
   button: "button",
+  fullName: "full-name",
+  standalone: "standalone",
+  textContainer: "text-container",
+  username: "username",
 };

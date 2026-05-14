@@ -3,12 +3,12 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-table-row-background: [Deprecated] Use `--calcite-table-row-background-color` instead. Specifies the background color of the component.
- * @prop --calcite-table-row-background-color: Specifies the background color of the component.
- * @prop --calcite-table-row-background-color-striped: The background color of the component's `striped` rows, when specified.
- * @prop --calcite-table-row-background-color-selected: The background color of the component's `selected` rows, when specified.
- * @prop --calcite-table-row-accent-color-selected: Specifies the selected accent color of the component.
- * @prop --calcite-table-row-border-color: Specifies the border color of the component.
+ * @prop --calcite-table-row-background: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead. Specifies the background color of the component.
+ * @prop --calcite-table-row-background-color: Specifies the component's background color.
+ * @prop --calcite-table-row-background-color-striped: When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
+ * @prop --calcite-table-row-background-color-selected: When `selected`, specifies the background color of the component's `selected` rows.
+ * @prop --calcite-table-row-accent-color-selected: Specifies the component's selected accent color.
+ * @prop --calcite-table-row-border-color: Specifies the component's border color.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.

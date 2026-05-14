@@ -9,7 +9,8 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { dateToISO } from "../../utils/date";
-import { closestElementCrossShadowBoundary, toAriaBoolean } from "../../utils/dom";
+import { closestElementCrossShadowBoundary } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../interfaces";
@@ -107,7 +108,7 @@ export class DatePickerDay extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

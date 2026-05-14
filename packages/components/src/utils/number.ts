@@ -190,8 +190,8 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
  * Converts an exponential notation numberString into decimal notation.
  * BigInt doesn't support exponential notation, so this is required to maintain precision
  *
- * @param {string} numberString - pre-validated exponential or decimal number
- * @returns {string} numberString in decimal notation
+ * @param numberString - pre-validated exponential or decimal number
+ * @returns numberString in decimal notation
  */
 export function expandExponentialNumberString(numberString: string): string {
   const exponentialParts = numberString.split(/[eE]/);
@@ -242,10 +242,10 @@ function stringContainsNumbers(string: string): boolean {
  * Adds localized trailing decimals zero values to the number string.
  * BigInt conversion to string removes the trailing decimal zero values (Ex: 1.000 is returned as 1). This method helps adding them back.
  *
- * @param {string} localizedValue - localized number string value
- * @param {string} value - current value in the input field
- * @param {NumberStringFormat} formatter - numberStringFormatter instance to localize the number value
- * @returns {string} localized number string value
+ * @param localizedValue - localized number string value
+ * @param value - current value in the input field
+ * @param formatter - numberStringFormatter instance to localize the number value
+ * @returns localized number string value
  */
 export function addLocalizedTrailingDecimalZeros(
   localizedValue: string,

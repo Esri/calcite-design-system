@@ -1,12 +1,8 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, setAttribute } from "@arcgis/lumina";
-import {
-  focusElement,
-  nodeListToArray,
-  slotChangeGetAssignedElements,
-  toAriaBoolean,
-} from "../../utils/dom";
+import { focusElement, nodeListToArray, slotChangeGetAssignedElements } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { Scale, SelectionMode } from "../interfaces";
 import { TreeItemSelectDetail } from "../tree-item/interfaces";
 import type { TreeItem } from "../tree-item/tree-item";
@@ -44,7 +40,7 @@ export class Tree extends LitElement {
   /** @private */
   @property() parentExpanded = false;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -70,8 +66,6 @@ export class Tree extends LitElement {
    * `"single"` allows one selection, and
    *
    * `"single-persist"` allows and requires one selection.
-   *
-   * @default "single"
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 

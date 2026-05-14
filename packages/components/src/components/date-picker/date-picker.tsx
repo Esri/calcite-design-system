@@ -28,7 +28,13 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
-import { DateLocaleData, getLocaleData, getValueAsDateRange, applyLocaleOverride } from "./utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  applyLocaleOverride,
+  getMinMaxSource,
+} from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -89,16 +95,16 @@ export class DatePicker extends LitElement {
   /** Specifies the component's active date. */
   @property() activeDate: Date;
 
-  /** When `range` is true, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
+  /** When `range` is `true`, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
   @property({ reflect: true }) activeRange: "start" | "end";
 
-  /** Specifies the number of calendars displayed when `range` is `true`. */
+  /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Defines the layout of the component. */
+  /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
@@ -110,7 +116,7 @@ export class DatePicker extends LitElement {
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @property() maxAsDate: Date;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -122,7 +128,7 @@ export class DatePicker extends LitElement {
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @property() minAsDate: Date;
 
-  /** Specifies the monthStyle used by the component. */
+  /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
@@ -163,7 +169,7 @@ export class DatePicker extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -202,20 +208,8 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    let minSource: Extract<keyof DatePicker, "min" | "minAsDate">;
-    let maxSource: Extract<keyof DatePicker, "max" | "maxAsDate">;
-
-    if (changes.has("min") && !changes.has("minAsDate")) {
-      minSource = "min";
-    } else if (changes.has("minAsDate") && !changes.has("min")) {
-      minSource = "minAsDate";
-    }
-
-    if (changes.has("max") && !changes.has("maxAsDate")) {
-      maxSource = "max";
-    } else if (changes.has("maxAsDate") && !changes.has("max")) {
-      maxSource = "maxAsDate";
-    }
+    const minSource = getMinMaxSource(changes, "min");
+    const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
       this.minAsDate = dateFromISO(this.min);

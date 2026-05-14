@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
 
@@ -33,11 +34,18 @@ export class NavigationUser extends LitElement {
   /** Specifies the full name of the user. */
   @property() fullName: string;
 
-  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */
   @property({ reflect: true }) textDisabled = false;
+
+  /**
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
+   *
+   * @private
+   */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
   @property() thumbnail: string;
@@ -57,7 +65,7 @@ export class NavigationUser extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -74,6 +82,7 @@ export class NavigationUser extends LitElement {
         <calcite-avatar
           fullName={this.fullName}
           label={this.label}
+          scale={this.scale}
           thumbnail={this.thumbnail}
           userId={this.userId}
           username={this.username}
@@ -81,7 +90,13 @@ export class NavigationUser extends LitElement {
         {(this.fullName || this.username) && !this.textDisabled && (
           <div class={CSS.textContainer}>
             {this.fullName && (
-              <span class={CSS.fullName} key={CSS.fullName}>
+              <span
+                class={{
+                  [CSS.fullName]: true,
+                  [CSS.standalone]: !this.username,
+                }}
+                key={CSS.fullName}
+              >
                 {this.fullName}
               </span>
             )}

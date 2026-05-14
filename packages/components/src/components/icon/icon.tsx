@@ -2,7 +2,8 @@
 import { CalciteIconPath, CalciteMultiPathEntry } from "@esri/calcite-ui-icons";
 import { PropertyValues, isServer } from "lit";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { getElementDir, toAriaBoolean } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { toAriaBoolean } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
 import { Scale } from "../interfaces";
 import { CSS } from "./resources";
@@ -25,6 +26,8 @@ export class Icon extends LitElement {
 
   // #region Private Properties
 
+  private direction = useDirection();
+
   private intersectionObserver: IntersectionObserver;
 
   // #endregion
@@ -39,14 +42,14 @@ export class Icon extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
   @property({
     reflect: true,
   })
   flipRtl = false;
 
   /**
-   * Displays a specific icon.
+   * Specifies an icon to display.
    *
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
@@ -56,7 +59,7 @@ export class Icon extends LitElement {
   })
   icon: IconName = null;
 
-  /** When `true`, it preloads the icon data. */
+  /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
 
   /** Specifies the size of the component. */
@@ -66,7 +69,7 @@ export class Icon extends LitElement {
   scale: Scale = "m";
 
   /**
-   * Accessible name for the component.
+   * Specifies the component's accessible name.
    *
    * It is recommended to set this value if your icon is semantic.
    */
@@ -159,8 +162,8 @@ export class Icon extends LitElement {
   // #region Rendering
 
   override render(): JsxNode {
-    const { el, flipRtl, pathData, scale, textLabel } = this;
-    const dir = getElementDir(el);
+    const { flipRtl, pathData, scale, textLabel } = this;
+    const dir = this.direction;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
     const paths = [].concat(pathData || "");

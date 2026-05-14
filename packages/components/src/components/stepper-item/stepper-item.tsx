@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -78,19 +78,19 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the step has been completed. */
+  /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** A description for the component. Displays below the header text. */
+  /** Specifies a description for the component. Displays below the header text. */
   @property() description: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
   /**
@@ -117,7 +117,7 @@ export class StepperItem extends LitElement {
    */
   @property({ reflect: true }) layout: StepperLayout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -149,7 +149,7 @@ export class StepperItem extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -169,7 +169,7 @@ export class StepperItem extends LitElement {
   });
 
   /** @private */
-  calciteInternalStepperItemRegister = createEvent<StepperItemEventDetail>({ cancelable: false });
+  calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /** @private */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
@@ -195,7 +195,6 @@ export class StepperItem extends LitElement {
   async load(): Promise<void> {
     this.parentStepperEl = this.el.parentElement as Stepper["el"];
     this.itemPosition = this.getItemPosition();
-    this.registerStepperItem();
 
     if (this.selected) {
       this.emitRequestedItem();
@@ -212,7 +211,7 @@ export class StepperItem extends LitElement {
     }
 
     if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
-      this.registerStepperItem();
+      this.calciteInternalStepperItemUpdate.emit();
     }
 
     if (changes.has("messages")) {
@@ -276,12 +275,6 @@ export class StepperItem extends LitElement {
 
   private determineSelectedItem(): void {
     this.selected = !this.disabled && this.itemPosition === this.selectedPosition;
-  }
-
-  private registerStepperItem(): void {
-    this.calciteInternalStepperItemRegister.emit({
-      position: this.itemPosition,
-    });
   }
 
   private handleItemClick(event: MouseEvent): void {

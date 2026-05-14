@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit";
 import { nodeListToArray } from "../../utils/dom";
 import { ComboboxItem } from "../combobox-item/combobox-item";
@@ -7,9 +6,9 @@ import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSel
 import { Combobox } from "./combobox";
 
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
-  const parent: ComboboxChildElement = element.parentElement?.closest(AllComboboxChildrenSelector);
-  const grandparent: ComboboxChildElement = parent?.parentElement?.closest(AllComboboxChildrenSelector);
-  return [parent, grandparent].filter((el) => el);
+  const parent = element.parentElement?.closest<ComboboxChildElement>(AllComboboxChildrenSelector);
+  const grandparent = parent?.parentElement?.closest<ComboboxChildElement>(AllComboboxChildrenSelector);
+  return [parent, grandparent].filter((el) => !!el);
 }
 
 export function getItemAncestors(item: ComboboxItem["el"]): ComboboxItem["el"][] {
@@ -42,7 +41,7 @@ export function getDepth(element: ComboboxChildElement): number {
 
   if (depth > 0 && element.nodeName === ComboboxItemSelector) {
     for (let i = 0; i < depth; i++) {
-      const parent = result.snapshotItem(i);
+      const parent = result.snapshotItem(i)!;
       if (parent.nodeName === ComboboxItemGroupSelector) {
         return depth;
       }

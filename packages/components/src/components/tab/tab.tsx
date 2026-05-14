@@ -39,14 +39,14 @@ export class Tab extends LitElement {
   // #region Public Properties
 
   /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
    *
    * @private
    */
   @property() scale: Scale = "m";
 
   /**
-   * When `true`, the component's contents are selected.
+   * When `true`, the component is selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
    */

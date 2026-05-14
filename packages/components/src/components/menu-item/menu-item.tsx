@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -10,8 +10,9 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { FlipContext, Layout } from "../interfaces";
-import { Direction, getElementDir, slotChangeGetAssignedElements } from "../../utils/dom";
+import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -39,6 +40,8 @@ export class MenuItem extends LitElement {
   //#region Private Properties
 
   private anchorRef = createRef<HTMLAnchorElement>();
+
+  private direction = useDirection();
 
   private dropdownActionRef = createRef<Action["el"]>();
 
@@ -87,7 +90,7 @@ export class MenuItem extends LitElement {
   @property() isTopLevelItem = false;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
@@ -96,7 +99,7 @@ export class MenuItem extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: Layout;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
@@ -105,14 +108,14 @@ export class MenuItem extends LitElement {
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
@@ -131,7 +134,7 @@ export class MenuItem extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -406,7 +409,7 @@ export class MenuItem extends LitElement {
   }
 
   override render(): JsxNode {
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     return (
       <li
         class={{

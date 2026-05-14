@@ -10,15 +10,8 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -27,9 +20,7 @@ import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { getElementDir } from "../../utils/dom";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -38,6 +29,7 @@ import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -51,11 +43,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimePicker
-  extends LitElement
-  implements FormComponent, LabelableComponent, TimeComponent
-{
+export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -78,9 +69,13 @@ export class InputTimePicker
 
   defaultValue: InputTimePicker["value"];
 
+  private direction = useDirection();
+
   private focusSetter = useSetFocus<this>()(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "time",
+  })(this);
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -102,20 +97,22 @@ export class InputTimePicker
 
   private interactiveContainer = useInteractive(this);
 
+  private timePickerRef = createRef<TimePicker>();
+
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
@@ -125,37 +122,35 @@ export class InputTimePicker
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
   /**
    * When the component resides in a form,
-   * specifies the maximum value.
+   * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
   @property({ reflect: true }) max: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
-   * specifies the minimum value.
+   * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
   @property({ reflect: true }) min: string;
 
-  /** Specifies the name of the component on form submission. */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
   @property() name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -165,34 +160,34 @@ export class InputTimePicker
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Determines where the popover will be positioned relative to the input. */
+  /** Determines the `calcite-time-picker`'s position relative to the input. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
-   * the component must have a value in order for the form to submit.
+   * the component must have a `value` in order for the form to submit.
    */
   @property({ reflect: true }) required = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the input field's status, which determines message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the granularity the component's `value` must adhere to (in seconds). */
@@ -207,24 +202,12 @@ export class InputTimePicker
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The time value in ISO (24-hour) format. */
   @property() value: string;
@@ -234,7 +217,7 @@ export class InputTimePicker
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed If true, delay the repositioning.
    */
@@ -248,7 +231,7 @@ export class InputTimePicker
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -271,7 +254,7 @@ export class InputTimePicker
   /** Fires when the component is closed and animation is complete. */
   calciteInputTimePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
   //#endregion
@@ -287,7 +270,6 @@ export class InputTimePicker
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -317,6 +299,7 @@ export class InputTimePicker
           this.previousEmittedValue = this.value;
         }
         this.time.setValue(this.value);
+        this.requestTimePickerUpdate();
       } else {
         this.previousEmittedValue = this.value;
       }
@@ -325,7 +308,6 @@ export class InputTimePicker
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -360,7 +342,8 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      if (submitForm(this)) {
+      if (this.formSupport.active) {
+        this.formSupport.requestSubmit();
         event.preventDefault();
       }
       this.changeEventHandler();
@@ -471,6 +454,10 @@ export class InputTimePicker
     this.open = false;
   }
 
+  private requestTimePickerUpdate(): void {
+    this.timePickerRef.value.manager?.component.requestUpdate();
+  }
+
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -490,10 +477,6 @@ export class InputTimePicker
     ref.value?.focus();
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
-  }
-
   private timeChangeHandler(event: CustomEvent<string>): void {
     event.stopPropagation();
 
@@ -504,6 +487,8 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
+    } else {
+      this.requestTimePickerUpdate();
     }
   }
 
@@ -553,7 +538,7 @@ export class InputTimePicker
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
-    const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -588,7 +573,7 @@ export class InputTimePicker
             id={IDS.inputContainer}
             role="group"
           >
-            {showMeridiem && meridiemStart && this.renderMeridiem("start")}
+            {showMeridiem && meridiemStart && this.renderMeridiem()}
             <span
               aria-label={this.messages.hour}
               aria-valuemax="23"
@@ -628,7 +613,7 @@ export class InputTimePicker
             >
               {localizedMinute || emptyPlaceholder}
             </span>
-            {showSecond && <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>}
+            <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
             {showSecond && (
               <span
                 aria-label={this.messages.second}
@@ -675,7 +660,7 @@ export class InputTimePicker
               </span>
             )}
             {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem("end")}
+            {showMeridiem && !meridiemStart && this.renderMeridiem()}
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -703,6 +688,7 @@ export class InputTimePicker
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.timePickerRef}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
@@ -710,7 +696,6 @@ export class InputTimePicker
             value={this.value}
           />
         </calcite-popover>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
@@ -724,7 +709,7 @@ export class InputTimePicker
     );
   }
 
-  private renderMeridiem(position: "start" | "end"): JsxNode {
+  private renderMeridiem(): JsxNode {
     const { handleMeridiemKeyDownEvent, localizedMeridiem, meridiem } = this.time;
     const isInteractive = !this.disabled && !this.readOnly;
     return (
@@ -738,8 +723,6 @@ export class InputTimePicker
           [CSS.empty]: !localizedMeridiem,
           [CSS.input]: true,
           [CSS.meridiem]: true,
-          [CSS.meridiemStart]: position === "start",
-          [CSS.meridiemEnd]: position === "end",
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}

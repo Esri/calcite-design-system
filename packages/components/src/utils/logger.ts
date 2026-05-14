@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LuminaJsx, LitElement } from "@arcgis/lumina";
 import { getConfig } from "./config";
 
@@ -46,7 +45,7 @@ function forwardToConsole(level: LogLevel, ...data: any[]): void {
   const badgeTemplate = "%ccalcite";
   const badgeStyle = "background: #007AC2; color: #fff; border-radius: 4px; padding: 2px 4px;";
 
-  console[level].call(this, badgeTemplate, badgeStyle, ...data);
+  console[level](badgeTemplate, badgeStyle, ...data);
 }
 
 let listFormatter: Intl.ListFormat;
@@ -91,7 +90,7 @@ function deprecated(
   if (suggested) {
     listFormatter = new Intl.ListFormat("en", { style: "long", type: "disjunction" });
 
-    message += ` Use ${listFormatter.format([].concat(suggested).map((suggestion) => `"${suggestion}"`))} instead.`;
+    message += ` Use ${listFormatter.format([suggested].flat().map((suggestion) => `"${suggestion}"`))} instead.`;
   }
 
   const composed = `[${component.el.tagName.toLocaleLowerCase().slice("calcite-".length)}] - ${message}`;

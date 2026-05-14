@@ -10,7 +10,7 @@ export const CSS = {
   containerHover: "container--hover",
   containerBorder: "container--border",
   containerBorderSelected: "container--border-selected",
-  containerBorderUnselected: "container--border-unselected",
+  containerHighlightSelected: "container--highlight-selected",
   content: "content",
   contentBottom: "content-bottom",
   contentContainer: "content-container",

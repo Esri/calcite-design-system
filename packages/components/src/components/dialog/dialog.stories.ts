@@ -203,6 +203,20 @@ export const withIcon = (): string => html`
   </calcite-dialog>
 `;
 
+export const withRichHeaderSlots = (): string => html`
+  <calcite-dialog
+    heading="Plain heading fallback"
+    description="Plain description fallback"
+    open
+    scale="m"
+    width-scale="s"
+  >
+    <span slot="heading"><strong>Rich heading</strong> with <calcite-link href="#">markup</calcite-link></span>
+    <span slot="description">Description with <em>inline emphasis</em> and <code>HTML</code>.</span>
+    <p>Slotted content!</p>
+  </calcite-dialog>
+`;
+
 export const withKindBrandIcon = (): string => html`
   <calcite-dialog
     kind="brand"
@@ -546,3 +560,18 @@ export const themed = (): string =>
     <div slot="footer">Footer!</div>
     <calcite-fab slot="${SLOTS.fab}"></calcite-fab>
   </calcite-dialog>`;
+
+export const fullscreenDisabled = (): string => html`
+  <calcite-dialog
+    heading="fullscreen Disabled"
+    description="This dialog cannot go fullscreen even on small screens."
+    open
+    fullscreen-disabled
+  >
+    <div>
+      This dialog has <b>fullscreenDisabled</b> set to true. Resize the viewport to a small size and verify it does not
+      become fullscreen.
+    </div>
+    <calcite-button slot="footer-end">Close</calcite-button>
+  </calcite-dialog>
+`;

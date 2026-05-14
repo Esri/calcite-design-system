@@ -4,7 +4,7 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { Scale } from "../interfaces";
 import {
   FlipPlacement,
-  MenuPlacement,
+  LogicalPlacement,
   OverlayPositioning,
   defaultMenuPlacement,
 } from "../../utils/floating-ui";
@@ -47,15 +47,68 @@ export class SortHandle extends LitElement {
   }
 
   get hasValidSetInfo(): boolean {
-    return this.hasSetInfo ? this.setPosition > 0 && this.setSize > 1 : true;
+    return this.hasSetInfo
+      ? this.setPosition > 0 && this.setPosition <= this.setSize && this.setSize > 0
+      : true;
   }
 
   get hasReorderItems(): boolean {
     return !this.sortDisabled && this.hasValidSetInfo;
   }
 
+  get hasMoveToItems(): boolean {
+    return this.moveToItems.length > 0;
+  }
+
+  get hasAddToItems(): boolean {
+    return this.addToItems.length > 0;
+  }
+
+  get reorderGroupTitle(): string {
+    return this.hasMoveToItems || this.hasAddToItems ? this.messages.reorder : "";
+  }
+
   get hasNoItems(): boolean {
-    return !this.hasReorderItems && this.moveToItems.length < 1 && this.addToItems.length < 1;
+    return !this.hasReorderItems && !this.hasMoveToItems && !this.hasAddToItems;
+  }
+
+  get hasAllReorderItemsDisabled(): boolean {
+    return (
+      this.hasReorderItems &&
+      this.isTopReorderDisabled &&
+      this.isUpReorderDisabled &&
+      this.isDownReorderDisabled &&
+      this.isBottomReorderDisabled
+    );
+  }
+
+  get hasOnlyDisabledReorderItems(): boolean {
+    return (
+      this.hasReorderItems &&
+      !this.hasMoveToItems &&
+      !this.hasAddToItems &&
+      this.hasAllReorderItemsDisabled
+    );
+  }
+
+  get isTopReorderDisabled(): boolean {
+    const { setPosition } = this;
+
+    return setPosition === 1 || setPosition === 2;
+  }
+
+  get isUpReorderDisabled(): boolean {
+    return this.setPosition === 1;
+  }
+
+  get isDownReorderDisabled(): boolean {
+    return this.setPosition === this.setSize;
+  }
+
+  get isBottomReorderDisabled(): boolean {
+    const { setPosition, setSize } = this;
+
+    return setPosition === setSize || setPosition === setSize - 1;
   }
 
   private interactiveContainer = useInteractive(this);
@@ -67,13 +120,13 @@ export class SortHandle extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `calcite-dropdown-item` `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
   @property() flipPlacements: FlipPlacement[];
 
-  /** Specifies the label of the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -93,32 +146,39 @@ export class SortHandle extends LitElement {
   @property({ reflect: true }) open = false;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the container element.
-   *
-   * @default "bottom-start"
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** The current position of the handle. */
+  /** Specifies the handle's current position. */
   @property() setPosition: number;
 
-  /** The total number of sortable items. */
+  /** Specifies the total number of sortable items. */
   @property() setSize: number;
 
-  /** When `true`, items are no longer sortable. */
+  /** When `true`, prevents sorting of items. */
   @property({ reflect: true }) sortDisabled = false;
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) widthScale: Scale;
@@ -132,7 +192,7 @@ export class SortHandle extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -269,6 +329,7 @@ export class SortHandle extends LitElement {
     const {
       disabled,
       flipPlacements,
+      hasOnlyDisabledReorderItems,
       open,
       overlayPositioning,
       placement,
@@ -278,7 +339,7 @@ export class SortHandle extends LitElement {
     } = this;
 
     const text = this.getLabel();
-    const isDisabled = disabled || hasNoItems;
+    const isDisabled = disabled || hasNoItems || hasOnlyDisabledReorderItems;
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -294,6 +355,7 @@ export class SortHandle extends LitElement {
           placement={placement}
           ref={this.setDropdownEl}
           scale={scale}
+          topLayerDisabled={this.topLayerDisabled}
           widthScale={widthScale}
         >
           <calcite-action
@@ -345,7 +407,7 @@ export class SortHandle extends LitElement {
   private renderReorderGroup(): JsxNode {
     return this.hasReorderItems ? (
       <calcite-dropdown-group
-        groupTitle={this.messages.reorder}
+        groupTitle={this.reorderGroupTitle}
         id={IDS.reorder}
         key="reorder"
         scale={this.scale}
@@ -360,9 +422,9 @@ export class SortHandle extends LitElement {
   }
 
   private renderAddToGroup(): JsxNode {
-    const { messages, addToItems, scale } = this;
+    const { messages, addToItems, scale, hasAddToItems } = this;
 
-    return addToItems.length ? (
+    return hasAddToItems ? (
       <calcite-dropdown-group
         groupTitle={messages.addTo}
         id={IDS.add}
@@ -376,9 +438,9 @@ export class SortHandle extends LitElement {
   }
 
   private renderMoveToGroup(): JsxNode {
-    const { messages, moveToItems, scale } = this;
+    const { messages, moveToItems, scale, hasMoveToItems } = this;
 
-    return moveToItems.length ? (
+    return hasMoveToItems ? (
       <calcite-dropdown-group
         groupTitle={messages.moveTo}
         id={IDS.move}
@@ -391,10 +453,11 @@ export class SortHandle extends LitElement {
     ) : null;
   }
 
-  private renderDropdownItem(positionIndex: number, label: string): JsxNode {
+  private renderDropdownItem(positionIndex: number, label: string, disabled = false): JsxNode {
     return (
       <calcite-dropdown-item
         data-value={REORDER_VALUES[positionIndex]}
+        disabled={disabled}
         key={REORDER_VALUES[positionIndex]}
         label={label}
         oncalciteDropdownItemSelect={this.handleReorder}
@@ -404,30 +467,20 @@ export class SortHandle extends LitElement {
     );
   }
 
-  private renderTop(): JsxNode | null {
-    const { setPosition } = this;
-
-    return setPosition !== 1 && setPosition !== 2
-      ? this.renderDropdownItem(0, this.messages.moveToTop)
-      : null;
+  private renderTop(): JsxNode {
+    return this.renderDropdownItem(0, this.messages.moveToTop, this.isTopReorderDisabled);
   }
 
-  private renderUp(): JsxNode | null {
-    return this.setPosition !== 1 ? this.renderDropdownItem(1, this.messages.moveUp) : null;
+  private renderUp(): JsxNode {
+    return this.renderDropdownItem(1, this.messages.moveUp, this.isUpReorderDisabled);
   }
 
-  private renderDown(): JsxNode | null {
-    return this.setPosition !== this.setSize
-      ? this.renderDropdownItem(2, this.messages.moveDown)
-      : null;
+  private renderDown(): JsxNode {
+    return this.renderDropdownItem(2, this.messages.moveDown, this.isDownReorderDisabled);
   }
 
-  private renderBottom(): JsxNode | null {
-    const { setPosition, setSize } = this;
-
-    return setPosition !== setSize && setPosition !== setSize - 1
-      ? this.renderDropdownItem(3, this.messages.moveToBottom)
-      : null;
+  private renderBottom(): JsxNode {
+    return this.renderDropdownItem(3, this.messages.moveToBottom, this.isBottomReorderDisabled);
   }
 
   //#endregion

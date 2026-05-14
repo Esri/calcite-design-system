@@ -65,7 +65,7 @@ interface DateTimeFormatterOptions {
 function createLocaleDateTimeFormatter({
   locale,
   numberingSystem,
-  includeSeconds = true,
+  includeSeconds,
   fractionalSecondDigits,
   hour12,
 }: DateTimeFormatterOptions): Intl.DateTimeFormat {
@@ -202,12 +202,20 @@ export function getLocalizedDecimalSeparator(locale: Locale, numberingSystem: Nu
   return numberStringFormatter.localize("1.1").split("")[1];
 }
 
-export function getLocalizedTimePartSuffix(
-  part: "hour" | "minute" | "second",
-  locale: Locale,
-  numberingSystem: NumberingSystem = "latn",
-): string {
-  const formatter = createLocaleDateTimeFormatter({ locale, numberingSystem });
+export function getLocalizedTimePartSuffix({
+  hour12,
+  locale,
+  numberingSystem = "latn",
+  part,
+  step,
+}: {
+  hour12: boolean;
+  locale: Locale;
+  numberingSystem: NumberingSystem;
+  part: Extract<TimePart, "hour" | "minute" | "second">;
+  step: number;
+}): string {
+  const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds: step < 60, locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
   return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
 }
@@ -220,17 +228,12 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], 
     const hourIndex = parts.indexOf(parts.find(({ type }): boolean => type === "hour"));
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
     const hourSuffix = parts[hourIndex + 1];
-    return hourSuffix && hourSuffix.type === "literal" && minuteIndex - hourIndex === 2
-      ? hourSuffix.value || null
-      : null;
+    return hourSuffix?.type === "literal" && minuteIndex - hourIndex === 2 ? hourSuffix.value || null : null;
   }
   if (part === "minuteSuffix") {
     const minuteIndex = parts.indexOf(parts.find(({ type }): boolean => type === "minute"));
-    const secondIndex = parts.indexOf(parts.find(({ type }): boolean => type === "second"));
     const minuteSuffix = parts[minuteIndex + 1];
-    return minuteSuffix && minuteSuffix.type === "literal" && secondIndex - minuteIndex === 2
-      ? minuteSuffix.value || null
-      : null;
+    return minuteSuffix?.type === "literal" ? minuteSuffix.value || null : null;
   }
   if (part === "secondSuffix") {
     let secondSuffixPart;
@@ -380,24 +383,36 @@ export function localizeTimePart({
   if (!date) {
     return;
   }
-  const formatter = createLocaleDateTimeFormatter({ hour12, locale, numberingSystem });
+  const includeSeconds = ["second", "fractionalSecond"].includes(part);
+  const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds, locale, numberingSystem });
   const parts = formatter.formatToParts(date);
   return getLocalizedTimePart(part, parts, locale);
 }
 
-interface LocalizeTimeStringParameters {
+type LocalizeTimeStringToStringParameters = {
   hour12?: boolean;
   includeSeconds?: boolean;
   locale: Locale;
   numberingSystem?: NumberingSystem;
-  parts?: boolean;
+  parts?: false | undefined;
   step?: number;
   value: string;
-}
+};
+type LocalizeTimeStringToPartsParameters = {
+  hour12?: boolean;
+  includeSeconds?: boolean;
+  locale: Locale;
+  numberingSystem?: NumberingSystem;
+  parts?: true;
+  step?: number;
+  value: string;
+};
+type LocalizeTimeStringParameters = LocalizeTimeStringToStringParameters | LocalizeTimeStringToPartsParameters;
 
+export function localizeTimeString(params: LocalizeTimeStringToStringParameters): string;
+export function localizeTimeString(params: LocalizeTimeStringToPartsParameters): LocalizedTime;
 export function localizeTimeString({
   hour12,
-  includeSeconds = true,
   locale,
   numberingSystem = "latn",
   parts: toParts = false,
@@ -408,6 +423,7 @@ export function localizeTimeString({
     return null;
   }
   const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value, step);
+  const includeSeconds = step < 60;
   const dateFromTimeString = new Date(
     Date.UTC(
       0,
@@ -415,10 +431,11 @@ export function localizeTimeString({
       0,
       parseInt(hour),
       parseInt(minute),
-      parseInt(second),
-      fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
+      includeSeconds && parseInt(second),
+      includeSeconds && fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
     ),
   );
+
   const formatter = createLocaleDateTimeFormatter({
     fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
     hour12,
@@ -465,59 +482,6 @@ export function localizeTimeString({
     }
     return result;
   }
-}
-
-interface LocalizeTimeStringToPartsParameters {
-  hour12?: boolean;
-  locale: Locale;
-  numberingSystem?: NumberingSystem;
-  step: number;
-  value: string;
-}
-
-export function localizeTimeStringToParts({
-  hour12,
-  locale,
-  numberingSystem = "latn",
-  step = 60,
-  value,
-}: LocalizeTimeStringToPartsParameters): LocalizedTime {
-  if (!isValidTime(value)) {
-    return null;
-  }
-  const { hour, minute, second = "0", fractionalSecond } = parseTimeString(value, step);
-  const dateFromTimeString = new Date(
-    Date.UTC(
-      0,
-      0,
-      0,
-      parseInt(hour),
-      parseInt(minute),
-      parseInt(second),
-      fractionalSecond && fractionalSecondPartToMilliseconds(fractionalSecond),
-    ),
-  );
-  if (dateFromTimeString) {
-    const formatter = createLocaleDateTimeFormatter({
-      fractionalSecondDigits: decimalPlaces(step) as FractionalSecondDigits,
-      hour12,
-      locale,
-      numberingSystem,
-    });
-    const parts = formatter.formatToParts(dateFromTimeString);
-    return {
-      hour: getLocalizedTimePart("hour", parts),
-      hourSuffix: getLocalizedTimePart("hourSuffix", parts),
-      minute: getLocalizedTimePart("minute", parts),
-      minuteSuffix: getLocalizedTimePart("minuteSuffix", parts),
-      second: getLocalizedTimePart("second", parts),
-      decimalSeparator: getLocalizedDecimalSeparator(locale, numberingSystem),
-      fractionalSecond: getLocalizedTimePart("fractionalSecond", parts),
-      secondSuffix: locale !== "bg" && getLocalizedTimePart("secondSuffix", parts),
-      meridiem: getLocalizedTimePart("meridiem", parts, locale),
-    };
-  }
-  return null;
 }
 
 export function parseTimeString(value: string, step?: number): Time {

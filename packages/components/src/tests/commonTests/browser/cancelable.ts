@@ -11,7 +11,7 @@ import { UseCancelable } from "../../../controllers/useCancelable";
  *   cancelable("calcite-action-bar");
  * });
  *
- * @param {ComponentTag} componentTag - The tag name of the component to test.
+ * @param componentTag - The tag name of the component to test.
  */
 export function cancelable(componentTag: ComponentTag): void {
   describe(`cancelable behavior`, () => {

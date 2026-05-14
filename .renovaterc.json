@@ -21,27 +21,80 @@
   "ignorePaths": ["examples/**"],
   "packageRules": [
     {
+      "groupName": "Linting",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": [
+        "@cspell/**",
+        "@prettier",
+        "@typescript-eslint/**",
+        "@vitest/eslint-plugin",
+        "husky",
+        "lint-staged",
+        "markdownlint-cli2",
+        "packages:eslint",
+        "packages:stylelint",
+        "prettier",
+        "typescript-eslint",
+        "typescript-strict-plugin"
+      ]
+    },
+    {
+      "groupName": "Build",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["autoprefixer", "packages:vite", "postcss", "sass-embedded", "tailwindcss"]
+    },
+    {
+      "groupName": "Build (Monorepo)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["lerna", "turbo"]
+    },
+    {
+      "groupName": "Build (Tokens)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@tokens-studio/**", "style-dictionary"]
+    },
+    {
+      "groupName": "Util Scripts",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["@inquirer/**", "chalk", "concurrently", "cpy**", "globby", "rimraf", "semver", "yargs"]
+    },
+    {
+      "groupName": "Tests (Browser)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["!@vitest/eslint-plugin", "@vitest/**", "happy-dom", "playwright", "vitest"]
+    },
+    {
+      "groupName": "Tests (A11y)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["axe-core", "jest-axe", "@types/jest-axe"]
+    },
+    {
+      "groupName": "Tests (Visual)",
+      "matchDepTypes": ["devDependencies"],
+      "matchPackageNames": ["chromatic", "@storybook/**", "storybook**"]
+    },
+    {
+      "groupName": "Calcite Components (Core Deps)",
+      "matchDepTypes": ["dependencies"],
+      "matchPackageNames": [
+        "**sortablejs**",
+        "@floating-ui/**",
+        "color",
+        "composed-offset-position",
+        "es-toolkit",
+        "focus-trap",
+        "interactjs",
+        "lit",
+        "timezone-groups",
+        "type-fest"
+      ]
+    },
+    {
       "groupName": "ArcGIS",
       "matchPackageNames": ["@arcgis/**"],
       "rangeStrategy": "bump",
       "ignoreUnstable": false,
       "respectLatest": false
-    },
-    {
-      "groupName": "CSpell",
-      "matchPackageNames": ["@cspell/**"]
-    },
-    {
-      "groupName": "Floating UI",
-      "matchPackageNames": ["@floating-ui/**"]
-    },
-    {
-      "groupName": "ESLint",
-      "matchPackageNames": ["/eslint/"]
-    },
-    {
-      "groupName": "Stylelint",
-      "matchPackageNames": ["/stylelint/"]
     },
     {
       "matchPackageNames": ["*"],

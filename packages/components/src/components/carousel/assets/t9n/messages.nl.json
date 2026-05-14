@@ -4,5 +4,6 @@
   "play": "Afspelen",
   "pause": "Pauze",
   "carousel": "Carousel",
-  "carouselItemProgress": "Voortgangsindicator voor Carousel-item"
+  "carouselItemProgress": "Voortgangsindicator voor Carousel-item",
+  "paginationStatus": "Item {current} van {total}"
 }

@@ -11,14 +11,6 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
@@ -31,6 +23,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -56,8 +49,10 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
  * @slot - A slot for adding `calcite-option`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Select extends LitElement implements LabelableComponent, FormComponent {
+export class Select extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -69,7 +64,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
   defaultValue: Select["value"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({ inputType: "text" })(this);
 
   labelEl: Label["el"];
 
@@ -96,27 +91,23 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
   /**
-   * Accessible name for the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
-  /** When provided, displays label text on the component. */
+  /** Specifies the component's label text. */
   @property() labelText: string;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
   /**
@@ -135,7 +126,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
    */
   @property() selectedOption: Option["el"];
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
@@ -147,24 +138,12 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   @property() validationMessage: string;
 
   /**
-   * The current validation state of the component.
+   * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's `selectedOption` value. */
   @property() value: string = null;
@@ -172,7 +151,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -184,7 +163,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -215,7 +194,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
     });
 
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -241,13 +219,12 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
     const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
-    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+    this.formSupport.overrideDefaultValue(this.selectedOption?.value ?? "");
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -425,7 +402,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
             <slot />
           </select>
           {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

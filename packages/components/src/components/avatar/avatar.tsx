@@ -31,13 +31,13 @@ export class Avatar extends LitElement {
   /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
   @property({ reflect: true }) fullName: string;
 
-  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label. */
+  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label for the component. */
   @property() label: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  /** Specifies the `src` to an image. If the image is private, include an access token in the URL. */
   @property({ reflect: true }) thumbnail: string;
 
   /** Specifies the unique id of the user. */

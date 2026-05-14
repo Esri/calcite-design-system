@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, focusable, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -15,12 +15,23 @@ type TestWindow = GlobalTestProps<{
   beforeClose: () => Promise<void>;
 }>;
 
-describe("calcite-flow-item", () => {
-  mockConsole();
+mockConsole();
 
-  describe("accessible", () => {
+describe("accessible", () => {
+  accessible(html`
+    <calcite-flow-item>
+      <div slot="${SLOTS.headerActionsStart}">test start</div>
+      <div slot="${SLOTS.headerContent}">test content</div>
+      <div slot="${SLOTS.headerActionsEnd}">test end</div>
+      <p>Content</p>
+      <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
+      <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
+    </calcite-flow-item>
+  `);
+
+  describe("collapsible", () => {
     accessible(html`
-      <calcite-flow-item>
+      <calcite-flow-item collapsible>
         <div slot="${SLOTS.headerActionsStart}">test start</div>
         <div slot="${SLOTS.headerContent}">test content</div>
         <div slot="${SLOTS.headerActionsEnd}">test end</div>
@@ -29,322 +40,308 @@ describe("calcite-flow-item", () => {
         <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
       </calcite-flow-item>
     `);
+  });
+});
 
-    describe("collapsible", () => {
-      accessible(html`
-        <calcite-flow-item collapsible>
-          <div slot="${SLOTS.headerActionsStart}">test start</div>
-          <div slot="${SLOTS.headerContent}">test content</div>
-          <div slot="${SLOTS.headerActionsEnd}">test end</div>
-          <p>Content</p>
-          <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-          <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-        </calcite-flow-item>
-      `);
-    });
+it("showBackButton", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent("<calcite-flow-item></calcite-flow-item>");
+
+  const element = await page.find("calcite-flow-item");
+
+  const showBackButton = await element.getProperty("showBackButton");
+
+  expect(showBackButton).toBe(false);
+
+  const backButton = await page.find(`calcite-flow-item >>> .${CSS.backButton}`);
+
+  expect(backButton).toBeNull();
+
+  element.setProperty("showBackButton", true);
+
+  await page.waitForChanges();
+
+  const showBackButtonNew = await element.getProperty("showBackButton");
+
+  expect(showBackButtonNew).toBe(true);
+
+  const backButtonNew = await page.find(`calcite-flow-item >>> .${CSS.backButton}`);
+
+  expect(backButtonNew).not.toBeNull();
+
+  expect(await backButtonNew.isVisible()).toBe(true);
+
+  const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
+
+  await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
+    const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
+    nativeBackButton.click();
   });
 
-  describe("should focus on back button", () => {
-    focusable(`<calcite-flow-item show-back-button selected>test</calcite-flow-item>`, {
-      shadowFocusTargetSelector: "calcite-action",
-    });
+  expect(calciteFlowItemBack).toHaveReceivedEvent();
+});
+
+it("sets beforeClose on internal panel", async () => {
+  const page = await newE2EPage();
+  await page.exposeFunction("beforeClose", () => Promise.reject());
+  await page.setContent("<calcite-flow-item closable></calcite-flow-item>");
+
+  await page.$eval("calcite-flow-item", (el: FlowItem["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
+
+  await page.waitForChanges();
+
+  const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+  expect(await panel.getProperty("beforeClose")).toBeDefined();
+});
+
+it("sets collapsible and collapsed on internal panel", async () => {
+  const page = await newE2EPage();
+  await page.setContent("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
+  await page.waitForChanges();
+
+  const flowItem = await page.find("calcite-flow-item");
+  const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+  expect(await flowItem.getProperty("collapsed")).toBe(true);
+  expect(await panel.getProperty("collapsed")).toBe(true);
+  expect(await panel.getProperty("collapsible")).toBe(true);
+
+  await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: Action["el"]) => el.click());
+  await page.waitForChanges();
+
+  expect(await flowItem.getProperty("collapsed")).toBe(false);
+});
+
+it("sets icon on internal panel", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-flow-item icon="x" icon-flip-rtl></calcite-flow-item>`);
+  await page.waitForChanges();
+
+  const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+
+  expect(await panel.getProperty("icon")).toBe("x");
+  expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+});
+
+it("allows scrolling content", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`
+    <calcite-flow style="height: 300px">
+      <calcite-flow-item heading="Flow heading" id="flowOrPanel">
+        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+          <calcite-notice open>
+            <div slot="message">An excellent assortment of content.</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+          <calcite-notice open>
+            <div slot="message">An excellent assortment of content.</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+          <calcite-notice open>
+            <div slot="message">An excellent assortment of content.</div>
+          </calcite-notice>
+        </calcite-block>
+        <calcite-block heading="Block example" summary="Some subtext" collapsible open>
+          <calcite-notice open>
+            <div slot="message">An excellent assortment of content.</div>
+          </calcite-notice>
+        </calcite-block>
+      </calcite-flow-item>
+    </calcite-flow>
+  `);
+  const [top, , bottom] = await findAll(page, "calcite-block");
+
+  await bottom.callMethod("scrollIntoView");
+
+  expect(await top.isIntersectingViewport()).toBe(false);
+
+  await page.$eval("calcite-flow-item", (panel: FlowItem["el"]) =>
+    panel.scrollContentTo({
+      top: 0,
+      behavior: "auto",
+    }),
+  );
+
+  expect(await top.isIntersectingViewport()).toBe(true);
+});
+
+it("honors calciteFlowItemScroll event", async () => {
+  const page = await newE2EPage({
+    html: "<calcite-flow-item>test</calcite-flow-item>",
   });
 
-  it("showBackButton", async () => {
-    const page = await newE2EPage();
+  const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
+  const panel = await page.find("calcite-flow-item >>> calcite-panel");
+  panel.triggerEvent("calcitePanelScroll");
+  await page.waitForChanges();
 
-    await page.setContent("<calcite-flow-item></calcite-flow-item>");
+  expect(scrollSpy).toHaveReceivedEventTimes(1);
+});
 
-    const element = await page.find("calcite-flow-item");
-
-    const showBackButton = await element.getProperty("showBackButton");
-
-    expect(showBackButton).toBe(false);
-
-    const backButton = await page.find(`calcite-flow-item >>> .${CSS.backButton}`);
-
-    expect(backButton).toBeNull();
-
-    element.setProperty("showBackButton", true);
-
-    await page.waitForChanges();
-
-    const showBackButtonNew = await element.getProperty("showBackButton");
-
-    expect(showBackButtonNew).toBe(true);
-
-    const backButtonNew = await page.find(`calcite-flow-item >>> .${CSS.backButton}`);
-
-    expect(backButtonNew).not.toBeNull();
-
-    expect(await backButtonNew.isVisible()).toBe(true);
-
-    const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
-
-    await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
-      const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
-      nativeBackButton.click();
-    });
-
-    expect(calciteFlowItemBack).toHaveReceivedEvent();
+it("honors calciteFlowItemToggle event", async () => {
+  const page = await newE2EPage({
+    html: "<calcite-flow-item collapsible>test</calcite-flow-item>",
   });
 
-  it("sets beforeClose on internal panel", async () => {
-    const page = await newE2EPage();
-    await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent("<calcite-flow-item closable></calcite-flow-item>");
+  const toggleSpy = await page.spyOnEvent("calciteFlowItemToggle");
+  const panel = await page.find("calcite-flow-item >>> calcite-panel");
+  panel.triggerEvent("calcitePanelToggle");
+  await page.waitForChanges();
 
-    await page.$eval(
-      "calcite-flow-item",
-      (el: FlowItem["el"]) => (el.beforeClose = (window as TestWindow).beforeClose),
-    );
+  expect(toggleSpy).toHaveReceivedEventTimes(1);
+});
 
-    await page.waitForChanges();
-
-    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
-
-    expect(await panel.getProperty("beforeClose")).toBeDefined();
+it("honors calciteFlowItemClose event", async () => {
+  const page = await newE2EPage({
+    html: "<calcite-flow-item closable>test</calcite-flow-item>",
   });
 
-  it("sets collapsible and collapsed on internal panel", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-flow-item collapsible collapsed></calcite-flow-item>");
-    await page.waitForChanges();
+  const toggleSpy = await page.spyOnEvent("calciteFlowItemClose");
+  const panel = await page.find("calcite-flow-item >>> calcite-panel");
+  panel.triggerEvent("calcitePanelClose");
+  await page.waitForChanges();
 
-    const flowItem = await page.find("calcite-flow-item");
-    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+  expect(toggleSpy).toHaveReceivedEventTimes(1);
+  expect(await panel.getProperty("closed")).toBe(true);
+});
 
-    expect(await flowItem.getProperty("collapsed")).toBe(true);
-    expect(await panel.getProperty("collapsed")).toBe(true);
-    expect(await panel.getProperty("collapsible")).toBe(true);
-
-    await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: Action["el"]) => el.click());
-    await page.waitForChanges();
-
-    expect(await flowItem.getProperty("collapsed")).toBe(false);
+it("should set embedded on slotted alerts", async () => {
+  const page = await newE2EPage({
+    html: html`<calcite-flow-item closable>
+      test
+      <calcite-alert slot="alerts" open label="this is a default alert">
+        <div slot="title">Hello there!</div>
+        <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
+      </calcite-alert>
+    </calcite-flow-item>`,
   });
+  await page.waitForChanges();
 
-  it("sets icon on internal panel", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-flow-item icon="x" icon-flip-rtl></calcite-flow-item>`);
-    await page.waitForChanges();
+  const alert = await page.find("calcite-alert");
 
-    const panel = await page.find(`calcite-flow-item >>> calcite-panel`);
+  expect(await alert.getProperty("embedded")).toBe(true);
+});
 
-    expect(await panel.getProperty("icon")).toBe("x");
-    expect(await panel.getProperty("iconFlipRtl")).toBe(true);
-  });
+it("should not close when slotted panels are closed", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-flow-item closable>
+      <calcite-panel closable heading="test"></calcite-panel>
+    </calcite-flow-item>`,
+  );
+  await page.waitForChanges();
 
-  it("allows scrolling content", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`
-      <calcite-flow style="height: 300px">
-        <calcite-flow-item heading="Flow heading" id="flowOrPanel">
-          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice open>
-              <div slot="message">An excellent assortment of content.</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice open>
-              <div slot="message">An excellent assortment of content.</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice open>
-              <div slot="message">An excellent assortment of content.</div>
-            </calcite-notice>
-          </calcite-block>
-          <calcite-block heading="Block example" summary="Some subtext" collapsible open>
-            <calcite-notice open>
-              <div slot="message">An excellent assortment of content.</div>
-            </calcite-notice>
-          </calcite-block>
-        </calcite-flow-item>
-      </calcite-flow>
-    `);
-    const [top, , bottom] = await findAll(page, "calcite-block");
+  await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: Action["el"]) => el.click());
+  await page.waitForChanges();
 
-    await bottom.callMethod("scrollIntoView");
+  const flowItem = await page.find("calcite-flow-item");
+  expect(await flowItem.getProperty("closed")).toBe(false);
+});
 
-    expect(await top.isIntersectingViewport()).toBe(false);
+it("should emit expanded/collapsed events when toggled", async () => {
+  const page = await newE2EPage();
+  await page.setContent(html`<calcite-flow-item heading="Test"></calcite-flow-item>`);
+  const item = await page.find("calcite-flow-item");
 
-    await page.$eval("calcite-flow-item", (panel: FlowItem["el"]) =>
-      panel.scrollContentTo({
-        top: 0,
-        behavior: "auto",
-      }),
-    );
+  const expandSpy = await page.spyOnEvent("calciteFlowItemExpand");
+  const collapseSpy = await page.spyOnEvent("calciteFlowItemCollapse");
 
-    expect(await top.isIntersectingViewport()).toBe(true);
-  });
+  item.setProperty("collapsed", true);
+  await page.waitForChanges();
+  expect(await item.getProperty("collapsed")).toBe(true);
+  expect(expandSpy).toHaveReceivedEventTimes(0);
+  expect(collapseSpy).toHaveReceivedEventTimes(1);
 
-  it("honors calciteFlowItemScroll event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item>test</calcite-flow-item>",
-    });
+  item.setProperty("collapsed", false);
+  await page.waitForChanges();
+  expect(await item.getProperty("collapsed")).toBe(false);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(1);
+});
 
-    const scrollSpy = await page.spyOnEvent("calciteFlowItemScroll");
-    const panel = await page.find("calcite-flow-item >>> calcite-panel");
-    panel.triggerEvent("calcitePanelScroll");
-    await page.waitForChanges();
-
-    expect(scrollSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("honors calciteFlowItemToggle event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item collapsible>test</calcite-flow-item>",
-    });
-
-    const toggleSpy = await page.spyOnEvent("calciteFlowItemToggle");
-    const panel = await page.find("calcite-flow-item >>> calcite-panel");
-    panel.triggerEvent("calcitePanelToggle");
-    await page.waitForChanges();
-
-    expect(toggleSpy).toHaveReceivedEventTimes(1);
-  });
-
-  it("honors calciteFlowItemClose event", async () => {
-    const page = await newE2EPage({
-      html: "<calcite-flow-item closable>test</calcite-flow-item>",
-    });
-
-    const toggleSpy = await page.spyOnEvent("calciteFlowItemClose");
-    const panel = await page.find("calcite-flow-item >>> calcite-panel");
-    panel.triggerEvent("calcitePanelClose");
-    await page.waitForChanges();
-
-    expect(toggleSpy).toHaveReceivedEventTimes(1);
-    expect(await panel.getProperty("closed")).toBe(true);
-  });
-
-  it("should set embedded on slotted alerts", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-flow-item closable>
-        test
-        <calcite-alert slot="alerts" open label="this is a default alert">
-          <div slot="title">Hello there!</div>
-          <div slot="message">This is an alert with a general piece of information. Cool, innit?</div>
-        </calcite-alert>
-      </calcite-flow-item>`,
-    });
-    await page.waitForChanges();
-
-    const alert = await page.find("calcite-alert");
-
-    expect(await alert.getProperty("embedded")).toBe(true);
-  });
-
-  it("should not close when slotted panels are closed", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-flow-item closable>
-        <calcite-panel closable heading="test"></calcite-panel>
-      </calcite-flow-item>`,
-    );
-    await page.waitForChanges();
-
-    await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: Action["el"]) => el.click());
-    await page.waitForChanges();
-
-    const flowItem = await page.find("calcite-flow-item");
-    expect(await flowItem.getProperty("closed")).toBe(false);
-  });
-
-  it("should emit expanded/collapsed events when toggled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-flow-item heading="Test"></calcite-flow-item>`);
-    const item = await page.find("calcite-flow-item");
-
-    const expandSpy = await page.spyOnEvent("calciteFlowItemExpand");
-    const collapseSpy = await page.spyOnEvent("calciteFlowItemCollapse");
-
-    item.setProperty("collapsed", true);
-    await page.waitForChanges();
-    expect(await item.getProperty("collapsed")).toBe(true);
-    expect(expandSpy).toHaveReceivedEventTimes(0);
-    expect(collapseSpy).toHaveReceivedEventTimes(1);
-
-    item.setProperty("collapsed", false);
-    await page.waitForChanges();
-    expect(await item.getProperty("collapsed")).toBe(false);
-    expect(expandSpy).toHaveReceivedEventTimes(1);
-    expect(collapseSpy).toHaveReceivedEventTimes(1);
-  });
-
-  describe("theme", () => {
-    themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
-      "--calcite-flow-corner-radius": {
+describe("theme", () => {
+  themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
+    "--calcite-flow-corner-radius": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-corner-radius",
+    },
+    "--calcite-flow-heading-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-heading-text-color",
+    },
+    "--calcite-flow-icon-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-icon-color",
+    },
+    "--calcite-flow-description-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-description-text-color",
+    },
+    "--calcite-flow-border-color": [
+      {
         shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-corner-radius",
+        targetProp: "--calcite-panel-border-color",
       },
-      "--calcite-flow-heading-text-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-heading-text-color",
-      },
-      "--calcite-flow-icon-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-icon-color",
-      },
-      "--calcite-flow-description-text-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-description-text-color",
-      },
-      "--calcite-flow-border-color": [
-        {
-          shadowSelector: "calcite-panel",
-          targetProp: "--calcite-panel-border-color",
-        },
-      ],
-      "--calcite-flow-background-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-background-color",
-      },
-      "--calcite-flow-header-background-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-background-color",
-      },
-      "--calcite-flow-footer-background-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-footer-background-color",
-      },
-      "--calcite-flow-space": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-space",
-      },
-      "--calcite-flow-header-content-space": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-content-space",
-      },
-      "--calcite-flow-footer-space": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-footer-space",
-      },
-      "--calcite-flow-header-action-background-color-hover": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-background-color-hover",
-      },
-      "--calcite-flow-header-action-background-color-press": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-background-color-press",
-      },
-      "--calcite-flow-header-action-background-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-background-color",
-      },
-      "--calcite-flow-header-action-indicator-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-indicator-color",
-      },
-      "--calcite-flow-header-action-text-color-press": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-text-color-press",
-      },
-      "--calcite-flow-header-action-text-color": {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-header-action-text-color",
-      },
-    });
+    ],
+    "--calcite-flow-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-background-color",
+    },
+    "--calcite-flow-header-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-background-color",
+    },
+    "--calcite-flow-footer-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-background-color",
+    },
+    "--calcite-flow-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-space",
+    },
+    "--calcite-flow-header-content-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-content-space",
+    },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
+    },
+    "--calcite-flow-footer-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-space",
+    },
+    "--calcite-flow-header-action-background-color-hover": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-hover",
+    },
+    "--calcite-flow-header-action-background-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-press",
+    },
+    "--calcite-flow-header-action-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color",
+    },
+    "--calcite-flow-header-action-indicator-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-indicator-color",
+    },
+    "--calcite-flow-header-action-text-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color-press",
+    },
+    "--calcite-flow-header-action-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color",
+    },
   });
 });

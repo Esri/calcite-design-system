@@ -1,8 +1,13 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  hasVisibleContent,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { getIconScale } from "../../utils/component";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
@@ -35,16 +40,18 @@ declare global {
  * @slot - A slot for adding custom content.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
  * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
  * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
  * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
  * @slot header-content - A slot for adding custom content to the header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
  */
 export class Panel extends LitElement {
   //#region Static Members
@@ -96,6 +103,10 @@ export class Panel extends LitElement {
 
   @state() hasHeaderContent = false;
 
+  @state() hasHeaderDescription = false;
+
+  @state() hasHeaderHeading = false;
+
   @state() hasMenuItems = false;
 
   @state() hasStartActions = false;
@@ -109,7 +120,7 @@ export class Panel extends LitElement {
   /** Passes a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the header. */
+  /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, the component will be hidden. */
@@ -124,7 +135,7 @@ export class Panel extends LitElement {
     }
   }
 
-  /** When `collapsible` is present, specifies the direction of the collapse icon. */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -133,16 +144,16 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** A description for the component. */
+  /** Specifies a description for the component. */
   @property() description: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** The component header text. */
+  /** Specifies the component's heading text. */
   @property() heading: string;
 
-  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display. */
@@ -154,7 +165,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback menu `placement` when it's initial or specified `placement` has insufficient space available. */
+  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
@@ -163,20 +174,29 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Determines the type of positioning to use for the overlaid content.
+   * Specifies the type of positioning to use for overlaid content, where:
    *
-   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
    *
-   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `true` and the component is `open`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 
@@ -192,7 +212,7 @@ export class Panel extends LitElement {
    *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
    * });
    * @param options - allows specific coordinates to be defined.
-   * @returns - promise that resolves once the content is scrolled to.
+   * @returns promise that resolves once the content is scrolled to.
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
@@ -204,7 +224,7 @@ export class Panel extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -349,6 +369,18 @@ export class Panel extends LitElement {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
   }
 
+  private handleHeaderDescriptionSlotChange(event: Event): void {
+    this.hasHeaderDescription =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
+  }
+
+  private handleHeaderHeadingSlotChange(event: Event): void {
+    this.hasHeaderHeading =
+      slotChangeHasTextContent(event) ||
+      slotChangeGetAssignedElements<HTMLElement>(event).some(hasVisibleContent);
+  }
+
   private handleFabSlotChange(event: Event): void {
     this.hasFab = slotChangeHasAssignedElement(event);
   }
@@ -391,7 +423,20 @@ export class Panel extends LitElement {
   //#region Rendering
 
   private renderHeaderContent(): JsxNode {
-    const { heading, headingLevel, description, hasHeaderContent, icon, scale } = this;
+    const {
+      heading,
+      headingLevel,
+      description,
+      hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
+      icon,
+      scale,
+    } = this;
+
+    const showHeaderHeading = !!heading || hasHeaderHeading;
+    const showHeaderDescription = !!description || hasHeaderDescription;
+    const showHeaderTextContent = showHeaderHeading || showHeaderDescription;
 
     const iconNode = icon ? (
       <calcite-icon
@@ -402,17 +447,32 @@ export class Panel extends LitElement {
       />
     ) : null;
 
-    const headingNode = heading ? (
-      <Heading class={CSS.heading} level={headingLevel}>
-        {heading}
+    const headingNode = (
+      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+        <slot
+          hidden={!hasHeaderHeading}
+          name={SLOTS.heading}
+          onSlotChange={this.handleHeaderHeadingSlotChange}
+        />
+        {!hasHeaderHeading ? heading : null}
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = description ? <span class={CSS.description}>{description}</span> : null;
+    const descriptionNode = (
+      <span class={CSS.description} hidden={!showHeaderDescription}>
+        <slot
+          hidden={!hasHeaderDescription}
+          name={SLOTS.description}
+          onSlotChange={this.handleHeaderDescriptionSlotChange}
+        />
+        {!hasHeaderDescription ? description : null}
+      </span>
+    );
 
-    return !hasHeaderContent && (headingNode || descriptionNode) ? (
+    return (
       <div
         class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        hidden={hasHeaderContent || !showHeaderTextContent}
         key="header-content"
       >
         {iconNode}
@@ -421,7 +481,7 @@ export class Panel extends LitElement {
           {descriptionNode}
         </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderActionBar(): JsxNode {
@@ -525,7 +585,7 @@ export class Panel extends LitElement {
   }
 
   private renderMenu(): JsxNode {
-    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement } = this;
+    const { hasMenuItems, messages, menuOpen, menuFlipPlacements, menuPlacement, scale } = this;
 
     return (
       <calcite-action-menu
@@ -536,11 +596,13 @@ export class Panel extends LitElement {
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
         placement={menuPlacement}
+        scale={scale}
+        topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
           class={CSS.menuAction}
           icon={ICONS.menu}
-          scale={this.scale}
+          scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
           text={messages.options}
         />
@@ -555,6 +617,8 @@ export class Panel extends LitElement {
   private renderHeaderNode(): JsxNode {
     const {
       hasHeaderContent,
+      hasHeaderDescription,
+      hasHeaderHeading,
       hasStartActions,
       hasEndActions,
       closable,
@@ -562,13 +626,17 @@ export class Panel extends LitElement {
       hasMenuItems,
       hasActionBar,
       hasContentTop,
+      heading,
+      description,
     } = this;
 
     const headerContentNode = this.renderHeaderContent();
+    const hasDefaultHeaderContent =
+      !!heading || !!description || hasHeaderHeading || hasHeaderDescription;
 
     const showHeaderContent =
       hasHeaderContent ||
-      !!headerContentNode ||
+      hasDefaultHeaderContent ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||

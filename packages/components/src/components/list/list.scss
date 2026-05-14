@@ -6,10 +6,28 @@
  * @prop --calcite-list-background-color: Specifies the component's background color.
  */
 
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-list-action-spacing
+
 @use "../../styles/includes";
 
 :host {
   @apply block;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xxs);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-list-action-spacing: var(--calcite-spacing-xs);
 }
 
 @include includes.disabled();
@@ -52,6 +70,19 @@
 
 .assistive-text {
   @apply sr-only;
+}
+
+::slotted(:is(calcite-action[slot="filter-actions-start"], calcite-action[slot="filter-actions-end"])) {
+  gap: var(--calcite-internal-list-action-spacing);
+  align-self: center;
+}
+
+::slotted(calcite-action[slot="filter-actions-start"]) {
+  margin-inline-start: var(--calcite-internal-list-action-spacing);
+}
+
+::slotted(calcite-action[slot="filter-actions-end"]) {
+  margin-inline-end: var(--calcite-internal-list-action-spacing);
 }
 
 @include includes.base-component();

@@ -15,7 +15,7 @@ import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { block, blockTokens } from "./custom-theme/block";
-import { buttons } from "./custom-theme/button";
+import { buttons, buttonTokens } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -281,6 +281,7 @@ const componentTokens = {
   ...avatarTokens,
   ...blockSectionTokens,
   ...blockTokens,
+  ...buttonTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,

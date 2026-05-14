@@ -8,5 +8,6 @@
   "required": "مطلوب",
   "selectAll": "تحديد الكل",
   "selected": "محدد",
-  "nonEditable": "Read-only {value}"
+  "nonEditable": "للقراءة فقط {value}",
+  "disabledSelectedCount": "+{count}"
 }

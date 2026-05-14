@@ -2,7 +2,7 @@
 **/package-lock.json
 
 # prevents modifying licenses
-**/THIRD-PARTY-LICENSES.md
+**/THIRD-PARTY-NOTICES.md
 
 # calcite-design-tokens
 

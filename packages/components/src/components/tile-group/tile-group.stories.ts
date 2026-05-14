@@ -61,9 +61,15 @@ function getTileGroupHtml(
   layout: TileGroup["layout"],
   selectionMode: TileGroup["selectionMode"] = "none",
   scale: TileGroup["scale"],
+  selectionAppearance?: TileGroup["selectionAppearance"],
 ): string {
   return html`
-    <calcite-tile-group layout="${layout}" selection-mode="${selectionMode}" scale="${scale}">
+    <calcite-tile-group
+      layout="${layout}"
+      selection-mode="${selectionMode}"
+      scale="${scale}"
+      ${selectionAppearance ? `selection-appearance="${selectionAppearance}"` : ""}
+    >
       ${Array(4)
         .fill(null)
         .map((value, index) => {
@@ -231,9 +237,9 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
-    <!-- single selection-appearance="border" -->
+    <!-- single selection-appearance="highlight" -->
     <div class="parent">
-      <div class="child right-aligned-text">single selection-appearance="border"</div>
+      <div class="child right-aligned-text">single selection-appearance="highlight"</div>
       <div class="child">
         ${getTileGroupHtml(
           {
@@ -244,6 +250,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "s",
+          "highlight",
         )}
       </div>
       <div class="child">
@@ -256,6 +263,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "m",
+          "highlight",
         )}
       </div>
       <div class="child">
@@ -268,6 +276,51 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "single",
           "l",
+          "highlight",
+        )}
+      </div>
+    </div>
+
+    <!-- single selection-appearance="border" (deprecated) -->
+    <div class="parent">
+      <div class="child right-aligned-text">single selection-appearance="border" (deprecated)</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "s",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "m",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "single",
+          "l",
+          "border",
         )}
       </div>
     </div>
@@ -309,6 +362,94 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           layout,
           "multiple",
           "l",
+        )}
+      </div>
+    </div>
+
+    <!-- multiple selection-appearance="highlight" -->
+    <div class="parent">
+      <div class="child right-aligned-text">multiple selection-appearance="highlight"</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "s",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "m",
+          "highlight",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "l",
+          "highlight",
+        )}
+      </div>
+    </div>
+
+    <!-- multiple selection-appearance="border" (deprecated) -->
+    <div class="parent">
+      <div class="child right-aligned-text">multiple selection-appearance="border" (deprecated)</div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "s",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "m",
+          "border",
+        )}
+      </div>
+      <div class="child">
+        ${getTileGroupHtml(
+          {
+            heading: true,
+            description: true,
+            icon: true,
+          },
+          layout,
+          "multiple",
+          "l",
+          "border",
         )}
       </div>
     </div>

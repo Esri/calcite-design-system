@@ -89,18 +89,54 @@ const config: Omit<Config, "content"> = {
       "6h": ["var(--calcite-font-size-relative-5xl)", { lineHeight: "var(--calcite-font-line-height-5xl)" }],
       "7h": ["var(--calcite-font-size-relative-6xl)", { lineHeight: "var(--calcite-font-line-height-6xl)" }],
       "8h": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-7xl)" }],
-      "n3-wrap": ["var(--calcite-font-size-relative-xs)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "n2-wrap": ["var(--calcite-font-size-relative-sm)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "n1-wrap": ["var(--calcite-font-size-relative-base)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "0-wrap": ["var(--calcite-font-size-relative-md)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "1-wrap": ["var(--calcite-font-size-relative-lg)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "2-wrap": ["var(--calcite-font-size-relative-xl)", { lineHeight: "var(--calcite-font-line-height-relative-snug)" }],
-      "3-wrap": ["var(--calcite-font-size-relative-2xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
-      "4-wrap": ["var(--calcite-font-size-relative-3xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
-      "5-wrap": ["var(--calcite-font-size-relative-4xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
-      "6-wrap": ["var(--calcite-font-size-relative-5xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
-      "7-wrap": ["var(--calcite-font-size-relative-6xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
-      "8-wrap": ["var(--calcite-font-size-relative-7xl)", { lineHeight: "var(--calcite-font-line-height-relative-tight)" }],
+      "n3-wrap": [
+        "var(--calcite-font-size-relative-xs)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n2-wrap": [
+        "var(--calcite-font-size-relative-sm)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "n1-wrap": [
+        "var(--calcite-font-size-relative-base)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "0-wrap": [
+        "var(--calcite-font-size-relative-md)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "1-wrap": [
+        "var(--calcite-font-size-relative-lg)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "2-wrap": [
+        "var(--calcite-font-size-relative-xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-snug)" },
+      ],
+      "3-wrap": [
+        "var(--calcite-font-size-relative-2xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "4-wrap": [
+        "var(--calcite-font-size-relative-3xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "5-wrap": [
+        "var(--calcite-font-size-relative-4xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "6-wrap": [
+        "var(--calcite-font-size-relative-5xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "7-wrap": [
+        "var(--calcite-font-size-relative-6xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
+      "8-wrap": [
+        "var(--calcite-font-size-relative-7xl)",
+        { lineHeight: "var(--calcite-font-line-height-relative-tight)" },
+      ],
     },
     fontWeight: {
       // assets/styles/_type
@@ -191,13 +227,10 @@ const config: Omit<Config, "content"> = {
         disabled: "var(--calcite-opacity-disabled)",
       },
       spacing: {
-        0.5: "0.125rem",
-        2.5: "0.625rem",
-        3.5: "0.875rem",
-        4.5: "1.125rem",
-        9: "2.25rem",
-        11: "2.75rem",
-        13: "3.25rem",
+        2.5: "var(--calcite-space-sm-plus)", // Deprecated in v1.1.1, removal target v2.0.0 - Use the `--calcite-space-sm-plus` token directly instead.
+        4.5: "1.125rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
+        11: "2.75rem", // Deprecated in v1.1.1, removal target v2.0.0 - Not intended for sizing, use `--calcite-size-lg` instead.
+        13: "3.25rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
       },
       transitionProperty: {
         margin: "margin",

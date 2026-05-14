@@ -9,11 +9,10 @@ import { InputDatePicker } from "./input-date-picker";
 
 const { scale, status } = ATTRIBUTES;
 
-interface InputDatePickerStoryArgs
-  extends Pick<
-    InputDatePicker,
-    "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
-  > {
+interface InputDatePickerStoryArgs extends Pick<
+  InputDatePicker,
+  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+> {
   lang: string;
 }
 
@@ -88,6 +87,23 @@ export const withMinMax = (): string =>
       <calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>
     </div>`;
 
+export const withMinAsDateAndMaxAsDate = (): string =>
+  html`<style>
+      .container {
+        width: 400px;
+        height: 400px;
+      }
+    </style>
+    <div class="container">
+      <calcite-input-date-picker open></calcite-input-date-picker>
+    </div>
+    <script>
+      const datePicker = document.querySelector("calcite-input-date-picker");
+      const offsetTime = "T07:00:00.000Z";
+      datePicker.minAsDate = new Date("2020-01-01T07:00:00.000Z");
+      datePicker.maxAsDate = new Date("2020-12-31T07:00:00.000Z");
+    </script>`;
+
 export const rangeWithMinMax = (): string => html`
   <style>
     .container {
@@ -111,9 +127,9 @@ export const rangeWithMinMax = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -133,11 +149,11 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -271,28 +287,76 @@ export const rangeOneCalendarsAllScales = (): string => html`
   </div>
 `;
 
-export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
+export const arabicLocaleDarkModeRTL = (): string => html`
   <style>
     .container {
-      width: 400px;
-      height: 400px;
+      display: flex;
+      gap: 20px;
+    }
+    .picker-group {
+      width: 650px;
+      height: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 370px;
     }
   </style>
   <div class="container">
-    <calcite-input-date-picker
-      class="calcite-mode-dark"
-      dir="rtl"
-      value="2020-12-12"
-      numbering-system="arab"
-      lang="ar"
-      open
-      validation-message="This should not appear because the status is not 'invalid'"
-    ></calcite-input-date-picker>
+    <div class="picker-group">
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        open
+        placement="bottom-start"
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        open
+        placement="bottom-start"
+        range
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+    </div>
+    <div class="picker-group">
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        layout="vertical"
+        open
+        placement="bottom-start"
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+
+      <calcite-input-date-picker
+        class="calcite-mode-dark"
+        dir="rtl"
+        value="2020-12-12"
+        numbering-system="arab"
+        lang="ar"
+        layout="vertical"
+        open
+        placement="bottom-start"
+        range
+        validation-message="This should not appear because the status is not 'invalid'"
+      ></calcite-input-date-picker>
+    </div>
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+arabicLocaleDarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );

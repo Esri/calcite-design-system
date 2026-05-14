@@ -1,12 +1,6 @@
 // @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
+import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { Scale } from "../interfaces";
@@ -14,6 +8,7 @@ import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./switch.scss";
 
@@ -23,8 +18,10 @@ declare global {
   }
 }
 
-export class Switch extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class Switch extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -36,7 +33,9 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
 
   defaultValue: Switch["checked"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "checkbox",
+  })(this);
 
   labelEl: Label["el"];
 
@@ -57,29 +56,25 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
   @property({ reflect: true }) disabled = false;
 
   /**
-   * The `id` of the form that will be associated with the component.
+   * Specifies the `id` of the component's associated form.
    *
-   * When not set, the component will be associated with its ancestor form element, if any.
+   * When not set, the component is associated with its ancestor form element, if one exists.
    */
   @property({ reflect: true }) form: string;
 
-  /** Accessible name for the component. */
+  /** Specifies an accessible label for the component. */
   @property() label: string;
 
-  /** When provided, displays label text at the end of the component */
+  /** Specifies the component's end label text. */
   @property() labelTextEnd: string;
 
-  /** When provided, displays label text at the start of the component */
+  /** Specifies the component's start label text.*/
   @property() labelTextStart: string;
 
-  /**
-   * Specifies the name of the component.
-   *
-   * Required to pass the component's `value` on form submission.
-   */
+  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
   @property({ reflect: true }) name: string;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** The component's value. */
@@ -94,7 +89,7 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -120,21 +115,15 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
 
   //#region Private Methods
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "checkbox";
-  }
 
   private keyDownHandler(event: KeyboardEvent): void {
     if (!this.disabled && isActivationKey(event.key)) {
@@ -197,7 +186,6 @@ export class Switch extends LitElement implements LabelableComponent, CheckableF
               spacingInlineStart={true}
             />
           )}
-          <HiddenFormInputSlot component={this} />
         </div>
       </this.interactiveContainer>
     );

@@ -2,6 +2,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isValidNumber } from "../../utils/number";
 import { Scale } from "../interfaces";
 import { NumberingSystem } from "../../utils/locale";
@@ -9,7 +10,6 @@ import { HourFormat, TimePart } from "../../utils/time";
 import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
-import { getElementDir } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
@@ -33,6 +33,8 @@ export class TimePicker extends LitElement implements TimeComponent {
   //#endregion
 
   //#region Private Properties
+
+  private direction = useDirection();
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -82,18 +84,16 @@ export class TimePicker extends LitElement implements TimeComponent {
    * `"user"` displays the user's locale format,
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
-   *
-   * @default "user"
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Use this property to override individual strings used by the component. */
+  /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem: NumberingSystem;
 
-  /** Specifies the size of the component. */
+  /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the granularity the `value` must adhere to (in seconds). */
@@ -111,7 +111,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -596,14 +596,14 @@ export class TimePicker extends LitElement implements TimeComponent {
         )}
         {showSecondSuffix && (
           <span class={{ [CSS.delimiter]: true, [CSS.secondSuffix]: true }}>
-            {localizedSecondSuffix.trim()}
+            {localizedSecondSuffix}
           </span>
         )}
         {showMeridiem && (
           <div
             class={{
               [CSS.column]: true,
-              [CSS.meridiemStart]: meridiemOrder === 0 || getElementDir(this.el) === "rtl",
+              [CSS.meridiemStart]: meridiemOrder === 0 || this.direction === "rtl",
             }}
             role="group"
           >

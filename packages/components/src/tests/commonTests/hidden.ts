@@ -12,7 +12,7 @@ import { ComponentTestSetup } from "./interfaces";
  * describe("honors hidden attribute", () => {
  *    hidden("calcite-accordion")
  * });
- * @param {string} componentTagOrHTML - the component tag or HTML markup to test against
+ * @param componentTagOrHTML - the component tag or HTML markup to test against
  */
 export async function hidden(componentTestSetup: ComponentTestSetup): Promise<void> {
   it("is hidden", async () => {

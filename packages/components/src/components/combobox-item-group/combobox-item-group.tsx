@@ -40,14 +40,14 @@ export class ComboboxItemGroup extends LitElement {
   @property() ancestors: ComboboxChildElement[];
 
   /**
-   * Specifies the title of the component.
+   * Specifies an accessible label for the component.
    *
    * @required
    */
   @property() label: string;
 
   /**
-   * Specifies the position of the group in the combobox menu.
+   * Specifies the group's position in the `calcite-combobox` menu.
    *
    * @internal
    */

@@ -82,7 +82,7 @@ export class DatePickerMonth extends LitElement {
   /** End date currently active. */
   @property() endDate?: Date;
 
-  /** Specifies the number at which section headings should start. */
+  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** The range of dates currently being hovered. */
@@ -653,7 +653,7 @@ export class DatePickerMonth extends LitElement {
             [CSS.currentDay]: currentDay,
             [CSS.insideRangeHover]: this.isHoverInRange(),
             [CSS.outsideRangeHover]: !this.isHoverInRange(),
-            [CSS.noncurrent]: this.range && !currentMonth,
+            [CSS.noncurrent]: this.range && this.calendars === 2 && !currentMonth,
           }}
           currentMonth={currentMonth}
           dateTimeFormat={this.dateTimeFormat}

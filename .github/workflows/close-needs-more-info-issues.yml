@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Close issue if more info is not provided
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/closeNeedMoreInfoIssues.js')

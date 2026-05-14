@@ -130,6 +130,78 @@ export const titleMessageLink = (): string => html`
 
 titleMessageLink.storyName = "Title, message, link";
 
+export const titleMessageLongLink = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
+      style="--calcite-alert-width:350px;"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+export const titleMessageLongLinkNaturalWidth = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert icon auto-close-duration="medium" placement="bottom" open scale="m" kind="danger">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+export const titleMessageLongLinkNoHref = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
+      style="--calcite-alert-width:350px;"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+titleMessageLongLinkNoHref.storyName = "Title, message, long link no href";
+
+export const titleMessageLongLinkNoHrefNaturalWidth = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert icon auto-close-duration="medium" placement="bottom" open scale="m" kind="danger">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+titleMessageLongLinkNoHrefNaturalWidth.storyName = "Title, message, long link no href natural width";
+
 export const titleMessage = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
@@ -205,7 +277,7 @@ export const customIcon = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -225,9 +297,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const actionsEndNoQueue_TestOnly = (): string => html`
+export const actionsEndNoQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -246,7 +318,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
   </div>
 `;
 
-export const actionsEndQueued_TestOnly = (): string => html`
+export const actionsEndQueued = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
@@ -269,7 +341,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </div>
 `;
 
-export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
+export const textAlignDoesNotAffectComponentAlignment = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert

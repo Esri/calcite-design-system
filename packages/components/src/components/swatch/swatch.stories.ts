@@ -72,10 +72,10 @@ export const withImageDisabled = (args: SwatchStoryArgs): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (args: SwatchStoryArgs): string => html`
+export const darkModeRTL = (args: SwatchStoryArgs): string => html`
   <div style="background-color:#2b2b2b;padding:100px" dir="rtl">
     <calcite-swatch class="calcite-mode-dark" label="${args.label}"></calcite-swatch>
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

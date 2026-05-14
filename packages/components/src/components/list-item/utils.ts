@@ -1,3 +1,4 @@
+// @ts-strict-ignore
 import { isServer } from "lit";
 import type { List } from "../list/list";
 import type { ListItemGroup } from "../list-item-group/list-item-group";

@@ -23,6 +23,10 @@
   @apply contents;
 }
 
+:host([top-layer-disabled]) {
+  --calcite-floating-ui-z-index: var(--calcite-z-index-popup);
+}
+
 .position-container {
   @include floating-ui.floating-ui-container();
   max-inline-size: var(--calcite-popover-max-size-x, 100vw);
