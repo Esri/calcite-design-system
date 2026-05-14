@@ -2216,6 +2216,52 @@ describe("selectAllEnabled", async () => {
     });
   });
 
+  it("renders only the all-selected chip in fit selection-display mode", async () => {
+    page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="multiple" selection-display="fit" select-all-enabled style="width:200px">
+        <calcite-combobox-item value="Trees" heading="Trees">
+          <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Cedar" heading="Cedar"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Flowers" heading="Flowers">
+          <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
+          <calcite-combobox-item value="Nasturtium" heading="Nasturtium"></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>`,
+    );
+
+    const combobox = await page.find("calcite-combobox");
+    await combobox.click();
+    await page.waitForChanges();
+
+    const selectAll = await page.find(`calcite-combobox >>> .${CSS.selectAll}`);
+    await selectAll.click();
+    await page.waitForChanges();
+    await page.waitForTimeout(DEBOUNCE.nextTick);
+
+    expect(
+      await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+    ).toBeDefined();
+    expect(await page.find(`calcite-combobox >>> calcite-chip[data-test-id="selected-chip-count"]`)).toBeNull();
+
+    const chips = await findAll(page, "calcite-combobox >>> calcite-chip");
+    expect(chips.length).toBe(1);
+  });
+
+  it("does not render an all-selected chip when fit selection-display is empty", async () => {
+    page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-combobox selection-mode="multiple" selection-display="fit" select-all-enabled></calcite-combobox>`,
+    );
+
+    const allSelectedChip = await page.find(
+      `calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`,
+    );
+    expect(allSelectedChip).toBeNull();
+  });
+
   it("indeterminate state", async () => {
     const combobox = await page.find("calcite-combobox");
     await combobox.click();

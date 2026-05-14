@@ -1705,12 +1705,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const { activeChipIndex, readOnly, scale, selectionDisplay, selectionMode, messages } = this;
     const chips: JsxNode[] = [];
     const isAncestors = selectionMode === "ancestors";
-    const allSelectedNoDisabled = this.allSelected && !this.hasDisabledItems;
     const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
     const preserveOrder = selectionDisplay === "all";
 
     if (
-      (selectionDisplay === "fit" && (allSelectedNoDisabled || allSelectedWithDisabledSelected)) ||
+      (selectionDisplay === "fit" && this.allSelected) ||
       (selectionDisplay === "all" && this.selectAllEnabled && allSelectedWithDisabledSelected) ||
       (this.selectAllEnabled && this.allSelected && !this.hasDisabledItems)
     ) {
@@ -1791,12 +1790,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       scale,
       selectedVisibleChipsCount,
     } = this;
+    if (this.selectionDisplay === "fit" && this.allItems.length === 0) {
+      return null;
+    }
     const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
     const showAllSelectedChip =
       this.allSelected &&
       (this.selectionDisplay === "single" ||
         !selectedVisibleChipsCount ||
-        (this.selectionDisplay === "fit" && this.hasDisabledSelected) ||
+        this.selectionDisplay === "fit" ||
         (this.selectionDisplay === "all" && this.hasDisabledSelected));
 
     return (

@@ -388,7 +388,6 @@ export const multiple = (): string => html`
     </calcite-label>
   </div>
 `;
-multiple.parameters = { chromatic: { delay: 1000 } };
 
 export const nestedItems = (): string => html`
       <calcite-combobox-item value="ITEM-0-0" heading="Level 1">
@@ -1257,5 +1256,61 @@ export const disabledEnabled = (): string => html`
         <calcite-combobox-item value="Nasturtium" heading="Nasturtium" disabled></calcite-combobox-item>
       </calcite-combobox-item>
     </calcite-combobox>
+  </div>
+`;
+
+export const fitDisplayStates = (): string => html`
+  <style>
+    .fit-display-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      align-items: start;
+    }
+
+    .fit-display-grid > div {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fit-display-overflow {
+      inline-size: 200px;
+      max-inline-size: 200px;
+    }
+  </style>
+  <div class="fit-display-grid">
+    <div>
+      <strong>Selected + disabled options</strong>
+      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
+        <calcite-combobox-item value="Trees" heading="Trees" selected>
+          <calcite-combobox-item value="Pine" heading="Pine" selected>
+            <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Cedar" heading="Cedar" disabled></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>
+    </div>
+
+    <div>
+      <strong>Empty combobox</strong>
+      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="No items"> </calcite-combobox>
+    </div>
+
+    <div>
+      <strong>All options selected</strong>
+      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
+        <calcite-combobox-item value="Trees" heading="Trees" selected>
+          <calcite-combobox-item value="Pine" heading="Pine" selected>
+            <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
+          </calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Cedar" heading="Cedar" selected></calcite-combobox-item>
+        </calcite-combobox-item>
+      </calcite-combobox>
+    </div>
   </div>
 `;
