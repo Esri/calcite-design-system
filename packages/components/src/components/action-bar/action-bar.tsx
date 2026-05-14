@@ -1,18 +1,19 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   ToEvents,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  focusElementInGroup,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -30,7 +31,6 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
-import { focusElementInGroup } from "../../utils/dom";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
@@ -469,7 +469,7 @@ export class ActionBar extends LitElement {
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
 
-    if (!isAction(current)) {
+    if (!isAction(current) || !actions.includes(current)) {
       return;
     }
 
@@ -499,8 +499,15 @@ export class ActionBar extends LitElement {
   }
 
   private setActionTabIndexes(active: Action["el"]): void {
-    this.actions.forEach((action: Action["el"]) => {
-      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    this.actions.forEach((action) => {
+      const tabIndex = !action.disabled && action === active ? 0 : -1;
+
+      if (tabIndex === 0) {
+        // action's internal button is tabbable by default, so we remove the attribute to avoid an extra tabbable element
+        action.removeAttribute("tabindex");
+      } else {
+        action.tabIndex = tabIndex;
+      }
     });
   }
 

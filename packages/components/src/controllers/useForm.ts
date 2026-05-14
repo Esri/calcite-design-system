@@ -371,7 +371,11 @@ export const useForm = <T extends FormComponent>(
     controller.onLoaded(() => updateValidity());
 
     function updateValidity(): void {
-      const { elementInternals } = component;
+      const { disabled, elementInternals } = component;
+
+      if (disabled) {
+        return;
+      }
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
