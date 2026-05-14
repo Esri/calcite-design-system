@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.50...@esri/calcite-components@5.1.0-next.51) (2026-05-14)
+
+### Bug Fixes
+
+- **list:** remove interactive states for `interaction-mode=static` ([#14433](https://github.com/Esri/calcite-design-system/issues/14433)), closes [#12542](https://github.com/Esri/calcite-design-system/issues/12542)
+
 ## [5.1.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.49...@esri/calcite-components@5.1.0-next.50) (2026-05-14)
 
 ### Bug Fixes
