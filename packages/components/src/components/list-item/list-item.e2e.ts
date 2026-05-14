@@ -15,14 +15,14 @@ it("displays hover class", async () => {
   expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
 });
 
-it("displays hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
+it("does not display hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
   const page = await newE2EPage();
   await page.setContent(
     `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="border"></calcite-list-item>`,
   );
   await page.waitForChanges();
 
-  expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
 });
 
 it("does not display hover class when selection-mode === none and interaction-mode === static", async () => {
