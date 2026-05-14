@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.47...@esri/calcite-components@5.1.0-next.48) (2026-05-14)
+
+### Features
+
+- **label:** skip label focus behavior if click event is canceled ([#14412](https://github.com/Esri/calcite-design-system/issues/14412)), closes [#11100](https://github.com/Esri/calcite-design-system/issues/11100)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** ensure actions remain tabbable when tabbed through ([#14429](https://github.com/Esri/calcite-design-system/issues/14429)), closes [#14133](https://github.com/Esri/calcite-design-system/issues/14133)
+- **combobox, input-time-zone:** only cancel `Escape` key event when open or clearing text ([#14382](https://github.com/Esri/calcite-design-system/issues/14382)), closes [#14298](https://github.com/Esri/calcite-design-system/issues/14298)
+- **link, alert, notice:** slotted link display value ([#14310](https://github.com/Esri/calcite-design-system/issues/14310)), closes [#13356](https://github.com/Esri/calcite-design-system/issues/13356)
+- **select:** match chevron alignment to combobox ([#14411](https://github.com/Esri/calcite-design-system/issues/14411)), closes [#14398](https://github.com/Esri/calcite-design-system/issues/14398)
+- **useForm:** ignore disabled components when updating validity ([#14400](https://github.com/Esri/calcite-design-system/issues/14400)), closes [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+
 ## [5.1.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.46...@esri/calcite-components@5.1.0-next.47) (2026-05-05)
 
 ### Bug Fixes
