@@ -2,6 +2,7 @@ import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
 import {
   createEvent,
+  h,
   JsxNode,
   LitElement,
   method,
