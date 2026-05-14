@@ -125,7 +125,7 @@ describe("minAsDate and maxAsDate properties", () => {
       <calcite-input-date-picker value="2022-11-27" />,
     );
 
-    const offsetTime = `T07:00:00.000Z`;
+    const offsetTime = `T09:00:00.000Z`;
     el.minAsDate = new Date(`2020-01-01${offsetTime}`);
     el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
     await component.updateComplete;
