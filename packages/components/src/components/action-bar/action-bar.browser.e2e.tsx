@@ -17,6 +17,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
+import { html } from "lit";
 
 mockConsole();
 
@@ -286,4 +287,33 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions.nth(1)).toBeInViewport();
     await expect.element(triggerActions.nth(2)).toBeInViewport();
   });
+});
+
+it("keeps actions tabbable when tabbing out", async () => {
+  await mount(html`
+    <calcite-action-bar expand-disabled>
+      <calcite-action text="first" icon="number-circle-1"></calcite-action>
+      <calcite-action text="second" icon="number-circle-2"></calcite-action>
+    </calcite-action-bar>
+    <calcite-action text="third" icon="number-circle-3"></calcite-action>
+  `);
+  const actions = page.getBySelector("calcite-action");
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  expect(document.body).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  expect(document.body).toHaveFocus();
 });
