@@ -422,14 +422,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    if (!Array.isArray(this.value) && this.value) {
-      const isoDate = dateFromISO(this.value);
-      if (!(isoDate instanceof Date)) {
-        this.warnAboutInvalidValue(this.value);
-        this.value = "";
-      }
-    }
-
     connectLabel(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
@@ -532,12 +524,19 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     if (!this.userChangedValue) {
       let newValueAsDate: Date | Date[];
 
-      if (Array.isArray(newValue)) {
-        newValueAsDate = getValueAsDateRange(newValue);
-      } else if (newValue) {
-        newValueAsDate = dateFromISO(newValue);
-      } else {
-        newValueAsDate = undefined;
+      try {
+        if (Array.isArray(newValue)) {
+          newValueAsDate = getValueAsDateRange(newValue);
+        } else if (newValue) {
+          newValueAsDate = dateFromISO(newValue);
+        } else {
+          newValueAsDate = undefined;
+        }
+      } catch {
+        if (!Array.isArray(newValue)) {
+          this.warnAboutInvalidValue(newValue);
+          this.value = "";
+        }
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
@@ -554,7 +553,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
     this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
-
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
@@ -903,9 +901,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      (this.range
+      this.range
         ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate) as Date,
+        : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate,
     );
