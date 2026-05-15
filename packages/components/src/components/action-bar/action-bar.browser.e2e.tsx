@@ -386,3 +386,57 @@ describe("per-group overflow-actions-disabled", () => {
     expect(document.body).toHaveFocus();
   });
 });
+
+describe("pinned actions", () => {
+  it("pinned actions are not overflowed into the menu", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="plus" pinned text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const overflowedIn = (group: Element): Element[] =>
+      Array.from(group.querySelectorAll("calcite-action[slot='menu-actions']"));
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+
+    const overflowed = overflowedIn(groups[0]);
+    expect(overflowed.length).toBeGreaterThan(0);
+    expect(overflowed.every((action) => !(action as ActionGroup["el"]).pinned)).toBe(true);
+    expect(el.querySelector("calcite-action[pinned]")?.getAttribute("slot")).toBeNull();
+  });
+
+  it("setting pinned on an already-overflowed action surfaces it when overflow is re-evaluated", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const overflowedIn = (group: Element): Element[] =>
+      Array.from(group.querySelectorAll("calcite-action[slot='menu-actions']"));
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
+    const overflowed = overflowedIn(groups[0]);
+    expect(overflowed.length).toBeGreaterThan(0);
+
+    // Pin one of the overflowed actions, then re-evaluate (as the mutation observer does)
+    const pinnedAction = overflowed[0] as ActionGroup["el"] & { pinned: boolean };
+    pinnedAction.pinned = true;
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
+
+    expect(pinnedAction.getAttribute("slot")).toBeNull();
+  });
+});

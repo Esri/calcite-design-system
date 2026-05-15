@@ -311,7 +311,12 @@ export class ActionBar extends LitElement {
     this.updateGroups();
     this.overflowActions();
     this.updateActions();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.mutationObserver?.observe(this.el, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["pinned"],
+    });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
   }

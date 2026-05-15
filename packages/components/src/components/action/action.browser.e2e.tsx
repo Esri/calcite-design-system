@@ -62,6 +62,10 @@ describe("defaults", () => {
         propertyName: "selectionAppearance",
         defaultValue: undefined,
       },
+      {
+        propertyName: "pinned",
+        defaultValue: false,
+      },
     ],
   );
 });
@@ -125,6 +129,10 @@ describe("reflects", () => {
       {
         propertyName: "selectionAppearance",
         value: "neutral",
+      },
+      {
+        propertyName: "pinned",
+        value: true,
       },
     ],
   );

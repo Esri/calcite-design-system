@@ -17,6 +17,7 @@ type ActionStoryArgs = Pick<
   | "indicator"
   | "label"
   | "loading"
+  | "pinned"
   | "scale"
   | "text"
   | "textEnabled"
@@ -34,6 +35,7 @@ export default {
     indicator: false,
     label: "Label",
     loading: false,
+    pinned: false,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
     text: "",

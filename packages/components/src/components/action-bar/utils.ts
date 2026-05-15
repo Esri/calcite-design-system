@@ -44,7 +44,8 @@ export const overflowActions = ({
         if (
           unslottedActions.length > 1 &&
           directGroupActions.length > 2 &&
-          !groupAction.closest("calcite-action-menu")
+          !groupAction.closest("calcite-action-menu") &&
+          !groupAction.pinned
         ) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
