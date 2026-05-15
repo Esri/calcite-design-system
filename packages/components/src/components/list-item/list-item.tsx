@@ -159,7 +159,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  @property() interactionMode: InteractionMode = null;
+  @property({ reflect: true }) interactionMode: InteractionMode = null;
 
   /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label: string;
@@ -1052,12 +1052,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
     const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
     const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
-
-    const containerInteractive =
-      interactionMode === "interactive" ||
-      (interactionMode === "static" &&
-        selectionMode !== "none" &&
-        selectionAppearance === "border");
+    const containerInteractive = interactionMode === "interactive";
 
     return (
       <this.interactiveContainer disabled={disabled}>

@@ -60,15 +60,6 @@
   }
 }
 
-.container--hover:hover {
-  @apply cursor-pointer;
-  background-color: var(--calcite-list-background-color-hover, var(--calcite-color-foreground-2));
-}
-
-.container:active {
-  background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-3));
-}
-
 .container--border {
   position: relative;
 
@@ -114,12 +105,6 @@
   color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
 }
 
-:host(:not([disabled]):not([selected])) .container:hover .selection-container--single {
-  color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
-}
-
-:host([selected]:hover) .selection-container,
-:host([selected]:hover) .selection-container--single,
 :host([selected]) .selection-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-brand));
 }
@@ -133,8 +118,7 @@
 }
 
 .content-container {
-  @apply select-none
-    flex
+  @apply flex
     flex-auto
     font-normal
     items-stretch;
@@ -143,6 +127,43 @@
 
 .content-container--unavailable {
   @apply opacity-disabled;
+}
+
+:host(:not([interaction-mode="static"])) {
+  &:not([disabled]):not([selected]) .container:hover .selection-container--single {
+    color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
+  }
+
+  &:not([disabled]) .expanded-container:hover {
+    color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
+  }
+
+  &[selected]:hover {
+    .selection-container,
+    .selection-container--single {
+      color: var(--calcite-list-icon-color, var(--calcite-color-brand));
+    }
+  }
+
+  .content-container {
+    user-select: none;
+  }
+
+  .container--hover:hover {
+    cursor: pointer;
+    background-color: var(--calcite-list-background-color-hover, var(--calcite-color-foreground-2));
+  }
+
+  .container:active {
+    background-color: var(--calcite-list-background-color-press, var(--calcite-color-foreground-3));
+  }
+
+  .icon {
+    &:hover,
+    &:active {
+      color: var(--calcite-color-text-1);
+    }
+  }
 }
 
 .row,
@@ -179,11 +200,6 @@
 .icon {
   align-self: center;
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
-
-  &:hover,
-  &:active {
-    color: var(--calcite-color-text-1);
-  }
 }
 
 .actions-start,
@@ -394,10 +410,6 @@
 .expanded-container {
   color: var(--calcite-list-icon-color, var(--calcite-color-text-3));
   padding-inline: var(--calcite-spacing-xxs);
-}
-
-:host(:not([disabled])) .expanded-container:hover {
-  color: var(--calcite-list-icon-color, var(--calcite-color-text-1));
 }
 
 .actions-start,

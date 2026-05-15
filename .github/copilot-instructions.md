@@ -104,8 +104,8 @@ In descending order when rules conflict:
 - Do not add unrelated test coverage in the same change.
 - Always use CSS classes when adding/updating stories instead of repeating styles.
 - Targeted commands for component work:
-  - `npm --workspace=packages/components run test:stable -- <path>`
-  - `npm --workspace=packages/components run test:experimental -- <path>`
+  - `npm --workspace=packages/components run test:node -- <path>`
+  - `npm --workspace=packages/components run test:browser -- <path>`
   - `npm --workspace=packages/components run test:watch -- <path>`
 
 ## Documentation
