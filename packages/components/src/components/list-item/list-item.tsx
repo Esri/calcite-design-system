@@ -436,6 +436,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
+    if (changes.has("label") || changes.has("description") || changes.has("metadata")) {
+      this.emitCalciteInternalListItemChange();
+    }
+
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.handleExpandedChange();
