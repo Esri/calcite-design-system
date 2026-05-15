@@ -315,7 +315,7 @@ export class ActionBar extends LitElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["pinned"],
+      attributeFilter: ["overflow-actions-disabled", "pinned"],
     });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);

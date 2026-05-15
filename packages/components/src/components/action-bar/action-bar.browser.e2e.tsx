@@ -329,6 +329,56 @@ describe("per-group overflow-actions-disabled", () => {
     expect(overflowedIn(group2)).toBe(0);
   });
 
+  it("setting overflowActionsDisabled to true on a group removes its overflowed actions when overflow is re-evaluated", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const overflowedIn = (group: Element): number =>
+      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+    expect(overflowedIn(groups[0])).toBeGreaterThan(0);
+
+    // Disable overflow on the group, then re-evaluate — previously-overflowed actions must surface
+    groups[0].overflowActionsDisabled = true;
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+    expect(overflowedIn(groups[0])).toBe(0);
+  });
+
+  it("setting overflowActionsDisabled to false on a group allows its actions to be overflowed when overflow is re-evaluated", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const overflowedIn = (group: Element): number =>
+      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+    expect(overflowedIn(groups[0])).toBe(0);
+
+    // Enable overflow on the group, then re-evaluate — actions can now be slotted
+    groups[0].overflowActionsDisabled = false;
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+    expect(overflowedIn(groups[0])).toBeGreaterThan(0);
+  });
+
   it("toggling bar-level overflowActionsDisabled preserves each group's individual setting", async () => {
     const { component, el } = await mount<ActionBar>(
       <calcite-action-bar>
