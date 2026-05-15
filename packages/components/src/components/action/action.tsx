@@ -1,5 +1,5 @@
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -148,7 +148,7 @@ export class Action extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
-  @property({ reflect: true }) pinned = false;
+  @property({ reflect: true }) overflowDisabled = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";

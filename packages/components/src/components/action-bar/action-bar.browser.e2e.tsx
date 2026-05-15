@@ -438,12 +438,12 @@ describe("per-group overflow-actions-disabled", () => {
   });
 });
 
-describe("pinned actions", () => {
-  it("pinned actions are not overflowed into the menu", async () => {
+describe("overflow-disabled actions", () => {
+  it("actions with overflowDisabled are not overflowed into the menu", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group>
-          <calcite-action icon="plus" pinned text="Add" />
+          <calcite-action icon="plus" overflow-disabled text="Add" />
           <calcite-action icon="save" text="Save" />
           <calcite-action icon="trash" text="Delete" />
           <calcite-action icon="pencil" text="Edit" />
@@ -459,11 +459,11 @@ describe("pinned actions", () => {
 
     const overflowed = overflowedIn(groups[0]);
     expect(overflowed.length).toBeGreaterThan(0);
-    expect(overflowed.every((action) => !(action as Action["el"]).pinned)).toBe(true);
-    expect(el.querySelector("calcite-action[pinned]")?.getAttribute("slot")).toBeNull();
+    expect(overflowed.every((action) => !(action as Action["el"]).overflowDisabled)).toBe(true);
+    expect(el.querySelector("calcite-action[overflow-disabled]")?.getAttribute("slot")).toBeNull();
   });
 
-  it("setting pinned on an already-overflowed action surfaces it when overflow is re-evaluated", async () => {
+  it("setting overflowDisabled on an already-overflowed action surfaces it when overflow is re-evaluated", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group>
@@ -483,11 +483,11 @@ describe("pinned actions", () => {
     const overflowed = overflowedIn(groups[0]);
     expect(overflowed.length).toBeGreaterThan(0);
 
-    // Pin one of the overflowed actions, then re-evaluate (as the mutation observer does)
-    const pinnedAction = overflowed[0] as Action["el"];
-    pinnedAction.pinned = true;
+    // Disable overflow on one of the overflowed actions, then re-evaluate (as the mutation observer does)
+    const overflowDisabledAction = overflowed[0] as Action["el"];
+    overflowDisabledAction.overflowDisabled = true;
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
 
-    expect(pinnedAction.getAttribute("slot")).toBeNull();
+    expect(overflowDisabledAction.getAttribute("slot")).toBeNull();
   });
 });

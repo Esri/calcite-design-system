@@ -17,7 +17,7 @@ type ActionStoryArgs = Pick<
   | "indicator"
   | "label"
   | "loading"
-  | "pinned"
+  | "overflowDisabled"
   | "scale"
   | "text"
   | "textEnabled"
@@ -35,7 +35,7 @@ export default {
     indicator: false,
     label: "Label",
     loading: false,
-    pinned: false,
+    overflowDisabled: false,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
     text: "",
@@ -76,7 +76,7 @@ export const simple = (args: ActionStoryArgs): string => html`
       ${boolean("indicator", args.indicator)}
       label="${args.label}"
       ${boolean("loading", args.loading)}
-      ${boolean("pinned", args.pinned)}
+      ${boolean("overflow-disabled", args.overflowDisabled)}
       scale="${args.scale}"
       selection-appearance="${args.selectionAppearance}"
       text="${args.text}"

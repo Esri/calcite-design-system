@@ -63,7 +63,7 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "pinned",
+        propertyName: "overflowDisabled",
         defaultValue: false,
       },
     ],
@@ -131,7 +131,7 @@ describe("reflects", () => {
         value: "neutral",
       },
       {
-        propertyName: "pinned",
+        propertyName: "overflowDisabled",
         value: true,
       },
     ],
