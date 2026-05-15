@@ -1,5 +1,6 @@
 // @ts-strict-ignore
-import { LitElement, PropertyValues, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { PropertyValues } from "lit";
+import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { MAX_COLUMNS } from "../list-item/resources";
 import { Scale } from "../interfaces";
 import { useInteractive } from "../../controllers/useInteractive";
