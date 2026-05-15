@@ -1,4 +1,4 @@
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -156,4 +156,20 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-action"));
+});
+
+describe("type property", () => {
+  it("renders the inner button with type='button' by default", async () => {
+    const { el } = await mount("calcite-action");
+    const button = el.shadowRoot?.querySelector("button");
+    expect(button?.type).toBe("button");
+  });
+
+  it("forwards the type property to the inner button", async () => {
+    const { el, component } = await mount("calcite-action");
+    el.type = "submit";
+    await component.updateComplete;
+    const button = el.shadowRoot?.querySelector("button");
+    expect(button?.type).toBe("submit");
+  });
 });
