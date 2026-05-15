@@ -290,6 +290,74 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions[1]).toBeInViewport();
     await expect.element(triggerActions[2]).toBeInViewport();
   });
+
+  it("mutation observer re-evaluates overflow when overflowDisabled is toggled on an action", async () => {
+    // Use real timers so the MutationObserver → debounce → resize chain runs naturally.
+    vi.useRealTimers();
+
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expand-disabled layout="horizontal">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    el.style.width = "50px";
+
+    // Wait for the resize observer → debounced resize to overflow at least one action.
+    const overflowedAction = await vi.waitFor(() => {
+      const action = el.querySelector<Action["el"]>("calcite-action[slot='menu-actions']");
+      expect(action).not.toBeNull();
+      return action!;
+    });
+
+    // Setting overflowDisabled reflects the attribute, triggering the mutation observer →
+    // mutationObserverHandler → overflowActions (public method) → debounced resize.
+    // We assert the end result without calling the utility directly.
+    overflowedAction.overflowDisabled = true;
+    await vi.waitFor(() => {
+      expect(overflowedAction.getAttribute("slot")).toBeNull();
+    });
+  });
+
+  it("mutation observer re-evaluates overflow when overflowActionsDisabled is toggled on a group", async () => {
+    // Use real timers so the MutationObserver → debounce → resize chain runs naturally.
+    vi.useRealTimers();
+
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expand-disabled layout="horizontal">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const group = el.querySelector<ActionGroup["el"]>("calcite-action-group")!;
+
+    el.style.width = "50px";
+
+    // Wait for the resize observer → debounced resize to overflow at least one action.
+    await vi.waitFor(() => {
+      expect(group.querySelectorAll("calcite-action[slot='menu-actions']").length).toBeGreaterThan(
+        0,
+      );
+    });
+
+    // Setting overflowActionsDisabled reflects the attribute, triggering the mutation observer →
+    // mutationObserverHandler → overflowActions (public method) → debounced resize.
+    // We assert the end result without calling the utility directly.
+    group.overflowActionsDisabled = true;
+    await vi.waitFor(() => {
+      expect(group.querySelectorAll("calcite-action[slot='menu-actions']").length).toBe(0);
+    });
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
