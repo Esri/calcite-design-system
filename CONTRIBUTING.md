@@ -219,7 +219,7 @@ npm test
 
 `npm test` will run the test suites.
 
-Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
 If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:node` or `npm --workspace=packages/components run test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
