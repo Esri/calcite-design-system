@@ -76,6 +76,7 @@ export const simple = (args: ActionStoryArgs): string => html`
       ${boolean("indicator", args.indicator)}
       label="${args.label}"
       ${boolean("loading", args.loading)}
+      ${boolean("pinned", args.pinned)}
       scale="${args.scale}"
       selection-appearance="${args.selectionAppearance}"
       text="${args.text}"

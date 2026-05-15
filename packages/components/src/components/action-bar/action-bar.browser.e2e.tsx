@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
+import { userEvent } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import {
   cancelable,
@@ -17,6 +17,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
+import type { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { overflowActions } from "./utils";
 import { html } from "lit";
@@ -266,33 +267,33 @@ describe("overflowing actions", () => {
         </calcite-action-group>
       </calcite-action-bar>,
     );
-    const triggerActions = page.getBySelector("calcite-action[slot='trigger']");
+    const triggerActions = document.querySelectorAll<HTMLElement>("calcite-action[slot='trigger']");
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
 
     el.style.width = "100px";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions.nth(1)).toBeInViewport();
-    await expect.element(triggerActions.nth(2)).toBeInViewport();
+    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions[1]).toBeInViewport();
+    await expect.element(triggerActions[2]).toBeInViewport();
   });
 });
 
 describe("per-group overflow-actions-disabled", () => {
-  it("utility skips slotting for groups with overflowActionsDisabled but still unslots previously-overflowed actions", async () => {
+  it("utility skips slotting for groups with overflowActionsDisabled but still removes previously-overflowed actions from the overflow slot", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group overflow-actions-disabled>
@@ -365,22 +366,22 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>
       <calcite-action text="third" icon="number-circle-3"></calcite-action>
     `);
-    const actions = page.getBySelector("calcite-action");
+    const actions = document.querySelectorAll<HTMLElement>("calcite-action");
 
     await userEvent.keyboard("{Tab}");
-    await expect.element(actions.nth(0)).toHaveFocus();
+    await expect.element(actions[0]).toHaveFocus();
 
     await userEvent.keyboard("{Tab}");
-    await expect.element(actions.nth(2)).toHaveFocus();
+    await expect.element(actions[2]).toHaveFocus();
 
     await userEvent.keyboard("{Tab}");
     expect(document.body).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
-    await expect.element(actions.nth(2)).toHaveFocus();
+    await expect.element(actions[2]).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
-    await expect.element(actions.nth(0)).toHaveFocus();
+    await expect.element(actions[0]).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
     expect(document.body).toHaveFocus();
@@ -408,7 +409,7 @@ describe("pinned actions", () => {
 
     const overflowed = overflowedIn(groups[0]);
     expect(overflowed.length).toBeGreaterThan(0);
-    expect(overflowed.every((action) => !(action as ActionGroup["el"]).pinned)).toBe(true);
+    expect(overflowed.every((action) => !(action as Action["el"]).pinned)).toBe(true);
     expect(el.querySelector("calcite-action[pinned]")?.getAttribute("slot")).toBeNull();
   });
 
@@ -433,7 +434,7 @@ describe("pinned actions", () => {
     expect(overflowed.length).toBeGreaterThan(0);
 
     // Pin one of the overflowed actions, then re-evaluate (as the mutation observer does)
-    const pinnedAction = overflowed[0] as ActionGroup["el"] & { pinned: boolean };
+    const pinnedAction = overflowed[0] as Action["el"];
     pinnedAction.pinned = true;
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
 
