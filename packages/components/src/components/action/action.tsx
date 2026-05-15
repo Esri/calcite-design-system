@@ -1,5 +1,5 @@
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
