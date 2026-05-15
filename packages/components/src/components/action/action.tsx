@@ -1,5 +1,5 @@
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, h, Fragment, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -316,11 +316,11 @@ export class Action extends LitElement {
     };
 
     const buttonContent = (
-      <Fragment>
+      <>
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
-      </Fragment>
+      </>
     );
 
     const internalControlsElements = indicator && indicatorRef.value ? [indicatorRef.value] : [];
