@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -381,10 +381,148 @@ describe("group filtering", () => {
   });
 });
 
+describe("filter item data updates", () => {
+  async function waitForFilteredLength(el: List["el"], expectedLength: number): Promise<void> {
+    await vi.waitUntil(async () => {
+      if (el.filteredItems.length === expectedLength) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return el.filteredItems.length === expectedLength;
+    });
+
+    await afterNextTask();
+
+    expect(el.filteredItems).toHaveLength(expectedLength);
+  }
+
+  async function waitForFilterItemsMatch(
+    filterEl: HTMLElement & { items?: { el?: Element; label?: string; heading?: string[] }[] },
+    predicate: (item: { el?: Element; label?: string; heading?: string[] }) => boolean,
+  ): Promise<void> {
+    await vi.waitUntil(async () => {
+      if (filterEl.items?.some(predicate)) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return !!filterEl.items?.some(predicate);
+    });
+
+    expect(filterEl.items?.some(predicate)).toBe(true);
+  }
+
+  it("updates filtered items when label changes", async () => {
+    const labelToken = "updated-label-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item id="prop-watch-item-label" label="Old label" value="prop-watch-label" />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-label").element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { label?: string }[];
+    };
+
+    el.filterProps = ["label"];
+    el.filterText = labelToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.label = labelToken;
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(filterEl, (item) => item.label === labelToken);
+  });
+
+  it("updates filtered items when description changes", async () => {
+    const descriptionToken = "updated-description-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item
+          description="Old description"
+          id="prop-watch-item-description"
+          label="Label"
+          value="prop-watch-description"
+        />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-description").element() as ListItem["el"];
+
+    el.filterProps = ["description"];
+    el.filterText = descriptionToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.description = descriptionToken;
+    await waitForFilteredLength(el, 1);
+  });
+
+  it("updates filtered items when metadata changes", async () => {
+    const metadataToken = "updated-metadata-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item
+          id="prop-watch-item-metadata"
+          label="Label"
+          value="prop-watch-metadata"
+        />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-metadata").element() as ListItem["el"];
+
+    el.filterProps = ["metadata"];
+    el.filterText = metadataToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.metadata = { keyword: metadataToken };
+    await waitForFilteredLength(el, 1);
+  });
+
+  it("updates filtered items when group heading changes", async () => {
+    const headingToken = "updated-heading-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item-group heading="Old heading" id="prop-watch-group-heading">
+          <calcite-list-item
+            id="prop-watch-item-heading"
+            label="Label"
+            value="prop-watch-heading"
+          />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const listItemGroup = page
+      .getBySelector("#prop-watch-group-heading")
+      .element() as HTMLElement & {
+      heading: string;
+    };
+    const listItem = page.getBySelector("#prop-watch-item-heading").element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { el?: Element; heading?: string[] }[];
+    };
+
+    el.filterProps = ["heading"];
+    el.filterText = headingToken;
+    await waitForFilteredLength(el, 0);
+
+    listItemGroup.heading = headingToken;
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(
+      filterEl,
+      (item) => item.el === listItem && item.heading?.includes(headingToken),
+    );
+  });
+});
+
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <>
+      <Fragment>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -473,7 +611,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </>,
+      </Fragment>,
     );
 
     await afterNextFrame();
@@ -533,14 +671,15 @@ describe("nested selection modes", () => {
     };
 
     const waitForNestedPropertiesToSettle = async (): Promise<void> => {
-      for (let i = 0; i < 10; i++) {
+      await vi.waitUntil(async () => {
         if (nestedPropertiesSettled()) {
-          return;
+          return true;
         }
 
         await afterNextTask();
         await afterNextFrame();
-      }
+        return nestedPropertiesSettled();
+      });
     };
 
     // Assert immediately after initial render.
