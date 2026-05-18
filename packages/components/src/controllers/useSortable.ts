@@ -5,7 +5,6 @@ import {
   tearDown,
   type BaseDragState,
   type DragState,
-  type SynthDragState,
   type DragendEventData,
   type DragstartEventData,
   type ParentRecord,
@@ -16,6 +15,7 @@ import { guid } from "../utils/guid";
 import { getRootNode } from "../utils/dom";
 
 const sortableComponentSet = new Set<SortableComponent>();
+const formKitDraggedNodeCloneId = "dnd-dragged-node-clone";
 
 export interface MoveDetail<
   To extends HTMLElement = HTMLElement,
@@ -126,70 +126,26 @@ interface UseSortable {
 }
 
 const globalDragState: { active: boolean } = { active: false };
-const dragHandlePointerState = new WeakMap<SortableComponent, EventTarget[]>();
-const dragHandlePointerController = new WeakMap<SortableComponent, AbortController>();
-const syntheticPointerEvents = new WeakSet<Event>();
 const sortableItemKeys = new WeakMap<HTMLElement, string>();
 
-function isDragState<T>(state: BaseDragState<T>): state is DragState<T> | SynthDragState<T> {
+interface SortableNodeRecord {
+  el: Element;
+}
+
+function isDragState<T>(state: BaseDragState<T>): state is DragState<T> {
   return "draggedNode" in state && !!state.draggedNode;
 }
 
-function getSyntheticPointerEventInit(event: PointerEvent): PointerEventInit {
-  return {
-    bubbles: true,
-    composed: true,
-    cancelable: true,
-    pointerId: event.pointerId,
-    pointerType: event.pointerType,
-    isPrimary: event.isPrimary,
-    button: event.button,
-    buttons: event.buttons,
-    clientX: event.clientX,
-    clientY: event.clientY,
-    screenX: event.screenX,
-    screenY: event.screenY,
-    ctrlKey: event.ctrlKey,
-    shiftKey: event.shiftKey,
-    altKey: event.altKey,
-    metaKey: event.metaKey,
-  };
-}
-
-function reEmitPointerEventIfStopped(component: SortableComponent, event: PointerEvent): void {
-  if (syntheticPointerEvents.has(event) || event.target === component.el) {
-    return;
-  }
-
-  let reachedHostBubblePhase = false;
-  const markBubblePhase = (): void => {
-    reachedHostBubblePhase = true;
-  };
-
-  component.el.addEventListener(event.type, markBubblePhase, { once: true });
-
-  queueMicrotask(() => {
-    component.el.removeEventListener(event.type, markBubblePhase);
-
-    if (reachedHostBubblePhase) {
-      return;
-    }
-
-    const syntheticEvent = new PointerEvent(event.type, getSyntheticPointerEventInit(event));
-
-    syntheticPointerEvents.add(syntheticEvent);
-    component.el.dispatchEvent(syntheticEvent);
-  });
-}
-
 function getSortableItems(component: SortableComponent): HTMLElement[] {
+  const children = Array.from(component.el.children).filter(
+    (child) => child.id !== formKitDraggedNodeCloneId,
+  ) as HTMLElement[];
+
   if (component.dragSelector) {
-    return Array.from(component.el.children).filter((child): child is HTMLElement => {
-      return child instanceof HTMLElement && child.matches(component.dragSelector);
-    });
+    return children.filter((child) => child.matches(component.dragSelector));
   }
 
-  return Array.from(component.el.children) as HTMLElement[];
+  return children;
 }
 
 function getSortableValues(component: SortableComponent): string[] {
@@ -209,74 +165,12 @@ function getSortableItemKey(item: HTMLElement, forceNew = false): string {
   return key;
 }
 
-function pathIncludesHandle(path: EventTarget[] | undefined, handleSelector: string): boolean {
-  return path?.some((target) => target instanceof Element && target.matches(handleSelector)) ?? false;
+function getSortableNodeKey(node: SortableNodeRecord): string {
+  return getSortableItemKey(node.el as HTMLElement);
 }
 
-function setUpDragHandleTracking(component: SortableComponent): void {
-  dragHandlePointerController.get(component)?.abort();
-
-  const controller = new AbortController();
-  const { handleSelector } = component;
-
-  component.el.addEventListener(
-    "pointerdown",
-    (event) => {
-      reEmitPointerEventIfStopped(component, event);
-
-      if (syntheticPointerEvents.has(event)) {
-        return;
-      }
-
-      dragHandlePointerState.set(component, event.composedPath());
-    },
-    { capture: true, signal: controller.signal },
-  );
-
-  const clearPointerState = (): void => {
-    dragHandlePointerState.delete(component);
-  };
-
-  component.el.addEventListener(
-    "pointerup",
-    (event) => {
-      reEmitPointerEventIfStopped(component, event);
-      clearPointerState();
-    },
-    { capture: true, signal: controller.signal },
-  );
-  component.el.addEventListener("pointercancel", clearPointerState, { signal: controller.signal });
-  component.el.addEventListener("dragend", clearPointerState, { signal: controller.signal });
-
-  component.el.addEventListener(
-    "dragstart",
-    (event) => {
-      const pointerPath = dragHandlePointerState.get(component);
-      const dragstartPath = event.composedPath();
-      const sortableItem =
-        event.target instanceof HTMLElement &&
-        event.target.parentElement === component.el &&
-        (!component.dragSelector || event.target.matches(component.dragSelector))
-          ? event.target
-          : null;
-      const startedFromHandle =
-        pathIncludesHandle(pointerPath, handleSelector) || pathIncludesHandle(dragstartPath, handleSelector);
-
-      if (sortableItem && pointerPath && !startedFromHandle) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-    },
-    { capture: true, signal: controller.signal },
-  );
-
-  dragHandlePointerController.set(component, controller);
-}
-
-function tearDownDragHandleTracking(component: SortableComponent): void {
-  dragHandlePointerController.get(component)?.abort();
-  dragHandlePointerController.delete(component);
-  dragHandlePointerState.delete(component);
+function getSortableNodeKeys(nodes: SortableNodeRecord[]): string[] {
+  return nodes.map(getSortableNodeKey);
 }
 
 function setSortableItems(component: SortableComponent, values: string[]): void {
@@ -317,12 +211,21 @@ function createDragDetail(
   };
 }
 
-function applyClonePull(component: SortableComponent, dragEl: HTMLElement, initialIndex: number): void {
+function applyClonePull(
+  component: SortableComponent,
+  dragEl: HTMLElement,
+  initialIndex: number,
+  initialParent: ParentRecord<string>,
+): void {
   const clone = dragEl.cloneNode(true) as HTMLElement;
   const dragKey = getSortableItemKey(dragEl);
   const cloneKey = getSortableItemKey(clone, true);
-  const values = getSortableValues(component).filter((value) => value !== dragKey);
-  const existingItem = getSortableItems(component).find((item) => getSortableItemKey(item) === dragKey);
+  const values = getSortableNodeKeys(initialParent.data.enabledNodes as SortableNodeRecord[]).filter(
+    (value) => value !== dragKey,
+  );
+  const existingItem = initialParent.data.enabledNodes.find(
+    (node) => getSortableNodeKey(node as SortableNodeRecord) === dragKey,
+  )?.el as HTMLElement | undefined;
 
   if (!existingItem) {
     return;
@@ -337,14 +240,8 @@ function getSortableComponentFromParent(parent: ParentRecord<string>): SortableC
   return parent.el as unknown as SortableComponent;
 }
 
-function getSortableValuesFromParent<T>(parent: ParentRecord<T>): string[] {
-  return parent.data.getValues(parent.el) as string[];
-}
-
 function createSortable(component: SortableComponent): void {
   const { el, group, dragSelector: draggable, sortDisabled } = component;
-
-  setUpDragHandleTracking(component);
 
   dragAndDrop<string>({
     parent: el,
@@ -354,12 +251,10 @@ function createSortable(component: SortableComponent): void {
       root: getRootNode(el),
       group,
       sortable: !sortDisabled,
+      //dragHandle: "calcite-list-item", // todo: fixme
       draggingClass: CSS.dragClass,
-      synthDraggingClass: CSS.fallbackClass,
       dragPlaceholderClass: CSS.chosenClass,
-      synthDragPlaceholderClass: CSS.chosenClass,
       dropZoneClass: CSS.ghostClass,
-      synthDropZoneClass: CSS.ghostClass,
       draggable: draggable ? (child: HTMLElement) => child.matches(draggable) : undefined,
       accepts: (
         targetParent: ParentRecord<string>,
@@ -377,14 +272,10 @@ function createSortable(component: SortableComponent): void {
         }
 
         const dragEl = state.draggedNodes[0]?.el;
-        const newIndex = targetParent.data.enabledNodes.length;
+        const newIndex = clampIndex(state.targetIndex, targetParent.data.enabledNodes.length);
         const oldIndex = state.initialIndex;
 
-        if (!dragEl) {
-          return false;
-        }
-
-        if (!sameGroup) {
+        if (!dragEl || !sameGroup) {
           return false;
         }
 
@@ -450,7 +341,7 @@ function createSortable(component: SortableComponent): void {
         const isSourceComponent = component.el === event.sourceParent.el;
         const isTargetComponent = component.el === event.targetParent.el;
         const isInitialComponent = event.initialParent.el === component.el;
-        const targetValues = getSortableValuesFromParent(event.targetParent);
+        const targetValues = getSortableNodeKeys(event.targetNodes);
         const dragKey = getSortableItemKey(dragEl);
         const normalizedTargetValues = targetValues.filter((value) => value !== dragKey);
         const boundedNewIndex = clampIndex(event.targetIndex, normalizedTargetValues.length);
@@ -458,7 +349,7 @@ function createSortable(component: SortableComponent): void {
         normalizedTargetValues.splice(boundedNewIndex, 0, dragKey);
 
         if (isSourceComponent) {
-          const sourceValues = getSortableValuesFromParent(event.sourceParent);
+          const sourceValues = getSortableNodeKeys(event.sourceParent.data.enabledNodes);
 
           setSortableItems(component, sourceValues);
         }
@@ -481,7 +372,7 @@ function createSortable(component: SortableComponent): void {
           });
 
           if (canPull === "clone") {
-            applyClonePull(component, dragEl, dragState.initialIndex);
+            applyClonePull(component, dragEl, dragState.initialIndex, event.initialParent as ParentRecord<string>);
           }
         }
 
@@ -501,7 +392,7 @@ function createSortable(component: SortableComponent): void {
 
         const dragEl = event.draggedNode.el;
         const toEl = dragState.currentParent.el;
-        const currentValues = getSortableValuesFromParent(dragState.currentParent);
+        const currentValues = event.values as string[];
         const dragKey = getSortableItemKey(dragEl);
         const fromEl = dragState.initialParent.el;
         const newIndex = currentValues.findIndex((value) => value === dragKey);
@@ -544,8 +435,6 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
       }
 
       sortableComponentSet.delete(component);
-      tearDownDragHandleTracking(component);
-
       tearDown(component.el);
     }
 

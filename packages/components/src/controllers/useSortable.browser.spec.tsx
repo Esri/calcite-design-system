@@ -64,11 +64,8 @@ it("uses existing sortable classes in FormKit config", async () => {
   const call = createSpy.mock.calls[0][0];
 
   expect(call.config.draggingClass).toBe(CSS.dragClass);
-  expect(call.config.synthDraggingClass).toBe(CSS.fallbackClass);
   expect(call.config.dragPlaceholderClass).toBe(CSS.chosenClass);
-  expect(call.config.synthDragPlaceholderClass).toBe(CSS.chosenClass);
   expect(call.config.dropZoneClass).toBe(CSS.ghostClass);
-  expect(call.config.synthDropZoneClass).toBe(CSS.ghostClass);
 });
 
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
