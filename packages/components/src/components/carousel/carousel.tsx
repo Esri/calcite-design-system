@@ -155,7 +155,7 @@ export class Carousel extends LitElement {
    */
   @property() paginationDisabled: boolean = false;
 
-  /** Specifies the position of the component's pagination controls, defaults to `"bottom"`. */
+  /** Specifies the position of the component's pagination controls. */
   @property({ reflect: true }) paginationPosition: PaginationPosition = "bottom";
 
   /**
