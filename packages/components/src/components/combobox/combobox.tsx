@@ -1643,8 +1643,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         key={item.guid || item.value || label}
         label={label}
         messageOverrides={!disabled ? { dismissLabel: messages.removeTag } : null}
-        onFocusIn={!disabled ? () => (this.activeChipIndex = index) : null}
         oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : null}
+        onFocusIn={!disabled ? () => (this.activeChipIndex = index) : null}
         scale={scale}
         selected={item.selected}
         tabIndex={!disabled && activeChipIndex === index ? 0 : -1}
