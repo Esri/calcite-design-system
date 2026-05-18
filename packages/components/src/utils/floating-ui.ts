@@ -569,13 +569,9 @@ export async function connectFloatingUI(component: FloatingUIComponent): Promise
 
   hideFloatingUI(component);
 
-  if (!floatingEl || !referenceEl) {
-    return;
-  }
-
   disconnectFloatingUI(component);
 
-  if (!component.open) {
+  if (!floatingEl || !referenceEl || !component.open) {
     return;
   }
 

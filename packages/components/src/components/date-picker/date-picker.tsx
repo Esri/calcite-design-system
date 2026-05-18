@@ -28,7 +28,13 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
-import { DateLocaleData, getLocaleData, getValueAsDateRange, applyLocaleOverride } from "./utils";
+import {
+  DateLocaleData,
+  getLocaleData,
+  getValueAsDateRange,
+  applyLocaleOverride,
+  getMinMaxSource,
+} from "./utils";
 import { styles } from "./date-picker.scss";
 
 declare global {
@@ -163,7 +169,7 @@ export class DatePicker extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -202,20 +208,8 @@ export class DatePicker extends LitElement {
       this.valueAsDateWatcher(this.valueAsDate);
     }
 
-    let minSource: Extract<keyof DatePicker, "min" | "minAsDate">;
-    let maxSource: Extract<keyof DatePicker, "max" | "maxAsDate">;
-
-    if (changes.has("min") && !changes.has("minAsDate")) {
-      minSource = "min";
-    } else if (changes.has("minAsDate") && !changes.has("min")) {
-      minSource = "minAsDate";
-    }
-
-    if (changes.has("max") && !changes.has("maxAsDate")) {
-      maxSource = "max";
-    } else if (changes.has("maxAsDate") && !changes.has("max")) {
-      maxSource = "maxAsDate";
-    }
+    const minSource = getMinMaxSource(changes, "min");
+    const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
       this.minAsDate = dateFromISO(this.min);

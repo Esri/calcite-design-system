@@ -1,8 +1,40 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, focusable, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  focusable,
+  renders,
+  slots,
+  t9n,
+  reflects,
+} from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-card"),
+    [
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-card"),
+    [
+      {
+        propertyName: "scale",
+        value: "m",
+      },
+    ],
+  );
+});
 
 describe("focusable", () => {
   describe("default", () => {

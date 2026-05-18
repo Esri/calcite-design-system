@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -71,13 +70,13 @@ export class ActionGroup extends LitElement {
   //#region Public Properties
 
   /** Specifies the number of columns. */
-  @property({ type: Number, reflect: true }) columns: Columns;
+  @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Indicates the layout of the component.
@@ -88,13 +87,13 @@ export class ActionGroup extends LitElement {
     "vertical";
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the `calcite-action-menu` is open. */
   @property({ reflect: true }) menuOpen = false;
 
   /** Specifies the position of the action menu. */
-  @property({ reflect: true }) menuPlacement: LogicalPlacement;
+  @property({ reflect: true }) menuPlacement?: LogicalPlacement;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -107,6 +106,9 @@ export class ActionGroup extends LitElement {
    * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
+  @property({ reflect: true }) overflowActionsDisabled = false;
 
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -132,7 +134,7 @@ export class ActionGroup extends LitElement {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -152,7 +154,7 @@ export class ActionGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

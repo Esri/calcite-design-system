@@ -13,7 +13,7 @@ jobs:
 
       - name: "Installed notification"
         if: github.event.label.name == '4 - installed'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           ISSUE_VERIFIERS: ${{secrets.ISSUE_VERIFIERS}}
         with:
@@ -23,7 +23,7 @@ jobs:
 
       - name: "Spike complete notification"
         if: github.event.label.name == 'spike complete'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
@@ -33,7 +33,7 @@ jobs:
 
       - name: "Ready for dev notification"
         if: github.event.label.name == '2 - ready for dev'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           PLANNERS: ${{secrets.CALCITE_PLANNERS}}
         with:
@@ -43,7 +43,7 @@ jobs:
 
       - name: "New component notification"
         if: github.event.label.name == 'new component'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           DESIGNERS: ${{secrets.CALCITE_DESIGNERS}}
         with:
@@ -53,7 +53,7 @@ jobs:
 
       - name: "Icon request notification"
         if: github.event.label.name == 'calcite-ui-icons'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           ICONS_TEAM: ${{secrets.ICON_LEADS}}
         with:

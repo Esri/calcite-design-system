@@ -1,7 +1,9 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -18,6 +20,10 @@ describe("defaults", () => {
       {
         propertyName: "rel",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
       },
       {
         propertyName: "target",
@@ -48,6 +54,10 @@ describe("reflects", () => {
         value: "external",
       },
       {
+        propertyName: "scale",
+        value: "m",
+      },
+      {
         propertyName: "target",
         value: "_self",
       },
@@ -69,4 +79,20 @@ describe("renders", () => {
 
 describe("is focusable", () => {
   focusable(() => mount(<calcite-navigation-logo heading="esri" href=" " />));
+});
+
+describe("heading", () => {
+  it("renders standalone heading when description is not provided", async () => {
+    await mount(<calcite-navigation-logo heading="John Doe" />);
+
+    const heading = page.getBySelector(`calcite-navigation-logo .${CSS.heading}`);
+    const standaloneHeading = page.getBySelector(
+      `calcite-navigation-logo .${CSS.heading}.${CSS.standalone}`,
+    );
+    const description = page.getBySelector(`calcite-navigation-logo .${CSS.description}`);
+
+    await expect.element(heading).toBeInTheDocument();
+    await expect.element(standaloneHeading).toBeInTheDocument();
+    await expect.element(description).not.toBeInTheDocument();
+  });
 });

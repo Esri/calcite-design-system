@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
@@ -15,8 +14,8 @@ import {
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { findAssociatedForm, FormOwner, resetForm, submitForm } from "../../utils/form";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
@@ -30,16 +29,16 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement implements FormOwner {
+export class Action extends LitElement {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
   //#endregion
 
   //#region Private Properties
-
-  formEl: HTMLFormElement;
 
   private guid = guid();
 
@@ -61,6 +60,8 @@ export class Action extends LitElement implements FormOwner {
   private indicatorRef = createRef<HTMLDivElement>();
 
   private interactiveContainer = useInteractive(this);
+
+  formTrigger = useFormTrigger()(this);
 
   //#endregion
 
@@ -94,7 +95,7 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) activeDescendant = false;
 
   /** Specifies the horizontal alignment of button elements with text content. */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment?: Alignment;
 
   /**
    * Specifies the appearance of the component.
@@ -126,10 +127,10 @@ export class Action extends LitElement implements FormOwner {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon: IconName;
+  @property({ type: String, reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -138,7 +139,7 @@ export class Action extends LitElement implements FormOwner {
   @property({ reflect: true }) indicator = false;
 
   /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -161,15 +162,19 @@ export class Action extends LitElement implements FormOwner {
    *
    * @required
    */
-  @property() text: string;
+  @property() text!: string;
 
-  /** When `true`, displays `text` adjacent to the `icon`. */
+  /**
+   * When `true`, displays `text` adjacent to the `icon`.
+   *
+   * When `true` and the component is used as a child of `calcite-action-bar`, the text will be shown initially regardless of the parent components `expanded` state.
+   */
   @property({ reflect: true }) textEnabled = false;
 
   /**
    * Specifies the default behavior of the component.
    *
-   * @mdn [type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
+   * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
@@ -178,7 +183,7 @@ export class Action extends LitElement implements FormOwner {
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
+  @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",
     SelectionAppearance
   >;
@@ -192,7 +197,7 @@ export class Action extends LitElement implements FormOwner {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -204,26 +209,11 @@ export class Action extends LitElement implements FormOwner {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.formEl = findAssociatedForm(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
-    this.formEl = null;
     this.mutationObserver?.disconnect();
-  }
-
-  //#endregion
-
-  //#region Private Methods
-
-  private handleClick(): void {
-    const { type } = this;
-    if (type === "submit") {
-      submitForm(this);
-    } else if (type === "reset") {
-      resetForm(this);
-    }
   }
 
   //#endregion
@@ -354,7 +344,7 @@ export class Action extends LitElement implements FormOwner {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
@@ -376,7 +366,6 @@ export class Action extends LitElement implements FormOwner {
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
-        onClick={this.handleClick}
         ref={this.buttonRef}
         role={this.aria?.role}
       >

@@ -76,7 +76,7 @@ export class Sheet extends LitElement {
 
   private contentRef = createRef<HTMLDivElement>();
 
-  private direction = useDirection();
+  direction = useDirection();
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -293,7 +293,7 @@ export class Sheet extends LitElement {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -316,7 +316,7 @@ export class Sheet extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -339,7 +339,7 @@ export class Sheet extends LitElement {
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
@@ -396,7 +396,8 @@ export class Sheet extends LitElement {
     if (
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
-      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
+      changes.has("direction")
     ) {
       this.setupInteractions();
     }
@@ -550,10 +551,6 @@ export class Sheet extends LitElement {
 
   private cleanupInteractions(): void {
     this.interaction?.unset();
-    this.updateSizeInternal({
-      inline: null,
-      block: null,
-    });
   }
 
   private async setupInteractions(): Promise<void> {

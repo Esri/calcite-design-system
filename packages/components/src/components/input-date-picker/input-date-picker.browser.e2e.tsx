@@ -1,9 +1,8 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
-  disabled,
   focusable,
   hidden,
   internalLabel,
@@ -11,19 +10,28 @@ import {
   floatingUIOwner,
   t9n,
   topLayer,
+  openClose,
+  formAssociated,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { InputDatePicker } from "./input-date-picker";
 
 describe("defaults", () => {
   defaults(
     () => mount("calcite-input-date-picker"),
     [
       {
-        propertyName: "overlayPositioning",
-        defaultValue: "absolute",
+        propertyName: "calendars",
+        defaultValue: 2,
       },
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "overlayPositioning",
+        defaultValue: "absolute",
       },
       {
         propertyName: "status",
@@ -38,8 +46,8 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "calendars",
-        defaultValue: 2,
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -48,6 +56,12 @@ describe("defaults", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-date-picker`), {
     shadowFocusTargetSelector: "calcite-input-text",
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(<calcite-input-date-picker value="2021-12-08" />, mountOptions),
+    );
   });
 });
 
@@ -79,6 +93,48 @@ describe("translation support", () => {
   t9n(() => mount("calcite-input-date-picker"));
 });
 
-describe.skip("disabled", () => {
-  disabled(() => mount("calcite-input-date-picker"));
+describe.todo("disabled");
+
+describe("is form-associated", () => {
+  mockConsole();
+
+  describe("supports single value", () => {
+    formAssociated(() => mount("calcite-input-date-picker"), {
+      testValue: "1985-03-23",
+      submitsOnEnter: true,
+      validation: true,
+      inputType: "date",
+    });
+  });
+
+  describe("supports range", () => {
+    formAssociated(
+      () => mount(<calcite-input-date-picker name="calcite-input-date-picker" range />),
+      {
+        testValue: ["1985-03-23", "1985-10-30"],
+        submitsOnEnter: true,
+        inputType: "date",
+      },
+    );
+  });
+});
+
+describe("minAsDate and maxAsDate properties", () => {
+  it("honors minAsDate and maxAsDate properties by updating out-of-range value to the closest valid value", async () => {
+    const { el, component } = await mount<InputDatePicker>(
+      <calcite-input-date-picker value="2022-11-27" />,
+    );
+
+    const offsetTime = `T09:00:00.000Z`;
+    el.minAsDate = new Date(`2020-01-01${offsetTime}`);
+    el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
+    await component.updateComplete;
+
+    expect(el.value).toBe("2020-12-31");
+
+    const input = el.shadowRoot
+      .querySelector<HTMLElement>("calcite-input-text")
+      ?.shadowRoot.querySelector<HTMLInputElement>("input");
+    expect(input.value).toBe("12/31/2020");
+  });
 });

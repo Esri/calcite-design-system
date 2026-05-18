@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
@@ -15,6 +23,7 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
+import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./action-pad.scss";
@@ -43,7 +52,7 @@ export class ActionPad extends LitElement {
 
   private actions: Action["el"][] = [];
 
-  private actionGroups: ActionGroup["el"][];
+  private actionGroups?: ActionGroup["el"][];
 
   private direction = useDirection();
 
@@ -59,7 +68,7 @@ export class ActionPad extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -67,14 +76,14 @@ export class ActionPad extends LitElement {
 
   //#region State Properties
 
-  @state() expandTooltip: Tooltip["el"];
+  @state() expandTooltip?: Tooltip["el"];
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies the accessible label for the last `calcite-action-group`. */
-  @property() actionsEndGroupLabel: string;
+  @property() actionsEndGroupLabel?: string;
 
   /** When `true`, the expand-toggling behavior is disabled. */
   @property({ reflect: true }) expandDisabled = false;
@@ -99,7 +108,7 @@ export class ActionPad extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the position of the component depending on the element's `dir` property. */
-  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -119,7 +128,7 @@ export class ActionPad extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -145,7 +154,10 @@ export class ActionPad extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen<ToEvents<ActionMenu>["calciteActionMenuOpen"]>(
+      "calciteActionMenuOpen",
+      this.actionMenuOpenHandler,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
@@ -240,7 +252,7 @@ export class ActionPad extends LitElement {
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
 
-    if (!isAction(current)) {
+    if (!isAction(current) || !actions.includes(current)) {
       return;
     }
 
@@ -275,9 +287,16 @@ export class ActionPad extends LitElement {
     });
   }
 
-  private updateTabIndexOfItems(target: Action["el"]): void {
-    this.actions.forEach((item: Action["el"]) => {
-      item.tabIndex = target !== item ? -1 : 0;
+  private updateTabIndexOfItems(active: Action["el"]): void {
+    this.actions.forEach((action) => {
+      const tabIndex = !action.disabled && action === active ? 0 : -1;
+
+      if (tabIndex === 0) {
+        // action's internal button is tabbable by default, so we remove the attribute to avoid an extra tabbable element
+        action.removeAttribute("tabindex");
+      } else {
+        action.tabIndex = tabIndex;
+      }
     });
   }
 
@@ -315,9 +334,9 @@ export class ActionPad extends LitElement {
         collapseText={messages.collapse}
         direction={this.direction}
         el={el}
+        expanded={expanded}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}
-        expanded={expanded}
         position={position}
         scale={scale}
         toggle={toggleExpand}
