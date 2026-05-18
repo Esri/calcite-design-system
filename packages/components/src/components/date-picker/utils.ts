@@ -1,8 +1,14 @@
 // @ts-strict-ignore
 import { defaultLocale, normalizeLocale, supportedLocales } from "@arcgis/toolkit/intl";
+import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
 import { getAssetPath } from "../../runtime";
 import { Locale } from "../../utils/locale";
+import type { DatePicker } from "./date-picker";
+
+type MinSource = Extract<keyof DatePicker, "min" | "minAsDate">;
+type MaxSource = Extract<keyof DatePicker, "max" | "maxAsDate">;
+type MinMaxType = "min" | "max";
 
 /**
  * Translation resource data structure
@@ -127,4 +133,30 @@ export function applyLocaleOverride(locale: Locale): Locale {
 
 export function getValueAsDateRange(value: string[]): Date[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
+}
+
+function getSource<T extends string>(changes: PropertyValues, stringProp: T, dateProp: T): T | null {
+  const stringPropChanged = changes.has(stringProp);
+  const datePropChanged = changes.has(dateProp);
+
+  if (stringPropChanged && !datePropChanged) {
+    return stringProp;
+  }
+
+  if (datePropChanged && !stringPropChanged) {
+    return dateProp;
+  }
+
+  return null;
+}
+
+/**
+ * Returns the source of min/max.
+ *
+ * - For "min": returns "min" or "minAsDate"
+ * - For "max": returns "max" or "maxAsDate"
+ *
+ */
+export function getMinMaxSource(changes: PropertyValues, type: MinMaxType): MinSource | MaxSource | null {
+  return type === "min" ? getSource(changes, "min", "minAsDate") : getSource(changes, "max", "maxAsDate");
 }

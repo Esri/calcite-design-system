@@ -87,6 +87,23 @@ export const withMinMax = (): string =>
       <calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>
     </div>`;
 
+export const withMinAsDateAndMaxAsDate = (): string =>
+  html`<style>
+      .container {
+        width: 400px;
+        height: 400px;
+      }
+    </style>
+    <div class="container">
+      <calcite-input-date-picker open></calcite-input-date-picker>
+    </div>
+    <script>
+      const datePicker = document.querySelector("calcite-input-date-picker");
+      const offsetTime = "T07:00:00.000Z";
+      datePicker.minAsDate = new Date("2020-01-01T07:00:00.000Z");
+      datePicker.maxAsDate = new Date("2020-12-31T07:00:00.000Z");
+    </script>`;
+
 export const rangeWithMinMax = (): string => html`
   <style>
     .container {
