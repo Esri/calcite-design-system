@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.53...@esri/calcite-components@5.1.0-next.54) (2026-05-18)
+
+### Features
+
+- **navigation:** set scale on nested calcite navigation ([#14428](https://github.com/Esri/calcite-design-system/issues/14428)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+### Bug Fixes
+
+- **list:** refresh filter item data when list item and group properties change ([#14442](https://github.com/Esri/calcite-design-system/issues/14442)), closes [#14435](https://github.com/Esri/calcite-design-system/issues/14435)
+
 ## [5.1.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.52...@esri/calcite-components@5.1.0-next.53) (2026-05-18)
 
 ### Bug Fixes
