@@ -144,7 +144,8 @@ describe("focus-trap behavior", () => {
     await userEvent.click(picker);
     await userEvent.keyboard("{Tab}{Enter}");
 
-    await afterNextTask(); // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
+    // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
+    await afterNextTask();
 
     expect(document).toHaveProperty(
       "activeElement.shadowRoot.activeElement.dataset.testid",
