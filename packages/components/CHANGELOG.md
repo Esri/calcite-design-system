@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.52...@esri/calcite-components@5.1.0-next.53) (2026-05-18)
+
+### Bug Fixes
+
+- **input-date-picker:** bump `focus-trap` to pick up shadow DOM focus-handling fix ([#14381](https://github.com/Esri/calcite-design-system/issues/14381)), closes [#14174](https://github.com/Esri/calcite-design-system/issues/14174)
+
 ## [5.1.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.51...@esri/calcite-components@5.1.0-next.52) (2026-05-15)
 
 ### Bug Fixes

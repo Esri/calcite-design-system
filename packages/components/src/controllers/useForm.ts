@@ -163,7 +163,7 @@ function syncInternalInput(component: FormComponent, input: HTMLInputElement): v
   const { disabled, name, required } = component;
 
   input.disabled = disabled;
-  input.name = name;
+  input.name = name || "";
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -413,7 +413,7 @@ export const useForm = <T extends FormComponent>(
 
       if (Array.isArray(value)) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name, value));
+        value.forEach((value) => formData.append(component.name!, value));
         return formData;
       }
 
