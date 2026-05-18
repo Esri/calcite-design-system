@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { Scale } from "../interfaces";
 import { getSlotAssignedElements, slotChangeGetAssignedElements } from "../../utils/dom";
@@ -54,6 +54,9 @@ export class Tabs extends LitElement {
   /** Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
+  /** When `true`, allows the last visible closable tab to keep its close button. */
+  @property({ reflect: true }) lastTabClosable = false;
+
   /** Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`. */
   @property({ reflect: true }) position: TabPosition = "top";
 
@@ -84,7 +87,8 @@ export class Tabs extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("position") && (this.hasUpdated || this.position !== "top")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("lastTabClosable") && (this.hasUpdated || this.lastTabClosable !== false))
     ) {
       this.updateItems();
     }
@@ -166,10 +170,11 @@ export class Tabs extends LitElement {
   }
 
   private updateItems(): void {
-    const { position, scale } = this;
+    const { lastTabClosable, position, scale } = this;
 
     const nav = this.el.querySelector("calcite-tab-nav");
     if (nav) {
+      nav.lastTabClosable = lastTabClosable;
       nav.position = position;
       nav.scale = scale;
     }

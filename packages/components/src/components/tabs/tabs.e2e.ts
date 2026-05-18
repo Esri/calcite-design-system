@@ -422,6 +422,21 @@ describe("closing tabs", () => {
       expect(await tab4.getProperty("closable")).toBe(true);
       expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
     });
+
+    it("should keep x when last-tab-closable is set", async () => {
+      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
+        tabs.lastTabClosable = true;
+      });
+      await page.waitForChanges();
+
+      for (let i = 1; i <= 3; ++i) {
+        await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
+      }
+
+      const tab4 = await page.find(`#tab-title-4`);
+      expect(await tab4.getProperty("closable")).toBe(true);
+      expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
+    });
   });
 
   it("should emit close event when tabs has synced", async () => {

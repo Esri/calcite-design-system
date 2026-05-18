@@ -87,6 +87,9 @@ export class TabNav extends LitElement {
   /** @private */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
+  /** @private */
+  @property() lastTabClosable = false;
+
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -176,6 +179,10 @@ export class TabNav extends LitElement {
 
     if (changes.has("selectedTabId")) {
       this.selectedTabIdChanged();
+    }
+
+    if (changes.has("lastTabClosable") && this.hasUpdated) {
+      this.updateLastVisibleTabClosable();
     }
 
     const { parentTabsEl } = this;
@@ -364,14 +371,34 @@ export class TabNav extends LitElement {
     tabTitles.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
-    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
-    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
-    if (totalVisibleTabTitles > 1 && this.makeFirstVisibleTabClosable) {
-      tabTitles[visibleTabTitlesIndices[0]].closable = true;
-      this.makeFirstVisibleTabClosable = false;
-    }
+    this.updateLastVisibleTabClosable();
 
     this.calciteInternalTabNavSlotChange.emit(tabTitles);
+  }
+
+  private updateLastVisibleTabClosable(): void {
+    const { tabTitles } = this;
+    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
+    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+
+    if (totalVisibleTabTitles === 0) {
+      return;
+    }
+
+    const firstVisibleTabTitle = tabTitles[visibleTabTitlesIndices[0]];
+    const shouldRestoreClosable =
+      this.makeFirstVisibleTabClosable && (totalVisibleTabTitles > 1 || this.lastTabClosable);
+
+    if (shouldRestoreClosable) {
+      firstVisibleTabTitle.closable = true;
+      this.makeFirstVisibleTabClosable = false;
+      return;
+    }
+
+    if (totalVisibleTabTitles === 1 && !this.lastTabClosable && firstVisibleTabTitle.closable) {
+      this.makeFirstVisibleTabClosable = true;
+      firstVisibleTabTitle.closable = false;
+    }
   }
 
   private setTabTitleContainerEl(el: HTMLDivElement) {
@@ -546,24 +573,30 @@ export class TabNav extends LitElement {
     const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
 
-    if (totalVisibleTabTitles === 1 && tabTitles[visibleTabTitlesIndices[0]].closable) {
-      this.makeFirstVisibleTabClosable = true;
-      tabTitles[visibleTabTitlesIndices[0]].closable = false;
-      this.selectedTabId = visibleTabTitlesIndices[0];
+    if (totalVisibleTabTitles === 1) {
+      this.updateLastVisibleTabClosable();
 
       if (selectionModified) {
         tabTitles[visibleTabTitlesIndices[0]].activateTab();
+      } else {
+        this.selectedTabId = visibleTabTitlesIndices[0];
       }
     } else if (totalVisibleTabTitles > 1) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
-
-      const nextTabTitleIndex = visibleTabTitlesIndices.find(
+      const nextVisibleTabTitleIndex = visibleTabTitlesIndices.find(
         (value) => value > closedTabTitleIndex,
       );
+      const nextSelectedTabTitleIndex =
+        nextVisibleTabTitleIndex === undefined
+          ? totalVisibleTabTitles - 1
+          : nextVisibleTabTitleIndex;
 
       if (this.selectedTabId === closedTabTitleIndex) {
-        this.selectedTabId = nextTabTitleIndex ? nextTabTitleIndex : totalVisibleTabTitles - 1;
-        tabTitles[this.selectedTabId].activateTab();
+        if (selectionModified) {
+          tabTitles[nextSelectedTabTitleIndex].activateTab();
+        } else {
+          this.selectedTabId = nextSelectedTabTitleIndex;
+        }
       }
     }
 
