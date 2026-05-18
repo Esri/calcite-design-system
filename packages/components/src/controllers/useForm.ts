@@ -78,7 +78,7 @@ export interface FormComponent<T = any>
    *
    * Note that this prop should use the `@property` decorator.
    */
-  name: string;
+  name?: string;
 
   /**
    * This form component's value.
@@ -94,7 +94,14 @@ export interface FormComponent<T = any>
    *
    * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
-  defaultValue: T;
+  defaultValue?: T;
+
+  /**
+   * Sets the component's form validity state.
+   *
+   * This is needed specifically for radio-type elements whose validity state is synced with other elements in the same group.
+   */
+  setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
 
   /** The validation icon to display. */
   validationIcon?: IconName | boolean;
@@ -153,9 +160,10 @@ function displayValidationMessage(component: FormComponent, { status, message, i
 }
 
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
-  const { disabled, required } = component;
+  const { disabled, name, required } = component;
 
   input.disabled = disabled;
+  input.name = name;
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -355,11 +363,19 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateValidity();
+      if (component.hasUpdated) {
+        updateValidity();
+      }
     });
 
+    controller.onLoaded(() => updateValidity());
+
     function updateValidity(): void {
-      const { elementInternals } = component;
+      const { disabled, elementInternals } = component;
+
+      if (disabled) {
+        return;
+      }
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
@@ -367,7 +383,7 @@ export const useForm = <T extends FormComponent>(
       if (inputDelegate) {
         inputDelegate.type = effectiveInputType!;
         syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
+        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
       }
 
       if (customValidityMessage) {

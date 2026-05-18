@@ -276,6 +276,27 @@ export const horizontalOverflow = (): string => html`
   </div>
 `;
 
+export const horizontalOverflowPerGroupDisabled = (): string => html`
+  <div style="width: 300px; display:flex;">
+    <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
+      <calcite-action-group overflow-actions-disabled>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
 export const withDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {

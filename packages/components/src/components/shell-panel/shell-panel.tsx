@@ -156,7 +156,7 @@ export class ShellPanel extends LitElement {
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
@@ -191,6 +191,14 @@ export class ShellPanel extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+      this.setupInteractions();
+    }
+
+    if (
+      (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
+    ) {
+      this.setupInteractions();
     }
 
     if (changes.has("collapsed") && this.hasUpdated) {
@@ -199,10 +207,6 @@ export class ShellPanel extends LitElement {
       } else {
         this.calciteShellPanelExpand.emit();
       }
-    }
-
-    if (changes.has("direction")) {
-      this.setupInteractions();
     }
   }
 

@@ -11989,5 +11989,25 @@
     "alias": ["5.0.0", "brand", "logo", "glyph"],
     "category": "Brand",
     "release": "5.0.0"
+  },
+  "gps-receiver": {
+    "alias": ["5.0.0", "objects", "navigator", "locator", "direction", "map", "tracking"],
+    "category": "Objects",
+    "release": "5.0.0"
+  },
+  "total-station": {
+    "alias": ["5.0.0", "objects", "survey", "measuring", "distance", "data-collection"],
+    "category": "Objects",
+    "release": "5.0.0"
+  },
+  "buttons": {
+    "alias": ["5.0.0", "symbols", "user-experience", "keys", "triggers", "quickcapture"],
+    "category": "Symbols",
+    "release": "5.0.0"
+  },
+  "entity-types": {
+    "alias": ["5.0.0", "knowledge graph", "features", "vector", "raster", "polygons"],
+    "category": "Knowledge Graph",
+    "release": "5.0.0"
   }
 }
