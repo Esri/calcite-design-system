@@ -126,10 +126,6 @@
   }
 }
 
-:host([pagination-position="top"]) .container {
-  flex-direction: column-reverse;
-}
-
 .container--edged:not(.container--overlaid) {
   padding-inline: var(--calcite-internal-carousel-pagination-space-wide);
   inline-size: calc(100% - var(--calcite-internal-carousel-pagination-space-wide) * 2);

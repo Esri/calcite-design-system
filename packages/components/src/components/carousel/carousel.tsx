@@ -724,7 +724,22 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { itemDirection } = this;
+    const { itemDirection, paginationPosition } = this;
+    const paginationArea = this.renderPaginationArea();
+    const itemContainer = (
+      <section
+        class={{
+          [CSS.itemContainer]: true,
+          [CSS.itemContainerForward]: itemDirection === "forward",
+          [CSS.itemContainerBackward]: itemDirection === "backward",
+        }}
+        id={this.containerId}
+        ref={this.itemContainerRef}
+      >
+        <slot onSlotChange={this.handleSlotChange} />
+      </section>
+    );
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -745,18 +760,8 @@ export class Carousel extends LitElement {
           role="group"
           tabIndex={0}
         >
-          <section
-            class={{
-              [CSS.itemContainer]: true,
-              [CSS.itemContainerForward]: itemDirection === "forward",
-              [CSS.itemContainerBackward]: itemDirection === "backward",
-            }}
-            id={this.containerId}
-            ref={this.itemContainerRef}
-          >
-            <slot onSlotChange={this.handleSlotChange} />
-          </section>
-          {this.renderPaginationArea()}
+          {paginationPosition === "top" ? paginationArea : itemContainer}
+          {paginationPosition === "top" ? itemContainer : paginationArea}
           {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
           {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
         </div>
