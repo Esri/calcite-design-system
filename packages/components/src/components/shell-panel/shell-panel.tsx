@@ -5,14 +5,14 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
-import {
-  getStylePixelValue,
-  slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
-} from "../../utils/dom";
+import { Panel } from "../panel/panel";
+import { HeadingLevel } from "../functional/Heading";
+import { CSS_UTILITY } from "../../utils/resources";
+import { OverlayPositioning } from "../../utils/floating-ui";
+import { SLOTS as PANEL_SLOTS } from "../panel/resources";
+import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { Height, Layout, Position, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
@@ -32,8 +32,21 @@ declare global {
 }
 
 /**
- * @slot - A slot for adding custom content.
+ * @slot - A slot for adding content.
+ * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
+ * @slot panel-action-bar - A slot for adding a `calcite-action-bar` to the panel.
+ * @slot alerts - A slot for adding `calcite-alert`s to the component.
+ * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+ * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
+ * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
+ * @slot header-content - A slot for adding custom content to the component's header.
+ * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+ * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
+ * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+ * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+ * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
 export class ShellPanel extends LitElement {
   //#region Static Members
@@ -53,6 +66,8 @@ export class ShellPanel extends LitElement {
   private actionBars: ActionBar["el"][] = [];
 
   private contentRef = createRef<HTMLDivElement>();
+
+  private panelRef = createRef<Panel["el"]>();
 
   /**
    * Made into a prop for testing purposes only
@@ -85,11 +100,45 @@ export class ShellPanel extends LitElement {
     maxBlockSize: null,
   };
 
-  @state() hasHeader = false;
-
   //#endregion
 
   //#region Public Properties
+
+  /** When `true`, disables the component's close button. */
+  @property({ reflect: true }) closeDisabled = false;
+
+  /** A description for the component. */
+  @property() description: string;
+
+  /** The component header text. */
+  @property() heading: string;
+
+  /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
+  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+
+  /** Specifies an icon to display. */
+  @property({ reflect: true, type: String }) icon: IconName;
+
+  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  @property({ reflect: true }) iconFlipRtl = false;
+
+  /** When `true`, a busy indicator is displayed. */
+  @property({ reflect: true }) loading = false;
+
+  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  @property({ reflect: true }) menuOpen = false;
+
+  /**
+   * Determines the type of positioning to use for the overlaid content.
+   *
+   * Using `"absolute"` will work for most cases. The component will be positioned inside of overflowing parent containers and will affect the container's layout.
+   *
+   * `"fixed"` should be used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
@@ -180,6 +229,9 @@ export class ShellPanel extends LitElement {
   /** Fires when the component's content area is expanded. */
   calciteShellPanelExpand = createEvent({ cancelable: false });
 
+  /** Fires when the content is scrolled. */
+  calciteShellPanelScroll = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -217,6 +269,25 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
+    if (event.target !== this.panelRef.value) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.collapsed = false;
+  }
+
+  private handleInternalPanelScroll(event: CustomEvent<void>): void {
+    if (event.target !== this.panelRef.value) {
+      return;
+    }
+
+    event.stopPropagation();
+    this.calciteShellPanelScroll.emit();
+  }
 
   private getContentElDOMRect(): DOMRect {
     return this.contentRef.value.getBoundingClientRect();
@@ -385,10 +456,6 @@ export class ShellPanel extends LitElement {
     this.setActionBarsLayout(actionBars);
   }
 
-  private handleHeaderSlotChange(event: Event): void {
-    this.hasHeader = slotChangeHasAssignedElement(event);
-  }
-
   private getResizeIcon(): IconName {
     const { layout } = this;
 
@@ -398,14 +465,6 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Rendering
-
-  private renderHeader(): JsxNode {
-    return (
-      <div class={CSS.contentHeader} hidden={!this.hasHeader} key="header">
-        <slot name={SLOTS.header} onSlotChange={this.handleHeaderSlotChange} />
-      </div>
-    );
-  }
 
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
@@ -480,10 +539,39 @@ export class ShellPanel extends LitElement {
           key="content"
           ref={this.contentRef}
         >
-          {this.renderHeader()}
-          <div class={CSS.contentBody}>
-            <slot />
-          </div>
+          <slot name={SLOTS.customContent}>
+            <calcite-panel
+              class={CSS.panel}
+              closable={!this.closeDisabled}
+              description={this.description}
+              heading={this.heading}
+              headingLevel={this.headingLevel}
+              icon={this.icon}
+              iconFlipRtl={this.iconFlipRtl}
+              loading={this.loading}
+              menuOpen={this.menuOpen}
+              messageOverrides={this.messageOverrides}
+              oncalcitePanelClose={this.handleInternalPanelCloseClick}
+              oncalcitePanelScroll={this.handleInternalPanelScroll}
+              overlayPositioning={this.overlayPositioning}
+              ref={this.panelRef}
+              scale={this.scale}
+            >
+              <slot name={SLOTS.panelActionBar} slot={PANEL_SLOTS.actionBar} />
+              <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
+              <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
+              <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+              <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
+              <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
+              <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
+              <slot name={SLOTS.contentTop} slot={PANEL_SLOTS.contentTop} />
+              <slot name={SLOTS.contentBottom} slot={PANEL_SLOTS.contentBottom} />
+              <slot name={SLOTS.footerStart} slot={PANEL_SLOTS.footerStart} />
+              <slot name={SLOTS.footer} slot={PANEL_SLOTS.footer} />
+              <slot name={SLOTS.footerEnd} slot={PANEL_SLOTS.footerEnd} />
+              <slot />
+            </calcite-panel>
+          </slot>
           {separatorNode}
         </div>
       </div>

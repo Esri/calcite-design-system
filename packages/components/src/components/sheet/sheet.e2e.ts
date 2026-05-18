@@ -16,7 +16,9 @@ mockConsole();
 describe("accessible", () => {
   accessible(async () => {
     const page = await newE2EPage();
-    await page.setContent(html`<calcite-sheet label="hello world">Hello everyone!</calcite-sheet>`);
+    await page.setContent(
+      html`<calcite-sheet label="hello world" heading="hello world">Hello everyone!</calcite-sheet>`,
+    );
     const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
     const sheet = await page.find("calcite-sheet");
     sheet.setProperty("open", true);
@@ -53,7 +55,7 @@ describe("accessible", () => {
 
 describe("focus-trap", () => {
   focusTrap(
-    html` <calcite-sheet>
+    html` <calcite-sheet close-disabled>
       <!-- sheet has no default focusable parts -->
       <input id="focusable-content" />
     </calcite-sheet>`,
@@ -62,6 +64,42 @@ describe("focus-trap", () => {
       focusTargetSelector: "#focusable-content",
     },
   );
+});
+
+it("should set internal panel properties", async () => {
+  const page = await newE2EPage();
+  await page.exposeFunction("beforeClose", () => Promise.reject());
+  await page.setContent("<calcite-sheet></calcite-sheet>");
+
+  const panel = await page.find(`calcite-sheet >>> calcite-panel`);
+  const sheet = await page.find("calcite-sheet");
+
+  const messageOverrides = { close: "shut the front door" };
+
+  sheet.setProperty("closeDisabled", true);
+  sheet.setProperty("loading", true);
+  sheet.setProperty("menuOpen", true);
+  sheet.setProperty("headingLevel", 1);
+  sheet.setProperty("overlayPositioning", "fixed");
+  sheet.setProperty("heading", "My Heading");
+  sheet.setProperty("description", "My Description");
+  sheet.setProperty("scale", "l");
+  sheet.setProperty("icon", "x");
+  sheet.setProperty("iconFlipRtl", true);
+  sheet.setProperty("messageOverrides", messageOverrides);
+  await page.waitForChanges();
+
+  expect(await panel.getProperty("closable")).toBe(false);
+  expect(await panel.getProperty("loading")).toBe(true);
+  expect(await panel.getProperty("menuOpen")).toBe(true);
+  expect(await panel.getProperty("headingLevel")).toBe(1);
+  expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
+  expect(await panel.getProperty("heading")).toBe("My Heading");
+  expect(await panel.getProperty("description")).toBe("My Description");
+  expect(await panel.getProperty("scale")).toBe("l");
+  expect(await panel.getProperty("icon")).toBe("x");
+  expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
 });
 
 it("sets custom width correctly", async () => {

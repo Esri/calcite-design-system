@@ -177,9 +177,7 @@ describe("embedded", () => {
     await page.setContent(
       html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
-          <calcite-panel heading="Example">
-            <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
-          </calcite-panel>
+          <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
         </calcite-shell-panel>
         <calcite-panel heading="Content">
           <calcite-shell style="position:relative">
@@ -197,7 +195,7 @@ describe("embedded", () => {
     await openEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
   });
 
   it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -223,7 +221,7 @@ describe("embedded", () => {
     await openEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
   });
 });
 

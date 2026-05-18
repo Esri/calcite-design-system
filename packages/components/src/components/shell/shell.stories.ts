@@ -95,9 +95,7 @@ const actionBarEndHTML = html`
 
 const leadingPanelHTML = html`
   ${actionBarStartHTML}
-  <calcite-panel heading="Leading panel content">
-    <div>Content</div>
-  </calcite-panel>
+  <div>Content</div>
 `;
 
 const centerPanelHTML = html`
@@ -106,11 +104,7 @@ const centerPanelHTML = html`
   </calcite-panel>
 `;
 
-const bottomPanelHTML = html`
-  <calcite-panel heading="Panel bottom content">
-    <div>Content</div>
-  </calcite-panel>
-`;
+const bottomPanelHTML = html`<div>Content</div> `;
 
 const centerPanelWithActionBarHTML = html`
   <calcite-action-bar slot="action-bar">
@@ -139,9 +133,7 @@ const centerPanelWithActionBarHTML = html`
 
 const trailingPanelHTML = html`
   ${actionBarEndHTML}
-  <calcite-panel heading="Trailing panel content">
-    <div>Content</div>
-  </calcite-panel>
+  <div>Content</div>
 `;
 
 const headerHTML = html`
@@ -273,6 +265,7 @@ export const simple = (args: ShellStoryArgs): string => html`
       ${boolean("collapsed", args.collapsed)}
       display-mode="${args.displayMode}"
       ${boolean("resizable", args.resizable)}
+      heading="Advanced panel example"
     >
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
@@ -383,7 +376,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
           ></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow>
+      <calcite-flow slot="custom-content">
         <calcite-flow-item heading="Layer settings">
           <calcite-action
             slot="header-menu-actions"
@@ -525,11 +518,9 @@ export const slottedDialogAndAlert = (): string =>
             <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-panel heading="Panel">
-          <div class="padded-content">Panel content<br />Padding is fake.</div>
-        </calcite-panel>
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-end">
+      <calcite-shell-panel slot="panel-end" heading="Main content">
         <calcite-action-bar slot="action-bar">
           <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
           <calcite-action-group>
@@ -543,7 +534,7 @@ export const slottedDialogAndAlert = (): string =>
             <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-flow>
+        <calcite-flow slot="custom-content">
           <calcite-flow-item heading="Flow 01">
             <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
           </calcite-flow-item>
@@ -552,9 +543,7 @@ export const slottedDialogAndAlert = (): string =>
           </calcite-flow-item>
         </calcite-flow>
       </calcite-shell-panel>
-      <calcite-panel heading="Main content">
-        <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
-      </calcite-panel>
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
       <footer slot="footer">Footer Example</footer>
     </calcite-shell>
     <p class="padded-content">
@@ -703,9 +692,7 @@ const slottedSheetHtml: string[] = [];
             <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-panel heading="Panel">
-          <div class="padded-content">Panel content<br />Padding is fake.</div>
-        </calcite-panel>
+        <div class="padded-content">Panel content<br />Padding is fake.</div>
       </calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">
         <calcite-action-bar slot="action-bar">
@@ -721,7 +708,7 @@ const slottedSheetHtml: string[] = [];
             <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-flow>
+        <calcite-flow slot="custom-content">
           <calcite-flow-item heading="Flow 01">
             <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
           </calcite-flow-item>
@@ -947,7 +934,7 @@ max-height:80%;
 position:relative;
 "
   >
-    <calcite-shell-panel resizable slot="panel-start">
+    <calcite-shell-panel resizable slot="panel-start" heading="Layers">
       <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -969,7 +956,7 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Layers"><p>Start Panel</p></calcite-panel>
+      <p>Start Panel</p>
     </calcite-shell-panel>
     <calcite-shell-panel resizable slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -997,7 +984,7 @@ position:relative;
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow id="flow">
+      <calcite-flow slot="custom-content" id="flow">
         <calcite-flow-item
           heading="Configure popup"
           description="Popular Demographics in the United States (Beta) - County"
@@ -1081,7 +1068,7 @@ max-height:80%;
 position:relative;
 "
   >
-    <calcite-shell-panel resizable slot="panel-start">
+    <calcite-shell-panel resizable slot="panel-start" heading="Layers">
       <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1103,7 +1090,7 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Layers"><p>Start Panel</p></calcite-panel>
+      <p>Start Panel</p>
     </calcite-shell-panel>
     <calcite-shell-panel resizable slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -1131,7 +1118,7 @@ position:relative;
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow id="flow">
+      <calcite-flow slot="custom-content" id="flow">
         <calcite-flow-item
           heading="Configure popup"
           description="Popular Demographics in the United States (Beta) - County"
@@ -1213,7 +1200,7 @@ height:600px;
 position:relative;
 "
   >
-    <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start">
+    <calcite-shell-panel display-mode="overlay" resizable id="primary-panel" slot="panel-start" heading="Layers">
       <calcite-action-bar slot="action-bar" class="calcite-mode-dark">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1235,10 +1222,10 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Layers" height-scale="l" width-scale="m">
+      <div class="padded-content">
         <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
         <calcite-tooltip label="tooltip" reference-element="layer-fab">Add layers</calcite-tooltip>
-      </calcite-panel>
+      </div>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="overlay" resizable slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -1266,7 +1253,7 @@ position:relative;
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow id="flow">
+      <calcite-flow slot="custom-content" id="flow">
         <calcite-flow-item
           heading="Configure popup"
           description="Popular Demographics in the United States (Beta) - County"
@@ -1378,7 +1365,7 @@ position:relative;
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel collapsed display-mode="overlay" resizable slot="panel-top">
+    <calcite-shell-panel collapsed display-mode="overlay" resizable slot="panel-top" heading="Example">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1400,9 +1387,9 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example"> Example </calcite-panel>
+      Example
     </calcite-shell-panel>
-    <calcite-shell-panel collapsed display-mode="overlay" resizable slot="panel-bottom">
+    <calcite-shell-panel collapsed display-mode="overlay" resizable slot="panel-bottom" heading="Example">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1424,7 +1411,7 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example"> Example </calcite-panel>
+      Example
     </calcite-shell-panel>
   </calcite-shell>`;
 
@@ -1434,42 +1421,33 @@ overlayDisplayMode.parameters = {
 
 export const panelEndWithPositionStart = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
+    <calcite-shell-panel slot="panel-end" width-scale="l" resizable heading="Map Options">
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator></calcite-action>
         <calcite-action active icon="map" text="Map"></calcite-action>
         <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
-      <calcite-panel heading="Map Options">
+      <div class="padded-content">
         <calcite-button width="half" slot="footer"> Next </calcite-button>
-        <calcite-block
-          collapsible
-          heading="Layer effects"
-          description="Adjust blur, highlight, and more"
-          icon-start="effects"
-        >
+        <calcite-block collapsible heading="Layer effects" description="Adjust blur, highlight, and more">
+          <calcite-icon scale="s" slot="icon" icon="effects"></calcite-icon>
           <calcite-notice open>
             <div slot="message">Use layer effects sparingly, for emphasis</div>
           </calcite-notice>
         </calcite-block>
-        <calcite-block
-          collapsible
-          heading="Symbology"
-          description="Select type, color, and transparency"
-          icon-start="map-pin"
-        >
+        <calcite-block collapsible heading="Symbology" description="Select type, color, and transparency">
+          <calcite-icon scale="s" slot="icon" icon="map-pin"></calcite-icon>
           <calcite-notice open>
             <div slot="message">The viewers are going to love this</div>
           </calcite-notice>
         </calcite-block>
         <calcite-fab slot="fab"></calcite-fab>
-      </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
 
 export const panelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m" heading="Example">
       <calcite-action-bar slot="action-bar" expand-disabled layout="horizontal" overlay-positioning="absolute">
         <calcite-action-group layout="horizontal" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -1491,7 +1469,7 @@ export const panelTopFloatHorizontal = (): string =>
           <calcite-action text="What's next" icon="mega-phone" appearance="solid" scale="m"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example" closable id="panel-top" overlay-positioning="absolute" scale="m">
+      <div class="padded-content">
         <calcite-block open heading="Preview display-mode" overlay-positioning="absolute">
           <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist" scale="m">
             <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m">dock</calcite-chip>
@@ -1509,13 +1487,12 @@ export const panelTopFloatHorizontal = (): string =>
           </calcite-chip-group>
           <div class="tall-content-example" style="display: none"></div>
         </calcite-block>
-      </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
 
 export const panelTopFloatVertical = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m" heading="Example">
       <calcite-action-bar slot="action-bar" expand-disabled layout="vertical" overlay-positioning="absolute">
         <calcite-action-group layout="vertical" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -1549,7 +1526,7 @@ export const panelTopFloatVertical = (): string =>
           <calcite-action text="What's next" icon="mega-phone" appearance="solid" scale="m"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example" closable id="panel-top" overlay-positioning="absolute" scale="m">
+      <div class="padded-content">
         <calcite-block open heading="Preview display-mode" overlay-positioning="absolute">
           <calcite-chip-group id="chip-group-panel-top" selection-mode="single-persist" scale="m">
             <calcite-chip value="dock" appearance="solid" kind="neutral" scale="m">dock</calcite-chip>
@@ -1565,40 +1542,35 @@ export const panelTopFloatVertical = (): string =>
           </calcite-chip-group>
           <div class="tall-content-example" style="display: none"></div>
         </calcite-block>
-      </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
 
 export const resizeHandlePositioning = (): string =>
   html` <calcite-shell>
-    <calcite-shell-panel id="panel-start" slot="panel-start" resizable>
+    <calcite-shell-panel id="panel-start" slot="panel-start" resizable heading="Panel 1">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator></calcite-action>
           <calcite-action text-enabled icon="map" text="New" slot="menu-actions"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
-      </calcite-panel>
+      <calcite-block heading="Block 1" collapsible></calcite-block>
     </calcite-shell-panel>
     <calcite-panel heading="Main content"></calcite-panel>
-    <calcite-shell-panel id="panel-end" slot="panel-end" resizable>
+    <calcite-shell-panel id="panel-end" slot="panel-end" resizable heading="Panel 1">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator></calcite-action>
           <calcite-action text-enabled icon="map" text="New" slot="menu-actions"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
-      </calcite-panel>
+      <calcite-block heading="Block 1" collapsible></calcite-block>
     </calcite-shell-panel>
   </calcite-shell>`;
 
 export const shellPanelWithTabs = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" heading="Layers">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
@@ -1614,142 +1586,136 @@ export const shellPanelWithTabs = (): string =>
           <calcite-action text="Settings" indicator icon="gear"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Layers" id="panel-start" closable>
-        <calcite-block
-          collapsible
-          heading="Symbology"
-          description="Select type, color, and transparency"
-          icon-start="map-pin"
-        >
-          <calcite-notice open>
-            <div slot="message">The viewers are going to love this</div>
+      <calcite-block
+        collapsible
+        heading="Symbology"
+        description="Select type, color, and transparency"
+        icon-start="map-pin"
+      >
+        <calcite-notice open>
+          <div slot="message">The viewers are going to love this</div>
+        </calcite-notice>
+      </calcite-block>
+    </calcite-shell-panel>
+    <calcite-shell-panel slot="panel-bottom" heading="Content">
+      <calcite-tabs>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected> Watercraft </calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>
+          <calcite-notice icon="embark" open>
+            <div slot="message">Recommended for coastal use</div>
           </calcite-notice>
-        </calcite-block>
-      </calcite-panel>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+      </calcite-tabs>
     </calcite-shell-panel>
-    <calcite-shell-panel slot="panel-bottom">
-      <calcite-panel heading="Content">
-        <calcite-tabs>
-          <calcite-tab-nav slot="title-group">
-            <calcite-tab-title selected> Watercraft </calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-          </calcite-tab-nav>
-          <calcite-tab selected>
-            <calcite-notice icon="embark" open>
-              <div slot="message">Recommended for coastal use</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-        </calcite-tabs>
-      </calcite-panel>
-    </calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">
-      <calcite-panel heading="Content">
-        <calcite-tabs>
-          <calcite-tab-nav slot="title-group">
-            <calcite-tab-title selected> Watercraft </calcite-tab-title>
-            <calcite-tab-title>Automobiles</calcite-tab-title>
-            <calcite-tab-title>Aircraft</calcite-tab-title>
-          </calcite-tab-nav>
-          <calcite-tab selected>
-            <calcite-notice icon="embark" open>
-              <div slot="message">Recommended for coastal use</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="car" open>
-              <div slot="message">A good choice for inland adventure</div>
-            </calcite-notice>
-          </calcite-tab>
-          <calcite-tab>
-            <calcite-notice icon="plane" open>
-              <div slot="message">Cross continents quickly</div>
-            </calcite-notice>
-          </calcite-tab>
-        </calcite-tabs>
-      </calcite-panel>
+    <calcite-shell-panel slot="panel-end" heading="Content">
+      <calcite-tabs>
+        <calcite-tab-nav slot="title-group">
+          <calcite-tab-title selected> Watercraft </calcite-tab-title>
+          <calcite-tab-title>Automobiles</calcite-tab-title>
+          <calcite-tab-title>Aircraft</calcite-tab-title>
+        </calcite-tab-nav>
+        <calcite-tab selected>
+          <calcite-notice icon="embark" open>
+            <div slot="message">Recommended for coastal use</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="car" open>
+            <div slot="message">A good choice for inland adventure</div>
+          </calcite-notice>
+        </calcite-tab>
+        <calcite-tab>
+          <calcite-notice icon="plane" open>
+            <div slot="message">Cross continents quickly</div>
+          </calcite-notice>
+        </calcite-tab>
+      </calcite-tabs>
     </calcite-shell-panel>
   </calcite-shell>`;
 
@@ -1767,7 +1733,7 @@ export const panelWithPopoverZIndex = (): string =>
       <div id="viewDiv"></div>
       <calcite-shell-panel slot="panel-start"></calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">
-        <calcite-flow>
+        <calcite-flow slot="custom-content">
           <calcite-flow-item heading="panel header">
             <calcite-button id="button" style="margin-top:20px">open popover</calcite-button>
           </calcite-flow-item>
@@ -1779,15 +1745,13 @@ export const panelWithPopoverZIndex = (): string =>
 
 export const popoverZIndex = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" heading="Map">
       <calcite-action-bar slot="action-bar">
         <calcite-action id="target-element" text="Save" icon="save" indicator></calcite-action>
         <calcite-action active icon="map" text="Map"></calcite-action>
         <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
-      <calcite-panel heading="Map" id="panel-start">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
-      </calcite-panel>
+      <calcite-block heading="Block 1" collapsible></calcite-block>
     </calcite-shell-panel>
 
     <!--  Popover here  -->
@@ -1802,9 +1766,6 @@ export const popoverZIndex = (): string =>
         <calcite-action text="Filter" icon="layer-filter"></calcite-action>
         <calcite-action text="Configure" icon="popup"></calcite-action>
       </calcite-action-bar>
-      <calcite-panel id="panel-end" closable closed>
-        <calcite-block heading="Block 1" collapsible></calcite-block>
-      </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Content"></calcite-panel>
   </calcite-shell>`;
@@ -1822,7 +1783,7 @@ export const floatAllArrangements = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+    <calcite-shell-panel display-mode="float-all" slot="panel-start" heading="Layers" >
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1837,11 +1798,9 @@ export const floatAllArrangements = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+     <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all" slot="panel-end" >
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup" >
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -1854,16 +1813,9 @@ export const floatAllArrangements = (): string =>
         </calcite-action-group>
         <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
       </calcite-action-bar>
-      <calcite-panel
-        closable
-        heading="Configure popup"
-        description="Popular Demographics in the United States (Beta) - County"
-        width-scale="m"
-      >
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+       <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
+    <calcite-shell-panel display-mode="float-all"  slot="panel-top" heading="Example">
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1876,11 +1828,9 @@ export const floatAllArrangements = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example" closable>
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+      <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
+    <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" heading="Example" >
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
@@ -1893,9 +1843,7 @@ export const floatAllArrangements = (): string =>
         <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
       </calcite-action-bar>
-      <calcite-panel heading="Example" closable>
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+      <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
   </calcite-shell>`;
 
@@ -1912,25 +1860,24 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s" heading="Map">
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
         <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
       </calcite-action-bar>
-      <calcite-panel heading="Map" id="panel-start">
-        <calcite-dropdown open width="m" overlay-positioning="fixed">
-          <calcite-button slot="trigger">Select landform</calcite-button>
-          <calcite-dropdown-group group-title="Natural places">
-            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-            <calcite-dropdown-item>River</calcite-dropdown-item>
-            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-            <calcite-dropdown-item>Desert</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </calcite-panel>
+
+      <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-button slot="trigger">Select landform</calcite-button>
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
     </calcite-shell-panel>
   </calcite-shell>`;
 
@@ -1947,7 +1894,7 @@ export const floatAllArrangementsStart = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+    <calcite-shell-panel display-mode="float-all" slot="panel-start" heading="Layers">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1962,11 +1909,9 @@ export const floatAllArrangementsStart = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel closable heading="Layers" height-scale="l" width-scale="m">
         <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all" slot="panel-end" >
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup" >
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -1979,16 +1924,9 @@ export const floatAllArrangementsStart = (): string =>
         </calcite-action-group>
         <calcite-action text="Tips" icon="lightbulb" slot="actions-end"> </calcite-action>
       </calcite-action-bar>
-      <calcite-panel
-        closable
-        heading="Configure popup"
-        description="Popular Demographics in the United States (Beta) - County"
-        width-scale="m"
-      >
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+      <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
+    <calcite-shell-panel display-mode="float-all"  slot="panel-top" heading="Example">
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2001,11 +1939,9 @@ export const floatAllArrangementsStart = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Example">
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+      <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
+    <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" heading="Example">
       <calcite-action-bar slot="action-bar" expand-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
@@ -2018,9 +1954,7 @@ export const floatAllArrangementsStart = (): string =>
         <calcite-action text="Feedback" icon="speech-bubble-plus" slot="actions-end"></calcite-action>
         <calcite-action text="What's next" icon="mega-phone" slot="actions-end"></calcite-action>
       </calcite-action-bar>
-      <calcite-panel heading="Example" closable>
-        <calcite-block open heading="Preview display-mode"> </calcite-block>
-      </calcite-panel>
+       <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
   </calcite-shell>`;
 
@@ -2037,87 +1971,83 @@ export const panelsWithOverflowingContent = (): string =>
             background-size: 20px 20px;
             background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-bottom">
-      <calcite-panel heading="Panel">
-        <p>
-          Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus
-          facilisis congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc
-          hendrerit consequat ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum
-          commodo. Congue accumsan magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam
-          etiam mus turpis, curabitur nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra
-          inceptos scelerisque. Morbi leo libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse
-          enim.
-        </p>
-        <p>
-          Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse
-          blandit fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida
-          fames. Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu
-          curae; volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras.
-          Bibendum litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis
-          pellentesque. Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
-        </p>
-        <p>
-          Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
-          primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
-          consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
-          imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
-          Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
-          torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
-        </p>
-        <p>
-          Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
-          hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur
-          et enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
-          Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
-        </p>
-        <p>
-          Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique
-          pellentesque rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue
-          risus bibendum hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue
-          consectetur vulputate, nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc
-          porttitor, dapibus purus semper. Aenean metus interdum nisl eget. Ipsum nulla.
-        </p>
-        <p>
-          Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi
-          ligula nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque.
-          Litora porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin
-          integer vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat
-          velit habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus.
-          Pretium non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam
-          ullamcorper egestas fermentum eros imperdiet consectetur? Faucibus fringilla?
-        </p>
-        <p>
-          Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus
-          ligula consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu
-          lorem nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse
-          maecenas eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem
-          cras velit inceptos nisl metus? Dignissim.
-        </p>
-        <p>
-          Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
-          aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
-          condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
-          varius? Elementum imperdiet suscipit nulla! Primis a leo.
-        </p>
-        <p>
-          Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
-          maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien
-          hendrerit metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor
-          sollicitudin proin. Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit
-          semper non. Eu arcu vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
-        </p>
-        <p>
-          Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
-          Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor
-          posuere. Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor
-          risus volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam
-          pulvinar mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti
-          sociosqu sociosqu magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est
-          curabitur!
-        </p>
-      </calcite-panel>
+    <calcite-shell-panel slot="panel-bottom" heading="Panel">
+      <p>
+        Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus facilisis
+        congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc hendrerit consequat
+        ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum commodo. Congue accumsan
+        magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam etiam mus turpis, curabitur
+        nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra inceptos scelerisque. Morbi leo
+        libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse enim.
+      </p>
+      <p>
+        Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse blandit
+        fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida fames.
+        Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu curae;
+        volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras. Bibendum
+        litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis pellentesque.
+        Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
+      </p>
+      <p>
+        Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
+        primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
+        consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
+        imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
+        Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
+        torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
+      </p>
+      <p>
+        Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
+        hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur et
+        enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
+        Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
+      </p>
+      <p>
+        Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique pellentesque
+        rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue risus bibendum
+        hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue consectetur vulputate,
+        nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc porttitor, dapibus purus
+        semper. Aenean metus interdum nisl eget. Ipsum nulla.
+      </p>
+      <p>
+        Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi ligula
+        nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque. Litora
+        porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin integer
+        vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat velit
+        habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus. Pretium
+        non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam ullamcorper egestas
+        fermentum eros imperdiet consectetur? Faucibus fringilla?
+      </p>
+      <p>
+        Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus ligula
+        consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu lorem
+        nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse maecenas
+        eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem cras velit
+        inceptos nisl metus? Dignissim.
+      </p>
+      <p>
+        Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
+        aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
+        condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
+        varius? Elementum imperdiet suscipit nulla! Primis a leo.
+      </p>
+      <p>
+        Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
+        maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien hendrerit
+        metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor sollicitudin proin.
+        Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit semper non. Eu arcu
+        vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
+      </p>
+      <p>
+        Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
+        Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor posuere.
+        Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor risus
+        volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam pulvinar
+        mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti sociosqu sociosqu
+        magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est curabitur!
+      </p>
     </calcite-shell-panel>
-    <calcite-shell-panel slot="panel-start">
+    <calcite-shell-panel slot="panel-start" heading="Panel">
       <calcite-action-bar overflow-actions-disabled slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2139,84 +2069,81 @@ export const panelsWithOverflowingContent = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel">
-        <p>
-          Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus
-          facilisis congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc
-          hendrerit consequat ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum
-          commodo. Congue accumsan magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam
-          etiam mus turpis, curabitur nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra
-          inceptos scelerisque. Morbi leo libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse
-          enim.
-        </p>
-        <p>
-          Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse
-          blandit fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida
-          fames. Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu
-          curae; volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras.
-          Bibendum litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis
-          pellentesque. Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
-        </p>
-        <p>
-          Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
-          primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
-          consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
-          imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
-          Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
-          torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
-        </p>
-        <p>
-          Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
-          hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur
-          et enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
-          Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
-        </p>
-        <p>
-          Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique
-          pellentesque rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue
-          risus bibendum hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue
-          consectetur vulputate, nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc
-          porttitor, dapibus purus semper. Aenean metus interdum nisl eget. Ipsum nulla.
-        </p>
-        <p>
-          Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi
-          ligula nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque.
-          Litora porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin
-          integer vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat
-          velit habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus.
-          Pretium non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam
-          ullamcorper egestas fermentum eros imperdiet consectetur? Faucibus fringilla?
-        </p>
-        <p>
-          Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus
-          ligula consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu
-          lorem nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse
-          maecenas eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem
-          cras velit inceptos nisl metus? Dignissim.
-        </p>
-        <p>
-          Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
-          aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
-          condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
-          varius? Elementum imperdiet suscipit nulla! Primis a leo.
-        </p>
-        <p>
-          Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
-          maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien
-          hendrerit metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor
-          sollicitudin proin. Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit
-          semper non. Eu arcu vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
-        </p>
-        <p>
-          Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
-          Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor
-          posuere. Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor
-          risus volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam
-          pulvinar mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti
-          sociosqu sociosqu magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est
-          curabitur!
-        </p>
-      </calcite-panel>
+
+      <p>
+        Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus facilisis
+        congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc hendrerit consequat
+        ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum commodo. Congue accumsan
+        magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam etiam mus turpis, curabitur
+        nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra inceptos scelerisque. Morbi leo
+        libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse enim.
+      </p>
+      <p>
+        Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse blandit
+        fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida fames.
+        Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu curae;
+        volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras. Bibendum
+        litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis pellentesque.
+        Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
+      </p>
+      <p>
+        Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
+        primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
+        consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
+        imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
+        Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
+        torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
+      </p>
+      <p>
+        Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
+        hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur et
+        enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
+        Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
+      </p>
+      <p>
+        Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique pellentesque
+        rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue risus bibendum
+        hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue consectetur vulputate,
+        nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc porttitor, dapibus purus
+        semper. Aenean metus interdum nisl eget. Ipsum nulla.
+      </p>
+      <p>
+        Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi ligula
+        nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque. Litora
+        porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin integer
+        vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat velit
+        habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus. Pretium
+        non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam ullamcorper egestas
+        fermentum eros imperdiet consectetur? Faucibus fringilla?
+      </p>
+      <p>
+        Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus ligula
+        consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu lorem
+        nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse maecenas
+        eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem cras velit
+        inceptos nisl metus? Dignissim.
+      </p>
+      <p>
+        Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
+        aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
+        condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
+        varius? Elementum imperdiet suscipit nulla! Primis a leo.
+      </p>
+      <p>
+        Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
+        maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien hendrerit
+        metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor sollicitudin proin.
+        Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit semper non. Eu arcu
+        vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
+      </p>
+      <p>
+        Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
+        Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor posuere.
+        Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor risus
+        volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam pulvinar
+        mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti sociosqu sociosqu
+        magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est curabitur!
+      </p>
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -2245,7 +2172,7 @@ export const panelsWithOverflowingContent = (): string =>
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow>
+      <calcite-flow slot="custom-content">
         <calcite-flow-item heading="Flow 01"> </calcite-flow-item>
         <calcite-flow-item heading="Flow 02">
           <p>
@@ -2366,9 +2293,7 @@ export const panelsWithHeightsDefined = (): string =>
       <div id="viewDiv"></div>
       <calcite-shell-panel id="start" slot="panel-start">Start</calcite-shell-panel>
       <calcite-shell-panel id="bottom" slot="panel-bottom">
-        <calcite-panel id="panel">
-          <div>The panel should fill the entire bottom half of the bounding box.</div>
-        </calcite-panel>
+        <div>The panel should fill the entire bottom half of the bounding box.</div>
       </calcite-shell-panel>
       <calcite-shell-panel id="end" slot="panel-end">End</calcite-shell-panel>
     </calcite-shell>`;
@@ -2406,88 +2331,92 @@ export const customPanelWithOverflowingContent = (): string =>
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;"
     >
-      <calcite-shell-panel display-mode="float" width-scale="l" slot="panel-bottom" style="height: 100%;">
-        <calcite-panel heading="Panel">
-          <div style="display: flex; flex-direction: row; height: 100%; width:100%">
-            <calcite-action-bar
-              overflow-actions-disabled
-              style="display: flex; flex-direction: column; height: 100%; border-right: 1px solid var(--calcite-color-border-2); overflow-x: hidden;"
-              layout="vertical"
-              overlay-positioning="absolute"
-              scale="m"
-            >
-              <slot name="custom-action-top"></slot
-              ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
-                <div><calcite-action icon="gear" id="editChart" appearance="solid" scale="m"></calcite-action></div>
-                <div>
-                  <calcite-action id="legend" appearance="solid" disabled scale="m" aria-disabled="true"
-                    ><calcite-icon icon="legend" scale="s" flip-rtl aria-hidden="true"></calcite-icon
-                  ></calcite-action>
-                </div>
-                <div>
-                  <calcite-action icon="rotate" id="rotateChart" appearance="solid" scale="m"></calcite-action>
-                </div> </calcite-action-group
-              ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
-                <div>
-                  <calcite-action
-                    icon="selection-filter"
-                    id="filterBySelection"
-                    appearance="solid"
-                    disabled
-                    scale="m"
-                    aria-disabled="true"
-                  ></calcite-action>
-                </div>
-                <div>
-                  <calcite-action
-                    icon="extent-filter"
-                    id="filterByExtent"
-                    appearance="solid"
-                    scale="m"
-                    aria-describedby="calcite-tooltip-4ece6511-9e21-cf51-f2a2-5d94d7ce0b49"
-                  ></calcite-action>
-                </div> </calcite-action-group
-              ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
-                <div>
-                  <calcite-action
-                    icon="erase"
-                    id="clearSelection"
-                    appearance="solid"
-                    disabled
-                    scale="m"
-                    aria-disabled="true"
-                  ></calcite-action>
-                </div>
-
-                <div>
-                  <calcite-action
-                    icon="arrow-right-left"
-                    id="switchSelection"
-                    appearance="solid"
-                    scale="m"
-                  ></calcite-action>
-                </div>
-              </calcite-action-group>
-              <slot name="custom-action-below"></slot>
-            </calcite-action-bar>
-            <div
-              style="flex-grow: 1;
-    overflow-y: hidden;"
-            >
-              <div style="width: 100%; height: 100%; position: static; left: 0.195313px; top: -0.5px;">
-                <img
-                  alt="placeholder image"
-                  src="${placeholderImage({ width: 631, height: 297 })}"
-                  width="100%"
-                  height="100%"
-                />
+      <calcite-shell-panel
+        display-mode="float"
+        width-scale="l"
+        slot="panel-bottom"
+        style="height: 100%;"
+        heading="Panel"
+      >
+        <div style="display: flex; flex-direction: row; height: 100%; width:100%">
+          <calcite-action-bar
+            overflow-actions-disabled
+            style="display: flex; flex-direction: column; height: 100%; border-right: 1px solid var(--calcite-color-border-2); overflow-x: hidden;"
+            layout="vertical"
+            overlay-positioning="absolute"
+            scale="m"
+          >
+            <slot name="custom-action-top"></slot
+            ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
+              <div><calcite-action icon="gear" id="editChart" appearance="solid" scale="m"></calcite-action></div>
+              <div>
+                <calcite-action id="legend" appearance="solid" disabled scale="m" aria-disabled="true"
+                  ><calcite-icon icon="legend" scale="s" flip-rtl aria-hidden="true"></calcite-icon
+                ></calcite-action>
               </div>
+              <div>
+                <calcite-action icon="rotate" id="rotateChart" appearance="solid" scale="m"></calcite-action>
+              </div> </calcite-action-group
+            ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
+              <div>
+                <calcite-action
+                  icon="selection-filter"
+                  id="filterBySelection"
+                  appearance="solid"
+                  disabled
+                  scale="m"
+                  aria-disabled="true"
+                ></calcite-action>
+              </div>
+              <div>
+                <calcite-action
+                  icon="extent-filter"
+                  id="filterByExtent"
+                  appearance="solid"
+                  scale="m"
+                  aria-describedby="calcite-tooltip-4ece6511-9e21-cf51-f2a2-5d94d7ce0b49"
+                ></calcite-action>
+              </div> </calcite-action-group
+            ><calcite-action-group layout="vertical" overlay-positioning="absolute" scale="m">
+              <div>
+                <calcite-action
+                  icon="erase"
+                  id="clearSelection"
+                  appearance="solid"
+                  disabled
+                  scale="m"
+                  aria-disabled="true"
+                ></calcite-action>
+              </div>
+
+              <div>
+                <calcite-action
+                  icon="arrow-right-left"
+                  id="switchSelection"
+                  appearance="solid"
+                  scale="m"
+                ></calcite-action>
+              </div>
+            </calcite-action-group>
+            <slot name="custom-action-below"></slot>
+          </calcite-action-bar>
+          <div
+            style="flex-grow: 1;
+    overflow-y: hidden;"
+          >
+            <div style="width: 100%; height: 100%; position: static; left: 0.195313px; top: -0.5px;">
+              <img
+                alt="placeholder image"
+                src="${placeholderImage({ width: 631, height: 297 })}"
+                width="100%"
+                height="100%"
+              />
             </div>
           </div>
-        </calcite-panel>
+        </div>
       </calcite-shell-panel>
     </div>
-    <calcite-shell-panel display-mode="float-all" slot="panel-start">
+    <calcite-shell-panel display-mode="float-all" slot="panel-start" heading="Panel">
       <calcite-action-bar overflow-actions-disabled slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2509,84 +2438,81 @@ export const customPanelWithOverflowingContent = (): string =>
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel">
-        <p>
-          Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus
-          facilisis congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc
-          hendrerit consequat ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum
-          commodo. Congue accumsan magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam
-          etiam mus turpis, curabitur nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra
-          inceptos scelerisque. Morbi leo libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse
-          enim.
-        </p>
-        <p>
-          Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse
-          blandit fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida
-          fames. Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu
-          curae; volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras.
-          Bibendum litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis
-          pellentesque. Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
-        </p>
-        <p>
-          Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
-          primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
-          consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
-          imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
-          Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
-          torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
-        </p>
-        <p>
-          Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
-          hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur
-          et enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
-          Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
-        </p>
-        <p>
-          Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique
-          pellentesque rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue
-          risus bibendum hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue
-          consectetur vulputate, nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc
-          porttitor, dapibus purus semper. Aenean metus interdum nisl eget. Ipsum nulla.
-        </p>
-        <p>
-          Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi
-          ligula nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque.
-          Litora porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin
-          integer vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat
-          velit habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus.
-          Pretium non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam
-          ullamcorper egestas fermentum eros imperdiet consectetur? Faucibus fringilla?
-        </p>
-        <p>
-          Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus
-          ligula consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu
-          lorem nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse
-          maecenas eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem
-          cras velit inceptos nisl metus? Dignissim.
-        </p>
-        <p>
-          Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
-          aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
-          condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
-          varius? Elementum imperdiet suscipit nulla! Primis a leo.
-        </p>
-        <p>
-          Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
-          maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien
-          hendrerit metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor
-          sollicitudin proin. Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit
-          semper non. Eu arcu vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
-        </p>
-        <p>
-          Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
-          Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor
-          posuere. Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor
-          risus volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam
-          pulvinar mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti
-          sociosqu sociosqu magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est
-          curabitur!
-        </p>
-      </calcite-panel>
+
+      <p>
+        Vehicula per vehicula leo gravida quis tincidunt penatibus nisl. Faucibus egestas eget convallis metus facilisis
+        congue consequat dui mollis lorem lacinia. At per venenatis nostra magna purus sed mus nunc hendrerit consequat
+        ante mauris. Ipsum, libero cum dolor pellentesque cubilia semper hac netus fermentum commodo. Congue accumsan
+        magnis vehicula sapien nam egestas per lacus sapien ut elementum. Sit inceptos quam etiam mus turpis, curabitur
+        nostra est. Laoreet augue porta consequat, sit class vestibulum ornare pharetra inceptos scelerisque. Morbi leo
+        libero; tincidunt gravida senectus viverra! Aptent morbi facilisi habitasse enim.
+      </p>
+      <p>
+        Rutrum natoque porta eros enim mollis ad primis vulputate arcu. Dolor posuere vitae porttitor habitasse blandit
+        fermentum sem? Platea elit erat viverra laoreet! A adipiscing ligula augue fames luctus sit gravida fames.
+        Sagittis sociis purus, sit torquent ultricies primis interdum! Dapibus iaculis ultrices ac arcu, arcu curae;
+        volutpat cubilia hac. Torquent sapien netus per sem a malesuada donec. Pellentesque diam, est cras. Bibendum
+        litora ante condimentum ridiculus felis condimentum dolor sapien felis. Eleifend hac elit mollis pellentesque.
+        Maecenas natoque nibh mauris penatibus donec vel nostra sociis nostra placerat. Lectus!
+      </p>
+      <p>
+        Pulvinar purus neque, nascetur cursus fusce convallis at! Sapien sed sapien rhoncus quis. Vitae primis vivamus
+        primis facilisis quam porttitor nibh vel felis tristique? Nisi varius, torquent odio ligula. Turpis lacinia
+        consequat augue, molestie cubilia. Gravida etiam ac class potenti sit fusce mus cum. Rutrum id imperdiet magna
+        imperdiet felis luctus condimentum netus elementum fermentum. Cursus proin habitant proin adipiscing lacinia.
+        Urna suscipit cursus gravida mus nisl quisque suspendisse sodales posuere. Massa facilisis nibh congue at
+        torquent viverra mollis erat venenatis ac. Convallis placerat, nibh.
+      </p>
+      <p>
+        Pharetra accumsan praesent dictumst velit. Maecenas pretium, consequat varius habitant tempor volutpat. Ut
+        hendrerit nostra odio primis potenti, blandit cras. Cras ullamcorper etiam pretium dignissim cras consectetur et
+        enim cras. Vivamus malesuada sociis primis quam lacinia nisl porta ligula pulvinar sociosqu sed gravida.
+        Convallis quisque, sit parturient at nam sapien eros erat. Malesuada.
+      </p>
+      <p>
+        Integer quis vestibulum aptent hac varius nisi cubilia tincidunt. Sapien faucibus integer tristique pellentesque
+        rhoncus nostra gravida cum potenti. Lacinia, elementum rhoncus gravida. Dignissim elit congue risus bibendum
+        hendrerit cras montes nam nullam cum quam rhoncus. Ante scelerisque risus bibendum congue consectetur vulputate,
+        nibh ligula non ultricies nullam et. Consectetur conubia netus aliquet tempor nisl nunc porttitor, dapibus purus
+        semper. Aenean metus interdum nisl eget. Ipsum nulla.
+      </p>
+      <p>
+        Ultrices cursus facilisi imperdiet. Ullamcorper in lacinia massa fringilla aliquam hac litora tempor, mi ligula
+        nullam! Suspendisse duis, duis magna amet. Curabitur eleifend, dapibus massa magna viverra vel quisque. Litora
+        porta, arcu volutpat mauris est. Sociosqu lacinia mus iaculis, vitae ligula iaculis. Metus sollicitudin integer
+        vivamus sapien maecenas nulla. Blandit sem pellentesque congue vulputate montes sem litora, feugiat velit
+        habitasse litora felis. Felis duis fringilla dictum elementum magna felis leo mus suscipit sed risus. Pretium
+        non nascetur feugiat volutpat eleifend! Torquent est iaculis inceptos laoreet lacinia nullam ullamcorper egestas
+        fermentum eros imperdiet consectetur? Faucibus fringilla?
+      </p>
+      <p>
+        Inceptos, a a justo aliquam tincidunt risus dictum nec hac. Neque, a orci pharetra ridiculus donec cursus ligula
+        consequat tempor. Eu aptent morbi mattis curabitur aliquam commodo curae;. Massa sem aenean interdum eu lorem
+        nostra volutpat lectus adipiscing aliquet. Congue maecenas, montes ridiculus dis tellus ad suspendisse maecenas
+        eu. Adipiscing mattis eros libero maecenas odio fames curabitur blandit? Tempus aliquam himenaeos sem cras velit
+        inceptos nisl metus? Dignissim.
+      </p>
+      <p>
+        Magnis et bibendum facilisis viverra phasellus mollis eget phasellus ultricies platea. Pellentesque lectus
+        aliquet blandit? Phasellus orci elit at elit fames tellus egestas quam laoreet class. Mi nostra laoreet
+        condimentum at montes porta porttitor et nisi! Aptent eget nostra odio elementum gravida inceptos auctor est
+        varius? Elementum imperdiet suscipit nulla! Primis a leo.
+      </p>
+      <p>
+        Suscipit fringilla dui mauris diam tempus porta. Ultricies torquent at dui a? Platea, interdum lacus gravida
+        maecenas sodales? Taciti massa leo scelerisque. Vitae nibh pretium habitasse rutrum mattis dui sapien hendrerit
+        metus ante. Commodo netus dignissim mollis fermentum pretium dolor et varius habitant dolor sollicitudin proin.
+        Nascetur vitae quam est vulputate nec, netus pulvinar. Class fames nam quis hendrerit semper non. Eu arcu
+        vulputate, aliquet class gravida! Penatibus laoreet nisi ultricies cubilia.
+      </p>
+      <p>
+        Accumsan inceptos suscipit id litora morbi varius. Mus auctor quisque hac! Enim felis dictumst cras nec.
+        Bibendum semper, porta ornare platea proin eget ligula dis dictumst maecenas. Pharetra turpis id dolor posuere.
+        Fusce rhoncus fermentum penatibus euismod aliquet sociis leo odio nullam nunc ac auctor! Porttitor risus
+        volutpat dui parturient elit erat! Iaculis non, posuere sem elementum montes lacinia accumsan diam pulvinar
+        mollis. Etiam at mollis fusce rhoncus blandit ac? Dui, rutrum duis viverra cum sociis potenti sociosqu sociosqu
+        magna eu. Id vitae varius quam, primis netus pulvinar orci massa diam. Pharetra semper est curabitur!
+      </p>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -2615,7 +2541,7 @@ export const customPanelWithOverflowingContent = (): string =>
           </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow>
+      <calcite-flow slot="custom-content">
         <calcite-flow-item heading="Flow 01"> </calcite-flow-item>
         <calcite-flow-item heading="Flow 02">
           <p>
@@ -2758,20 +2684,25 @@ export const embeddedSlots = (): string => html`
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
-      <calcite-panel closable heading="Ultrices neque"
-        ><p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
-        <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
-      </calcite-panel>
+    <calcite-sheet
+      open
+      slot="sheets"
+      label="libero nunc"
+      position="inline-start"
+      display-mode="overlay"
+      heading="Ultrices neque"
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </p>
+      <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
+      <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
     </calcite-sheet>
-    <calcite-shell-panel id="primary-panel" slot="panel-start" position="start">
+    <calcite-shell-panel id="primary-panel" slot="panel-start" position="start" heading="Panel">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2785,9 +2716,7 @@ export const embeddedSlots = (): string => html`
           <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel">
-        <div class="padded-content">Panel content<br />Padding is fake.</div>
-      </calcite-panel>
+      <div class="padded-content">Panel content<br />Padding is fake.</div>
     </calcite-shell-panel>
 
     <calcite-shell-panel slot="panel-end" position="end">
@@ -2804,7 +2733,7 @@ export const embeddedSlots = (): string => html`
           <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow>
+      <calcite-flow slot="custom-content">
         <calcite-flow-item heading="Flow 01">
           <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
         </calcite-flow-item>
@@ -2842,7 +2771,7 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-shell-panel slot="panel-start" position="start">
+    <calcite-shell-panel slot="panel-start" position="start" heading="Panel">
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2856,12 +2785,10 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
           <calcite-action icon="bookmark" text="Bookmarks"> </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-panel heading="Panel">
-        <div class="padded-content">Panel content<br />Padding is fake.</div>
-      </calcite-panel>
+      <div class="padded-content">Panel content<br />Padding is fake.</div>
     </calcite-shell-panel>
 
-    <calcite-shell-panel slot="panel-end" position="end">
+    <calcite-shell-panel slot="panel-end" position="end" heading="Main content">
       <calcite-action-bar slot="action-bar">
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
@@ -2875,7 +2802,7 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
           <calcite-action text-enabled text="Table" icon="table" slot="menu-actions"> </calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <calcite-flow>
+      <calcite-flow slot="custom-content">
         <calcite-flow-item heading="Flow 01">
           <div class="padded-content">Flow 01 content<br />Padding is fake.</div>
         </calcite-flow-item>
@@ -2885,9 +2812,7 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
       </calcite-flow>
     </calcite-shell-panel>
 
-    <calcite-panel heading="Main content">
-      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
-    </calcite-panel>
+    <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `;
