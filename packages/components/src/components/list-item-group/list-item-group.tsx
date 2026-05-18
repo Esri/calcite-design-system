@@ -59,13 +59,20 @@ export class ListItemGroup extends LitElement {
    */
   calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
 
+  /**
+   * Fires when group property changes should notify parent lists.
+   *
+   * @private
+   */
+  calciteInternalListItemGroupChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("heading")) {
-      this.calciteInternalListItemGroupDefaultSlotChange.emit();
+      this.calciteInternalListItemGroupChange.emit();
     }
   }
 

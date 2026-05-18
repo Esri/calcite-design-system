@@ -413,6 +413,7 @@ export class List extends LitElement {
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListItemGroupDefaultSlotChange,
     );
+    this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
   }
 
   override connectedCallback(): void {

@@ -383,14 +383,17 @@ describe("group filtering", () => {
 
 describe("filter item data updates", () => {
   async function waitForFilteredLength(el: List["el"], expectedLength: number): Promise<void> {
-    for (let i = 0; i < 15; i++) {
+    await vi.waitUntil(async () => {
       if (el.filteredItems.length === expectedLength) {
-        return;
+        return true;
       }
 
       await afterNextTask();
       await afterNextFrame();
-    }
+      return el.filteredItems.length === expectedLength;
+    });
+
+    await afterNextTask();
 
     expect(el.filteredItems).toHaveLength(expectedLength);
   }
@@ -399,14 +402,15 @@ describe("filter item data updates", () => {
     filterEl: HTMLElement & { items?: { el?: Element; label?: string; heading?: string[] }[] },
     predicate: (item: { el?: Element; label?: string; heading?: string[] }) => boolean,
   ): Promise<void> {
-    for (let i = 0; i < 15; i++) {
+    await vi.waitUntil(async () => {
       if (filterEl.items?.some(predicate)) {
-        return;
+        return true;
       }
 
       await afterNextTask();
       await afterNextFrame();
-    }
+      return !!filterEl.items?.some(predicate);
+    });
 
     expect(filterEl.items?.some(predicate)).toBe(true);
   }
@@ -667,14 +671,15 @@ describe("nested selection modes", () => {
     };
 
     const waitForNestedPropertiesToSettle = async (): Promise<void> => {
-      for (let i = 0; i < 10; i++) {
+      await vi.waitUntil(async () => {
         if (nestedPropertiesSettled()) {
-          return;
+          return true;
         }
 
         await afterNextTask();
         await afterNextFrame();
-      }
+        return nestedPropertiesSettled();
+      });
     };
 
     // Assert immediately after initial render.
