@@ -404,7 +404,7 @@ describe("group filtering", () => {
 
     expect(filterEl.value).toBe(typedValue);
 
-    await vi.advanceTimersByTimeAsync(DEBOUNCE.filter + 1);
+    await vi.runAllTimersAsync();
     await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
 
     expect(el.filterText).toBe(typedValue);
