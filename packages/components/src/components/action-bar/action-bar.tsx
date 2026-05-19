@@ -33,7 +33,7 @@ import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, SLOTS } from "./resources";
+import { CSS, OBSERVED_ATTRIBUTES, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
@@ -315,7 +315,7 @@ export class ActionBar extends LitElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["overflow-actions-disabled", "overflow-disabled"],
+      attributeFilter: OBSERVED_ATTRIBUTES,
     });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
