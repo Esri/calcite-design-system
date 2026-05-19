@@ -90,7 +90,13 @@ export class NavigationUser extends LitElement {
         {(this.fullName || this.username) && !this.textDisabled && (
           <div class={CSS.textContainer}>
             {this.fullName && (
-              <span class={CSS.fullName} key={CSS.fullName}>
+              <span
+                class={{
+                  [CSS.fullName]: true,
+                  [CSS.standalone]: !this.username,
+                }}
+                key={CSS.fullName}
+              >
                 {this.fullName}
               </span>
             )}

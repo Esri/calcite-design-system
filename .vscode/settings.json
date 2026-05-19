@@ -10,5 +10,6 @@
     "strings": true
   },
   "html.customData": ["../packages/components/dist/docs/vscode.html-custom-data.json"],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

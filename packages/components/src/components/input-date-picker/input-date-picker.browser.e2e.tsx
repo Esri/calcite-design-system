@@ -1,9 +1,9 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
-  disabled,
   focusable,
   hidden,
   internalLabel,
@@ -16,6 +16,8 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { afterNextTask } from "../../tests/utils/timing";
+import type { InputDatePicker } from "./input-date-picker";
 
 describe("defaults", () => {
   defaults(
@@ -93,9 +95,7 @@ describe("translation support", () => {
   t9n(() => mount("calcite-input-date-picker"));
 });
 
-describe.skip("disabled", () => {
-  disabled(() => mount("calcite-input-date-picker"));
-});
+describe.todo("disabled");
 
 describe("is form-associated", () => {
   mockConsole();
@@ -118,5 +118,58 @@ describe("is form-associated", () => {
         inputType: "date",
       },
     );
+  });
+});
+
+describe("focus-trap behavior", () => {
+  mockConsole();
+
+  it("restores focus to input-date-picker after closing when inside a focus-trapping parent in shadow DOM", async () => {
+    const dialogTestId = "test-dialog";
+    const pickerTestId = "test-picker";
+
+    class Test extends LitElement {
+      render(): JsxNode {
+        return (
+          <calcite-dialog data-testid={dialogTestId} open>
+            <calcite-input-date-picker data-testid={pickerTestId} value="2024-05-05" />
+          </calcite-dialog>
+        );
+      }
+    }
+
+    await mount(Test);
+    const picker = page.getByTestId(pickerTestId);
+
+    await userEvent.click(picker);
+    await userEvent.keyboard("{Tab}{Enter}");
+
+    // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
+    await afterNextTask();
+
+    expect(document).toHaveProperty(
+      "activeElement.shadowRoot.activeElement.dataset.testid",
+      pickerTestId,
+    );
+  });
+});
+
+describe("minAsDate and maxAsDate properties", () => {
+  it("honors minAsDate and maxAsDate properties by updating out-of-range value to the closest valid value", async () => {
+    const { el, component } = await mount<InputDatePicker>(
+      <calcite-input-date-picker value="2022-11-27" />,
+    );
+
+    const offsetTime = `T09:00:00.000Z`;
+    el.minAsDate = new Date(`2020-01-01${offsetTime}`);
+    el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
+    await component.updateComplete;
+
+    expect(el.value).toBe("2020-12-31");
+
+    const input = el.shadowRoot
+      .querySelector<HTMLElement>("calcite-input-text")
+      ?.shadowRoot.querySelector<HTMLInputElement>("input");
+    expect(input.value).toBe("12/31/2020");
   });
 });

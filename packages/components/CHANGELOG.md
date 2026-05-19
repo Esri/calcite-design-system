@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.53...@esri/calcite-components@5.1.0-next.54) (2026-05-18)
+
+### Features
+
+- **navigation:** set scale on nested calcite navigation ([#14428](https://github.com/Esri/calcite-design-system/issues/14428)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+### Bug Fixes
+
+- **list:** refresh filter item data when list item and group properties change ([#14442](https://github.com/Esri/calcite-design-system/issues/14442)), closes [#14435](https://github.com/Esri/calcite-design-system/issues/14435)
+
+## [5.1.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.52...@esri/calcite-components@5.1.0-next.53) (2026-05-18)
+
+### Bug Fixes
+
+- **input-date-picker:** bump `focus-trap` to pick up shadow DOM focus-handling fix ([#14381](https://github.com/Esri/calcite-design-system/issues/14381)), closes [#14174](https://github.com/Esri/calcite-design-system/issues/14174)
+
+## [5.1.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.51...@esri/calcite-components@5.1.0-next.52) (2026-05-15)
+
+### Bug Fixes
+
+- **sheet:** restore shadow ([#14439](https://github.com/Esri/calcite-design-system/issues/14439))
+- **tree:** restore tabbing through items ([#14441](https://github.com/Esri/calcite-design-system/issues/14441)), closes [#14362](https://github.com/Esri/calcite-design-system/issues/14362)
+
+## [5.1.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.50...@esri/calcite-components@5.1.0-next.51) (2026-05-14)
+
+### Bug Fixes
+
+- **list:** remove interactive states for `interaction-mode=static` ([#14433](https://github.com/Esri/calcite-design-system/issues/14433)), closes [#12542](https://github.com/Esri/calcite-design-system/issues/12542)
+
+## [5.1.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.49...@esri/calcite-components@5.1.0-next.50) (2026-05-14)
+
+### Bug Fixes
+
+- **input-date-picker:** honor minAsDate & maxAsDate properties when set ([#14375](https://github.com/Esri/calcite-design-system/issues/14375)), closes [#7890](https://github.com/Esri/calcite-design-system/issues/7890)
+
+## [5.1.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.48...@esri/calcite-components@5.1.0-next.49) (2026-05-14)
+
+### Features
+
+- **action-group:** add overflow-actions-disabled ([#14430](https://github.com/Esri/calcite-design-system/issues/14430)), closes [#14419](https://github.com/Esri/calcite-design-system/issues/14419)
+
+## [5.1.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.47...@esri/calcite-components@5.1.0-next.48) (2026-05-14)
+
+### Features
+
+- **label:** skip label focus behavior if click event is canceled ([#14412](https://github.com/Esri/calcite-design-system/issues/14412)), closes [#11100](https://github.com/Esri/calcite-design-system/issues/11100)
+
+### Bug Fixes
+
+- **action-bar, action-pad:** ensure actions remain tabbable when tabbed through ([#14429](https://github.com/Esri/calcite-design-system/issues/14429)), closes [#14133](https://github.com/Esri/calcite-design-system/issues/14133)
+- **combobox, input-time-zone:** only cancel `Escape` key event when open or clearing text ([#14382](https://github.com/Esri/calcite-design-system/issues/14382)), closes [#14298](https://github.com/Esri/calcite-design-system/issues/14298)
+- **link, alert, notice:** slotted link display value ([#14310](https://github.com/Esri/calcite-design-system/issues/14310)), closes [#13356](https://github.com/Esri/calcite-design-system/issues/13356)
+- **select:** match chevron alignment to combobox ([#14411](https://github.com/Esri/calcite-design-system/issues/14411)), closes [#14398](https://github.com/Esri/calcite-design-system/issues/14398)
+- **useForm:** ignore disabled components when updating validity ([#14400](https://github.com/Esri/calcite-design-system/issues/14400)), closes [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+
+## [5.1.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.46...@esri/calcite-components@5.1.0-next.47) (2026-05-05)
+
+### Bug Fixes
+
+- **input-time-zone:** ensure item labels update on locale/reference date change ([#14365](https://github.com/Esri/calcite-design-system/issues/14365)), closes [#12930](https://github.com/Esri/calcite-design-system/issues/12930)
+
+## [5.1.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.45...@esri/calcite-components@5.1.0-next.46) (2026-05-05)
+
+### Features
+
+- **navigation-logo, navigation-user:** remove heading's padding top when there is no description ([#14374](https://github.com/Esri/calcite-design-system/issues/14374)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
 ## [5.1.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.44...@esri/calcite-components@5.1.0-next.45) (2026-04-29)
 
 ### Bug Fixes

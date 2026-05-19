@@ -165,7 +165,7 @@ function sortByDOMOrder(a: LabelableComponent, b: LabelableComponent): number {
  *
  * @param component
  */
-export function getLabelText(component: LabelableComponent): string {
+export function getLabelText(component: Pick<LabelableComponent, "label" | "labelEl">): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
 }
 
