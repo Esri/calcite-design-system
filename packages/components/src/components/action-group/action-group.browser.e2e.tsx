@@ -41,6 +41,10 @@ describe("defaults", () => {
         defaultValue: "absolute",
       },
       {
+        propertyName: "overflowActionsDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "menuPlacement",
         defaultValue: undefined,
       },
@@ -71,6 +75,10 @@ describe("reflects", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "overflowActionsDisabled",
+        value: true,
       },
     ],
   );

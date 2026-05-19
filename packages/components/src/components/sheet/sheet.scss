@@ -104,19 +104,19 @@
   box-shadow: var(--calcite-sheet-shadow, var(--calcite-shadow-sm));
 }
 
-:host([display-mode="overlay"][position="inline-start"]) .container {
+:host([display-mode="overlay"][position="inline-start"]) .content {
   box-shadow: var(--calcite-scrim-shadow-inline-start-internal);
 }
 
-:host([display-mode="overlay"][position="inline-end"]) .container {
+:host([display-mode="overlay"][position="inline-end"]) .content {
   box-shadow: var(--calcite-scrim-shadow-inline-end-internal);
 }
 
-:host([display-mode="overlay"][position="block-start"]) .container {
+:host([display-mode="overlay"][position="block-start"]) .content {
   box-shadow: var(--calcite-scrim-shadow-block-start-internal);
 }
 
-:host([display-mode="overlay"][position="block-end"]) .container {
+:host([display-mode="overlay"][position="block-end"]) .content {
   box-shadow: var(--calcite-scrim-shadow-block-end-internal);
 }
 

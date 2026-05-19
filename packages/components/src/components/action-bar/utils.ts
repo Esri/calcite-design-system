@@ -37,7 +37,7 @@ export const overflowActions = ({
       }
     });
 
-    if (needToSlotCount > 0) {
+    if (needToSlotCount > 0 && !group.overflowActionsDisabled) {
       directGroupActions.some((groupAction) => {
         const unslottedActions = directGroupActions.filter((action) => !action.slot);
 

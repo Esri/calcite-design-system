@@ -413,6 +413,7 @@ export class List extends LitElement {
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListItemGroupDefaultSlotChange,
     );
+    this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
   }
 
   override connectedCallback(): void {
@@ -491,11 +492,12 @@ export class List extends LitElement {
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
 
     items.forEach((item) => {
-      item.scale = scale;
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
+        item.scale = scale;
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
           this.validateSortMenuItem({
             type: "move",
@@ -701,11 +703,16 @@ export class List extends LitElement {
     }
 
     event.stopPropagation();
-    this.updateListItemsDebounced();
+    this.handleListItemChange();
   }
 
   private handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
+    if (this.parentListEl) {
+      return;
+    }
+
     event.stopPropagation();
+    this.handleListItemChange();
   }
 
   private connectObserver(): void {

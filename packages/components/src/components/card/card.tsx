@@ -92,9 +92,7 @@ export class Card extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the size of the component inherited from `calcite-card-group`, defaults to `m`.
-   *
-   * @private
+   * Specifies the size of the component. When contained in a parent `calcite-card-group`, inherits the parent's `scale` value, but can be overridden if needed.
    */
   @property({ reflect: true }) scale: Scale = "m";
 

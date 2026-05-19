@@ -160,7 +160,7 @@ export function createFocusTrapOptions(
       }
       return typeof clickOutsideDeactivates === "function" ? clickOutsideDeactivates(event) : clickOutsideDeactivates;
     },
-    onActivate: () => {
+    onActivate: (params) => {
       if (options?.escapeDeactivates) {
         abortController = new AbortController();
         hostEl.addEventListener(
@@ -169,20 +169,26 @@ export function createFocusTrapOptions(
             // we check for Escape at each focus-trap host as the event bubbles
             // in case non-focus-trapping elements in between handle (e.g., cancel) it
             // before it reaches the focus-trap document-level listener
-            if (event.key === "Escape" && typeof options?.escapeDeactivates === "function") {
-              options.escapeDeactivates(event);
+            if (event.key === "Escape") {
+              const escapeDeactivates = options?.escapeDeactivates;
+              const deactivate =
+                typeof escapeDeactivates === "function" ? escapeDeactivates(event) : (escapeDeactivates ?? true);
+
+              if (deactivate) {
+                params.trap.deactivate();
+              }
             }
           },
           { signal: abortController.signal },
         );
       }
 
-      options?.onActivate?.();
+      options?.onActivate?.(params);
     },
-    onDeactivate: () => {
+    onDeactivate: (params) => {
       abortController?.abort();
       abortController = undefined;
-      options?.onDeactivate?.();
+      options?.onDeactivate?.(params);
     },
     onPostDeactivate: () => {
       outsideClickDeactivated.delete(hostEl);

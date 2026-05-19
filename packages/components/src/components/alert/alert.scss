@@ -275,7 +275,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 @include includes.slotted("link", "*") {
-  @apply text-color-link inline-flex;
+  @apply text-color-link;
+}
+
+slot[name="link"]::slotted(:not(calcite-link)) {
+  @apply inline-flex;
 }
 
 $alert-kinds:
