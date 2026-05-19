@@ -404,9 +404,16 @@ describe("group filtering", () => {
 
     expect(filterEl.value).toBe(typedValue);
 
-    const filterEvent = waitForEvent(el, "calciteListFilter");
-    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
-    await filterEvent;
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.filter + 1);
+    await vi.waitUntil(async () => {
+      if (el.filterText === typedValue) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return el.filterText === typedValue;
+    });
 
     expect(el.filterText).toBe(typedValue);
   });
