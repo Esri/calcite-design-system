@@ -400,20 +400,12 @@ describe("group filtering", () => {
     expect(el.filterText).toBe("");
 
     el.loading = true;
-    await afterNextTask();
+    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
 
     expect(filterEl.value).toBe(typedValue);
 
     await vi.advanceTimersByTimeAsync(DEBOUNCE.filter + 1);
-    await vi.waitUntil(async () => {
-      if (el.filterText === typedValue) {
-        return true;
-      }
-
-      await afterNextTask();
-      await afterNextFrame();
-      return el.filterText === typedValue;
-    });
+    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
 
     expect(el.filterText).toBe(typedValue);
   });
