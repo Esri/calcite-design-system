@@ -1,6 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { userEvent, page } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 import {
   cancelable,
@@ -146,7 +146,7 @@ describe("translation support", () => {
 
 describe("selection-mode", () => {
   it("supports toolbar pattern keyboard navigation", async () => {
-    const { el } = await mount<"calcite-action-bar">(
+    await mount<"calcite-action-bar">(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group selection-mode="single-persist">
           <calcite-action icon="plus" text="Add" />
@@ -156,7 +156,9 @@ describe("selection-mode", () => {
       </calcite-action-bar>,
     );
 
-    const [action1, action2, action3] = el.querySelectorAll("calcite-action");
+    const [action1, action2, action3] = page
+      .getBySelector("calcite-action")
+      .elements() as Action["el"][];
 
     await userEvent.click(action1);
     expect(document.activeElement).toBe(action1);
@@ -178,7 +180,7 @@ describe("selection-mode", () => {
   });
 
   it("has single-persist and multiple selection modes", async () => {
-    const { el } = await mount<"calcite-action-bar">(
+    await mount<"calcite-action-bar">(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group selection-mode="single-persist">
           <calcite-action icon="plus" text="Add" />
@@ -192,7 +194,9 @@ describe("selection-mode", () => {
       </calcite-action-bar>,
     );
 
-    const [action1, action2, action3, action4] = el.querySelectorAll("calcite-action");
+    const [action1, action2, action3, action4] = page
+      .getBySelector("calcite-action")
+      .elements() as Action["el"][];
 
     await userEvent.click(action1);
     expect(action1.active).toBe(true);
@@ -267,28 +271,28 @@ describe("overflowing actions", () => {
         </calcite-action-group>
       </calcite-action-bar>,
     );
-    const triggerActions = document.querySelectorAll<HTMLElement>("calcite-action[slot='trigger']");
+    const triggerActions = page.getBySelector("calcite-action[slot='trigger']");
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions[1]).toBeInViewport();
-    await expect.element(triggerActions[2]).toBeInViewport();
+    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions.nth(1)).toBeInViewport();
+    await expect.element(triggerActions.nth(2)).toBeInViewport();
 
     el.style.width = "100px";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions[1]).toBeInViewport();
-    await expect.element(triggerActions[2]).toBeInViewport();
+    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions.nth(1)).toBeInViewport();
+    await expect.element(triggerActions.nth(2)).toBeInViewport();
 
     el.style.width = "100%";
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    await expect.element(triggerActions[0]).not.toBeInViewport(); // collapsed in action-menu
-    await expect.element(triggerActions[1]).toBeInViewport();
-    await expect.element(triggerActions[2]).toBeInViewport();
+    await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
+    await expect.element(triggerActions.nth(1)).toBeInViewport();
+    await expect.element(triggerActions.nth(2)).toBeInViewport();
   });
 
   it("mutation observer re-evaluates overflow when overflowDisabled is toggled on an action", async () => {
@@ -309,18 +313,23 @@ describe("overflowing actions", () => {
     el.style.width = "50px";
 
     // Wait for the resize observer → debounced resize to overflow at least one action.
-    const overflowedAction = await vi.waitFor(() => {
-      const action = el.querySelector<Action["el"]>("calcite-action[slot='menu-actions']");
-      expect(action).not.toBeNull();
-      return action!;
-    });
+    await expect
+      .element(page.getBySelector("calcite-action[slot='menu-actions']").nth(0))
+      .toBeInTheDocument();
+    const overflowedAction = page
+      .getBySelector("calcite-action[slot='menu-actions']")
+      .nth(0)
+      .element() as Action["el"];
 
     // Setting overflowDisabled reflects the attribute, triggering the mutation observer →
     // mutationObserverHandler → overflowActions (public method) → debounced resize.
     // We assert the end result without calling the utility directly.
     overflowedAction.overflowDisabled = true;
     await vi.waitFor(() => {
-      expect(overflowedAction.getAttribute("slot")).toBeNull();
+      expect(
+        page.getBySelector("calcite-action[overflow-disabled][slot='menu-actions']").elements()
+          .length,
+      ).toBe(0);
     });
   });
 
@@ -339,23 +348,21 @@ describe("overflowing actions", () => {
       </calcite-action-bar>,
     );
 
-    const group = el.querySelector<ActionGroup["el"]>("calcite-action-group")!;
+    const group = page.getBySelector("calcite-action-group").nth(0).element() as ActionGroup["el"];
 
     el.style.width = "50px";
 
     // Wait for the resize observer → debounced resize to overflow at least one action.
-    await vi.waitFor(() => {
-      expect(group.querySelectorAll("calcite-action[slot='menu-actions']").length).toBeGreaterThan(
-        0,
-      );
-    });
+    await expect
+      .element(page.getBySelector("calcite-action[slot='menu-actions']").nth(0))
+      .toBeInTheDocument();
 
     // Setting overflowActionsDisabled reflects the attribute, triggering the mutation observer →
     // mutationObserverHandler → overflowActions (public method) → debounced resize.
     // We assert the end result without calling the utility directly.
     group.overflowActionsDisabled = true;
     await vi.waitFor(() => {
-      expect(group.querySelectorAll("calcite-action[slot='menu-actions']").length).toBe(0);
+      expect(page.getBySelector("calcite-action[slot='menu-actions']").elements().length).toBe(0);
     });
   });
 });
@@ -379,10 +386,16 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>,
     );
 
-    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
     const [group1, group2] = groups;
-    const overflowedIn = (group: Element): number =>
-      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+    const overflowedIn = (group: ActionGroup["el"]): number =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((a) => group.contains(a)).length;
 
     // Call utility directly with large overflowCount to trigger slotting
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
@@ -409,9 +422,15 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>,
     );
 
-    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
-    const overflowedIn = (group: Element): number =>
-      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const overflowedIn = (group: ActionGroup["el"]): number =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((a) => group.contains(a)).length;
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
     expect(overflowedIn(groups[0])).toBeGreaterThan(0);
@@ -434,9 +453,15 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>,
     );
 
-    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
-    const overflowedIn = (group: Element): number =>
-      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const overflowedIn = (group: ActionGroup["el"]): number =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((a) => group.contains(a)).length;
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
     expect(overflowedIn(groups[0])).toBe(0);
@@ -459,7 +484,9 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>,
     );
 
-    const [group1, group2] = el.querySelectorAll<ActionGroup["el"]>("calcite-action-group");
+    const [group1, group2] = page
+      .getBySelector("calcite-action-group")
+      .elements() as ActionGroup["el"][];
 
     expect(group1.overflowActionsDisabled).toBe(true);
     expect(group2.overflowActionsDisabled).toBe(false);
@@ -484,22 +511,22 @@ describe("per-group overflow-actions-disabled", () => {
       </calcite-action-bar>
       <calcite-action text="third" icon="number-circle-3"></calcite-action>
     `);
-    const actions = document.querySelectorAll<HTMLElement>("calcite-action");
+    const actions = page.getBySelector("calcite-action");
 
     await userEvent.keyboard("{Tab}");
-    await expect.element(actions[0]).toHaveFocus();
+    await expect.element(actions.nth(0)).toHaveFocus();
 
     await userEvent.keyboard("{Tab}");
-    await expect.element(actions[2]).toHaveFocus();
+    await expect.element(actions.nth(2)).toHaveFocus();
 
     await userEvent.keyboard("{Tab}");
     expect(document.body).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
-    await expect.element(actions[2]).toHaveFocus();
+    await expect.element(actions.nth(2)).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
-    await expect.element(actions[0]).toHaveFocus();
+    await expect.element(actions.nth(0)).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
     expect(document.body).toHaveFocus();
@@ -519,16 +546,24 @@ describe("overflow-disabled actions", () => {
       </calcite-action-bar>,
     );
 
-    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
-    const overflowedIn = (group: Element): Element[] =>
-      Array.from(group.querySelectorAll("calcite-action[slot='menu-actions']"));
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const overflowedIn = (group: ActionGroup["el"]): Element[] =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((a) => group.contains(a));
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
 
     const overflowed = overflowedIn(groups[0]);
     expect(overflowed.length).toBeGreaterThan(0);
     expect(overflowed.every((action) => !(action as Action["el"]).overflowDisabled)).toBe(true);
-    expect(el.querySelector("calcite-action[overflow-disabled]")?.getAttribute("slot")).toBeNull();
+    await expect
+      .element(page.getBySelector("calcite-action[overflow-disabled]"))
+      .not.toHaveAttribute("slot");
   });
 
   it("setting overflowDisabled on an already-overflowed action surfaces it when overflow is re-evaluated", async () => {
@@ -543,9 +578,15 @@ describe("overflow-disabled actions", () => {
       </calcite-action-bar>,
     );
 
-    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
-    const overflowedIn = (group: Element): Element[] =>
-      Array.from(group.querySelectorAll("calcite-action[slot='menu-actions']"));
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const overflowedIn = (group: ActionGroup["el"]): Element[] =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((a) => group.contains(a));
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
     const overflowed = overflowedIn(groups[0]);
@@ -556,6 +597,8 @@ describe("overflow-disabled actions", () => {
     overflowDisabledAction.overflowDisabled = true;
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
 
-    expect(overflowDisabledAction.getAttribute("slot")).toBeNull();
+    await expect
+      .element(page.getBySelector("calcite-action[overflow-disabled]"))
+      .not.toHaveAttribute("slot");
   });
 });
