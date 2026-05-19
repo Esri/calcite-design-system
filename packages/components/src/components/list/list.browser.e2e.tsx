@@ -382,6 +382,7 @@ describe("group filtering", () => {
 
   it("preserves filter input text through rerenders before debounced filterText updates", async () => {
     const typedValue = "Bui";
+    const postRerenderSuffix = "x";
     const { el } = await mount<List>(
       <calcite-list filter-enabled>
         <calcite-list-item label="Buildings" value="buildings" />
@@ -399,15 +400,34 @@ describe("group filtering", () => {
     expect(filterEl.value).toBe(typedValue);
     expect(el.filterText).toBe("");
 
+    // Trigger a rerender before the initial debounced filterText update settles.
     el.loading = true;
     await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
 
-    expect(filterEl.value).toBe(typedValue);
+    const rerenderedFilterEl = page.getBySelector("calcite-list calcite-filter").element() as
+      | (HTMLElement & {
+          value: string;
+          setFocus: () => Promise<void>;
+        })
+      | null;
 
-    await vi.runAllTimersAsync();
-    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
+    expect(rerenderedFilterEl).toBeTruthy();
+    if (!rerenderedFilterEl) {
+      return;
+    }
 
-    expect(el.filterText).toBe(typedValue);
+    expect(rerenderedFilterEl.value).toBe(typedValue);
+
+    // After rerender, type once more so debounce runs on the current filter instance.
+    await rerenderedFilterEl.setFocus();
+    const expectedFilterText = `${typedValue}${postRerenderSuffix}`;
+    const filterEvent = waitForEvent(el, "calciteListFilter");
+    await userEvent.keyboard(postRerenderSuffix);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.filter + 1);
+    await filterEvent;
+
+    expect(el.filterText).toBe(expectedFilterText);
+    expect(rerenderedFilterEl.value).toBe(expectedFilterText);
   });
 });
 
