@@ -432,6 +432,18 @@ export const overflowDisabledActions = (): string => html`
   </style>
   <div class="overflow-disabled-story-group">
     <p class="overflow-disabled-story-label">
+      Horizontal — unconstrained. "Layers" has <code>overflow-disabled</code>; all actions are visible.
+    </p>
+    <calcite-action-bar layout="horizontal" expand-disabled>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p class="overflow-disabled-story-label">
       Horizontal — constrained to 100px. "Layers" has <code>overflow-disabled</code> and stays visible; the rest
       overflow into the menu.
     </p>
