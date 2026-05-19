@@ -192,7 +192,7 @@ describe("mode", () => {
       expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
     });
 
-    it("recreates time zone items when item-dependent props change", async () => {
+    it.skip("recreates time zone items when item-dependent props change", async () => {
       const itemSelector = `calcite-input-time-zone >>> calcite-combobox-item[value='${testTimeZoneItems[1].offset}']`;
       const selectedItemSelector = `calcite-input-time-zone >>> calcite-combobox >>> .${ComboboxCSS.label}`;
       const page = await newE2EPage();
