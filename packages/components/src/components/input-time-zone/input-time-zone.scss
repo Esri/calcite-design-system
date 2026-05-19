@@ -1,7 +1,16 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-input-time-zone-corner-radius: Specifies the component's corner radius.
+ */
+
 @use "../../styles/includes";
 
 :host {
   display: block;
+  --calcite-combobox-corner-radius: var(--calcite-input-time-zone-corner-radius);
 }
 
 .offset {
