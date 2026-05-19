@@ -344,6 +344,7 @@ export class ShellPanel extends LitElement {
 
   private async refreshResize(): Promise<void> {
     await this.componentOnReady();
+    await this.updateComplete;
     this.updateResizeValues();
     this.setUpResizeInteractions();
   }
