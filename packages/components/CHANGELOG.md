@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.53...@esri/calcite-components@5.1.0-next.54) (2026-05-18)
+
+### Features
+
+- **navigation:** set scale on nested calcite navigation ([#14428](https://github.com/Esri/calcite-design-system/issues/14428)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
+### Bug Fixes
+
+- **list:** refresh filter item data when list item and group properties change ([#14442](https://github.com/Esri/calcite-design-system/issues/14442)), closes [#14435](https://github.com/Esri/calcite-design-system/issues/14435)
+
+## [5.1.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.52...@esri/calcite-components@5.1.0-next.53) (2026-05-18)
+
+### Bug Fixes
+
+- **input-date-picker:** bump `focus-trap` to pick up shadow DOM focus-handling fix ([#14381](https://github.com/Esri/calcite-design-system/issues/14381)), closes [#14174](https://github.com/Esri/calcite-design-system/issues/14174)
+
+## [5.1.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.51...@esri/calcite-components@5.1.0-next.52) (2026-05-15)
+
+### Bug Fixes
+
+- **sheet:** restore shadow ([#14439](https://github.com/Esri/calcite-design-system/issues/14439))
+- **tree:** restore tabbing through items ([#14441](https://github.com/Esri/calcite-design-system/issues/14441)), closes [#14362](https://github.com/Esri/calcite-design-system/issues/14362)
+
 ## [5.1.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.50...@esri/calcite-components@5.1.0-next.51) (2026-05-14)
 
 ### Bug Fixes
