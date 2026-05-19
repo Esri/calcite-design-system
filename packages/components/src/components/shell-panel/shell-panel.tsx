@@ -209,8 +209,11 @@ export class ShellPanel extends LitElement {
       shouldRefreshResize = true;
     }
 
-    if (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) {
-      shouldRefreshResize = this.resizable;
+    if (
+      (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      shouldRefreshResize = this.resizable && !this.collapsed;
 
       if (!shouldRefreshResize) {
         this.cleanUpInteractions();
