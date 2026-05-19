@@ -204,10 +204,17 @@ export class ShellPanel extends LitElement {
 
     if (
       (changes.has("direction") && this.hasUpdated) ||
-      (changes.has("position") && (this.hasUpdated || this.position !== "start")) ||
-      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
     ) {
       shouldRefreshResize = true;
+    }
+
+    if (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) {
+      shouldRefreshResize = this.resizable;
+
+      if (!shouldRefreshResize) {
+        this.cleanUpInteractions();
+      }
     }
 
     if (shouldRefreshResize) {
