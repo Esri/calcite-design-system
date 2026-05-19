@@ -17,6 +17,9 @@ import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
 import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
+import type { ActionGroup } from "../action-group/action-group";
+import { overflowActions } from "./utils";
+import { html } from "lit";
 
 mockConsole();
 
@@ -285,5 +288,101 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions.nth(0)).not.toBeInViewport(); // collapsed in action-menu
     await expect.element(triggerActions.nth(1)).toBeInViewport();
     await expect.element(triggerActions.nth(2)).toBeInViewport();
+  });
+});
+
+describe("per-group overflow-actions-disabled", () => {
+  it("utility skips slotting for groups with overflowActionsDisabled but still unslots previously-overflowed actions", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = Array.from(el.querySelectorAll<ActionGroup["el"]>("calcite-action-group"));
+    const [group1, group2] = groups;
+    const overflowedIn = (group: Element): number =>
+      group.querySelectorAll("calcite-action[slot='menu-actions']").length;
+
+    // Call utility directly with large overflowCount to trigger slotting
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+
+    // Disabled group1 should have no overflowed actions
+    expect(overflowedIn(group1)).toBe(0);
+    // Enabled group2 should have some overflowed actions
+    expect(overflowedIn(group2)).toBeGreaterThan(0);
+
+    // Call utility with overflowCount = 0: previously-overflowed actions in group2 are unslotted
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 0 });
+    expect(overflowedIn(group2)).toBe(0);
+  });
+
+  it("toggling bar-level overflowActionsDisabled preserves each group's individual setting", async () => {
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group overflow-actions-disabled>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const [group1, group2] = el.querySelectorAll<ActionGroup["el"]>("calcite-action-group");
+
+    expect(group1.overflowActionsDisabled).toBe(true);
+    expect(group2.overflowActionsDisabled).toBe(false);
+
+    // Enable bar-level disable — groups are never touched
+    el.overflowActionsDisabled = true;
+    await component.updateComplete;
+    expect(group1.overflowActionsDisabled).toBe(true);
+    expect(group2.overflowActionsDisabled).toBe(false);
+
+    // Remove bar-level disable — group settings are preserved (restore semantic)
+    el.overflowActionsDisabled = false;
+    await component.updateComplete;
+    expect(group1.overflowActionsDisabled).toBe(true);
+    expect(group2.overflowActionsDisabled).toBe(false);
+  });
+  it("keeps actions tabbable when tabbing out", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action text="first" icon="number-circle-1"></calcite-action>
+        <calcite-action text="second" icon="number-circle-2"></calcite-action>
+      </calcite-action-bar>
+      <calcite-action text="third" icon="number-circle-3"></calcite-action>
+    `);
+    const actions = page.getBySelector("calcite-action");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(actions.nth(0)).toHaveFocus();
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(actions.nth(2)).toHaveFocus();
+
+    await userEvent.keyboard("{Tab}");
+    expect(document.body).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    await expect.element(actions.nth(2)).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    await expect.element(actions.nth(0)).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    expect(document.body).toHaveFocus();
   });
 });

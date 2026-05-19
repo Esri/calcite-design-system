@@ -169,8 +169,14 @@ export function createFocusTrapOptions(
             // we check for Escape at each focus-trap host as the event bubbles
             // in case non-focus-trapping elements in between handle (e.g., cancel) it
             // before it reaches the focus-trap document-level listener
-            if (event.key === "Escape" && typeof options?.escapeDeactivates === "function") {
-              options.escapeDeactivates(event);
+            if (event.key === "Escape") {
+              const escapeDeactivates = options?.escapeDeactivates;
+              const deactivate =
+                typeof escapeDeactivates === "function" ? escapeDeactivates(event) : (escapeDeactivates ?? true);
+
+              if (deactivate) {
+                params.trap.deactivate();
+              }
             }
           },
           { signal: abortController.signal },

@@ -116,7 +116,7 @@ export const stackingWhenTopLayerDisabled = (): string => html`
       </calcite-dropdown-group>
     </calcite-dropdown>
 
-    <calcite-input-date-picker open top-layer-disabled></calcite-input-date-picker>
+    <calcite-input-date-picker open top-layer-disabled value="2018-06-06"></calcite-input-date-picker>
 
     <calcite-button id="tooltip-button">Tooltip</calcite-button>
     <calcite-tooltip reference-element="tooltip-button" placement="bottom-end" open top-layer-disabled>
