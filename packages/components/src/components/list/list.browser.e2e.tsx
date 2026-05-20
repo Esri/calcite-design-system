@@ -379,6 +379,39 @@ describe("group filtering", () => {
     expect(el).toHaveProperty("filterText", "Be");
     expect(el.filteredItems).toHaveLength(4);
   });
+
+  it("preserves filter input text through rerenders before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+        <calcite-list-item label="Trees" value="trees" />
+      </calcite-list>,
+    );
+
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      value: string;
+    };
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(filterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
+
+    // Trigger a rerender before the initial debounced filterText update settles.
+    el.loading = true;
+    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
+
+    const rerenderedFilterEl = page
+      .getBySelector("calcite-list calcite-filter")
+      .element() as HTMLElement & {
+      value: string;
+    };
+
+    expect(rerenderedFilterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
+  });
 });
 
 describe("filter item data updates", () => {
