@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.54...@esri/calcite-components@5.1.0-next.55) (2026-05-19)
+
+### Bug Fixes
+
+- **block:** independently style icons based on CSS tokens ([#14423](https://github.com/Esri/calcite-design-system/issues/14423)), closes [#12128](https://github.com/Esri/calcite-design-system/issues/12128)
+
 ## [5.1.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.53...@esri/calcite-components@5.1.0-next.54) (2026-05-18)
 
 ### Features
