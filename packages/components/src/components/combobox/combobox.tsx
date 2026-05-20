@@ -1096,7 +1096,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     });
   }
 
-  private async refreshSelectionDisplay(allowFollowUpRefresh: boolean) {
+  private async refreshSelectionDisplay(followUpRefresh: boolean) {
     await this.componentOnReady();
 
     if (isSingleLike(this.selectionMode)) {
@@ -1119,6 +1119,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
     const chipContainerElWidth = getElementWidth(chipContainerEl);
     const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    const placeholderWidthMultiplier = 0.55;
     const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
     const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
     const placeholderWidth =
@@ -1127,7 +1128,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         : Math.max(
             inputMinWidth,
             Math.round(
-              (placeholder?.length || 0) * (parseFloat(fontSize) || parseInt(calciteSize48)) * 0.55,
+              (placeholder?.length || 0) *
+                (parseFloat(fontSize) || parseInt(calciteSize48)) *
+                placeholderWidthMultiplier,
             ),
           );
     const inputWidth = placeholderWidth + chipContainerElGap;
@@ -1138,9 +1141,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       selectedIndicatorChipElWidth,
     );
     const selectedChipCountElWidth = getElementWidth(
-      this.el.shadowRoot.querySelector<Chip["el"]>(
-        "calcite-chip[data-test-id='selected-chip-count']",
-      ),
+      this.el.shadowRoot.querySelector<Chip["el"]>("#selected-chip-count"),
     );
 
     this.setCompactSelectionDisplay({
@@ -1175,8 +1176,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (selectionDisplay === "fit") {
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => {
-          const testId = chipEl.dataset.testId ?? "";
-          return testId.startsWith("chip") || testId.startsWith("disabled-chip");
+          const chipValue = chipEl.value;
+          const hasValue = chipValue !== null && chipValue !== undefined && `${chipValue}` !== "";
+          return chipEl.disabled || hasValue;
         },
       );
 
@@ -1191,9 +1193,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       );
 
       this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
-      const hiddenCountChanged = this.setVisibleAndHiddenChips(chipEls);
+      const hiddenCountChanged = this.updateChipVisibilityCounts(chipEls);
 
-      if (hiddenCountChanged && allowFollowUpRefresh) {
+      if (hiddenCountChanged && followUpRefresh) {
         this.updateComplete.then(() => this.refreshSelectionDisplay(false));
       }
     }
@@ -1235,7 +1237,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     connectFloatingUI(this);
   }
 
-  private setVisibleAndHiddenChips(chipEls: Chip["el"][]): boolean {
+  private updateChipVisibilityCounts(chipEls: Chip["el"][]): boolean {
     let newSelectedVisibleChipsCount = 0;
     let selectedChipCount = 0;
     chipEls.forEach((chipEl) => {
@@ -1691,6 +1693,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         }}
         closable={false}
         data-test-id="selected-chip-count"
+        id="selected-chip-count"
         label={label}
         scale={scale}
         tabIndex={-1}
@@ -1790,9 +1793,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       scale,
       selectedVisibleChipsCount,
     } = this;
-    if (this.selectionDisplay === "fit" && this.allItems.length === 0) {
-      return null;
-    }
     const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
     const showAllSelectedChip =
       this.allSelected &&
@@ -1824,10 +1824,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const { compactSelectionDisplay, selectionDisplay, scale, selectedIndicatorChipRef } = this;
     let chipInvisible: boolean;
     let label: string;
-
-    if (selectionDisplay === "fit") {
-      return null;
-    }
 
     if (compactSelectionDisplay) {
       chipInvisible = true;
@@ -1870,10 +1866,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const allSelectedWithDisabledSelected = this.allSelected && this.hasDisabledSelected;
     let chipInvisible: boolean;
     let label: string;
-
-    if (selectionDisplay === "fit") {
-      return null;
-    }
 
     if (compactSelectionDisplay) {
       const selectedItemsCount = this.allItems.filter(
@@ -2095,6 +2087,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const allSelectionDisplay = selectionDisplay === "all";
     const singleSelectionDisplay = selectionDisplay === "single";
     const fitSelectionDisplay = !singleSelectionMode && selectionDisplay === "fit";
+    const showIndicatorChips = !singleSelectionMode && !allSelectionDisplay;
+    const showSingleIndicatorChips = showIndicatorChips && !fitSelectionDisplay;
     const isClearable =
       !this.clearDisabled && this.selectionMode !== "single-persist" && !!this.value?.length;
     const hasDisabledItems = this.hasDisabledItems;
@@ -2136,12 +2130,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               allSelectionDisplay &&
               (!hasDisabledItems || this.hasDisabledSelected) &&
               this.renderAllSelectedIndicatorChip()}
-            {!singleSelectionMode &&
-              !allSelectionDisplay && [
-                this.renderSelectedIndicatorChip(),
-                this.renderSelectedIndicatorChipCompact(),
-                this.renderAllSelectedIndicatorChip(),
-              ]}
+            {showSingleIndicatorChips && this.renderSelectedIndicatorChip()}
+            {showSingleIndicatorChips && this.renderSelectedIndicatorChipCompact()}
+            {showIndicatorChips && this.renderAllSelectedIndicatorChip()}
             <label
               class={CSS.screenReadersOnly}
               htmlFor={`${IDS.input(guid)}`}

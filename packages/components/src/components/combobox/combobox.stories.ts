@@ -121,6 +121,7 @@ export const smallViewport = (): string => html`
 `;
 smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
+// Fit display states are isolated because Chromatic does not render them reliably in `multiple`.
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <h2>selection-display="all" (default)</h2>
@@ -1259,6 +1260,7 @@ export const disabledEnabled = (): string => html`
   </div>
 `;
 
+// Isolated from `multiple` because Chromatic does not render fit display states reliably.
 export const fitDisplayStates = (): string => html`
   <style>
     .fit-display-grid {
@@ -1268,7 +1270,7 @@ export const fitDisplayStates = (): string => html`
       align-items: start;
     }
 
-    .fit-display-grid > div {
+    .fit-display-item {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -1280,7 +1282,7 @@ export const fitDisplayStates = (): string => html`
     }
   </style>
   <div class="fit-display-grid">
-    <div>
+    <div class="fit-display-item">
       <strong>Selected + disabled options</strong>
       <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
         <calcite-combobox-item value="Trees" heading="Trees" selected>
@@ -1294,12 +1296,12 @@ export const fitDisplayStates = (): string => html`
       </calcite-combobox>
     </div>
 
-    <div>
+    <div class="fit-display-item">
       <strong>Empty combobox</strong>
       <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="No items"> </calcite-combobox>
     </div>
 
-    <div>
+    <div class="fit-display-item">
       <strong>All options selected</strong>
       <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
         <calcite-combobox-item value="Trees" heading="Trees" selected>

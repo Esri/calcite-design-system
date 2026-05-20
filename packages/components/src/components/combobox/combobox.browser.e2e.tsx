@@ -262,10 +262,7 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChip = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="disabled-chip-0"]',
-    );
-    expect(disabledChip).toBeTruthy();
+    const disabledChip = el.shadowRoot.querySelector('calcite-chip[disabled][title="Banana"]');
     expect(disabledChip).toHaveProperty("label", "Banana");
   });
 
@@ -279,9 +276,8 @@ describe("disabled chip labels", () => {
     );
 
     const disabledChip = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="disabled-chip-0"]',
+      'calcite-chip[disabled][title="Parent / Child"]',
     );
-    expect(disabledChip).toBeTruthy();
     expect(disabledChip).toHaveProperty("label", "Parent / Child");
   });
 
@@ -293,21 +289,15 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChip0 = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="disabled-chip-0"]',
+    const disabledChipApple = el.shadowRoot.querySelector('calcite-chip[disabled][title="Apple"]');
+    const disabledChipBanana = el.shadowRoot.querySelector(
+      'calcite-chip[disabled][title="Banana"]',
     );
-    const disabledChip1 = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="disabled-chip-1"]',
-    );
-    const disabledChipCount = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="selected-chip-count"]',
-    );
+    const disabledChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
 
-    expect(disabledChip0).toBeTruthy();
-    expect(disabledChip1).toBeTruthy();
-    expect(disabledChip0).toHaveProperty("label", "Apple");
-    expect(disabledChip1).toHaveProperty("label", "Banana");
-    expect(disabledChipCount).toBeNull();
+    expect(disabledChipApple).toHaveProperty("label", "Apple");
+    expect(disabledChipBanana).toHaveProperty("label", "Banana");
+    await expect.element(disabledChipCount).not.toBeInTheDocument();
   });
 
   it("renders disabled chip count for selection-display=fit when space is constrained", async () => {
@@ -318,17 +308,15 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
+    const chipCountLabelPattern = /^\+\d+$/;
+
     await vi.waitFor(() => {
-      expect(
-        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
-      ).toBeTruthy();
+      const disabledChipCount = el.shadowRoot.querySelector("#selected-chip-count");
+      expect(disabledChipCount).toBeTruthy();
     });
 
-    const disabledChipCount = el.shadowRoot.querySelector(
-      'calcite-chip[data-test-id="selected-chip-count"]',
-    );
-    expect(disabledChipCount).toBeTruthy();
-    expect(disabledChipCount).toHaveProperty("label", expect.stringMatching(/^\+\d+$/));
+    const disabledChipCount = el.shadowRoot.querySelector("#selected-chip-count");
+    expect(disabledChipCount).toHaveProperty("label", expect.stringMatching(chipCountLabelPattern));
   });
 
   it("renders selected chip label instead of +1 count for single fit selection", async () => {
@@ -339,21 +327,20 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    await vi.waitFor(() => {
-      expect(el.shadowRoot.querySelector('calcite-chip[data-test-id="chip-0"]')).toBeTruthy();
-      expect(
-        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
-      ).toBeNull();
+    const selectedChip = el.shadowRoot.querySelector('calcite-chip[title="Very long item one"]');
+
+    await vi.waitFor(async () => {
+      const selectedChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
+      await expect.element(selectedChipCount).not.toBeInTheDocument();
     });
 
-    const selectedChip = el.shadowRoot.querySelector('calcite-chip[data-test-id="chip-0"]');
-    expect(selectedChip).toBeTruthy();
     expect(selectedChip).toHaveProperty("label", "Very long item one");
   });
 
   it("renders only the all-selected chip for fit selection-display when select-all is checked", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox
+        open
         select-all-enabled
         selection-display="fit"
         selection-mode="multiple"
@@ -371,20 +358,16 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    el.open = true;
-    await vi.waitFor(() => expect(el.open).toBe(true));
-
     const selectAllItem = el.shadowRoot.querySelector(`calcite-combobox-item.${CSS.selectAll}`);
     expect(selectAllItem).toBeTruthy();
     await userEvent.click(selectAllItem as HTMLElement);
 
-    await vi.waitFor(() => {
-      expect(
-        el.shadowRoot.querySelector('calcite-chip[data-test-id="all-selected-indicator-chip"]'),
-      ).toBeTruthy();
-      expect(
-        el.shadowRoot.querySelector('calcite-chip[data-test-id="selected-chip-count"]'),
-      ).toBeNull();
+    const allSelectedChip = el.shadowRoot.querySelector(`calcite-chip.${CSS.allSelected}`);
+
+    await vi.waitFor(async () => {
+      const selectedChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
+      expect(allSelectedChip).toBeTruthy();
+      await expect.element(selectedChipCount).not.toBeInTheDocument();
       expect(el.shadowRoot.querySelectorAll("calcite-chip")).toHaveLength(1);
     });
   });
@@ -395,9 +378,8 @@ describe("disabled chip labels", () => {
     );
 
     await vi.waitFor(() => {
-      expect(
-        el.shadowRoot.querySelector('calcite-chip[data-test-id="all-selected-indicator-chip"]'),
-      ).toBeNull();
+      const allSelectedChip = el.shadowRoot.querySelector(`calcite-chip.${CSS.allSelected}`);
+      expect(allSelectedChip?.classList.contains(CSS.chipInvisible)).toBe(true);
     });
   });
 
@@ -435,7 +417,6 @@ describe("disabled chip labels", () => {
     );
 
     const selectAllItem = el.shadowRoot.querySelector(`calcite-combobox-item.${CSS.selectAll}`);
-    expect(selectAllItem).toBeTruthy();
     expect(selectAllItem).toHaveProperty("indeterminate", true);
   });
 
