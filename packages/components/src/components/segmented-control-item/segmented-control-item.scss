@@ -24,9 +24,7 @@
     self-stretch
     font-normal
     focus-base;
-  transition:
-    background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
-    border-color var(--calcite-animation-timing) ease-in-out;
+  transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
 .label {
@@ -41,7 +39,6 @@
   box-shadow: var(--calcite-segmented-control-shadow);
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
-    border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
