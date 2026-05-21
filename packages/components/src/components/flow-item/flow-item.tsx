@@ -116,6 +116,12 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** When `true`, the component's internal panel will trap focus. */
+  @property({ reflect: true }) focusTrap = false;
+
+  /** When `true`, prevents focus trapping on the internal panel. */
+  @property({ reflect: true }) focusTrapDisabled = false;
+
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
@@ -311,9 +317,12 @@ export class FlowItem extends LitElement {
       menuOpen,
       messageOverrides,
       overlayPositioning,
+      selected,
       beforeClose,
       icon,
       iconFlipRtl,
+      focusTrap,
+      focusTrapDisabled,
     } = this;
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -321,11 +330,13 @@ export class FlowItem extends LitElement {
           beforeClose={beforeClose}
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
           collapsed={collapsed}
+          collapseDirection={collapseDirection}
           collapsible={collapsible}
           description={description}
           disabled={disabled}
+          focusTrap={focusTrap}
+          focusTrapDisabled={focusTrapDisabled || !selected}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}

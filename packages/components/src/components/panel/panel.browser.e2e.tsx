@@ -1,7 +1,7 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -17,7 +17,7 @@ import {
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
 
@@ -74,6 +74,378 @@ export function renderScrollingContent(): JsxNode {
 
 mockConsole();
 
+describe("focusTrap", () => {
+  const getOutsideBefore = () => page.getByTestId("outside-before");
+  const getOutsideAfter = () => page.getByTestId("outside-after");
+  const getOutside = () => page.getByTestId("outside");
+  const getInsideOne = () => page.getByTestId("inside-1");
+  const getInsideTwo = () => page.getByTestId("inside-2");
+  const getPanel = () => page.getByTestId("panel");
+
+  async function setPanelProperty(property: "closable" | "closed", value: boolean): Promise<void> {
+    const panel = getPanel().element() as HTMLElement & {
+      closable?: boolean;
+      closed?: boolean;
+      updateComplete?: Promise<void>;
+    };
+
+    panel[property] = value;
+    await panel.updateComplete;
+  }
+
+  function expectFocusWithinPanel(): void {
+    const panel = getPanel().element() as HTMLElement;
+    const activeElement = document.activeElement;
+
+    expect(activeElement === panel || panel.contains(activeElement)).toBe(true);
+  }
+
+  it("traps focus when focusTrap=true", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await (getPanel().element() as HTMLElement & { setFocus: () => Promise<void> }).setFocus();
+
+    for (let i = 0; i < 5; i++) {
+      await userEvent.keyboard("{Tab}");
+
+      await expect.element(getOutsideBefore()).not.toHaveFocus();
+      await expect.element(getOutsideAfter()).not.toHaveFocus();
+      expectFocusWithinPanel();
+    }
+  });
+
+  it("allows outside click when focusTrap=true", async () => {
+    await mount(
+      <div>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+        </calcite-panel>
+        <button data-testid="outside">outside</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideOne());
+    await userEvent.click(getOutside());
+
+    await expect.element(getOutside()).toHaveFocus();
+  });
+
+  it("deactivates focusTrap when panel becomes not closable", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideTwo());
+    await setPanelProperty("closable", false);
+
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(getOutsideAfter()).toHaveFocus();
+  });
+
+  it("reactivates focusTrap when panel becomes closable again", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideTwo());
+    await setPanelProperty("closable", false);
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(getOutsideAfter()).toHaveFocus();
+
+    await setPanelProperty("closable", true);
+    await userEvent.click(getInsideTwo());
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(getOutsideAfter()).not.toHaveFocus();
+    expectFocusWithinPanel();
+  });
+
+  it("deactivates focusTrap when panel becomes closed", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideTwo());
+    await setPanelProperty("closed", true);
+
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(getOutsideAfter()).toHaveFocus();
+  });
+
+  it("reactivates focusTrap when panel is reopened", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideTwo());
+    await setPanelProperty("closed", true);
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(getOutsideAfter()).toHaveFocus();
+
+    await setPanelProperty("closed", false);
+    await userEvent.click(getInsideTwo());
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(getOutsideAfter()).not.toHaveFocus();
+    expectFocusWithinPanel();
+  });
+
+  it("does not trap focus when focusTrapDisabled=true", async () => {
+    await mount(
+      <div>
+        <button data-testid="outside-before">outside-before</button>
+        <calcite-panel closable data-testid="panel" focusTrap focusTrapDisabled>
+          <button data-testid="inside-1">inside-1</button>
+          <button data-testid="inside-2">inside-2</button>
+        </calcite-panel>
+        <button data-testid="outside-after">outside-after</button>
+      </div>,
+    );
+
+    await userEvent.click(getInsideTwo());
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(getOutsideAfter()).toHaveFocus();
+  });
+});
+
+describe("closable Escape behavior", () => {
+  function getPanelEl(): HTMLElement & {
+    closed: boolean;
+    updateComplete?: Promise<void>;
+  } {
+    return page.getByTestId("panel").element() as HTMLElement & {
+      closed: boolean;
+      updateComplete?: Promise<void>;
+    };
+  }
+
+  function getContainerEl(): HTMLElement {
+    return getPanelEl().shadowRoot.querySelector(`.${CSS.container}`) as HTMLElement;
+  }
+
+  function getContentWrapperEl(): HTMLElement {
+    return getPanelEl().shadowRoot.querySelector(`.${CSS.contentWrapper}`) as HTMLElement;
+  }
+
+  function getCloseButtonEl(): HTMLElement {
+    return getPanelEl().shadowRoot.querySelector(`#${IDS.close}`) as HTMLElement;
+  }
+
+  it("closes on Escape when closable is true and focusTrap is false (scrollable)", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel" style={scrollingHeightStyle}>
+        {renderScrollingContent()}
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const contentWrapper = getContentWrapperEl();
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+
+    contentWrapper.focus();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(true);
+    expect(container.hidden).toBe(true);
+    expect(closeEventTimes).toBe(1);
+  });
+
+  it("closes on Escape when closable and focusTrap are true (scrollable)", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel" focusTrap style={scrollingHeightStyle}>
+        {renderScrollingContent()}
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const contentWrapper = getContentWrapperEl();
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+
+    contentWrapper.focus();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(true);
+    expect(container.hidden).toBe(true);
+    expect(closeEventTimes).toBe(1);
+  });
+
+  it("does not close on prevented Escape when closable is true and focusTrap is false", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel" style={scrollingHeightStyle}>
+        {renderScrollingContent()}
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const contentWrapper = getContentWrapperEl();
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+    panel.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+        }
+      },
+      { capture: true },
+    );
+
+    contentWrapper.focus();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+    expect(closeEventTimes).toBe(0);
+  });
+
+  it("does not close on prevented Escape when closable and focusTrap are true", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel" focusTrap style={scrollingHeightStyle}>
+        {renderScrollingContent()}
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const contentWrapper = getContentWrapperEl();
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+    panel.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Escape") {
+          event.preventDefault();
+        }
+      },
+      { capture: true },
+    );
+
+    contentWrapper.focus();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+    expect(closeEventTimes).toBe(0);
+  });
+
+  it("closes on Escape when closable is true and focusTrap is false (non-scrollable)", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel">
+        non-scrolling content
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const closeButton = getCloseButtonEl();
+    const closeAction = closeButton as HTMLElement & { setFocus?: () => Promise<void> };
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+    expect(closeEventTimes).toBe(0);
+
+    await closeAction.setFocus?.();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(true);
+    expect(container.hidden).toBe(true);
+    expect(closeEventTimes).toBe(1);
+  });
+
+  it("closes on Escape when closable and focusTrap are true (non-scrollable)", async () => {
+    await mount(
+      <calcite-panel closable data-testid="panel" focusTrap>
+        non-scrolling content
+      </calcite-panel>,
+    );
+
+    const panel = getPanelEl();
+    const container = getContainerEl();
+    const closeButton = getCloseButtonEl();
+    const closeAction = closeButton as HTMLElement & { setFocus?: () => Promise<void> };
+    let closeEventTimes = 0;
+
+    panel.addEventListener("calcitePanelClose", () => closeEventTimes++);
+
+    expect(panel.closed).toBe(false);
+    expect(container.hidden).toBe(false);
+    expect(closeEventTimes).toBe(0);
+
+    await closeAction.setFocus?.();
+    await userEvent.keyboard("{Escape}");
+    await panel.updateComplete;
+
+    expect(panel.closed).toBe(true);
+    expect(container.hidden).toBe(true);
+    expect(closeEventTimes).toBe(1);
+  });
+});
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-panel"),
@@ -120,6 +492,14 @@ describe("defaults", () => {
       },
       {
         propertyName: "iconFlipRtl",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrap",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrapDisabled",
         defaultValue: false,
       },
     ],
@@ -202,8 +582,52 @@ describe("reflects", () => {
         propertyName: "iconFlipRtl",
         value: "true",
       },
+      {
+        propertyName: "focusTrap",
+        value: true,
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        value: true,
+      },
     ],
   );
+});
+
+describe("role", () => {
+  function getContainerRole(el: HTMLElement): string | null {
+    return (
+      el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)?.getAttribute("role") ?? null
+    );
+  }
+
+  it("sets container role to dialog when closable", async () => {
+    const { el } = await mount(<calcite-panel closable>content</calcite-panel>);
+
+    expect(getContainerRole(el)).toBe("dialog");
+    expect(el.getAttribute("role")).toBeNull();
+  });
+
+  it("does not set container role to dialog when not closable", async () => {
+    const { el } = await mount(<calcite-panel>content</calcite-panel>);
+
+    expect(getContainerRole(el)).toBeNull();
+    expect(el.getAttribute("role")).toBeNull();
+  });
+
+  it("updates container role when closable changes", async () => {
+    const { el, component } = await mount(<calcite-panel>content</calcite-panel>);
+
+    expect(getContainerRole(el)).toBeNull();
+
+    el.setAttribute("closable", "");
+    await component.updateComplete;
+    expect(getContainerRole(el)).toBe("dialog");
+
+    el.removeAttribute("closable");
+    await component.updateComplete;
+    expect(getContainerRole(el)).toBeNull();
+  });
 });
 
 describe("honors hidden attribute", () => {

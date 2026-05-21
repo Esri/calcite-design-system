@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -60,6 +60,14 @@ describe("defaults", () => {
       },
       {
         propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrap",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrapDisabled",
         defaultValue: false,
       },
       {
@@ -141,6 +149,14 @@ describe("reflects", () => {
         value: true,
       },
       {
+        propertyName: "focusTrap",
+        value: true,
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        value: true,
+      },
+      {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
@@ -176,6 +192,104 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-flow-item"), ["calcite-panel"]);
+});
+
+describe("internal panel", () => {
+  it("passes focusTrap to the internal panel", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable focusTrap selected>
+        content
+      </calcite-flow-item>,
+    );
+
+    await component.updateComplete;
+
+    const panel = el.shadowRoot.querySelector("calcite-panel");
+
+    expect(panel.focusTrap).toBe(true);
+  });
+
+  it("does not pass focusTrap to the internal panel by default", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable selected>
+        content
+      </calcite-flow-item>,
+    );
+
+    await component.updateComplete;
+
+    const panel = el.shadowRoot.querySelector("calcite-panel");
+
+    expect(panel.focusTrap).toBe(false);
+  });
+
+  it("passes focusTrapDisabled to the internal panel when not selected", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable focusTrap focusTrapDisabled>
+        content
+      </calcite-flow-item>,
+    );
+
+    await component.updateComplete;
+
+    const panel = el.shadowRoot.querySelector("calcite-panel");
+
+    expect(panel.focusTrapDisabled).toBe(true);
+  });
+
+  it("passes focusTrapDisabled to the internal panel when selected and explicitly disabled", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable focusTrap focusTrapDisabled selected>
+        content
+      </calcite-flow-item>,
+    );
+
+    await component.updateComplete;
+
+    const panel = el.shadowRoot.querySelector("calcite-panel");
+
+    expect(panel.focusTrapDisabled).toBe(true);
+  });
+
+  it("does not pass focusTrapDisabled to the internal panel when selected and not disabled", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable focusTrap selected>
+        content
+      </calcite-flow-item>,
+    );
+
+    await component.updateComplete;
+
+    const panel = el.shadowRoot.querySelector("calcite-panel");
+
+    expect(panel.focusTrapDisabled).toBe(false);
+  });
+
+  it("updates internal panel focusTrapDisabled when selected changes", async () => {
+    const { el, component } = await mount(
+      <calcite-flow-item closable focusTrap>
+        content
+      </calcite-flow-item>,
+    );
+    const flowItem = component as unknown as HTMLElement & { selected: boolean };
+
+    await component.updateComplete;
+
+    let panel = el.shadowRoot.querySelector("calcite-panel");
+    expect(panel.focusTrapDisabled).toBe(true);
+
+    flowItem.selected = true;
+    await component.updateComplete;
+
+    panel = el.shadowRoot.querySelector("calcite-panel");
+    expect(panel.focusTrapDisabled).toBe(false);
+
+    flowItem.selected = false;
+    await component.updateComplete;
+
+    panel = el.shadowRoot.querySelector("calcite-panel");
+    expect(panel.focusTrapDisabled).toBe(true);
+  });
 });
 
 describe("disabled", () => {

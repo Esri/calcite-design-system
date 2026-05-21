@@ -26,6 +26,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -62,7 +63,7 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private panelScrollEl: HTMLElement;
 
@@ -78,6 +79,22 @@ export class Panel extends LitElement {
   private _closed = false;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private focusTrapController = useFocusTrap<this>({
+    triggerProp: "focusTrap",
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented) {
+          this.closed = true;
+          this.emitCloseEvent();
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -164,6 +181,12 @@ export class Panel extends LitElement {
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /** When `true`, the component will trap focus. */
+  @property({ reflect: true }) focusTrap = false;
+
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
@@ -270,6 +293,21 @@ export class Panel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("focusTrap") ||
+      changes.has("focusTrapDisabled") ||
+      changes.has("closable") ||
+      changes.has("closed")
+    ) {
+      if (this.focusTrap && !this.focusTrapDisabledOverride()) {
+        this.focusTrapController.activate();
+      } else {
+        this.focusTrapController.deactivate();
+      }
+    }
+  }
+
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -319,11 +357,24 @@ export class Panel extends LitElement {
     this.calcitePanelClose.emit();
   }
 
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return this.focusTrapDisabled || !this.closable || this.closed;
+  }
+
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      this.emitCloseEvent();
+    if (event.key !== "Escape" || event.defaultPrevented || !this.closable || this.closed) {
+      return;
     }
+
+    const shouldHandleEscape = !this.focusTrap || this.focusTrapDisabled;
+
+    if (!shouldHandleEscape) {
+      return;
+    }
+
+    event.preventDefault();
+    this.emitCloseEvent();
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
@@ -723,16 +774,24 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed } = this;
+    const { disabled, loading, closed, closable, heading, description } = this;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
+      <div
+        ariaBusy={loading}
+        ariaDescription={closable ? description : null}
+        ariaLabel={closable ? heading : null}
+        class={CSS.container}
+        hidden={closed}
+        ref={this.containerRef}
+        role={closable ? "dialog" : null}
+      >
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
         <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-      </article>
+      </div>
     );
 
     return (
