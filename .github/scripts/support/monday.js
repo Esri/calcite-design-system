@@ -9,7 +9,7 @@ const REPO_CALCITE = "calcite-design-system";
 const REPO_DOCS = "calcite-documentation";
 
 /**
- * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue object
+ * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue or pull request object
  * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
  * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */

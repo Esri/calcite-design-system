@@ -11,7 +11,7 @@ module.exports = async ({ github, context, core }) => {
   
   const relatedRegex = /\*\*Related Issue:\*\* #\d+/;
   if (pull_request.body && relatedRegex.test(pull_request.body)) {
-    core.info("Issue has a related issue, skipping Monday task creation.");
+    core.info("Pull request has a related issue, skipping Monday task creation.");
     return;
   }
   
