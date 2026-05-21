@@ -188,6 +188,13 @@ export class Panel extends LitElement {
   /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
+  /**
+   * Internal-only override to suppress dialog role semantics on the panel container.
+   *
+   * @private
+   */
+  @property() disableDialogRole = false;
+
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
 
@@ -774,17 +781,18 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed, closable, heading, description } = this;
+    const { disabled, loading, closed, closable, heading, description, disableDialogRole } = this;
+    const useDialogRole = closable && !disableDialogRole;
 
     const panelNode = (
       <div
         ariaBusy={loading}
-        ariaDescription={closable ? description : null}
-        ariaLabel={closable ? heading : null}
+        ariaDescription={useDialogRole ? description : null}
+        ariaLabel={useDialogRole ? heading : null}
         class={CSS.container}
         hidden={closed}
         ref={this.containerRef}
-        role={closable ? "dialog" : "article"}
+        role={useDialogRole ? "dialog" : "article"}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}

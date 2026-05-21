@@ -18,6 +18,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
 import { CSS, IDS, SLOTS } from "./resources";
+import type { Panel } from "./panel";
 
 export const scrollingHeightStyle = "height: 200px;";
 
@@ -627,6 +628,21 @@ describe("role", () => {
     el.removeAttribute("closable");
     await component.updateComplete;
     expect(getContainerRole(el)).toBe("article");
+  });
+
+  it("uses article role when disableDialogRole is true", async () => {
+    const { el, component } = await mount(<calcite-panel closable>content</calcite-panel>);
+    const panel = el as Panel["el"];
+
+    expect(getContainerRole(el)).toBe("dialog");
+
+    panel.disableDialogRole = true;
+    await component.updateComplete;
+    expect(getContainerRole(el)).toBe("article");
+
+    panel.disableDialogRole = false;
+    await component.updateComplete;
+    expect(getContainerRole(el)).toBe("dialog");
   });
 });
 

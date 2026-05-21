@@ -262,6 +262,18 @@ describe("top layer placement", () => {
   });
 });
 
+describe("internal panel semantics", () => {
+  it("sets internal panel container role to article", async () => {
+    const { el } = await mount(<calcite-dialog heading="heading" open />);
+    const internalPanel = el.shadowRoot.querySelector<HTMLElement>(`calcite-panel.${CSS.panel}`);
+    const internalPanelRole = internalPanel?.shadowRoot
+      ?.querySelector(".container")
+      ?.getAttribute("role");
+
+    expect(internalPanelRole).toBe("article");
+  });
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-dialog"));
 });
