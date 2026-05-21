@@ -116,10 +116,10 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the component's internal panel will trap focus. */
+  /** When `true`, the component's internal panel will trap focus. Focus trapping only activates when `selected` is `true`. */
   @property({ reflect: true }) focusTrap = false;
 
-  /** When `true`, prevents focus trapping on the internal panel. */
+  /** When `true`, prevents focus trapping on the internal panel. Focus trapping is also prevented when `selected` is `false`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */

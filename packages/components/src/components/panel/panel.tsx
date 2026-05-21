@@ -182,10 +182,10 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the component will trap focus. */
+  /** When `true`, the component will trap focus. Focus trapping only activates when `closable` is `true`, `closed` is `false`, and `focusTrapDisabled` is `false`. */
   @property({ reflect: true }) focusTrap = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
