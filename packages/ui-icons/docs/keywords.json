@@ -12009,5 +12009,10 @@
     "alias": ["5.0.0", "knowledge graph", "features", "vector", "raster", "polygons"],
     "category": "Knowledge Graph",
     "release": "5.0.0"
+  },
+  "review-map": {
+    "alias": ["5.0.0", "gis", "data", "compliance", "communication", "verify", "evaluate"],
+    "category": "GIS",
+    "release": "5.0.0"
   }
 }
