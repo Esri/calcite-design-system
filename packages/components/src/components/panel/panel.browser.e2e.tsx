@@ -630,17 +630,17 @@ describe("role", () => {
     expect(getContainerRole(el)).toBe("article");
   });
 
-  it("uses article role when disableDialogRole is true", async () => {
+  it("uses article role when dialogRoleDisabled is true", async () => {
     const { el, component } = await mount(<calcite-panel closable>content</calcite-panel>);
     const panel = el as Panel["el"];
 
     expect(getContainerRole(el)).toBe("dialog");
 
-    panel.disableDialogRole = true;
+    panel.dialogRoleDisabled = true;
     await component.updateComplete;
     expect(getContainerRole(el)).toBe("article");
 
-    panel.disableDialogRole = false;
+    panel.dialogRoleDisabled = false;
     await component.updateComplete;
     expect(getContainerRole(el)).toBe("dialog");
   });

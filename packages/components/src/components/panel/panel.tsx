@@ -193,7 +193,7 @@ export class Panel extends LitElement {
    *
    * @private
    */
-  @property() disableDialogRole = false;
+  @property() dialogRoleDisabled = false;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
   @property() menuFlipPlacements: FlipPlacement[];
@@ -781,8 +781,8 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed, closable, heading, description, disableDialogRole } = this;
-    const useDialogRole = closable && !disableDialogRole;
+    const { disabled, loading, closed, closable, heading, description, dialogRoleDisabled } = this;
+    const useDialogRole = closable && !dialogRoleDisabled;
 
     const panelNode = (
       <div
