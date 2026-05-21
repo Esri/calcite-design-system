@@ -784,7 +784,7 @@ export class Panel extends LitElement {
         class={CSS.container}
         hidden={closed}
         ref={this.containerRef}
-        role={closable ? "dialog" : null}
+        role={closable ? "dialog" : "article"}
       >
         {this.renderHeaderNode()}
         {this.renderContent()}

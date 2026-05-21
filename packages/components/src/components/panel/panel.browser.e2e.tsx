@@ -608,17 +608,17 @@ describe("role", () => {
     expect(el.getAttribute("role")).toBeNull();
   });
 
-  it("does not set container role to dialog when not closable", async () => {
+  it("sets container role to article when not closable", async () => {
     const { el } = await mount(<calcite-panel>content</calcite-panel>);
 
-    expect(getContainerRole(el)).toBeNull();
+    expect(getContainerRole(el)).toBe("article");
     expect(el.getAttribute("role")).toBeNull();
   });
 
   it("updates container role when closable changes", async () => {
     const { el, component } = await mount(<calcite-panel>content</calcite-panel>);
 
-    expect(getContainerRole(el)).toBeNull();
+    expect(getContainerRole(el)).toBe("article");
 
     el.setAttribute("closable", "");
     await component.updateComplete;
@@ -626,7 +626,7 @@ describe("role", () => {
 
     el.removeAttribute("closable");
     await component.updateComplete;
-    expect(getContainerRole(el)).toBeNull();
+    expect(getContainerRole(el)).toBe("article");
   });
 });
 
