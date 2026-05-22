@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.59...@esri/calcite-components@5.1.0-next.60) (2026-05-22)
+
+### Features
+
+- **floating-ui:** apply semantic shadow tokens to components ([#14337](https://github.com/Esri/calcite-design-system/issues/14337)), closes [#10050](https://github.com/Esri/calcite-design-system/issues/10050)
+
 ## [5.1.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.58...@esri/calcite-components@5.1.0-next.59) (2026-05-22)
 
 ### Features
