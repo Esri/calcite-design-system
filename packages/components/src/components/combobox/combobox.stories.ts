@@ -165,6 +165,7 @@ export const multiple = (): string => html`
     </calcite-label>
 
     <h2>selection-display="fit"</h2>
+    <calcite-label> I do not render reliably in Chromatic, so there is an isolated story. </calcite-label>
     <calcite-label>
       Some selected with multiple visible chips
       <calcite-combobox
@@ -1281,6 +1282,7 @@ export const fitDisplayStates = (): string => html`
       max-inline-size: 200px;
     }
   </style>
+  <calcite-label> I do not render reliably in Chromatic, so there is an isolated story. </calcite-label>
   <div class="fit-display-grid">
     <div class="fit-display-item">
       <strong>Selected + disabled options</strong>

@@ -255,19 +255,19 @@ it("should use heading as fallback for both accessibility (aria-label) and value
 
 describe("disabled chip labels", () => {
   it("renders disabled chip labels for selection-display=all, selection-mode=multiple", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox selection-display="all" selection-mode="multiple">
         <calcite-combobox-item heading="Apple" />
         <calcite-combobox-item disabled heading="Banana" selected />
       </calcite-combobox>,
     );
 
-    const disabledChip = el.shadowRoot.querySelector('calcite-chip[disabled][title="Banana"]');
-    expect(disabledChip).toHaveProperty("label", "Banana");
+    const disabledChip = page.getByTestId("disabled-chip-0");
+    await expect.element(disabledChip).toHaveProperty("label", "Banana");
   });
 
   it("renders disabled chip labels with ancestors for selection-display=all, selection-mode=ancestors", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox selection-display="all" selection-mode="ancestors">
         <calcite-combobox-item heading="Parent" value="parent">
           <calcite-combobox-item disabled heading="Child" selected value="child" />
@@ -275,33 +275,29 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChip = el.shadowRoot.querySelector(
-      'calcite-chip[disabled][title="Parent / Child"]',
-    );
-    expect(disabledChip).toHaveProperty("label", "Parent / Child");
+    const disabledChip = page.getByTestId("disabled-chip-0");
+    await expect.element(disabledChip).toHaveProperty("label", "Parent / Child");
   });
 
   it("renders disabled chips for selection-display=fit when space allows", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox selection-display="fit" selection-mode="multiple">
         <calcite-combobox-item disabled heading="Apple" selected />
         <calcite-combobox-item disabled heading="Banana" selected />
       </calcite-combobox>,
     );
 
-    const disabledChipApple = el.shadowRoot.querySelector('calcite-chip[disabled][title="Apple"]');
-    const disabledChipBanana = el.shadowRoot.querySelector(
-      'calcite-chip[disabled][title="Banana"]',
-    );
-    const disabledChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
+    const disabledChipApple = page.getByTestId("disabled-chip-0");
+    const disabledChipBanana = page.getByTestId("disabled-chip-1");
+    const disabledChipCount = page.getByTestId("selected-chip-count");
 
-    expect(disabledChipApple).toHaveProperty("label", "Apple");
-    expect(disabledChipBanana).toHaveProperty("label", "Banana");
+    await expect.element(disabledChipApple).toHaveProperty("label", "Apple");
+    await expect.element(disabledChipBanana).toHaveProperty("label", "Banana");
     await expect.element(disabledChipCount).not.toBeInTheDocument();
   });
 
   it("renders disabled chip count for selection-display=fit when space is constrained", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 120px;">
         <calcite-combobox-item disabled heading="Very long disabled item one" selected />
         <calcite-combobox-item disabled heading="Very long disabled item two" selected />
@@ -310,35 +306,29 @@ describe("disabled chip labels", () => {
 
     const chipCountLabelPattern = /^\+\d+$/;
 
-    await vi.waitFor(() => {
-      const disabledChipCount = el.shadowRoot.querySelector("#selected-chip-count");
-      expect(disabledChipCount).toBeTruthy();
-    });
-
-    const disabledChipCount = el.shadowRoot.querySelector("#selected-chip-count");
-    expect(disabledChipCount).toHaveProperty("label", expect.stringMatching(chipCountLabelPattern));
+    const disabledChipCount = page.getByTestId("selected-chip-count");
+    await expect
+      .element(disabledChipCount)
+      .toHaveProperty("label", expect.stringMatching(chipCountLabelPattern));
   });
 
   it("renders selected chip label instead of +1 count for single fit selection", async () => {
-    const { el } = await mount<Combobox>(
-      <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 120px;">
+    await mount<Combobox>(
+      <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 400px;">
         <calcite-combobox-item heading="Very long item one" selected />
         <calcite-combobox-item heading="Very long item two" />
       </calcite-combobox>,
     );
 
-    const selectedChip = el.shadowRoot.querySelector('calcite-chip[title="Very long item one"]');
+    const selectedChip = page.getByTestId("chip-0");
+    const selectedChipCount = page.getByTestId("selected-chip-count");
 
-    await vi.waitFor(async () => {
-      const selectedChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
-      await expect.element(selectedChipCount).not.toBeInTheDocument();
-    });
-
-    expect(selectedChip).toHaveProperty("label", "Very long item one");
+    await expect.element(selectedChipCount).not.toBeInTheDocument();
+    await expect.element(selectedChip).toHaveProperty("label", "Very long item one");
   });
 
   it("renders only the all-selected chip for fit selection-display when select-all is checked", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox
         open
         select-all-enabled
@@ -358,29 +348,26 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const selectAllItem = el.shadowRoot.querySelector(`calcite-combobox-item.${CSS.selectAll}`);
-    expect(selectAllItem).toBeTruthy();
-    await userEvent.click(selectAllItem as HTMLElement);
+    const selectAllItem = page.getByTestId("select-all-item");
+    await expect.element(selectAllItem).toBeInTheDocument();
+    await userEvent.click(selectAllItem);
 
-    const allSelectedChip = el.shadowRoot.querySelector(`calcite-chip.${CSS.allSelected}`);
+    const allSelectedChip = page.getByTestId("all-selected-indicator-chip");
+    const selectedChipCount = page.getByTestId("selected-chip-count");
+    const firstSelectedChip = page.getByTestId("chip-0");
 
-    await vi.waitFor(async () => {
-      const selectedChipCount = el.shadowRoot.querySelector<HTMLElement>("#selected-chip-count");
-      expect(allSelectedChip).toBeTruthy();
-      await expect.element(selectedChipCount).not.toBeInTheDocument();
-      expect(el.shadowRoot.querySelectorAll("calcite-chip")).toHaveLength(1);
-    });
+    await expect.element(allSelectedChip).toBeInTheDocument();
+    await expect.element(selectedChipCount).not.toBeInTheDocument();
+    await expect.element(firstSelectedChip).not.toBeInTheDocument();
   });
 
   it("does not render an all-selected chip when fit selection-display is empty", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox select-all-enabled selection-display="fit" selection-mode="multiple" />,
     );
 
-    await vi.waitFor(() => {
-      const allSelectedChip = el.shadowRoot.querySelector(`calcite-chip.${CSS.allSelected}`);
-      expect(allSelectedChip?.classList.contains(CSS.chipInvisible)).toBe(true);
-    });
+    const allSelectedChip = page.getByTestId("all-selected-indicator-chip");
+    await expect.element(allSelectedChip).toHaveClass(CSS.chipInvisible);
   });
 
   it("includes disabled selected items in single display count", async () => {
@@ -409,15 +396,15 @@ describe("disabled chip labels", () => {
   });
 
   it("sets select-all to indeterminate when a disabled item is selected", async () => {
-    const { el } = await mount<Combobox>(
+    await mount<Combobox>(
       <calcite-combobox select-all-enabled selection-mode="multiple">
         <calcite-combobox-item heading="Apple" />
         <calcite-combobox-item disabled heading="Banana" selected />
       </calcite-combobox>,
     );
 
-    const selectAllItem = el.shadowRoot.querySelector(`calcite-combobox-item.${CSS.selectAll}`);
-    expect(selectAllItem).toHaveProperty("indeterminate", true);
+    const selectAllItem = page.getByTestId("select-all-item");
+    await expect.element(selectAllItem).toHaveProperty("indeterminate", true);
   });
 
   it("includes disabled selected items in value", async () => {

@@ -1119,6 +1119,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap.replace("px", ""));
     const chipContainerElWidth = getElementWidth(chipContainerEl);
     const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    // Heuristic placeholder width multiplier for stable hidden chip calculations.
     const placeholderWidthMultiplier = 0.55;
     const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
     const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
@@ -1177,7 +1178,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
         (chipEl) => {
           const chipValue = chipEl.value;
-          const hasValue = chipValue !== null && chipValue !== undefined && `${chipValue}` !== "";
+          const hasValue = chipValue != null && `${chipValue}` !== "";
           return chipEl.disabled || hasValue;
         },
       );
@@ -1660,7 +1661,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           [CSS.disabled]: disabled,
         }}
         closable={!disabled && !readOnly}
-        data-test-id={`${disabled ? "disabled-chip" : "chip"}-${index}`}
+        data-testid={`${disabled ? "disabled-chip" : "chip"}-${index}`}
         disabled={disabled}
         icon={item.icon}
         iconFlipRtl={item.iconFlipRtl}
@@ -1692,7 +1693,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           [CSS.chip]: true,
         }}
         closable={false}
-        data-test-id="selected-chip-count"
+        data-testid="selected-chip-count"
         id="selected-chip-count"
         label={label}
         scale={scale}
@@ -1808,7 +1809,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           [CSS.chipInvisible]: !showAllSelectedChip,
           [CSS.allSelected]: true,
         }}
-        data-test-id="all-selected-indicator-chip"
+        data-testid="all-selected-indicator-chip"
         label={label}
         ref={allSelectedIndicatorChipRef}
         scale={scale}
@@ -1941,7 +1942,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             [CSS.inputHidden]: showLabel,
             [CSS.inputIcon]: this.showingInlineIcon && !!this.placeholderIcon,
           }}
-          data-test-id="input"
+          data-testid="input"
           disabled={disabled}
           id={`${IDS.input(guid)}`}
           key="input"
@@ -2008,6 +2009,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
                   class={CSS.selectAll}
+                  data-testid="select-all-item"
                   heading={messages.selectAll}
                   id={`${this.guid}-select-all-enabled-interactive`}
                   indeterminate={this.indeterminate}
