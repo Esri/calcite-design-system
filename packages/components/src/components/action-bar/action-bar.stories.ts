@@ -446,8 +446,8 @@ export const overflowDisabledActions = (): string => html`
     </calcite-action-bar>
     <p class="overflow-disabled-story-label">
       Horizontal — width constrained. First three actions stay visible; the rest overflow into the menu.
-      <code>action-bar</code> is 168px wide and cannot collapse further due to the
-      <code>overflow-disabled</code> actions.
+      <code>action-bar</code> cannot collapse further because the
+      <code>overflow-disabled</code> actions set its minimum width.
     </p>
     <div style="width: 100px; display: flex;">
       <calcite-action-bar layout="horizontal" expand-disabled style="flex: 1;">
