@@ -6,10 +6,10 @@ import { isBreakpoint } from "../../utils/token-types.ts";
 
 const stringValueTokenTypes = ["fontWeight", "dimension", "lineHeight", "opacity", "z-index"] as const;
 const filterTypes: Filter["filter"] = (token) =>
-  stringValueTokenTypes.includes(token.type as ArrayValues<typeof stringValueTokenTypes>) && !isBreakpoint(token);
+  stringValueTokenTypes.includes(token.$type as ArrayValues<typeof stringValueTokenTypes>) && !isBreakpoint(token);
 
 const transformValueEnsureType: ValueTransform["transform"] = async (token) => {
-  return `${token.value}`;
+  return `${token.$value}`;
 };
 
 export const registerValueEnsureType: RegisterFn = () => {
