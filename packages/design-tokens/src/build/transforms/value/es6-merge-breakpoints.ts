@@ -19,7 +19,7 @@ type MergedBreakpointValue = {
  * - the min-value token needs to be renamed as the parent one and used for the output (see matching name transform)
  */
 
-const transformValueMergeBreakpoints: ValueTransform["transform"] = (token) => {
+const transformValueMergeBreakpoints: ValueTransform["transform"] = async (token) => {
   const value: MergedBreakpointValue = {
     min: token.value,
   };
@@ -28,7 +28,8 @@ const transformValueMergeBreakpoints: ValueTransform["transform"] = (token) => {
   const notLargestBreakpoint = has(semantic.tokens, maxValuePath);
 
   if (notLargestBreakpoint) {
-    value.max = resolveReferences(`{${maxValuePath}}`, semantic.tokens) as string;
+    const cssTokens = await semantic.getPlatformTokens("css");
+    value.max = resolveReferences(`{${maxValuePath}}`, cssTokens.tokens) as string;
   }
 
   return value;
