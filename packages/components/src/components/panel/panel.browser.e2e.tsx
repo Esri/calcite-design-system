@@ -596,53 +596,73 @@ describe("reflects", () => {
 });
 
 describe("role", () => {
-  function getContainerRole(el: HTMLElement): string | null {
-    return (
-      el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)?.getAttribute("role") ?? null
-    );
-  }
+  const getDialog = () => page.getByRole("dialog");
+  const getArticle = () => page.getByRole("article");
 
   it("sets container role to dialog when closable", async () => {
     const { el } = await mount(<calcite-panel closable>content</calcite-panel>);
 
-    expect(getContainerRole(el)).toBe("dialog");
+    await expect.element(getDialog()).toBeInTheDocument();
     expect(el.getAttribute("role")).toBeNull();
   });
 
   it("sets container role to article when not closable", async () => {
     const { el } = await mount(<calcite-panel>content</calcite-panel>);
 
-    expect(getContainerRole(el)).toBe("article");
+    await expect.element(getArticle()).toBeInTheDocument();
     expect(el.getAttribute("role")).toBeNull();
   });
 
   it("updates container role when closable changes", async () => {
     const { el, component } = await mount(<calcite-panel>content</calcite-panel>);
 
-    expect(getContainerRole(el)).toBe("article");
+    await expect.element(getArticle()).toBeInTheDocument();
+    await expect.element(getDialog()).not.toBeInTheDocument();
 
     el.setAttribute("closable", "");
     await component.updateComplete;
-    expect(getContainerRole(el)).toBe("dialog");
+    await expect.element(getDialog()).toBeInTheDocument();
+    await expect.element(getArticle()).not.toBeInTheDocument();
 
     el.removeAttribute("closable");
     await component.updateComplete;
-    expect(getContainerRole(el)).toBe("article");
+    await expect.element(getArticle()).toBeInTheDocument();
+    await expect.element(getDialog()).not.toBeInTheDocument();
   });
 
   it("uses article role when dialogRoleDisabled is true", async () => {
     const { el, component } = await mount(<calcite-panel closable>content</calcite-panel>);
     const panel = el as Panel["el"];
 
-    expect(getContainerRole(el)).toBe("dialog");
+    await expect.element(getDialog()).toBeInTheDocument();
 
     panel.dialogRoleDisabled = true;
     await component.updateComplete;
-    expect(getContainerRole(el)).toBe("article");
+    await expect.element(getArticle()).toBeInTheDocument();
+    await expect.element(getDialog()).not.toBeInTheDocument();
 
     panel.dialogRoleDisabled = false;
     await component.updateComplete;
-    expect(getContainerRole(el)).toBe("dialog");
+    await expect.element(getDialog()).toBeInTheDocument();
+    await expect.element(getArticle()).not.toBeInTheDocument();
+  });
+
+  it("sets aria-live based on dialog role state", async () => {
+    const { el, component } = await mount(<calcite-panel closable>content</calcite-panel>);
+    const panel = el as Panel["el"];
+
+    await expect.element(getDialog()).toBeInTheDocument();
+    await expect.element(getDialog()).toHaveAttribute("aria-live", "polite");
+
+    panel.dialogRoleDisabled = true;
+    await component.updateComplete;
+    await expect.element(getArticle()).toBeInTheDocument();
+    await expect.element(getArticle()).not.toHaveAttribute("aria-live");
+
+    panel.dialogRoleDisabled = false;
+    await component.updateComplete;
+    await expect.element(getDialog()).toBeInTheDocument();
+    await expect.element(getDialog()).toHaveAttribute("aria-live", "polite");
   });
 });
 

@@ -789,6 +789,7 @@ export class Panel extends LitElement {
         ariaBusy={loading}
         ariaDescription={useDialogRole ? description : null}
         ariaLabel={useDialogRole ? heading : null}
+        ariaLive={useDialogRole ? "polite" : null}
         class={CSS.container}
         hidden={closed}
         ref={this.containerRef}

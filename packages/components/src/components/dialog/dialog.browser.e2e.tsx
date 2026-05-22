@@ -272,6 +272,13 @@ describe("internal panel semantics", () => {
 
     expect(internalPanelRole).toBe("article");
   });
+
+  it("disables internal panel focus trap", async () => {
+    await mount(<calcite-dialog heading="heading" open />);
+    const internalPanel = page.getBySelector(`calcite-panel.${CSS.panel}`);
+
+    await expect.element(internalPanel).toHaveAttribute("focus-trap-disabled");
+  });
 });
 
 describe("translation support", () => {
