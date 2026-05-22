@@ -1,8 +1,19 @@
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, LuminaJsx, Fragment } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  h,
+  method,
+  JsxNode,
+  Fragment,
+  LuminaJsx,
+  createEvent,
+  state,
+} from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import {
   Alignment,
   Appearance,
@@ -16,8 +27,9 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
+import type { Popover } from "../popover/popover";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, ICONS, IDS, SLOTS, isAction } from "./resources";
 import { styles } from "./action.scss";
 
 declare global {
@@ -26,8 +38,17 @@ declare global {
   }
 }
 
+type ActionButtonType = "overflow" | "split" | "menu";
+
+/**
+ * Custom event for managing single-menu-open behavior across Action instances
+ * Dispatched when a menu opens to close other Action menus globally
+ */
+const ACTION_MENU_OPEN_EVENT = "calcite-action-menu-open";
+
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
+ * @slot menu-actions - A slot for adding `calcite-action` or `calcite-action-group` as dropdown menu content.
  */
 export class Action extends LitElement {
   //#region Static Members
@@ -35,6 +56,31 @@ export class Action extends LitElement {
   static formAssociated = true;
 
   static override styles = styles;
+
+  private static hasRegisteredActionMenuOpenListener = false;
+
+  private static readonly handleDocumentActionMenuOpen = (event: Event): void => {
+    const action = (event as CustomEvent<{ menuElement?: Element }>).detail?.menuElement;
+
+    if (!action || !isAction(action) || typeof document === "undefined") {
+      return;
+    }
+
+    document.querySelectorAll("calcite-action").forEach((actionElement) => {
+      if (actionElement !== action && isAction(actionElement)) {
+        actionElement.menuOpen = false;
+      }
+    });
+  };
+
+  private static connectDocumentActionMenuOpenListener(): void {
+    if (this.hasRegisteredActionMenuOpenListener || typeof document === "undefined") {
+      return;
+    }
+
+    document.addEventListener(ACTION_MENU_OPEN_EVENT, this.handleDocumentActionMenuOpen);
+    this.hasRegisteredActionMenuOpenListener = true;
+  }
 
   //#endregion
 
@@ -44,7 +90,11 @@ export class Action extends LitElement {
 
   private buttonRef = createRef<HTMLButtonElement>();
 
+  private secondaryButtonRef = createRef<HTMLButtonElement>();
+
   private buttonId = IDS.button(this.guid);
+
+  private menuId = IDS.menu(this.guid);
 
   private mutationObserver = createObserver("mutation", () => this.requestUpdate());
 
@@ -61,7 +111,98 @@ export class Action extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger()(this);
+  formTrigger = useFormTrigger({ disabled: () => this.isMenuTriggerType && this.hasSlottedMenu })(
+    this,
+  );
+
+  private get hasSlottedMenu(): boolean {
+    return !!this.el.querySelector(`[slot="${SLOTS.menuActions}"]`);
+  }
+
+  private get isMenuType(): boolean {
+    return this.buttonType === "menu";
+  }
+
+  private get isOverflowType(): boolean {
+    return this.buttonType === "overflow";
+  }
+
+  private get isMenuTriggerType(): boolean {
+    return this.isMenuType || this.isOverflowType;
+  }
+
+  private get isSplitType(): boolean {
+    return this.buttonType === "split";
+  }
+
+  private get supportsMenu(): boolean {
+    return this.isMenuType || this.isOverflowType || this.isSplitType;
+  }
+
+  private get menuButtonEl(): HTMLButtonElement | undefined {
+    return this.isSplitType ? this.secondaryButtonRef.value : this.buttonRef.value;
+  }
+
+  private toggleOpen = (value = !this.menuOpen): void => {
+    if (!this.supportsMenu || !this.hasSlottedMenu) {
+      return;
+    }
+
+    this.menuOpen = value;
+
+    // Emit event to close other action menus when opening
+    if (value) {
+      document.dispatchEvent(
+        new CustomEvent<{ menuElement: HTMLElement }>(ACTION_MENU_OPEN_EVENT, {
+          detail: { menuElement: this.el },
+        }),
+      );
+    }
+  };
+
+  private setPopoverEl = (el: Popover["el"]): void => {
+    if (!el) {
+      return;
+    }
+
+    el.open = this.menuOpen;
+  };
+
+  private handlePopoverOpen = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.menuOpen = true;
+    this.menuButtonEl?.focus();
+    // Emit event to close other action menus when opening
+    document.dispatchEvent(
+      new CustomEvent<{ menuElement: HTMLElement }>(ACTION_MENU_OPEN_EVENT, {
+        detail: { menuElement: this.el },
+      }),
+    );
+  };
+
+  private handlePopoverClose = (event: CustomEvent<void>): void => {
+    event.stopPropagation();
+    this.menuOpen = false;
+  };
+
+  private handleSplitSecondaryClick = (): void => {
+    this.toggleOpen();
+  };
+
+  private handleMenuItemClick = (event: MouseEvent): void => {
+    if (!event.composedPath().some((element) => isAction(element as Element))) {
+      return;
+    }
+
+    this.menuOpen = false;
+    this.menuButtonEl?.focus();
+  };
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() private _menuOpen = false;
 
   //#endregion
 
@@ -127,7 +268,7 @@ export class Action extends LitElement {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form?: string;
+  @property({ reflect: true }) form!: string;
 
   /** Specifies an icon to display. */
   @property({ type: String, reflect: true }) icon?: IconName;
@@ -137,6 +278,9 @@ export class Action extends LitElement {
 
   /** When `true`, displays a visual indicator. */
   @property({ reflect: true }) indicator = false;
+
+  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
   @property() label?: string;
@@ -149,6 +293,18 @@ export class Action extends LitElement {
 
   /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
   @property({ reflect: true }) overflowDisabled = false;
+
+  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = "bottom-start";
+
+  /**
+   * Specifies the type of positioning to use for overlaid content, where:
+   *
+   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
+   *
+   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
+   */
+  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -167,6 +323,9 @@ export class Action extends LitElement {
    */
   @property() text!: string;
 
+  /** Specifies the action type for menu-enabled interactions. */
+  @property({ reflect: true }) buttonType?: ActionButtonType;
+
   /**
    * When `true`, displays `text` adjacent to the `icon`.
    *
@@ -174,12 +333,40 @@ export class Action extends LitElement {
    */
   @property({ reflect: true }) textEnabled = false;
 
+  /** When `true`, the component's slotted menu is open. */
+  @property({ reflect: true })
+  get menuOpen(): boolean {
+    return this._menuOpen;
+  }
+  set menuOpen(value: boolean) {
+    if (value === this._menuOpen) {
+      return;
+    }
+
+    this._menuOpen = value;
+
+    if (value) {
+      this.calciteActionMenuOpen.emit();
+    } else {
+      this.calciteActionMenuClose.emit();
+    }
+  }
+
   /**
    * Specifies the default behavior of the component.
    *
    * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
+
+  /**
+   * When `true` and the component is `menuOpen`, disables top layer placement.
+   *
+   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
 
   /**
    * Specifies the selection appearance of the component. Inherited from `calcite-action-bar`.
@@ -209,10 +396,30 @@ export class Action extends LitElement {
 
   //#endregion
 
+  //#region Events
+
+  /** Fires when the component is clicked. */
+  calciteActionClick = createEvent({ cancelable: false });
+
+  /** Fires when the component's menu is opened. */
+  calciteActionMenuOpen = createEvent({ cancelable: false });
+
+  /** Fires when the component's menu is closed. */
+  calciteActionMenuClose = createEvent({ cancelable: false });
+
+  //#endregion
+
   //#region Lifecycle
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+    Action.connectDocumentActionMenuOpenListener();
+  }
+
+  override willUpdate(): void {
+    if (!this.supportsMenu || !this.hasSlottedMenu) {
+      this.menuOpen = false;
+    }
   }
 
   override disconnectedCallback(): void {
@@ -221,14 +428,33 @@ export class Action extends LitElement {
 
   //#endregion
 
+  //#region Private Methods
+
+  private handleClick(): void {
+    if (this.isMenuTriggerType && this.hasSlottedMenu) {
+      this.toggleOpen();
+      return;
+    }
+
+    this.calciteActionClick.emit();
+  }
+
+  private getMenuTriggerAriaExpanded(): boolean | "true" | "false" {
+    return this.supportsMenu && this.hasSlottedMenu ? this.menuOpen : this.aria?.expanded || false;
+  }
+
+  private getMenuTriggerAriaHasPopup(): AriaAttributesCamelCased["hasPopup"] {
+    return this.supportsMenu && this.hasSlottedMenu ? "menu" : this.aria?.hasPopup;
+  }
+
+  //#endregion
+
   //#region Rendering
 
-  private renderTextContainer(): JsxNode {
-    const { text, textEnabled } = this;
-
+  private renderTextContainer(textVisible: boolean, text: string): JsxNode {
     const textContainerClasses = {
       [CSS.textContainer]: true,
-      [CSS.textContainerVisible]: textEnabled,
+      [CSS.textContainerVisible]: textVisible,
     };
 
     return text ? (
@@ -253,22 +479,23 @@ export class Action extends LitElement {
     );
   }
 
-  private renderIconContainer(): JsxNode {
+  private renderIconContainer(iconOverride?: IconName, includeSlot = true): JsxNode {
     const { loading, icon, scale, el, iconFlipRtl, indicator } = this;
+    const iconToRender = iconOverride || icon;
     const loaderScale = scale === "l" ? "l" : "m";
     const calciteLoaderNode = loading ? (
       <calcite-loader inline label={this.messages.loading} scale={loaderScale} />
     ) : null;
-    const calciteIconNode = icon ? (
+    const calciteIconNode = iconToRender ? (
       <calcite-icon
         class={{ [CSS.indicatorWithIcon]: indicator }}
         flipRtl={iconFlipRtl}
-        icon={icon}
+        icon={iconToRender}
         scale={getIconScale(this.scale)}
       />
     ) : null;
     const iconNode = calciteLoaderNode || calciteIconNode;
-    const hasIconToDisplay = iconNode || el.children?.length;
+    const hasIconToDisplay = iconNode || (includeSlot && el.children?.length);
 
     const slotContainerNode = (
       <div
@@ -277,7 +504,7 @@ export class Action extends LitElement {
           [CSS.slotContainerHidden]: loading,
         }}
       >
-        <slot />
+        {includeSlot ? <slot /> : null}
       </div>
     );
 
@@ -289,7 +516,7 @@ export class Action extends LitElement {
     ) : null;
   }
 
-  private renderButton(): JsxNode {
+  private renderButton(ref = this.buttonRef, isSplitPrimary = false): JsxNode {
     const {
       compact,
       disabled,
@@ -303,24 +530,45 @@ export class Action extends LitElement {
       buttonId,
       messages,
     } = this;
-    const labelFallback = label || text || "";
+    const textVisible = textEnabled;
+    const textFallback = label || text || "";
+    const buttonText = text || "";
+    const iconOverride = this.isOverflowType && !icon ? ICONS.overflow : undefined;
+    const menuTrigger = !isSplitPrimary && (this.isMenuType || this.isOverflowType);
 
     const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+      ? messages.indicatorLabel.replace("{label}", textFallback)
+      : textFallback;
 
     const buttonClasses = {
       [CSS.button]: true,
-      [CSS.buttonTextVisible]: textEnabled,
+      [CSS.buttonTextVisible]: textVisible,
       [CSS.buttonCompact]: compact,
+      [CSS.menuTrigger]: menuTrigger,
+      [CSS.buttonSplitPrimary]: isSplitPrimary,
+      [CSS.buttonOverflowOpen]: this.isOverflowType && this.menuOpen,
+      [CSS.buttonMenuOpen]: this.isMenuType && this.menuOpen,
     };
 
-    const buttonContent = (
+    const coreContent = (
       <>
-        {this.renderIconContainer()}
-        {this.renderTextContainer()}
+        {this.renderIconContainer(iconOverride)}
+        {this.renderTextContainer(textVisible, buttonText)}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
       </>
+    );
+
+    const buttonContent = this.isMenuType ? (
+      <>
+        <div class={CSS.menuContent}>{coreContent}</div>
+        <calcite-icon
+          class={CSS.menuChevron}
+          icon={ICONS.chevronDown}
+          scale={getIconScale(this.scale)}
+        />
+      </>
+    ) : (
+      coreContent
     );
 
     const internalControlsElements = indicator && indicatorRef.value ? [indicatorRef.value] : [];
@@ -334,18 +582,19 @@ export class Action extends LitElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
+          aria-controls={menuTrigger ? this.menuId : undefined}
           ariaBusy={loading}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
-          ariaExpanded={this.aria?.expanded}
-          ariaHasPopup={this.aria?.hasPopup}
+          ariaExpanded={this.getMenuTriggerAriaExpanded()}
+          ariaHasPopup={this.getMenuTriggerAriaHasPopup()}
           ariaLabel={ariaLabel}
           ariaLabelledByElements={this.aria?.labelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
           id={buttonId}
-          ref={this.buttonRef}
+          ref={ref}
           role="button"
           tabIndex={this.disabled ? undefined : 0}
         >
@@ -356,12 +605,13 @@ export class Action extends LitElement {
 
     return (
       <button
+        aria-controls={menuTrigger ? this.menuId : undefined}
         ariaBusy={loading}
         ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
-        ariaExpanded={this.aria?.expanded}
-        ariaHasPopup={this.aria?.hasPopup}
+        ariaExpanded={this.getMenuTriggerAriaExpanded()}
+        ariaHasPopup={this.getMenuTriggerAriaHasPopup()}
         ariaLabel={ariaLabel}
         ariaLabelledByElements={this.aria?.labelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
@@ -369,7 +619,8 @@ export class Action extends LitElement {
         class={buttonClasses}
         disabled={disabled}
         id={buttonId}
-        ref={this.buttonRef}
+        onClick={this.handleClick}
+        ref={ref}
         role={this.aria?.role}
         type={this.type}
       >
@@ -378,10 +629,82 @@ export class Action extends LitElement {
     );
   }
 
+  private renderSplitButton(): JsxNode {
+    const secondaryButtonClasses = {
+      [CSS.button]: true,
+      [CSS.buttonSplitSecondary]: true,
+      [CSS.menuTrigger]: true,
+      [CSS.buttonSplitSecondaryActive]: this.menuOpen,
+    };
+    const hasRenderedMenu = this.supportsMenu && this.hasSlottedMenu;
+
+    return (
+      <div class={CSS.buttonGroup}>
+        {this.renderButton(this.buttonRef, true)}
+        <button
+          aria-controls={hasRenderedMenu ? this.menuId : undefined}
+          ariaExpanded={this.menuOpen}
+          ariaHasPopup={this.hasSlottedMenu ? "menu" : undefined}
+          ariaLabel={this.label || this.text || ""}
+          class={secondaryButtonClasses}
+          disabled={this.disabled}
+          onClick={this.handleSplitSecondaryClick}
+          ref={this.secondaryButtonRef}
+          type="button"
+        >
+          <calcite-icon
+            class={CSS.menuChevron}
+            icon={ICONS.chevronDown}
+            scale={getIconScale(this.scale)}
+          />
+        </button>
+      </div>
+    );
+  }
+
+  private renderMenu(): JsxNode {
+    if (!this.supportsMenu || !this.hasSlottedMenu) {
+      return null;
+    }
+
+    return (
+      <calcite-popover
+        autoClose={true}
+        flipPlacements={this.menuFlipPlacements}
+        focusTrapDisabled={true}
+        label={this.label || this.text}
+        offsetDistance={0}
+        oncalcitePopoverClose={this.handlePopoverClose}
+        oncalcitePopoverOpen={this.handlePopoverOpen}
+        open={this.menuOpen}
+        overlayPositioning={this.overlayPositioning}
+        placement={this.menuPlacement}
+        pointerDisabled={true}
+        ref={this.setPopoverEl}
+        referenceElement={this.menuButtonEl ?? undefined}
+        scale={this.scale}
+        topLayerDisabled={this.topLayerDisabled}
+        triggerDisabled={true}
+      >
+        <div
+          aria-labelledby={this.buttonId}
+          class={CSS.menu}
+          id={this.menuId}
+          onClick={this.handleMenuItemClick}
+          role="menu"
+          tabIndex={-1}
+        >
+          <slot name={SLOTS.menuActions} />
+        </div>
+      </calcite-popover>
+    );
+  }
+
   override render(): JsxNode {
     return (
       <this.interactiveContainer disabled={this.disabled}>
-        {this.renderButton()}
+        {this.isSplitType ? this.renderSplitButton() : this.renderButton()}
+        {this.renderMenu()}
         {this.renderIndicatorText()}
       </this.interactiveContainer>
     );

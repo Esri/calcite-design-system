@@ -7,12 +7,80 @@
     <script src="/src/demos/_assets/head.ts"></script>
   </head>
 
+  <style>
+    demo-dom-swapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem;
+    }
+  </style>
+
   <body>
     <demo-dom-swapper>
       <!-- demo snippet start -->
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+      <calcite-action-bar layout="horizontal" expanded>
+        <calcite-action text="Action" icon="star" text-enabled></calcite-action>
+        <calcite-action text="Split menu" icon="star" button-type="split" text-enabled>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        </calcite-action>
+        <calcite-action text="Menu" icon="star" button-type="menu" text-enabled>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        </calcite-action>
+        <calcite-action text="More" icon="" button-type="overflow" text-enabled>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+          <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        </calcite-action>
+      </calcite-action-bar>
+
+      <calcite-action text="Action" icon="star" text-enabled></calcite-action>
+      <calcite-action text="Split menu" icon="star" button-type="split" text-enabled>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+      </calcite-action>
+      <calcite-action text="Menu" icon="star" button-type="menu" text-enabled>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+      </calcite-action>
+      <calcite-action text="More" icon="" button-type="overflow" text-enabled>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+        <calcite-action text="Action" icon="star" slot="menu-actions" text-enabled></calcite-action>
+      </calcite-action>
+
+      <div>
+        Below, <code>--calcite-action-menu-space</code> used to remove spacing for slotting
+        <code>calcite-dropdown-group</code>:
+      </div>
+      <calcite-action-bar layout="horizontal" expanded>
+        <calcite-action
+          text="Dropdown Items"
+          icon="star"
+          button-type="split"
+          text-enabled
+          style="--calcite-action-menu-space: 0"
+        >
+          <calcite-dropdown-group slot="menu-actions" label="Group 1">
+            <calcite-dropdown-item icon-start="number-circle-1-f">Item 1</calcite-dropdown-item>
+            <calcite-dropdown-item icon-start="number-circle-2-f">Item 2</calcite-dropdown-item>
+            <calcite-dropdown-item icon-start="number-circle-3-f">Item 3</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-action>
+      </calcite-action-bar>
 
       <!-- demo snippet end -->
     </demo-dom-swapper>

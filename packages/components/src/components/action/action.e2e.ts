@@ -5,6 +5,82 @@ import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
+type ButtonStyles = {
+  backgroundColor: string;
+  color: string;
+};
+
+async function movePointerToActionButton(
+  page: Awaited<ReturnType<typeof newE2EPage>>,
+  actionId: string,
+  className = CSS.button,
+): Promise<void> {
+  const buttonCenter = await page.evaluate(
+    (id: string, buttonClass: string) => {
+      const action = document.querySelector(`calcite-action#${id}`) as HTMLElement;
+      const button = action?.shadowRoot?.querySelector(`.${buttonClass}`) as HTMLButtonElement;
+      const { left, top, width, height } = button.getBoundingClientRect();
+
+      return {
+        x: left + width / 2,
+        y: top + height / 2,
+      };
+    },
+    actionId,
+    className,
+  );
+
+  await page.mouse.move(buttonCenter.x, buttonCenter.y);
+  await page.waitForChanges();
+}
+
+async function getActionButtonStyles(
+  page: Awaited<ReturnType<typeof newE2EPage>>,
+  actionId: string,
+  className = CSS.button,
+): Promise<ButtonStyles> {
+  return page.evaluate(
+    (id: string, buttonClass: string): ButtonStyles => {
+      const action = document.querySelector(`calcite-action#${id}`) as HTMLElement;
+      const button = action?.shadowRoot?.querySelector(`.${buttonClass}`) as HTMLButtonElement;
+      const styles = getComputedStyle(button);
+
+      return {
+        backgroundColor: styles.backgroundColor,
+        color: styles.color,
+      };
+    },
+    actionId,
+    className,
+  );
+}
+
+async function expectOpenButtonStylesDoNotChangeOnHoverOrPress(
+  page: Awaited<ReturnType<typeof newE2EPage>>,
+  actionId: string,
+  className = CSS.button,
+): Promise<void> {
+  await page.mouse.move(0, 0);
+  await page.waitForChanges();
+
+  const baseStyles = await getActionButtonStyles(page, actionId, className);
+
+  await movePointerToActionButton(page, actionId, className);
+  const hoverStyles = await getActionButtonStyles(page, actionId, className);
+
+  await page.mouse.down();
+  await page.waitForChanges();
+  const pressStyles = await getActionButtonStyles(page, actionId, className);
+
+  await page.mouse.up();
+  await page.waitForChanges();
+
+  expect(hoverStyles.backgroundColor).toBe(baseStyles.backgroundColor);
+  expect(hoverStyles.color).toBe(baseStyles.color);
+  expect(pressStyles.backgroundColor).toBe(baseStyles.backgroundColor);
+  expect(pressStyles.color).toBe(baseStyles.color);
+}
+
 describe("aria property", () => {
   it("should set aria properties on internal button element", async () => {
     const page = await newE2EPage();
@@ -68,6 +144,168 @@ describe("form integration", () => {
 
   it("submits", async () => assertOnFormButtonType("submit"));
   it("resets", async () => assertOnFormButtonType("reset"));
+
+  async function assertInternalButtonFormBehavior({
+    content,
+    eventType,
+    selector,
+  }: {
+    content: string;
+    eventType: "submit" | "reset";
+    selector: string;
+  }): Promise<boolean> {
+    const page = await newE2EPage();
+    await page.setContent(content);
+
+    type TestWindow = GlobalTestProps<{
+      called: boolean;
+    }>;
+
+    await page.$eval(
+      "form",
+      (form: HTMLFormElement, type: string) => {
+        form.addEventListener(type, (event) => {
+          event.preventDefault();
+          (window as TestWindow).called = true;
+        });
+      },
+      eventType,
+    );
+
+    const button = await page.find(selector);
+    await button.click();
+    await page.waitForChanges();
+
+    return page.evaluate(() => !!(window as TestWindow).called);
+  }
+
+  it("does not submit from a menu trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from a menu trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="menu" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not submit from an overflow trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from an overflow trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="overflow" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.button}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("submits from the split primary button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitPrimary}`,
+    });
+
+    expect(called).toBe(true);
+  });
+
+  it("resets from the split primary button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitPrimary}`,
+    });
+
+    expect(called).toBe(true);
+  });
+
+  it("does not submit from the split secondary trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="submit">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "submit",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitSecondary}`,
+    });
+
+    expect(called).toBe(false);
+  });
+
+  it("does not reset from the split secondary trigger button", async () => {
+    const called = await assertInternalButtonFormBehavior({
+      content: html`
+        <form>
+          <calcite-action id="form-action" button-type="split" text="hello world" text-enabled type="reset">
+            <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+          </calcite-action>
+        </form>
+      `,
+      eventType: "reset",
+      selector: `calcite-action#form-action >>> .${CSS.buttonSplitSecondary}`,
+    });
+
+    expect(called).toBe(false);
+  });
 });
 
 it("should have visible text when text is enabled", async () => {
@@ -144,6 +382,196 @@ it("should have icon container if loading", async () => {
 
   const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
   expect(iconContainer).not.toBeNull();
+});
+
+it("should visually render text for overflow buttonType when text-enabled", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-action button-type="overflow" text="hello world" text-enabled></calcite-action>`);
+
+  const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
+  const isVisible = await textContainer.isVisible();
+
+  expect(isVisible).toBe(true);
+});
+
+it("should not render visible text for overflow buttonType when text is not provided", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-action button-type="overflow" label="More actions" text-enabled></calcite-action>`);
+
+  const textContainer = await page.find(`calcite-action >>> .${CSS.textContainer}`);
+
+  expect(textContainer).toBeNull();
+});
+
+it("should render chevron for menu buttonType when text is not enabled", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action button-type="menu" icon="banana" text="hello world">
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const menuChevron = await page.find(`calcite-action >>> .${CSS.menuChevron}`);
+
+  expect(menuChevron).not.toBeNull();
+});
+
+it("should render two hit targets for split buttonType", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const splitPrimary = await page.find(`calcite-action >>> .${CSS.buttonSplitPrimary}`);
+  const splitSecondary = await page.find(`calcite-action >>> .${CSS.buttonSplitSecondary}`);
+
+  expect(splitPrimary).not.toBeNull();
+  expect(splitSecondary).not.toBeNull();
+});
+
+it("split secondary trigger should have aria-controls pointing at the menu when menu is slotted", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+  await page.waitForChanges();
+
+  const splitSecondary = await page.find(`calcite-action >>> .${CSS.buttonSplitSecondary}`);
+  const menu = await page.find(`calcite-action >>> .${CSS.menu}`);
+
+  expect(splitSecondary.getAttribute("aria-controls")).toBe(menu.getAttribute("id"));
+});
+
+it("should not apply active styles to split secondary button", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action id="inactive" button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+    <calcite-action id="active" active button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const styles = await page.evaluate(
+    (secondaryClass: string, primaryClass: string) => {
+      const inactiveAction = document.querySelector("calcite-action#inactive") as HTMLElement;
+      const activeAction = document.querySelector("calcite-action#active") as HTMLElement;
+
+      const inactiveSecondary = inactiveAction.shadowRoot.querySelector(`.${secondaryClass}`) as HTMLButtonElement;
+      const activeSecondary = activeAction.shadowRoot.querySelector(`.${secondaryClass}`) as HTMLButtonElement;
+      const inactivePrimary = inactiveAction.shadowRoot.querySelector(`.${primaryClass}`) as HTMLButtonElement;
+      const activePrimary = activeAction.shadowRoot.querySelector(`.${primaryClass}`) as HTMLButtonElement;
+
+      return {
+        inactiveSecondaryBackgroundColor: getComputedStyle(inactiveSecondary).backgroundColor,
+        inactiveSecondaryColor: getComputedStyle(inactiveSecondary).color,
+        activeSecondaryBackgroundColor: getComputedStyle(activeSecondary).backgroundColor,
+        activeSecondaryColor: getComputedStyle(activeSecondary).color,
+        inactivePrimaryBackgroundColor: getComputedStyle(inactivePrimary).backgroundColor,
+        activePrimaryBackgroundColor: getComputedStyle(activePrimary).backgroundColor,
+      };
+    },
+    CSS.buttonSplitSecondary,
+    CSS.buttonSplitPrimary,
+  );
+
+  expect(styles.activeSecondaryBackgroundColor).toBe(styles.inactiveSecondaryBackgroundColor);
+  expect(styles.activeSecondaryColor).toBe(styles.inactiveSecondaryColor);
+  expect(styles.activePrimaryBackgroundColor).not.toBe(styles.inactivePrimaryBackgroundColor);
+});
+
+it("should apply open styles to overflow trigger button", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action id="action" appearance="solid" button-type="overflow" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const triggerButton = await page.find(`calcite-action#action >>> .${CSS.button}`);
+  const closedOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonOverflowOpen}`);
+
+  await triggerButton.click();
+  await page.waitForChanges();
+
+  const openOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonOverflowOpen}`);
+
+  expect(closedOpenStateClass).toBeNull();
+  expect(openOpenStateClass).not.toBeNull();
+  await expectOpenButtonStylesDoNotChangeOnHoverOrPress(page, "action");
+});
+
+it("should apply open styles to menu trigger button", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action id="action" appearance="solid" button-type="menu" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const triggerButton = await page.find(`calcite-action#action >>> .${CSS.button}`);
+  const closedOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonMenuOpen}`);
+
+  await triggerButton.click();
+  await page.waitForChanges();
+
+  const openOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonMenuOpen}`);
+
+  expect(closedOpenStateClass).toBeNull();
+  expect(openOpenStateClass).not.toBeNull();
+  await expectOpenButtonStylesDoNotChangeOnHoverOrPress(page, "action");
+});
+
+it("should not change split secondary open styles on hover or press", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action id="action" appearance="solid" button-type="split" text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const splitSecondaryButton = await page.find(`calcite-action#action >>> .${CSS.buttonSplitSecondary}`);
+  const closedOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonSplitSecondaryActive}`);
+
+  await splitSecondaryButton.click();
+  await page.waitForChanges();
+
+  const openOpenStateClass = await page.find(`calcite-action#action >>> .${CSS.buttonSplitSecondaryActive}`);
+
+  expect(closedOpenStateClass).toBeNull();
+  expect(openOpenStateClass).not.toBeNull();
+  await expectOpenButtonStylesDoNotChangeOnHoverOrPress(page, "action", CSS.buttonSplitSecondary);
+});
+
+it("should not render menu content when buttonType is undefined", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`
+    <calcite-action text="hello world" text-enabled>
+      <calcite-action slot="menu-actions" text="item" text-enabled></calcite-action>
+    </calcite-action>
+  `);
+
+  const popover = await page.find("calcite-action >>> calcite-popover");
+
+  expect(popover).toBeNull();
+});
+
+it("should not render menu content when buttonType is set but no menu content is slotted", async () => {
+  for (const buttonType of ["menu", "overflow", "split"]) {
+    const page = await newE2EPage();
+    await page.setContent(
+      `<calcite-action button-type="${buttonType}" text="hello world" text-enabled></calcite-action>`,
+    );
+
+    const popover = await page.find("calcite-action >>> calcite-popover");
+
+    expect(popover).toBeNull();
+  }
 });
 
 it("should use text prop for a11y attributes when text is not enabled", async () => {
