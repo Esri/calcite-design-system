@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.59](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.58...@esri/calcite-components@5.1.0-next.59) (2026-05-22)
+
+### Features
+
+- **navigation-logo:** update standalone heading font size ([#14480](https://github.com/Esri/calcite-design-system/issues/14480)), closes [#12346](https://github.com/Esri/calcite-design-system/issues/12346)
+
 ## [5.1.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.57...@esri/calcite-components@5.1.0-next.58) (2026-05-22)
 
 ### Bug Fixes
