@@ -1,10 +1,9 @@
 import type { ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../../types/interfaces.d.ts";
-import { resolveReferences } from "style-dictionary/utils";
 import { semantic } from "../../dictionaries/index.ts";
 import { isBreakpointMinToken } from "../../utils/token-types.ts";
-import { has } from "es-toolkit/compat";
+import { get } from "es-toolkit/compat";
 
 type MergedBreakpointValue = {
   min: string;
@@ -25,11 +24,10 @@ const transformValueMergeBreakpoints: ValueTransform["transform"] = async (token
   };
 
   const maxValuePath = token.path.map((part) => (part === "min" ? "max" : part)).join(".");
-  const notLargestBreakpoint = has(semantic.tokens, maxValuePath);
+  const matchingMaxValueToken = get(semantic.tokens, maxValuePath);
 
-  if (notLargestBreakpoint) {
-    const cssTokens = await semantic.getPlatformTokens("css");
-    value.max = resolveReferences(`{${maxValuePath}}`, cssTokens.tokens) as string;
+  if (matchingMaxValueToken) {
+    value.max = matchingMaxValueToken.value;
   }
 
   return value;
