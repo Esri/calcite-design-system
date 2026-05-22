@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.56...@esri/calcite-components@5.1.0-next.57) (2026-05-22)
+
+### Bug Fixes
+
+- **date-picker:** update selected day text color fallback ([#14470](https://github.com/Esri/calcite-design-system/issues/14470)), closes [#14055](https://github.com/Esri/calcite-design-system/issues/14055) [#2b2b2](https://github.com/Esri/calcite-design-system/issues/2b2b2) [#141414](https://github.com/Esri/calcite-design-system/issues/141414)
+
+## [5.1.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.55...@esri/calcite-components@5.1.0-next.56) (2026-05-21)
+
+### Features
+
+- **action:** add overflow-disabled property ([#14438](https://github.com/Esri/calcite-design-system/issues/14438)), closes [#14418](https://github.com/Esri/calcite-design-system/issues/14418) [#14418](https://github.com/Esri/calcite-design-system/issues/14418)
+- **carousel:** Add `pagination-position` property ([#14276](https://github.com/Esri/calcite-design-system/issues/14276)), closes [#14162](https://github.com/Esri/calcite-design-system/issues/14162)
+
+### Bug Fixes
+
+- **list:** ensure filter input displays over sticky headers ([#14469](https://github.com/Esri/calcite-design-system/issues/14469)), closes [#14324](https://github.com/Esri/calcite-design-system/issues/14324)
+- **list:** preserve filter input value across rerenders before debounce sync ([#14453](https://github.com/Esri/calcite-design-system/issues/14453)), closes [#14454](https://github.com/Esri/calcite-design-system/issues/14454)
+- **shell-panel:** reset resize state when `layout` changes ([#14364](https://github.com/Esri/calcite-design-system/issues/14364))
+
 ## [5.1.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.54...@esri/calcite-components@5.1.0-next.55) (2026-05-19)
 
 ### Bug Fixes

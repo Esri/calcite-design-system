@@ -18,6 +18,7 @@ import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
+import { CSS as listCSS } from "./resources";
 
 const scrollTopValue = 120;
 
@@ -251,6 +252,35 @@ describe("sticky group heading with filter", () => {
     const tolerance = 2;
     expect(stickyRect.top).toBeGreaterThanOrEqual(filterRect.bottom - tolerance);
   });
+
+  it("keeps the filter container stacked above sticky list-item-group headings", async () => {
+    await mount(
+      <calcite-list filter-enabled style="height: 160px; overflow-y: auto;">
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="A1" value="a1" />
+          <calcite-list-item label="A2" value="a2" />
+          <calcite-list-item label="A3" value="a3" />
+          <calcite-list-item label="A4" value="a4" />
+          <calcite-list-item label="A5" value="a5" />
+          <calcite-list-item label="A6" value="a6" />
+          <calcite-list-item label="A7" value="a7" />
+          <calcite-list-item label="A8" value="a8" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const filterContainer = page.getBySelector(`calcite-list .${listCSS.sticky}`).element();
+
+    const stickyGroupContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
+
+    const filterZIndex = Number.parseInt(getComputedStyle(filterContainer).zIndex, 10);
+    const stickyGroupZIndex = Number.parseInt(getComputedStyle(stickyGroupContainer).zIndex, 10);
+
+    expect(filterZIndex).toBeGreaterThan(stickyGroupZIndex);
+  });
 });
 
 describe("group filtering", () => {
@@ -378,6 +408,39 @@ describe("group filtering", () => {
 
     expect(el).toHaveProperty("filterText", "Be");
     expect(el.filteredItems).toHaveLength(4);
+  });
+
+  it("preserves filter input text through rerenders before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+        <calcite-list-item label="Trees" value="trees" />
+      </calcite-list>,
+    );
+
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      value: string;
+    };
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(filterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
+
+    // Trigger a rerender before the initial debounced filterText update settles.
+    el.loading = true;
+    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
+
+    const rerenderedFilterEl = page
+      .getBySelector("calcite-list calcite-filter")
+      .element() as HTMLElement & {
+      value: string;
+    };
+
+    expect(rerenderedFilterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
   });
 });
 
