@@ -307,11 +307,11 @@ describe("theme", () => {
           shadowSelector: `.${CSS.description}`,
           targetProp: "color",
         },
-        "--calcite-block-icon-start-color": {
+        "--calcite-block-start-icon-color": {
           shadowSelector: `.${CSS.iconStart}`,
           targetProp: "color",
         },
-        "--calcite-block-icon-end-color": {
+        "--calcite-block-end-icon-color": {
           shadowSelector: `.${CSS.iconEnd}`,
           targetProp: "color",
         },
