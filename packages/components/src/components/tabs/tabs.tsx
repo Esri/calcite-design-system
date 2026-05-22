@@ -44,6 +44,8 @@ export class Tabs extends LitElement {
    */
   @state() titles: TabTitle["el"][] = [];
 
+  @state() private hasVisibleTitles = true;
+
   // #endregion
 
   // #region Public Properties
@@ -96,8 +98,8 @@ export class Tabs extends LitElement {
     if (
       (changes.has("titles") || changes.has("tabs")) &&
       this.hasUpdated &&
-      this.titles?.length > 0 &&
-      this.tabs?.length > 0
+      (this.lastTabClosable || this.titles?.length > 0) &&
+      (this.lastTabClosable || this.tabs?.length > 0)
     ) {
       this.updateAriaSettings();
       this.updateItems();
@@ -109,9 +111,8 @@ export class Tabs extends LitElement {
   // #region Private Methods
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
-    if (event.detail.length !== this.titles.length) {
-      this.titles = event.detail;
-    }
+    this.titles = [...event.detail];
+    this.hasVisibleTitles = this.titles.some((title) => !title.closed);
   }
 
   private defaultSlotChangeHandler(event: Event): void {
@@ -201,9 +202,11 @@ export class Tabs extends LitElement {
     return (
       <>
         <slot name={SLOTS.titleGroup} />
-        <section class={CSS.section}>
-          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
-        </section>
+        {this.hasVisibleTitles ? (
+          <section class={CSS.section}>
+            <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
+          </section>
+        ) : null}
       </>
     );
   }

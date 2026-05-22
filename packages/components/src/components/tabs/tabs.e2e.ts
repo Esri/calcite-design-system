@@ -7,6 +7,7 @@ import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
 import type { TabTitle } from "../tab-title/tab-title";
+import { CSS as TabNavCSS } from "../tab-nav/resources";
 import type { TabNav } from "../tab-nav/tab-nav";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS } from "./resources";
@@ -436,6 +437,29 @@ describe("closing tabs", () => {
       const tab4 = await page.find(`#tab-title-4`);
       expect(await tab4.getProperty("closable")).toBe(true);
       expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
+    });
+
+    it("should render no tab-nav UI after dismissing the last closable tab", async () => {
+      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
+        tabs.lastTabClosable = true;
+      });
+      await page.waitForChanges();
+
+      for (let i = 1; i <= 4; ++i) {
+        await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
+      }
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-tab-nav",
+          (tabNav: TabNav["el"], className: string) => !tabNav.shadowRoot.querySelector(`.${className}`),
+          TabNavCSS.tabTitleSlotWrapper,
+        ),
+      ).toBe(true);
+      expect(await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => !tabs.shadowRoot.querySelector("section"))).toBe(
+        true,
+      );
     });
   });
 

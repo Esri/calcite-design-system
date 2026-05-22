@@ -75,6 +75,8 @@ export class TabNav extends LitElement {
 
   @state() private hasOverflowingStartTabTitle = false;
 
+  @state() private hasVisibleTabTitles = true;
+
   @state() selectedTabId: TabID;
 
   //#endregion
@@ -372,8 +374,9 @@ export class TabNav extends LitElement {
       this.intersectionObserver?.observe(child);
     });
     this.updateLastVisibleTabClosable();
+    this.hasVisibleTabTitles = this.getVisibleTabTitlesIndices(tabTitles).length > 0;
 
-    this.calciteInternalTabNavSlotChange.emit(tabTitles);
+    this.calciteInternalTabNavSlotChange.emit([...tabTitles]);
   }
 
   private updateLastVisibleTabClosable(): void {
@@ -569,9 +572,18 @@ export class TabNav extends LitElement {
   private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
     const { tabTitles } = this;
     const selectionModified = closedTabTitleEl.selected;
+    const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
 
     const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
     const totalVisibleTabTitles = visibleTabTitlesIndices.length;
+    this.hasVisibleTabTitles = totalVisibleTabTitles > 0;
+    this.calciteInternalTabNavSlotChange.emit([...tabTitles]);
+
+    if (totalVisibleTabTitles === 0) {
+      this.selectedTitle = null;
+      this.selectedTabId = null;
+      return;
+    }
 
     if (totalVisibleTabTitles === 1) {
       this.updateLastVisibleTabClosable();
@@ -582,13 +594,12 @@ export class TabNav extends LitElement {
         this.selectedTabId = visibleTabTitlesIndices[0];
       }
     } else if (totalVisibleTabTitles > 1) {
-      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextVisibleTabTitleIndex = visibleTabTitlesIndices.find(
         (value) => value > closedTabTitleIndex,
       );
       const nextSelectedTabTitleIndex =
         nextVisibleTabTitleIndex === undefined
-          ? totalVisibleTabTitles - 1
+          ? visibleTabTitlesIndices[visibleTabTitlesIndices.length - 1]
           : nextVisibleTabTitleIndex;
 
       if (this.selectedTabId === closedTabTitleIndex) {
@@ -610,6 +621,10 @@ export class TabNav extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
+    if (!this.hasVisibleTabTitles) {
+      return null;
+    }
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tablist";
     return (
