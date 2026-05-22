@@ -70,6 +70,7 @@
   @apply border
     border-solid;
 
+  box-shadow: var(--calcite-shadow-md);
   background-color: var(--calcite-popover-background-color, var(--calcite-color-foreground-1));
   border-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-popover-corner-radius, var(--calcite-corner-radius-round));
