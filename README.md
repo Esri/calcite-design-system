@@ -239,6 +239,13 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
+    <a href="https://github.com/ashetland">
+      <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
+      <br />
+      <sub><b>Aaron Shetland</b></sub>
+    </a>
+  </td>
+  <td align="center">
     <a href="https://github.com/mpriour">
       <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
       <br />
@@ -250,13 +257,6 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
       <img src="https://avatars.githubusercontent.com/u/3506166?v=4" width="100;" alt="ffaubry"/>
       <br />
       <sub><b>Frederic Aubry</b></sub>
-    </a>
-  </td>
-  <td align="center">
-    <a href="https://github.com/ashetland">
-      <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
-      <br />
-      <sub><b>Aaron Shetland</b></sub>
     </a>
   </td>
   <td align="center">

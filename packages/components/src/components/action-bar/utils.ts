@@ -41,14 +41,15 @@ export const overflowActions = ({
       }
     });
 
-    if (needToSlotCount > 0) {
+    if (needToSlotCount > 0 && !group.overflowActionsDisabled) {
       directGroupActions.some((groupAction) => {
         const unslottedActions = directGroupActions.filter((action) => !action.slot);
 
         if (
           unslottedActions.length > 1 &&
           directGroupActions.length > 2 &&
-          !groupAction.closest("calcite-action-menu")
+          !groupAction.closest("calcite-action-menu") &&
+          !groupAction.overflowDisabled
         ) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);

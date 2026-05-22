@@ -78,7 +78,7 @@ export interface FormComponent<T = any>
    *
    * Note that this prop should use the `@property` decorator.
    */
-  name: string;
+  name?: string;
 
   /**
    * This form component's value.
@@ -94,7 +94,7 @@ export interface FormComponent<T = any>
    *
    * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
-  defaultValue: T;
+  defaultValue?: T;
 
   /**
    * Sets the component's form validity state.
@@ -163,7 +163,7 @@ function syncInternalInput(component: FormComponent, input: HTMLInputElement): v
   const { disabled, name, required } = component;
 
   input.disabled = disabled;
-  input.name = name;
+  input.name = name || "";
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -371,7 +371,11 @@ export const useForm = <T extends FormComponent>(
     controller.onLoaded(() => updateValidity());
 
     function updateValidity(): void {
-      const { elementInternals } = component;
+      const { disabled, elementInternals } = component;
+
+      if (disabled) {
+        return;
+      }
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
@@ -409,7 +413,7 @@ export const useForm = <T extends FormComponent>(
 
       if (Array.isArray(value)) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name, value));
+        value.forEach((value) => formData.append(component.name!, value));
         return formData;
       }
 

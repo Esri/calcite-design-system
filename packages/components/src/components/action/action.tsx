@@ -144,7 +144,7 @@ export class Action extends LitElement {
     return this.isMenuType || this.isOverflowType || this.isSplitType;
   }
 
-  private get menuButtonEl(): HTMLButtonElement {
+  private get menuButtonEl(): HTMLButtonElement | undefined {
     return this.isSplitType ? this.secondaryButtonRef.value : this.buttonRef.value;
   }
 
@@ -251,13 +251,6 @@ export class Action extends LitElement {
     await this.componentOnReady();
     this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
     this.updateActions(this.actionElements);
-  };
-
-  private handleActionMenuOpen = (event: CustomEvent<{ menuElement: HTMLElement }>): void => {
-    // Close this action's menu if another action's menu is opening
-    if (event.detail.menuElement !== this.el) {
-      this.menuOpen = false;
-    }
   };
 
   private handleMenuKeyDown = (event: KeyboardEvent): void => {
@@ -373,7 +366,7 @@ export class Action extends LitElement {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form!: string;
 
   /** Specifies an icon to display. */
   @property({ type: String, reflect: true }) icon?: IconName;
@@ -395,6 +388,9 @@ export class Action extends LitElement {
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
+  @property({ reflect: true }) overflowDisabled = false;
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = "bottom-start";
@@ -535,7 +531,6 @@ export class Action extends LitElement {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    document.removeEventListener(ACTION_MENU_OPEN_EVENT, this.handleActionMenuOpen);
   }
 
   //#endregion
@@ -596,7 +591,7 @@ export class Action extends LitElement {
   }
 
   private getMenuTriggerAriaExpanded(): boolean | "true" | "false" {
-    return this.supportsMenu && this.hasSlottedMenu ? this.menuOpen : this.aria?.expanded;
+    return this.supportsMenu && this.hasSlottedMenu ? this.menuOpen : this.aria?.expanded || false;
   }
 
   private getMenuTriggerAriaHasPopup(): AriaAttributesCamelCased["hasPopup"] {
@@ -779,6 +774,7 @@ export class Action extends LitElement {
         onKeyDown={menuTrigger ? this.handleMenuKeyDown : undefined}
         ref={ref}
         role={this.aria?.role}
+        type={this.type}
       >
         {buttonContent}
       </button>
@@ -798,9 +794,9 @@ export class Action extends LitElement {
       <div class={CSS.buttonGroup}>
         {this.renderButton(this.buttonRef, true)}
         <button
-          aria-controls={hasRenderedMenu ? this.menuId : null}
+          aria-controls={hasRenderedMenu ? this.menuId : undefined}
           ariaExpanded={this.menuOpen}
-          ariaHasPopup={this.hasSlottedMenu ? "menu" : null}
+          ariaHasPopup={this.hasSlottedMenu ? "menu" : undefined}
           ariaLabel={this.label || this.text || ""}
           class={secondaryButtonClasses}
           disabled={this.disabled}
@@ -826,7 +822,7 @@ export class Action extends LitElement {
 
     const { actionElements, activeMenuItemIndex } = this;
     const activeAction = actionElements[activeMenuItemIndex];
-    const activeDescendantId = activeAction?.id || null;
+    const activeDescendantId = activeAction?.id;
 
     return (
       <calcite-popover
