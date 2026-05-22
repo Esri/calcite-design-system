@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.56...@esri/calcite-components@5.1.0-next.57) (2026-05-22)
+
+### Bug Fixes
+
+- **date-picker:** update selected day text color fallback ([#14470](https://github.com/Esri/calcite-design-system/issues/14470)), closes [#14055](https://github.com/Esri/calcite-design-system/issues/14055) [#2b2b2](https://github.com/Esri/calcite-design-system/issues/2b2b2) [#141414](https://github.com/Esri/calcite-design-system/issues/141414)
+
 ## [5.1.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.55...@esri/calcite-components@5.1.0-next.56) (2026-05-21)
 
 ### Features
