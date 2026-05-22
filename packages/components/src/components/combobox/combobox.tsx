@@ -914,7 +914,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         if (!this.textInputRef.value.value && !event.defaultPrevented) {
           if (!this.open) {
             this.open = true;
-            this.shiftActiveItemIndex(1);
+            this.ensureRecentSelectedItemIsActive();
           }
           event.preventDefault();
         }

@@ -1111,6 +1111,42 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(firstFocusedGroupItem).toBeTruthy();
   });
 
+  it("Escape close + Space reopen keeps active item anchored to the selected item", async () => {
+    const inputEl = await page.find(`#myCombobox >>> input`);
+    await inputEl.focus();
+    await page.waitForChanges();
+
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    const itemOne = await page.find("#one");
+    const itemTwo = await page.find("#two");
+    expect(await itemOne.getProperty("selected")).toBe(true);
+    expect(await itemTwo.getProperty("selected")).toBe(false);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+
+    const firstActiveItemAfterReopen = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+    expect(firstActiveItemAfterReopen).toBeTruthy();
+    expect(await itemOne.getProperty("selected")).toBe(true);
+    expect(await itemTwo.getProperty("selected")).toBe(false);
+
+    await page.keyboard.press("Escape");
+    await page.waitForChanges();
+    await page.keyboard.press("Space");
+    await page.waitForChanges();
+
+    const firstActiveItemAfterSecondReopen = await page.find(`#one >>> .${ComboboxItemCSS.active}`);
+    expect(firstActiveItemAfterSecondReopen).toBeTruthy();
+    expect(await itemOne.getProperty("selected")).toBe(true);
+    expect(await itemTwo.getProperty("selected")).toBe(false);
+  });
+
   it("when the combobox is focused & closed, Page up/down (fn arrow up/down) scrolls up and down the page", async () => {
     await page.addStyleTag({
       // set body to overflow so we can test the scroll functionality;
