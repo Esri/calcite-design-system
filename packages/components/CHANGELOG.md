@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.58](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.57...@esri/calcite-components@5.1.0-next.58) (2026-05-22)
+
+### Bug Fixes
+
+- **action-bar:** remove attributeFilter from MutationObserver ([#14476](https://github.com/Esri/calcite-design-system/issues/14476)), closes [#14418](https://github.com/Esri/calcite-design-system/issues/14418)
+
 ## [5.1.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.56...@esri/calcite-components@5.1.0-next.57) (2026-05-22)
 
 ### Bug Fixes
