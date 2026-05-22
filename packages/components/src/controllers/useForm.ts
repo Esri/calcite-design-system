@@ -159,6 +159,21 @@ function displayValidationMessage(component: FormComponent, { status, message, i
   }
 }
 
+function clearValidationMessage(component: FormComponent, validationMessage?: string): void {
+  if ("status" in component) {
+    component.status = "idle";
+  }
+
+  // only clear icon if not set by user
+  if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
+    component.validationIcon = false;
+  }
+
+  if ("validationMessage" in component && component.validationMessage === validationMessage) {
+    component.validationMessage = "";
+  }
+}
+
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
   const { disabled, name, required } = component;
 
@@ -307,7 +322,7 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
+      const validationMessage = customValidityMessage || inputDelegate?.validationMessage || "";
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
@@ -315,7 +330,7 @@ export const useForm = <T extends FormComponent>(
       );
 
       displayValidationMessage(component, {
-        message: validationMsg,
+        message: validationMessage,
         icon: true,
         status: "invalid",
       });
@@ -325,17 +340,21 @@ export const useForm = <T extends FormComponent>(
       component.listen(
         clearValidationEvent,
         () => {
-          if ("status" in component) {
-            component.status = "idle";
-          }
+          clearValidationMessage(component, validationMessage);
 
-          // only clear icon if not set by user
-          if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
-            component.validationIcon = false;
-          }
-
-          if ("validationMessage" in component && component.validationMessage === validationMsg) {
-            component.validationMessage = "";
+          if (inputDelegate?.type === "radio") {
+            let group = component.elementInternals.form?.elements[component.name!];
+            if (group?.length > 0) {
+              group = Array.from(group).filter(
+                (element) => (element as HTMLElement).tagName === component.el.tagName,
+              ) as FormComponent[];
+              const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
+              if (others?.length > 0) {
+                others.forEach((other) => {
+                  clearValidationMessage(other);
+                });
+              }
+            }
           }
         },
         { once: true },
