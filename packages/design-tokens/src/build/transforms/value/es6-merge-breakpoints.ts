@@ -20,14 +20,14 @@ type MergedBreakpointValue = {
 
 const transformValueMergeBreakpoints: ValueTransform["transform"] = async (token) => {
   const value: MergedBreakpointValue = {
-    min: token.value,
+    min: token.$value,
   };
 
   const maxValuePath = token.path.map((part) => (part === "min" ? "max" : part)).join(".");
   const matchingMaxValueToken = get(semantic.tokens, maxValuePath);
 
   if (matchingMaxValueToken) {
-    value.max = matchingMaxValueToken.value;
+    value.max = matchingMaxValueToken.$value;
   }
 
   return value;

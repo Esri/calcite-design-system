@@ -3,18 +3,18 @@
     "height": {
       "xxs": {
         "min": {
-          "value": "{core.container-size.0}",
-          "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-min` instead.",
-          "type": "dimension",
+          "$value": "{core.container-size.0}",
+          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-min` instead.",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint",
             "docs": "deprecated"
           }
         },
         "max": {
-          "value": "{core.container-size.154}",
-          "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-max` instead.",
-          "type": "dimension",
+          "$value": "{core.container-size.154}",
+          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-max` instead.",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint",
             "docs": "deprecated"
@@ -23,17 +23,17 @@
       },
       "2xs": {
         "min": {
-          "value": "{core.container-size.0}",
-          "description": "Small handheld devices and mini-windows",
-          "type": "dimension",
+          "$value": "{core.container-size.0}",
+          "$description": "Small handheld devices and mini-windows",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.154}",
-          "description": "Small handheld devices and mini-windows",
-          "type": "dimension",
+          "$value": "{core.container-size.154}",
+          "$description": "Small handheld devices and mini-windows",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -41,17 +41,17 @@
       },
       "xs": {
         "min": {
-          "value": "{core.container-size.154} + 1",
-          "description": "Handheld devices",
-          "type": "dimension",
+          "$value": "{core.container-size.154} + 1",
+          "$description": "Handheld devices",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.328}",
-          "description": "Handheld devices",
-          "type": "dimension",
+          "$value": "{core.container-size.328}",
+          "$description": "Handheld devices",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -59,17 +59,17 @@
       },
       "sm": {
         "min": {
-          "value": "{core.container-size.328} + 1",
-          "description": "Small tablets",
-          "type": "dimension",
+          "$value": "{core.container-size.328} + 1",
+          "$description": "Small tablets",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.504}",
-          "description": "Small tablets",
-          "type": "dimension",
+          "$value": "{core.container-size.504}",
+          "$description": "Small tablets",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -77,17 +77,17 @@
       },
       "md": {
         "min": {
-          "value": "{core.container-size.504} + 1",
-          "description": "Small laptops",
-          "type": "dimension",
+          "$value": "{core.container-size.504} + 1",
+          "$description": "Small laptops",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.678}",
-          "description": "Small laptops",
-          "type": "dimension",
+          "$value": "{core.container-size.678}",
+          "$description": "Small laptops",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -95,17 +95,17 @@
       },
       "lg": {
         "min": {
-          "value": "{core.container-size.678} + 1",
-          "description": "Large laptops and desktop computers",
-          "type": "dimension",
+          "$value": "{core.container-size.678} + 1",
+          "$description": "Large laptops and desktop computers",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.854}",
-          "description": "Large laptops and desktop computers",
-          "type": "dimension",
+          "$value": "{core.container-size.854}",
+          "$description": "Large laptops and desktop computers",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -113,9 +113,9 @@
       },
       "xl": {
         "min": {
-          "value": "{core.container-size.854} + 1",
-          "description": "Projectors and televisions",
-          "type": "dimension",
+          "$value": "{core.container-size.854} + 1",
+          "$description": "Projectors and televisions",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -125,18 +125,18 @@
     "width": {
       "xxs": {
         "min": {
-          "value": "{core.container-size.0}",
-          "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-min` instead.",
-          "type": "dimension",
+          "$value": "{core.container-size.0}",
+          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-min` instead.",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint",
             "docs": "deprecated"
           }
         },
         "max": {
-          "value": "{core.container-size.320}",
-          "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-max` instead.",
-          "type": "dimension",
+          "$value": "{core.container-size.320}",
+          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-max` instead.",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint",
             "docs": "deprecated"
@@ -145,17 +145,17 @@
       },
       "2xs": {
         "min": {
-          "value": "{core.container-size.0}",
-          "description": "Small handheld devices and mini-windows",
-          "type": "dimension",
+          "$value": "{core.container-size.0}",
+          "$description": "Small handheld devices and mini-windows",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.320}",
-          "description": "Small handheld devices and mini-windows",
-          "type": "dimension",
+          "$value": "{core.container-size.320}",
+          "$description": "Small handheld devices and mini-windows",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -163,17 +163,17 @@
       },
       "xs": {
         "min": {
-          "value": "{core.container-size.320} + 1",
-          "description": "Handheld devices",
-          "type": "dimension",
+          "$value": "{core.container-size.320} + 1",
+          "$description": "Handheld devices",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.476}",
-          "description": "Handheld devices",
-          "type": "dimension",
+          "$value": "{core.container-size.476}",
+          "$description": "Handheld devices",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -181,17 +181,17 @@
       },
       "sm": {
         "min": {
-          "value": "{core.container-size.476} + 1",
-          "description": "Small tablets",
-          "type": "dimension",
+          "$value": "{core.container-size.476} + 1",
+          "$description": "Small tablets",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.768}",
-          "description": "Small tablets",
-          "type": "dimension",
+          "$value": "{core.container-size.768}",
+          "$description": "Small tablets",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -199,17 +199,17 @@
       },
       "md": {
         "min": {
-          "value": "{core.container-size.768} + 1",
-          "description": "Small laptops",
-          "type": "dimension",
+          "$value": "{core.container-size.768} + 1",
+          "$description": "Small laptops",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.1152}",
-          "description": "Small laptops",
-          "type": "dimension",
+          "$value": "{core.container-size.1152}",
+          "$description": "Small laptops",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -217,17 +217,17 @@
       },
       "lg": {
         "min": {
-          "value": "{core.container-size.1152} + 1",
-          "description": "Large laptops and desktop computers",
-          "type": "dimension",
+          "$value": "{core.container-size.1152} + 1",
+          "$description": "Large laptops and desktop computers",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
         },
         "max": {
-          "value": "{core.container-size.1440}",
-          "description": "Large laptops and desktop computers",
-          "type": "dimension",
+          "$value": "{core.container-size.1440}",
+          "$description": "Large laptops and desktop computers",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -235,9 +235,9 @@
       },
       "xl": {
         "min": {
-          "value": "{core.container-size.1440} + 1",
-          "description": "Projectors and televisions",
-          "type": "dimension",
+          "$value": "{core.container-size.1440} + 1",
+          "$description": "Projectors and televisions",
+          "$type": "dimension",
           "attributes": {
             "category": "breakpoint"
           }
@@ -245,32 +245,32 @@
       }
     },
     "margin": {
-      "value": "{core.size.default.24}",
-      "type": "spacing",
+      "$value": "{core.size.default.24}",
+      "$type": "spacing",
       "attributes": {
         "category": "breakpoint"
       }
     },
     "gutter": {
-      "value": "{core.size.default.16}",
-      "type": "spacing",
+      "$value": "{core.size.default.16}",
+      "$type": "spacing",
       "attributes": {
         "category": "breakpoint"
       }
     },
     "content": {
       "fluid": {
-        "value": "{core.size.relative.100}",
-        "description": "for fluid grid widths",
-        "type": "sizing",
+        "$value": "{core.size.relative.100}",
+        "$description": "for fluid grid widths",
+        "$type": "sizing",
         "attributes": {
           "category": "breakpoint"
         }
       },
       "fixed": {
-        "value": "{core.container-size.1440}",
-        "description": "only for lg breakpoint fixed grid width",
-        "type": "sizing",
+        "$value": "{core.container-size.1440}",
+        "$description": "only for lg breakpoint fixed grid width",
+        "$type": "sizing",
         "attributes": {
           "category": "breakpoint"
         }
