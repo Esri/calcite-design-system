@@ -5,7 +5,6 @@
  *
  * @prop --calcite-segmented-control-color: Specifies the component's color.
  * @prop --calcite-segmented-control-background-color: Specifies the component's background color.
- * @prop --calcite-segmented-control-border-color: Specifies the component's border color.
  * @prop --calcite-segmented-control-shadow: Specifies the component's shadow.
  * @prop --calcite-segmented-control-icon-color: Specifies the icons's color.
  */
@@ -25,9 +24,7 @@
     self-stretch
     font-normal
     focus-base;
-  transition:
-    background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
-    border-color var(--calcite-animation-timing) ease-in-out;
+  transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
 .label {
@@ -40,10 +37,8 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
-  border-color: var(--calcite-segmented-control-border-color);
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
-    border-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
@@ -83,14 +78,12 @@
 :host([checked]) .label {
   @apply cursor-default;
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
-  border-color: var(--calcite-segmented-control-border-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
 :host([checked]) .label--outline,
 :host([checked]) .label--outline-fill {
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-foreground-1));
-  border-color: var(--calcite-segmented-control-border-color, var(--calcite-color-brand));
   box-shadow: var(--calcite-segmented-control-shadow, inset 0 0 0 1px var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-brand));
 }

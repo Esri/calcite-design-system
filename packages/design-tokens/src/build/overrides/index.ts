@@ -31,7 +31,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
-          return token.value;
+          return token.$value;
         }
 
         return ogTransform.transform(token, config, options);
@@ -45,7 +45,7 @@ export function applyBuiltInOverrides(sds: StyleDictionary[]): void {
         const shouldSkip = !isStylesheet;
 
         if (shouldSkip) {
-          return token.value;
+          return token.$value;
         }
 
         return ogTransform.transform(token, config, options);
@@ -82,23 +82,23 @@ function overrideTokenStudioTransforms(): void {
       options: Config;
     },
   ): void {
-    context.token.value.color = context.token.value[theme];
+    context.token.$value.color = context.token.$value[theme];
     target[theme] = (
       context.transform.transform(context.token, context.config, context.options) as {
         color: string;
       }
     ).color;
-    delete context.token.value.color;
+    delete context.token.$value.color;
   }
 
   const sd = StyleDictionary;
 
   overrideTransform("ts/color/css/hexrgba", sd, (ogTransform) => ({
     transform: (token, config, options) => {
-      const isLegacyThemeToken = typeof token.value === "object" && "light" in token.value;
+      const isLegacyThemeToken = typeof token.$value === "object" && "light" in token.$value;
       if (isLegacyThemeToken) {
-        const ogType = token.type;
-        token.type = "shadow"; // force the transform to process object structure
+        const ogType = token.$type;
+        token.$type = "shadow"; // force the transform to process object structure
         const transformed = {};
         const context = {
           token,
@@ -108,7 +108,7 @@ function overrideTokenStudioTransforms(): void {
         } as const;
         transformThemeColor("light", transformed, context);
         transformThemeColor("dark", transformed, context);
-        token.type = ogType;
+        token.$type = ogType;
 
         return transformed;
       }
@@ -131,7 +131,7 @@ function overrideTokenStudioTransforms(): void {
       if (shouldSkip) {
         const { platform } = config.options as PlatformConfig;
         const isStylesheet = platform === "scss" || platform === "css";
-        return isStylesheet ? `"${token.value}"` : token.value;
+        return isStylesheet ? `"${token.$value}"` : token.$value;
       }
 
       return ogTransform.transform(token, config, options);
