@@ -141,11 +141,20 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+interface ValidationComponent {
+  status?: Status;
+  validationIcon?: IconName | boolean;
+  validationMessage?: string;
+}
+
 function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
   return "form" in el && "name" in el && isCalciteFocusable(el);
 }
 
-function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
+export function displayValidationMessage(
+  component: ValidationComponent,
+  { status, message, icon }: ValidationProps,
+): void {
   if ("status" in component) {
     component.status = status;
   }
@@ -326,7 +335,7 @@ export const useForm = <T extends FormComponent>(
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
-        new CustomEvent("calciteInvalid", { bubbles: true, composed: true }),
+        new CustomEvent("calciteInvalid", { bubbles: true, composed: true, detail: { component, validationMessage } }),
       );
 
       displayValidationMessage(component, {

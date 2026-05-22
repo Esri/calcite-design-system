@@ -22,6 +22,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
+import { displayValidationMessage } from "../../controllers/useForm";
 
 declare global {
   interface DeclareElements {
@@ -145,6 +146,7 @@ export class RadioButtonGroup extends LitElement {
   constructor() {
     super();
     this.listen("calciteRadioButtonChange", this.radioButtonChangeHandler);
+    this.listen("calciteInvalid", this.handleInvalidFormEvent);
   }
 
   override connectedCallback(): void {
@@ -178,7 +180,17 @@ export class RadioButtonGroup extends LitElement {
 
   // #region Private Methods
 
+  private handleInvalidFormEvent(event: CustomEvent): void {
+    const message = this.validationMessage || event.detail.validationMessage;
+    displayValidationMessage(this, {
+      message,
+      icon: true,
+      status: "invalid",
+    });
+  }
+
   private passPropsToRadioButtons(): void {
+    // TODO: refactor this to look just for radio-button elements that are a member of the parent <form>
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
       Array.from(this.radioButtons)
