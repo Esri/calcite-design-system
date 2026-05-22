@@ -12011,7 +12011,7 @@
     "release": "5.0.0"
   },
   "review-map": {
-    "alias": ["5.0.0", "gis", "data", "compliance", "communication", "verify", "evaluate"],
+    "alias": ["5.0.0", "gis", "data", "compliance", "communication", "verify", "evaluate", "analyze map"],
     "category": "GIS",
     "release": "5.0.0"
   }
