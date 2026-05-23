@@ -520,6 +520,24 @@ describe("auto-close behavior", () => {
     expect(buttonClose).toBeTruthy();
   });
 
+  it("retains close button during auto-close delay and closes when clicked", async () => {
+    await button.click();
+    await page.waitForTimeout(alertQueueTimeoutMs);
+
+    expect(await alert.isVisible()).toBe(true);
+    expect(buttonClose).toBeTruthy();
+    expect(await buttonClose.isVisible()).toBe(true);
+
+    await page.waitForTimeout(DURATIONS.medium / 2);
+
+    buttonClose = await page.find(`#alert >>> .${CSS.close}`);
+    expect(buttonClose).toBeTruthy();
+    expect(await buttonClose.isVisible()).toBe(true);
+
+    await buttonClose.click();
+    await page.waitForSelector("#alert", { visible: false });
+  });
+
   it("pauses on mouseOver and resumes on mouseLeave", async () => {
     await button.click();
 
