@@ -1,5 +1,4 @@
-import { CheckableFormComponent } from "../../utils/form";
-import type { FormComponent, UseFormOptions } from "../useForm";
+import type { CheckableFormComponent, FormComponent, UseFormOptions } from "../useForm";
 
 const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
 
