@@ -22,7 +22,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
-import { displayValidationMessage } from "../../controllers/useForm";
+import { clearValidationMessage, displayValidationMessage } from "../../controllers/useForm";
 
 declare global {
   interface DeclareElements {
@@ -36,6 +36,8 @@ declare global {
  */
 export class RadioButtonGroup extends LitElement {
   // #region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -147,6 +149,11 @@ export class RadioButtonGroup extends LitElement {
     super();
     this.listen("calciteRadioButtonChange", this.radioButtonChangeHandler);
     this.listen("calciteInvalid", this.handleInvalidFormEvent);
+    this.listen("luminaFormResetCallback", () => {
+      if (this.status === "invalid") {
+        clearValidationMessage(this);
+      }
+    });
   }
 
   override connectedCallback(): void {
@@ -214,6 +221,9 @@ export class RadioButtonGroup extends LitElement {
 
   private radioButtonChangeHandler(event: CustomEvent): void {
     this.selectedItem = event.target as RadioButton["el"];
+    if (this.required && this.selectedItem && this.status === "invalid") {
+      clearValidationMessage(this);
+    }
     this.calciteRadioButtonGroupChange.emit();
   }
 

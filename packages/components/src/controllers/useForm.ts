@@ -168,7 +168,7 @@ export function displayValidationMessage(
   }
 }
 
-function clearValidationMessage(component: FormComponent, validationMessage?: string): void {
+export function clearValidationMessage(component: ValidationComponent, validationMessage?: string): void {
   if ("status" in component) {
     component.status = "idle";
   }
