@@ -912,7 +912,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         break;
       case " ":
         if (!this.textInputRef.value.value && !event.defaultPrevented) {
-          if (!this.open) {
+          if (!this.open && this.keyboardNavItems.length) {
             this.open = true;
             this.ensureRecentSelectedItemIsActive();
           }
@@ -1067,11 +1067,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private ensureRecentSelectedItemIsActive(): void {
-    const { selectedItems } = this;
-    const targetIndex =
-      selectedItems.length === 0 ? 0 : this.items.indexOf(selectedItems[selectedItems.length - 1]);
+    const { selectedItems, keyboardNavItems } = this;
+    const selectedItem = selectedItems[selectedItems.length - 1];
+    const targetIndex = selectedItem
+      ? keyboardNavItems.indexOf(selectedItem)
+      : keyboardNavItems.length
+        ? 0
+        : -1;
 
-    this.updateActiveItemIndex(targetIndex);
+    this.updateActiveItemIndex(targetIndex > -1 ? targetIndex : keyboardNavItems.length ? 0 : -1);
   }
 
   private hideChip(chipEl: Chip["el"]): void {
