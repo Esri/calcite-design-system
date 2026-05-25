@@ -84,8 +84,7 @@
 }
 
 .heading {
-  @apply box-border
-    w-full
+  @apply w-full
     min-w-0
     max-w-full
     word-break

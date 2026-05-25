@@ -83,8 +83,7 @@
 @include includes.disabled();
 
 .content-container {
-  @apply w-full
-    box-border;
+  @apply w-full;
 }
 
 .floating-ui-container {

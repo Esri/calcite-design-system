@@ -113,7 +113,6 @@
 
 :host .stepper-item-content,
 :host .stepper-item-header {
-  box-sizing: border-box;
   padding-block: var(--calcite-internal-stepper-item-spacing-unit-l);
   padding-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
   text-align: start;

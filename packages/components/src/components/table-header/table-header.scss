@@ -117,3 +117,5 @@ th.last-cell {
   color: var(--calcite-table-header-description-text-color, var(--calcite-color-text-3));
   font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }
+
+@include includes.base-component();

@@ -173,6 +173,16 @@
 }
 
 @mixin base-component() {
+  :host {
+    box-sizing: border-box;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
   /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
   :host([hidden]) {
     @apply hidden;
