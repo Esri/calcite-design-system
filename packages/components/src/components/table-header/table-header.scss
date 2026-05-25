@@ -118,4 +118,4 @@ th.last-cell {
   font-size: var(--calcite-internal-table-cell-font-size-secondary);
 }
 
-@include includes.base-component();
+@include includes.base-component-sizing();

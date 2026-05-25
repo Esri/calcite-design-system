@@ -172,6 +172,18 @@
   }
 }
 
+@mixin base-component-sizing() {
+  :host {
+    box-sizing: border-box;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+}
+
 @mixin base-component() {
   :host {
     box-sizing: border-box;
