@@ -182,6 +182,10 @@
   *::after {
     box-sizing: inherit;
   }
+
+  ::slotted(*) {
+    box-sizing: border-box;
+  }
 }
 
 @mixin base-component() {
