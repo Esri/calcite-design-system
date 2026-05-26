@@ -1,0 +1,7 @@
+@use "../../styles/includes";
+
+:host {
+  @apply contents;
+}
+
+@include includes.base-component();
