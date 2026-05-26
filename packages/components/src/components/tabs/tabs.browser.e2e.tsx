@@ -60,7 +60,7 @@ it("does not throw when adding tab and tab-title with tab ID after initializatio
       </calcite-tabs>,
     );
 
-    const tabNavEl = document.querySelector("calcite-tab-nav")!;
+    const tabNavEl = tabsEl.querySelector("#tab-nav")!;
     const tabTitle = document.createElement("calcite-tab-title");
     const tab = document.createElement("calcite-tab");
     tabTitle.tab = "test";
