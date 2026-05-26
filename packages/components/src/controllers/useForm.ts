@@ -356,7 +356,7 @@ export const useForm = <T extends FormComponent>(
             if (group?.length > 0) {
               group = Array.from(group).filter(
                 (element) => (element as HTMLElement).tagName === component.el.tagName,
-              ) as FormComponent[];
+              ) as FormComponent["el"][];
               const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
               if (others?.length > 0) {
                 others.forEach((other) => {
