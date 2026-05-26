@@ -1,8 +1,9 @@
 import { h, Fragment } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import type { Tabs } from "./tabs";
 
 describe("defaults", () => {
   defaults(
@@ -49,4 +50,27 @@ function createTabsContent(): JsxNode {
 
 describe("renders", () => {
   renders(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>), { display: "flex" });
+});
+
+it("does not throw when adding tab and tab-title with tab ID after initialization", async () => {
+  async function runTest(): Promise<void> {
+    const { el: tabsEl, reRender } = await mount<Tabs>(
+      <calcite-tabs>
+        <calcite-tab-nav id="tab-nav" slot="title-group" />
+      </calcite-tabs>,
+    );
+
+    const tabNavEl = document.querySelector("calcite-tab-nav")!;
+    const tabTitle = document.createElement("calcite-tab-title");
+    const tab = document.createElement("calcite-tab");
+    tabTitle.tab = "test";
+    tab.tab = "test";
+
+    tabNavEl.append(tabTitle);
+    tabsEl.append(tab);
+
+    await reRender();
+  }
+
+  await expect(runTest()).resolves.toBeUndefined();
 });
