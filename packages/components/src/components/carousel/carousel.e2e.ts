@@ -72,6 +72,42 @@ describe("first render", () => {
     expect(nextButton).toBeNull();
     expect(prevButton).toBeNull();
   });
+
+  it("should focus top pagination controls before item content", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<button id="before">before</button>
+       <calcite-carousel id="carousel" label="Carousel example" arrow-type="none" pagination-position="top">
+         <calcite-carousel-item label="Carousel Item 1">
+           <button id="item-button">item button</button>
+         </calcite-carousel-item>
+         <calcite-carousel-item label="Carousel Item 2">
+           <button>item button 2</button>
+         </calcite-carousel-item>
+       </calcite-carousel>`,
+    );
+
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("before");
+
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+
+    await page.keyboard.press("Tab");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+    expect(
+      await page.$eval(
+        "#carousel",
+        (element: HTMLElement, selectedClass: string) =>
+          element.shadowRoot.activeElement?.classList.contains(selectedClass),
+        CSS.paginationItemIndividual,
+      ),
+    ).toBe(true);
+  });
 });
 
 describe("events", () => {

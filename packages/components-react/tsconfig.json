@@ -6,7 +6,8 @@
     "esModuleInterop": true,
     "jsx": "react",
     "outDir": "dist",
-    "removeComments": false
+    "removeComments": false,
+    "rootDir": "./src"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts"]
 }

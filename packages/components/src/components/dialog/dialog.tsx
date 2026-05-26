@@ -335,7 +335,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
@@ -838,9 +838,9 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               loading={this.loading}
               menuOpen={this.menuOpen}
               messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
+              onKeyDown={this.handlePanelKeyDown}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}

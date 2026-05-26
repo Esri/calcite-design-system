@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -14,6 +14,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
+import { html } from "lit";
 
 mockConsole();
 
@@ -188,4 +189,33 @@ describe("selection-modes", () => {
     expect(action3.active).toBe(false);
     expect(action4.active).toBe(false);
   });
+});
+
+it("keeps actions tabbable when tabbing out", async () => {
+  await mount(html`
+    <calcite-action-pad expand-disabled>
+      <calcite-action text="first" icon="number-circle-1"></calcite-action>
+      <calcite-action text="second" icon="number-circle-2"></calcite-action>
+    </calcite-action-pad>
+    <calcite-action text="third" icon="number-circle-3"></calcite-action>
+  `);
+  const actions = page.getBySelector("calcite-action");
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Tab}");
+  expect(document.body).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(2)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  await expect.element(actions.nth(0)).toHaveFocus();
+
+  await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+  expect(document.body).toHaveFocus();
 });

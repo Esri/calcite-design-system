@@ -8,6 +8,7 @@
 // --calcite-internal-select-icon-container-padding-inline
 // --calcite-internal-select-line-height
 // --calcite-internal-select-spacing-block
+// --calcite-internal-select-spacing-inline
 
 @use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
@@ -144,7 +145,7 @@
 .month-select {
   --calcite-select-internal-border-width: 0;
   --calcite-select-internal-icon-border-inline-end-width: 0;
-  --calcite-select-spacing-inline: var(--calcite-spacing-xxs);
+  --calcite-internal-select-spacing-inline: var(--calcite-spacing-xxs);
   --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size-md));
   --calcite-select-text-color: var(--calcite-date-picker-month-select-text-color, var(--calcite-color-text-1));
   --calcite-select-icon-color: var(--calcite-date-picker-month-select-icon-color);
@@ -158,7 +159,7 @@
 
 :host([scale="s"]) .month-year-container {
   .month-select {
-    --calcite-select-spacing-inline: var(--calcite-spacing-base);
+    --calcite-internal-select-spacing-inline: var(--calcite-spacing-base);
     --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size));
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-base);
@@ -180,7 +181,7 @@
 
 :host([scale="l"]) .month-year-container {
   .month-select {
-    --calcite-select-spacing-inline: var(--calcite-spacing-sm);
+    --calcite-internal-select-spacing-inline: var(--calcite-spacing-sm);
     --calcite-select-font-size: var(--calcite-date-picker-month-select-font-size, var(--calcite-font-size-lg));
 
     --calcite-internal-select-spacing-block: var(--calcite-spacing-sm);

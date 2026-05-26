@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Fragment, h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -18,6 +18,7 @@ import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
+import { CSS as listCSS } from "./resources";
 
 const scrollTopValue = 120;
 
@@ -251,6 +252,35 @@ describe("sticky group heading with filter", () => {
     const tolerance = 2;
     expect(stickyRect.top).toBeGreaterThanOrEqual(filterRect.bottom - tolerance);
   });
+
+  it("keeps the filter container stacked above sticky list-item-group headings", async () => {
+    await mount(
+      <calcite-list filter-enabled style="height: 160px; overflow-y: auto;">
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="A1" value="a1" />
+          <calcite-list-item label="A2" value="a2" />
+          <calcite-list-item label="A3" value="a3" />
+          <calcite-list-item label="A4" value="a4" />
+          <calcite-list-item label="A5" value="a5" />
+          <calcite-list-item label="A6" value="a6" />
+          <calcite-list-item label="A7" value="a7" />
+          <calcite-list-item label="A8" value="a8" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const filterContainer = page.getBySelector(`calcite-list .${listCSS.sticky}`).element();
+
+    const stickyGroupContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
+
+    const filterZIndex = Number.parseInt(getComputedStyle(filterContainer).zIndex, 10);
+    const stickyGroupZIndex = Number.parseInt(getComputedStyle(stickyGroupContainer).zIndex, 10);
+
+    expect(filterZIndex).toBeGreaterThan(stickyGroupZIndex);
+  });
 });
 
 describe("group filtering", () => {
@@ -379,12 +409,183 @@ describe("group filtering", () => {
     expect(el).toHaveProperty("filterText", "Be");
     expect(el.filteredItems).toHaveLength(4);
   });
+
+  it("preserves filter input text through rerenders before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+        <calcite-list-item label="Trees" value="trees" />
+      </calcite-list>,
+    );
+
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      value: string;
+    };
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(filterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
+
+    // Trigger a rerender before the initial debounced filterText update settles.
+    el.loading = true;
+    await (el as List["el"] & { updateComplete: Promise<void> }).updateComplete;
+
+    const rerenderedFilterEl = page
+      .getBySelector("calcite-list calcite-filter")
+      .element() as HTMLElement & {
+      value: string;
+    };
+
+    expect(rerenderedFilterEl.value).toBe(typedValue);
+    expect(el.filterText).toBe("");
+  });
+});
+
+describe("filter item data updates", () => {
+  async function waitForFilteredLength(el: List["el"], expectedLength: number): Promise<void> {
+    await vi.waitUntil(async () => {
+      if (el.filteredItems.length === expectedLength) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return el.filteredItems.length === expectedLength;
+    });
+
+    await afterNextTask();
+
+    expect(el.filteredItems).toHaveLength(expectedLength);
+  }
+
+  async function waitForFilterItemsMatch(
+    filterEl: HTMLElement & { items?: { el?: Element; label?: string; heading?: string[] }[] },
+    predicate: (item: { el?: Element; label?: string; heading?: string[] }) => boolean,
+  ): Promise<void> {
+    await vi.waitUntil(async () => {
+      if (filterEl.items?.some(predicate)) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return !!filterEl.items?.some(predicate);
+    });
+
+    expect(filterEl.items?.some(predicate)).toBe(true);
+  }
+
+  it("updates filtered items when label changes", async () => {
+    const labelToken = "updated-label-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item id="prop-watch-item-label" label="Old label" value="prop-watch-label" />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-label").element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { label?: string }[];
+    };
+
+    el.filterProps = ["label"];
+    el.filterText = labelToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.label = labelToken;
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(filterEl, (item) => item.label === labelToken);
+  });
+
+  it("updates filtered items when description changes", async () => {
+    const descriptionToken = "updated-description-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item
+          description="Old description"
+          id="prop-watch-item-description"
+          label="Label"
+          value="prop-watch-description"
+        />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-description").element() as ListItem["el"];
+
+    el.filterProps = ["description"];
+    el.filterText = descriptionToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.description = descriptionToken;
+    await waitForFilteredLength(el, 1);
+  });
+
+  it("updates filtered items when metadata changes", async () => {
+    const metadataToken = "updated-metadata-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item
+          id="prop-watch-item-metadata"
+          label="Label"
+          value="prop-watch-metadata"
+        />
+      </calcite-list>,
+    );
+
+    const listItem = page.getBySelector("#prop-watch-item-metadata").element() as ListItem["el"];
+
+    el.filterProps = ["metadata"];
+    el.filterText = metadataToken;
+    await waitForFilteredLength(el, 0);
+
+    listItem.metadata = { keyword: metadataToken };
+    await waitForFilteredLength(el, 1);
+  });
+
+  it("updates filtered items when group heading changes", async () => {
+    const headingToken = "updated-heading-token";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item-group heading="Old heading" id="prop-watch-group-heading">
+          <calcite-list-item
+            id="prop-watch-item-heading"
+            label="Label"
+            value="prop-watch-heading"
+          />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const listItemGroup = page
+      .getBySelector("#prop-watch-group-heading")
+      .element() as HTMLElement & {
+      heading: string;
+    };
+    const listItem = page.getBySelector("#prop-watch-item-heading").element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { el?: Element; heading?: string[] }[];
+    };
+
+    el.filterProps = ["heading"];
+    el.filterText = headingToken;
+    await waitForFilteredLength(el, 0);
+
+    listItemGroup.heading = headingToken;
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(
+      filterEl,
+      (item) => item.el === listItem && item.heading?.includes(headingToken),
+    );
+  });
 });
 
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <>
+      <Fragment>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -473,7 +674,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </>,
+      </Fragment>,
     );
 
     await afterNextFrame();
@@ -533,14 +734,15 @@ describe("nested selection modes", () => {
     };
 
     const waitForNestedPropertiesToSettle = async (): Promise<void> => {
-      for (let i = 0; i < 10; i++) {
+      await vi.waitUntil(async () => {
         if (nestedPropertiesSettled()) {
-          return;
+          return true;
         }
 
         await afterNextTask();
         await afterNextFrame();
-      }
+        return nestedPropertiesSettled();
+      });
     };
 
     // Assert immediately after initial render.

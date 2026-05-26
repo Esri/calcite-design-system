@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import tailwindcss, { Config as TailwindConfig } from "tailwindcss";
+import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://webgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
@@ -13,7 +13,7 @@ import { version } from "./package.json";
 import tailwindConfig from "./tailwind.config";
 
 const nonEsmDependencies = ["interactjs"];
-const runBrowserTests = process.env.EXPERIMENTAL_TESTS === "true";
+const runBrowserTests = process.env.BROWSER_TESTS === "true";
 
 const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
@@ -62,7 +62,7 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        tailwindcss(tailwindConfig as any as TailwindConfig),
+        tailwindcss(tailwindConfig),
         autoprefixer(),
         stylelint({
           configFile: ".stylelintrc-postcss.json",
