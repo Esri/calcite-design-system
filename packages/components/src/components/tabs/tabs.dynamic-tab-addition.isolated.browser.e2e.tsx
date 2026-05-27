@@ -10,27 +10,27 @@ import type { Tabs } from "./tabs";
 it("does not throw when adding tab and tab-title with tab ID after initialization", async () => {
   let unhandledRejection: unknown;
 
-  const handleUnhandledRejection = (event: PromiseRejectionEvent): void => {
+  function handleUnhandledRejection(event: PromiseRejectionEvent): void {
     event.preventDefault();
     unhandledRejection = event.reason;
-  };
+  }
 
   window.addEventListener("unhandledrejection", handleUnhandledRejection);
 
+  const { el: tabsEl } = await mount<Tabs>(
+    <calcite-tabs>
+      <calcite-tab-nav id="tab-nav" slot="title-group" />
+    </calcite-tabs>,
+  );
+
+  const tabNavEl = tabsEl.querySelector("#tab-nav")!;
+  const tabTitle = document.createElement("calcite-tab-title");
+  const tab = document.createElement("calcite-tab");
+
+  tabTitle.tab = "test";
+  tab.tab = "test";
+
   try {
-    const { el: tabsEl } = await mount<Tabs>(
-      <calcite-tabs>
-        <calcite-tab-nav id="tab-nav" slot="title-group" />
-      </calcite-tabs>,
-    );
-
-    const tabNavEl = tabsEl.querySelector("#tab-nav")!;
-    const tabTitle = document.createElement("calcite-tab-title");
-    const tab = document.createElement("calcite-tab");
-
-    tabTitle.tab = "test";
-    tab.tab = "test";
-
     tabNavEl.append(tabTitle);
     tabsEl.append(tab);
 
