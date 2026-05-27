@@ -472,6 +472,7 @@ export class List extends LitElement {
   //#region Private Methods
 
   private updateListItems(): void {
+    this.updateFilterRowHeight();
     this.updateGroupItems();
 
     const {
@@ -565,7 +566,7 @@ export class List extends LitElement {
   }
 
   private updateFilterRowHeight(): void {
-    this.filterRowHeight = this.filterContainerEl?.clientHeight ?? 0;
+    this.filterRowHeight = (this.filterEnabled && this.filterContainerEl?.clientHeight) ?? 0;
   }
 
   private handleListItemChange(): void {

@@ -281,6 +281,50 @@ describe("sticky group heading with filter", () => {
 
     expect(filterZIndex).toBeGreaterThan(stickyGroupZIndex);
   });
+
+  it("removes sticky heading offset when filter is disabled", async () => {
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled style="height: 160px; overflow-y: auto;">
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="A1" value="a1" />
+          <calcite-list-item label="A2" value="a2" />
+          <calcite-list-item label="A3" value="a3" />
+          <calcite-list-item label="A4" value="a4" />
+          <calcite-list-item label="A5" value="a5" />
+          <calcite-list-item label="A6" value="a6" />
+          <calcite-list-item label="A7" value="a7" />
+          <calcite-list-item label="A8" value="a8" />
+        </calcite-list-item-group>
+        <calcite-list-item-group heading="Group B">
+          <calcite-list-item label="B1" value="b1" />
+          <calcite-list-item label="B2" value="b2" />
+          <calcite-list-item label="B3" value="b3" />
+          <calcite-list-item label="B4" value="b4" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const list = el as HTMLElement;
+    const stickyContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
+
+    list.scrollTop = scrollTopValue;
+    await afterNextFrame();
+
+    const filterInput = page.getBySelector("calcite-list calcite-filter").element();
+    const filterHeight = filterInput.getBoundingClientRect().height;
+    const topWithFilter = stickyContainer.getBoundingClientRect().top;
+
+    el.filterEnabled = false;
+    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
+    await afterNextTask();
+    await afterNextFrame();
+
+    const topWithoutFilter = stickyContainer.getBoundingClientRect().top;
+    expect(topWithFilter - topWithoutFilter).toBeGreaterThanOrEqual(filterHeight - 2);
+  });
 });
 
 describe("group filtering", () => {
