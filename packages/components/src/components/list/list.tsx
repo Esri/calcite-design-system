@@ -472,6 +472,7 @@ export class List extends LitElement {
   //#region Private Methods
 
   private updateListItems(): void {
+    this.updateFilterRowHeight();
     this.updateGroupItems();
 
     const {
