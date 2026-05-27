@@ -1282,7 +1282,6 @@ export const fitDisplayStates = (): string => html`
       max-inline-size: 200px;
     }
   </style>
-  <calcite-label> I do not render reliably in Chromatic, so there is an isolated story. </calcite-label>
   <div class="fit-display-grid">
     <div class="fit-display-item">
       <strong>Selected + disabled options</strong>
