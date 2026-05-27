@@ -212,7 +212,7 @@ export function createFocusTrapOptions(
  * @param options
  */
 export const useFocusTrap = <T extends FocusTrapComponent>(
-  options: UseFocusTrapOptions<T>,
+  options: UseFocusTrapOptions<T> = {},
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;

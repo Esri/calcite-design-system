@@ -99,17 +99,10 @@ export class FocusTrap extends LitElement {
   //#region Private Methods
 
   private setActive(active: boolean): void {
-    if (this._active === active) {
-      return;
-    }
-
     const oldActive = this._active;
     this._active = active;
     this.requestUpdate("active", oldActive);
-
-    if (this.el.isConnected) {
-      this.calciteFocusTrapActiveChange.emit();
-    }
+    this.calciteFocusTrapActiveChange.emit();
   }
 
   //#endregion

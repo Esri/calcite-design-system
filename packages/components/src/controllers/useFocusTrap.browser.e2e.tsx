@@ -271,114 +271,116 @@ describe("focusTrapDisabledOverride", () => {
     expect(activateSpy).toHaveBeenCalledTimes(1);
   });
 
-  it("activates when focusTrapDisabled becomes false and triggerProp is omitted", async () => {
-    class FocusTrapDisabledNoTrigger extends LitElement {
-      @property() focusTrapDisabled = false;
+  describe("method-only mode (no triggerProp)", () => {
+    it("activates when focusTrapDisabled becomes false and triggerProp is omitted", async () => {
+      class FocusTrapDisabledNoTrigger extends LitElement {
+        @property() focusTrapDisabled = false;
 
-      constructor() {
-        super();
-        this.focusTrapDisabled = true;
+        constructor() {
+          super();
+          this.focusTrapDisabled = true;
+        }
+
+        focusTrap = useFocusTrap<this>()(this);
+
+        override render(): JsxNode {
+          return <button type="button">trap target</button>;
+        }
       }
 
-      focusTrap = useFocusTrap<this>({})(this);
+      const { el, component } = await mount(FocusTrapDisabledNoTrigger);
 
-      override render(): JsxNode {
-        return <button type="button">trap target</button>;
-      }
-    }
+      component.focusTrap.activate();
 
-    const { el, component } = await mount(FocusTrapDisabledNoTrigger);
+      expect(component.focusTrap._instance).toBeDefined();
+      const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
 
-    component.focusTrap.activate();
+      el.focusTrapDisabled = false;
+      await component.updateComplete;
 
-    expect(component.focusTrap._instance).toBeDefined();
-    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+      expect(activateSpy).toHaveBeenCalledTimes(1);
+    });
 
-    el.focusTrapDisabled = false;
-    await component.updateComplete;
+    it("does not activate when focusTrapDisabled becomes false and triggerProp is omitted without prior activation", async () => {
+      class FocusTrapDisabledNoTrigger extends LitElement {
+        @property() focusTrapDisabled = false;
 
-    expect(activateSpy).toHaveBeenCalledTimes(1);
-  });
+        constructor() {
+          super();
+          this.focusTrapDisabled = true;
+        }
 
-  it("does not activate when focusTrapDisabled becomes false and triggerProp is omitted without prior activation", async () => {
-    class FocusTrapDisabledNoTrigger extends LitElement {
-      @property() focusTrapDisabled = false;
+        focusTrap = useFocusTrap<this>()(this);
 
-      constructor() {
-        super();
-        this.focusTrapDisabled = true;
-      }
-
-      focusTrap = useFocusTrap<this>({})(this);
-
-      override render(): JsxNode {
-        return <button type="button">trap target</button>;
-      }
-    }
-
-    const { el, component } = await mount(FocusTrapDisabledNoTrigger);
-
-    expect(component.focusTrap._instance).toBeUndefined();
-
-    el.focusTrapDisabled = false;
-    await component.updateComplete;
-
-    expect(component.focusTrap._instance).toBeUndefined();
-  });
-
-  it("does not activate when focusTrapDisabled becomes false after explicit deactivate in method-only mode", async () => {
-    class FocusTrapDisabledNoTrigger extends LitElement {
-      @property() focusTrapDisabled = false;
-
-      constructor() {
-        super();
-        this.focusTrapDisabled = true;
+        override render(): JsxNode {
+          return <button type="button">trap target</button>;
+        }
       }
 
-      focusTrap = useFocusTrap<this>({})(this);
+      const { el, component } = await mount(FocusTrapDisabledNoTrigger);
 
-      override render(): JsxNode {
-        return <button type="button">trap target</button>;
+      expect(component.focusTrap._instance).toBeUndefined();
+
+      el.focusTrapDisabled = false;
+      await component.updateComplete;
+
+      expect(component.focusTrap._instance).toBeUndefined();
+    });
+
+    it("does not activate when focusTrapDisabled becomes false after explicit deactivate in method-only mode", async () => {
+      class FocusTrapDisabledNoTrigger extends LitElement {
+        @property() focusTrapDisabled = false;
+
+        constructor() {
+          super();
+          this.focusTrapDisabled = true;
+        }
+
+        focusTrap = useFocusTrap<this>()(this);
+
+        override render(): JsxNode {
+          return <button type="button">trap target</button>;
+        }
       }
-    }
 
-    const { el, component } = await mount(FocusTrapDisabledNoTrigger);
+      const { el, component } = await mount(FocusTrapDisabledNoTrigger);
 
-    component.focusTrap.activate();
+      component.focusTrap.activate();
 
-    expect(component.focusTrap._instance).toBeDefined();
-    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+      expect(component.focusTrap._instance).toBeDefined();
+      const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
 
-    component.focusTrap.deactivate();
+      component.focusTrap.deactivate();
 
-    el.focusTrapDisabled = false;
-    await component.updateComplete;
+      el.focusTrapDisabled = false;
+      await component.updateComplete;
 
-    expect(activateSpy).toHaveBeenCalledTimes(0);
-  });
+      expect(activateSpy).toHaveBeenCalledTimes(0);
+    });
 
-  it("deactivates when focusTrapDisabled becomes true and triggerProp is omitted", async () => {
-    class FocusTrapDisabledNoTrigger extends LitElement {
-      @property() focusTrapDisabled = false;
+    it("deactivates when focusTrapDisabled becomes true and triggerProp is omitted", async () => {
+      class FocusTrapDisabledNoTrigger extends LitElement {
+        @property() focusTrapDisabled = false;
 
-      focusTrap = useFocusTrap<this>({})(this);
+        focusTrap = useFocusTrap<this>()(this);
 
-      override render(): JsxNode {
-        return <button type="button">trap target</button>;
+        override render(): JsxNode {
+          return <button type="button">trap target</button>;
+        }
       }
-    }
 
-    const { el, component } = await mount(FocusTrapDisabledNoTrigger);
+      const { el, component } = await mount(FocusTrapDisabledNoTrigger);
 
-    component.focusTrap.activate();
+      component.focusTrap.activate();
 
-    expect(component.focusTrap._instance).toBeDefined();
-    const deactivateSpy = vi.spyOn(component.focusTrap._instance!, "deactivate");
+      expect(component.focusTrap._instance).toBeDefined();
+      const deactivateSpy = vi.spyOn(component.focusTrap._instance!, "deactivate");
 
-    el.focusTrapDisabled = true;
-    await component.updateComplete;
+      el.focusTrapDisabled = true;
+      await component.updateComplete;
 
-    expect(deactivateSpy).toHaveBeenCalledTimes(1);
+      expect(deactivateSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });
 
