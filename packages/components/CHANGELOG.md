@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.60...@esri/calcite-components@5.1.0-next.61) (2026-05-27)
+
+### Bug Fixes
+
+- **list:** reset sticky heading offset when filter is disabled ([#14505](https://github.com/Esri/calcite-design-system/issues/14505)), closes [#14502](https://github.com/Esri/calcite-design-system/issues/14502)
+- **tabs:** ensure tabs and titles are loaded before syncing ARIA state ([#14493](https://github.com/Esri/calcite-design-system/issues/14493)), closes [#13954](https://github.com/Esri/calcite-design-system/issues/13954)
+
 ## [5.1.0-next.60](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.59...@esri/calcite-components@5.1.0-next.60) (2026-05-22)
 
 ### Features
