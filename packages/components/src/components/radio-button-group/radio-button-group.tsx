@@ -169,7 +169,8 @@ export class RadioButtonGroup extends LitElement {
     if (
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("status") && this.hasUpdated)
     ) {
       this.passPropsToRadioButtons();
     }
@@ -211,6 +212,7 @@ export class RadioButtonGroup extends LitElement {
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
+        radioButton.status = this.status;
       });
     }
   }
