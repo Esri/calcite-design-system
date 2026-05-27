@@ -566,7 +566,7 @@ export class List extends LitElement {
   }
 
   private updateFilterRowHeight(): void {
-    this.filterRowHeight = (this.filterEnabled && this.filterContainerEl?.clientHeight) ?? 0;
+    this.filterRowHeight = this.filterEnabled ? (this.filterContainerEl?.clientHeight ?? 0) : 0;
   }
 
   private handleListItemChange(): void {
