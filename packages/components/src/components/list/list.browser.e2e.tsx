@@ -312,13 +312,13 @@ describe("sticky group heading with filter", () => {
 
     list.scrollTop = scrollTopValue;
     await afterNextFrame();
+    expect(list.scrollTop).toBeGreaterThan(0);
 
     const filterInput = page.getBySelector("calcite-list calcite-filter").element();
     const filterHeight = filterInput.getBoundingClientRect().height;
     const topWithFilter = stickyContainer.getBoundingClientRect().top;
 
     el.filterEnabled = false;
-    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter + 1));
     await afterNextTask();
     await afterNextFrame();
 
