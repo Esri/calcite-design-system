@@ -37,8 +37,6 @@ declare global {
 export class RadioButtonGroup extends LitElement {
   // #region Static Members
 
-  static formAssociated = true;
-
   static override styles = styles;
 
   // #endregion
