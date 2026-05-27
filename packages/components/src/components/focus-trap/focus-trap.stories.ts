@@ -6,9 +6,7 @@ export default {
 
 export const simple = (): string => html`
   <p>Use <code>Tab</code> to test focus looping between the inner buttons when <code>focusTrap</code> is enabled.</p>
-  <calcite-button class="toggle-focus-trap" style="margin-bottom: 0.75rem" width="auto"
-    >Toggle focusTrap (Off)</calcite-button
-  >
+  <calcite-button class="toggle-focus-trap" width="auto">Toggle focusTrap (Off)</calcite-button>
   <calcite-focus-trap>
     <calcite-panel closable heading="Focus Trap Example">
       <p>

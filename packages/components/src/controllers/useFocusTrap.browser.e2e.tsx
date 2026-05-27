@@ -326,6 +326,37 @@ describe("focusTrapDisabledOverride", () => {
     expect(component.focusTrap._instance).toBeUndefined();
   });
 
+  it("does not activate when focusTrapDisabled becomes false after explicit deactivate in method-only mode", async () => {
+    class FocusTrapDisabledNoTrigger extends LitElement {
+      @property() focusTrapDisabled = false;
+
+      constructor() {
+        super();
+        this.focusTrapDisabled = true;
+      }
+
+      focusTrap = useFocusTrap<this>({})(this);
+
+      override render(): JsxNode {
+        return <button type="button">trap target</button>;
+      }
+    }
+
+    const { el, component } = await mount(FocusTrapDisabledNoTrigger);
+
+    component.focusTrap.activate();
+
+    expect(component.focusTrap._instance).toBeDefined();
+    const activateSpy = vi.spyOn(component.focusTrap._instance!, "activate");
+
+    component.focusTrap.deactivate();
+
+    el.focusTrapDisabled = false;
+    await component.updateComplete;
+
+    expect(activateSpy).toHaveBeenCalledTimes(0);
+  });
+
   it("deactivates when focusTrapDisabled becomes true and triggerProp is omitted", async () => {
     class FocusTrapDisabledNoTrigger extends LitElement {
       @property() focusTrapDisabled = false;
