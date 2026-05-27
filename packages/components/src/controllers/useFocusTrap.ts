@@ -222,6 +222,10 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     const internalFocusTrapOptions = options.focusTrapOptions;
     const isTriggerActive = (): boolean => (options.triggerProp ? Boolean(component[options.triggerProp]) : true);
     const shouldAutoActivate = (): boolean => (options.triggerProp ? isTriggerActive() : requestedActive);
+    const canActivateTrap = (): boolean =>
+      typeof component.focusTrapDisabledOverride === "function"
+        ? !component.focusTrapDisabledOverride()
+        : !component.focusTrapDisabled;
 
     const activateTrap = (): void => {
       const targetEl = focusTrapEl || component.el;
@@ -242,11 +246,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
         );
       }
 
-      if (
-        typeof component.focusTrapDisabledOverride === "function"
-          ? !component.focusTrapDisabledOverride()
-          : !component.focusTrapDisabled
-      ) {
+      if (canActivateTrap()) {
         focusTrap.activate();
       }
     };
@@ -262,12 +262,17 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     });
 
     controller.onUpdate((changes) => {
-      if (component.hasUpdated && changes.has("focusTrapDisabled")) {
-        if (component.focusTrapDisabled || !isTriggerActive()) {
-          deactivateTrap();
-        } else if (shouldAutoActivate()) {
-          activateTrap();
-        }
+      if (!component.hasUpdated || !changes.has("focusTrapDisabled")) {
+        return;
+      }
+
+      if (component.focusTrapDisabled || !isTriggerActive()) {
+        deactivateTrap();
+        return;
+      }
+
+      if (shouldAutoActivate()) {
+        activateTrap();
       }
     });
 
