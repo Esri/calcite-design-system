@@ -35,7 +35,6 @@ export const CSS = {
   iconStart: "icon-start",
   list: "list",
   listHide: "list--hide",
-  disabled: "disabled",
 };
 
 const idPrefix = "combobox";
