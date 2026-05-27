@@ -22,7 +22,7 @@ describe("defaults", () => {
     () => mount("calcite-focus-trap"),
     [
       {
-        propertyName: "focusTrap",
+        propertyName: "active",
         defaultValue: false,
       },
       {
@@ -46,15 +46,26 @@ describe("reflects", () => {
     () => mount("calcite-focus-trap"),
     [
       {
-        propertyName: "focusTrap",
-        value: true,
-      },
-      {
         propertyName: "focusTrapDisabled",
         value: true,
       },
     ],
   );
+
+  it("does not reflect active", async () => {
+    const { el } = await mount<FocusTrap>(<calcite-focus-trap />);
+
+    expect(el.hasAttribute("active")).toBe(false);
+
+    await el.activate();
+    await waitForComponentUpdate(el);
+    expect(el.active).toBe(true);
+    expect(el.hasAttribute("active")).toBe(false);
+
+    await el.deactivate();
+    await waitForComponentUpdate(el);
+    expect(el.hasAttribute("active")).toBe(false);
+  });
 });
 
 describe("honors hidden attribute", () => {
@@ -91,8 +102,8 @@ describe("focus trap behavior", () => {
       </>,
     );
 
-    el.focusTrap = true;
-    await waitForComponentUpdate(el);
+    await el.activate();
+    expect(el.active).toBe(true);
 
     const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
     const insideTwo = el.querySelector("#inside-two") as HTMLButtonElement | null;
@@ -128,8 +139,9 @@ describe("focus trap behavior", () => {
     );
 
     el.focusTrapDisabled = true;
-    el.focusTrap = true;
+    await el.activate();
     await waitForComponentUpdate(el);
+    expect(el.active).toBe(false);
 
     const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
     const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
@@ -164,8 +176,9 @@ describe("focus trap behavior", () => {
     );
 
     el.focusTrapDisabledOverride = () => true;
-    el.focusTrap = true;
+    await el.activate();
     await waitForComponentUpdate(el);
+    expect(el.active).toBe(false);
 
     const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
     const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
@@ -207,13 +220,13 @@ describe("focus trap behavior", () => {
 
     outside.focus();
     el.focusTrapOptions = { initialFocus: false };
-    el.focusTrap = true;
-    await waitForComponentUpdate(el);
+    await el.activate();
+    expect(el.active).toBe(true);
 
     expect(document.activeElement).toBe(outside);
   });
 
-  it("sets focusTrap=false when deactivated by outside click", async () => {
+  it("emits deactivated state when deactivated by outside click", async () => {
     const { el } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
@@ -236,13 +249,22 @@ describe("focus trap behavior", () => {
       throw new Error("Expected outside focusable element to exist");
     }
 
-    el.focusTrap = true;
-    await waitForComponentUpdate(el);
+    const changeHandler = vi.fn();
+    const activeStates: boolean[] = [];
+    el.addEventListener("calciteFocusTrapActiveChange", changeHandler);
+    el.addEventListener("calciteFocusTrapActiveChange", () => {
+      activeStates.push(el.active);
+    });
+
+    await el.activate();
+    expect(el.active).toBe(true);
 
     await userEvent.click(outside);
     await waitForComponentUpdate(el);
+    expect(el.active).toBe(false);
 
-    expect(el.focusTrap).toBe(false);
+    expect(changeHandler).toHaveBeenCalledTimes(2);
+    expect(activeStates).toEqual([true, false]);
   });
 });
 
@@ -256,29 +278,42 @@ describe("public methods", () => {
 
     await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
   });
+
+  it("supports activate and deactivate", async () => {
+    const { el } = await mount<FocusTrap>(<calcite-focus-trap />);
+
+    await expect(el.activate()).resolves.toBeUndefined();
+    expect(el.active).toBe(true);
+    await expect(el.deactivate()).resolves.toBeUndefined();
+    expect(el.active).toBe(false);
+  });
 });
 
 describe("events", () => {
-  it("emits calciteFocusTrapChange when focusTrap changes", async () => {
+  it("emits calciteFocusTrapActiveChange when activate/deactivate is called", async () => {
     const { el } = await mount<FocusTrap>(<calcite-focus-trap />);
     const changeHandler = vi.fn();
+    const activeStates: boolean[] = [];
 
-    el.addEventListener("calciteFocusTrapChange", changeHandler);
+    el.addEventListener("calciteFocusTrapActiveChange", changeHandler);
+    el.addEventListener("calciteFocusTrapActiveChange", () => {
+      activeStates.push(el.active);
+    });
 
-    el.focusTrap = true;
-    await waitForComponentUpdate(el);
+    await el.activate();
+    expect(el.active).toBe(true);
 
     expect(changeHandler).toHaveBeenCalledTimes(1);
-    expect((changeHandler.mock.calls[0][0] as CustomEvent<boolean>).detail).toBe(true);
+    expect(activeStates).toEqual([true]);
 
-    el.focusTrap = false;
-    await waitForComponentUpdate(el);
+    await el.deactivate();
+    expect(el.active).toBe(false);
 
     expect(changeHandler).toHaveBeenCalledTimes(2);
-    expect((changeHandler.mock.calls[1][0] as CustomEvent<boolean>).detail).toBe(false);
+    expect(activeStates).toEqual([true, false]);
   });
 
-  it("emits calciteFocusTrapChange when internally deactivated", async () => {
+  it("emits calciteFocusTrapActiveChange when internally deactivated", async () => {
     const { el } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
@@ -295,23 +330,26 @@ describe("events", () => {
       </>,
     );
     const changeHandler = vi.fn();
+    const activeStates: boolean[] = [];
     const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
 
     if (!outside) {
       throw new Error("Expected outside focusable element to exist");
     }
 
-    el.addEventListener("calciteFocusTrapChange", changeHandler);
+    el.addEventListener("calciteFocusTrapActiveChange", changeHandler);
+    el.addEventListener("calciteFocusTrapActiveChange", () => {
+      activeStates.push(el.active);
+    });
 
-    el.focusTrap = true;
-    await waitForComponentUpdate(el);
+    await el.activate();
+    expect(el.active).toBe(true);
 
     await userEvent.click(outside);
     await waitForComponentUpdate(el);
+    expect(el.active).toBe(false);
 
-    expect(el.focusTrap).toBe(false);
     expect(changeHandler).toHaveBeenCalledTimes(2);
-    expect((changeHandler.mock.calls[0][0] as CustomEvent<boolean>).detail).toBe(true);
-    expect((changeHandler.mock.calls[1][0] as CustomEvent<boolean>).detail).toBe(false);
+    expect(activeStates).toEqual([true, false]);
   });
 });

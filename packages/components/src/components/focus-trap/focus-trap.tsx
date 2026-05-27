@@ -1,4 +1,3 @@
-import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { styles } from "./focus-trap.scss";
@@ -19,13 +18,15 @@ export class FocusTrap extends LitElement {
 
   //#region Private Properties
 
+  private _active = false;
+
   private focusTrapController = useFocusTrap<this>({
-    triggerProp: "focusTrap",
     focusTrapOptions: {
+      onActivate: () => {
+        this.setActive(true);
+      },
       onDeactivate: () => {
-        if (this.focusTrap) {
-          this.focusTrap = false;
-        }
+        this.setActive(false);
       },
     },
   })(this);
@@ -34,11 +35,14 @@ export class FocusTrap extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, activates the component's focus trap. */
-  @property({ reflect: true }) focusTrap = false;
-
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
+
+  /** Indicates whether the component's focus trap is currently active. */
+  @property({ reflect: true })
+  get active(): boolean {
+    return this._active;
+  }
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   @property() focusTrapDisabledOverride?: () => boolean;
@@ -52,11 +56,23 @@ export class FocusTrap extends LitElement {
    * `"extraContainers"` specifies additional focusable elements external to the trap, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated.
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   //#endregion
 
   //#region Public Methods
+
+  /** Activates the component's focus trap. */
+  @method()
+  async activate(): Promise<void> {
+    this.focusTrapController.activate();
+  }
+
+  /** Deactivates the component's focus trap. */
+  @method()
+  async deactivate(): Promise<void> {
+    this.focusTrapController.deactivate();
+  }
 
   /**
    * Updates the element(s) that are included in the focus-trap of the component.
@@ -75,24 +91,22 @@ export class FocusTrap extends LitElement {
 
   //#region Events
 
-  /** Fires when the `focusTrap` value has changed. */
-  calciteFocusTrapChange = createEvent<boolean>({ cancelable: false });
+  /** Fires when the focus-trap active state has changed. */
+  calciteFocusTrapActiveChange = createEvent<void>({ cancelable: false });
 
   //#endregion
 
-  //#region Lifecycle
+  //#region Private Methods
 
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("focusTrap")) {
-      if (this.el.isConnected) {
-        this.calciteFocusTrapChange.emit(this.focusTrap);
-      }
+  private setActive(active: boolean): void {
+    if (this._active === active) {
+      return;
+    }
 
-      if (this.focusTrap) {
-        this.focusTrapController.activate();
-      } else {
-        this.focusTrapController.deactivate();
-      }
+    this._active = active;
+
+    if (this.el.isConnected) {
+      this.calciteFocusTrapActiveChange.emit();
     }
   }
 

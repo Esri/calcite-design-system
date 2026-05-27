@@ -48,8 +48,10 @@ export interface UseFocusTrap {
 interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * The name of the prop that will trigger the focus trap to activate.
+   *
+   * When omitted, activation is controlled only through controller methods.
    */
-  triggerProp: keyof T;
+  triggerProp?: keyof T;
 
   /**
    * Options to pass to the focus-trap library.
@@ -217,16 +219,17 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
     let focusTrapEl: HTMLElement;
     let effectiveContainers: FocusTrapOptions["extraContainers"];
     const internalFocusTrapOptions = options.focusTrapOptions;
+    const isTriggerActive = (): boolean => (options.triggerProp ? Boolean(component[options.triggerProp]) : true);
 
     controller.onConnected(() => {
-      if (component[options.triggerProp] && focusTrap) {
+      if (isTriggerActive() && focusTrap) {
         utils.activate();
       }
     });
 
     controller.onUpdate((changes) => {
       if (component.hasUpdated && changes.has("focusTrapDisabled")) {
-        if (component.focusTrapDisabled) {
+        if (component.focusTrapDisabled || !isTriggerActive()) {
           utils.deactivate();
         } else {
           utils.activate();

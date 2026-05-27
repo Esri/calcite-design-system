@@ -38,20 +38,24 @@ export const simple = (): string => html`
         return;
       }
 
-      toggleButton.textContent = "Toggle focusTrap (" + (focusTrap.focusTrap ? "On" : "Off") + ")";
+      toggleButton.textContent = "Toggle focusTrap (" + (focusTrap.active ? "On" : "Off") + ")";
     };
 
     if (toggleButton && focusTrap) {
       syncButtonLabel();
-      focusTrap.addEventListener("calciteFocusTrapChange", syncButtonLabel);
+      focusTrap.addEventListener("calciteFocusTrapActiveChange", syncButtonLabel);
 
       toggleButton.addEventListener("click", () => {
         panel.closed = false;
-        focusTrap.focusTrap = !focusTrap.focusTrap;
+        if (focusTrap.active) {
+          focusTrap.deactivate();
+        } else {
+          focusTrap.activate();
+        }
       });
 
       panel?.addEventListener("calcitePanelClose", () => {
-        focusTrap.focusTrap = false;
+        focusTrap.deactivate();
       });
     }
   </script>
