@@ -39,7 +39,7 @@ export class FocusTrap extends LitElement {
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** Indicates whether the component's focus trap is currently active. */
-  @property({ reflect: true })
+  @property()
   get active(): boolean {
     return this._active;
   }
@@ -103,7 +103,9 @@ export class FocusTrap extends LitElement {
       return;
     }
 
+    const oldActive = this._active;
     this._active = active;
+    this.requestUpdate("active", oldActive);
 
     if (this.el.isConnected) {
       this.calciteFocusTrapActiveChange.emit();

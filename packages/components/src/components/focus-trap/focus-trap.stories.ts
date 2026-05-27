@@ -46,7 +46,7 @@ export const simple = (): string => html`
       focusTrap.addEventListener("calciteFocusTrapActiveChange", syncButtonLabel);
 
       toggleButton.addEventListener("click", () => {
-        panel.closed = false;
+        panel?.closed = false;
         if (focusTrap.active) {
           focusTrap.deactivate();
         } else {

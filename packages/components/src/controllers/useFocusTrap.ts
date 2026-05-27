@@ -231,7 +231,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
       if (component.hasUpdated && changes.has("focusTrapDisabled")) {
         if (component.focusTrapDisabled || !isTriggerActive()) {
           utils.deactivate();
-        } else {
+        } else if (options.triggerProp || focusTrap) {
           utils.activate();
         }
       }
