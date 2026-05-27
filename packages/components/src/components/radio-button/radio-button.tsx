@@ -106,6 +106,13 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /**
+   * The component's validation message.
+   * @internal
+   * @mdn [validationMessage](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/validationMessage)
+   */
+  @property() validationMessage: string;
+
+  /**
    * The component's current validation state.
    *
    * @internal
@@ -149,7 +156,10 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @internal
    */
   @method()
-  async setValidity(validity: ValidityStateFlags, validationMessage: string = ""): Promise<void> {
+  async setValidity(
+    validity: ValidityStateFlags,
+    validationMessage: string = this.validationMessage,
+  ): Promise<void> {
     this.elementInternals.setValidity(validity, validationMessage);
   }
 

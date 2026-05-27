@@ -333,16 +333,16 @@ export const useForm = <T extends FormComponent>(
     function handleInvalidInput(): void {
       const validationMessage = customValidityMessage || inputDelegate?.validationMessage || "";
 
-      component.el.dispatchEvent(
-        // allows users to set custom validation messages
-        new CustomEvent("calciteInvalid", { bubbles: true, composed: true, detail: { component, validationMessage } }),
-      );
-
       displayValidationMessage(component, {
         message: validationMessage,
         icon: true,
         status: "invalid",
       });
+
+      component.el.dispatchEvent(
+        // allows users to set custom validation messages
+        new CustomEvent("calciteInvalid", { bubbles: true, composed: true }),
+      );
 
       const clearValidationEvent = getClearValidationEventName(component.el.tagName.toLowerCase());
 
