@@ -175,7 +175,7 @@ export const validationMessage = (): string => html`
           Three
         </calcite-label>
       </calcite-radio-button-group>
-      <calcite-button type="submit" onClick="submitHandler()">Submit</calcite-button>
+      <calcite-button type="submit">Submit</calcite-button>
       <calcite-button type="reset" kind="danger">Reset</calcite-button>
     </div>
   </form>
