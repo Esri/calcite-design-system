@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.1...@esri/calcite-components@5.1.1-next.2) (2026-05-28)
+
+### Bug Fixes
+
+- **dropdown:** fix virtual element positioning on first render ([#14518](https://github.com/Esri/calcite-design-system/issues/14518)), closes [#14498](https://github.com/Esri/calcite-design-system/issues/14498)
+
 ## [5.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.0...@esri/calcite-components@5.1.1-next.1) (2026-05-28)
 
 ### Bug Fixes
