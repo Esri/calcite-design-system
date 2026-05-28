@@ -486,7 +486,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     [getUsername("anveshmekala"), { role: mondayColumns.developers, id: 48387134 }],
     [getUsername("aPreciado88"), { role: mondayColumns.developers, id: 60795249 }],
     [getUsername("ashetland"), { role: mondayColumns.designers, id: 45851619 }],
-    [getUsername("benelan"), { role: mondayColumns.developers, id: 49704471 }],
+    [getUsername("benelan"), { role: mondayColumns.developers, id: 104096847 }],
     [getUsername("brendan-vincent-rice"), { role: mondayColumns.developers, id: 96903694 }],
     [getUsername("chezHarper"), { role: mondayColumns.designers, id: 71157966 }],
     [getUsername("DintaMel"), { role: mondayColumns.productEngineers, id: 92955697 }],
