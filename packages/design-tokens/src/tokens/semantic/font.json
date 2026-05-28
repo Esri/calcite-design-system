@@ -2,74 +2,74 @@
   "font": {
     "family": {
       "default": {
-        "value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
-        "type": "fontFamilies",
+        "$value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
+        "$description": "Primary font with fallbacks",
+        "$type": "fontFamilies",
         "attributes": {
           "category": "font",
           "group": "family"
-        },
-        "description": "Primary font with fallbacks"
+        }
       },
       "code": {
-        "value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
-        "type": "fontFamilies",
+        "$value": "{core.font.family.monaco},{core.font.family.consolas},{core.font.family.andaleMono},{core.font.family.lucidaConsole},{core.font.family.monospace}",
+        "$description": "Font family for code with fallbacks",
+        "$type": "fontFamilies",
         "attributes": {
           "category": "font",
           "group": "family"
-        },
-        "description": "Font family for code with fallbacks"
+        }
       }
     },
     "weight": {
       "light": {
-        "value": "{core.font.weight.light}",
-        "type": "fontWeights",
+        "$value": "{core.font.weight.light}",
+        "$description": "For Avenir Next World (secondary font family)",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
-        },
-        "description": "For Avenir Next World (secondary font family)"
+        }
       },
       "normal": {
-        "value": "{core.font.weight.regular}",
-        "type": "fontWeights",
-        "extensions": {
-          "calcite.deprecated": true
-        },
+        "$value": "{core.font.weight.regular}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead.",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight",
           "docs": "deprecated"
         },
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead."
+        "extensions": {
+          "calcite.deprecated": true
+        }
       },
       "regular": {
-        "value": "{core.font.weight.regular}",
-        "type": "fontWeights",
+        "$value": "{core.font.weight.regular}",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
         }
       },
       "medium": {
-        "value": "{core.font.weight.medium}",
-        "type": "fontWeights",
+        "$value": "{core.font.weight.medium}",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
         }
       },
       "semibold": {
-        "value": "{core.font.weight.demi}",
-        "type": "fontWeights",
+        "$value": "{core.font.weight.demi}",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
         }
       },
       "bold": {
-        "value": "{core.font.weight.demi}",
-        "type": "fontWeights",
+        "$value": "{core.font.weight.demi}",
+        "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
@@ -78,66 +78,66 @@
     },
     "size": {
       "xs": {
-        "value": "{core.size.default.10}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.10}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "sm": {
-        "value": "{core.size.default.12}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.12}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "default": {
-        "value": "{core.size.default.14}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.14}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "md": {
-        "value": "{core.size.default.16}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.16}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "lg": {
-        "value": "{core.size.default.2} * 9",
-        "type": "fontSizes",
+        "$value": "{core.size.default.2} * 9",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "xl": {
-        "value": "{core.size.default.20}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.20}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
         }
       },
       "xxl": {
-        "value": "{core.size.default.24}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.24}",
+        "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-font-size-2xl` instead.",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size",
           "docs": "deprecated"
-        },
-        "description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-font-size-2xl` instead."
+        }
       },
       "2xl": {
-        "value": "{core.size.default.24}",
-        "type": "fontSizes",
+        "$value": "{core.size.default.24}",
+        "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
@@ -145,8 +145,8 @@
       },
       "relative": {
         "xs": {
-          "value": "{core.size.rem.0-625}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.0-625}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -154,8 +154,8 @@
           }
         },
         "sm": {
-          "value": "{core.size.rem.0-75}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.0-75}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -163,8 +163,8 @@
           }
         },
         "base": {
-          "value": "{core.size.rem.0-875}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.0-875}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -172,8 +172,8 @@
           }
         },
         "md": {
-          "value": "{core.size.rem.1}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.1}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -181,8 +181,8 @@
           }
         },
         "lg": {
-          "value": "{core.size.rem.1-125}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.1-125}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -190,8 +190,8 @@
           }
         },
         "xl": {
-          "value": "{core.size.rem.1-25}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.1-25}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -199,8 +199,8 @@
           }
         },
         "2xl": {
-          "value": "{core.size.rem.1-625}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.1-625}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -208,8 +208,8 @@
           }
         },
         "3xl": {
-          "value": "{core.size.rem.2}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.2}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -217,8 +217,8 @@
           }
         },
         "4xl": {
-          "value": "{core.size.rem.2-5}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.2-5}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -226,8 +226,8 @@
           }
         },
         "5xl": {
-          "value": "{core.size.rem.3}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.3}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -235,8 +235,8 @@
           }
         },
         "6xl": {
-          "value": "{core.size.rem.3-5}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.3-5}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -244,8 +244,8 @@
           }
         },
         "7xl": {
-          "value": "{core.size.rem.4}",
-          "type": "fontSizes",
+          "$value": "{core.size.rem.4}",
+          "$type": "fontSizes",
           "attributes": {
             "category": "font",
             "group": "size",
@@ -256,9 +256,9 @@
     },
     "style": {
       "emphasis": {
-        "value": "{core.font.style.italic}",
-        "type": "fontStyle",
-        "description": "used in ratings",
+        "$value": "{core.font.style.italic}",
+        "$description": "used in ratings",
+        "$type": "fontStyle",
         "attributes": {
           "category": "font",
           "group": "style"
@@ -268,8 +268,8 @@
     "line-height": {
       "fixed": {
         "sm": {
-          "value": "{core.size.default.12}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.12}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -277,8 +277,8 @@
           }
         },
         "base": {
-          "value": "{core.size.default.16}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.16}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -286,8 +286,8 @@
           }
         },
         "lg": {
-          "value": "{core.size.default.20}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.20}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -295,8 +295,8 @@
           }
         },
         "xl": {
-          "value": "{core.size.default.24}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.24}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -304,8 +304,8 @@
           }
         },
         "2xl": {
-          "value": "{core.size.default.32}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.32}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -313,8 +313,8 @@
           }
         },
         "3xl": {
-          "value": "{core.size.default.40}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.40}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -322,8 +322,8 @@
           }
         },
         "4xl": {
-          "value": "{core.size.default.48}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.48}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -331,8 +331,8 @@
           }
         },
         "5xl": {
-          "value": "{core.size.default.64}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.64}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -340,8 +340,8 @@
           }
         },
         "6xl": {
-          "value": "{core.size.default.80}",
-          "type": "lineHeights",
+          "$value": "{core.size.default.80}",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -351,9 +351,9 @@
       },
       "relative": {
         "default": {
-          "value": "{core.size.relative.normal}",
-          "type": "lineHeights",
-          "description": "normal",
+          "$value": "{core.size.relative.normal}",
+          "$description": "normal",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -361,9 +361,9 @@
           }
         },
         "base": {
-          "value": "{core.size.relative.100}",
-          "type": "lineHeights",
-          "description": "1",
+          "$value": "{core.size.relative.100}",
+          "$description": "1",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -371,9 +371,9 @@
           }
         },
         "tight": {
-          "value": "{core.size.relative.125}",
-          "type": "lineHeights",
-          "description": "1.25",
+          "$value": "{core.size.relative.125}",
+          "$description": "1.25",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -381,9 +381,9 @@
           }
         },
         "snug": {
-          "value": "{core.size.relative.137}",
-          "type": "lineHeights",
-          "description": "1.375",
+          "$value": "{core.size.relative.137}",
+          "$description": "1.375",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -391,9 +391,9 @@
           }
         },
         "normal": {
-          "value": "{core.size.relative.150}",
-          "type": "lineHeights",
-          "description": "1.5",
+          "$value": "{core.size.relative.150}",
+          "$description": "1.5",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -401,9 +401,9 @@
           }
         },
         "relaxed": {
-          "value": "{core.size.relative.162}",
-          "type": "lineHeights",
-          "description": "1.625",
+          "$value": "{core.size.relative.162}",
+          "$description": "1.625",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -411,9 +411,9 @@
           }
         },
         "loose": {
-          "value": "{core.size.relative.200}",
-          "type": "lineHeights",
-          "description": "2",
+          "$value": "{core.size.relative.200}",
+          "$description": "2",
+          "$type": "lineHeights",
           "attributes": {
             "category": "font",
             "group": "line-height",
@@ -422,96 +422,96 @@
         }
       },
       "xs": {
-        "value": "{core.size.rem.0-75}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.0-75}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "sm": {
-        "value": "{core.size.rem.1}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.1}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "base": {
-        "value": "{core.size.rem.1}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.1}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "md": {
-        "value": "{core.size.rem.1-25}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.1-25}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "lg": {
-        "value": "{core.size.rem.1-5}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.1-5}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "xl": {
-        "value": "{core.size.rem.1-5}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.1-5}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "2xl": {
-        "value": "{core.size.rem.2}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.2}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "3xl": {
-        "value": "{core.size.rem.2-5}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.2-5}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "4xl": {
-        "value": "{core.size.rem.3}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.3}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "5xl": {
-        "value": "{core.size.rem.4}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.4}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "6xl": {
-        "value": "{core.size.rem.4}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.4}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
         }
       },
       "7xl": {
-        "value": "{core.size.rem.5}",
-        "type": "lineHeights",
+        "$value": "{core.size.rem.5}",
+        "$type": "lineHeights",
         "attributes": {
           "category": "font",
           "group": "line-height"
@@ -520,9 +520,9 @@
     },
     "letter-spacing": {
       "tight": {
-        "value": "{core.size.default.none} - .4 ",
-        "type": "letterSpacing",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.size.default.none} - .4 ",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "letterSpacing",
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
@@ -530,9 +530,9 @@
         }
       },
       "normal": {
-        "value": "{core.size.default.none}",
-        "type": "letterSpacing",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.size.default.none}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "letterSpacing",
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
@@ -540,9 +540,9 @@
         }
       },
       "wide": {
-        "value": "{core.size.default.none} + .4 ",
-        "type": "letterSpacing",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.size.default.none} + .4 ",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "letterSpacing",
         "attributes": {
           "category": "font",
           "group": "letter-spacing",
@@ -552,9 +552,9 @@
     },
     "paragraph-spacing": {
       "normal": {
-        "value": "{core.size.default.4}",
-        "type": "paragraphSpacing",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.size.default.4}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "paragraphSpacing",
         "attributes": {
           "category": "font",
           "group": "paragraph-spacing"
@@ -563,9 +563,9 @@
     },
     "text-decoration": {
       "none": {
-        "value": "{core.font.text-decoration.none}",
-        "type": "textDecoration",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-decoration.none}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textDecoration",
         "attributes": {
           "category": "font",
           "group": "text-decoration",
@@ -573,9 +573,9 @@
         }
       },
       "underline": {
-        "value": "{core.font.text-decoration.underline}",
-        "type": "textDecoration",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-decoration.underline}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textDecoration",
         "attributes": {
           "category": "font",
           "group": "text-decoration",
@@ -585,9 +585,9 @@
     },
     "text-case": {
       "none": {
-        "value": "{core.font.text-case.none}",
-        "type": "textCase",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-case.none}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textCase",
         "attributes": {
           "category": "font",
           "group": "text-case",
@@ -595,9 +595,9 @@
         }
       },
       "uppercase": {
-        "value": "{core.font.text-case.uppercase}",
-        "type": "textCase",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-case.uppercase}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textCase",
         "attributes": {
           "category": "font",
           "group": "text-case",
@@ -605,9 +605,9 @@
         }
       },
       "lowercase": {
-        "value": "{core.font.text-case.lowercase}",
-        "type": "textCase",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-case.lowercase}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textCase",
         "attributes": {
           "category": "font",
           "group": "text-case",
@@ -615,9 +615,9 @@
         }
       },
       "capitalize": {
-        "value": "{core.font.text-case.capitalize}",
-        "type": "textCase",
-        "description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$value": "{core.font.text-case.capitalize}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
+        "$type": "textCase",
         "attributes": {
           "category": "font",
           "group": "text-case",

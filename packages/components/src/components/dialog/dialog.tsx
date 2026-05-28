@@ -838,9 +838,9 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               loading={this.loading}
               menuOpen={this.menuOpen}
               messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
+              onKeyDown={this.handlePanelKeyDown}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}

@@ -201,6 +201,10 @@
 
 @include floating-ui.floating-ui-elem-anim(".floating-ui-container");
 
+.floating-ui-container .calcite-floating-ui-anim {
+  box-shadow: var(--calcite-shadow-md);
+}
+
 @media (forced-colors: active) {
   .wrapper,
   .floating-ui-container {
@@ -269,10 +273,6 @@ calcite-chip {
 .no-matches-placeholder {
   color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
   cursor: default;
-}
-
-.disabled {
-  @apply opacity-50;
 }
 
 @include includes.disabled();

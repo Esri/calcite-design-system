@@ -27,6 +27,7 @@ export default tseslint.config(
       sourceType: "module",
       parser: tseslint.parser,
       parserOptions: {
+        jsxFragmentName: "Fragment",
         jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],

@@ -129,6 +129,7 @@ export class Tabs extends LitElement {
     let tabIds;
     let titleIds;
     const tabs = getSlotAssignedElements<Tab["el"]>(this.slotRef.value, "calcite-tab");
+    await Promise.all([...tabs, ...this.titles].map((tabOrTitle) => tabOrTitle.componentOnReady()));
 
     // determine if we are using `tab` based or `index` based tab identifiers.
     if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
