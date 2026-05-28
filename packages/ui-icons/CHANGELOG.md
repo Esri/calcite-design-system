@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0...@esri/calcite-ui-icons@4.5.0) (2026-05-28)
+
+
+### Features
+
+* Add arcgis quickcapture and arcgis survey 123 ([#14163](https://github.com/Esri/calcite-design-system/issues/14163)) ([fa450d8](https://github.com/Esri/calcite-design-system/commit/fa450d893be39bc39bc41e328b96b708696d17cd))
+* Add bim, dwg, and rvt icons ([#13977](https://github.com/Esri/calcite-design-system/issues/13977)) ([b1b800f](https://github.com/Esri/calcite-design-system/commit/b1b800fa9410db2bef1ab776217cda84bbc1efe5))
+* Add buttons and entity types ([#14408](https://github.com/Esri/calcite-design-system/issues/14408)) ([a6840dd](https://github.com/Esri/calcite-design-system/commit/a6840dd0f2093b2f2da74d347be02a63dc598d06))
+* Add gps receiver and total station ([#14301](https://github.com/Esri/calcite-design-system/issues/14301)) ([66bcbbc](https://github.com/Esri/calcite-design-system/commit/66bcbbc4802bc4c18bc14b97ffb820c01337a328))
+* Add layer stream setting and velocity server ([#14139](https://github.com/Esri/calcite-design-system/issues/14139)) ([bcbb600](https://github.com/Esri/calcite-design-system/commit/bcbb60039cdaf213ef39d1fbffc081d94ff46968))
+* Add publish ([#14065](https://github.com/Esri/calcite-design-system/issues/14065)) ([a94b77f](https://github.com/Esri/calcite-design-system/commit/a94b77fc9c3b6d93c266c46fe064c13bf366d82e))
+* Add travel mode icons ([#13990](https://github.com/Esri/calcite-design-system/issues/13990)) ([b57323c](https://github.com/Esri/calcite-design-system/commit/b57323cc1ffb8a250945b26fd59cd0cfe39ef9d0))
+* Review map and return to default ([#14473](https://github.com/Esri/calcite-design-system/issues/14473)) ([a9cedd8](https://github.com/Esri/calcite-design-system/commit/a9cedd836d79246b81b01a70fedb650e7ce6d8ff))
+* Updated nodes-unmerge keywords ([#14225](https://github.com/Esri/calcite-design-system/issues/14225)) ([38ac638](https://github.com/Esri/calcite-design-system/commit/38ac638fa7c9cc5ceddc19efac2fca97a44b2412))
+
 ## [4.5.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.14...@esri/calcite-ui-icons@4.5.0-next.15) (2026-05-22)
 
 ### Features
