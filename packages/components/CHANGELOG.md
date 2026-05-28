@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.0-next.62](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.61...@esri/calcite-components@5.1.0-next.62) (2026-05-28)
+
+### Bug Fixes
+
+- **radio-button:** display validation message and invalid border color ([#14465](https://github.com/Esri/calcite-design-system/issues/14465)), closes [#8126](https://github.com/Esri/calcite-design-system/issues/8126)
+
+### Reverts
+
+- fix(combobox): improve disabled chip handling and select-all behavior ([#14508](https://github.com/Esri/calcite-design-system/issues/14508)), closes [#14243](https://github.com/Esri/calcite-design-system/issues/14243)
+
 ## [5.1.0-next.61](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.60...@esri/calcite-components@5.1.0-next.61) (2026-05-27)
 
 ### Bug Fixes
