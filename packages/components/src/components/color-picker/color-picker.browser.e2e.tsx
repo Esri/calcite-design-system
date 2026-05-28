@@ -105,6 +105,14 @@ describe("renders", () => {
   renders(() => mount("calcite-color-picker"), { display: "inline-block" });
 });
 
+describe("opacity label", () => {
+  it("renders a visible opacity label when alpha channel is enabled", async () => {
+    await mount(<calcite-color-picker alpha-channel />);
+
+    await expect.element(page.getByText("Opacity")).toBeVisible();
+  });
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-color-picker"));
 });
