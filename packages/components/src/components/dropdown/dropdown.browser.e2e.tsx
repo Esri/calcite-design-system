@@ -248,13 +248,17 @@ describe("ariaActiveDescendantElement", () => {
     const internalButton = page.getByRole("button", { name: "Open dropdown" }).element();
     const triggerHost = (internalButton?.getRootNode() as ShadowRoot | null)?.host;
 
-    return page.elementLocator(triggerHost);
+    expect(triggerHost).toBeTruthy();
+
+    return page.elementLocator(triggerHost!);
   }
 
   function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
     const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
 
-    return page.elementLocator(slot);
+    expect(slot).toBeTruthy();
+
+    return page.elementLocator(slot!);
   }
 
   function getActiveDescendantId(): string | undefined {
@@ -325,7 +329,9 @@ describe("referenceElement keydown", () => {
     const trigger = page.getByRole("button", { name: "Open dropdown" });
     const dropdownElement = trigger.element()?.nextElementSibling;
 
-    const dropdown = page.elementLocator(dropdownElement).element() as Dropdown;
+    expect(dropdownElement).toBeTruthy();
+
+    const dropdown = page.elementLocator(dropdownElement!).element() as Dropdown;
     const component = dropdown.manager.component;
 
     expect(el.open).toBe(false);
@@ -343,13 +349,18 @@ describe("referenceElement keydown", () => {
 describe("virtual referenceElement", () => {
   function renderVirtualReferenceElementDropdownHTML(): JsxNode {
     return (
-      <calcite-dropdown>
-        <calcite-dropdown-group group-title="Natural places">
-          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-          <calcite-dropdown-item>Desert</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
+      <>
+        <button id="context-menu-target" type="button">
+          Open context menu
+        </button>
+        <calcite-dropdown>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>
     );
   }
 
@@ -357,8 +368,8 @@ describe("virtual referenceElement", () => {
     const contextMenuX = 120;
     const contextMenuY = 160;
     const { el } = await mount<Dropdown>(renderVirtualReferenceElementDropdownHTML);
-    const component = el.manager.component;
-    await component.updateComplete;
+    let expectedReferenceX: number | undefined;
+    let expectedReferenceY: number | undefined;
 
     const createVirtualElement = ({
       clientX,
@@ -378,6 +389,8 @@ describe("virtual referenceElement", () => {
 
     const onContextMenu = (event: MouseEvent): void => {
       event.preventDefault();
+      expectedReferenceX = event.clientX;
+      expectedReferenceY = event.clientY;
       el.referenceElement = createVirtualElement(event);
       el.open = true;
     };
@@ -385,46 +398,44 @@ describe("virtual referenceElement", () => {
     document.addEventListener("contextmenu", onContextMenu);
 
     try {
-      const updateComplete = component.updateComplete;
+      const contextMenuTarget = page.getByRole("button", { name: "Open context menu" });
 
-      document.dispatchEvent(
-        new MouseEvent("contextmenu", {
-          bubbles: true,
-          cancelable: true,
-          clientX: contextMenuX,
-          clientY: contextMenuY,
-        }),
-      );
-
-      await waitForSettledUpdate(component, updateComplete);
-      await component.updateComplete;
+      await contextMenuTarget.click({
+        button: "right",
+        force: true,
+        position: {
+          x: contextMenuX,
+          y: contextMenuY,
+        },
+      });
 
       const menu = page.getByRole("menu");
 
-      expect(el.open).toBe(true);
+      await expect.poll(() => el.open).toBe(true);
       await expect.element(menu).toBeVisible();
 
       await expect
         .poll(() => {
-          const wrapper = menu.element()?.parentElement;
-          const hasPlacementData = !!wrapper?.getAttribute("data-placement");
-          const hasTranslateTransform =
-            wrapper instanceof HTMLElement && wrapper.style.transform.includes("translate(");
+          const wrapper = menu.element().parentElement as HTMLElement;
+          const hasPlacementData = wrapper.hasAttribute("data-placement");
+          const hasTranslateTransform = wrapper.style.transform.includes("translate(");
 
           return hasPlacementData || hasTranslateTransform;
         })
         .toBe(true);
 
-      const { referenceElement } = el;
+      expect(el.referenceElement).toBeDefined();
+      expect(typeof el.referenceElement).not.toBe("string");
 
-      if (!referenceElement || typeof referenceElement === "string") {
-        throw new Error("Expected virtual reference element");
-      }
+      const referenceElement = el.referenceElement as Exclude<Dropdown["referenceElement"], string>;
+      expect(referenceElement).toBeTruthy();
 
-      const referenceRect = referenceElement.getBoundingClientRect();
+      const referenceRect = referenceElement!.getBoundingClientRect();
 
-      expect(referenceRect.x).toBe(contextMenuX);
-      expect(referenceRect.y).toBe(contextMenuY);
+      expect(expectedReferenceX).toBeDefined();
+      expect(expectedReferenceY).toBeDefined();
+      expect(referenceRect.x).toBe(expectedReferenceX);
+      expect(referenceRect.y).toBe(expectedReferenceY);
     } finally {
       document.removeEventListener("contextmenu", onContextMenu);
     }
@@ -492,7 +503,9 @@ describe("keyboard navigation", () => {
   function getDropdownLocator(): ReturnType<typeof page.elementLocator> {
     const dropdown = getReferenceElementTrigger().element()?.nextElementSibling;
 
-    return page.elementLocator(dropdown);
+    expect(dropdown).toBeTruthy();
+
+    return page.elementLocator(dropdown!);
   }
 
   async function waitForDropdownUpdateComplete(): Promise<void> {
@@ -515,24 +528,26 @@ describe("keyboard navigation", () => {
     "item-4": "4",
   };
 
-  function getDropdownItemLocator(itemId: string): ReturnType<typeof page.elementLocator> | null {
+  function getDropdownItemLocator(itemId: string): ReturnType<typeof page.elementLocator> {
     const itemText = dropdownItemTextById[itemId];
     const itemContent = getDropdownLocator().getByText(itemText, { exact: true }).element();
     const item = itemContent?.closest("calcite-dropdown-item");
 
-    return page.elementLocator(item);
+    expect(item).toBeTruthy();
+
+    return page.elementLocator(item!);
   }
 
   function getActiveItemId(itemIds: string[]): string {
-    return itemIds.find((itemId) => {
+    const activeItemId = itemIds.find((itemId) => {
       const item = getDropdownItemLocator(itemId);
-
-      if (!item) {
-        throw new Error("Expected dropdown item with id " + itemId);
-      }
 
       return (item.element() as HTMLElement & { activeDescendant?: boolean }).activeDescendant;
     });
+
+    expect(activeItemId).toBeTruthy();
+
+    return activeItemId!;
   }
 
   async function pressReferenceElementKey(key: string): Promise<void> {
