@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
@@ -50,11 +49,11 @@ export class Block extends LitElement {
 
   transitionProp = "margin-top" as const;
 
-  transitionEl: HTMLElement;
+  transitionEl?: HTMLElement;
 
   private blockSectionChildren: BlockSection["el"][] = [];
 
-  private sortHandleEl: SortHandle["el"];
+  private sortHandleEl?: SortHandle["el"];
 
   /**
    * Made into a prop for testing purposes only
@@ -87,7 +86,7 @@ export class Block extends LitElement {
   @property({ reflect: true }) collapsible = false;
 
   /** Specifies a description for the component. Displays below the heading. */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -107,21 +106,20 @@ export class Block extends LitElement {
 
   /**
    * Specifies the component's heading text.
-   *
    */
-  @property() heading: string;
+  @property() heading?: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -129,10 +127,10 @@ export class Block extends LitElement {
   /**
    * Specifies an accessible label for the component.
    */
-  @property() label: string;
+  @property() label?: string;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
@@ -197,14 +195,14 @@ export class Block extends LitElement {
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize?: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
@@ -214,7 +212,7 @@ export class Block extends LitElement {
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
-  @property({ reflect: true }) status: Status;
+  @property({ reflect: true }) status?: Status;
 
   /**
    * When `true` and the component is `open`, disables top layer placement.
@@ -595,7 +593,7 @@ export class Block extends LitElement {
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? expanded : null}
+            ariaExpanded={collapsible ? expanded : undefined}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}

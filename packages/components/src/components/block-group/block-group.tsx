@@ -1,7 +1,15 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
@@ -21,8 +29,9 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
-import { BlockDragDetail } from "./interfaces";
+import type { BlockDragDetail } from "./interfaces";
 import { updateBlockChildren } from "./utils";
+import type { SortHandle } from "../sort-handle/sort-handle";
 
 declare global {
   interface DeclareElements {
@@ -56,7 +65,7 @@ export class BlockGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private parentBlockGroupEl: BlockGroup["el"];
+  private parentBlockGroupEl?: BlockGroup["el"];
 
   private sortable = useSortable<this>()(this);
 
@@ -68,7 +77,7 @@ export class BlockGroup extends LitElement {
 
   //#region State Properties
 
-  @state() assistiveText: string;
+  @state() assistiveText?: string;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
@@ -77,10 +86,10 @@ export class BlockGroup extends LitElement {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
-  @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
+  @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
-  @property() canPut: (detail: BlockDragDetail) => boolean;
+  @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -102,7 +111,7 @@ export class BlockGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -171,9 +180,18 @@ export class BlockGroup extends LitElement {
       this.handleCalciteInternalAssistiveTextChange,
     );
     this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
-    this.listen("calciteSortHandleReorder", this.handleSortReorder);
-    this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen<ToEvents<SortHandle>["calciteSortHandleReorder"]>(
+      "calciteSortHandleReorder",
+      this.handleSortReorder,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleMove"]>(
+      "calciteSortHandleMove",
+      this.handleSortMove,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleAdd"]>(
+      "calciteSortHandleAdd",
+      this.handleSortAdd,
+    );
   }
 
   override connectedCallback(): void {
@@ -329,7 +347,7 @@ export class BlockGroup extends LitElement {
   }
 
   private setParentBlockGroup(): void {
-    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector);
+    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector) || undefined;
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -338,7 +356,7 @@ export class BlockGroup extends LitElement {
     this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
       (el): el is Block["el"] | BlockGroup["el"] => {
         if (el.matches(blockSelector)) {
-          blockChildren.push(el as Block["el"]);
+          blockChildren.push(el);
         }
         return el.matches(blockSelector) || el.matches(blockGroupSelector);
       },
