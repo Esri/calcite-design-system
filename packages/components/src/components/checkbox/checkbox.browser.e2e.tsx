@@ -7,9 +7,14 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  renders,
   t9n,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("renders", () => {
+  renders(() => mount("calcite-checkbox"), { display: "inline-flex" });
+});
 
 describe("defaults", () => {
   defaults(

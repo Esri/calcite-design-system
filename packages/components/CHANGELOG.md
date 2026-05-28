@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.0...@esri/calcite-components@5.1.1-next.1) (2026-05-28)
+
+### Bug Fixes
+
+- **combobox:** improve disabled chip handling and select-all behavior ([#14517](https://github.com/Esri/calcite-design-system/issues/14517)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287)
+
+## [5.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.62...@esri/calcite-components@5.1.1-next.0) (2026-05-28)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2...@esri/calcite-components@5.1.0) (2026-05-28)
 
 ### Features

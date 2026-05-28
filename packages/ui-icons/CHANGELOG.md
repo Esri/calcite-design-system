@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.15...@esri/calcite-ui-icons@4.6.0-next.0) (2026-05-28)
+
+### Features
+
+- add orientated imagery widget icons ([#14482](https://github.com/Esri/calcite-design-system/issues/14482))
+
 ## [4.5.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.4.0...@esri/calcite-ui-icons@4.5.0) (2026-05-28)
 
 ### Features

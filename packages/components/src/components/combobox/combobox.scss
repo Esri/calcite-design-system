@@ -275,6 +275,10 @@ calcite-chip {
   cursor: default;
 }
 
+.disabled {
+  @apply opacity-50;
+}
+
 @include includes.disabled();
 @include includes.clear-button();
 @include includes.form-validation-message();
