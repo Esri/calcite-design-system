@@ -21,9 +21,10 @@ class DemoForm extends HTMLElement {
   }
 
   onFormData(event: FormDataEvent) {
-    const data: Record<string, FormDataEntryValue[]> = {};
+    const data: Record<string, FormDataEntryValue[] | FormDataEntryValue> = {};
     for (const key of event.formData.keys()) {
-      data[key] = event.formData.getAll(key);
+      const valueAsArray = event.formData.getAll(key);
+      data[key] = valueAsArray.length > 1 ? valueAsArray : valueAsArray[0];
     }
     console.log(data);
   }
