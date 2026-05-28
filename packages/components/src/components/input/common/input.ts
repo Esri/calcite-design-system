@@ -13,8 +13,8 @@ export interface NumericInputComponent {
 
 export interface TextualInputComponent {
   pattern?: string;
-  minLength: number;
-  maxLength: number;
+  minLength?: number;
+  maxLength?: number;
 }
 
 /** Exported for testing purposes only */

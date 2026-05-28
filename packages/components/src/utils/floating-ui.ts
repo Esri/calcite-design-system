@@ -58,7 +58,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `floatingElement` containing the floating ui.
    */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
@@ -83,7 +83,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `referenceElement` used to position the component according to its `placement` value.
    */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 
   /**
    * The type of floating UI, which determines the default middleware used for positioning.
@@ -319,10 +319,10 @@ export interface FloatingUIComponent {
   floatingLayout?: FloatingLayout;
 
   /** The `floatingElement` containing the floating ui. */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /** The `referenceElement` used to position the component according to its `placement` value. */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
