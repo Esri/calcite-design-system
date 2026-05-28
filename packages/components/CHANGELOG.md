@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0...@esri/calcite-components@5.1.1) (2026-05-28)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @esri/stylelint-plugin-calcite-components bumped from 0.1.0 to 0.2.0
+
 ## [5.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2...@esri/calcite-components@5.1.0) (2026-05-28)
 
 ### Features
