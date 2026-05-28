@@ -31,7 +31,7 @@ export class AutocompleteItemGroup extends LitElement {
    *
    * @required
    */
-  @property() heading?: string;
+  @property() heading!: string;
 
   /** Specifies an accessible label for the component. */
   @property() label: any;

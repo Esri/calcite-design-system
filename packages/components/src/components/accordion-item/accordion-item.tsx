@@ -7,7 +7,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
 import { IconName } from "../icon/interfaces";
-import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -66,13 +65,6 @@ export class AccordionItem extends LitElement {
   //#endregion
 
   //#region Public Properties
-
-  /**
-   * The containing `accordion` element.
-   *
-   * @private
-   */
-  @property() accordionParent: Accordion["el"] | null = null;
 
   /** Specifies a description for the component. */
   @property() description?: string;
