@@ -132,6 +132,9 @@ runs:
       with:
         script: |
           core.startGroup("Sync Action Changes");
-          const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.js')
+          let action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.js')
+          if (github.event.inputs.refactor_pr == 'true') {
+            action = require('${{ github.action_path }}/../../scripts/monday/createRefactorTask.js')
+          }
           await action({github, context, core})
           core.endGroup();

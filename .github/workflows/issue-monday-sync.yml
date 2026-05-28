@@ -42,6 +42,10 @@ on:
         options:
           - added
           - removed
+      refactor_pr:
+        type: boolean
+        description: "Indicates if the item to sync is a refactor PR instead of an issue."
+        required: false
 jobs:
   sync-issue:
     runs-on: ubuntu-latest
