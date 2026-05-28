@@ -21,9 +21,9 @@ class DemoForm extends HTMLElement {
   }
 
   onFormData(event: FormDataEvent) {
-    const data: Record<string, FormDataEntryValue> = {};
-    for (const pair of event.formData.entries()) {
-      data[pair[0]] = pair[1];
+    const data: Record<string, FormDataEntryValue[]> = {};
+    for (const key of event.formData.keys()) {
+      data[key] = event.formData.getAll(key);
     }
     console.log(data);
   }

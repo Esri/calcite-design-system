@@ -7,8 +7,8 @@ interface TestLog {
 }
 
 const logs: TestLog[] = [
-  { name: "Stable", file: "test-stable.err.log" },
-  { name: "Experimental", file: "test-experimental.err.log" },
+  { name: "Node", file: "test-node.err.log" },
+  { name: "Browser", file: "test-browser.err.log" },
 ];
 
 let hadError = false;

@@ -11,6 +11,10 @@ export const blockTokens = {
   calciteBlockDescriptionTextColor: "",
   calciteBlockIconColor: "",
   calciteBlockIconColorHover: "",
+  calciteBlockIconStartColor: "",
+  calciteBlockIconEndColor: "",
+  calciteBlockCollapsibleIconColor: "",
+  calciteBlockCollapsibleIconColorHover: "",
 };
 
 export const block = html` <calcite-block

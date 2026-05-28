@@ -11,11 +11,11 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  openClose,
   reflects,
   renders,
   t9n,
   topLayer,
-  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -1394,11 +1394,23 @@ describe("keyboard interactions", async () => {
       } else {
         const combobox = page.getBySelector("calcite-combobox");
         const input = page.getBySelector("calcite-combobox input");
+        const changeHandler = vi.fn();
+        combobox.element().addEventListener("calciteComboboxChange", changeHandler);
+        const keyDownHandler = vi.fn();
+        el.addEventListener("keydown", keyDownHandler);
+
         await expect.element(combobox).toBeInTheDocument();
         await expect.element(input).toBeInTheDocument();
 
-        await userEvent.click(combobox);
-        await userEvent.keyboard("{Escape}");
+        await userEvent.keyboard("{Tab}{Escape}");
+
+        if (expectedBehavior === "clear") {
+          expect(changeHandler).toHaveBeenCalled();
+          expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
+        } else {
+          expect(changeHandler).not.toHaveBeenCalled();
+          expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", false);
+        }
       }
 
       if (expectedBehavior === "clear") {
@@ -1422,9 +1434,15 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
-          assertValueClearing(selectionMode, false, "keyboard", "no-clear"),
-        );
+        selectionModes.forEach((selectionMode) => {
+          if (selectionMode === "single-persist") {
+            it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "no-clear"));
+          } else {
+            it(`clears the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "clear"));
+          }
+        });
       });
     });
 
@@ -1437,10 +1455,41 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+        test.for(selectionModes)("does not clear the value in %s selection mode", (selectionMode) =>
           assertValueClearing(selectionMode, true, "keyboard", "no-clear"),
         );
       });
     });
+  });
+});
+
+describe("keyboard interaction", () => {
+  it(`remains focused after toggling`, async () => {
+    const { el } = await mount<Combobox>(() => (
+      <calcite-combobox>
+        <calcite-combobox-item value="one" />
+      </calcite-combobox>
+    ));
+    const floatingUI = await page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    const keyDownHandler = vi.fn();
+    el.addEventListener("keydown", keyDownHandler);
+    const openEvent = waitForEvent(el, "calciteComboboxOpen");
+
+    await userEvent.keyboard("{Tab}{Escape}");
+
+    expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", false);
+
+    await userEvent.keyboard("{Space}");
+    await openEvent;
+
+    await expect.element(floatingUI).toBeVisible();
+
+    const closeEvent = waitForEvent(el, "calciteComboboxClose");
+    await userEvent.keyboard("{Escape}");
+    await closeEvent;
+
+    await expect.element(floatingUI).not.toBeVisible();
+    await expect.element(el).toHaveFocus();
+    expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
   });
 });

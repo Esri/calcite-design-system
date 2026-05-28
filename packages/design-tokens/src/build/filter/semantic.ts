@@ -4,7 +4,7 @@ import type { RegisterFn } from "../../types/interfaces.d.ts";
 import { isBreakpoint } from "../utils/token-types.ts";
 
 export const filterSemanticTokens: Filter["filter"] = (token) =>
-  token.isSource && !(token.type === "color" || token.type === "typography" || isBreakpoint(token));
+  token.isSource && !(token.$type === "color" || token.$type === "typography" || isBreakpoint(token));
 
 export const registerFilterSemanticTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({

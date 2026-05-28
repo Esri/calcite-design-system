@@ -107,6 +107,9 @@ export class ActionGroup extends LitElement {
    */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
+  @property({ reflect: true }) overflowActionsDisabled = false;
+
   /** Specifies the size of the `calcite-action-menu`. */
   @property({ reflect: true }) scale: Scale = "m";
 
