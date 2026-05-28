@@ -432,6 +432,7 @@ export class ColorPickerHexInput extends LitElement {
           <calcite-input-number
             class={CSS.opacityInput}
             key="opacity-input"
+            label={messages?.opacity}
             labelText={messages?.opacity}
             max={OPACITY_LIMITS.max}
             maxLength={3}

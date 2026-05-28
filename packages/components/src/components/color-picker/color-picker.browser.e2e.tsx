@@ -110,6 +110,9 @@ describe("opacity label", () => {
     await mount(<calcite-color-picker alpha-channel />);
 
     await expect.element(page.getByText("Opacity")).toBeVisible();
+
+    const opacityInput = page.getByRole("textbox", { name: "Opacity" });
+    await expect.element(opacityInput).toHaveAttribute("aria-label", "Opacity");
   });
 });
 
