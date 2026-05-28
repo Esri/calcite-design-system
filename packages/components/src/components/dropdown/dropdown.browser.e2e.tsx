@@ -340,6 +340,97 @@ describe("referenceElement keydown", () => {
   });
 });
 
+describe("virtual referenceElement", () => {
+  function renderVirtualReferenceElementDropdownHTML(): JsxNode {
+    return (
+      <calcite-dropdown>
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    );
+  }
+
+  it("opens and positions on first contextmenu interaction", async () => {
+    const contextMenuX = 120;
+    const contextMenuY = 160;
+    const { el } = await mount<Dropdown>(renderVirtualReferenceElementDropdownHTML);
+    const component = el.manager.component;
+    await component.updateComplete;
+
+    const createVirtualElement = ({
+      clientX,
+      clientY,
+    }: MouseEvent): Dropdown["referenceElement"] => ({
+      getBoundingClientRect: () => ({
+        width: 0,
+        height: 0,
+        x: clientX,
+        y: clientY,
+        top: clientY,
+        left: clientX,
+        right: clientX,
+        bottom: clientY,
+      }),
+    });
+
+    const onContextMenu = (event: MouseEvent): void => {
+      event.preventDefault();
+      el.referenceElement = createVirtualElement(event);
+      el.open = true;
+    };
+
+    document.addEventListener("contextmenu", onContextMenu);
+
+    try {
+      const updateComplete = component.updateComplete;
+
+      document.dispatchEvent(
+        new MouseEvent("contextmenu", {
+          bubbles: true,
+          cancelable: true,
+          clientX: contextMenuX,
+          clientY: contextMenuY,
+        }),
+      );
+
+      await waitForSettledUpdate(component, updateComplete);
+      await component.updateComplete;
+
+      const menu = page.getByRole("menu");
+
+      expect(el.open).toBe(true);
+      await expect.element(menu).toBeVisible();
+
+      await expect
+        .poll(() => {
+          const wrapper = menu.element()?.parentElement;
+          const hasPlacementData = !!wrapper?.getAttribute("data-placement");
+          const hasTranslateTransform =
+            wrapper instanceof HTMLElement && wrapper.style.transform.includes("translate(");
+
+          return hasPlacementData || hasTranslateTransform;
+        })
+        .toBe(true);
+
+      const { referenceElement } = el;
+
+      if (!referenceElement || typeof referenceElement === "string") {
+        throw new Error("Expected virtual reference element");
+      }
+
+      const referenceRect = referenceElement.getBoundingClientRect();
+
+      expect(referenceRect.x).toBe(contextMenuX);
+      expect(referenceRect.y).toBe(contextMenuY);
+    } finally {
+      document.removeEventListener("contextmenu", onContextMenu);
+    }
+  });
+});
+
 describe("keyboard navigation", () => {
   function renderReferenceElementKeyboardDropdownHTML(options?: {
     selectedItemId?: "item-1" | "item-2";
