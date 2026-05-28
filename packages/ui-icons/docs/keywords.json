@@ -12019,5 +12019,20 @@
     "alias": ["5.0.0", "symbols", "settings", "reset", "layout", "start"],
     "category": "Symbols",
     "release": "5.0.0"
+  },
+  "oriented-imagery-half-superimpose": {
+    "alias": ["5.0.0", "gis", "link", "2d map", "3d map", "data", "layers"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-scene-only": {
+    "alias": ["5.0.0", "gis", "visualize", "map", "non-vertical", "metaadata", "interaction"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-full-superimpose": {
+    "alias": ["5.0.0", "gis", "metadata", "digital elevation", "pixels", "display"],
+    "category": "GIS",
+    "release": "5.0.0"
   }
 }
