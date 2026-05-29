@@ -3,10 +3,6 @@
     "id": "0dcef941fc163562ce54e23b47f85730078abcc2",
     "name": "🌞 Brand Light",
     "$figmaStyleReferences": {
-      "semantic.shadow.none": "S:d1cc0469fbd6bfcfe27cf317c5dba785241d7ca0,",
-      "semantic.shadow.sm": "S:f4ebc96484def0961d34d55511e7d66f998778bd,",
-      "semantic.shadow.md": "S:ca690aa30ad8520fdf471605089a7e5138c26b3d,",
-      "semantic.shadow.test": "S:17c46670a2ba9ef9dbc1366bf63c3cd87e3315d7,",
       "semantic.color.background.default": "S:625442c953af2d86f1e2d5c1425c68c7cb779dd2,",
       "semantic.color.background.none": "S:2322a4048dee61a0774167514aef0e5bade97dfc,",
       "semantic.color.foreground.1": "S:92aaf11c2d843e1cff05b8975453375340b0f733,",
@@ -117,11 +113,6 @@
     "id": "1ba50b984fb31a227260ffc5cb76a3895b6eb7fc",
     "name": "🌚 Brand Dark",
     "$figmaStyleReferences": {
-      "semantic.shadow.none": "S:b9e52c6bc76d96a6cc9fc56ca9faff691dd0abc5,",
-      "semantic.shadow.sm": "S:5df198ce528487cd9f7fe445b47335d67e06087b,",
-      "semantic.shadow.md": "S:73e55cf80296cc0cd5cdff036016f98bb96b31e3,",
-      "semantic.shadow.test": "S:7d63e7cb0e9545cf4e6d1d60487f1a8a947c9f3b,",
-      "semantic.shadow.sm-new": "S:e6cd9841a7d224c1c06e2039f0d23f858e2a4057,",
       "shadow.none": "S:e20e0e4e145bc1c80504ad173d6ce44839f52529,",
       "shadow.sm": "S:f9ce976e9fdbdd7ebb98a7f4c69bc516abe02c29,",
       "shadow.md": "S:89b3b8db8d8ee9c0c7c8bb82021c0adb878c6f1e,",
@@ -1481,28 +1472,5 @@
     },
     "$figmaVariableReferences": {},
     "group": "typography"
-  },
-  {
-    "id": "226f0285af1785915aa048534e0205d4199834c0",
-    "name": "styles",
-    "$figmaStyleReferences": {
-      "semantic.shadow.none": "S:dc7559491c7715a50d8ef55e521e376389f00962,",
-      "semantic.shadow.sm": "S:6a9fd7c7ee61de518ba7e9cb9e1ca67f1fce3d74,",
-      "semantic.shadow.md": "S:c19f3fc92e3cd2bffc0ff13281e4374850c9b22d,",
-      "shadow.none": "S:58799cdd3f0cac862310c5cbfec97bc5516fecbe,",
-      "shadow.sm": "S:e413084c7e46ef4049d685b4f68ae55a8e3ffa49,",
-      "shadow.md": "S:28412b2300547f9201e70339978f42d423efb8ee,"
-    },
-    "selectedTokenSets": {
-      "core/shadow": "source",
-      "semantic/shadow": "enabled",
-      "semantic/color/light": "source",
-      "semantic/color/dark": "source",
-      "core/opacity": "source",
-      "core/color": "source",
-      "core/size": "source"
-    },
-    "$figmaVariableReferences": {},
-    "group": "shadow"
   }
 ]
