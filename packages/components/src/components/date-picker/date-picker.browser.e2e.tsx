@@ -2,6 +2,13 @@ import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { DatePicker } from "./date-picker";
+import { ToElement } from "@arcgis/lumina";
+import { Select } from "../select/select";
+
+type DatePickerEl = ToElement<DatePicker> & {
+  shadowRoot: ShadowRoot;
+};
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-date-picker"),
@@ -48,17 +55,26 @@ describe("activeDate", () => {
 
     el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
-    const yearInput = el.shadowRoot
-      ?.querySelector("calcite-date-picker-month")
-      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
-      ?.shadowRoot?.querySelector<HTMLInputElement>("input");
-    expect(yearInput.value).toBe("2021");
+    const yearInput = getYearInputValue(el);
+    expect(yearInput).toBe("2021");
 
-    const monthSelectMenu = el.shadowRoot
-      ?.querySelector("calcite-date-picker-month")
-      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
-      ?.shadowRoot?.querySelector(`calcite-select`);
-    expect(monthSelectMenu["value"]).toBe("January");
+    const monthSelectMenu = getMonthSelectValue(el);
+    expect(monthSelectMenu).toBe("January");
   });
+
+  function getYearInputValue(el: DatePickerEl): string {
+    return el.shadowRoot
+      ?.querySelector("calcite-date-picker-month")
+      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
+      ?.shadowRoot?.querySelector<HTMLInputElement>("input").value;
+  }
+
+  function getMonthSelectValue(el: DatePickerEl): string {
+    return el.shadowRoot
+      ?.querySelector("calcite-date-picker-month")
+      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
+      ?.shadowRoot?.querySelector<ToElement<Select>>("calcite-select").value;
+  }
 });
