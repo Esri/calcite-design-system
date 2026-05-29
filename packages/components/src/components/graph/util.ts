@@ -5,10 +5,6 @@ import { DataSeries, Extent, Graph, Point, TranslateOptions, Translator } from "
  * Calculate slope of the tangents
  * uses Steffen interpolation as it's monotonic
  * http://jrwalsh1.github.io/posts/interpolations/
- *
- * @param p0
- * @param p1
- * @param p2
  */
 function slope(p0: Point, p1: Point, p2: Point): number {
   const dx = p1[0] - p0[0];
@@ -23,10 +19,6 @@ function slope(p0: Point, p1: Point, p2: Point): number {
 
 /**
  * Calculate slope for just one tangent (single-sided)
- *
- * @param p0
- * @param p1
- * @param m
  */
 function slopeSingle(p0: Point, p1: Point, m: number): number {
   const dx = p1[0] - p0[0];
@@ -40,12 +32,6 @@ function slopeSingle(p0: Point, p1: Point, m: number): number {
  *
  * Translates Hermite Spline to Bézier curve:
  * https://stackoverflow.com/questions/42574940/
- *
- * @param p0
- * @param p1
- * @param m0
- * @param m1
- * @param t
  */
 function bezier(p0: Point, p1: Point, m0: number, m1: number, t: Translator): string {
   const [x0, y0] = p0;
@@ -60,12 +46,6 @@ function bezier(p0: Point, p1: Point, m0: number, m1: number, t: Translator): st
 /**
  * Generate a function which will translate a point
  * from the data coordinate space to svg viewbox oriented pixels
- *
- * @param root0
- * @param root0.width
- * @param root0.height
- * @param root0.min
- * @param root0.max
  */
 export function translate({ width, height, min, max }: TranslateOptions): Translator {
   const rangeX = max[0] - min[0];
@@ -79,8 +59,6 @@ export function translate({ width, height, min, max }: TranslateOptions): Transl
 
 /**
  * Get the min and max values from the dataset
- *
- * @param data
  */
 export function range(data: DataSeries): Extent {
   const [startX, startY] = data[0];
@@ -98,16 +76,24 @@ export function range(data: DataSeries): Extent {
 /**
  * Generate drawing commands for an area graph
  * returns a string can can be passed directly to a path element's `d` attribute
- *
- * @param root0
- * @param root0.data
- * @param root0.min
- * @param root0.max
- * @param root0.t
  */
 export function area({ data, min, max, t }: Graph): string {
   if (data.length === 0) {
     return "";
+  }
+
+  const points = data.map((point) => t(point));
+  const baselineY = t([min[0], min[1]])[1];
+
+  if (points.length === 2) {
+    const [[x0, y0], [x1, y1]] = points;
+
+    const c1x = x0 + (x1 - x0) / 3;
+    const c1y = y0 + (y1 - y0) / 3;
+    const c2x = x0 + ((x1 - x0) * 2) / 3;
+    const c2y = y0 + ((y1 - y0) * 2) / 3;
+
+    return `M ${x0},${baselineY} L ${x0},${y0} L ${x0},${y0} C ${c1x},${c1y} ${c2x},${c2y} ${x1},${y1} L ${x1},${baselineY} Z`;
   }
 
   // important points for beginning and ending the path
