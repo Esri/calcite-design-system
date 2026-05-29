@@ -45,8 +45,7 @@ module.exports = async ({ github, context, core }) => {
   const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
 
   if (refactor_pr === "true" && issue.pull_request?.merged_at) {
-    monday.createTask();
-    await monday.commit();
+    await monday.createTask();
     return;
   }
 
