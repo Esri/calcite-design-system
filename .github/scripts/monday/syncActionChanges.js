@@ -38,6 +38,8 @@ module.exports = async ({ github, context, core }) => {
 
   const [issue_number] = assertRequired([issue_number_input], core, "Required issue number not provided.");
 
+  core.warning(`refactor_pr arg: ${refactor_pr}`);
+
   if (refactor_pr === "true") {
     const { data: pr } = await github.rest.pulls.get({
       ...context.repo,
