@@ -42,8 +42,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 .container {
   &--embedded,
   &[popover] {
-    @apply box-border
-  fixed
+    @apply fixed
   flex
   items-center
   justify-center
@@ -154,7 +153,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .text-container {
-  @apply box-border flex flex-auto min-w-0 flex-col break-words;
+  @apply flex flex-auto min-w-0 flex-col break-words;
 }
 
 .footer {
@@ -344,5 +343,6 @@ $alert-durations:
   position: absolute;
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();
 @include includes.calcite-hydrated-hidden();

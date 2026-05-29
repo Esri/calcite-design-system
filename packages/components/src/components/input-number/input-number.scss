@@ -159,8 +159,7 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply box-border
-    flex
+  @apply flex
     flex-1
     font-inherit
     font-normal
@@ -314,7 +313,6 @@ input[readonly]:focus {
 }
 
 .icon {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   border-width: var(--calcite-border-width-sm);
@@ -338,7 +336,6 @@ input[readonly]:focus {
 }
 
 .clear-button {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   order: 4;
@@ -379,8 +376,7 @@ input[readonly]:focus {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply box-border
-    flex
+  @apply flex
     h-auto
     min-h-full
     select-none
@@ -436,7 +432,6 @@ input[readonly]:focus {
 .number-button-wrapper {
   @apply transition-default
     pointer-events-none
-    box-border
     flex
     flex-col;
 
@@ -508,7 +503,6 @@ input[readonly]:focus {
   max-block-size: 50%;
   min-block-size: 50%;
   pointer-events: initial;
-  box-sizing: border-box;
   display: flex;
   cursor: pointer;
   align-items: center;
@@ -590,6 +584,7 @@ input {
 @include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
+@include includes.base-component-sizing();
 @include includes.base-component();
 @include includes.input-placeholder-text();
 @include includes.clear-button(

@@ -42,7 +42,6 @@
 
     @apply appearance-none
     border-none
-    box-border
     cursor-pointer
     flex
     focus-base
@@ -759,4 +758,5 @@
   --calcite-internal-button-padding-x: theme("padding.11");
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

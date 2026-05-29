@@ -146,8 +146,7 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply box-border
-    border
+  @apply border
     border-solid
     flex
     flex-1
@@ -275,7 +274,6 @@ calcite-icon {
 }
 
 .icon {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   border-width: var(--calcite-border-width-sm);
@@ -302,7 +300,6 @@ input[type="text"]::-ms-reveal {
 }
 
 .clear-button {
-  box-sizing: border-box;
   display: flex;
   align-self: stretch;
   order: 4;
@@ -339,8 +336,7 @@ input[type="text"]::-ms-reveal {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply box-border
-    flex
+  @apply flex
     h-auto
     min-h-full
     select-none
@@ -429,6 +425,7 @@ input {
 @include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
+@include includes.base-component-sizing();
 @include includes.base-component();
 @include includes.input-placeholder-text();
 @include includes.clear-button(

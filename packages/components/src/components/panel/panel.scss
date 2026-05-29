@@ -39,7 +39,7 @@
 @use "sass:meta";
 
 :host {
-  @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
+  @apply relative flex w-full h-full flex-auto overflow-hidden;
   border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
@@ -127,16 +127,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border text-n1 text-color-2;
+  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden text-n1 text-color-2;
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-  box-sizing: border-box;
   font-size: var(--calcite-font-size--1);
-}
-
-.container * {
-  @apply box-border;
 }
 
 .header {
@@ -313,4 +308,5 @@ calcite-icon {
   --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();
