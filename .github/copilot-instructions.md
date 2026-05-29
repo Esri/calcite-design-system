@@ -107,6 +107,8 @@ In descending order when rules conflict:
   - `npm --workspace=packages/components run test:node -- <path>`
   - `npm --workspace=packages/components run test:browser -- <path>`
   - `npm --workspace=packages/components run test:watch -- <path>`
+- Avoid defensive code, tests should be deterministic and align with assertions
+- Keep tests as minimal as possible focusing on the specific behavior being tested. Do not add extra assertions or setup that are not directly related to the change.
 
 ## Documentation
 
