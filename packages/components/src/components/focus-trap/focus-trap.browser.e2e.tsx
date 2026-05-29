@@ -187,6 +187,24 @@ describe("focus trap behavior", () => {
 });
 
 describe("public methods", () => {
+  it("supports setFocus", async () => {
+    const { el } = await mount<FocusTrap>(
+      <calcite-focus-trap>
+        <button id="inside-one" type="button">
+          inside one
+        </button>
+        <button id="inside-two" type="button">
+          inside two
+        </button>
+      </calcite-focus-trap>,
+    );
+
+    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
+
+    await expect(el.setFocus()).resolves.toBeUndefined();
+    expect(document.activeElement).toBe(insideOne);
+  });
+
   it("supports focus-trap container updates", async () => {
     const { el } = await mount<FocusTrap>(
       <calcite-focus-trap>

@@ -1,5 +1,6 @@
 import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { styles } from "./focus-trap.scss";
 
 declare global {
@@ -19,6 +20,8 @@ export class FocusTrap extends LitElement {
   //#region Private Properties
 
   private _active = false;
+
+  private focusSetter = useSetFocus<this>()(this);
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {
@@ -72,6 +75,18 @@ export class FocusTrap extends LitElement {
   @method()
   async deactivate(): Promise<void> {
     this.focusTrapController.deactivate();
+  }
+
+  /**
+   Sets focus on the component's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   
+   *@see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
   /**
