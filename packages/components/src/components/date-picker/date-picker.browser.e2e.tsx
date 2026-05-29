@@ -1,13 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { Locator, page } from "vitest/browser";
 import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { DatePicker } from "./date-picker";
-import { ToElement } from "@arcgis/lumina";
-import { Select } from "../select/select";
-
-type DatePickerEl = ToElement<DatePicker> & {
-  shadowRoot: ShadowRoot;
-};
 
 describe("defaults", () => {
   defaults(
@@ -48,33 +43,56 @@ describe("translation support", () => {
 });
 
 describe("activeDate", () => {
+  it("should update calendar when activeDate changes", async () => {
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
+    el.value = "2025-09-01";
+    await component.updateComplete;
+
+    el.activeDate = new Date("01-15-2021");
+    await component.updateComplete;
+
+    const yearInput = getYearInputValue();
+    await expect.element(yearInput).toHaveProperty("value", "2021");
+
+    const monthSelectMenu = getMonthSelectValue();
+    await expect.element(monthSelectMenu).toHaveProperty("value", "January");
+  });
+
   it("should update calendar when activeDate changes in range", async () => {
     const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
     el.value = ["2025-09-01", "2025-11-15"];
     await component.updateComplete;
 
-    el.activeDate = new Date("2021-01-15");
+    el.activeDate = new Date("01-15-2021");
     await component.updateComplete;
-    await new Promise((resolve) => setTimeout(resolve, 0));
 
-    const yearInput = getYearInputValue(el);
-    expect(yearInput).toBe("2021");
+    const yearInput = getYearInputValue();
+    await expect.element(yearInput).toHaveProperty("value", "2021");
 
-    const monthSelectMenu = getMonthSelectValue(el);
-    expect(monthSelectMenu).toBe("January");
+    const monthSelectMenu = getMonthSelectValue();
+    await expect.element(monthSelectMenu).toHaveProperty("value", "January");
   });
 
-  function getYearInputValue(el: DatePickerEl): string {
-    return el.shadowRoot
-      ?.querySelector("calcite-date-picker-month")
-      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
-      ?.shadowRoot?.querySelector<HTMLInputElement>("input").value;
+  it("should update calendar when activeDate changes in range when calendars is 1", async () => {
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker calendars={1} range />);
+    el.value = ["2025-09-01", "2025-11-15"];
+    await component.updateComplete;
+
+    el.activeDate = new Date("01-15-2021");
+    await component.updateComplete;
+
+    const yearInput = getYearInputValue();
+    await expect.element(yearInput).toHaveProperty("value", "2021");
+
+    const monthSelectMenu = getMonthSelectValue();
+    await expect.element(monthSelectMenu).toHaveProperty("value", "January");
+  });
+
+  function getYearInputValue(): Locator {
+    return page.getByRole("textbox", { name: "Year" }).first();
   }
 
-  function getMonthSelectValue(el: DatePickerEl): string {
-    return el.shadowRoot
-      ?.querySelector("calcite-date-picker-month")
-      ?.shadowRoot?.querySelector("calcite-date-picker-month-header")
-      ?.shadowRoot?.querySelector<ToElement<Select>>("calcite-select").value;
+  function getMonthSelectValue(): Locator {
+    return page.getByRole("combobox", { name: "Month menu" }).first();
   }
 });
