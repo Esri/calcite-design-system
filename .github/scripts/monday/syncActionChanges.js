@@ -12,6 +12,7 @@ const { assertRequired, createBodyUpdater } = require("../support/utils");
  * @property {string} [label_name] - The label name added or removed from the issue.
  * @property {string} [label_color] - The hex code color (without '#' prefix) associated with the label.
  * @property {"added" | "removed"} [label_action] - The action taken on the label.
+ * @property {"true" | "false"} [refactor_pr] - Indicates if the item to sync is a refactor PR instead of an issue.
  */
 
 /**
@@ -32,6 +33,7 @@ module.exports = async ({ github, context, core }) => {
     label_name,
     label_color,
     label_action,
+    refactor_pr,
   } = context.payload.inputs;
 
   const [issue_number] = assertRequired([issue_number_input], core, "Required issue number not provided.");
@@ -41,6 +43,12 @@ module.exports = async ({ github, context, core }) => {
   });
 
   const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
+
+  if (refactor_pr === "true" && issue.pull_request?.merged_at) {
+    monday.createTask();
+    await monday.commit();
+    return;
+  }
 
   if (milestone_updated === "true") {
     monday.handleMilestone();
