@@ -1472,5 +1472,21 @@
     },
     "$figmaVariableReferences": {},
     "group": "typography"
+  },
+  {
+    "id": "a7540754784ccc6046458a266e5a4d965d9e695f",
+    "name": "shadow",
+    "$figmaStyleReferences": {
+      "shadow.none": "S:58799cdd3f0cac862310c5cbfec97bc5516fecbe,",
+      "shadow.sm": "S:e413084c7e46ef4049d685b4f68ae55a8e3ffa49,",
+      "shadow.md": "S:28412b2300547f9201e70339978f42d423efb8ee,"
+    },
+    "selectedTokenSets": {
+      "core/color": "source",
+      "core/opacity": "source",
+      "core/size": "source",
+      "semantic/shadow": "enabled"
+    },
+    "group": "styles"
   }
 ]
