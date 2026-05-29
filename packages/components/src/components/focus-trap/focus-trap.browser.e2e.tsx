@@ -60,7 +60,7 @@ describe("renders", () => {
 
 describe("focus trap behavior", () => {
   it("cycles focus within slotted content when enabled", async () => {
-    const { el } = await mount<FocusTrap>(
+    const { el, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -80,20 +80,20 @@ describe("focus trap behavior", () => {
     expect(el.active).toBe(true);
     await afterNextTask();
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
-    const insideTwo = el.querySelector("#inside-two") as HTMLButtonElement | null;
+    const insideOne = container.querySelector<HTMLButtonElement>("#inside-one")!;
+    const insideTwo = container.querySelector<HTMLButtonElement>("#inside-two")!;
 
-    expect(document.activeElement).toBe(insideOne);
-
-    await userEvent.tab();
-    expect(document.activeElement).toBe(insideTwo);
+    await expect.element(insideOne).toHaveFocus();
 
     await userEvent.tab();
-    expect(document.activeElement).toBe(insideOne);
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
   });
 
   it("allows focus to leave when disabled", async () => {
-    const { el, component } = await mount<FocusTrap>(
+    const { el, component, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -114,19 +114,19 @@ describe("focus trap behavior", () => {
     await component.updateComplete;
     expect(el.active).toBe(false);
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement;
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
+    const insideOne = container.querySelector<HTMLButtonElement>("#inside-one")!;
+    const outside = container.querySelector<HTMLButtonElement>("#outside")!;
 
     insideOne.focus();
 
     await userEvent.tab();
     await userEvent.tab();
 
-    expect(document.activeElement).toBe(outside);
+    await expect.element(outside).toHaveFocus();
   });
 
   it("allows focus to leave when focusTrapDisabledOverride returns true", async () => {
-    const { el, component } = await mount<FocusTrap>(
+    const { el, component, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -147,19 +147,19 @@ describe("focus trap behavior", () => {
     await component.updateComplete;
     expect(el.active).toBe(false);
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement;
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
+    const insideOne = container.querySelector<HTMLButtonElement>("#inside-one")!;
+    const outside = container.querySelector<HTMLButtonElement>("#outside")!;
 
     insideOne.focus();
 
     await userEvent.tab();
     await userEvent.tab();
 
-    expect(document.activeElement).toBe(outside);
+    await expect.element(outside).toHaveFocus();
   });
 
   it("honors focusTrapOptions.initialFocus=false", async () => {
-    const { el } = await mount<FocusTrap>(
+    const { el, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -175,14 +175,14 @@ describe("focus trap behavior", () => {
       </>,
     );
 
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
+    const outside = container.querySelector<HTMLButtonElement>("#outside")!;
 
     outside.focus();
     el.focusTrapOptions = { initialFocus: false };
     await el.activate();
     expect(el.active).toBe(true);
 
-    expect(document.activeElement).toBe(outside);
+    await expect.element(outside).toHaveFocus();
   });
 });
 
@@ -202,7 +202,7 @@ describe("public methods", () => {
     const insideOne = page.getByText("inside one", { exact: true });
 
     await expect(component.setFocus()).resolves.toBeUndefined();
-    expect(document.activeElement).toBe(insideOne.element());
+    await expect.element(insideOne).toHaveFocus();
   });
 
   it("supports focus-trap container updates", async () => {
@@ -227,7 +227,7 @@ describe("public methods", () => {
 
 describe("events", () => {
   it("emits deactivated state when deactivated by outside click", async () => {
-    const { el, component } = await mount<FocusTrap>(
+    const { el, component, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -243,7 +243,7 @@ describe("events", () => {
       </>,
     );
 
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
+    const outside = container.querySelector<HTMLButtonElement>("#outside")!;
 
     const changeHandler = vi.fn();
     const activeStates: boolean[] = [];
@@ -287,7 +287,7 @@ describe("events", () => {
   });
 
   it("emits calciteFocusTrapActiveChange when internally deactivated", async () => {
-    const { el, component } = await mount<FocusTrap>(
+    const { el, component, container } = await mount<FocusTrap>(
       <>
         <calcite-focus-trap>
           <button id="inside-one" type="button">
@@ -304,7 +304,7 @@ describe("events", () => {
     );
     const changeHandler = vi.fn();
     const activeStates: boolean[] = [];
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
+    const outside = container.querySelector<HTMLButtonElement>("#outside")!;
 
     el.addEventListener("calciteFocusTrapActiveChange", changeHandler);
     el.addEventListener("calciteFocusTrapActiveChange", () => {
