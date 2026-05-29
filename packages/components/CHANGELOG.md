@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.2...@esri/calcite-components@5.1.1-next.3) (2026-05-29)
+
+### Bug Fixes
+
+- **list:** preserve filter input value during rapid item loading ([#14523](https://github.com/Esri/calcite-design-system/issues/14523)), closes [#14454](https://github.com/Esri/calcite-design-system/issues/14454)
+
 ## [5.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.1...@esri/calcite-components@5.1.1-next.2) (2026-05-28)
 
 ### Bug Fixes
