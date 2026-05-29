@@ -78,11 +78,11 @@ export class FocusTrap extends LitElement {
   }
 
   /**
-   Sets focus on the component's first focusable element.
+   * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   
-   *@see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
