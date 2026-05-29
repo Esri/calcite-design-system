@@ -317,7 +317,10 @@ export class Sheet extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+
+    if (this.hasUpdated) {
+      this.refreshResize();
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -339,7 +342,7 @@ export class Sheet extends LitElement {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
       changes.has("direction")
     ) {
-      this.setupInteractions();
+      this.refreshResize();
     }
 
     if (this.contentRef.value) {
@@ -350,7 +353,7 @@ export class Sheet extends LitElement {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -464,40 +467,41 @@ export class Sheet extends LitElement {
     this.sizeOverride.resize(size);
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private updateResizeValues(): void {
+    const { contentRef } = this;
+    if (!contentRef.value) {
+      return;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+
+    this.resizeValues = {
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize: getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight,
+    };
+  }
+
+  private refreshResize(): void {
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
+  }
+
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
 
     const { contentRef, el, resizable, position, open, resizeHandleEl } = this;
 
     if (!contentRef.value || !open || !resizable || !resizeHandleEl) {
       return;
     }
-
-    await this.el.componentOnReady();
-
-    const computedStyle = window.getComputedStyle(contentRef.value);
-    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
-    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
-    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
-    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
-
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      computedStyle;
-
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
-    };
-
-    this.resizeValues = values;
 
     const rtl = this.direction === "rtl";
 
@@ -511,12 +515,12 @@ export class Sheet extends LitElement {
       modifiers: [
         interact.modifiers.restrictSize({
           min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
+            width: this.resizeValues.minInlineSize,
+            height: this.resizeValues.minBlockSize,
           },
           max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
+            width: this.resizeValues.maxInlineSize,
+            height: this.resizeValues.maxBlockSize,
           },
         }),
       ],
@@ -554,7 +558,7 @@ export class Sheet extends LitElement {
 
   private setResizeHandleEl(el: HTMLDivElement): void {
     this.resizeHandleEl = el;
-    this.setupInteractions();
+    this.refreshResize();
   }
 
   private handleOutsideClose(): void {
