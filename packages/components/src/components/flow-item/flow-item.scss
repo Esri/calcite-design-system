@@ -67,4 +67,5 @@ calcite-panel {
   --calcite-panel-content-bottom-space: var(--calcite-flow-content-bottom-space);
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

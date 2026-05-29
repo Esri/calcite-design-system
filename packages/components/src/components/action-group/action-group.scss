@@ -95,4 +95,5 @@
   border-inline-end: var(--calcite-size-px);
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();

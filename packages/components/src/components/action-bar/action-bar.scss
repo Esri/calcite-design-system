@@ -125,4 +125,5 @@
   @apply justify-end;
 }
 
+@include includes.base-component-sizing();
 @include includes.base-component();
