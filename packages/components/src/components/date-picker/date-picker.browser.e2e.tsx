@@ -44,7 +44,7 @@ describe("translation support", () => {
 
 describe("activeDate", () => {
   it("should update calendar when activeDate changes", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker />);
     el.value = "2025-09-01";
     await component.updateComplete;
 
@@ -59,7 +59,7 @@ describe("activeDate", () => {
   });
 
   it("should update calendar when activeDate changes in range", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker />);
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
     el.value = ["2025-09-01", "2025-11-15"];
     await component.updateComplete;
 

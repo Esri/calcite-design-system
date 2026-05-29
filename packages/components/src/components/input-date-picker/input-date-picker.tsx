@@ -20,6 +20,7 @@ import {
   datePartsFromISO,
   datePartsFromLocalizedString,
   dateToISO,
+  inRange,
 } from "../../utils/date";
 import {
   connectFloatingUI,
@@ -181,6 +182,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#endregion
 
   //#region State Properties
+
+  @state() datePickerActiveDate: Date;
 
   @state() focusedInput: "start" | "end" = "start";
 
@@ -549,6 +552,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
+    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
@@ -582,6 +586,12 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     if (year && year.length < 4) {
       return;
+    }
+
+    const date = dateFromLocalizedString(value, this.localeData);
+
+    if (inRange(date, this.min, this.max)) {
+      this.datePickerActiveDate = date;
     }
   }
 
@@ -1137,6 +1147,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 ref={this.transitionRef}
               >
                 <calcite-date-picker
+                  activeDate={this.datePickerActiveDate}
                   activeRange={this.focusedInput}
                   calendars={this.calendars}
                   headingLevel={this.headingLevel}
