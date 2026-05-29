@@ -48,7 +48,7 @@ describe("activeDate", () => {
     el.value = "2025-09-01";
     await component.updateComplete;
 
-    el.activeDate = new Date("01-15-2021");
+    el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
     const yearInput = getYearInputValue();
@@ -59,11 +59,11 @@ describe("activeDate", () => {
   });
 
   it("should update calendar when activeDate changes in range", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker />);
     el.value = ["2025-09-01", "2025-11-15"];
     await component.updateComplete;
 
-    el.activeDate = new Date("01-15-2021");
+    el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
     const yearInput = getYearInputValue();
@@ -78,7 +78,7 @@ describe("activeDate", () => {
     el.value = ["2025-09-01", "2025-11-15"];
     await component.updateComplete;
 
-    el.activeDate = new Date("01-15-2021");
+    el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
     const yearInput = getYearInputValue();
