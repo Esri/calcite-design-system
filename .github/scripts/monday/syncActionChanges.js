@@ -37,32 +37,18 @@ module.exports = async ({ github, context, core }) => {
   } = context.payload.inputs;
 
   const [issue_number] = assertRequired([issue_number_input], core, "Required issue number not provided.");
-
-  core.warning(`refactor_pr arg: ${refactor_pr}`);
-
-  if (refactor_pr === "true") {
-    const { data: pr } = await github.rest.pulls.get({
-      ...context.repo,
-      pull_number: issue_number,
-    });
-
-    if (!pr.merged) {
-      core.info(`PR #${issue_number} is not merged. Skipping Monday.com sync.`);
-      return;
-    }
-
-    const monday = Monday(pr, core, createBodyUpdater({ github, context, core }));
-    monday.createTask();
-    await monday.commit();
-    return;
-  }
-
   const { data: issue } = await github.rest.issues.get({
     ...context.repo,
     issue_number,
   });
 
   const monday = Monday(issue, core, createBodyUpdater({ github, context, core }));
+
+  if (refactor_pr === "true" && issue.pull_request?.merged_at) {
+    monday.createTask();
+    await monday.commit();
+    return;
+  }
 
   if (milestone_updated === "true") {
     monday.handleMilestone();
