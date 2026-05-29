@@ -1488,7 +1488,10 @@
     "$figmaStyleReferences": {
       "semantic.shadow.none": "S:dc7559491c7715a50d8ef55e521e376389f00962,",
       "semantic.shadow.sm": "S:6a9fd7c7ee61de518ba7e9cb9e1ca67f1fce3d74,",
-      "semantic.shadow.md": "S:c19f3fc92e3cd2bffc0ff13281e4374850c9b22d,"
+      "semantic.shadow.md": "S:c19f3fc92e3cd2bffc0ff13281e4374850c9b22d,",
+      "shadow.none": "S:58799cdd3f0cac862310c5cbfec97bc5516fecbe,",
+      "shadow.sm": "S:e413084c7e46ef4049d685b4f68ae55a8e3ffa49,",
+      "shadow.md": "S:28412b2300547f9201e70339978f42d423efb8ee,"
     },
     "selectedTokenSets": {
       "core/shadow": "source",
