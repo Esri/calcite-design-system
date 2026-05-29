@@ -12034,5 +12034,10 @@
     "alias": ["5.0.0", "gis", "metadata", "digital elevation", "pixels", "display"],
     "category": "GIS",
     "release": "5.0.0"
+  },
+  "parquet-feature-layer": {
+    "alias": ["5.0.0", "layers", "vector data", "attributes", "storage", "format", "cloud"],
+    "category": "Layers",
+    "release": "5.0.0"
   }
 }
