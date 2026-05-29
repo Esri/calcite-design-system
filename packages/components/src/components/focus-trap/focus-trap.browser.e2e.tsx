@@ -1,7 +1,7 @@
 import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 import { afterNextTask } from "../../tests/utils/timing";
 import type { FocusTrap } from "./focus-trap";
@@ -114,8 +114,8 @@ describe("focus trap behavior", () => {
     await component.updateComplete;
     expect(el.active).toBe(false);
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
+    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement;
+    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
 
     insideOne.focus();
 
@@ -147,7 +147,7 @@ describe("focus trap behavior", () => {
     await component.updateComplete;
     expect(el.active).toBe(false);
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
+    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement;
     const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
 
     insideOne.focus();
@@ -175,7 +175,7 @@ describe("focus trap behavior", () => {
       </>,
     );
 
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
+    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
 
     outside.focus();
     el.focusTrapOptions = { initialFocus: false };
@@ -188,7 +188,7 @@ describe("focus trap behavior", () => {
 
 describe("public methods", () => {
   it("supports setFocus", async () => {
-    const { el } = await mount<FocusTrap>(
+    const { component } = await mount<FocusTrap>(
       <calcite-focus-trap>
         <button id="inside-one" type="button">
           inside one
@@ -199,10 +199,10 @@ describe("public methods", () => {
       </calcite-focus-trap>,
     );
 
-    const insideOne = el.querySelector("#inside-one") as HTMLButtonElement | null;
+    const insideOne = page.getByText("inside one", { exact: true });
 
-    await expect(el.setFocus()).resolves.toBeUndefined();
-    expect(document.activeElement).toBe(insideOne);
+    await expect(component.setFocus()).resolves.toBeUndefined();
+    expect(document.activeElement).toBe(insideOne.element());
   });
 
   it("supports focus-trap container updates", async () => {
@@ -243,7 +243,7 @@ describe("events", () => {
       </>,
     );
 
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
+    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
 
     const changeHandler = vi.fn();
     const activeStates: boolean[] = [];
@@ -304,7 +304,7 @@ describe("events", () => {
     );
     const changeHandler = vi.fn();
     const activeStates: boolean[] = [];
-    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement | null;
+    const outside = el.parentElement?.querySelector("#outside") as HTMLButtonElement;
 
     el.addEventListener("calciteFocusTrapActiveChange", changeHandler);
     el.addEventListener("calciteFocusTrapActiveChange", () => {
