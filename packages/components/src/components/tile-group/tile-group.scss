@@ -1,6 +1,7 @@
 @use "../../styles/includes";
 
 :host {
+  box-sizing: border-box;
   display: inline-block;
 
   ::slotted(calcite-tile) {
@@ -36,5 +37,4 @@
 }
 
 @include includes.disabled();
-@include includes.base-component-sizing();
 @include includes.base-component();
