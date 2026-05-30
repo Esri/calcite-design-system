@@ -859,6 +859,6 @@
       "core/size": "source",
       "semantic/shadow": "enabled"
     },
-    "group": "styles"
+    "group": "_styles"
   }
 ]
