@@ -2,7 +2,6 @@ import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
