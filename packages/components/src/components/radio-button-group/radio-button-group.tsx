@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -68,7 +67,7 @@ export class RadioButtonGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's label text. */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
@@ -81,7 +80,7 @@ export class RadioButtonGroup extends LitElement {
    *
    * @required
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -97,18 +96,18 @@ export class RadioButtonGroup extends LitElement {
    *
    * @readonly
    */
-  @property() selectedItem: RadioButton["el"] = null;
+  @property() selectedItem?: RadioButton["el"];
 
   /** Specifies the status of the validation message. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   // #endregion
 
@@ -187,7 +186,8 @@ export class RadioButtonGroup extends LitElement {
   // #region Private Methods
 
   private handleInvalidFormEvent(event: CustomEvent): void {
-    const message = this.validationMessage || (event.target as RadioButton["el"]).validationMessage;
+    const message = (this.validationMessage ||
+      (event.target as RadioButton["el"]).validationMessage)!;
     displayValidationMessage(this, {
       message,
       icon: true,
@@ -198,10 +198,9 @@ export class RadioButtonGroup extends LitElement {
   private passPropsToRadioButtons(): void {
     // TODO: refactor this to look just for radio-button elements that are a member of the parent <form>
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
-    this.selectedItem =
-      Array.from(this.radioButtons)
-        .reverse()
-        .find((radioButton) => radioButton.checked) || null;
+    this.selectedItem = Array.from(this.radioButtons)
+      .reverse()
+      .find((radioButton) => radioButton.checked);
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         if (this.hasUpdated) {
@@ -215,8 +214,8 @@ export class RadioButtonGroup extends LitElement {
     }
   }
 
-  private getFocusableRadioButton(): RadioButton["el"] | null {
-    return this.radioButtons.find((radiobutton) => !radiobutton.disabled) ?? null;
+  private getFocusableRadioButton(): RadioButton["el"] | undefined {
+    return this.radioButtons.find((radiobutton) => !radiobutton.disabled);
   }
 
   private radioButtonChangeHandler(event: CustomEvent): void {
