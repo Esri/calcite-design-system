@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import { DateLocaleData } from "../components/date-picker/utils";
 import arabic from "../components/date-picker/assets/nls/ar.json";

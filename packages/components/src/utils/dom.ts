@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { focusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/interfaces";

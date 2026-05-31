@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import type { Label } from "../components/label/label";
 import { closestElementCrossShadowBoundary, isBefore, queryElementRoots } from "./dom";
 
@@ -72,7 +71,7 @@ function hasAncestorCustomElements(label: Label["el"], componentEl: HTMLElement)
   componentEl.dispatchEvent(new CustomEvent(customElementAncestorCheckEventType, { composed: true, bubbles: true }));
   label.removeEventListener(customElementAncestorCheckEventType, listener);
 
-  const ancestorCustomElements = traversedElements
+  const ancestorCustomElements = traversedElements!
     .filter((el) => el !== componentEl && el !== label)
     .filter((el) => el.tagName?.includes("-"));
 
@@ -92,7 +91,7 @@ export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
   if (
-    (onLabelClickMap.has(labelEl) && labelEl === component.labelEl) ||
+    labelEl && (onLabelClickMap.has(labelEl) && labelEl === component.labelEl) ||
     (!labelEl && unlabeledComponents.has(component))
   ) {
     return;
@@ -141,7 +140,7 @@ export function disconnectLabel(component: LabelableComponent): void {
     return;
   }
 
-  const labelables = labelToLabelables.get(component.labelEl);
+  const labelables = labelToLabelables.get(component.labelEl)!;
 
   if (labelables.length === 1) {
     component.labelEl.removeEventListener(labelClickEvent, onLabelClickMap.get(component.labelEl));
@@ -153,7 +152,7 @@ export function disconnectLabel(component: LabelableComponent): void {
     labelables.filter((labelable) => labelable !== component).sort(sortByDOMOrder),
   );
 
-  component.labelEl = null;
+  component.labelEl = undefined;
 }
 
 function sortByDOMOrder(a: LabelableComponent, b: LabelableComponent): number {
@@ -171,7 +170,7 @@ export function getLabelText(component: Pick<LabelableComponent, "label" | "labe
 
 function onLabelClick(this: Label["el"], event: CustomEvent<{ sourceEvent: MouseEvent }>): void {
   const labelClickTarget = event.detail.sourceEvent.target as HTMLElement;
-  const labelables = labelToLabelables.get(this);
+  const labelables = labelToLabelables.get(this)!;
   const clickedLabelable = labelables.find((labelable) => labelable.el === labelClickTarget);
   const labelableChildClicked = labelables.includes(clickedLabelable);
 
@@ -216,7 +215,7 @@ export async function associateExplicitLabelToUnlabeledComponent(label: Label["e
     return;
   }
 
-  const forComponentEl = label.ownerDocument?.getElementById(label.for);
+  const forComponentEl = label.ownerDocument?.getElementById(label.for!);
 
   if (!forComponentEl) {
     return;

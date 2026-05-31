@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
@@ -157,16 +156,13 @@ export class NumberStringFormat {
 
     this._numberFormatOptions = options;
 
-    this._numberFormatter = new Intl.NumberFormat(
-      this._numberFormatOptions.locale,
-      this._numberFormatOptions as Intl.NumberFormatOptions,
-    );
+    this._numberFormatter = new Intl.NumberFormat(this._numberFormatOptions.locale, this._numberFormatOptions);
 
     this._digits = [
       ...new Intl.NumberFormat(this._numberFormatOptions.locale, {
         useGrouping: false,
         numberingSystem: this._numberFormatOptions.numberingSystem,
-      } as Intl.NumberFormatOptions).format(9876543210),
+      }).format(9876543210),
     ].reverse();
 
     const index = new Map(this._digits.map((d, i) => [d, i]));
@@ -174,7 +170,7 @@ export class NumberStringFormat {
     // numberingSystem is parsed to return consistent decimal separator across browsers.
     const parts = new Intl.NumberFormat(this._numberFormatOptions.locale, {
       numberingSystem: this._numberFormatOptions.numberingSystem,
-    } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
+    }).formatToParts(-12345678.9);
 
     this._actualGroup = parts.find((d) => d.type === "group").value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)

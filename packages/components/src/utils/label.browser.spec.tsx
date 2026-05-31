@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it, vi } from "vitest";
 import { connectLabel, disconnectLabel, getLabelText } from "./label";
 import { JsxNode, LitElement, property } from "@arcgis/lumina";
@@ -13,14 +12,14 @@ class LabelableComponent extends LitElement {
 
   @property({ type: Boolean }) disabled = false;
 
-  @property() label = null;
+  @property() label?: string;
 
   inputRef = createRef<HTMLInputElement>();
 
-  labelEl: Label["el"] = null;
+  labelEl?: Label["el"];
 
   onLabelClick(): void {
-    this.inputRef.value.focus();
+    this.inputRef.value!.focus();
   }
 
   override connectedCallback(): void {
@@ -66,7 +65,7 @@ describe("connectLabel/disconnectLabel", () => {
         },
       );
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
 
       expect(labelable.manager.component.labelEl).toBe(el);
@@ -92,10 +91,10 @@ describe("connectLabel/disconnectLabel", () => {
         { dynamicComponents: [LabelableComponent] },
       );
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
       const interceptor = page.getByTestId("interceptor");
-      const clickHandler = vi.fn((event: MouseEvent) => event.preventDefault());
+      const clickHandler = vi.fn((event: Event) => event.preventDefault());
       interceptor.element().addEventListener("click", clickHandler, { once: true });
 
       expect(labelable.manager.component.labelEl).toBe(el);
@@ -105,7 +104,7 @@ describe("connectLabel/disconnectLabel", () => {
       expect(labelable.manager.component.onLabelClick).toHaveBeenCalledTimes(0);
       await expect.element(labelable).not.toHaveFocus();
       expect(clickHandler).toHaveBeenCalledTimes(1);
-      expect(clickHandler.mock.lastCall[0]).toHaveProperty("defaultPrevented", true);
+      expect(clickHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
 
       labelable.remove();
 
@@ -123,7 +122,7 @@ describe("connectLabel/disconnectLabel", () => {
         },
       );
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
 
       expect(labelable.manager.component.labelEl).toBe(el);
@@ -155,7 +154,7 @@ describe("connectLabel/disconnectLabel", () => {
         },
       );
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
 
       expect(labelable.manager.component.labelEl).toBe(el);
@@ -186,7 +185,7 @@ describe("connectLabel/disconnectLabel", () => {
       label.setAttribute("for", "renderedFirst");
       container.append(label);
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
 
       expect(labelable.manager.component.labelEl).toBe(label);
@@ -215,7 +214,7 @@ describe("connectLabel/disconnectLabel", () => {
         },
       );
       const labelable =
-        document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+        document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
 
       el.remove();
@@ -250,8 +249,8 @@ describe("connectLabel/disconnectLabel", () => {
           dynamicComponents: [LabelableComponent],
         },
       );
-      const innerLabelable = document.querySelector<WithManager<LabelableComponent>>("#inner");
-      const outerLabelable = document.querySelector<WithManager<LabelableComponent>>("#outer");
+      const innerLabelable = document.querySelector<WithManager<LabelableComponent>>("#inner")!;
+      const outerLabelable = document.querySelector<WithManager<LabelableComponent>>("#outer")!;
       vi.spyOn(innerLabelable.manager.component, "onLabelClick");
       vi.spyOn(outerLabelable.manager.component, "onLabelClick");
 
@@ -283,9 +282,9 @@ describe("connectLabel/disconnectLabel", () => {
           dynamicComponents: [LabelableComponent],
         },
       );
-      const labelable1 = document.querySelector<WithManager<LabelableComponent>>("#first");
-      const labelable2 = document.querySelector<WithManager<LabelableComponent>>("#second");
-      const labelable3 = document.querySelector<WithManager<LabelableComponent>>("#third");
+      const labelable1 = document.querySelector<WithManager<LabelableComponent>>("#first")!;
+      const labelable2 = document.querySelector<WithManager<LabelableComponent>>("#second")!;
+      const labelable3 = document.querySelector<WithManager<LabelableComponent>>("#third")!;
       vi.spyOn(labelable1.manager.component, "onLabelClick");
       vi.spyOn(labelable2.manager.component, "onLabelClick");
       vi.spyOn(labelable3.manager.component, "onLabelClick");
@@ -330,7 +329,7 @@ describe(getLabelText, () => {
       dynamicComponents: [LabelableComponent],
     });
     const labelable =
-      document.querySelector<WithManager<LabelableComponent>>("labelable-component");
+      document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
     expect(getLabelText(labelable.manager.component)).toBe(label);
   }
 

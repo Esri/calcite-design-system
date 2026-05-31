@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   getDateTimeFormat,
   getSupportedNumberingSystem,
@@ -36,8 +35,8 @@ export type MinuteOrSecond = "minute" | "second";
 
 export interface Time {
   fractionalSecond?: string;
-  hour: string;
-  minute: string;
+  hour: string | null;
+  minute: string | null;
   second?: string;
 }
 
@@ -217,7 +216,7 @@ export function getLocalizedTimePartSuffix({
 }): string {
   const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds: step < 60, locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
+  return getLocalizedTimePart(`${part}Suffix`, parts, locale);
 }
 
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], locale: Locale = "en"): string {
