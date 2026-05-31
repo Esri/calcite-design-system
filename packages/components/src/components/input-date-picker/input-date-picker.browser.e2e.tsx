@@ -188,6 +188,27 @@ it("should update calendar while typing in input", async () => {
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
 });
 
+it("should update calendar in range while typing in input", async () => {
+  const { component } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
+  const startInput = page.getByRole("combobox").first();
+  await userEvent.click(startInput);
+  await userEvent.keyboard("10/10/2020");
+  await component.updateComplete;
+
+  const yearInput = getYearInputValue();
+  const monthSelectMenu = getMonthSelectValue();
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+
+  await userEvent.keyboard("{Escape}");
+  await userEvent.click(startInput);
+  await component.updateComplete;
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
 function getYearInputValue(): Locator {
   return page.getByRole("textbox", { name: "Year" }).first();
 }
