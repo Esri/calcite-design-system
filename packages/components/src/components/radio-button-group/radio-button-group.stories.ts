@@ -105,74 +105,78 @@ export const validationMessage = (): string => html`
       gap: 20px;
     }
   </style>
-  <div class="container">
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="s"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="one" scale="s"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="two" scale="s"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="three" scale="s"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
+  <form>
+    <div class="container">
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-s"
+        required
+        scale="s"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="one" scale="s"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="two" scale="s"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="three" scale="s"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
 
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="m"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="one" scale="m"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="two" scale="m"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="three" scale="m"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-m"
+        required
+        scale="m"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="one" scale="m"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="two" scale="m"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="three" scale="m"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
 
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="l"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="one" scale="l"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="two" scale="l"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="three" scale="l"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
-  </div>
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-l"
+        required
+        scale="l"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="one" scale="l"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="two" scale="l"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="three" scale="l"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
+      <calcite-button type="submit">Submit</calcite-button>
+      <calcite-button type="reset" kind="danger">Reset</calcite-button>
+    </div>
+  </form>
 `;

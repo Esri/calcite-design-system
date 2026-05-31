@@ -338,7 +338,7 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconValue: IconName | boolean | "" | undefined,
   matchedValue: string,
 ): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
