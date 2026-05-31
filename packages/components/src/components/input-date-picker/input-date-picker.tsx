@@ -552,6 +552,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
+    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
