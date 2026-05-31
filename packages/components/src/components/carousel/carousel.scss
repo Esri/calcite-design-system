@@ -212,6 +212,11 @@ calcite-carousel-item:not([selected]) {
   inset-inline: 0;
 }
 
+:host([pagination-position="top"]) .container--overlaid .pagination {
+  inset-block-start: 0;
+  inset-block-end: unset;
+}
+
 .pagination-item.autoplay-control {
   position: relative;
   color: var(--calcite-internal-carousel-autoplay-control-color);

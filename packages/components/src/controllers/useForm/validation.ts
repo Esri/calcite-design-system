@@ -1,5 +1,4 @@
-import { CheckableFormComponent } from "../../utils/form";
-import type { FormComponent, UseFormOptions } from "../useForm";
+import type { CheckableFormComponent, FormComponent, UseFormOptions } from "../useForm";
 
 const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
 
@@ -30,7 +29,7 @@ export function validate({
      * 7) The properties in #6 are applied just to the other radio elements in the same group as the current component
      */
     if (component && input.type === "radio") {
-      let group = component.elementInternals.form?.elements[component.name];
+      let group = component.elementInternals.form?.elements[component.name!];
       if (group?.length > 0) {
         group = Array.from(group).filter(
           (element) => (element as HTMLElement).tagName === component.el.tagName,

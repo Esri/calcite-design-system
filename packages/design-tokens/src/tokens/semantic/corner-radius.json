@@ -1,54 +1,54 @@
 {
   "corner-radius": {
     "default": {
-      "value": "{corner-radius.none}",
-      "type": "borderRadius",
+      "$value": "{corner-radius.none}",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       }
     },
     "sharp": {
-      "value": "{core.size.default.none}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.none}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead.",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
-      },
-      "description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
+      }
     },
     "none": {
-      "value": "{core.size.default.none}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.none}",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       }
     },
     "xs": {
-      "value": "{core.size.default.2}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.2}",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       }
     },
     "sm": {
-      "value": "{core.size.default.4}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.4}",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       }
     },
     "round": {
-      "value": "{core.size.default.4}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.4}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead.",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
-      },
-      "description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
+      }
     },
     "pill": {
-      "value": "{core.size.default.9999}",
-      "type": "borderRadius",
+      "$value": "{core.size.default.9999}",
+      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       }
