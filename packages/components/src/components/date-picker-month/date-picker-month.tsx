@@ -640,7 +640,7 @@ export class DatePickerMonth extends LitElement {
    * @param active.currentDay
    */
   private renderDateDay(
-    { active, currentMonth, currentDay, date, day, dayInWeek }: Day,
+    { active, currentMonth, currentDay, date, day }: Day,
     key: number,
   ): JsxNode {
     const isDateInRange = inRange(date, this.min, this.max);
@@ -651,8 +651,6 @@ export class DatePickerMonth extends LitElement {
           active={active}
           class={{
             [CSS.currentDay]: currentDay,
-            [CSS.insideRangeHover]: this.isHoverInRange(),
-            [CSS.outsideRangeHover]: !this.isHoverInRange(),
             [CSS.noncurrent]: this.range && this.calendars === 2 && !currentMonth,
           }}
           currentMonth={currentMonth}
@@ -664,7 +662,6 @@ export class DatePickerMonth extends LitElement {
           oncalciteInternalDayHover={this.dayHover}
           oncalciteInternalDaySelect={this.daySelect}
           range={!!this.startDate && !!this.endDate && !sameDate(this.startDate, this.endDate)}
-          rangeEdge={dayInWeek === 0 ? "start" : dayInWeek === 6 ? "end" : undefined}
           rangeHover={isDateInRange && this.isRangeHover(date)}
           ref={this.storeDayRef}
           scale={this.scale}
