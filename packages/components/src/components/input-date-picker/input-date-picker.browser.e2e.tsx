@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
+import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -138,3 +139,25 @@ describe("minAsDate and maxAsDate properties", () => {
     expect(input.value).toBe("12/31/2020");
   });
 });
+
+it("should update calendar while typing in input", async () => {
+  const { component } = await mount<InputDatePicker>(<calcite-input-date-picker />);
+  const input = page.getByRole("combobox");
+  await userEvent.click(input);
+  await userEvent.keyboard("10/10/2020");
+  await component.updateComplete;
+
+  const yearInput = getYearInputValue();
+  const monthSelectMenu = getMonthSelectValue();
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
+function getYearInputValue(): Locator {
+  return page.getByRole("textbox", { name: "Year" }).first();
+}
+
+function getMonthSelectValue(): Locator {
+  return page.getByRole("combobox", { name: "Month menu" }).first();
+}
