@@ -61,15 +61,15 @@ export class Meter extends LitElement {
 
   // #region State Properties
 
-  @state() currentPercent = 0;
+  @state() currentPercent?: number;
 
   @state() highActive = false;
 
-  @state() highPercent = 0;
+  @state() highPercent?: number;
 
   @state() lowActive = false;
 
-  @state() lowPercent = 0;
+  @state() lowPercent?: number;
 
   // #endregion
 
@@ -104,7 +104,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) groupSeparator = false;
 
   /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
-  @property({ reflect: true }) high!: number;
+  @property({ reflect: true }) high?: number;
 
   /**
    * Specifies an accessible label for the component.
@@ -114,7 +114,7 @@ export class Meter extends LitElement {
   @property() label!: string;
 
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
-  @property({ reflect: true }) low!: number;
+  @property({ reflect: true }) low?: number;
 
   /** Specifies the component's highest allowed value. */
   @property({ reflect: true }) max = 100;
@@ -145,7 +145,7 @@ export class Meter extends LitElement {
   @property() unitLabel = "";
 
   /** Specifies the component's value. */
-  @property() value!: number;
+  @property() value?: number;
 
   /** When `true`, displays the `value`. */
   @property({ reflect: true }) valueLabel = false;
