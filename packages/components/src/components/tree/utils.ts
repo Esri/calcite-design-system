@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import type { TreeItem } from "../tree-item/tree-item";
 import type { Tree } from "./tree";
 
@@ -13,13 +12,13 @@ export function getTraversableItems(root: Tree["el"]): TreeItem["el"][] {
 
       while (currentItem !== root && currentItem !== undefined) {
         const parent = currentItem.parentElement;
-        const traversable = !isTreeItem(parent) || !parent.hasChildren || parent.expanded;
+        const traversable = !isTreeItem(parent!) || !parent.hasChildren || parent.expanded;
 
         if (!traversable) {
           return false;
         }
 
-        currentItem = currentItem.parentElement;
+        currentItem = currentItem.parentElement!;
       }
 
       return true;
