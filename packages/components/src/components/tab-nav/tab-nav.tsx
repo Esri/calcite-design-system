@@ -190,8 +190,11 @@ export class TabNav extends LitElement {
 
     const { parentTabsEl } = this;
 
-    this.layout = parentTabsEl!.layout;
-    this.bordered = parentTabsEl!.bordered;
+    if (parentTabsEl) {
+      this.layout = parentTabsEl.layout;
+      this.bordered = parentTabsEl.bordered;
+    }
+
     this.effectiveDir = this.direction;
   }
 
@@ -483,15 +486,15 @@ export class TabNav extends LitElement {
       });
 
       let scrollTo: number | undefined = undefined;
-      if (!closestToEdge) {
+      if (closestToEdge) {
         const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
             ? -scrollerButtonContainerWidth
-            : closestToEdge!.offsetWidth -
+            : (closestToEdge as TabTitle["el"]).offsetWidth -
               (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
-        scrollTo = closestToEdge!.offsetLeft + offsetAdjustment;
+        scrollTo = (closestToEdge as TabTitle["el"]).offsetLeft + offsetAdjustment;
       } else {
         const scrollPosition = tabTitleContainer.scrollLeft;
         const containerWidth = containerBounds.width;

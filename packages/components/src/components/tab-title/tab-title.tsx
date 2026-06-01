@@ -111,7 +111,7 @@ export class TabTitle extends LitElement {
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @private */
-  @property({ reflect: true }) layout?: TabLayout;
+  @property({ reflect: true }) layout!: TabLayout;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
