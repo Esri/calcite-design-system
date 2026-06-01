@@ -31,7 +31,6 @@
 // --calcite-internal-shell-panel-action-bar-min-inline-size
 // --calcite-internal-shell-panel-action-bar-thickness
 // --calcite-internal-shell-panel-border
-// --calcite-internal-shell-panel-c-panel-block-size
 // --calcite-internal-shell-panel-c-panel-border-block-end
 // --calcite-internal-shell-panel-c-panel-border-block-start
 // --calcite-internal-shell-panel-c-panel-border-inline-end
@@ -60,7 +59,6 @@
 // --calcite-internal-shell-panel-resize-handle-bar-border-block-start
 // --calcite-internal-shell-panel-resize-handle-bar-border-inline-end
 // --calcite-internal-shell-panel-resize-handle-bar-border-inline-start
-// --calcite-internal-shell-panel-resize-handle-bar-border-start-end
 // --calcite-internal-shell-panel-resize-handle-bar-footprint
 // --calcite-internal-shell-panel-resize-handle-bar-footprint-negative
 // --calcite-internal-shell-panel-resize-handle-bar-size
@@ -84,10 +82,7 @@
     flex
     flex-initial
     items-stretch;
-  z-index: var(
-    --calcite-shell-panel-z-index,
-    calc(theme("zIndex.header") + 1)
-  ); // keeps focus lines on each side of resize bar visible
+  z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-max-height: unset;
   --calcite-internal-shell-panel-shadow-block-start:
     0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
@@ -97,10 +92,9 @@
     4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-internal-shell-panel-shadow-inline-end:
     -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-  --calcite-internal-shell-panel-action-bar-thickness: 48px;
+  --calcite-internal-shell-panel-action-bar-thickness: 49px;
   --calcite-internal-shell-panel-border: var(--calcite-border-width-sm) solid
     var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  --calcite-internal-shell-panel-border: orange 1px solid; // TODO: remove, used for debugging
 
   --calcite-internal-shell-panel-resize-handle-bar-size: 10px;
 
@@ -111,7 +105,7 @@
   --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
-  --calcite-internal-shell-panel-resize-handle-inset-inline-start: 0;
+  // --calcite-internal-shell-panel-resize-handle-inset-inline-start: 0;
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: 0;
   --calcite-internal-shell-panel-resize-handle-inset-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-inset-block-end: 0;
@@ -139,7 +133,7 @@
   --calcite-internal-shell-panel-content-padding-inline-start: 0;
   --calcite-internal-shell-panel-content-padding-inline-end: 0;
 
-  --calcite-internal-shell-panel-content-max-inline-size: 0;
+  // --calcite-internal-shell-panel-content-max-inline-size: 0;
   --calcite-internal-shell-panel-content-min-block-size: 0;
 
   --calcite-internal-shell-panel-content-border-block-start: 0;
@@ -147,7 +141,7 @@
   --calcite-internal-shell-panel-content-border-inline-start: 0;
   --calcite-internal-shell-panel-content-border-inline-end: 0;
 
-  --calcite-internal-shell-panel-c-panel-block-size: 0;
+  // --calcite-internal-shell-panel-c-panel-block-size: 0;
   --calcite-internal-shell-panel-c-panel-border-inline-start: 0;
   --calcite-internal-shell-panel-c-panel-border-inline-end: 0;
   --calcite-internal-shell-panel-c-panel-border-block-start: 0;
@@ -323,6 +317,7 @@
   border-block: var(--calcite-internal-shell-panel-resize-handle-bar-border-block);
   border-block-start: var(--calcite-internal-shell-panel-resize-handle-bar-border-block-start);
   border-block-end: var(--calcite-internal-shell-panel-resize-handle-bar-border-block-end);
+  border-inline-start: var(--calcite-internal-shell-panel-resize-handle-bar-border-inline-start);
   border-inline-end: var(--calcite-internal-shell-panel-resize-handle-bar-border-inline-end);
 }
 
@@ -343,6 +338,7 @@
   max-block-size: unset;
   max-inline-size: unset;
   block-size: var(--calcite-internal-shell-panel-c-panel-block-size);
+  border-inline-start: var(--calcite-internal-shell-panel-c-panel-border-inline-start);
 }
 
 ::slotted(calcite-action-bar) {
@@ -352,7 +348,6 @@
   border-block-end: var(--calcite-internal-shell-panel-action-bar-border-block-end);
   min-block-size: var(--calcite-internal-shell-panel-action-bar-min-block-size);
   min-inline-size: var(--calcite-internal-shell-panel-action-bar-min-inline-size);
-
   overflow: hidden;
 }
 
@@ -621,12 +616,28 @@
   }
 }
 
-:host(:not([action-bar-position])) {
-  slot[name="action-bar"]::slotted(calcite-action-bar),
-  .content ::slotted(calcite-flow),
-  .content ::slotted(calcite-panel:not([closed])) {
-    border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
-  }
+// :host(:not([action-bar-position])) {
+//   slot[name="action-bar"]::slotted(calcite-action-bar),
+//   .content ::slotted(calcite-flow),
+//   .content ::slotted(calcite-panel:not([closed])) {
+//     border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+//   }
+// }
+
+// slot[name="action-bar"]::slotted(calcite-action-bar),
+.content ::slotted(calcite-flow),
+.content ::slotted(calcite-panel:not([closed])) {
+  border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
+  border-inline: 0;
+  border-block-start: 0;
+}
+
+:host([layout="horizontal"]) slot[name="action-bar"]::slotted(calcite-action-bar) {
+  border-inline: 0;
 }
 
 :host([position="start"]:not([slot="panel-end"])),
@@ -704,6 +715,65 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 240px);
 }
 
+:host([position="start"][slot="panel-start"]) {
+  --calcite-internal-shell-panel-resize-handle-inset-inline-start: auto;
+  --calcite-internal-shell-panel-resize-handle-inset-inline-end: var(
+    --calcite-internal-shell-panel-resize-handle-bar-footprint-negative
+  );
+}
+
+:host([position="end"][slot="panel-end"]) {
+  --calcite-internal-shell-panel-resize-handle-inset-inline-start: var(
+    --calcite-internal-shell-panel-resize-handle-bar-footprint-negative
+  );
+}
+
+:host([position="end"][slot="panel-bottom"]) {
+  --calcite-internal-shell-panel-container-flex-direction: column;
+  --calcite-internal-shell-panel-resize-handle-inset-block-start: -7px;
+  --calcite-internal-shell-panel-resize-handle-inset-block-end: auto;
+  --calcite-internal-shell-panel-c-panel-border-inline-start: none;
+}
+
+:host([position="start"][slot="panel-top"]) {
+  --calcite-internal-shell-panel-container-flex-direction: column;
+  --calcite-internal-shell-panel-resize-handle-inset-block-start: auto;
+  --calcite-internal-shell-panel-resize-handle-inset-block-end: -7px;
+}
+
+:host([slot="panel-start"][position="start"]) {
+  --calcite-internal-shell-panel-action-bar-border-inline-end: none;
+  --calcite-internal-shell-panel-action-bar-border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-start: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
+}
+
+:host([slot="panel-end"][position="end"]) {
+  --calcite-internal-shell-panel-action-bar-border-inline-start: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  --calcite-internal-shell-panel-action-bar-border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-top"][position="start"]) {
+  --calcite-internal-shell-panel-action-bar-border-block-end: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+}
+
+:host([slot="panel-start"][position="start"]) {
+  --calcite-internal-shell-panel-action-bar-border-inline-end: var(--calcite-border-width-sm) solid
+    var(--calcite-shell-border-color, var(--calcite-color-border-3));
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
+  --calcite-internal-shell-panel-c-panel-border-inline-start: none;
+}
+
 :host([action-bar-position]) {
   ::slotted(calcite-action-bar) {
     display: flex;
@@ -729,6 +799,7 @@
   --calcite-internal-shell-panel-c-panel-border-inline-start: var(--calcite-internal-shell-panel-border);
 
   --calcite-internal-shell-panel-action-bar-border-inline-start: var(--calcite-internal-shell-panel-border);
+  --calcite-internal-shell-panel-action-bar-border-inline-end: none;
   --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-block-end: var(--calcite-internal-shell-panel-border);
 
@@ -740,6 +811,7 @@
   --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-start: 0;
 }
 
 :host([action-bar-position="start"][slot="panel-end"]) {
@@ -761,6 +833,7 @@
       ) *
       -1
   );
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="start"][slot="panel-end"][resizable]) {
@@ -791,6 +864,7 @@
   );
 
   --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: none;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
 }
@@ -817,6 +891,8 @@
   --calcite-internal-shell-panel-resize-handle-inset-inline-start: var(
     --calcite-internal-shell-panel-resize-handle-bar-footprint-negative
   );
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="top"][slot="panel-start"]) {
@@ -828,6 +904,7 @@
   --calcite-internal-shell-panel-action-bar-border-inline-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-inline-end: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-internal-shell-panel-border);
+  --calcite-internal-shell-panel-action-bar-border-block-end: 0;
 
   --calcite-internal-shell-panel-container-flex-direction: column;
 
@@ -849,6 +926,8 @@
     --calcite-internal-shell-panel-resize-handle-bar-size
   );
   --calcite-internal-shell-panel-content-padding-inline-end: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-start: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
 }
 
 :host([action-bar-position="bottom"][slot="panel-start"]) {
@@ -880,6 +959,7 @@
   --calcite-internal-shell-panel-container-padding-inline-end: var(
     --calcite-internal-shell-panel-resize-handle-bar-size
   );
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-start: 0;
 }
 
 :host([action-bar-position="top"][slot="panel-end"]) {
@@ -889,6 +969,7 @@
   --calcite-internal-shell-panel-c-panel-border-inline-start: var(--calcite-internal-shell-panel-border);
 
   --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-internal-shell-panel-border);
+  --calcite-internal-shell-panel-action-bar-border-block-end: 0;
   --calcite-internal-shell-panel-action-bar-border-inline-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-inline-end: var(--calcite-internal-shell-panel-border);
 
@@ -913,6 +994,8 @@
   --calcite-internal-shell-panel-resize-handle-block-size: calc(
     100% + var(--calcite-internal-shell-panel-action-bar-thickness)
   );
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="top"][slot="panel-end"][resizable]) {
@@ -930,9 +1013,12 @@
 
   --calcite-internal-shell-panel-container-flex-direction: column;
 
+  --calcite-internal-shell-panel-action-bar-border-block-start: 0;
   --calcite-internal-shell-panel-action-bar-border-block-end: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-inline-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-action-bar-border-inline-end: var(--calcite-internal-shell-panel-border);
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="bottom"][slot="panel-end"][resizable]) {
@@ -1036,6 +1122,9 @@
 
   --calcite-internal-shell-panel-resize-handle-inset-block-start: auto;
   --calcite-internal-shell-panel-resize-handle-inset-block-end: -7px;
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="start"][slot="panel-top"][resizable]) {
@@ -1062,6 +1151,9 @@
 
   --calcite-internal-shell-panel-resize-handle-inset-block-start: auto;
   --calcite-internal-shell-panel-resize-handle-inset-block-end: -7px;
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="end"][slot="panel-top"][resizable]) {
@@ -1069,6 +1161,8 @@
     --calcite-internal-shell-panel-resize-handle-bar-size
   );
   --calcite-internal-shell-panel-content-padding-block-end: 0;
+
+  --calcite-internal-shell-panel-c-panel-border-inline-end: var(--calcite-internal-shell-panel-border);
 }
 
 :host([action-bar-position="top"][slot="panel-top"]) {
@@ -1091,7 +1185,8 @@
 
   --calcite-internal-shell-panel-resize-handle-inset-block-start: auto;
   --calcite-internal-shell-panel-resize-handle-inset-block-end: -7px;
-  --calcite-internal-shell-panel-resize-handle-bar-border-start-end: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
 }
 
@@ -1112,6 +1207,9 @@
   --calcite-internal-shell-panel-resize-handle-inset-block-end: calc(
     (var(--calcite-internal-shell-panel-action-bar-size) * -1) - 17px
   );
+
+  --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
+  --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
 }
 
 :host([action-bar-position="bottom"][slot="panel-top"][resizable]) {

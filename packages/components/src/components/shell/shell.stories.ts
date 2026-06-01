@@ -3155,27 +3155,34 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
 
   return html` ${shellSampleContentStyles}
-    <calcite-shell
-      style="
+    <div
+      style="padding: 0;
+      position: absolute;
+      inset: 0;
+      border: 0 solid green;"
+    >
+      <calcite-shell
+        style="
         --calcite-shell-panel-height: 400px; 
         --calcite-shell-panel-min-height: 200px; 
         --calcite-shell-panel-max-height: 900px; 
         --calcite-shell-panel-min-width: 200px; 
         --calcite-shell-panel-max-width: 900px;"
-    >
-      <calcite-shell-panel
-        id="shellPanel"
-        slot="${args.shellPanelSlot}"
-        action-bar-position="${args.actionBarPosition}"
-        layout="${isHorizontal ? "horizontal" : "vertical"}"
-        position="${panelPosition}"
-        width="l"
-        ${boolean("resizable", args.isResizable)}
       >
-        ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
-      </calcite-shell-panel>
-      ${actionBarPositionPanelHTML}
-    </calcite-shell>`;
+        <calcite-shell-panel
+          id="shellPanel"
+          slot="${args.shellPanelSlot}"
+          action-bar-position="${args.actionBarPosition}"
+          layout="${isHorizontal ? "horizontal" : "vertical"}"
+          position="${panelPosition}"
+          width="l"
+          ${boolean("resizable", args.isResizable)}
+        >
+          ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
+        </calcite-shell-panel>
+        ${actionBarPositionPanelHTML}
+      </calcite-shell>
+    </div>`;
 };
 
 shellPanelWithActionBarPositionProp.args = {
