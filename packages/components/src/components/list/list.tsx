@@ -472,6 +472,7 @@ export class List extends LitElement {
   //#region Private Methods
 
   private updateListItems(): void {
+    this.updateFilterRowHeight();
     this.updateGroupItems();
 
     const {
@@ -901,7 +902,9 @@ export class List extends LitElement {
   }
 
   private async filterAndUpdateData(): Promise<void> {
-    await this.filterEl?.filter(this.filterText);
+    // Keep in-progress user input as source-of-truth during rapid item updates.
+    const filterValue = this.filterEl?.value ?? this.filterText;
+    await this.filterEl?.filter(filterValue);
     this.updateFilteredData();
   }
 
@@ -1231,7 +1234,6 @@ export class List extends LitElement {
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
@@ -1282,7 +1284,6 @@ export class List extends LitElement {
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
                         scale={this.scale}
-                        value={filterText}
                       />
                       <slot
                         name={SLOTS.filterActionsEnd}

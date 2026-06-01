@@ -417,3 +417,48 @@ export const fullWidthActions = (): string => html`
     </calcite-action-bar>
   </div>
 `;
+
+export const overflowDisabledActions = (): string => html`
+  <style>
+    .overflow-disabled-story-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .overflow-disabled-story-label {
+      font-family: sans-serif;
+      font-size: 0.875rem;
+    }
+  </style>
+  <div class="overflow-disabled-story-group">
+    <p class="overflow-disabled-story-label">
+      Horizontal — width unconstrained. First three actions have <code>overflow-disabled</code>; all actions are
+      visible.
+    </p>
+    <calcite-action-bar layout="horizontal" expand-disabled>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+        <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+        <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p class="overflow-disabled-story-label">
+      Horizontal — width constrained. First three actions stay visible; the rest overflow into the menu.
+      <code>action-bar</code> cannot collapse further because the <code>overflow-disabled</code> actions set its minimum
+      width.
+    </p>
+    <div style="width: 100px; display: flex;">
+      <calcite-action-bar layout="horizontal" expand-disabled style="flex: 1;">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+          <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+          <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+          <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+          <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </div>
+  </div>
+`;

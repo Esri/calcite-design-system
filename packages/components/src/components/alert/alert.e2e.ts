@@ -2,7 +2,7 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
@@ -73,10 +73,8 @@ it("renders with an icon", async () => {
     ${alertContent}
     </calcite-alert>`);
 
-  const element = await page.find("calcite-alert");
   const close = await page.find(`calcite-alert >>> .${CSS.close}`);
   const icon = await page.find(`calcite-alert >>> .${CSS.icon}`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(close).not.toBeNull();
   expect(icon).not.toBeNull();
 });

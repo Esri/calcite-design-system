@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Scale } from "../interfaces";

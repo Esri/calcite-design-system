@@ -9,7 +9,7 @@ const REPO_CALCITE = "calcite-design-system";
 const REPO_DOCS = "calcite-documentation";
 
 /**
- * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
+ * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue or pull request object
  * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
  * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
@@ -486,6 +486,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     [getUsername("anveshmekala"), { role: mondayColumns.developers, id: 48387134 }],
     [getUsername("aPreciado88"), { role: mondayColumns.developers, id: 60795249 }],
     [getUsername("ashetland"), { role: mondayColumns.designers, id: 45851619 }],
+    [getUsername("benelan"), { role: mondayColumns.developers, id: 104096847 }],
     [getUsername("brendan-vincent-rice"), { role: mondayColumns.developers, id: 96903694 }],
     [getUsername("chezHarper"), { role: mondayColumns.designers, id: 71157966 }],
     [getUsername("DintaMel"), { role: mondayColumns.productEngineers, id: 92955697 }],
@@ -871,6 +872,10 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
+    if ("merged" in issue) {
+      handleState("closed");
+    }
+
     const { id: syncId, source } = await getId();
     if (syncId) {
       core.notice(`Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`, logParams);
@@ -1005,7 +1010,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     setColumnValue(mondayColumns.open, stateMap[issue.state], logParams);
 
     if (action === "closed") {
-      if (issue.state_reason !== "completed") {
+      if ("state_reason" in issue && issue.state_reason !== "completed") {
         setColumnValue(mondayColumns.status, CLOSED, logParams);
       } else if (includesLabel(issue.labels, issueType.design)) {
         setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);
