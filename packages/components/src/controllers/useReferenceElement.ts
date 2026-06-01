@@ -31,7 +31,7 @@ type PublicProps = {
    * The reference element, either as a string id or HTMLElement.
    * Note that this prop should use the `@Prop` decorator.
    */
-  referenceElement: string | ReferenceElement | nil;
+  referenceElement: string | ReferenceElement | undefined;
   /**
    * If true, disables the trigger interaction for the component.
    * Note that this prop should use the `@Prop` decorator.
@@ -43,12 +43,12 @@ type InternalProps = {
   /**
    * The resolved reference element used to trigger the component.
    */
-  referenceEl: ReferenceElement | nil;
+  referenceEl?: ReferenceElement;
 
   /**
    * The type of reference element interaction ("click" or "hover").
    */
-  referenceElementType: ReferenceElementType | nil;
+  referenceElementType?: ReferenceElementType;
 
   /**
    * Keydown handler invoked when a keydown event occurs on this component's reference element.
@@ -86,8 +86,8 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
   const { manager } = options;
 
   return makeGenericController<void, T>((component, controller) => {
-    let animationFrameId: number | nil = null;
-    let lastRegisteredReferenceEl: ReferenceElement | nil = null;
+    let animationFrameId: number | undefined = undefined;
+    let lastRegisteredReferenceEl: ReferenceElement | undefined = undefined;
 
     const canManageReferenceElement = (referenceEl: ReferenceElement | nil): referenceEl is ReferenceElement => {
       return Boolean(referenceEl && component.referenceElementType);
@@ -110,16 +110,16 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       manager.unregisterElement(component, referenceEl);
 
       if (lastRegisteredReferenceEl === referenceEl) {
-        lastRegisteredReferenceEl = null;
+        lastRegisteredReferenceEl = undefined;
       }
     };
 
-    const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | nil => {
+    const getReferenceElement = (component: ReferenceElementComponent): ReferenceElement | undefined => {
       const { referenceElement, el } = component;
 
       return (
         (typeof referenceElement === "string" ? queryElementRoots(el, { id: referenceElement }) : referenceElement) ||
-        null
+        undefined
       );
     };
 
@@ -167,7 +167,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       }
 
       if (changes.has("referenceEl")) {
-        unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | nil);
+        unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | undefined);
         registerReferenceElement(component.referenceEl);
       } else if (changes.has("open")) {
         manager.updateElement(component, component.referenceEl);
@@ -177,7 +177,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
     controller.onDisconnected(() => {
       if (animationFrameId != null) {
         cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
+        animationFrameId = undefined;
       }
       unregisterReferenceElement(lastRegisteredReferenceEl);
     });
