@@ -37,6 +37,7 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
+  border-color: var(--calcite-segmented-control-border-color);
   border-radius: max(
     0px,
     calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius-none)) - 2px)
