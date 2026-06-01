@@ -12,19 +12,13 @@ import { afterFocusShiftDelay } from "./utils/focus-trap";
 type OpenableElement = HTMLElement & { open: boolean };
 
 beforeEach(async () => {
-  await page.viewport(800, 600);
+  await page.viewport(1200, 800);
 });
 
 function renderReturnFocusStack(): JsxNode {
   return (
     <>
-      <calcite-dialog
-        description="My description"
-        heading="small scale dialog"
-        id="dialog"
-        scale="s"
-        width-scale="s"
-      >
+      <calcite-dialog heading="small scale dialog" id="dialog">
         <p>
           The small dialog is perfect for short confirmation dialogs or very compact interfaces with
           few elements.
@@ -75,9 +69,7 @@ async function testEscapeAndAssertOpenState(
 
     // sheet itself is not focusable, so focus should return to sheet-button before sheet closes
     const expectedElement =
-      focusTrapOrderEl.id === "sheet"
-        ? document.querySelector<HTMLElement>("#sheet-button")!
-        : focusTrapOrderEl;
+      focusTrapOrderEl.id === "sheet" ? page.getBySelector("#sheet-button") : focusTrapOrderEl;
     await expect.element(expectedElement).toHaveFocus();
 
     await userEvent.keyboard("{Escape}");
@@ -99,7 +91,7 @@ describe("stacked focus-trap components", () => {
   it.for(["calcite-input-date-picker", "calcite-input-time-picker"] as const)(
     "closes a stack of open components sequentially in visual order (%s)",
     async (pickerType) => {
-      const { container } = await mount(
+      await mount(
         <>
           <calcite-sheet id="sheet">
             <calcite-panel>
@@ -128,7 +120,6 @@ describe("stacked focus-trap components", () => {
               closable
               heading="Popover"
               id="popover"
-              placement="auto"
               reference-element="popover-button"
             >
               <calcite-label>
@@ -145,12 +136,12 @@ describe("stacked focus-trap components", () => {
         </>,
       );
 
-      const sheet = container.querySelector<OpenableElement>("#sheet")!;
-      const dialog = container.querySelector<OpenableElement>("#dialog")!;
-      const firstDialog = container.querySelector<OpenableElement>("#example-dialog")!;
-      const secondDialog = container.querySelector<OpenableElement>("#another-dialog")!;
-      const popover = container.querySelector<OpenableElement>("#popover")!;
-      const inputTimeOrDatePicker = container.querySelector<OpenableElement>(pickerType)!;
+      const sheet = document.querySelector<OpenableElement>("#sheet")!;
+      const dialog = document.querySelector<OpenableElement>("#dialog")!;
+      const firstDialog = document.querySelector<OpenableElement>("#example-dialog")!;
+      const secondDialog = document.querySelector<OpenableElement>("#another-dialog")!;
+      const popover = document.querySelector<OpenableElement>("#popover")!;
+      const inputTimeOrDatePicker = document.querySelector<OpenableElement>(pickerType)!;
 
       await ensureOpen(sheet);
       await ensureOpen(dialog);
@@ -176,12 +167,12 @@ describe("returning focus after deactivation", () => {
   mockConsole();
 
   it("returns focus to the initialFocus element when deactivating via Escape key", async () => {
-    const { container } = await mount(renderReturnFocusStack);
+    await mount(renderReturnFocusStack);
 
-    const firstInput = container.querySelector<HTMLElement>("#first-input")!;
-    firstInput.focus();
+    const firstInput = page.getBySelector("#first-input");
+    await userEvent.click(firstInput);
 
-    const dialog = container.querySelector<OpenableElement>("#dialog")!;
+    const dialog = document.querySelector<OpenableElement>("#dialog")!;
     const openEventPromise = waitForEvent(dialog, `${camelCase(dialog.tagName)}Open`);
     dialog.open = true;
     await openEventPromise;
@@ -197,12 +188,12 @@ describe("returning focus after deactivation", () => {
   });
 
   it("returns focus to the initialFocus element when deactivating via close button inside the focus trap", async () => {
-    const { container } = await mount(renderReturnFocusStack);
+    await mount(renderReturnFocusStack);
 
-    const firstInput = container.querySelector<HTMLElement>("#first-input")!;
-    firstInput.focus();
+    const firstInput = page.getBySelector("#first-input");
+    await userEvent.click(firstInput);
 
-    const dialog = container.querySelector<OpenableElement>("#dialog")!;
+    const dialog = document.querySelector<OpenableElement>("#dialog")!;
     const openEventPromise = waitForEvent(dialog, `${camelCase(dialog.tagName)}Open`);
     dialog.open = true;
     await openEventPromise;
@@ -219,19 +210,20 @@ describe("returning focus after deactivation", () => {
   });
 
   it("focuses the element clicked outside of the focus trap when deactivated", async () => {
-    const { container } = await mount(renderReturnFocusStack);
+    await mount(renderReturnFocusStack);
 
-    const firstInput = container.querySelector<HTMLElement>("#first-input")!;
-    firstInput.focus();
+    const firstInput = page.getBySelector("#first-input");
+    await userEvent.click(firstInput);
 
-    const dialog = container.querySelector<OpenableElement>("#dialog")!;
+    const dialog = document.querySelector<OpenableElement>("#dialog")!;
     const openEventPromise = waitForEvent(dialog, `${camelCase(dialog.tagName)}Open`);
     dialog.open = true;
     await openEventPromise;
     await afterFocusShiftDelay();
 
-    const lastInput = container.querySelector<HTMLElement>("#second-input")!;
-    await userEvent.click(lastInput, { force: true });
+    const lastInput = page.getBySelector("#second-input");
+    await userEvent.click(lastInput);
+    await afterFocusShiftDelay();
 
     await expect.element(lastInput).toHaveFocus();
     expect(dialog.open).toBe(true);
