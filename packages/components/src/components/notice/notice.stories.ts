@@ -61,7 +61,68 @@ export const simple = (args: NoticeStoryArgs): string => html`
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action" href="http://google.com">Learn more</calcite-link>
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
+export const linkNoHref = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      icon="${args.icon}"
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
       <calcite-link slot="link" title="my action">Learn more</calcite-link>
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
+export const longLinkText = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      icon="${args.icon}"
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique</calcite-link
+      >
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
+export const longLinkTextNoHref = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      icon="${args.icon}"
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action"
+        >Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique</calcite-link
+      >
       <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
     </calcite-notice>
   </div>

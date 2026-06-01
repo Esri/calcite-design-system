@@ -23,7 +23,12 @@ export default tseslint.config(
     },
 
     languageOptions: {
+      ecmaVersion: 2021,
+      sourceType: "module",
+      parser: tseslint.parser,
       parserOptions: {
+        jsxFragmentName: "Fragment",
+        jsxPragma: "h",
         tsconfigRootDir: import.meta.dirname,
         project: ["tsconfig.eslint.json"],
       },
@@ -44,7 +49,7 @@ export default tseslint.config(
             {
               group: ["tests/commonTests/browser/*"],
               message:
-                "Import named functions from commonTests/browser for browser mode (experimental) tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+                "Import named functions from commonTests/browser for browser mode tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
             },
             {
               group: ["lit-html", "lit-html/*"],

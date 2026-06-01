@@ -338,7 +338,7 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconValue: IconName | boolean | "" | undefined,
   matchedValue: string,
 ): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {
@@ -398,6 +398,9 @@ export function slotChangeGetTextContent(event: Event): string {
 
 /**
  * This helper checks if an element has visible content.
+ *
+ * @deprecated Using this utility with slots/content that start empty or may change creates incorrect behavior.
+ * It should not be used until a solution is found via https://github.com/Esri/calcite-design-system/issues/14270.
  *
  * @param element The element to check.
  * @returns True if the element has visible content, otherwise false.

@@ -11,7 +11,7 @@
  * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
  * @prop --calcite-shell-panel-max-width: Specifies the component's maximum width.
  * @prop --calcite-shell-panel-resize-icon-color: Specifies the resize handle's text color.
- * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
+ * @prop --calcite-shell-panel-shadow: When `displayMode` is `float-all`, `float-content`, or `overlay`, specifies the component's shadow.
  * @prop --calcite-shell-panel-text-color: Specifies the component's text color.
  * @prop --calcite-shell-panel-width: Specifies the component's width.
  * @prop --calcite-shell-panel-z-index: Specifies the component's z-index value.
@@ -542,14 +542,7 @@
 
 .content--overlay {
   @apply absolute;
-  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-shell-panel-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
-  );
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 }
 
 :host([layout="vertical"]) .content--overlay {
@@ -585,14 +578,7 @@
   h-auto
   overflow-hidden;
 
-  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-shell-panel-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
-  );
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 
   border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
   margin-inline: var(--calcite-spacing-sm);

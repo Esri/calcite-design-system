@@ -13,7 +13,7 @@ export interface LabelableComponent {
   label?: string;
 
   /** The label this component is associated with. */
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /** Hook for components to provide custom label click behavior. */
   onLabelClick: (event: CustomEvent<any>) => void;
@@ -165,7 +165,7 @@ function sortByDOMOrder(a: LabelableComponent, b: LabelableComponent): number {
  *
  * @param component
  */
-export function getLabelText(component: LabelableComponent): string {
+export function getLabelText(component: Pick<LabelableComponent, "label" | "labelEl">): string {
   return component.label || component.labelEl?.textContent?.trim() || "";
 }
 

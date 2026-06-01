@@ -11999,5 +11999,45 @@
     "alias": ["5.0.0", "objects", "survey", "measuring", "distance", "data-collection"],
     "category": "Objects",
     "release": "5.0.0"
+  },
+  "buttons": {
+    "alias": ["5.0.0", "symbols", "user-experience", "keys", "triggers", "quickcapture"],
+    "category": "Symbols",
+    "release": "5.0.0"
+  },
+  "entity-types": {
+    "alias": ["5.0.0", "knowledge graph", "features", "vector", "raster", "polygons"],
+    "category": "Knowledge Graph",
+    "release": "5.0.0"
+  },
+  "review-map": {
+    "alias": ["5.0.0", "gis", "data", "compliance", "communication", "verify", "evaluate", "analyze map"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "return-to-default": {
+    "alias": ["5.0.0", "symbols", "settings", "reset", "layout", "start"],
+    "category": "Symbols",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-half-superimpose": {
+    "alias": ["5.0.0", "gis", "link", "2d map", "3d map", "data", "layers"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-scene-only": {
+    "alias": ["5.0.0", "gis", "visualize", "map", "non-vertical", "metaadata", "interaction"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-full-superimpose": {
+    "alias": ["5.0.0", "gis", "metadata", "digital elevation", "pixels", "display"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "parquet-feature-layer": {
+    "alias": ["5.0.0", "layers", "vector data", "attributes", "storage", "format", "cloud"],
+    "category": "Layers",
+    "release": "5.0.0"
   }
 }

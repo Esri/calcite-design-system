@@ -13,8 +13,12 @@
  * @prop --calcite-block-padding: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead. Specifies the padding of the component's `default` slot.
  * @prop --calcite-block-text-color:[Deprecated] in v3.3.0, removal target v6.0.0 - Specifies the component's text color.
  * @prop --calcite-block-description-text-color: Specifies the component's `description` text color.
- * @prop --calcite-block-icon-color: Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
- * @prop --calcite-block-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
+ * @prop --calcite-block-icon-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `--calcite-block-collapsible-icon-color`, `--calcite-block-icon-start-color` and `--calcite-block-icon-end-color` instead. Specifies the component's `collapsible` icon, `iconStart` and `iconEnd` color.
+ * @prop --calcite-block-icon-color-hover: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `--calcite-block-collapsible-icon-color-hover` instead. Specifies the component's `collapsible` icon color when hovered.
+ * @prop --calcite-block-icon-start-color: Specifies the component's `iconStart` color.
+ * @prop --calcite-block-icon-end-color: Specifies the component's `iconEnd` color.
+ * @prop --calcite-block-collapsible-icon-color: Specifies the component's `collapsible` icon color.
+ * @prop --calcite-block-collapsible-icon-color-hover: Specifies the component's `collapsible` icon color when hovered.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -151,9 +155,12 @@
   grid-template-areas: "handle header icon-end menu actions-end";
 }
 
-.icon--start,
+.icon--start {
+  color: var(--calcite-block-icon-start-color, var(--calcite-block-icon-color, var(--calcite-color-text-3)));
+}
+
 .icon--end {
-  color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-icon-end-color, var(--calcite-block-icon-color, var(--calcite-color-text-3)));
 }
 
 .actions-end {
@@ -257,11 +264,14 @@ calcite-sort-handle {
   self-center
   justify-self-end
   ease-in-out;
-  color: var(--calcite-block-icon-color, var(--calcite-color-text-3));
+  color: var(--calcite-block-collapsible-icon-color, var(--calcite-block-icon-color, var(--calcite-color-text-3)));
 }
 
 .toggle:hover .toggle-icon {
-  color: var(--calcite-block-icon-color-hover, var(--calcite-color-text-1));
+  color: var(
+    --calcite-block-collapsible-icon-color-hover,
+    var(--calcite-block-icon-color-hover, var(--calcite-color-text-1))
+  );
 }
 
 .container {
@@ -304,9 +314,12 @@ calcite-action-menu {
     color: var(--calcite-block-description-text-color, var(--calcite-color-text-2));
   }
 
-  .icon--start,
+  .icon--start {
+    color: var(--calcite-block-icon-start-color, var(--calcite-block-icon-color, var(--calcite-color-text-1)));
+  }
+
   .icon--end {
-    color: var(--calcite-block-icon-color, var(--calcite-color-text-1));
+    color: var(--calcite-block-icon-end-color, var(--calcite-block-icon-color, var(--calcite-color-text-1)));
   }
 
   .content {
