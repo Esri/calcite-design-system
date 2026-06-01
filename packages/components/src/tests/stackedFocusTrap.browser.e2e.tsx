@@ -76,7 +76,7 @@ async function testEscapeAndAssertOpenState(
     // sheet itself is not focusable, so focus should return to sheet-button before sheet closes
     const expectedElement =
       focusTrapOrderEl.id === "sheet"
-        ? document.querySelector<HTMLElement>("#sheet-button")
+        ? document.querySelector<HTMLElement>("#sheet-button")!
         : focusTrapOrderEl;
     await expect.element(expectedElement).toHaveFocus();
 
