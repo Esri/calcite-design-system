@@ -44,7 +44,9 @@ async function ensureOpen(
 ): Promise<void> {
   const eventName = `${camelCase(element.tagName)}Open`;
   const eventPromise = waitForEvent(element, eventName);
-  const toggleTarget = toggleShadowSelector ? page.getBySelector(toggleShadowSelector) : element;
+  const toggleTarget = toggleShadowSelector
+    ? page.elementLocator(element).getBySelector(toggleShadowSelector)
+    : element;
 
   if (strategy === "click") {
     await userEvent.click(toggleTarget);
@@ -80,6 +82,7 @@ async function testEscapeAndAssertOpenState(
 
     await userEvent.keyboard("{Escape}");
     await closeEventPromise;
+    await afterFocusShiftDelay();
 
     expect(focusTrapOrderEl.open).toBe(false);
 
@@ -95,9 +98,7 @@ describe("stacked focus-trap components", () => {
 
   it.for(["calcite-input-date-picker", "calcite-input-time-picker"] as const)(
     "closes a stack of open components sequentially in visual order (%s)",
-    async (pickerType, context) => {
-      context.skip("depends on https://github.com/Esri/calcite-design-system/issues/13225");
-
+    async (pickerType) => {
       const { container } = await mount(
         <>
           <calcite-sheet id="sheet">
