@@ -44,17 +44,16 @@ describe("translation support", () => {
 
 describe("activeDate", () => {
   it("should update calendar when activeDate changes", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker />);
-    el.value = "2025-09-01";
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2025-09-01" />);
     await component.updateComplete;
 
     el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
-    const yearInput = getYearInputValue();
+    const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
 
-    const monthSelectMenu = getMonthSelectValue();
+    const monthSelectMenu = getMonthSelectMenu();
     await expect.element(monthSelectMenu).toHaveProperty("value", "January");
   });
 
@@ -66,10 +65,10 @@ describe("activeDate", () => {
     el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
-    const yearInput = getYearInputValue();
+    const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
 
-    const monthSelectMenu = getMonthSelectValue();
+    const monthSelectMenu = getMonthSelectMenu();
     await expect.element(monthSelectMenu).toHaveProperty("value", "January");
   });
 
@@ -81,18 +80,18 @@ describe("activeDate", () => {
     el.activeDate = new Date("2021-01-15");
     await component.updateComplete;
 
-    const yearInput = getYearInputValue();
+    const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
 
-    const monthSelectMenu = getMonthSelectValue();
+    const monthSelectMenu = getMonthSelectMenu();
     await expect.element(monthSelectMenu).toHaveProperty("value", "January");
   });
 
-  function getYearInputValue(): Locator {
+  function getYearInput(): Locator {
     return page.getByRole("textbox", { name: "Year" }).first();
   }
 
-  function getMonthSelectValue(): Locator {
+  function getMonthSelectMenu(): Locator {
     return page.getByRole("combobox", { name: "Month menu" }).first();
   }
 });
