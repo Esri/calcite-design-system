@@ -80,13 +80,9 @@ export class DatePicker extends LitElement {
    */
   @state() dateTimeFormat: Intl.DateTimeFormat;
 
-  @state() endAsDate: Date;
-
   @state() private hoverRange: HoverRange;
 
   @state() private localeData: DateLocaleData;
-
-  @state() startAsDate: Date;
 
   //#endregion
 
