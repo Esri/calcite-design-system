@@ -35,7 +35,6 @@ interface Day {
   currentDay?: boolean;
   date: Date;
   day: number;
-  dayInWeek?: number;
 }
 
 export class DatePickerMonth extends LitElement {
@@ -507,8 +506,6 @@ export class DatePickerMonth extends LitElement {
     let month = this.activeDate.getMonth();
     const nextMonth = month + 1;
     month = position === "end" ? nextMonth : month;
-    let dayInWeek = 0;
-    const getDayInWeek = () => dayInWeek++ % 7;
     const year = this.activeDate.getFullYear();
 
     const days: Day[] = [
@@ -516,7 +513,6 @@ export class DatePickerMonth extends LitElement {
         return {
           active: false,
           day,
-          dayInWeek: getDayInWeek(),
           date: new Date(year, month - 1, day),
         };
       }),
@@ -535,7 +531,6 @@ export class DatePickerMonth extends LitElement {
           currentMonth: true,
           currentDay: isCurrentDay,
           day,
-          dayInWeek: getDayInWeek(),
           date,
         };
       }),
@@ -543,7 +538,6 @@ export class DatePickerMonth extends LitElement {
         return {
           active: false,
           day,
-          dayInWeek: getDayInWeek(),
           date: new Date(year, nextMonth, day),
         };
       }),
@@ -623,21 +617,13 @@ export class DatePickerMonth extends LitElement {
   /**
    * Render calcite-date-picker-day
    *
-   * @param active.active
-   * @param active
    * @param day
-   * @param dayInWeek
-   * @param date
-   * @param currentMonth
-   * @param ref
-   * @param active.currentMonth
-   * @param active.date
-   * @param active.day
-   * @param active.dayInWeek
-   * @param active.ref
-   * @param dayInfo
+   * @param day.active
+   * @param day.currentMonth
+   * @param day.currentDay
+   * @param day.date
+   * @param day.day
    * @param key
-   * @param active.currentDay
    */
   private renderDateDay(
     { active, currentMonth, currentDay, date, day }: Day,
