@@ -91,7 +91,7 @@ export function connectLabel(component: LabelableComponent): void {
   const labelEl = findLabelForComponent(component.el);
 
   if (
-    labelEl && (onLabelClickMap.has(labelEl) && labelEl === component.labelEl) ||
+    (labelEl && onLabelClickMap.has(labelEl) && labelEl === component.labelEl) ||
     (!labelEl && unlabeledComponents.has(component))
   ) {
     return;
