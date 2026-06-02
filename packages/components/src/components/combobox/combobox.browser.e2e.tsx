@@ -545,7 +545,7 @@ describe("item selection", () => {
 
         expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
 
-        const chip = page.getBySelector("calcite-chip");
+        const chip = page.getBySelector("calcite-chip").first();
         await expect.element(chip).toBeInTheDocument();
 
         await selectItem(item1);
@@ -579,7 +579,7 @@ describe("item selection", () => {
 
         expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
 
-        const chip = page.getBySelector("calcite-chip");
+        const chip = page.getBySelector("calcite-chip").first();
         await expect.element(chip).toBeInTheDocument();
 
         await selectItem(item1);

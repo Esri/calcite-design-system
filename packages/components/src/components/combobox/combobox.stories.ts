@@ -1266,7 +1266,7 @@ export const fitDisplayStates = (): string => html`
   <style>
     .fit-display-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, 21.875rem);
       gap: 40px;
       align-items: start;
     }
@@ -1275,17 +1275,24 @@ export const fitDisplayStates = (): string => html`
       display: flex;
       flex-direction: column;
       gap: 12px;
+      inline-size: 320px;
     }
 
     .fit-display-overflow {
-      inline-size: 200px;
-      max-inline-size: 200px;
+      inline-size: 320px;
+      max-inline-size: 320px;
     }
   </style>
   <div class="fit-display-grid">
     <div class="fit-display-item">
       <strong>Selected + disabled options</strong>
-      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
+      <calcite-combobox
+        class="fit-display-overflow"
+        selection-mode="multiple"
+        selection-display="fit"
+        placeholder="Select items"
+        select-all-enabled
+      >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item value="Pine" heading="Pine" selected>
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
@@ -1299,12 +1306,24 @@ export const fitDisplayStates = (): string => html`
 
     <div class="fit-display-item">
       <strong>Empty combobox</strong>
-      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="No items"> </calcite-combobox>
+      <calcite-combobox
+        class="fit-display-overflow"
+        selection-mode="multiple"
+        selection-display="fit"
+        placeholder="No items"
+      >
+      </calcite-combobox>
     </div>
 
     <div class="fit-display-item">
       <strong>All options selected</strong>
-      <calcite-combobox selection-mode="multiple" selection-display="fit" placeholder="Select items" select-all-enabled>
+      <calcite-combobox
+        class="fit-display-overflow"
+        selection-mode="multiple"
+        selection-display="fit"
+        placeholder="Select items"
+        select-all-enabled
+      >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item value="Pine" heading="Pine" selected>
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
