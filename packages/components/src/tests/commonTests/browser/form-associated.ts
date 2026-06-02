@@ -133,7 +133,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function testRequiredPropertyValidation(setup: TestSetup): Promise<void> {
-    const { el } = (await setup()) as RenderResult<FormComponent>;
+    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureRequired(el);
@@ -162,14 +162,26 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     await assertPreventsFormSubmission(el, submitter, requiredValidationMessage);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
     expect(el.validity).toHaveProperty("valueMissing", true);
+    expect(el.validity).toHaveProperty("valid", false);
+
+    el.disabled = true;
+    await reRender();
+    expect(el.validity).toHaveProperty("valueMissing", false);
+    expect(el.validity).toHaveProperty("valid", true);
+    el.disabled = false;
+    await reRender();
+    expect(el.validity).toHaveProperty("valueMissing", true);
+    expect(el.validity).toHaveProperty("valid", false);
 
     await assertClearsValidationOnValueChange(el, options, clearValidationHandler);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
     expect(el.validity).toHaveProperty("valueMissing", false);
+    expect(el.validity).toHaveProperty("valid", true);
 
     await assertUserMessageNotOverridden(el, submitter);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(2);
     expect(el.validity).toHaveProperty("valueMissing", true);
+    expect(el.validity).toHaveProperty("valid", false);
   }
 
   function ensureName(el: FormComponent["el"]): void {
@@ -308,7 +320,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
         const values = formData.getAll(inputName);
 
         if (values.length > 1) {
-          resolve(values as string[]);
+          resolve(values);
           return;
         }
 

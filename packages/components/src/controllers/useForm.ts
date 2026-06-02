@@ -401,22 +401,20 @@ export const useForm = <T extends FormComponent>(
     function updateValidity(): void {
       const { disabled, elementInternals } = component;
 
-      if (disabled) {
-        return;
-      }
-
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
 
-      if (inputDelegate) {
-        inputDelegate.type = effectiveInputType!;
-        syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
-      }
+      if (!disabled) {
+        if (inputDelegate) {
+          inputDelegate.type = effectiveInputType!;
+          syncInternalInput(component, inputDelegate);
+          ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
+        }
 
-      if (customValidityMessage) {
-        validity = { ...validity, customError: true };
-        validationMessage = customValidityMessage;
+        if (customValidityMessage) {
+          validity = { ...validity, customError: true };
+          validationMessage = customValidityMessage;
+        }
       }
 
       elementInternals.setValidity(validity, validationMessage);

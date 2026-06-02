@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, method, property } from "@arcgis/lumina";
 import { useForm } from "./useForm";
+import { defaultValidity } from "../tests/commonTests/browser/defaults";
 
 describe("useForm", () => {
   class TestComponent extends LitElement {
@@ -66,7 +67,7 @@ describe("useForm", () => {
         parent: form,
       });
 
-      expect(el.validity).toBeUndefined();
+      expect(el.validity).toMatchObject(defaultValidity);
     });
   });
 });
