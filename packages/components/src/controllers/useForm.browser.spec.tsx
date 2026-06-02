@@ -63,13 +63,10 @@ describe("useForm", () => {
 
   describe("disabled", () => {
     it("doesn't validate disabled components", async () => {
-      const { el } = await mount<TestComponent>(
-        html` <test-component disabled required></test-component> `,
-        {
-          dynamicComponents: [TestComponent],
-          parent: form,
-        },
-      );
+      const { el } = await mount(html`<test-component disabled required></test-component>`, {
+        dynamicComponents: [TestComponent],
+        parent: form,
+      });
 
       expect(el.validity).toBeDefined();
     });
