@@ -104,6 +104,7 @@ import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
 import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
+import { inputTimeZone, inputTimeZoneTokens } from "./custom-theme/input-time-zone";
 import { colorPicker, colorPickerTokens } from "./custom-theme/color-picker";
 
 const globalTokens = {
@@ -264,6 +265,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </div>
     <div class="demo-row">
       <div class="demo-column">${inputTimePicker}</div>
+      <div class="demo-column">${inputTimeZone}</div>
     </div>
   </div>`;
 
@@ -339,6 +341,7 @@ const componentTokens = {
   ...swatchTokens,
   ...splitButtonTokens,
   ...inputTimePickerTokens,
+  ...inputTimeZoneTokens,
   ...colorPickerTokens,
 };
 
