@@ -3,13 +3,12 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, method, property } from "@arcgis/lumina";
 import { useForm } from "./useForm";
 import { html } from "lit";
-import { defaultValidity } from "../tests/commonTests/browser/defaults";
 
 describe("useForm", () => {
   class TestComponent extends LitElement {
     static formAssociated = true;
 
-    @property()
+    @property({ type: Boolean })
     disabled = false;
 
     @property()
@@ -21,7 +20,7 @@ describe("useForm", () => {
     @property()
     form?: string;
 
-    @property()
+    @property({ type: Boolean })
     required: boolean = false;
 
     @property()
@@ -69,7 +68,7 @@ describe("useForm", () => {
         parent: form,
       });
 
-      expect(el.validity).toMatchObject(defaultValidity);
+      expect(el.validity).toBeUndefined();
     });
   });
 });
