@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.2...@esri/calcite-components@5.1.1-next.3) (2026-05-29)
+
+### Bug Fixes
+
+- **list:** preserve filter input value during rapid item loading ([#14523](https://github.com/Esri/calcite-design-system/issues/14523)), closes [#14454](https://github.com/Esri/calcite-design-system/issues/14454)
+
+## [5.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.1...@esri/calcite-components@5.1.1-next.2) (2026-05-28)
+
+### Bug Fixes
+
+- **dropdown:** fix virtual element positioning on first render ([#14518](https://github.com/Esri/calcite-design-system/issues/14518)), closes [#14498](https://github.com/Esri/calcite-design-system/issues/14498)
+
+## [5.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.0...@esri/calcite-components@5.1.1-next.1) (2026-05-28)
+
+### Bug Fixes
+
+- **combobox:** improve disabled chip handling and select-all behavior ([#14517](https://github.com/Esri/calcite-design-system/issues/14517)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287)
+
+## [5.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.62...@esri/calcite-components@5.1.1-next.0) (2026-05-28)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2...@esri/calcite-components@5.1.0) (2026-05-28)
 
 ### Features

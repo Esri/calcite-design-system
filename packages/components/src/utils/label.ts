@@ -13,7 +13,7 @@ export interface LabelableComponent {
   label?: string;
 
   /** The label this component is associated with. */
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /** Hook for components to provide custom label click behavior. */
   onLabelClick: (event: CustomEvent<any>) => void;

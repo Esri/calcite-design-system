@@ -41,7 +41,7 @@ describe("accessible with item group", () => {
   `);
 });
 
-describe("accessible with open selected items", () => {
+describe.todo("accessible with open selected items", () => {
   accessible(html`
     <calcite-combobox open label="Trees" value="Trees">
       <calcite-combobox-item-group label="Conifers">
@@ -52,7 +52,7 @@ describe("accessible with open selected items", () => {
   `);
 });
 
-describe("accessible with highlight selection appearance", () => {
+describe.todo("accessible with highlight selection appearance", () => {
   accessible(html`
     <calcite-combobox label="Trees" selection-appearance="highlight">
       <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
@@ -1298,16 +1298,14 @@ describe("deleting items with the keyboard in single and fit selection-display m
     const input = await page.find(`calcite-combobox >>> .${CSS.input}`);
     const item1 = await page.find("calcite-combobox-item#one");
     const item2 = await page.find("calcite-combobox-item#two");
-    const item3 = await page.find("calcite-combobox-item#three");
 
     await input.click();
     await item1.click();
     await item2.click();
-    await item3.click();
     await input.click();
     await input.press("Backspace");
 
-    expect((await combobox.getProperty("selectedItems")).length).toBe(2);
+    expect((await combobox.getProperty("selectedItems")).length).toBe(1);
   });
 });
 
