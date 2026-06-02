@@ -158,30 +158,23 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
 
     const requiredValidationMessage =
       options?.inputType === "radio" ? "Please select one of these options." : "Please fill out this field.";
+    const expectedInvalidValidity = { valueMissing: true, valid: false };
+    const expectedValidValidity = { valueMissing: false, valid: true };
 
     await assertPreventsFormSubmission(el, submitter, requiredValidationMessage);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
-    expect(el.validity).toHaveProperty("valueMissing", true);
-    expect(el.validity).toHaveProperty("valid", false);
-
-    el.disabled = true;
-    await reRender();
-    expect(el.validity).toHaveProperty("valueMissing", false);
-    expect(el.validity).toHaveProperty("valid", true);
-    el.disabled = false;
-    await reRender();
-    expect(el.validity).toHaveProperty("valueMissing", true);
-    expect(el.validity).toHaveProperty("valid", false);
+    assertValidityState(el, expectedInvalidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedInvalidValidity);
 
     await assertClearsValidationOnValueChange(el, options, clearValidationHandler);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
-    expect(el.validity).toHaveProperty("valueMissing", false);
-    expect(el.validity).toHaveProperty("valid", true);
+    assertValidityState(el, expectedValidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedValidValidity);
 
     await assertUserMessageNotOverridden(el, submitter);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(2);
-    expect(el.validity).toHaveProperty("valueMissing", true);
-    expect(el.validity).toHaveProperty("valid", false);
+    assertValidityState(el, expectedInvalidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedInvalidValidity);
   }
 
   function ensureName(el: FormComponent["el"]): void {
@@ -387,6 +380,24 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     }
 
     expectValidationProps(el);
+  }
+
+  async function assertDisabledValidationBehavior(
+    el: FormComponent["el"],
+    reRender: () => Promise<boolean>,
+    expectedEnabledValidityState: Partial<ValidityState>,
+  ): Promise<void> {
+    el.disabled = true;
+    await reRender();
+    assertValidityState(el, { valueMissing: false, valid: true });
+
+    el.disabled = false;
+    await reRender();
+    assertValidityState(el, expectedEnabledValidityState);
+  }
+
+  function assertValidityState(el: FormComponent["el"], expectedValidity: Partial<ValidityState>): void {
+    expect(el.validity).toMatchObject(expectedValidity);
   }
 
   async function assertUserMessageNotOverridden(el: FormComponent["el"], submitter: HTMLInputElement): Promise<void> {
