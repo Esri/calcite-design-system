@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { connectLabel, disconnectLabel, getLabelText } from "./label";
-import { JsxNode, LitElement, property } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
