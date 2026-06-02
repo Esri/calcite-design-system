@@ -186,7 +186,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
         ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
         ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
-        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
+        ${inputTimePicker} ${inputTimeZone} ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -262,10 +262,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </div>
     <div class="demo-row">
       <div class="demo-column">${colorPicker}</div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-column">${inputTimePicker}</div>
-      <div class="demo-column">${inputTimeZone}</div>
     </div>
   </div>`;
 
