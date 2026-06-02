@@ -42,11 +42,16 @@ on:
         options:
           - added
           - removed
+      refactor_pr:
+        type: boolean
+        description: "Indicates if the item to sync is a refactor PR instead of an issue."
+        required: false
 jobs:
   sync-issue:
     runs-on: ubuntu-latest
     permissions:
       issues: write
+      pull-requests: write
       contents: read
     steps:
       - uses: actions/checkout@v6
