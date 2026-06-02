@@ -3,12 +3,13 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, method, property } from "@arcgis/lumina";
 import { useForm } from "./useForm";
 import { defaultValidity } from "../tests/commonTests/browser/defaults";
+import { html } from "lit";
 
 describe("useForm", () => {
   class TestComponent extends LitElement {
     static formAssociated = true;
 
-    @property()
+    @property({ type: Boolean })
     disabled = false;
 
     @property()
@@ -20,11 +21,11 @@ describe("useForm", () => {
     @property()
     form?: string;
 
-    @property()
+    @property({ type: Boolean })
     required: boolean = false;
 
     @property()
-    validity: ValidityState;
+    validity!: ValidityState;
 
     defaultValue?: TestComponent["value"];
 
@@ -63,7 +64,8 @@ describe("useForm", () => {
 
   describe("disabled", () => {
     it("doesn't validate disabled components", async () => {
-      const { el } = await mount(<test-component disabled required />, {
+      const { el } = await mount(html`<test-component disabled required></test-component>`, {
+        dynamicComponents: [TestComponent],
         parent: form,
       });
 
