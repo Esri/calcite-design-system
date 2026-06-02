@@ -140,13 +140,11 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
-    this.listenOn<CustomEvent<TabChangeEventDetail>>(
-      document.body,
+    this.listen<CustomEvent<TabChangeEventDetail>>(
       "calciteInternalTabsActivate",
       this.internalActivateTabHandler,
     );
-    this.listenOn<CustomEvent<TabChangeEventDetail>>(
-      document.body,
+    this.listen<CustomEvent<TabChangeEventDetail>>(
       "calciteInternalTabsClose",
       this.internalCloseTabHandler,
     );
