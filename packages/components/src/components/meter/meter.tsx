@@ -61,15 +61,15 @@ export class Meter extends LitElement {
 
   // #region State Properties
 
-  @state() currentPercent?: number;
+  @state() currentPercent = 0;
 
   @state() highActive = false;
 
-  @state() highPercent?: number;
+  @state() highPercent = 100;
 
   @state() lowActive = false;
 
-  @state() lowPercent?: number;
+  @state() lowPercent = 0;
 
   // #endregion
 
