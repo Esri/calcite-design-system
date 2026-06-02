@@ -124,8 +124,8 @@ it("should navigate to the inner link when a child item is clicked and not the o
   await page.waitForChanges();
 
   const hash = await page.evaluate(() => {
-    const item = document.getElementById("secondItem");
-    item!.click();
+    const item = document.getElementById("secondItem")!;
+    item.click();
     return window.location.hash;
   });
 

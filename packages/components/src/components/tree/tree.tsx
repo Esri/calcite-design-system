@@ -108,7 +108,8 @@ export class Tree extends LitElement {
       this.updateItems();
     }
 
-    const parent: Tree["el"] | undefined | null = this.el.parentElement?.closest("calcite-tree");
+    const parent: Tree["el"] | undefined =
+      this.el.parentElement?.closest("calcite-tree") ?? undefined;
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -121,10 +122,11 @@ export class Tree extends LitElement {
   private onFocus(): void {
     if (!this.child) {
       const focusTarget =
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])");
+        (this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
+          this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])")) ??
+        undefined;
 
-      focusElement(focusTarget!, true, "focusable");
+      focusElement(focusTarget, true, "focusable");
     }
   }
 

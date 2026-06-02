@@ -57,9 +57,7 @@ export class TabTitle extends LitElement {
   private guid = IDS.host(guid());
 
   /** watches for changing text content */
-  private mutationObserver?: MutationObserver = createObserver("mutation", () =>
-    this.updateHasText(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
   private parentTabsEl: Tabs["el"] | null = null;
 

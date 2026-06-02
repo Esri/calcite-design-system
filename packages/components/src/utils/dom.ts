@@ -229,7 +229,7 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
-  el: FocusableElement,
+  el: FocusableElement | undefined,
   includeContainer = false,
   strategy: "focusable" | "tabbable" = "tabbable",
   context?: HTMLElement,

@@ -12,7 +12,7 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { FlipContext, Scale, SelectionMode } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
-import { Tree } from "../tree/tree";
+import type { Tree } from "../tree/tree";
 import { useInteractive } from "../../controllers/useInteractive";
 import { TreeItemSelectDetail } from "./interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -349,9 +349,9 @@ export class TreeItem extends LitElement {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
-    let nextParentTree = Tree["el"];
+    let nextParentTree: Tree["el"] | null;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree") ?? null;
       if (nextParentTree === parentTree) {
         break;
       } else {

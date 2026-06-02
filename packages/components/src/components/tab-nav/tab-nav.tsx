@@ -4,7 +4,7 @@ import {
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   Direction,
@@ -140,11 +140,11 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
-    this.listen<CustomEvent<TabChangeEventDetail>>(
+    this.listen<ToEvents<TabTitle>["calciteInternalTabsActivate"]>(
       "calciteInternalTabsActivate",
       this.internalActivateTabHandler,
     );
-    this.listen<CustomEvent<TabChangeEventDetail>>(
+    this.listen<ToEvents<TabTitle>["calciteInternalTabsClose"]>(
       "calciteInternalTabsClose",
       this.internalCloseTabHandler,
     );
@@ -230,10 +230,7 @@ export class TabNav extends LitElement {
 
   private get scrollerButtonWidth(): number {
     const { scale } = this;
-    return parseInt(
-      scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44,
-      10,
-    );
+    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
   }
 
   get tabTitles(): TabTitle["el"][] {
