@@ -72,7 +72,7 @@ function getTileGroupHtml(
     >
       ${Array(4)
         .fill(null)
-        .map((value, index) => {
+        .map((_value, index) => {
           let selected = false;
 
           if (selectionMode === "single") {
