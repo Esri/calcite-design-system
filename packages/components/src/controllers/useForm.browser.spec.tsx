@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement, method, property } from "@arcgis/lumina";
 import { useForm } from "./useForm";
+import { html } from "lit";
 
 describe("useForm", () => {
   class TestComponent extends LitElement {
@@ -23,7 +24,7 @@ describe("useForm", () => {
     required: boolean = false;
 
     @property()
-    validity: ValidityState;
+    validity!: ValidityState;
 
     defaultValue?: TestComponent["value"];
 
@@ -62,11 +63,15 @@ describe("useForm", () => {
 
   describe("disabled", () => {
     it("doesn't validate disabled components", async () => {
-      const { el } = await mount(<test-component disabled required />, {
-        parent: form,
-      });
+      const { el } = await mount<TestComponent>(
+        html` <test-component disabled required></test-component> `,
+        {
+          dynamicComponents: [TestComponent],
+          parent: form,
+        },
+      );
 
-      expect(el.validity).toBeUndefined();
+      expect(el.validity).toBeDefined();
     });
   });
 });

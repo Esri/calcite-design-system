@@ -2,11 +2,11 @@ import { boolean } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { CalciteNavigationUser } from "./navigation-user";
+import type { NavigationUser } from "./navigation-user";
 const { scale } = ATTRIBUTES;
 
 type NavigationUserStoryArgs = Pick<
-  CalciteNavigationUser,
+  NavigationUser,
   "active" | "fullName" | "scale" | "textDisabled" | "thumbnail" | "userId" | "username"
 >;
 
