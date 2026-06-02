@@ -46,8 +46,8 @@ export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
-const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
-  numberingSystems.includes(numberingSystem as NumberingSystem);
+const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem is NumberingSystem =>
+  !!(numberingSystems && numberingSystems.includes(numberingSystem as NumberingSystem));
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
@@ -58,7 +58,7 @@ export const defaultNumberingSystem =
     ? "latn"
     : browserNumberingSystem;
 
-export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+export const getSupportedNumberingSystem = (numberingSystem?: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
 /**
@@ -94,28 +94,28 @@ export class NumberStringFormat {
    * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
    * so we replace them with a normal <SPACE>.
    */
-  private _actualGroup: string;
+  private _actualGroup!: string;
 
   /** the corrected group separator */
-  private _group: string;
+  private _group!: string;
 
   get group(): string {
     return this._group;
   }
 
-  private _decimal: string;
+  private _decimal!: string;
 
   get decimal(): string {
     return this._decimal;
   }
 
-  private _minusSign: string;
+  private _minusSign!: string;
 
   get minusSign(): string {
     return this._minusSign;
   }
 
-  private _digits: Array<string>;
+  private _digits!: Array<string>;
 
   get digits(): Array<string> {
     return this._digits;
@@ -123,13 +123,13 @@ export class NumberStringFormat {
 
   private _getDigitIndex;
 
-  private _numberFormatter: Intl.NumberFormat;
+  private _numberFormatter!: Intl.NumberFormat;
 
   get numberFormatter(): Intl.NumberFormat {
     return this._numberFormatter;
   }
 
-  private _numberFormatOptions: NumberStringFormatOptions;
+  private _numberFormatOptions!: NumberStringFormatOptions;
 
   get numberFormatOptions(): NumberStringFormatOptions {
     return this._numberFormatOptions;
@@ -172,13 +172,13 @@ export class NumberStringFormat {
       numberingSystem: this._numberFormatOptions.numberingSystem,
     }).formatToParts(-12345678.9);
 
-    this._actualGroup = parts.find((d) => d.type === "group").value;
+    this._actualGroup = parts.find((d) => d.type === "group")!.value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
     // @see https://issues.chromium.org/issues/40656070
     this._decimal =
-      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
-    this._minusSign = parts.find((d) => d.type === "minusSign").value;
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal")!.value;
+    this._minusSign = parts.find((d) => d.type === "minusSign")!.value;
     this._getDigitIndex = (d: string) => index.get(d);
   }
 

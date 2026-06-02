@@ -16,7 +16,7 @@ export interface HoverRange {
  */
 export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
   if (!date) {
-    return;
+    return false;
   }
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
@@ -81,9 +81,9 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
  * @param value
  * @param localeData
  */
-export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date {
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | undefined {
   if (!localeData) {
-    return null;
+    return undefined;
   }
   const { separator } = localeData;
   const parts = parseDateString(value, localeData);
@@ -103,7 +103,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (validDay && validMonth && validDate && validLength && validYear) {
     return date;
   }
-  return null;
+  return undefined;
 }
 
 export function parseCalendarYear(year: number, localeData: DateLocaleData): number {
@@ -224,7 +224,7 @@ export function getDateInMonth(date: Date, month: number): Date {
 export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
   const newDate = new Date(date);
   newDate.setDate(1);
-  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max)!;
 }
 
 /**

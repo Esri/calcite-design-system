@@ -15,9 +15,7 @@ describe("isValidNumber", () => {
     expect(isValidNumber("undefined")).toBe(false);
     expect(isValidNumber(";lkj2323")).toBe(false);
     expect(isValidNumber("")).toBe(false);
-    // @ts-expect-error -- passing unsupported value
     expect(isValidNumber(undefined)).toBe(false);
-    // @ts-expect-error -- passing unsupported value
     expect(isValidNumber(null)).toBe(false);
     expect(isValidNumber("null")).toBe(false);
     expect(isValidNumber("not a number")).toBe(false);
@@ -33,7 +31,6 @@ describe("isValidNumber", () => {
 describe("parseNumberString", () => {
   it("returns empty string for string values that can't compute to a number", () => {
     expect(parseNumberString()).toBe("");
-    // @ts-expect-error -- passing unsupported value
     expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
