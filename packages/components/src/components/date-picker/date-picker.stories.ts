@@ -238,3 +238,19 @@ export const greaterThanMaxWidthAllScales = (): string => html`
   <calcite-date-picker scale="m" value="2000-11-27"></calcite-date-picker>
   <calcite-date-picker scale="l" value="2000-11-27"></calcite-date-picker>
 `;
+
+export const updateActiveDateOnClick = (): string => html`
+  <calcite-button onclick="customActiveDate2()">Custom active date to 2020-10-01 </calcite-button>
+  <calcite-date-picker range calendars="1"></calcite-date-picker>
+  <calcite-date-picker range calendars="2" />
+  <script>
+    const datePicker = document.querySelectorAll("calcite-date-picker");
+    datePicker[0].value = ["2030-09-01", "2030-11-28"];
+    datePicker[1].value = ["2030-09-01", "2030-11-28"];
+    function customActiveDate2() {
+      datePicker.forEach((picker) => {
+        picker.activeDate = new Date("2020-10-01");
+      });
+    }
+  </script>
+`;
