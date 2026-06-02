@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, labelable } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -516,6 +516,15 @@ describe("mode", () => {
       expect(currItem).not.toBe(prevItem);
       expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from same mode update
       expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from same mode update
+    });
+  });
+
+  describe("theme", () => {
+    themed("calcite-input-time-zone", {
+      "--calcite-input-time-zone-corner-radius": {
+        shadowSelector: `calcite-combobox >>> .wrapper`,
+        targetProp: "borderRadius",
+      },
     });
   });
 });
