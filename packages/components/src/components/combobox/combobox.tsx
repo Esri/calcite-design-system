@@ -1175,9 +1175,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return visibleChipsCount;
     };
 
-    renderFittingChips(enabledSelectedChipEls);
+    const visibleEnabledChipsCount = renderFittingChips(enabledSelectedChipEls);
 
-    if (enabledSelectedChipEls.length === 0) {
+    if (visibleEnabledChipsCount <= 1) {
       renderFittingChips(disabledSelectedChipEls);
     }
   }
