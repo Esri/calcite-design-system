@@ -54,8 +54,10 @@ export interface TimeComponent extends LitElement {
   /**
    * The component's time value in ISO (24-hour) format.
    */
-  value: string;
+  value?: string | null;
 }
+
+type NullableString = string | null;
 
 type TimeProperties = {
   /**
@@ -65,11 +67,11 @@ type TimeProperties = {
   /**
    * The fractional second portion of the time value.
    */
-  fractionalSecond: string;
+  fractionalSecond: NullableString;
   /**
    * The hour portion of the time value (in ISO 24-hour format).
    */
-  hour: string;
+  hour: NullableString;
   /**
    * The effective hour format, calculated based on the component's hour-format property.
    * The component's hour-format of "user" will resolve to the locale's default hour format.
@@ -89,42 +91,42 @@ type TimeProperties = {
   /**
    * The decimal separator used by the locale.
    */
-  localizedFractionalSecond: string;
+  localizedFractionalSecond: NullableString;
   /**
    * The localized fractional second portion of the time value.
    */
-  localizedHour: string;
+  localizedHour: NullableString;
   /**
    * The hour suffix used by the locale.
    */
-  localizedHourSuffix: string;
+  localizedHourSuffix: NullableString;
   /**
    * The localized meridiem portion of the time value, when hourFormat resolves to 12.
    */
-  localizedMeridiem: string;
+  localizedMeridiem: NullableString | undefined;
   /**
    * The localized minute portion of the time value.
    */
-  localizedMinute: string;
+  localizedMinute: NullableString;
   /**
    * The localized minute suffix used by the locale.
    */
-  localizedMinuteSuffix: string;
+  localizedMinuteSuffix: NullableString;
   /**
    * The localized second portion of the time value.
    */
-  localizedSecond: string;
+  localizedSecond: NullableString;
   /**
    * The localized second suffix used by the locale.
    */
-  localizedSecondSuffix: string;
+  localizedSecondSuffix: NullableString | false;
   /**
    * The effective meridiem of the time value, when hourFormat resolves to 12.
    *
    * `"AM"` for hours between 0 and 12
    * `"PM"` for hours between 12 and 23
    */
-  meridiem: Meridiem;
+  meridiem: Meridiem | null | undefined;
   /**
    * An integer representing the order in which the meridiem appears for the locale within an array of values returned by Intl.DateTimeFormat.
    */
@@ -132,19 +134,19 @@ type TimeProperties = {
   /**
    * The minute portion of the time value.
    */
-  minute: string;
+  minute: NullableString;
   /**
    * The second portion of the time value.
    */
-  second: string;
+  second: NullableString;
 };
 
 class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Properties
 
-  fractionalSecond: string;
+  fractionalSecond: NullableString;
 
-  hour: string;
+  hour: NullableString;
 
   hourFormat: EffectiveHourFormat;
 
@@ -152,29 +154,29 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   localizedDecimalSeparator = ".";
 
-  localizedFractionalSecond: string;
+  localizedFractionalSecond: NullableString;
 
-  localizedHour: string;
+  localizedHour: NullableString;
 
-  localizedHourSuffix: string;
+  localizedHourSuffix: NullableString;
 
-  localizedMeridiem: string;
+  localizedMeridiem: NullableString | undefined;
 
-  localizedMinute: string;
+  localizedMinute: NullableString;
 
-  localizedMinuteSuffix: string;
+  localizedMinuteSuffix: NullableString;
 
-  localizedSecond: string;
+  localizedSecond: NullableString;
 
-  localizedSecondSuffix: string;
+  localizedSecondSuffix: NullableString | false;
 
-  meridiem: Meridiem;
+  meridiem: Meridiem | null | undefined;
 
   meridiemOrder: number;
 
-  minute: string;
+  minute: NullableString;
 
-  second: string;
+  second: NullableString;
 
   userChangedValue: boolean = false;
 
@@ -515,13 +517,13 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.meridiemOrder = getMeridiemOrder(messages._lang as Locale);
   }
 
-  setValue(value: string, userChangedValue: boolean = false): void {
+  setValue(value: string | null | undefined, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
     const newValue = toISOTimeString(value, step);
     if (isValidTime(value)) {
-      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue, step);
+      const { hour, minute, second, fractionalSecond } = parseTimeString(newValue!, step);
       const {
         hour: localizedHour,
         hourSuffix: localizedHourSuffix,
@@ -538,8 +540,8 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         numberingSystem,
         parts: true,
         step,
-        value: newValue,
-      });
+        value: newValue!,
+      })!;
       this.hour = hour;
       this.minute = minute;
       this.second = second;
@@ -594,7 +596,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   setValuePart(
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
-    value?: number | string | Meridiem,
+    value?: number | string | Meridiem | null,
   ): void {
     const { hourFormat } = this;
     const { messages, numberingSystem, step } = this.component;
@@ -603,7 +605,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     const previousValue = this.component.value;
     if (key === "meridiem") {
       const oldMeridiem = this.meridiem;
-      this.meridiem = value as Meridiem;
+      this.meridiem = value as Meridiem | null | undefined;
       this.localizedMeridiem = localizeTimePart({
         hour12,
         locale,
@@ -616,12 +618,12 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         switch (value) {
           case "AM":
             if (hourAsNumber >= 12) {
-              this.hour = formatTimePart(hourAsNumber - 12);
+              this.hour = formatTimePart(hourAsNumber - 12)!;
             }
             break;
           case "PM":
             if (hourAsNumber < 12) {
-              this.hour = formatTimePart(hourAsNumber + 12);
+              this.hour = formatTimePart(hourAsNumber + 12)!;
             }
             break;
           default:

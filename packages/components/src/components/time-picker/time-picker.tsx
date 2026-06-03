@@ -12,7 +12,7 @@ import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
-import { TimeComponent, useTime } from "../../controllers/useTime";
+import { useTime } from "../../controllers/useTime";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./time-picker.scss";
@@ -23,7 +23,7 @@ declare global {
   }
 }
 
-export class TimePicker extends LitElement implements TimeComponent {
+export class TimePicker extends LitElement {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -100,7 +100,7 @@ export class TimePicker extends LitElement implements TimeComponent {
   @property({ reflect: true }) step = 60;
 
   /** The component's value in UTC (always 24-hour format). */
-  @property() value: string = null;
+  @property() value!: string | null;
 
   //#endregion
 
@@ -131,6 +131,7 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   constructor() {
     super();
+    this.value = null;
     this.listen("blur", this.blurHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
     this.listen("keydown", this.keyDownHandler);
