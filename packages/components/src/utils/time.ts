@@ -434,8 +434,8 @@ export function localizeTimeString({
       0,
       parseInt(hour!),
       parseInt(minute!),
-      includeSeconds ? parseInt(second) : undefined,
-      includeSeconds && fractionalSecond ? fractionalSecondPartToMilliseconds(fractionalSecond) : undefined,
+      includeSeconds ? parseInt(second) : 0,
+      includeSeconds && fractionalSecond ? fractionalSecondPartToMilliseconds(fractionalSecond) : 0,
     ),
   );
 

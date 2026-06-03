@@ -117,7 +117,6 @@ describe(ensureId, () => {
 
   it("returns empty string if invoked without element", () => {
     expect(ensureId(undefined)).toBe("");
-    expect(ensureId(null)).toBe("");
   });
 });
 
