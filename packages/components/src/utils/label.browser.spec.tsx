@@ -47,11 +47,11 @@ describe("connectLabel/disconnectLabel", () => {
         },
       );
 
-      expect(component.labelEl).toBeNull();
+      expect(component.labelEl).toBeUndefined();
 
       el.remove();
 
-      expect(component.labelEl).toBeNull();
+      expect(component.labelEl).toBeUndefined();
     });
 
     it("prevents selecting disabled labeled element", async () => {
@@ -77,7 +77,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
     });
 
     it("supports cancellation", async () => {
@@ -108,7 +108,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
     });
 
     it("supports for attribute", async () => {
@@ -134,7 +134,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
 
       el.click();
 
@@ -166,7 +166,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
 
       el.click();
 
@@ -196,7 +196,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
 
       label.click();
 
@@ -228,7 +228,7 @@ describe("connectLabel/disconnectLabel", () => {
 
       labelable.remove();
 
-      expect(labelable.manager.component.labelEl).toBeNull();
+      expect(labelable.manager.component.labelEl).toBeUndefined();
 
       el.click();
 
@@ -254,7 +254,7 @@ describe("connectLabel/disconnectLabel", () => {
       vi.spyOn(innerLabelable.manager.component, "onLabelClick");
       vi.spyOn(outerLabelable.manager.component, "onLabelClick");
 
-      expect(innerLabelable.manager.component.labelEl).toBeNull();
+      expect(innerLabelable.manager.component.labelEl).toBeUndefined();
       expect(outerLabelable.manager.component.labelEl).toBe(el);
 
       el.click();
