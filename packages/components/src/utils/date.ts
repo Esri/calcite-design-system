@@ -76,10 +76,6 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
 
 /**
  * Parse a localized date string into a valid Date.
- * return false if date is invalid, or out of range
- *
- * @param value
- * @param localeData
  */
 export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | undefined {
   if (!localeData) {
