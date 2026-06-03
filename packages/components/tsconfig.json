@@ -9,6 +9,6 @@
       }
     ]
   },
-  "include": ["src", "*.ts"],
+  "include": ["src", "*.ts", "*.tsx"],
   "exclude": ["src/demos/**/*"]
 }
