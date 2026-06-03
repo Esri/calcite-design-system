@@ -457,7 +457,7 @@ export class TextArea
   }
 
   private isCharacterLimitExceeded(): boolean {
-    return this.value?.length > this.maxLength! || false;
+    return (this.maxLength && this.value?.length > this.maxLength) || false;
   }
 
   private setValidationRef(el: HTMLDivElement): void {

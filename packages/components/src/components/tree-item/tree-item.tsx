@@ -311,7 +311,11 @@ export class TreeItem extends LitElement {
 
     if (this.selected) {
       const parentTree = this.el.parentElement;
-      const siblings = Array.from(parentTree!.children);
+      if (!parentTree) {
+        return;
+      }
+
+      const siblings = Array.from(parentTree.children);
       const selectedSiblings = siblings.filter((child) => (child as TreeItem["el"]).selected);
 
       if (siblings.length === selectedSiblings.length) {

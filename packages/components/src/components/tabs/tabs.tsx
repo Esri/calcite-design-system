@@ -134,7 +134,9 @@ export class Tabs extends LitElement {
     if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
       // possible out of order tabs and get the id of each tab
-      tabIds = tabs.sort((a, b) => a.tab!.localeCompare(b.tab!)).map((el) => el.id);
+      tabIds = tabs
+        .sort((a, b) => (a.tab && b.tab ? a.tab.localeCompare(b.tab) : 0))
+        .map((el) => el.id);
       titleIds = this.titles.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
     } else {
       // if we are using index based tabs then the `<calcite-tab>` and

@@ -48,7 +48,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * @required
    */
-  @property() label?: string;
+  @property() label!: string;
 
   /**
    * Defines the layout of the component.

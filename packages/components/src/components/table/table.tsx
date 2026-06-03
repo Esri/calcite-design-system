@@ -89,7 +89,7 @@ export class Table extends LitElement {
    *
    * @required
    */
-  @property() caption?: string;
+  @property() caption!: string;
 
   /**
    * Sets/gets the current page
