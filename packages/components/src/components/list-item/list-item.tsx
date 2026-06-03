@@ -460,7 +460,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private activeHandler(active: boolean): void {
     if (!active) {
-      this.focusCell(null, false);
+      this.focusCell(undefined, false);
     }
   }
 
@@ -675,7 +675,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
       if (currentIndex === -1) {
         if (!expanded && expandable) {
           this.toggle(true);
-          this.focusCell(null);
+          this.focusCell();
         } else if (cells[0]) {
           this.focusCell(cells[0]);
         }
@@ -686,14 +686,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
       event.preventDefault();
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
-        this.focusCell(null);
+        this.focusCell();
         if (expanded && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }
       } else if (currentIndex === 0) {
-        this.focusCell(null);
+        this.focusCell();
         containerRef.value.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
@@ -701,8 +701,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private focusCellNull(): void {
-    this.focusCell(null);
+  private clearCellFocus(): void {
+    this.focusCell();
   }
 
   private setFocusCell(
@@ -740,7 +740,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private focusCell(focusEl: HTMLDivElement | null, saveFocusIndex = true): void {
+  private focusCell(focusEl?: HTMLDivElement, saveFocusIndex = true): void {
     const focusedEl = getFirstTabbable(focusEl);
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
@@ -1071,7 +1071,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
-            onFocus={this.focusCellNull}
+            onFocus={this.clearCellFocus}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             ref={this.containerRef}
