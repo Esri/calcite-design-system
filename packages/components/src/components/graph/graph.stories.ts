@@ -1,6 +1,5 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { Graph } from "./graph";
-import type { Graph as HTMLCalciteGraphElement } from "./graph";
+import type { Graph } from "./graph";
 
 interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
   width: number;
@@ -17,7 +16,7 @@ export default {
   },
 };
 
-const data: HTMLCalciteGraphElement["el"]["el"]["data"] = [
+const data: Graph["el"]["data"] = [
   [0, 0],
   [10, 80],
   [20, 20],

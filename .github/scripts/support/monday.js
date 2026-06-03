@@ -473,6 +473,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
         clearable: true,
       },
     ],
+    [
+      issueType.pull_request,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "PR",
+      },
+    ],
   ]);
 
   /**
@@ -872,8 +879,9 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
-    if ("merged" in issue) {
+    if ("merged" in issue || issue.pull_request?.merged_at) {
       handleState("closed");
+      addLabel(issueType.pull_request);
     }
 
     const { id: syncId, source } = await getId();

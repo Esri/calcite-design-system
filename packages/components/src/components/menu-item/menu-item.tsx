@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
@@ -45,7 +44,7 @@ export class MenuItem extends LitElement {
 
   private dropdownActionRef = createRef<Action["el"]>();
 
-  private isFocused: boolean;
+  private isFocused = false;
 
   /**
    * Made into a prop for testing purposes only.
@@ -62,29 +61,29 @@ export class MenuItem extends LitElement {
 
   @state() hasSubmenu = false;
 
-  @state() submenuItems: MenuItem["el"][];
+  @state() submenuItems?: MenuItem["el"][];
 
   //#endregion
 
   //#region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active = false;
 
   /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
-  @property({ reflect: true }) breadcrumb: boolean;
+  @property({ reflect: true }) breadcrumb = false;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
-  @property() href: string;
+  @property() href?: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @private */
   @property() isTopLevelItem = false;
@@ -94,10 +93,10 @@ export class MenuItem extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** @private */
-  @property({ reflect: true }) layout: Layout;
+  @property({ reflect: true }) layout!: Layout;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -110,20 +109,20 @@ export class MenuItem extends LitElement {
    *
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /** Specifies the text to display. */
-  @property() text: string;
+  @property() text?: string;
 
   /** @private */
-  @property() topLevelMenuLayout: Layout;
+  @property() topLevelMenuLayout?: Layout;
 
   //#endregion
 

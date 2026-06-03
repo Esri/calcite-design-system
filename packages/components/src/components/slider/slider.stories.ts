@@ -2,8 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Slider } from "./slider";
-import type { Slider as HTMLCalciteSliderElement } from "./slider";
+import type { Slider } from "./slider";
 
 const { scale, status } = ATTRIBUTES;
 
@@ -237,7 +236,7 @@ function createHistogramSlider({
 }: {
   range: [number, number];
   values: [number, number];
-  histogram: HTMLCalciteSliderElement["histogram"];
+  histogram: Slider["histogram"];
 }) {
   const slider = document.createElement("calcite-slider");
   slider.min = range[0];
@@ -249,7 +248,7 @@ function createHistogramSlider({
   return slider;
 }
 
-export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const Histogram = (): HTMLDivElement => {
   function createTitle(title: string) {
     const titleElement = document.createElement("h1");
     titleElement.textContent = title;
@@ -409,7 +408,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   return sliderContainer;
 };
 
-export const darkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const darkModeHistogramRTL = (): Slider["el"] => {
   const slider = createHistogramSlider({
     range: [0, 100],
     values: [25, 75],

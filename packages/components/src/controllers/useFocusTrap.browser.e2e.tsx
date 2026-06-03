@@ -5,10 +5,10 @@ import { html, PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
 import { Locator, page, userEvent } from "vitest/browser";
 import { createRef } from "lit/directives/ref.js";
-import { afterNextTask } from "../tests/utils/timing";
 import { GlobalTestProps } from "../tests/utils/interfaces";
 import { CalciteConfig, clearConfig } from "../utils/config";
 import { FocusTrap, useFocusTrap } from "./useFocusTrap";
+import { afterFocusShiftDelay } from "../tests/utils/focus-trap";
 
 vi.mock("focus-trap", { spy: true });
 
@@ -48,12 +48,6 @@ class Test extends LitElement {
       </div>
     );
   }
-}
-
-async function waitForFocusShift(): Promise<void> {
-  // focus-trap delays focus changes until the next execution frame - see https://github.com/focus-trap/focus-trap/#delayinitialfocus
-  // wait for one timeout
-  await afterNextTask();
 }
 
 it("focusTrapComponent lifecycle", async () => {
@@ -444,14 +438,14 @@ describe("focusTrapOptions", () => {
       );
 
       component.focusTrap.activate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect
         .element(insideButtonLocator)
         .toBe(document.activeElement!.shadowRoot!.activeElement);
 
       component.focusTrap.deactivate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect.element(nextFocusedLocator).toBe(document.activeElement);
     });
@@ -466,14 +460,14 @@ describe("focusTrapOptions", () => {
       );
 
       component.focusTrap.activate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect
         .element(insideButtonLocator)
         .toBe(document.activeElement!.shadowRoot!.activeElement);
 
       component.focusTrap.deactivate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect
         .element(insideButtonLocator)
@@ -490,14 +484,14 @@ describe("focusTrapOptions", () => {
       );
 
       component.focusTrap.activate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect
         .element(insideButtonLocator)
         .toBe(document.activeElement!.shadowRoot!.activeElement);
 
       component.focusTrap.deactivate();
-      await waitForFocusShift();
+      await afterFocusShiftDelay();
 
       await expect.element(previousFocusedLocator).toBe(document.activeElement);
     });
@@ -660,13 +654,13 @@ it("does not try to restore focus to the document when there was no previously f
 
   el.open = true;
   await component.updateComplete;
-  await waitForFocusShift();
+  await afterFocusShiftDelay();
 
   expect(document.activeElement!.tagName).toBe(el.tagName);
 
   el.open = false;
   await component.updateComplete;
-  await waitForFocusShift();
+  await afterFocusShiftDelay();
 
   expect(document.activeElement!.tagName).toBe("BODY");
 });
