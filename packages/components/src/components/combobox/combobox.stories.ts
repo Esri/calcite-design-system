@@ -121,7 +121,6 @@ export const smallViewport = (): string => html`
 `;
 smallViewport.parameters = { chromatic: { viewports: [300, 300] } };
 
-// Fit display states are isolated because Chromatic does not render them reliably in `multiple`.
 export const multiple = (): string => html`
   <div style="width:400px;max-width:100%;background-color:white;padding:100px">
     <h2>selection-display="all" (default)</h2>
@@ -165,7 +164,6 @@ export const multiple = (): string => html`
     </calcite-label>
 
     <h2>selection-display="fit"</h2>
-    <calcite-label> I do not render reliably in Chromatic, so there is an isolated story. </calcite-label>
     <calcite-label>
       Some selected with multiple visible chips
       <calcite-combobox
@@ -1261,7 +1259,6 @@ export const disabledEnabled = (): string => html`
   </div>
 `;
 
-// Isolated from `multiple` because Chromatic does not render fit display states reliably.
 export const fitDisplayStates = (): string => html`
   <style>
     .fit-display-grid {
