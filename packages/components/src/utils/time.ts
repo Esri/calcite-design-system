@@ -217,7 +217,7 @@ export function getLocalizedTimePartSuffix({
 }): string {
   const formatter = createLocaleDateTimeFormatter({ hour12, includeSeconds: step < 60, locale, numberingSystem });
   const parts = formatter.formatToParts(new Date(Date.UTC(0, 0, 0, 0, 0, 0)));
-  return getLocalizedTimePart(`${part}Suffix`, parts, locale);
+  return getLocalizedTimePart(`${part}Suffix` as TimePart, parts, locale);
 }
 
 function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], locale: Locale = "en"): string {
