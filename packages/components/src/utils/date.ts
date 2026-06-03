@@ -14,7 +14,7 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
+export function inRange(date?: Date, min?: Date | string, max?: Date | string): boolean {
   if (!date) {
     return false;
   }

@@ -131,8 +131,8 @@ export function disconnectLabel(component: LabelableComponent): void {
   }
 
   unlabeledComponents.delete(component);
-  document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component) as EventListener);
-  document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component) as EventListener);
+  document.removeEventListener(labelConnectedEvent, onLabelConnectedMap.get(component)! as EventListener);
+  document.removeEventListener(labelDisconnectedEvent, onLabelDisconnectedMap.get(component)! as EventListener);
   onLabelConnectedMap.delete(component);
   onLabelDisconnectedMap.delete(component);
 
@@ -143,7 +143,7 @@ export function disconnectLabel(component: LabelableComponent): void {
   const labelables = labelToLabelables.get(component.labelEl)!;
 
   if (labelables.length === 1) {
-    component.labelEl.removeEventListener(labelClickEvent, onLabelClickMap.get(component.labelEl) as EventListener);
+    component.labelEl.removeEventListener(labelClickEvent, onLabelClickMap.get(component.labelEl)! as EventListener);
     onLabelClickMap.delete(component.labelEl);
   }
 
@@ -215,7 +215,7 @@ export async function associateExplicitLabelToUnlabeledComponent(label: Label["e
     return;
   }
 
-  const forComponentEl = label.ownerDocument?.getElementById(label.for!);
+  const forComponentEl = label.for && label.ownerDocument?.getElementById(label.for);
 
   if (!forComponentEl) {
     return;
