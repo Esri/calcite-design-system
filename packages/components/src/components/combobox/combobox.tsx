@@ -1140,10 +1140,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipEls,
     availableHorizontalChipElSpace,
     chipContainerElGap,
+    hideSelectedChips,
   }: {
     chipEls: Chip["el"][];
     availableHorizontalChipElSpace: number;
     chipContainerElGap: number;
+    hideSelectedChips: boolean;
   }): void {
     const selectedChipEls = chipEls.filter((chipEl) => chipEl.selected);
     const enabledSelectedChipEls = selectedChipEls.filter((chipEl) => !chipEl.disabled);
@@ -1152,6 +1154,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipEls.forEach((chipEl) => {
       this.hideChip(chipEl);
     });
+
+    if (hideSelectedChips) {
+      return;
+    }
 
     const renderFittingChips = (chips: Chip["el"][]): number => {
       let visibleChipsCount = 0;
@@ -1207,7 +1213,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       const chipContainerElWidth = getElementWidth(chipContainerEl);
       const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
       // Heuristic placeholder width multiplier for stable hidden chip calculations.
-      const placeholderWidthMultiplier = 0.15;
+      const placeholderWidthMultiplier = 0.55;
       const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
       const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
       const placeholderWidth =
@@ -1221,16 +1227,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                   placeholderWidthMultiplier,
               ),
             );
+      const fitInputWidth = Math.max(inputMinWidth, placeholderWidth);
       const inputWidth =
-        (selectionDisplay === "fit" ? inputMinWidth : placeholderWidth) + chipContainerElGap;
+        (selectionDisplay === "fit" ? fitInputWidth : placeholderWidth) + chipContainerElGap;
       const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
       const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
       const largestSelectedIndicatorChipWidth = Math.max(
         allSelectedIndicatorChipElWidth,
         selectedIndicatorChipElWidth,
-      );
-      const selectedChipCountElWidth = getElementWidth(
-        this.el.shadowRoot.querySelector<Chip["el"]>("#selected-chip-count"),
       );
 
       this.setCompactSelectionDisplay({
@@ -1267,17 +1271,29 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           },
         );
 
-        const hiddenChipIndicatorWidth =
-          this.deferFitChipCountRender || this.selectedHiddenChipsCount <= 0
-            ? 0
-            : selectedChipCountElWidth || selectedIndicatorChipElWidth;
+        const { hiddenChipIndicatorWidth, hideSelectedChips, reservedPlaceholderInputWidth } =
+          this.getFitCompactDisplayState({
+            chipContainerElGap,
+            chipContainerElWidth,
+            inputMinWidth,
+            placeholderWidth,
+            selectedIndicatorChipElWidth,
+          });
 
         const availableHorizontalChipElSpace = Math.round(
           chipContainerElWidth -
-            (hiddenChipIndicatorWidth + chipContainerElGap + inputWidth + chipContainerElGap),
+            (hiddenChipIndicatorWidth +
+              chipContainerElGap +
+              reservedPlaceholderInputWidth +
+              chipContainerElGap),
         );
 
-        this.refreshChipDisplay({ availableHorizontalChipElSpace, chipContainerElGap, chipEls });
+        this.refreshChipDisplay({
+          availableHorizontalChipElSpace,
+          chipContainerElGap,
+          chipEls,
+          hideSelectedChips,
+        });
         const hiddenCountChanged = this.updateChipVisibilityCounts(chipEls);
 
         if (hiddenCountChanged && followUpRefresh) {
@@ -1296,6 +1312,74 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
     connectFloatingUI(this);
+  }
+
+  private shouldUseFitCompactDisplay({
+    chipContainerElGap,
+    chipContainerElWidth,
+    hiddenChipIndicatorWidth,
+    inputMinWidth,
+    placeholderWidth,
+    reservedPlaceholderInputWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    hiddenChipIndicatorWidth: number;
+    inputMinWidth: number;
+    placeholderWidth: number;
+    reservedPlaceholderInputWidth: number;
+  }): boolean {
+    const availableHorizontalChipElSpaceWithPlaceholder = Math.round(
+      chipContainerElWidth -
+        (hiddenChipIndicatorWidth +
+          chipContainerElGap +
+          reservedPlaceholderInputWidth +
+          chipContainerElGap),
+    );
+    const placeholderIsReallyLong = placeholderWidth > inputMinWidth * 2;
+
+    return placeholderIsReallyLong && availableHorizontalChipElSpaceWithPlaceholder <= 0;
+  }
+
+  private getFitCompactDisplayState({
+    chipContainerElGap,
+    chipContainerElWidth,
+    inputMinWidth,
+    placeholderWidth,
+    selectedIndicatorChipElWidth,
+  }: {
+    chipContainerElGap: number;
+    chipContainerElWidth: number;
+    inputMinWidth: number;
+    placeholderWidth: number;
+    selectedIndicatorChipElWidth: number;
+  }): {
+    hiddenChipIndicatorWidth: number;
+    hideSelectedChips: boolean;
+    reservedPlaceholderInputWidth: number;
+  } {
+    const selectedChipCountElWidth = getElementWidth(
+      this.el.shadowRoot.querySelector<Chip["el"]>("#selected-chip-count"),
+    );
+    const hiddenChipIndicatorWidth =
+      this.deferFitChipCountRender || this.selectedHiddenChipsCount <= 0
+        ? 0
+        : selectedChipCountElWidth || selectedIndicatorChipElWidth;
+    const reservedPlaceholderInputWidth = Math.max(inputMinWidth, placeholderWidth);
+    const hideSelectedChips = this.shouldUseFitCompactDisplay({
+      chipContainerElGap,
+      chipContainerElWidth,
+      hiddenChipIndicatorWidth,
+      inputMinWidth,
+      placeholderWidth,
+      reservedPlaceholderInputWidth,
+    });
+
+    return {
+      hiddenChipIndicatorWidth,
+      hideSelectedChips,
+      reservedPlaceholderInputWidth,
+    };
   }
 
   private setCompactSelectionDisplay({
@@ -1904,7 +1988,41 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       scale,
       selectedVisibleChipsCount,
     } = this;
-    const label = compactSelectionDisplay ? this.messages.all : this.messages.allSelected;
+    let useFitCompactLabel = false;
+
+    if (this.selectionDisplay === "fit" && this.textInputRef.value && this.chipContainerEl) {
+      const chipContainerElGap = parseInt(
+        getComputedStyle(this.chipContainerEl).gap.replace("px", ""),
+      );
+      const chipContainerElWidth = getElementWidth(this.chipContainerEl);
+      const { fontSize, fontFamily, minInlineSize } = getComputedStyle(this.textInputRef.value);
+      // Heuristic placeholder width multiplier for stable hidden chip calculations.
+      const placeholderWidthMultiplier = 0.55;
+      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+      const measuredPlaceholderWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
+      const placeholderWidth =
+        measuredPlaceholderWidth > 0
+          ? measuredPlaceholderWidth
+          : Math.max(
+              inputMinWidth,
+              Math.round(
+                (this.placeholder?.length || 0) *
+                  (parseFloat(fontSize) || parseInt(calciteSize48)) *
+                  placeholderWidthMultiplier,
+              ),
+            );
+      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipRef.value);
+      useFitCompactLabel = this.getFitCompactDisplayState({
+        chipContainerElGap,
+        chipContainerElWidth,
+        inputMinWidth,
+        placeholderWidth,
+        selectedIndicatorChipElWidth,
+      }).hideSelectedChips;
+    }
+
+    const useCompactAllLabel = compactSelectionDisplay || useFitCompactLabel;
+    const label = useCompactAllLabel ? this.messages.all : this.messages.allSelected;
     const showAllSelectedChip =
       this.allSelected &&
       (this.selectionDisplay === "single" ||
