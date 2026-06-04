@@ -31,14 +31,4 @@
   }
 }
 
-.text--truncate {
-  text-overflow: ellipsis;
-}
-
-.calcite-text-wrap {
-  white-space: wrap;
-  overflow: hidden;
-  overflow-wrap: break-word;
-}
-
 @include animation.animation-reduced-motion();
