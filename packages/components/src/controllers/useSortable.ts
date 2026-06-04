@@ -24,8 +24,8 @@ export interface DragDetail<
   toEl: To;
   fromEl: From;
   dragEl: Drag;
-  newIndex: number;
-  oldIndex: number;
+  newIndex: number | undefined;
+  oldIndex: number | undefined;
 }
 
 export const CSS = {
