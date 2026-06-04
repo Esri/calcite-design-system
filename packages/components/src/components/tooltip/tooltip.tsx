@@ -83,7 +83,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @state() referenceEl: ReferenceElement;
 
   /** All resolved references that should be described by this tooltip. */
-  @state() private referenceElements: ReferenceElement[] = [];
+  // @state() private referenceElements: ReferenceElement[] = [];
 
   // #endregion
 
