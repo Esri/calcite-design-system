@@ -3,6 +3,7 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
+  h,
   JsxNode,
   LitElement,
   LuminaJsx,
