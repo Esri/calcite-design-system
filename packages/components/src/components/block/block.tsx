@@ -217,11 +217,6 @@ export class Block extends LitElement {
   @property({ reflect: true }) status: Status;
 
   /**
-   * prototype
-   */
-  @property() textTruncation: "wrap" | "truncate" | "clip" = "clip";
-
-  /**
    * When `true` and the component is `open`, disables top layer placement.
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
@@ -492,13 +487,7 @@ export class Block extends LitElement {
         <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {description ? (
-          <div class={CSS.description}>{description}</div>
-        ) : (
-          <div class={CSS.description}>
-            <slot name="description" />
-          </div>
-        )}
+        {description ? <div class={CSS.description}>{description}</div> : null}
       </div>
     ) : null;
   }
