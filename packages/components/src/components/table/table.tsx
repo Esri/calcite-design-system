@@ -280,33 +280,35 @@ export class Table extends LitElement {
   }
 
   private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
-    return el
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
+    if (!el) {
+      return [];
+    }
+
+    return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotRef.value) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value);
+    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value);
+    const footRows = this.getSlottedRows(this.tableFootSlotRef.value);
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
     headRows.forEach((row) => {
-      const position = headRows?.indexOf(row);
+      const position = headRows.indexOf(row);
       row.rowType = "head";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
     bodyRows.forEach((row) => {
-      const position = bodyRows?.indexOf(row);
+      const position = bodyRows.indexOf(row);
       row.rowType = "body";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
     footRows.forEach((row) => {
-      const position = footRows?.indexOf(row);
+      const position = footRows.indexOf(row);
       row.rowType = "foot";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
@@ -523,7 +525,7 @@ export class Table extends LitElement {
             ariaColCount={this.colCount}
             ariaMultiSelectable={
               /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
-              this.selectionMode === "multiple" ? "true" : undefined
+              this.selectionMode === "multiple" ? "true" : null
             }
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
