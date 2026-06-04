@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit";
 import {
   arrow,
@@ -504,13 +503,13 @@ const componentToDebouncedRepositionMap = new WeakMap<
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   const { referenceEl, floatingEl } = component;
 
-  if (!floatingEl.isConnected) {
+  if (!floatingEl?.isConnected) {
     return;
   }
 
   const effectiveAutoUpdate = !isServer
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+    : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -523,7 +522,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   let repositionPromise: Promise<void>;
 
   const cleanUp = effectiveAutoUpdate(
-    referenceEl,
+    referenceEl!,
     floatingEl,
     // callback is invoked immediately
     () => {
@@ -537,7 +536,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
   autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
 
-  return repositionPromise;
+  return repositionPromise!;
 }
 
 /**
