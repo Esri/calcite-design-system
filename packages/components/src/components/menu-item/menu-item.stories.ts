@@ -2,10 +2,10 @@ import { boolean } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
-import { CalciteMenuItem } from "./menu-item";
+import type { MenuItem } from "./menu-item";
 
 interface MenuItemStoryArgs extends Pick<
-  CalciteMenuItem,
+  MenuItem,
   "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"
 > {
   src: string;
