@@ -12,14 +12,6 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
@@ -29,7 +21,6 @@ import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -38,6 +29,7 @@ import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -51,11 +43,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimePicker
-  extends LitElement
-  implements FormComponent, LabelableComponent, TimeComponent
-{
+export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -82,7 +73,9 @@ export class InputTimePicker
 
   private focusSetter = useSetFocus<this>()(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "time",
+  })(this);
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
@@ -142,7 +135,7 @@ export class InputTimePicker
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
   @property({ reflect: true }) max: string;
 
@@ -153,7 +146,7 @@ export class InputTimePicker
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
   @property({ reflect: true }) min: string;
 
@@ -181,7 +174,7 @@ export class InputTimePicker
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -212,21 +205,9 @@ export class InputTimePicker
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The time value in ISO (24-hour) format. */
   @property() value: string;
@@ -250,7 +231,7 @@ export class InputTimePicker
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -289,7 +270,6 @@ export class InputTimePicker
 
   override connectedCallback(): void {
     connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -328,7 +308,6 @@ export class InputTimePicker
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -363,7 +342,8 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      if (submitForm(this)) {
+      if (this.formSupport.active) {
+        this.formSupport.requestSubmit();
         event.preventDefault();
       }
       this.changeEventHandler();
@@ -495,10 +475,6 @@ export class InputTimePicker
               ? this.fractionalSecondRef
               : this.meridiemRef;
     ref.value?.focus();
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
   }
 
   private timeChangeHandler(event: CustomEvent<string>): void {
@@ -720,7 +696,6 @@ export class InputTimePicker
             value={this.value}
           />
         </calcite-popover>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

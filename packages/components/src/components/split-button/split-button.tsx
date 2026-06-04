@@ -8,7 +8,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
-import { FlipPlacement, MenuPlacement, OverlayPositioning } from "../../utils/floating-ui";
+import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { DropdownIconType } from "../button/interfaces";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
 import { IconName } from "../icon/interfaces";
@@ -73,7 +73,7 @@ export class SplitButton extends LitElement {
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
-   * @see [Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
+   * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
@@ -108,14 +108,14 @@ export class SplitButton extends LitElement {
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
    */
-  @property({ reflect: true }) placement: MenuPlacement = "bottom-end";
+  @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
   @property({ reflect: true, type: String }) primaryIconEnd: IconName;
@@ -126,7 +126,7 @@ export class SplitButton extends LitElement {
   /** Specifies an icon to display at the start of the primary button. */
   @property({ reflect: true, type: String }) primaryIconStart: IconName;
 
-  /** Speficies an accessible name for the primary button. */
+  /** Specifies an accessible name for the primary button. */
   @property({ reflect: true }) primaryLabel: string;
 
   /** Specifies the text displayed in the primary button. */
@@ -138,7 +138,7 @@ export class SplitButton extends LitElement {
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
@@ -147,7 +147,7 @@ export class SplitButton extends LitElement {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -163,7 +163,7 @@ export class SplitButton extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

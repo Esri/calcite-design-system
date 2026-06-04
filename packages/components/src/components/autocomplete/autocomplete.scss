@@ -100,6 +100,7 @@
 .content-container .calcite-floating-ui-anim {
   @apply overflow-y-auto
     w-full;
+  box-shadow: var(--calcite-shadow-md);
   max-block-size: var(--calcite-autocomplete-menu-max-size-y, theme("maxHeight.menu"));
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   background-color: var(--calcite-autocomplete-background-color, var(--calcite-color-foreground-1));

@@ -132,7 +132,7 @@ export class Filter extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -233,8 +233,8 @@ export class Filter extends LitElement {
               icon={ICONS.search}
               label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={this.textInputRef}
               scale={scale}

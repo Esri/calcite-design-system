@@ -6621,3 +6621,26 @@ function getStickyGroupHeaderHTML(filterEnabled = false): string {
 export const stickyGroupHeader = (): string => getStickyGroupHeaderHTML();
 
 export const stickyGroupHeaderFilterEnabled = (): string => getStickyGroupHeaderHTML(true);
+
+export const nestedSelectionModes = (): string =>
+  html`<calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list drag-enabled label="Sub-level list" display-mode="flat" selection-mode="none">
+          <calcite-list-item label="Sub-level list-item - should not have any selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+    <calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list label="Sub-level list" display-mode="flat" selection-mode="none">
+          <calcite-list-item label="Sub-level list-item - should not have any selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>
+    <calcite-list drag-enabled label="Top-level label" display-mode="nested" selection-mode="single-persist">
+      <calcite-list-item expanded label="Top-level list-item">
+        <calcite-list label="Sub-level list" display-mode="flat" selection-mode="multiple">
+          <calcite-list-item label="Sub-level list-item - should have selection"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>`;

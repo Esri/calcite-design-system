@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, formAssociated, labelable, openClose, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -23,10 +23,6 @@ describe("labelable", () => {
 
 describe("labelable range", () => {
   labelable("<calcite-input-date-picker range></calcite-input-date-picker>");
-});
-
-describe("openClose", () => {
-  openClose(`<calcite-input-date-picker id="pickerOpenClose" value="2021-12-08"></calcite-input-date-picker>`);
 });
 
 describe("event emitting when the value changes", () => {
@@ -533,10 +529,8 @@ describe("localization", () => {
     const month = "4";
     const day = "19";
 
-    /* eslint-disable import/no-dynamic-require -- allowing dynamic asset path for maintainability */
     const langTranslations = await import(`../date-picker/assets/nls/${lang}.json`);
     const newLangTranslations = await import(`../date-picker/assets/nls/${newLang}.json`);
-    /* eslint-enable import/no-dynamic-require */
 
     const page = await newE2EPage();
     await page.setContent(
@@ -648,25 +642,6 @@ describe("clicking in the calendar popup", () => {
   });
 });
 
-describe("is form-associated", () => {
-  describe("supports single value", () => {
-    formAssociated("calcite-input-date-picker", {
-      testValue: "1985-03-23",
-      submitsOnEnter: true,
-      validation: true,
-      inputType: "date",
-    });
-  });
-
-  describe("supports range", () => {
-    formAssociated(`<calcite-input-date-picker range name="calcite-input-date-picker"></calcite-input-date-picker>`, {
-      testValue: ["1985-03-23", "1985-10-30"],
-      submitsOnEnter: true,
-      inputType: "date",
-    });
-  });
-});
-
 it("ensures initial value is in range", async () => {
   const page = await newE2EPage();
   await page.emulateTimezone("America/Los_Angeles");
@@ -680,39 +655,71 @@ it("ensures initial value is in range", async () => {
   expect(await getDateInputValue(page)).toEqual("1/1/2018");
 });
 
-it("updates internally when min attribute is updated after initialization", async () => {
-  const page = await newE2EPage();
-  await page.emulateTimezone("America/Los_Angeles");
-  await page.setContent(
-    html`<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-  );
+describe("minAsDate & maxAsDate", () => {
+  it("updates minAsDate when min attribute is updated after initialization", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2022-11-27"
+        min="2022-11-15"
+        max="2024-11-15"
+      ></calcite-input-date-picker>`,
+    );
 
-  const element = await page.find("calcite-input-date-picker");
-  element.setProperty("min", "2021-11-15");
-  element.setProperty("max", "2023-11-15");
-  await page.waitForChanges();
-  const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
-  const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
-    picker.minAsDate.getTime(),
-  );
-  expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
-});
+    const element = await page.find("calcite-input-date-picker");
+    element.setProperty("min", "2021-11-15");
+    element.setProperty("max", "2023-11-15");
+    await page.waitForChanges();
+    const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
+    const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
+      picker.minAsDate.getTime(),
+    );
+    expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
+  });
 
-it("unsetting min/max updates internally", async () => {
-  const page = await newE2EPage();
-  await page.emulateTimezone("America/Los_Angeles");
-  await page.setContent(
-    html`<calcite-input-date-picker value="2022-11-27" min="2022-11-15" max="2024-11-15"></calcite-input-date-picker>`,
-  );
+  it("updates maxAsDate when max attribute is updated after initialization", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2022-11-27"
+        min="2022-11-15"
+        max="2024-11-15"
+      ></calcite-input-date-picker>`,
+    );
 
-  const element = await page.find("calcite-input-date-picker");
+    const element = await page.find("calcite-input-date-picker");
+    element.setProperty("min", "2021-11-15");
+    element.setProperty("max", "2023-11-15");
+    await page.waitForChanges();
+    const maxDateString = "Mon Nov 15 2023 00:00:00 GMT-0800 (Pacific Standard Time)";
+    const maxDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
+      picker.maxAsDate.getTime(),
+    );
+    expect(maxDateAsTime).toEqual(new Date(maxDateString).getTime());
+  });
 
-  element.setProperty("min", undefined);
-  element.setProperty("max", undefined);
-  await page.waitForChanges();
+  it("unsetting min/max updates internally", async () => {
+    const page = await newE2EPage();
+    await page.emulateTimezone("America/Los_Angeles");
+    await page.setContent(
+      html`<calcite-input-date-picker
+        value="2022-11-27"
+        min="2022-11-15"
+        max="2024-11-15"
+      ></calcite-input-date-picker>`,
+    );
 
-  expect(await element.getProperty("minAsDate")).toBe(undefined);
-  expect(await element.getProperty("maxAsDate")).toBe(undefined);
+    const element = await page.find("calcite-input-date-picker");
+
+    element.setProperty("min", undefined);
+    element.setProperty("max", undefined);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("minAsDate")).toBe(undefined);
+    expect(await element.getProperty("maxAsDate")).toBe(undefined);
+  });
 });
 
 it("when set to readOnly, element still focusable but won't display the controls or allow for changing the value", async () => {

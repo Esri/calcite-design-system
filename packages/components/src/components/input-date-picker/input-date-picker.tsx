@@ -35,14 +35,6 @@ import {
   OverlayPositioning,
   reposition,
 } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
 import { numberKeys } from "../../utils/key";
 import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
@@ -58,6 +50,7 @@ import {
   getLocaleData,
   getValueAsDateRange,
   applyLocaleOverride,
+  getMinMaxSource,
 } from "../date-picker/utils";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
@@ -65,7 +58,6 @@ import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
@@ -74,6 +66,7 @@ import type { Input } from "../input/input";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -88,11 +81,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputDatePicker
-  extends LitElement
-  implements FloatingUIComponent, FormComponent, LabelableComponent
-{
+export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -146,7 +138,9 @@ export class InputDatePicker
     },
   })(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "date",
+  })(this);
 
   labelEl: Label["el"];
 
@@ -289,7 +283,7 @@ export class InputDatePicker
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -310,7 +304,7 @@ export class InputDatePicker
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -326,21 +320,9 @@ export class InputDatePicker
    * The component's current validation state.
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()
@@ -396,7 +378,7 @@ export class InputDatePicker
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -440,35 +422,7 @@ export class InputDatePicker
       this.openHandler();
     }
 
-    if (this.min) {
-      this.minAsDate = dateFromISO(this.min);
-    }
-
-    if (this.max) {
-      this.maxAsDate = dateFromISO(this.max);
-    }
-
-    if (Array.isArray(this.value)) {
-      this.valueAsDate = getValueAsDateRange(this.value);
-    } else if (this.value) {
-      try {
-        const date = dateFromISO(this.value);
-        const dateInRange = dateFromRange(date, this.minAsDate, this.maxAsDate);
-        this.valueAsDate = dateInRange;
-      } catch {
-        this.warnAboutInvalidValue(this.value);
-        this.value = "";
-      }
-    } else if (this.valueAsDate) {
-      if (this.range && Array.isArray(this.valueAsDate)) {
-        this.value = [dateToISO(this.valueAsDate[0]), dateToISO(this.valueAsDate[1])];
-      } else if (!this.range && !Array.isArray(this.valueAsDate)) {
-        this.value = dateToISO(this.valueAsDate);
-      }
-    }
-
     connectLabel(this);
-    connectForm(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
   }
@@ -476,8 +430,6 @@ export class InputDatePicker
   async load(): Promise<void> {
     this.handleDateTimeFormatChange();
     await this.loadLocaleData();
-    this.onMinChanged(this.min);
-    this.onMaxChanged(this.max);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -493,20 +445,30 @@ export class InputDatePicker
       this.handleDisabledAndReadOnlyChange(this.readOnly);
     }
 
-    if (changes.has("valueAsDate")) {
-      this.valueAsDateWatcher(this.valueAsDate);
-    }
-
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
 
-    if (changes.has("min")) {
-      this.onMinChanged(this.min);
+    const minSource = getMinMaxSource(changes, "min");
+    const maxSource = getMinMaxSource(changes, "max");
+
+    if (minSource === "min") {
+      this.minAsDate = dateFromISO(this.min);
+    } else if (minSource === "minAsDate") {
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
     }
 
-    if (changes.has("max")) {
-      this.onMaxChanged(this.max);
+    if (maxSource === "max") {
+      this.maxAsDate = dateFromISO(this.max);
+    } else if (maxSource === "maxAsDate") {
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
+    }
+
+    if ((minSource || maxSource) && !Array.isArray(this.valueAsDate)) {
+      const validValueAsDate = dateFromRange(this.valueAsDate, this.minAsDate, this.maxAsDate);
+      if (validValueAsDate !== this.valueAsDate) {
+        this.valueAsDate = validValueAsDate;
+      }
     }
 
     if (changes.has("open") && (this.hasUpdated || this.open !== false)) {
@@ -528,8 +490,13 @@ export class InputDatePicker
       this.setReferenceEl();
     }
 
+    if (changes.has("valueAsDate")) {
+      this.valueAsDateWatcher(this.valueAsDate);
+    }
+
     if (changes.has("messages")) {
       this.loadLocaleData();
+      this.localizeInputValues();
     }
   }
 
@@ -540,7 +507,6 @@ export class InputDatePicker
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     disconnectFloatingUI(this);
   }
 
@@ -558,12 +524,19 @@ export class InputDatePicker
     if (!this.userChangedValue) {
       let newValueAsDate: Date | Date[];
 
-      if (Array.isArray(newValue)) {
-        newValueAsDate = getValueAsDateRange(newValue);
-      } else if (newValue) {
-        newValueAsDate = dateFromISO(newValue);
-      } else {
-        newValueAsDate = undefined;
+      try {
+        if (Array.isArray(newValue)) {
+          newValueAsDate = getValueAsDateRange(newValue);
+        } else if (newValue) {
+          newValueAsDate = dateFromISO(newValue);
+        } else {
+          newValueAsDate = undefined;
+        }
+      } catch {
+        if (!Array.isArray(newValue)) {
+          this.warnAboutInvalidValue(newValue);
+          this.value = "";
+        }
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
@@ -579,8 +552,6 @@ export class InputDatePicker
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
-    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
-
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
@@ -591,14 +562,6 @@ export class InputDatePicker
   private flipPlacementsHandler(): void {
     this.setFilteredPlacements();
     this.reposition(true);
-  }
-
-  private onMinChanged(min: string): void {
-    this.minAsDate = dateFromISO(min);
-  }
-
-  private onMaxChanged(max: string): void {
-    this.maxAsDate = dateFromISO(max);
   }
 
   private openHandler(): void {
@@ -715,10 +678,6 @@ export class InputDatePicker
     this.topLayer.hide();
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("date", this, input);
-  }
-
   private blurHandler(): void {
     this.open = false;
   }
@@ -777,17 +736,38 @@ export class InputDatePicker
       .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
 
     if (key === "Enter") {
-      event.preventDefault();
+      const preCommitValue = this.value;
       this.commitValue();
 
-      if (this.shouldFocusRangeEnd()) {
-        this.endInputRef.value?.setFocus();
-      } else if (this.shouldFocusRangeStart()) {
-        this.startInputRef.value?.setFocus();
+      const focusRangeEnd = this.shouldFocusRangeEnd();
+      const focusRangeStart = !focusRangeEnd && this.shouldFocusRangeStart();
+
+      if (focusRangeEnd || focusRangeStart) {
+        event.preventDefault();
+
+        if (focusRangeEnd) {
+          this.endInputRef.value?.setFocus();
+        } else if (focusRangeStart) {
+          this.startInputRef.value?.setFocus();
+        }
+
+        return;
       }
 
-      if (submitForm(this)) {
+      if (this.open) {
         this.restoreInputFocus(true);
+        event.preventDefault();
+      } else {
+        const formActive = this.formSupport.active;
+        const handledKey = preCommitValue !== this.value || formActive;
+
+        if (handledKey) {
+          event.preventDefault();
+        }
+
+        if (formActive) {
+          this.formSupport.requestSubmit();
+        }
       }
     } else if ((key === "ArrowDown" || key === "ArrowUp") && !targetHasSelect) {
       this.open = true;
@@ -920,9 +900,9 @@ export class InputDatePicker
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      (this.range
+      this.range
         ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate) as Date,
+        : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate,
     );
@@ -1239,7 +1219,6 @@ export class InputDatePicker
             </div>
           )}
         </div>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}

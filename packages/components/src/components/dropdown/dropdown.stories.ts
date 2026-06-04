@@ -1,7 +1,7 @@
 import { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
+import { defaultMenuPlacement, placements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
 
@@ -26,7 +26,7 @@ export default {
   },
   argTypes: {
     placement: {
-      options: menuPlacements,
+      options: placements,
       control: { type: "select" },
     },
     scale: {
@@ -537,6 +537,20 @@ export const offsetPlacement = (): string => html`
       <calcite-dropdown-item icon-start="nodes-link" selected>My Link Chart 2</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="map">My Map 1</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="map">My Map 2</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;
+
+export const referenceElement = (): string => html`
+  <calcite-button id="my-dropdown">My Dropdown</calcite-button>
+  <calcite-dropdown reference-element="my-dropdown" open>
+    <calcite-dropdown-group group-title="Natural places">
+      <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+      <calcite-dropdown-item>River</calcite-dropdown-item>
+      <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+      <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+      <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+      <calcite-dropdown-item>Desert</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;

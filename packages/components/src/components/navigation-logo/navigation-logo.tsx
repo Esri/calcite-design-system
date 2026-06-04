@@ -1,8 +1,8 @@
-// @ts-strict-ignore
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/interfaces";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
@@ -56,19 +56,26 @@ export class NavigationLogo extends LitElement {
   /**
    * Defines the relationship between the `href` value and the current document.
    *
-   * @mdn [rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
+   * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
-   * @mdn [target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target: string;
 
   /** Specifies the `src` to an image. */
   @property() thumbnail: string;
+
+  /**
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
+   *
+   * @private
+   */
+  @property({ reflect: true }) scale: Scale = "m";
 
   // #endregion
 
@@ -79,7 +86,7 @@ export class NavigationLogo extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -91,8 +98,14 @@ export class NavigationLogo extends LitElement {
   // #region Rendering
 
   private renderIcon(): JsxNode {
-    /** Icon scale is not variable as the component does not have a scale property */
-    return <calcite-icon class={CSS.icon} flipRtl={this.iconFlipRtl} icon={this.icon} scale="l" />;
+    return (
+      <calcite-icon
+        class={CSS.icon}
+        flipRtl={this.iconFlipRtl}
+        icon={this.icon}
+        scale={this.scale === "s" ? "m" : "l"}
+      />
+    );
   }
 
   private renderHeaderContent(): JsxNode {

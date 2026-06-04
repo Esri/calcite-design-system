@@ -6,12 +6,14 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
   reflects,
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Select } from "./select";
 
 describe("defaults", () => {
@@ -22,7 +24,32 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
+  );
+});
+
+describe("is form-associated", () => {
+  formAssociated(
+    () =>
+      mount(
+        <calcite-select name="calciteSelect">
+          <calcite-option />
+          <calcite-option>uno</calcite-option>
+          <calcite-option>dos</calcite-option>
+          <calcite-option>tres</calcite-option>
+        </calcite-select>,
+      ),
+    {
+      testValue: "dos",
+      validation: true,
+      // we use <select>'s char-matching behavior vs navigating with arrows + space/enter
+      // due to the context menu not being accessible in the browser rendering environment
+      changeValueKeys: ["t"],
+    },
   );
 });
 

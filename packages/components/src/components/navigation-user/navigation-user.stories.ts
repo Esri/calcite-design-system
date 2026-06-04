@@ -1,34 +1,44 @@
 import { boolean } from "../../../.storybook/utils";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
-import { CalciteNavigationUser } from "./navigation-user";
+import type { NavigationUser } from "./navigation-user";
+const { scale } = ATTRIBUTES;
 
 type NavigationUserStoryArgs = Pick<
-  CalciteNavigationUser,
-  "fullName" | "username" | "thumbnail" | "userId" | "textDisabled" | "active"
+  NavigationUser,
+  "active" | "fullName" | "scale" | "textDisabled" | "thumbnail" | "userId" | "username"
 >;
 
 export default {
   title: "Components/Navigation/Navigation User",
   args: {
+    active: true,
     fullName: "Edward Abbey",
-    userName: "eabbey_123",
+    scale: scale.defaultValue,
+    textDisabled: false,
     thumbnail: "",
     userId: "",
-    textDisabled: false,
-    active: true,
+    username: "eabbey_123",
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: NavigationUserStoryArgs): string => html`
   <calcite-navigation-user
-    slot="user"
+    ${boolean("active", args.active)}
     full-name="${args.fullName}"
-    username="${args.username}"
+    scale="${args.scale}"
+    slot="user"
+    ${boolean("text-disabled", args.textDisabled)}
     thumbnail="${args.thumbnail}"
     user-id="${args.userId}"
-    ${boolean("text-disabled", args.textDisabled)}
-    ${boolean("active", args.active)}
+    username="${args.username}"
   />
 `;
 

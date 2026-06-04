@@ -7,7 +7,7 @@ import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom"
 import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
 import { SelectionAppearance } from "../list/resources";
 import { IconName } from "../icon/interfaces";
-import { SortableComponentItem } from "../../utils/sortableComponent";
+import { type SortableComponentItem } from "../../controllers/useSortable";
 import { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
@@ -159,7 +159,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  @property() interactionMode: InteractionMode = null;
+  @property({ reflect: true }) interactionMode: InteractionMode = null;
 
   /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label: string;
@@ -277,7 +277,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -290,7 +290,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -436,6 +436,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
+    if (changes.has("label") || changes.has("description") || changes.has("metadata")) {
+      this.emitCalciteInternalListItemChange();
+    }
+
     if (changes.has("expanded") && this.hasUpdated) {
       if (this.expanded) {
         this.handleExpandedChange();
@@ -456,7 +460,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private activeHandler(active: boolean): void {
     if (!active) {
-      this.focusCell(null, false);
+      this.focusCell(undefined, false);
     }
   }
 
@@ -671,7 +675,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
       if (currentIndex === -1) {
         if (!expanded && expandable) {
           this.toggle(true);
-          this.focusCell(null);
+          this.focusCell();
         } else if (cells[0]) {
           this.focusCell(cells[0]);
         }
@@ -682,14 +686,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
       event.preventDefault();
       const prevIndex = currentIndex - 1;
       if (currentIndex === -1) {
-        this.focusCell(null);
+        this.focusCell();
         if (expanded && expandable) {
           this.toggle(false);
         } else {
           this.calciteInternalFocusPreviousItem.emit();
         }
       } else if (currentIndex === 0) {
-        this.focusCell(null);
+        this.focusCell();
         containerRef.value.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
@@ -697,19 +701,19 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private focusCellNull(): void {
-    this.focusCell(null);
+  private clearCellFocus(): void {
+    this.focusCell();
   }
 
   private setFocusCell(
-    focusEl: HTMLDivElement | null,
+    focusEl: HTMLDivElement | undefined,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
   ): void {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
-      focusMap.set(parentListEl, null);
+      focusMap.set(parentListEl, undefined);
     }
 
     const gridCells = this.getGridCells();
@@ -736,7 +740,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private focusCell(focusEl: HTMLDivElement | null, saveFocusIndex = true): void {
+  private focusCell(focusEl?: HTMLDivElement, saveFocusIndex = true): void {
     const focusedEl = getFirstTabbable(focusEl);
     this.setFocusCell(focusEl, focusedEl, saveFocusIndex);
     focusedEl?.focus();
@@ -1050,12 +1054,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
     const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
     const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
-
-    const containerInteractive =
-      interactionMode === "interactive" ||
-      (interactionMode === "static" &&
-        selectionMode !== "none" &&
-        selectionAppearance === "border");
+    const containerInteractive = interactionMode === "interactive";
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -1074,7 +1073,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
-            onFocus={this.focusCellNull}
+            onFocus={this.clearCellFocus}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             ref={this.containerRef}

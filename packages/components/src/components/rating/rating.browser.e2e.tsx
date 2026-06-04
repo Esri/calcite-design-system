@@ -10,7 +10,9 @@ import {
   reflects,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("defaults", () => {
   defaults(
@@ -20,6 +22,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -68,4 +74,8 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-rating value={3} />));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-rating"), { testValue: 3 });
 });

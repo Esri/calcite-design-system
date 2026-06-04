@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -21,7 +20,7 @@ export async function assertLabelable({
   focusTargetSelector?: string;
   shadowFocusTargetSelector?: string;
 }): Promise<void> {
-  let initialPropertyValue: boolean;
+  let initialPropertyValue: boolean | undefined;
   const component = await page.find(componentTag);
 
   if (propertyToToggle) {
@@ -43,7 +42,7 @@ export async function assertLabelable({
     expect(
       await page.$eval(
         componentTag,
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element, selector) => element.shadowRoot!.activeElement!.matches(selector),
         shadowFocusTargetSelector,
       ),
     ).toBe(true);
@@ -128,8 +127,8 @@ export function labelable(
       `);
       await labelFirstWrappedPage.waitForChanges();
       await labelFirstWrappedPage.evaluate(() => {
-        const template = document.querySelector("template");
-        const labelEl = document.querySelector("calcite-label");
+        const template = document.querySelector("template")!;
+        const labelEl = document.querySelector("calcite-label")!;
 
         labelEl.append(template.content.cloneNode(true));
       }, componentHtml);
@@ -150,7 +149,7 @@ export function labelable(
       await componentFirstWrappedPage.setContent(componentHtml);
       await componentFirstWrappedPage.waitForChanges();
       await componentFirstWrappedPage.evaluate((id: string) => {
-        const componentEl = document.querySelector(`[id='${id}']`);
+        const componentEl = document.querySelector(`[id='${id}']`)!;
         const labelEl = document.createElement("calcite-label");
         document.body.append(labelEl);
         labelEl.append(componentEl);
@@ -225,7 +224,7 @@ export function labelable(
       `);
       await labelFirstSiblingPage.waitForChanges();
       await labelFirstSiblingPage.evaluate(() => {
-        const template = document.querySelector("template");
+        const template = document.querySelector("template")!;
         document.body.append(template.content.cloneNode(true));
       }, componentHtml);
       await labelFirstSiblingPage.waitForChanges();

@@ -9,174 +9,245 @@ import {
 } from "./useReferenceElement/manager";
 import { ReferenceElementComponent, useReferenceElement } from "./useReferenceElement";
 
-describe("useReferenceElement", () => {
-  let refClickManager: ReferenceElementComponentManager;
-  let refHoverManager: ReferenceElementComponentManager;
+let refClickManager: ReferenceElementComponentManager;
+let refHoverManager: ReferenceElementComponentManager;
 
-  beforeEach(() => {
-    refClickManager = referenceElementManager({ click: true });
-    refHoverManager = referenceElementManager({ hover: true });
-  });
+beforeEach(() => {
+  refClickManager = referenceElementManager({ click: true });
+  refHoverManager = referenceElementManager({ hover: true });
+});
 
-  class TestClickComponent extends LitElement {
-    @property() open = false;
-    @property() referenceElement: string | HTMLElement | null;
-    @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
-    @state() referenceEl: HTMLElement | null;
-    referenceElementController = useReferenceElement({ manager: refClickManager })(this);
+class TestClickComponent extends LitElement {
+  @property() open = false;
+  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
+  @state() referenceEl: HTMLElement | null;
+  referenceElementController = useReferenceElement({ manager: refClickManager })(this);
 
-    render(): JsxNode {
-      return <div>Hello world!</div>;
-    }
+  render(): JsxNode {
+    return <div>Hello world!</div>;
+  }
+}
+
+class TestHoverComponent extends LitElement {
+  @property() open = false;
+  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
+  @state() referenceEl: HTMLElement | null;
+  referenceElementController = useReferenceElement({ manager: refHoverManager })(this);
+
+  render(): JsxNode {
+    return <div>Hello world!</div>;
+  }
+}
+
+function getReferenceAndComponent<T extends HTMLElement>(): {
+  referenceElement: HTMLElement;
+  component: T;
+} {
+  const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
+
+  const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
+
+  if (!componentTextEl) {
+    throw new Error("Expected test component text to be present");
   }
 
-  class TestHoverComponent extends LitElement {
-    @property() open = false;
-    @property() referenceElement: string | HTMLElement | null;
-    @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
-    @state() referenceEl: HTMLElement | null;
-    referenceElementController = useReferenceElement({ manager: refHoverManager })(this);
+  const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
 
-    render(): JsxNode {
-      return <div>Hello world!</div>;
-    }
+  if (!component) {
+    throw new Error("Expected test component to be present");
   }
 
-  function getReferenceAndComponent<T extends HTMLElement>(): {
-    referenceElement: HTMLElement;
-    component: T;
-  } {
-    const referenceElement = page.getByText("My Reference Element").element() as HTMLElement | null;
+  return { referenceElement, component };
+}
 
-    if (!referenceElement) {
-      throw new Error("Expected reference element to be present");
-    }
+function getComponentElsByText<T extends HTMLElement>(expectedCount: number): T[] {
+  const componentTextEls = page.getByText("Hello world!").elements() as HTMLElement[];
 
-    const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
+  if (componentTextEls.length !== expectedCount) {
+    throw new Error(`Expected ${expectedCount} test component instances to be present`);
+  }
 
-    if (!componentTextEl) {
-      throw new Error("Expected test component text to be present");
-    }
-
+  return componentTextEls.map((componentTextEl, index) => {
     const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
 
     if (!component) {
-      throw new Error("Expected test component to be present");
+      throw new Error(`Expected test component ${index + 1} to be present`);
     }
 
-    return { referenceElement, component };
-  }
+    return component;
+  });
+}
 
-  describe("click manager", () => {
-    it("register and resolves reference element", async () => {
-      await mount(
-        html`<div>
-          <div id="my-ref">My Reference Element</div>
-          <test-click-component></test-click-component>
-        </div>`,
-        { dynamicComponents: [TestClickComponent] },
-      );
-      const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
+type TestReferenceComponent = HTMLElement &
+  Pick<ReferenceElementComponent, "referenceElement"> & {
+    updateComplete: Promise<unknown>;
+    el: HTMLElement;
+  };
 
-      component.referenceElement = referenceElement;
-      await component.updateComplete;
-      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
-      expect(component.referenceEl.ariaExpanded).toBe("false");
-      component.referenceElement = null;
-      await component.updateComplete;
-      expect(referenceElement.ariaControlsElements).toBeNull();
-      expect(referenceElement.ariaExpanded).toBeNull();
-    });
+async function assertSharedReferenceElementRegistration<T extends TestReferenceComponent>(
+  getAssociatedElements: (referenceElement: HTMLElement) => readonly Element[] | null,
+): Promise<void> {
+  const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
 
-    it("register and resolves string reference element", async () => {
-      await mount(
-        html`<div>
-          <div id="my-ref">My Reference Element</div>
-          <test-click-component></test-click-component>
-        </div>`,
-        { dynamicComponents: [TestClickComponent] },
-      );
-      const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
+  const [component1, component2] = getComponentElsByText<T>(2);
 
-      component.referenceElement = "my-ref";
-      await component.updateComplete;
-      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaControlsElements).toContain(component);
-      expect(component.referenceEl.ariaExpanded).toBe("false");
-      component.referenceElement = null;
-      await component.updateComplete;
-      expect(referenceElement.ariaControlsElements).toBeNull();
-      expect(referenceElement.ariaExpanded).toBeNull();
-    });
+  component1.referenceElement = referenceElement;
+  component2.referenceElement = referenceElement;
+  await Promise.all([component1.updateComplete, component2.updateComplete]);
 
-    it("removes previously registered reference element when disconnected before referenceEl update flushes", async () => {
-      await mount(
-        html`<div>
-          <div id="my-ref-1">My Reference Element 1</div>
-          <div id="my-ref-2">My Reference Element 2</div>
-          <test-click-component></test-click-component>
-        </div>`,
-        { dynamicComponents: [TestClickComponent] },
-      );
+  expect(getAssociatedElements(referenceElement)).not.toBeNull();
+  expect(getAssociatedElements(referenceElement)).toContain(component1.el);
+  expect(getAssociatedElements(referenceElement)).toContain(component2.el);
 
-      const referenceElement1 = page.getByText("My Reference Element 1").element() as HTMLElement;
-      const referenceElement2 = page.getByText("My Reference Element 2").element() as HTMLElement;
-      const componentTextEl = page.getByText("Hello world!").element() as HTMLElement;
-      const component = (componentTextEl.getRootNode() as ShadowRoot).host as TestClickComponent;
+  component1.referenceElement = null;
+  await component1.updateComplete;
 
-      component.referenceElement = "my-ref-1";
-      await component.updateComplete;
+  expect(getAssociatedElements(referenceElement)).not.toBeNull();
+  expect(getAssociatedElements(referenceElement)).not.toContain(component1.el);
+  expect(getAssociatedElements(referenceElement)).toContain(component2.el);
+}
 
-      expect(referenceElement1.ariaControlsElements).toContain(component);
-      expect(referenceElement1.ariaExpanded).toBe("false");
+describe("click manager", () => {
+  it("register and resolves reference element", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-click-component></test-click-component>
+      </div>`,
+      { dynamicComponents: [TestClickComponent] },
+    );
+    const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
 
-      component.referenceElement = referenceElement2;
-      component.el.remove();
-      await Promise.resolve();
-
-      expect(referenceElement1.ariaControlsElements).toBeNull();
-      expect(referenceElement1.ariaExpanded).toBeNull();
-    });
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl.ariaExpanded).toBe("false");
+    component.referenceElement = null;
+    await component.updateComplete;
+    expect(referenceElement.ariaControlsElements).toBeNull();
+    expect(referenceElement.ariaExpanded).toBeNull();
   });
 
-  describe("hover manager", () => {
-    it("register and resolves reference element", async () => {
-      await mount(
-        html`<div>
-          <div id="my-ref">My Reference Element</div>
-          <test-hover-component></test-hover-component>
-        </div>`,
-        { dynamicComponents: [TestHoverComponent] },
-      );
-      const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
+  it("register and resolves string reference element", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-click-component></test-click-component>
+      </div>`,
+      { dynamicComponents: [TestClickComponent] },
+    );
+    const { referenceElement, component } = getReferenceAndComponent<TestClickComponent>();
 
-      component.referenceElement = referenceElement;
-      await component.updateComplete;
-      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      component.referenceElement = null;
-      await component.updateComplete;
-      expect(referenceElement.ariaDescribedByElements).toBeNull();
-    });
+    component.referenceElement = "my-ref";
+    await component.updateComplete;
+    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl.ariaExpanded).toBe("false");
+    component.referenceElement = null;
+    await component.updateComplete;
+    expect(referenceElement.ariaControlsElements).toBeNull();
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
 
-    it("register and resolves string reference element", async () => {
-      await mount(
-        html`<div>
-          <div id="my-ref">My Reference Element</div>
-          <test-hover-component></test-hover-component>
-        </div>`,
-        { dynamicComponents: [TestHoverComponent] },
-      );
-      const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
+  it("removes previously registered reference element when disconnected before referenceEl update flushes", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref-1">My Reference Element 1</div>
+        <div id="my-ref-2">My Reference Element 2</div>
+        <test-click-component></test-click-component>
+      </div>`,
+      { dynamicComponents: [TestClickComponent] },
+    );
 
-      component.referenceElement = "my-ref";
-      await component.updateComplete;
-      expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-      expect(component.referenceEl.ariaDescribedByElements).toContain(component);
-      component.referenceElement = null;
-      await component.updateComplete;
-      expect(referenceElement.ariaDescribedByElements).toBeNull();
-    });
+    const referenceElement1 = page.getByText("My Reference Element 1").element() as HTMLElement;
+    const referenceElement2 = page.getByText("My Reference Element 2").element() as HTMLElement;
+    const componentTextEl = page.getByText("Hello world!").element() as HTMLElement;
+    const component = (componentTextEl.getRootNode() as ShadowRoot).host as TestClickComponent;
+
+    component.referenceElement = "my-ref-1";
+    await component.updateComplete;
+
+    expect(referenceElement1.ariaControlsElements).toContain(component.el);
+    expect(referenceElement1.ariaExpanded).toBe("false");
+
+    component.referenceElement = referenceElement2;
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement1.ariaControlsElements).toBeNull();
+    expect(referenceElement1.ariaExpanded).toBeNull();
+  });
+
+  it("registers multiple components with same reference element and unregisters independently", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-click-component></test-click-component>
+        <test-click-component></test-click-component>
+      </div>`,
+      { dynamicComponents: [TestClickComponent] },
+    );
+
+    await assertSharedReferenceElementRegistration<TestClickComponent>(
+      (referenceElement) => referenceElement.ariaControlsElements,
+    );
+  });
+});
+
+describe("hover manager", () => {
+  it("register and resolves reference element", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-hover-component></test-hover-component>
+      </div>`,
+      { dynamicComponents: [TestHoverComponent] },
+    );
+    const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = null;
+    await component.updateComplete;
+    expect(referenceElement.ariaDescribedByElements).toBeNull();
+  });
+
+  it("register and resolves string reference element", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-hover-component></test-hover-component>
+      </div>`,
+      { dynamicComponents: [TestHoverComponent] },
+    );
+    const { referenceElement, component } = getReferenceAndComponent<TestHoverComponent>();
+
+    component.referenceElement = "my-ref";
+    await component.updateComplete;
+    expect(component.referenceEl).toBeInstanceOf(HTMLElement);
+    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = null;
+    await component.updateComplete;
+    expect(referenceElement.ariaDescribedByElements).toBeNull();
+  });
+
+  it("registers multiple hover components with same reference element and unregisters independently", async () => {
+    await mount(
+      html`<div>
+        <div id="my-ref">My Reference Element</div>
+        <test-hover-component></test-hover-component>
+        <test-hover-component></test-hover-component>
+      </div>`,
+      { dynamicComponents: [TestHoverComponent] },
+    );
+
+    await assertSharedReferenceElementRegistration<TestHoverComponent>(
+      (referenceElement) => referenceElement.ariaDescribedByElements,
+    );
   });
 });

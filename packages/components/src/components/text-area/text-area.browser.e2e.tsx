@@ -10,7 +10,9 @@ import {
   internalLabel,
   renders,
   t9n,
+  formAssociated,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -39,6 +41,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
       {
         propertyName: "wrap",
@@ -102,4 +108,13 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-text-area"));
+});
+
+describe("is form associated", () => {
+  formAssociated(() => mount("calcite-text-area"), {
+    testValue: "zion national park",
+    expectedSubmitValue: "zion national park",
+    submitsOnEnter: false,
+    validation: true,
+  });
 });

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
@@ -47,8 +46,8 @@ export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
 export type NumberingSystem = (typeof numberingSystems)[number];
 
-const isNumberingSystemSupported = (numberingSystem: string): numberingSystem is NumberingSystem =>
-  numberingSystems.includes(numberingSystem as NumberingSystem);
+const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem is NumberingSystem =>
+  !!(numberingSystems && numberingSystems.includes(numberingSystem as NumberingSystem));
 
 const browserNumberingSystem = new Intl.NumberFormat().resolvedOptions().numberingSystem;
 
@@ -59,7 +58,7 @@ export const defaultNumberingSystem =
     ? "latn"
     : browserNumberingSystem;
 
-export const getSupportedNumberingSystem = (numberingSystem: string): NumberingSystem =>
+export const getSupportedNumberingSystem = (numberingSystem?: string): NumberingSystem =>
   isNumberingSystemSupported(numberingSystem) ? numberingSystem : defaultNumberingSystem;
 
 /**
@@ -67,7 +66,7 @@ export const getSupportedNumberingSystem = (numberingSystem: string): NumberingS
  *
  * Intl date formatting has some quirks with certain locales. This handles those quirks by mapping a locale to another for date formatting.
  *
- * @see https://github.com/Esri/calcite-design-system/issues/9387
+ * @see [Related Issue](https://github.com/Esri/calcite-design-system/issues/9387)
  *
  * @param locale – the BCP 47 locale code
  * @returns a BCP 47 locale code
@@ -95,28 +94,28 @@ export class NumberStringFormat {
    * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
    * so we replace them with a normal <SPACE>.
    */
-  private _actualGroup: string;
+  private _actualGroup!: string;
 
   /** the corrected group separator */
-  private _group: string;
+  private _group!: string;
 
   get group(): string {
     return this._group;
   }
 
-  private _decimal: string;
+  private _decimal!: string;
 
   get decimal(): string {
     return this._decimal;
   }
 
-  private _minusSign: string;
+  private _minusSign!: string;
 
   get minusSign(): string {
     return this._minusSign;
   }
 
-  private _digits: Array<string>;
+  private _digits!: Array<string>;
 
   get digits(): Array<string> {
     return this._digits;
@@ -124,13 +123,13 @@ export class NumberStringFormat {
 
   private _getDigitIndex;
 
-  private _numberFormatter: Intl.NumberFormat;
+  private _numberFormatter!: Intl.NumberFormat;
 
   get numberFormatter(): Intl.NumberFormat {
     return this._numberFormatter;
   }
 
-  private _numberFormatOptions: NumberStringFormatOptions;
+  private _numberFormatOptions!: NumberStringFormatOptions;
 
   get numberFormatOptions(): NumberStringFormatOptions {
     return this._numberFormatOptions;
@@ -157,16 +156,13 @@ export class NumberStringFormat {
 
     this._numberFormatOptions = options;
 
-    this._numberFormatter = new Intl.NumberFormat(
-      this._numberFormatOptions.locale,
-      this._numberFormatOptions as Intl.NumberFormatOptions,
-    );
+    this._numberFormatter = new Intl.NumberFormat(this._numberFormatOptions.locale, this._numberFormatOptions);
 
     this._digits = [
       ...new Intl.NumberFormat(this._numberFormatOptions.locale, {
         useGrouping: false,
         numberingSystem: this._numberFormatOptions.numberingSystem,
-      } as Intl.NumberFormatOptions).format(9876543210),
+      }).format(9876543210),
     ].reverse();
 
     const index = new Map(this._digits.map((d, i) => [d, i]));
@@ -174,34 +170,33 @@ export class NumberStringFormat {
     // numberingSystem is parsed to return consistent decimal separator across browsers.
     const parts = new Intl.NumberFormat(this._numberFormatOptions.locale, {
       numberingSystem: this._numberFormatOptions.numberingSystem,
-    } as Intl.NumberFormatOptions).formatToParts(-12345678.9);
+    }).formatToParts(-12345678.9);
 
-    this._actualGroup = parts.find((d) => d.type === "group").value;
+    this._actualGroup = parts.find((d) => d.type === "group")!.value;
     // change whitespace group separators to the unicode non-breaking space (nbsp)
     this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
     // @see https://issues.chromium.org/issues/40656070
     this._decimal =
-      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal").value;
-    this._minusSign = parts.find((d) => d.type === "minusSign").value;
+      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal")!.value;
+    this._minusSign = parts.find((d) => d.type === "minusSign")!.value;
     this._getDigitIndex = (d: string) => index.get(d);
   }
 
-  delocalize = (numberString: string): string =>
+  delocalize = (numberString: string): string => {
     // For performance, (de)localization is skipped if the formatter isn't initialized.
     // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
     // `numberFormatOptions` must be set in a component to create and cache the formatter.
-    this._numberFormatOptions
-      ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
-          nonExpoNumString
-            .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-            .replace(new RegExp(`[${this._group}]`, "g"), "")
-            .replace(new RegExp(`[${this._decimal}]`, "g"), ".")
-            .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex),
-        )
-      : numberString;
+    if (!this._numberFormatOptions) {
+      return numberString;
+    }
 
-  localize = (numberString: string): string =>
-    this._numberFormatOptions
+    return sanitizeExponentialNumberString(numberString, (nonExponentialNumberString) =>
+      this.#normalizeDigitsAndSign(this.#normalizeSeparators(nonExponentialNumberString)),
+    );
+  };
+
+  localize = (numberString: string): string => {
+    return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
             ? new BigDecimal(nonExpoNumString.trim())
@@ -210,6 +205,30 @@ export class NumberStringFormat {
             : nonExpoNumString,
         )
       : numberString;
+  };
+
+  #normalizeDigitsAndSign(value: string): string {
+    return value
+      .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
+      .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex);
+  }
+
+  #normalizeSeparators(value: string): string {
+    if (this._group !== this._decimal) {
+      return value.replace(new RegExp(`[${this._group}]`, "g"), "").replace(new RegExp(`[${this._decimal}]`, "g"), ".");
+    }
+
+    const lastSeparatorIndex = value.lastIndexOf(this._decimal);
+
+    if (lastSeparatorIndex === -1) {
+      return value;
+    }
+
+    const wholePart = value.slice(0, lastSeparatorIndex).replace(new RegExp(`[${this._group}]`, "g"), "");
+    const fractionalPart = value.slice(lastSeparatorIndex + 1);
+
+    return `${wholePart}.${fractionalPart}`;
+  }
 }
 
 export const numberStringFormatter = new NumberStringFormat();
