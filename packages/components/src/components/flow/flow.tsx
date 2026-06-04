@@ -59,7 +59,7 @@ export class Flow extends LitElement {
   /**
    * Removes selection of the currently active `calcite-flow-item`.
    *
-   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
+   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement | undefined>
    */
   @method()
   async back(): Promise<FlowItem["el"] | FlowItemLikeElement | undefined> {
