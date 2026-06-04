@@ -712,7 +712,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private focusCellNull(): void {
+  private clearCellFocus(): void {
     this.focusCell();
   }
 
@@ -1082,7 +1082,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
-            onFocus={this.focusCellNull}
+            onFocus={this.clearCellFocus}
             onFocusIn={this.emitInternalListItemActive}
             onKeyDown={this.handleItemKeyDown}
             ref={this.containerRef}

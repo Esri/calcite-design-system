@@ -77,13 +77,6 @@ export class DatePickerDay extends LitElement {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
-  /**
-   * When `true`, highlight styling for edge dates is applied.
-   *
-   * @private
-   */
-  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
   /** Date is being hovered and within the set range. */
   @property({ reflect: true }) rangeHover = false;
 

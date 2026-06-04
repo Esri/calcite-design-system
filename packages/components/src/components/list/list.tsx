@@ -920,7 +920,9 @@ export class List extends LitElement {
   }
 
   private async filterAndUpdateData(): Promise<void> {
-    await this.filterEl?.filter(this.filterText);
+    // Keep in-progress user input as source-of-truth during rapid item updates.
+    const filterValue = this.filterEl?.value ?? this.filterText;
+    await this.filterEl?.filter(filterValue);
     this.updateFilteredData();
   }
 

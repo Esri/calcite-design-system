@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.0...@esri/calcite-ui-icons@4.6.0-next.1) (2026-05-29)
+
+### Features
+
+- add parquet feature layer ([#14530](https://github.com/Esri/calcite-design-system/issues/14530))
+
 ## [4.6.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.5.0-next.15...@esri/calcite-ui-icons@4.6.0-next.0) (2026-05-28)
 
 ### Features

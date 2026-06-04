@@ -21,7 +21,7 @@ export const tabbableOptions = {
  * @param el An element.
  * @returns The element's ID.
  */
-export function ensureId(el: Element): string {
+export function ensureId(el: Element | undefined): string {
   if (!el) {
     return "";
   }
@@ -204,7 +204,8 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
     return null;
   }
 
-  const closest = element.closest(selector);
+  const closest = element.closest<T>(selector);
+
   if (closest) {
     return closest;
   }
@@ -353,7 +354,7 @@ export function filterElementsBySelector<T extends Element>(elements: Element[],
  */
 export function setRequestedIcon(
   iconObject: Record<string, IconName>,
-  iconValue: IconName | boolean | "",
+  iconValue: IconName | boolean | "" | undefined,
   matchedValue: string,
 ): IconName | undefined {
   if (typeof iconValue === "string" && iconValue !== "") {

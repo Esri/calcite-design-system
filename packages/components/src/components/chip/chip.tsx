@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
