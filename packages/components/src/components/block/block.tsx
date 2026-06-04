@@ -537,6 +537,7 @@ export class Block extends LitElement {
       hasContentEnd,
       hasContentStart,
       iconStart,
+      status,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;

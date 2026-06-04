@@ -111,7 +111,7 @@ export class BlockGroup extends LitElement {
    *
    * @required
    */
-  @property() label?: string;
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
