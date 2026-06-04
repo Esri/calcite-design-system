@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -28,9 +27,7 @@ export class Flow extends LitElement {
 
   private frameRef = createRef<HTMLDivElement>();
 
-  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateItemsAndProps(),
-  );
+  private itemMutationObserver = createObserver("mutation", () => this.updateItemsAndProps());
 
   private items: FlowItemLikeElement[] = [];
 
@@ -53,7 +50,7 @@ export class Flow extends LitElement {
    *
    * @private
    */
-  @property() customItemSelectors: string;
+  @property() customItemSelectors?: string;
 
   // #endregion
 
@@ -62,10 +59,10 @@ export class Flow extends LitElement {
   /**
    * Removes selection of the currently active `calcite-flow-item`.
    *
-   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
+   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement | undefined>
    */
   @method()
-  async back(): Promise<FlowItem["el"] | FlowItemLikeElement> {
+  async back(): Promise<FlowItem["el"] | FlowItemLikeElement | undefined> {
     const { items, selectedIndex } = this;
 
     const selectedItem = items[selectedIndex];
@@ -171,10 +168,7 @@ export class Flow extends LitElement {
     this.flowDirection = "standby";
   }
 
-  private getFlowDirection(
-    oldSelectedIndex: number,
-    newSelectedIndex: number,
-  ): FlowDirection | null {
+  private getFlowDirection(oldSelectedIndex: number, newSelectedIndex: number): FlowDirection {
     const allowRetreatingDirection = oldSelectedIndex > 0;
     const allowAdvancingDirection = oldSelectedIndex > -1 && newSelectedIndex > 0;
 
@@ -230,7 +224,7 @@ export class Flow extends LitElement {
       .reverse()
       .find((item) => !!item.selected);
 
-    return items.indexOf(selectedItem);
+    return selectedItem ? items.indexOf(selectedItem) : -1;
   }
 
   private ensureSelectedFlowItemExists(): void {
