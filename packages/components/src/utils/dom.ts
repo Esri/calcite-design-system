@@ -205,6 +205,7 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
   }
 
   const closest = element.closest<T>(selector);
+
   if (closest) {
     return closest;
   }
