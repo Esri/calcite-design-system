@@ -1,3 +1,4 @@
+import { h } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page } from "vitest/browser";
