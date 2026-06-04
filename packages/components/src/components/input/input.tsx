@@ -94,7 +94,7 @@ export class Input
 
   formSupport = useForm<this>({
     inputType: "text",
-    getValue: () => (this.type === "file" ? this.childRef.value?.files ?? this.files ?? null : this.value),
+    getValue: () => (this.type === "file" ? (this.childRef.value?.files ?? null) : this.value),
   })(this);
 
   private inlineEditableEl: InlineEditable["el"];
