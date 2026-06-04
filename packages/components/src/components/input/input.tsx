@@ -2,14 +2,13 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
-  h,
-  method,
-  state,
   JsxNode,
+  LitElement,
   LuminaJsx,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
@@ -41,12 +40,12 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import {
   CSS,
+  DIRECTION,
+  ICONS,
   IDS,
   INPUT_TYPE_ICONS,
-  SLOTS,
-  ICONS,
-  DIRECTION,
   NUDGE_DELAY_IN_MS,
+  SLOTS,
 } from "./resources";
 import { NumericInputComponent, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
@@ -94,6 +93,7 @@ export class Input
 
   formSupport = useForm<this>({
     inputType: "text",
+    getValue: () => (this.type === "file" ? this.files || this.value : this.value),
   })(this);
 
   private inlineEditableEl: InlineEditable["el"];
