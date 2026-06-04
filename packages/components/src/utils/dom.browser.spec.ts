@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { ModeName } from "../components/interfaces";
 import { html } from "../../support/formatting";
@@ -46,7 +45,7 @@ function registerTestElement(elementClass: typeof HTMLElement): string {
     "test-element-" +
     expect
       .getState()
-      .currentTestName.split(">")
+      .currentTestName!.split(">")
       .map((part) => part.trim())
       .join(" ")
       .toLowerCase()
@@ -117,7 +116,7 @@ describe(ensureId, () => {
   });
 
   it("returns empty string if invoked without element", () => {
-    expect(ensureId(null)).toBe("");
+    expect(ensureId(undefined)).toBe("");
   });
 });
 
@@ -127,7 +126,7 @@ describe(getModeName, () => {
   }
 
   function getTestComponentMode(): string {
-    return document.body.querySelector<ModeElement>("mode-element").foundModeName;
+    return document.body.querySelector<ModeElement>("mode-element")!.foundModeName;
   }
 
   function defineTestComponents(): void {
@@ -137,7 +136,7 @@ describe(getModeName, () => {
         this.attachShadow({ mode: "open" });
       }
 
-      foundModeName = null;
+      foundModeName!: ModeName;
 
       connectedCallback(): void {
         this.foundModeName = getModeName(this);
@@ -282,7 +281,7 @@ describe("slot utils", () => {
 
   describe(slotChangeGetAssignedElements, () => {
     it("handles slotted elements", async () => {
-      let assigned: Element[];
+      let assigned: Element[] | undefined;
       const testElName = defineTestElement((slotEl) => {
         slotEl.addEventListener("slotchange", (event) => {
           assigned = slotChangeGetAssignedElements(event);
@@ -296,7 +295,7 @@ describe("slot utils", () => {
 
       expect(assigned).toEqual(slottedEls);
 
-      assigned = null;
+      assigned = undefined;
       slottedEls.forEach((el) => el.remove());
       await afterNextFrame();
 
@@ -385,7 +384,7 @@ describe("slot utils", () => {
 
   describe(slotChangeGetAssignedNodes, () => {
     it("returns assigned nodes on slotchange", async () => {
-      let assigned: Node[];
+      let assigned: Node[] | undefined;
       const testElName = defineTestElement((slotEl) => {
         slotEl.addEventListener("slotchange", (event) => {
           assigned = slotChangeGetAssignedNodes(event);
@@ -397,9 +396,9 @@ describe("slot utils", () => {
       appendChildren(testEl, nodes);
       await afterNextFrame();
 
-      expect(assigned).toEqual(nodes);
+      expect(assigned!).toEqual(nodes);
 
-      assigned = null;
+      assigned = undefined;
       nodes.forEach((el) => el.remove());
       await afterNextFrame();
 
@@ -597,8 +596,8 @@ describe(focusElement, () => {
     class Test extends HTMLElement {
       constructor() {
         super();
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `<div tabindex="0"></div>`;
       }
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -650,8 +649,8 @@ describe(focusElement, () => {
       class Test extends HTMLElement {
         constructor() {
           super();
-          this.attachShadow({ mode: "open" });
-          this.shadowRoot.innerHTML = `<div tabindex="0"></div>`;
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML = `<div tabindex="0"></div>`;
         }
         async setFocus(options?: FocusOptions): Promise<void> {
           return focusElement(this, false, "tabbable", this, options);
@@ -803,8 +802,8 @@ describe(focusElementInGroup, () => {
     class Test extends HTMLElement {
       constructor() {
         super();
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.innerHTML = `<div tabindex="0" id="inner"></div>`;
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `<div tabindex="0" id="inner"></div>`;
       }
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -827,11 +826,11 @@ describe(focusElementInGroup, () => {
 
     expect(focusElementInGroup(elements, elements[0], "next", true, false)).toBe(elements[1]);
     expect(document.activeElement).toBe(elements[1]);
-    expect(document.activeElement.shadowRoot.activeElement).toBe(null);
+    expect(document.activeElement!.shadowRoot!.activeElement).toBe(null);
 
     expect(focusElementInGroup(elements, elements[0], "next", true, false, true)).toBe(elements[1]);
     expect(document.activeElement).toBe(elements[1]);
-    expect(document.activeElement?.shadowRoot.activeElement).toBe(elements[1].shadowRoot.querySelector("#inner"));
+    expect(document.activeElement!.shadowRoot!.activeElement).toBe(elements[1].shadowRoot!.querySelector("#inner"));
   });
 });
 
@@ -854,16 +853,16 @@ describe(getShadowRootNode, () => {
 
   it("should return shadowRoot for shadowed element", () => {
     document.body.innerHTML = html` <shadow-element></shadow-element> `;
-    const shadowElement = document.body.querySelector("shadow-element");
-    const shadowRoot = shadowElement.shadowRoot;
-    const button = shadowElement.shadowRoot.querySelector("button");
+    const shadowElement = document.body.querySelector("shadow-element")!;
+    const shadowRoot = shadowElement.shadowRoot!;
+    const button = shadowRoot.querySelector("button")!;
     expect(button).toBeDefined();
     expect(getShadowRootNode(button)).toEqual(shadowRoot);
   });
 
   it("should return null for non shadowed element", () => {
     document.body.innerHTML = html` <div></div> `;
-    expect(getShadowRootNode(document.body.querySelector("div"))).toBe(null);
+    expect(getShadowRootNode(document.body.querySelector("div")!)).toBe(null);
   });
 });
 
@@ -939,7 +938,7 @@ describe("transition/animation helpers", () => {
             } as unknown as Animation | CSSTransition,
           ],
         ];
-        element.getAnimations = () => animationsPerCall.shift();
+        element.getAnimations = () => animationsPerCall.shift()!;
 
         const promise = helper(element, testTransitionOrAnimationName);
         expect(await promiseState(promise)).toHaveProperty("status", "pending");
@@ -962,7 +961,7 @@ describe("transition/animation helpers", () => {
             } as unknown as Animation | CSSTransition,
           ],
         ];
-        element.getAnimations = () => animationsPerCall.shift();
+        element.getAnimations = () => animationsPerCall.shift()!;
 
         const promise = helper(element, testTransitionOrAnimationName);
 
@@ -981,7 +980,7 @@ describe("transition/animation helpers", () => {
 
       it(`should return a promise that resolves after 0s ${type} or has not started when expected (fallback cases)`, async () => {
         const animationsPerCall = [[], []];
-        element.getAnimations = () => animationsPerCall.shift();
+        element.getAnimations = () => animationsPerCall.shift()!;
 
         const promise = helper(element, testTransitionOrAnimationName);
         expect(await promiseState(promise)).toHaveProperty("status", "pending");
