@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -156,7 +155,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
@@ -167,7 +166,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -178,7 +177,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -189,7 +188,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.meridiem}`,
       ),
     ).toBe(true);
@@ -206,7 +205,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
@@ -217,7 +216,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -228,7 +227,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -239,7 +238,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.meridiem}`,
       ),
     ).toBe(true);
@@ -250,7 +249,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.second}`,
       ),
     ).toBe(true);
@@ -261,7 +260,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.minute}`,
       ),
     ).toBe(true);
@@ -272,7 +271,7 @@ describe("focusing", () => {
     expect(
       await page.$eval(
         "calcite-time-picker",
-        (element: HTMLElement, selector: string) => element.shadowRoot.activeElement.matches(selector),
+        (element: HTMLElement, selector: string) => element.shadowRoot!.activeElement!.matches(selector),
         `.${CSS.hour}`,
       ),
     ).toBe(true);
