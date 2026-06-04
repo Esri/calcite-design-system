@@ -429,10 +429,10 @@ describe("closing tabs", () => {
       tabs.addEventListener("calciteTabsClose", (event) => {
         const closedTitle = event.target as TabTitle["el"];
         const closedId = closedTitle.id;
-        const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`);
+        const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`)!;
 
         closedTitle.remove();
-        closedTab!.remove();
+        closedTab.remove();
       });
     });
     const tabCloseSpy = await tabs.spyOnEvent("calciteTabsClose");

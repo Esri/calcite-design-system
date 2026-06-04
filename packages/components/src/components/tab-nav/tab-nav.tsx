@@ -49,7 +49,7 @@ export class TabNav extends LitElement {
 
   private lastScrollWheelAxis: "x" | "y" = "x";
 
-  private parentTabsEl: Tabs["el"] | null = null;
+  private parentTabsEl?: Tabs["el"];
 
   private resizeObserver = createObserver("resize", () => {
     this.updateScrollingState();
@@ -156,7 +156,8 @@ export class TabNav extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.parentTabsEl = this.el.closest("calcite-tabs");
+    this.parentTabsEl = this.el.closest("calcite-tabs") ?? undefined;
+
     this.resizeObserver?.observe(this.el);
   }
 
