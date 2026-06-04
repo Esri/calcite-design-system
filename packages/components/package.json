@@ -94,7 +94,7 @@
     "@esri/eslint-plugin-calcite-components": "2.0.4-next.18",
     "@esri/stylelint-plugin-calcite-components": "0.2.0-next.0",
     "playwright": "1.59.1",
-    "sass-embedded": "1.99.0",
+    "sass-embedded": "1.100.0",
     "vitest": "4.1.5"
   },
   "css.customData": [
