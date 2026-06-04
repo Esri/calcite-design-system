@@ -706,14 +706,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   private setFocusCell(
-    focusEl: HTMLDivElement | null,
+    focusEl: HTMLDivElement | undefined,
     focusedEl: HTMLElement,
     saveFocusIndex: boolean,
   ): void {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
-      focusMap.set(parentListEl, null);
+      focusMap.set(parentListEl, undefined);
     }
 
     const gridCells = this.getGridCells();
