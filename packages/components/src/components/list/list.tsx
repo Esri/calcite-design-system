@@ -44,7 +44,7 @@ import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
-import { SortHandle } from "../sort-handle/sort-handle";
+import type { SortHandle } from "../sort-handle/sort-handle";
 
 declare global {
   interface DeclareElements {
