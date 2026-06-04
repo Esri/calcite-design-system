@@ -523,10 +523,7 @@ export class Table extends LitElement {
         >
           <table
             ariaColCount={this.colCount}
-            ariaMultiSelectable={
-              /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
-              this.selectionMode === "multiple" ? "true" : null
-            }
+            ariaMultiSelectable={this.selectionMode === "multiple" ? "true" : "false"}
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
             ref={(el) => {
