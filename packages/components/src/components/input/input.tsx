@@ -1092,7 +1092,7 @@ export class Input
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
           ref={this.childRef}
-          required={this.required ? true : null}
+          required={this.required}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
