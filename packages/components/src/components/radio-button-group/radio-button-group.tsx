@@ -80,7 +80,7 @@ export class RadioButtonGroup extends LitElement {
    *
    * @required
    */
-  @property({ reflect: true }) name?: string;
+  @property({ reflect: true }) name!: string;
 
   /**
    * When `true` and the component resides in a form,
