@@ -185,7 +185,7 @@ input {
   input {
     border-start-start-radius: 0;
     border-end-start-radius: 0;
-    --calcite-internal-input-text-input-border-inline-start-width: 0;
+    --calcite-internal-input-text-input-border-inline-start-width: var(--calcite-border-width-none);
   }
 }
 
@@ -194,7 +194,7 @@ input {
   input {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
-    --calcite-internal-input-text-input-border-inline-end-width: 0;
+    --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
   }
 }
 
@@ -289,7 +289,6 @@ calcite-icon {
     var(--calcite-internal-input-text-icon-border-inline-start-width, var(--calcite-border-width-sm));
   border-style: solid;
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  border-inline-end-width: var(--calcite-border-width-none);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
   align-items: center;
