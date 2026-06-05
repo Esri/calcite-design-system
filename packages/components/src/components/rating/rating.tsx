@@ -313,7 +313,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private handleInputChange(event: Event) {
     if (this.isKeyboardInteraction === true) {
-      const inputVal = Number(event.target!["value"]);
+      const inputVal = Number((event.target as HTMLInputElement).value);
       this.hoverValue = inputVal;
       this.value = inputVal;
     }
@@ -344,7 +344,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private updateFocus(): void {
     this.hoverValue = this.value;
-    this.labelElements[this.value - 1].focus();
+    this.labelElements[this.value - 1]?.focus();
   }
 
   private getTabIndex(value: number): number {
