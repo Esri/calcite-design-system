@@ -92,7 +92,7 @@ export class Rating extends LitElement implements LabelableComponent {
   //#region Public Properties
 
   /** Specifies a cumulative average from previous ratings to display. */
-  @property({ reflect: true }) average!: number;
+  @property({ reflect: true }) average?: number;
 
   /** Specifies the number of previous ratings to display. */
   @property({ reflect: true }) count?: number;
@@ -212,12 +212,15 @@ export class Rating extends LitElement implements LabelableComponent {
   override willUpdate(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const average = !!(!this.hoverValue! && this.average && !this.value && value <= this.average);
+      const hasAverage = this.average != null;
+      const averageValue = this.average ?? 0;
+      const average = !this.hoverValue! && hasAverage && !this.value && value <= averageValue;
       const checked = value === this.value;
-      const fraction = this.average && this.average + 1 - value;
+      const fraction = hasAverage ? averageValue + 1 - value : 0;
       const hovered = value <= this.hoverValue!;
       const id = `${this.guid}-${value}`;
-      const partial = !this.hoverValue! && !this.value && !hovered && fraction > 0 && fraction < 1;
+      const partial =
+        !this.hoverValue! && !this.value && hasAverage && !hovered && fraction > 0 && fraction < 1;
       const selected = this.value >= value;
       const tabIndex = this.getTabIndex(value);
       return {
