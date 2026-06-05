@@ -257,7 +257,7 @@ export interface UseFormOptions {
   /**
    * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
    *
-   * Note: this is mostly intended for components that need to map their value differently
+   * Note: this is mostly intended for components that need to map their value differently (e.g., file type input passing its `files` property instead of `value`)
    */
   getValue?: () => any;
 
@@ -437,9 +437,11 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       const value = getComponentValue();
 
-      if (Array.isArray(value)) {
+      if (Array.isArray(value) || value instanceof FileList) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name!, value));
+        for (const item of value) {
+          formData.append(component.name!, item);
+        }
         return formData;
       }
 

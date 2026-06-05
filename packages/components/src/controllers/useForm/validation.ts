@@ -98,9 +98,16 @@ export function validate({
 }
 
 function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): boolean {
-  inputDelegate.value =
+  if (inputDelegate.type === "file") {
     // file will throw if non-empty string is provided
-    inputDelegate.type === "file" || valueToValidate == null ? "" : String(valueToValidate);
+    inputDelegate.value = "";
+
+    const isMissingValue = !valueToValidate || (valueToValidate instanceof FileList && valueToValidate.length === 0);
+    // we override the delegate's validation as its value and files prop cannot be directly set for validation
+    return !inputDelegate.required || !isMissingValue;
+  }
+
+  inputDelegate.value = valueToValidate == null ? "" : String(valueToValidate);
 
   return inputDelegate.validity.valid;
 }
