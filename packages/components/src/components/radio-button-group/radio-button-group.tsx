@@ -198,9 +198,10 @@ export class RadioButtonGroup extends LitElement {
   private passPropsToRadioButtons(): void {
     // TODO: refactor this to look just for radio-button elements that are a member of the parent <form>
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
-    this.selectedItem = Array.from(this.radioButtons)
-      .reverse()
-      .find((radioButton) => radioButton.checked);
+    this.selectedItem =
+      Array.from(this.radioButtons)
+        .reverse()
+        .find((radioButton) => radioButton.checked) ?? null;
     if (this.radioButtons.length > 0) {
       this.radioButtons.forEach((radioButton) => {
         if (this.hasUpdated) {
