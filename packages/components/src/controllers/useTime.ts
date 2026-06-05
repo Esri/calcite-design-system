@@ -520,10 +520,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   }
 
   setValue(value: string | null, userChangedValue: boolean = false): void {
-    if (value === null) {
-      return;
-    }
-
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
     const hour12 = this.hourFormat === "12";
