@@ -186,8 +186,8 @@ export class RadioButtonGroup extends LitElement {
   // #region Private Methods
 
   private handleInvalidFormEvent(event: CustomEvent): void {
-    const message = (this.validationMessage ||
-      (event.target as RadioButton["el"]).validationMessage)!;
+    const message =
+      this.validationMessage || (event.target as RadioButton["el"]).validationMessage || "";
     displayValidationMessage(this, {
       message,
       icon: true,
