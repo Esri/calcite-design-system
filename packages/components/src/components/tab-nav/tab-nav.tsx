@@ -481,7 +481,7 @@ export class TabNav extends LitElement {
         }
       });
 
-      let scrollTo: number | undefined = undefined;
+      let scrollTo: number | undefined;
       if (closestToEdge) {
         const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =

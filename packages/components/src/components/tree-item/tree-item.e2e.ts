@@ -222,12 +222,12 @@ describe("when a parent tree-item is expanded and a new item is appended into it
         </calcite-tree>
       </calcite-panel>`);
     await page.evaluate(() => {
-      const tree = document.querySelector("#target-tree");
+      const tree = document.querySelector("#target-tree")!;
       document.querySelector("#add-item-btn")!.addEventListener("click", () => {
         const newItem = document.createElement("calcite-tree-item");
         newItem.id = "newbie";
         newItem.appendChild(document.createTextNode("Child 2"));
-        tree!.appendChild(newItem);
+        tree.appendChild(newItem);
       });
     });
     const btn = await page.find("calcite-button");

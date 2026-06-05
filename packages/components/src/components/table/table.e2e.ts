@@ -319,10 +319,10 @@ describe("selection modes", () => {
     await selectedItemAsserter([row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
+      const row = document.getElementById("row-1")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
 
-      cell!.click();
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -337,9 +337,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-2");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-2")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -354,9 +354,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row2.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-3");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-3")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -371,9 +371,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-3");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-3")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -435,9 +435,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-1")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -452,9 +452,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id, row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-2");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-2")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -469,9 +469,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-3");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-3")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -486,9 +486,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-1");
-      const cell = row!.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child");
-      cell!.click();
+      const row = document.getElementById("row-1")!;
+      const cell = row.shadowRoot!.querySelector<TableCell["el"]>("calcite-table-cell:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -761,9 +761,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const table = document.querySelector("calcite-table");
-      const button = table!.shadowRoot!.querySelector("calcite-button");
-      button?.click();
+      const table = document.querySelector("calcite-table")!;
+      const button = table.shadowRoot!.querySelector("calcite-button")!;
+      button.click();
     });
 
     await page.waitForChanges();
@@ -813,9 +813,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-head");
-      const cell = row!.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
-      cell!.click();
+      const row = document.getElementById("row-head")!;
+      const cell = row.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -865,9 +865,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-head");
-      const cell = row!.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
-      cell!.click();
+      const row = document.getElementById("row-head")!;
+      const cell = row.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -920,9 +920,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row2.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-head");
-      const cell = row!.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
-      cell!.click();
+      const row = document.getElementById("row-head")!;
+      const cell = row.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -975,9 +975,9 @@ describe("selection modes", () => {
     await selectedItemAsserter([row1.id, row2.id, row3.id]);
 
     await page.$eval("calcite-table", () => {
-      const row = document.getElementById("row-head");
-      const cell = row!.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child");
-      cell!.click();
+      const row = document.getElementById("row-head")!;
+      const cell = row.shadowRoot!.querySelector<TableHeader["el"]>("calcite-table-header:first-child")!;
+      cell.click();
     });
 
     await page.waitForChanges();
@@ -1035,8 +1035,8 @@ describe("selection modes", () => {
     await page.$eval(
       "calcite-table",
       (table, PAGINATION_CSS) => {
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
       },
@@ -1165,8 +1165,8 @@ describe("pagination event", () => {
     await page.$eval(
       "calcite-table",
       (table, PAGINATION_CSS) => {
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
       },
@@ -1179,8 +1179,8 @@ describe("pagination event", () => {
     await page.$eval(
       "calcite-table",
       (table, PAGINATION_CSS) => {
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
       },
@@ -1193,8 +1193,8 @@ describe("pagination event", () => {
     await page.$eval(
       "calcite-table",
       (table, PAGINATION_CSS) => {
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
       },
@@ -1432,8 +1432,8 @@ describe("keyboard navigation", () => {
       (table, PAGINATION_CSS) => {
         const headerCell = document.getElementById("head-1a");
 
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
         button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },
@@ -1485,8 +1485,8 @@ describe("keyboard navigation", () => {
       (table, PAGINATION_CSS) => {
         const headerCell = document.getElementById("head-1a");
 
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
 
         button?.click();
         (headerCell as TableHeader["el"]).setFocus();
@@ -1880,8 +1880,8 @@ describe("keyboard navigation", () => {
       (table, PAGINATION_CSS) => {
         const headerCell = document.getElementById("head-1a");
 
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
         button?.click();
         (headerCell as TableHeader["el"]).setFocus();
@@ -2500,8 +2500,8 @@ describe("keyboard navigation", () => {
       (table, PAGINATION_CSS) => {
         const headerCell = document.getElementById("head-1a");
 
-        const pagination = table.shadowRoot!.querySelector("calcite-pagination");
-        const button = pagination!.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
+        const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
+        const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
         button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },

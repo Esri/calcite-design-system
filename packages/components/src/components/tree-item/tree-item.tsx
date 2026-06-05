@@ -46,7 +46,7 @@ export class TreeItem extends LitElement {
 
   private isSelectionMultiLike: boolean = false;
 
-  private parentTreeItem?: TreeItem["el"] | null;
+  private parentTreeItem?: TreeItem["el"];
 
   private userChangedValue = false;
 
@@ -142,7 +142,7 @@ export class TreeItem extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item") ?? undefined;
   }
 
   load(): void {

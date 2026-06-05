@@ -181,8 +181,7 @@ export class Tabs extends LitElement {
         tab.scale = scale;
       }
     });
-
-    const tabTitleEls: NodeListOf<TabTitle["el"]> = this.el.querySelectorAll(
+    const tabTitleEls = this.el.querySelectorAll<TabTitle["el"]>(
       "calcite-tab-nav > calcite-tab-title",
     );
 

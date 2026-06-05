@@ -305,13 +305,13 @@ export class TableRow extends LitElement {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean,
+    lastCell = false,
   ): void {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
-      lastCell: lastCell ?? false,
+      lastCell: lastCell,
     });
   }
 

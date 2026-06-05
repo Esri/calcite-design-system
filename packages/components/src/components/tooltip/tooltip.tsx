@@ -85,7 +85,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
-  @property() label!: string;
+  @property() label?: string;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -122,7 +122,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
    */
-  @property() referenceElement!: ReferenceElement | string | null;
+  @property() referenceElement!: ReferenceElement | string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -280,7 +280,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label;
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

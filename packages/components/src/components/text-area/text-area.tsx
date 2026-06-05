@@ -373,7 +373,7 @@ export class TextArea
   }
 
   private handleInput(event: InputEvent): void {
-    this.value = event.target!["value"];
+    this.value = (event.target as HTMLTextAreaElement).value;
     this.calciteTextAreaInput.emit();
   }
 
