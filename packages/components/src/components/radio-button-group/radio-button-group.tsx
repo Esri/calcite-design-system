@@ -96,7 +96,7 @@ export class RadioButtonGroup extends LitElement {
    *
    * @readonly
    */
-  @property() selectedItem?: RadioButton["el"];
+  @property() selectedItem: RadioButton["el"] | null = null;
 
   /** Specifies the status of the validation message. */
   @property({ reflect: true }) status: Status = "idle";
