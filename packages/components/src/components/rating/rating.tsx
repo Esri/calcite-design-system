@@ -212,8 +212,8 @@ export class Rating extends LitElement implements LabelableComponent {
   override willUpdate(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const hasHoverValue = this.hoverValue != null;
       const hoverValue = this.hoverValue ?? 0;
+      const hasHoverValue = hoverValue > 0;
       const hasAverage = this.average != null;
       const averageValue = this.average ?? 0;
       const average = !hasHoverValue && hasAverage && !this.value && value <= averageValue;
