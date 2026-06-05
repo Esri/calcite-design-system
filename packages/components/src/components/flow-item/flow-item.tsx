@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { HeadingLevel } from "../functional/Heading";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
@@ -33,6 +32,8 @@ declare global {
  * @slot header-actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
  * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
@@ -50,6 +51,8 @@ export class FlowItem extends LitElement {
   private backButtonRef = createRef<Action["el"]>();
 
   private containerRef = createRef<Panel["el"]>();
+
+  private direction = useDirection();
 
   /**
    * Made into a prop for testing purposes only
@@ -116,7 +119,7 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** Overrides individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
   /**
    * Specifies the type of positioning to use for overlaid content, where:
@@ -145,7 +148,7 @@ export class FlowItem extends LitElement {
    *
    * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
    *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -175,7 +178,7 @@ export class FlowItem extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns promise.
    */
   @method()
@@ -271,9 +274,7 @@ export class FlowItem extends LitElement {
   //#region Rendering
 
   private renderBackButton(): JsxNode {
-    const { el } = this;
-
-    const rtl = getElementDir(el) === "rtl";
+    const rtl = this.direction === "rtl";
     const { showBackButton, backButtonClick, messages } = this;
     const label = messages.back;
     const icon = rtl ? ICONS.backRight : ICONS.backLeft;
@@ -307,7 +308,7 @@ export class FlowItem extends LitElement {
       headingLevel,
       loading,
       menuOpen,
-      messages,
+      messageOverrides,
       overlayPositioning,
       beforeClose,
       icon,
@@ -319,8 +320,8 @@ export class FlowItem extends LitElement {
           beforeClose={beforeClose}
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
           collapsed={collapsed}
+          collapseDirection={collapseDirection}
           collapsible={collapsible}
           description={description}
           disabled={disabled}
@@ -330,7 +331,7 @@ export class FlowItem extends LitElement {
           iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
-          messageOverrides={messages}
+          messageOverrides={messageOverrides}
           oncalcitePanelClose={this.handleInternalPanelClose}
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}
@@ -344,6 +345,8 @@ export class FlowItem extends LitElement {
           <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
           <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
           <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+          <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
+          <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
           <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
           <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
           <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />

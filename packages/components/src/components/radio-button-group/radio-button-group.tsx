@@ -22,6 +22,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { CSS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./radio-button-group.scss";
+import { clearValidationMessage, displayValidationMessage } from "../../controllers/useForm";
 
 declare global {
   interface DeclareElements {
@@ -118,7 +119,7 @@ export class RadioButtonGroup extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -145,6 +146,12 @@ export class RadioButtonGroup extends LitElement {
   constructor() {
     super();
     this.listen("calciteRadioButtonChange", this.radioButtonChangeHandler);
+    this.listen("calciteInvalid", this.handleInvalidFormEvent);
+    this.listen("luminaFormResetCallback", () => {
+      if (this.status === "invalid") {
+        clearValidationMessage(this);
+      }
+    });
   }
 
   override connectedCallback(): void {
@@ -160,7 +167,8 @@ export class RadioButtonGroup extends LitElement {
     if (
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("status") && this.hasUpdated)
     ) {
       this.passPropsToRadioButtons();
     }
@@ -178,7 +186,17 @@ export class RadioButtonGroup extends LitElement {
 
   // #region Private Methods
 
+  private handleInvalidFormEvent(event: CustomEvent): void {
+    const message = this.validationMessage || (event.target as RadioButton["el"]).validationMessage;
+    displayValidationMessage(this, {
+      message,
+      icon: true,
+      status: "invalid",
+    });
+  }
+
   private passPropsToRadioButtons(): void {
+    // TODO: refactor this to look just for radio-button elements that are a member of the parent <form>
     this.radioButtons = Array.from(this.el.querySelectorAll("calcite-radio-button"));
     this.selectedItem =
       Array.from(this.radioButtons)
@@ -192,6 +210,7 @@ export class RadioButtonGroup extends LitElement {
         radioButton.name = this.name;
         radioButton.required = this.required;
         radioButton.scale = this.scale;
+        radioButton.status = this.status;
       });
     }
   }
@@ -202,6 +221,9 @@ export class RadioButtonGroup extends LitElement {
 
   private radioButtonChangeHandler(event: CustomEvent): void {
     this.selectedItem = event.target as RadioButton["el"];
+    if (this.required && this.selectedItem && this.status === "invalid") {
+      clearValidationMessage(this);
+    }
     this.calciteRadioButtonGroupChange.emit();
   }
 

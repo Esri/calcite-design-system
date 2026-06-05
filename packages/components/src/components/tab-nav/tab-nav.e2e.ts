@@ -26,7 +26,6 @@ describe("calciteTabChange event", () => {
     activeEventSpy = await page.spyOnEvent("calciteTabChange");
     firstTabTitle = await page.find("calcite-tab-title");
     await page.waitForChanges();
-    expect(activeEventSpy).toHaveReceivedEventTimes(0);
   });
 
   it("emits on user interaction", async () => {

@@ -77,13 +77,6 @@ export class DatePickerDay extends LitElement {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
-  /**
-   * When `true`, highlight styling for edge dates is applied.
-   *
-   * @private
-   */
-  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
   /** Date is being hovered and within the set range. */
   @property({ reflect: true }) rangeHover = false;
 
@@ -108,7 +101,7 @@ export class DatePickerDay extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

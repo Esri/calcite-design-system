@@ -87,6 +87,23 @@ export const withMinMax = (): string =>
       <calcite-input-date-picker min="2016-08-09" max="2023-12-18" open></calcite-input-date-picker>
     </div>`;
 
+export const withMinAsDateAndMaxAsDate = (): string =>
+  html`<style>
+      .container {
+        width: 400px;
+        height: 400px;
+      }
+    </style>
+    <div class="container">
+      <calcite-input-date-picker open></calcite-input-date-picker>
+    </div>
+    <script>
+      const datePicker = document.querySelector("calcite-input-date-picker");
+      const offsetTime = "T07:00:00.000Z";
+      datePicker.minAsDate = new Date("2020-01-01T07:00:00.000Z");
+      datePicker.maxAsDate = new Date("2020-12-31T07:00:00.000Z");
+    </script>`;
+
 export const rangeWithMinMax = (): string => html`
   <style>
     .container {
@@ -110,9 +127,9 @@ export const rangeWithMinMax = (): string => html`
   </div>
 `;
 
-export const disabled_TestOnly = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
+export const disabled = (): string => html`<calcite-input-date-picker disabled></calcite-input-date-picker>`;
 
-export const flipPlacements_TestOnly = (): string => html`
+export const flipPlacements = (): string => html`
   <style>
     .my-input-date-picker-div {
       margin-top: 50px;
@@ -132,11 +149,11 @@ export const flipPlacements_TestOnly = (): string => html`
   </script>
 `;
 
-export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-date-picker read-only value="2020-12-12"></calcite-input-date-picker>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -270,7 +287,7 @@ export const rangeOneCalendarsAllScales = (): string => html`
   </div>
 `;
 
-export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
+export const arabicLocaleDarkModeRTL = (): string => html`
   <style>
     .container {
       display: flex;
@@ -337,9 +354,9 @@ export const arabicLocaleDarkModeRTL_TestOnly = (): string => html`
     </div>
   </div>
 `;
-arabicLocaleDarkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+arabicLocaleDarkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(
     html`<calcite-input-date-picker scale="{scale}" value="2020-12-12"></calcite-input-date-picker>`,
   );

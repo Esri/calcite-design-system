@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it, beforeEach, MockInstance } from "vitest";
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { supportedNlsLocales } from "../components/date-picker/utils";

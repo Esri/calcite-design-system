@@ -1,5 +1,5 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
+import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -12,7 +12,11 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
+import type { NavigationLogo as HTMLCalciteNavigationLogoElement } from "../navigation-logo/navigation-logo";
+import type { NavigationUser as HTMLCalciteNavigationUserElement } from "../navigation-user/navigation-user";
 import { useSetFocus } from "../../controllers/useSetFocus";
+import { createObserver } from "../../utils/observers";
+import { Scale } from "../interfaces";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./navigation.scss";
 
@@ -46,6 +50,12 @@ export class Navigation extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
+  private mutationObserver = createObserver("mutation", () => {
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  });
+
   // #endregion
 
   // #region State Properties
@@ -78,6 +88,9 @@ export class Navigation extends LitElement {
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   // #endregion
 
   // #region Public Methods
@@ -87,7 +100,7 @@ export class Navigation extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -100,6 +113,35 @@ export class Navigation extends LitElement {
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
+
+  // #endregion
+
+  // #region Lifecycle
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("scale") ||
+      changes.has("logoSlotHasElements") ||
+      changes.has("userSlotHasElements") ||
+      changes.has("secondarySlotHasElements") ||
+      changes.has("tertiarySlotHasElements")
+    ) {
+      this.updateNavigationLogo();
+      this.updateNavigationUser();
+      this.updateNestedNavigation();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
 
   // #endregion
 
@@ -164,6 +206,40 @@ export class Navigation extends LitElement {
 
   private isPrimaryLevel(): boolean {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
+  }
+
+  private getOwnedNavigationElements(slotName: string, selector: string): Element[] {
+    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
+
+    if (!slot) {
+      return [];
+    }
+
+    return slot.assignedElements({ flatten: true }).filter((item) => item.matches(selector));
+  }
+
+  private updateNavigationLogo(): void {
+    this.getOwnedNavigationElements(SLOTS.logo, "calcite-navigation-logo").forEach((item) => {
+      (item as HTMLCalciteNavigationLogoElement).scale = this.scale;
+    });
+  }
+
+  private updateNavigationUser(): void {
+    this.getOwnedNavigationElements(SLOTS.user, "calcite-navigation-user").forEach((item) => {
+      (item as HTMLCalciteNavigationUserElement).scale = this.scale;
+    });
+  }
+
+  private updateNestedNavigation(): void {
+    const nestedNavigation = [
+      ...this.getOwnedNavigationElements(SLOTS.navSecondary, "calcite-navigation"),
+      ...this.getOwnedNavigationElements(SLOTS.navTertiary, "calcite-navigation"),
+    ];
+    nestedNavigation.forEach((item) => {
+      if (item !== this.el) {
+        (item as Navigation).scale = this.scale;
+      }
+    });
   }
 
   // #endregion

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
@@ -120,7 +119,7 @@ describe("beforeClose", () => {
     const mockCallBack = vi.fn().mockReturnValue(() => Promise.reject());
     await page.exposeFunction("beforeClose", mockCallBack);
 
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+    await page.setContent(html`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
     await page.waitForChanges();
@@ -137,7 +136,7 @@ describe("beforeClose", () => {
     const page = await newE2EPage();
 
     await page.exposeFunction("beforeClose", () => Promise.reject());
-    await page.setContent(`<calcite-panel closable></calcite-panel>`);
+    await page.setContent(html`<calcite-panel closable></calcite-panel>`);
 
     await page.$eval("calcite-panel", (el: Panel["el"]) => (el.beforeClose = (window as TestWindow).beforeClose));
 
@@ -315,7 +314,9 @@ it("honors calcitePanelScroll event", async () => {
   const scrollSpy = await page.spyOnEvent("calcitePanelScroll");
 
   await page.evaluate((contentContainerSelector) => {
-    const contentContainer = document.querySelector("calcite-panel").shadowRoot.querySelector(contentContainerSelector);
+    const contentContainer = document
+      .querySelector("calcite-panel")!
+      .shadowRoot!.querySelector(contentContainerSelector)!;
 
     contentContainer.dispatchEvent(new CustomEvent("scroll"));
   }, `.${CSS.contentWrapper}`);
@@ -369,10 +370,10 @@ it("menuOpen should show/hide when toggled", async () => {
   const page = await newE2EPage();
 
   await page.setContent(
-    `<calcite-panel>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
-        <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
-      </calcite-panel>`,
+    html`<calcite-panel>
+      <calcite-action slot="${SLOTS.headerMenuActions}" text="hello"></calcite-action>
+      <calcite-action slot="${SLOTS.headerMenuActions}" text="hello2"></calcite-action>
+    </calcite-panel>`,
   );
 
   await page.waitForChanges();
@@ -414,9 +415,9 @@ it("header-content should override heading and description properties", async ()
   const page = await newE2EPage();
 
   await page.setContent(
-    `<calcite-panel heading="test heading" description="test description">
-        <div slot=${SLOTS.headerContent}>custom header content</div>
-      </calcite-panel>`,
+    html`<calcite-panel heading="test heading" description="test description">
+      <div slot=${SLOTS.headerContent}>custom header content</div>
+    </calcite-panel>`,
   );
 
   const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
@@ -718,6 +719,14 @@ describe("theme", () => {
       },
       "--calcite-panel-content-space": {
         shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "padding",
+      },
+      "--calcite-panel-content-top-space": {
+        shadowSelector: `.${CSS.contentTop}`,
+        targetProp: "padding",
+      },
+      "--calcite-panel-content-bottom-space": {
+        shadowSelector: `.${CSS.contentBottom}`,
         targetProp: "padding",
       },
     },

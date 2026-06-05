@@ -59,7 +59,7 @@ export const simple = (args: SwatchGroupStoryArgs): string => html`
   </calcite-swatch-group>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-swatch-group>
       <calcite-swatch value="calcite swatch"></calcite-swatch>
@@ -106,4 +106,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };

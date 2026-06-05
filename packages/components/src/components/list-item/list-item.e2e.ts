@@ -1,25 +1,35 @@
-import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+mockConsole();
+
+async function assertItemTextSelection(page: E2EPage, expectedValue: "none" | "auto"): Promise<void> {
+  const contentContainer = await page.find(`calcite-list-item >>> .${CSS.contentContainer}`);
+  expect(await contentContainer.getComputedStyle()).toHaveProperty("user-select", expectedValue);
+}
 
 it("displays hover class", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-list-item interaction-mode="interactive"></calcite-list-item>`);
   await page.waitForChanges();
 
+  await assertItemTextSelection(page, "none");
   expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
 });
 
-it("displays hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
+it("does not display hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
   const page = await newE2EPage();
   await page.setContent(
     `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="border"></calcite-list-item>`,
   );
   await page.waitForChanges();
 
-  expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
+  await assertItemTextSelection(page, "auto");
+  expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
 });
 
 it("does not display hover class when selection-mode === none and interaction-mode === static", async () => {
@@ -27,6 +37,7 @@ it("does not display hover class when selection-mode === none and interaction-mo
   await page.setContent(`<calcite-list-item selection-mode="none" interaction-mode="static"></calcite-list-item>`);
   await page.waitForChanges();
 
+  await assertItemTextSelection(page, "auto");
   expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
 });
 
@@ -37,6 +48,7 @@ it("does not display hover class when selection-mode !== none and interaction-mo
   );
   await page.waitForChanges();
 
+  await assertItemTextSelection(page, "auto");
   expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).toBeNull();
 });
 

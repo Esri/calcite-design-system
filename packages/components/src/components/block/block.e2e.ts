@@ -3,16 +3,11 @@ import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { openClose } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("openClose", () => {
-  openClose("calcite-block");
-});
 
 describe("accessible", () => {
   accessible(html`
@@ -312,21 +307,19 @@ describe("theme", () => {
           shadowSelector: `.${CSS.description}`,
           targetProp: "color",
         },
-        "--calcite-block-icon-color": [
-          {
-            shadowSelector: `.${CSS.iconStart}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.iconEnd}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-          },
-        ],
-        "--calcite-block-icon-color-hover": {
+        "--calcite-block-icon-start-color": {
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+        "--calcite-block-icon-end-color": {
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+        "--calcite-block-collapsible-icon-color": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+        },
+        "--calcite-block-collapsible-icon-color-hover": {
           shadowSelector: `.${CSS.toggleIcon}`,
           targetProp: "color",
           state: "hover",
@@ -364,6 +357,25 @@ describe("theme", () => {
           shadowSelector: `.${CSS.heading}`,
           targetProp: "color",
           state: { press: { attribute: "class", value: CSS.heading } },
+        },
+        "--calcite-block-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.toggleIcon}`,
+            targetProp: "color",
+          },
+        ],
+        "--calcite-block-icon-color-hover": {
+          shadowSelector: `.${CSS.toggleIcon}`,
+          targetProp: "color",
+          state: "hover",
         },
       },
     );

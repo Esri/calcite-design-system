@@ -1,6 +1,17 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
-import { defaults, focusable, hidden, t9n, disabled } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  t9n,
+  disabled,
+  renders,
+} from "../../tests/commonTests/browser";
+
+describe("renders", () => {
+  renders(() => mount("calcite-button"), { display: "inline-block" });
+});
 
 describe("defaults", () => {
   defaults(

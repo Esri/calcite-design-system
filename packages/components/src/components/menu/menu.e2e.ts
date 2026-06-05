@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -64,7 +63,7 @@ describe("mouse support", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("arcgis-online");
 
     const menuElement = await page.$("calcite-menu");
-    const { x, y, width, height } = await menuElement.boundingBox();
+    const { x, y, width, height } = await menuElement!.boundingBox();
 
     await page.mouse.click(x + width + 150, y + height + 150);
     await page.waitForChanges();

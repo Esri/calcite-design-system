@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, formAssociated, labelable, openClose } from "../../tests/commonTests";
+import { accessible, labelable } from "../../tests/commonTests";
 import { TagAndPage } from "../../tests/commonTests/interfaces";
 import { DEBOUNCE } from "../../utils/resources";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -47,40 +47,12 @@ describe("accessible", () => {
   accessible(simpleTestProvider);
 });
 
-describe("formAssociated", () => {
-  formAssociated(
-    {
-      tagOrHTML: html`<calcite-input-time-zone></calcite-input-time-zone>`,
-      beforeContent: async (page) => {
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-      },
-    },
-    {
-      testValue: "-360",
-      clearable: false,
-    },
-  );
-});
-
 describe("labelable", () => {
   labelable({
     tagOrHTML: html`<calcite-input-time-zone></calcite-input-time-zone>`,
     beforeContent: async (page) => {
       await page.emulateTimezone(testTimeZoneItems[0].name);
     },
-  });
-});
-
-describe("openClose", () => {
-  openClose(simpleTestProvider);
-
-  describe("initially open", () => {
-    openClose.initial("calcite-input-time-zone", {
-      beforeContent: async (page) => {
-        await page.emulateTimezone(testTimeZoneItems[0].name);
-        await page.waitForChanges();
-      },
-    });
   });
 });
 
@@ -219,6 +191,55 @@ describe("mode", () => {
 
       expect(matchedTimeZoneItems.length).toBeGreaterThan(1);
     });
+
+    it("recreates time zone items when item-dependent props change", async () => {
+      const itemSelector = `calcite-input-time-zone >>> calcite-combobox-item[value='${testTimeZoneItems[1].offset}']`;
+      const selectedItemSelector = `calcite-input-time-zone >>> calcite-combobox >>> .${ComboboxCSS.label}`;
+      const page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
+      await page.setContent(html`<calcite-input-time-zone reference-date="2020-01-01"></calcite-input-time-zone>`);
+      const inputTimeZone = await page.find("calcite-input-time-zone");
+
+      let prevItem = await page.find(itemSelector);
+      let prevItemLabel = await prevItem.getProperty("heading");
+      let prevSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      inputTimeZone.setProperty("lang", "ja");
+      await page.waitForChanges();
+
+      let currItem = await page.find(itemSelector);
+      let currItemLabel = await currItem.getProperty("heading");
+      let currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).not.toBe(prevItemLabel);
+      expect(currSelectedItemLabel).not.toBe(prevSelectedItemLabel);
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("referenceDate", "2020-06-01");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).not.toBe(prevItemLabel);
+      expect(currSelectedItemLabel).not.toBe(prevSelectedItemLabel);
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("mode", "offset");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from same mode update
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from same mode update
+    });
   });
 
   describe("name", () => {
@@ -270,6 +291,56 @@ describe("mode", () => {
       const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
       expect(await timeZoneItem.getProperty("heading")).toMatch(testTimeZoneItems[0].name);
+    });
+
+    it("recreates time zone items when item-dependent props change", async () => {
+      const itemSelector = `calcite-input-time-zone >>> calcite-combobox-item[value='${testTimeZoneItems[1].name}']`;
+      const selectedItemSelector = `calcite-input-time-zone >>> calcite-combobox >>> .${ComboboxCSS.label}`;
+      const page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
+      await page.setContent(
+        html`<calcite-input-time-zone mode="name" reference-date="2020-01-01"></calcite-input-time-zone>`,
+      );
+      const inputTimeZone = await page.find("calcite-input-time-zone");
+
+      let prevItem = await page.find(itemSelector);
+      let prevItemLabel = await prevItem.getProperty("heading");
+      let prevSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      inputTimeZone.setProperty("lang", "ja");
+      await page.waitForChanges();
+
+      let currItem = await page.find(itemSelector);
+      let currItemLabel = await currItem.getProperty("heading");
+      let currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // this mode does not translate time zone names
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // this mode does not translate time zone names
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("referenceDate", "2020-06-01");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from reference date update
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from reference date update
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("mode", "name");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from same mode update
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from same mode update
     });
   });
 
@@ -394,6 +465,57 @@ describe("mode", () => {
       await page.waitForChanges();
 
       expect(await input.getProperty("value")).toBe(aliasTimeZone2);
+    });
+
+    it("recreates time zone items when item-dependent props change", async () => {
+      const itemSelector = `calcite-input-time-zone >>> calcite-combobox-item[value='${testTimeZoneItems[1].name}']`;
+      const selectedItemSelector = `calcite-input-time-zone >>> calcite-combobox >>> .${ComboboxCSS.label}`;
+      const page = await newE2EPage();
+      await page.emulateTimezone(testTimeZoneItems[0].name);
+      await page.setContent(
+        html`<calcite-input-time-zone mode="region" reference-date="2020-01-01"></calcite-input-time-zone>`,
+      );
+      const inputTimeZone = await page.find("calcite-input-time-zone");
+
+      let prevItem = await page.find(itemSelector);
+      let prevItemLabel = await prevItem.getProperty("heading");
+      let prevSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      inputTimeZone.setProperty("lang", "ja");
+      await page.waitForChanges();
+
+      let currItem = await page.find(itemSelector);
+      let currItemLabel = await currItem.getProperty("heading");
+      let currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).not.toBe(prevItemLabel);
+      expect(currSelectedItemLabel).not.toBe(prevSelectedItemLabel);
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("referenceDate", "2020-06-01");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from reference date update
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from reference date update
+
+      prevItem = currItem;
+      prevItemLabel = currItemLabel;
+      prevSelectedItemLabel = currSelectedItemLabel;
+      inputTimeZone.setProperty("mode", "region");
+      await page.waitForChanges();
+
+      currItem = await page.find(itemSelector);
+      currItemLabel = await currItem.getProperty("heading");
+      currSelectedItemLabel = (await page.find(selectedItemSelector)).textContent;
+      expect(currItem).not.toBe(prevItem);
+      expect(currItemLabel).toBe(prevItemLabel); // same mode would not change label from same mode update
+      expect(currSelectedItemLabel).toBe(prevSelectedItemLabel); // same mode would not change label from same mode update
     });
   });
 });
@@ -551,35 +673,6 @@ it("supports setting maxItems to display", async () => {
 
   // we assume maxItems works properly on combobox
   expect(await internalCombobox.getProperty("maxItems")).toBe(7);
-});
-
-it("recreates time zone items when item-dependent props change", async () => {
-  const page = await newE2EPage();
-  await page.emulateTimezone(testTimeZoneItems[0].name);
-  await page.setContent(html`<calcite-input-time-zone mode="name"></calcite-input-time-zone>`);
-  await page.waitForChanges();
-  const inputTimeZone = await page.find("calcite-input-time-zone");
-
-  let prevComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-  inputTimeZone.setProperty("lang", "es");
-  await page.waitForChanges();
-
-  let currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-  expect(currComboboxItem).not.toBe(prevComboboxItem);
-
-  prevComboboxItem = currComboboxItem;
-  inputTimeZone.setProperty("referenceDate", "2021-01-01");
-  await page.waitForChanges();
-
-  currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-  expect(currComboboxItem).not.toBe(prevComboboxItem);
-
-  prevComboboxItem = currComboboxItem;
-  inputTimeZone.setProperty("mode", "name");
-  await page.waitForChanges();
-
-  currComboboxItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item");
-  expect(currComboboxItem).not.toBe(prevComboboxItem);
 });
 
 describe("offsetStyle", () => {

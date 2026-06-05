@@ -1,6 +1,5 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
-import { Graph } from "./graph";
-import type { Graph as HTMLCalciteGraphElement } from "./graph";
+import type { Graph } from "./graph";
 
 interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
   width: number;
@@ -17,7 +16,7 @@ export default {
   },
 };
 
-const data: HTMLCalciteGraphElement["el"]["el"]["data"] = [
+const data: Graph["el"]["data"] = [
   [0, 0],
   [10, 80],
   [20, 20],
@@ -73,7 +72,7 @@ export const withColorStops = (): HTMLDivElement => {
   return div;
 };
 
-export const darkModeRTL_TestOnly = (): HTMLDivElement => {
+export const darkModeRTL = (): HTMLDivElement => {
   const div = document.createElement("div");
   div.style.width = "300px";
   div.style.height = "100px";
@@ -90,4 +89,4 @@ export const darkModeRTL_TestOnly = (): HTMLDivElement => {
   return div;
 };
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };

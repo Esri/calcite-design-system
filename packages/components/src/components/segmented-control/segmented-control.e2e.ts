@@ -2,7 +2,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { formAssociated, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import type { SegmentedControl } from "./segmented-control";
@@ -347,34 +347,6 @@ it("inheritable props: `appearance`, `layout`, and `scale` modified on the paren
   segmentedControlItems = await findAll(page, "calcite-segmented-control-item");
   expect(segmentedControlItems).toHaveLength(2);
   await inheritsProps(segmentedControlItems);
-});
-
-describe("is form-associated", () => {
-  describe("unselected value", () => {
-    formAssociated(
-      html`
-        <calcite-segmented-control>
-          <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
-          <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
-          <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
-        </calcite-segmented-control>
-      `,
-      { testValue: 2, validation: true, changeValueKeys: ["Space"] },
-    );
-  });
-
-  describe("selected-value", () => {
-    formAssociated(
-      html`
-        <calcite-segmented-control>
-          <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
-          <calcite-segmented-control-item id="child-2" value="2" checked>two</calcite-segmented-control-item>
-          <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
-        </calcite-segmented-control>
-      `,
-      { testValue: 2 },
-    );
-  });
 });
 
 describe("theme", () => {

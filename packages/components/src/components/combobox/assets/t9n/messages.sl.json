@@ -8,5 +8,6 @@
   "required": "Zahtevano",
   "selectAll": "Izberi vse",
   "selected": "izbrano",
-  "nonEditable": "Samo za branje {value}"
+  "nonEditable": "Samo za branje {value}",
+  "disabledSelectedCount": "+{count}"
 }

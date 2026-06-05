@@ -58,6 +58,7 @@
 
   .children-container ::slotted(*) {
     padding-inline-start: var(--calcite-internal-tree-item-children-container-padding);
+    overflow: hidden;
   }
 }
 
@@ -162,17 +163,24 @@
 }
 
 .children-container {
-  @apply relative h-0 overflow-hidden opacity-0 origin-top;
-  transform: scaleY(0);
+  display: grid;
+  grid-template-rows: 0fr;
+  max-block-size: max-content;
+  opacity: 1;
+  position: relative;
   transition:
-    var(--calcite-animation-timing) animation.$easing-function,
-    opacity var(--calcite-animation-timing) animation.$easing-function,
-    all var(--calcite-animation-timing) ease-in-out; // note that we're transitioning transform, not height!
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function,
+    grid-template-rows var(--calcite-internal-animation-timing-medium) animation.$easing-function;
+}
 
-  .item--expanded > & {
-    @apply overflow-visible opacity-100;
-    transform: none;
-    block-size: auto;
+.item--expanded > .children-container {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  max-block-size: max-content;
+
+  @starting-style {
+    opacity: 0;
+    grid-template-rows: 0fr;
   }
 }
 

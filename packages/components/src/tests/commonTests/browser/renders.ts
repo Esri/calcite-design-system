@@ -51,6 +51,7 @@ export async function renders(
         ? options.visible.locator
         : page.elementLocator(el);
 
+    // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
     await (visible ? expect.element(locator).toBeVisible() : expect.element(locator).not.toBeVisible());
   });
 }

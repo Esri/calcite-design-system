@@ -1,13 +1,18 @@
 // @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { TOOLTIP_OPEN_DELAY_MS, TOOLTIP_CLOSE_DELAY_MS, CSS, TOOLTIP_QUICK_OPEN_DELAY_MS } from "./resources";
+import {
+  HOVER_OPEN_DELAY_MS,
+  HOVER_CLOSE_DELAY_MS,
+  HOVER_QUICK_OPEN_DELAY_MS,
+} from "../../controllers/useReferenceElement/manager";
+import { CSS } from "./resources";
 import type { Tooltip } from "./tooltip";
 
 const eventOptions = { bubbles: true, cancelable: true };
@@ -96,41 +101,6 @@ describe("accessible when open", () => {
   accessible(
     `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
   );
-});
-
-const simpleTooltipHtml = html`
-  <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
-  ><button id="ref">referenceElement</button>
-`;
-const tooltipDisplayNoneHtml = html`
-  <div class="container">
-    <div class="template">
-      <calcite-tooltip placement="auto" reference-element="ref">content</calcite-tooltip
-      ><button id="ref">referenceElement</button>
-    </div>
-  </div>
-  <button class="hoverOutsideContainer">some other content</button>
-  <style>
-    .container {
-      height: 100px;
-      width: 100px;
-      border: 1px solid red;
-    }
-    .container:hover .template {
-      display: initial;
-    }
-    .template {
-      display: none;
-    }
-  </style>
-`;
-
-describe("openClose", () => {
-  openClose(simpleTooltipHtml);
-
-  describe("parent has display none", () => {
-    openClose(tooltipDisplayNoneHtml, { willUseFallback: true });
-  });
 });
 
 it("tooltip positions when referenceElement is set", async () => {
@@ -253,7 +223,7 @@ it("should honor hover interaction", async () => {
 
   await ref.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await positionContainer.isVisible()).toBe(true);
 });
@@ -276,7 +246,7 @@ it("should not open when hover event is prevented", async () => {
 
   await ref.hover();
   await page.waitForChanges();
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await positionContainer.isVisible()).toBe(false);
 });
@@ -295,7 +265,7 @@ it("should close when hover event is prevented", async () => {
 
   await ref.hover();
   await page.waitForChanges();
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await positionContainer.isVisible()).toBe(true);
 
@@ -307,7 +277,7 @@ it("should close when hover event is prevented", async () => {
 
   await ref.hover();
   await page.waitForChanges();
-  await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+  await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
   expect(await positionContainer.isVisible()).toBe(false);
 });
 
@@ -328,7 +298,7 @@ it("should honor hover interaction with span inside", async () => {
 
   await ref.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await positionContainer.isVisible()).toBe(true);
 });
@@ -370,7 +340,7 @@ it("should honor tooltips on pointermove", async () => {
 
   await page.waitForChanges();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await tooltip.getProperty("open")).toBe(true);
 
@@ -380,7 +350,7 @@ it("should honor tooltips on pointermove", async () => {
 
   await page.waitForChanges();
 
-  await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+  await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
 
   expect(await tooltip.getProperty("open")).toBe(false);
 });
@@ -520,7 +490,7 @@ it("should honor hovered tooltip closing with ESC key", async () => {
 
   await referenceElement.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -553,7 +523,7 @@ it("should honor hovered and focused tooltip closing with ESC key", async () => 
 
   await referenceElement.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -586,7 +556,7 @@ it("should not close with ESC key if event is prevented", async () => {
 
   await referenceElement.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -626,7 +596,7 @@ it("should only open the last focused tooltip", async () => {
   expect(await hoverTip.getProperty("open")).toBe(false);
 
   await dispatchPointerEvent(page, "#hoverRef");
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -670,7 +640,7 @@ it("should only open the last hovered tooltip", async () => {
   expect(await hoverTip.getProperty("open")).toBe(false);
 
   await dispatchPointerEvent(page, "#hoverRef");
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   expect(await focusTip.getProperty("open")).toBe(false);
 
@@ -695,7 +665,7 @@ it("should close tooltip when closeOnClick is true and referenceElement is click
 
   await referenceElement.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -719,7 +689,7 @@ it("should close tooltip when closeOnClick is true and referenceElement is click
 
   await referenceElement.hover();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -744,7 +714,7 @@ it("should close tooltip when closeOnClick is true and referenceElement is click
 
   await referenceElement.click();
 
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
 
   await page.waitForChanges();
 
@@ -818,7 +788,7 @@ describe("beforeOpen, open, beforeClose, close event emitting", () => {
 
   it("emits via mouse", async () => {
     const moveOptions = { steps: 10 };
-    const totalDelayFromMoveSteps = TOOLTIP_OPEN_DELAY_MS * moveOptions.steps;
+    const totalDelayFromMoveSteps = HOVER_OPEN_DELAY_MS * moveOptions.steps;
     const xMoveOffset = 25;
 
     await assertEventEmitting({
@@ -940,7 +910,7 @@ describe("beforeOpen, open, beforeClose, close event emitting", () => {
     const ref = await page.find("#ref");
     await ref.hover();
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
     await page.waitForChanges();
 
     expect(await positionContainer.isVisible()).toBe(true);
@@ -953,7 +923,7 @@ describe("beforeOpen, open, beforeClose, close event emitting", () => {
     const hoverOutsideContainer = await page.find(".hoverOutsideContainer");
     await hoverOutsideContainer.hover();
 
-    await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+    await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
     await page.waitForChanges();
 
     expect(await positionContainer.isVisible()).not.toBe(true);
@@ -1074,12 +1044,12 @@ it("should open tooltip faster if another tooltip is already visible", async () 
   expect(await tooltip2.getProperty("open")).toBe(false);
 
   await dispatchPointerEvent(page, "#ref1");
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
   expect(await tooltip1.getProperty("open")).toBe(true);
   expect(await tooltip2.getProperty("open")).toBe(false);
 
   await dispatchPointerEvent(page, "#ref2");
-  await page.waitForTimeout(TOOLTIP_QUICK_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_QUICK_OPEN_DELAY_MS);
   expect(await tooltip1.getProperty("open")).toBe(false);
   expect(await tooltip2.getProperty("open")).toBe(true);
 });
@@ -1104,7 +1074,7 @@ describe("allows clicking on an open tooltip", () => {
     await page.waitForChanges();
     expect(await tooltip.getProperty("open")).toBe(true);
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
     await positionContainer.click();
     await page.waitForChanges();
     expect(await tooltip.getProperty("open")).toBe(true);
@@ -1150,7 +1120,7 @@ describe("allows clicking on an open tooltip", () => {
     await page.waitForChanges();
     expect(await tooltip.getProperty("open")).toBe(true);
 
-    await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+    await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
     await positionContainer.click();
     await page.waitForChanges();
     expect(await tooltip.getProperty("open")).toBe(true);
@@ -1214,7 +1184,7 @@ it("closes tooltip when pointer leaves document (simulates iframe use case)", as
   const tooltip = await page.find("calcite-tooltip");
 
   await button.hover();
-  await page.waitForTimeout(TOOLTIP_OPEN_DELAY_MS);
+  await page.waitForTimeout(HOVER_OPEN_DELAY_MS);
   await page.waitForChanges();
 
   expect(await tooltip.getProperty("open")).toBe(true);
@@ -1223,7 +1193,7 @@ it("closes tooltip when pointer leaves document (simulates iframe use case)", as
   await page.mouse.move(viewport.width + 100, viewport.height + 100);
   await page.waitForChanges();
 
-  await page.waitForTimeout(TOOLTIP_CLOSE_DELAY_MS);
+  await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
   expect(await tooltip.getProperty("open")).toBe(false);
 });
 

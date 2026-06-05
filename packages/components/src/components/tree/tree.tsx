@@ -114,7 +114,7 @@ export class Tree extends LitElement {
         this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
         this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])");
 
-      focusElement(focusTarget);
+      focusElement(focusTarget, true, "focusable");
     }
   }
 

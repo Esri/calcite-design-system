@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -75,7 +74,7 @@ it("showBackButton", async () => {
   const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
 
   await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
-    const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
+    const nativeBackButton = elm.shadowRoot!.querySelector(`calcite-action`)!;
     nativeBackButton.click();
   });
 
@@ -108,7 +107,9 @@ it("sets collapsible and collapsed on internal panel", async () => {
   expect(await panel.getProperty("collapsed")).toBe(true);
   expect(await panel.getProperty("collapsible")).toBe(true);
 
-  await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: Action["el"]) => el.click());
+  await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el) =>
+    (el as Action["el"]).click(),
+  );
   await page.waitForChanges();
 
   expect(await flowItem.getProperty("collapsed")).toBe(false);
@@ -235,7 +236,7 @@ it("should not close when slotted panels are closed", async () => {
   );
   await page.waitForChanges();
 
-  await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: Action["el"]) => el.click());
+  await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el) => (el as Action["el"]).click());
   await page.waitForChanges();
 
   const flowItem = await page.find("calcite-flow-item");
@@ -306,6 +307,14 @@ describe("theme", () => {
     "--calcite-flow-header-content-space": {
       shadowSelector: "calcite-panel",
       targetProp: "--calcite-panel-header-content-space",
+    },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
     },
     "--calcite-flow-footer-space": {
       shadowSelector: "calcite-panel",

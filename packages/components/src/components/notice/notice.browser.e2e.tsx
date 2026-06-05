@@ -1,7 +1,7 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, hidden, renders, slots, t9n } from "../../tests/commonTests/browser";
+import { focusable, hidden, renders, slots, t9n, openClose } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
@@ -45,6 +45,12 @@ describe("is focusable", () => {
         shadowFocusTargetSelector: `.${CSS.close}`,
       },
     );
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) => mount("calcite-notice", mountOptions), {
+      collapsedOnClose: "vertical",
+    });
   });
 });
 

@@ -28,9 +28,9 @@ export function highlightText({
   text,
   pattern,
 }: {
-  text: string;
-  pattern: RegExp;
-}): string | (string | JsxNode)[] {
+  text?: string;
+  pattern?: RegExp;
+}): string | (string | JsxNode)[] | undefined {
   if (!pattern || !text) {
     return text;
   }

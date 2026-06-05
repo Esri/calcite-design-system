@@ -1,21 +1,32 @@
-import { h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { JsxNode } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
-  reflects,
+  focusable,
+  handlesActionMenuPlacements,
   hidden,
+  reflects,
   renders,
   slots,
-  handlesActionMenuPlacements,
-  focusable,
   t9n,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
+import { ActionGroup } from "./action-group";
 
 mockConsole();
+
+function renderActionGroup(): JsxNode {
+  return (
+    <calcite-action-group scale="l">
+      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+    </calcite-action-group>
+  );
+}
 
 describe("defaults", () => {
   defaults(
@@ -30,6 +41,10 @@ describe("defaults", () => {
         defaultValue: "absolute",
       },
       {
+        propertyName: "overflowActionsDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "menuPlacement",
         defaultValue: undefined,
       },
@@ -40,6 +55,14 @@ describe("defaults", () => {
       {
         propertyName: "scale",
         defaultValue: "m",
+      },
+      {
+        propertyName: "selectionMode",
+        defaultValue: "none",
+      },
+      {
+        propertyName: "selectedActions",
+        defaultValue: [],
       },
     ],
   );
@@ -52,6 +75,10 @@ describe("reflects", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+      },
+      {
+        propertyName: "overflowActionsDisabled",
+        value: true,
       },
     ],
   );
@@ -90,15 +117,6 @@ describe("floating-ui", () => {
   });
 });
 
-function renderActionGroup(): JsxNode {
-  return (
-    <calcite-action-group scale="l">
-      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
-      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
-    </calcite-action-group>
-  );
-}
-
 describe("focusable", () => {
   focusable(() => mount(renderActionGroup), { shadowFocusTargetSelector: "calcite-action" });
 });
@@ -132,4 +150,101 @@ describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
     expect(action2.getAttribute("aria-checked")).toBeNull();
     expect(action2.getAttribute("role")).toBeNull();
   });
+});
+
+describe("selection change event and selectedActions state", () => {
+  it("fires when selection changes", async () => {
+    const { el } = await mount<"calcite-action-group">(
+      <calcite-action-group selection-mode="single">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-group>,
+    );
+
+    let changeCount = 0;
+    el.addEventListener("calciteActionGroupChange", () => {
+      changeCount += 1;
+    });
+
+    const [action1, action2] = el.querySelectorAll("calcite-action");
+
+    await userEvent.click(action1);
+    expect(changeCount).toBe(1);
+
+    await userEvent.click(action2);
+    expect(changeCount).toBe(2);
+  });
+
+  it("tracks active actions based on selection", async () => {
+    const { el } = await mount<"calcite-action-group">(
+      <calcite-action-group selection-mode="single">
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-group>,
+    );
+
+    const [action1, action2] = el.querySelectorAll("calcite-action");
+
+    await userEvent.click(action1);
+    expect(el.selectedActions).toHaveLength(1);
+    expect(el.selectedActions[0]).toBe(action1);
+
+    await userEvent.click(action2);
+    expect(el.selectedActions).toHaveLength(1);
+    expect(el.selectedActions[0]).toBe(action2);
+
+    await userEvent.click(action2);
+    expect(el.selectedActions).toHaveLength(0);
+  });
+});
+
+it("should honor scale of expand icon", async () => {
+  await mount(renderActionGroup);
+  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+
+  await expect.element(menu).toHaveProperty("scale", "l");
+});
+
+it("should honor overlayPositioning", async () => {
+  await mount(
+    <calcite-action-group overlay-positioning="fixed" scale="l">
+      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+    </calcite-action-group>,
+  );
+  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+
+  await expect.element(menu).toHaveProperty("overlayPositioning", "fixed");
+});
+
+it("should honor label", async () => {
+  await mount(
+    <calcite-action-group label="test">
+      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+    </calcite-action-group>,
+  );
+  const menu = page.getByLabelText(`test`);
+
+  await expect.element(menu).toBeVisible();
+});
+
+it("should emit expanded/collapsed events when toggled", async () => {
+  const { el, reRender } = await mount<ActionGroup>(<calcite-action-group label="Test" />);
+  const expandEventHandler = vi.fn();
+  const collapseEventHandler = vi.fn();
+  el.addEventListener("calciteActionGroupExpand", expandEventHandler);
+  el.addEventListener("calciteActionGroupCollapse", collapseEventHandler);
+
+  el.expanded = true;
+  await reRender();
+
+  expect(expandEventHandler).toHaveBeenCalledTimes(1);
+  expect(collapseEventHandler).toHaveBeenCalledTimes(0);
+
+  el.expanded = false;
+  await reRender();
+
+  expect(expandEventHandler).toHaveBeenCalledTimes(1);
+  expect(collapseEventHandler).toHaveBeenCalledTimes(1);
 });

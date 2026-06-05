@@ -4,18 +4,23 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Card } from "./card";
 
-const { logicalFlowPosition } = ATTRIBUTES;
+const { scale, logicalFlowPosition } = ATTRIBUTES;
 
-type CardStoryArgs = Pick<Card, "loading" | "selected" | "thumbnailPosition">;
+type CardStoryArgs = Pick<Card, "loading" | "scale" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
   args: {
     loading: false,
+    scale: scale.defaultValue,
     selected: false,
     thumbnailPosition: logicalFlowPosition.defaultValue,
   },
   argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     thumbnailPosition: {
       options: logicalFlowPosition.values,
       control: { type: "select" },
@@ -62,6 +67,7 @@ export const simple = (args: CardStoryArgs): string => html`
   <div style="width: 260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -74,6 +80,7 @@ export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -86,6 +93,7 @@ export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -145,7 +153,7 @@ export const thumbnail = (): string => html`
   </div>
 `;
 
-export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string => html`
+export const headerDoesNotOverlapWithCheckboxDeprecated = (): string => html`
   <calcite-card selectable style="width:260px">
     <h3 slot="heading">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
     <span slot="description"
@@ -160,7 +168,7 @@ export const headerDoesNotOverlapWithCheckboxDeprecated_TestOnly = (): string =>
   </calcite-card>
 `;
 
-export const slottedFooterItems_TestOnly = (): string => html`
+export const slottedFooterItems = (): string => html`
   <div id="card-container" style="width:260px;">
     <calcite-card>
       ${thumbnailHtml}
@@ -182,7 +190,7 @@ export const slottedFooterItems_TestOnly = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl" style="width:260px;">
     <calcite-card
       >${thumbnailHtml}${headingAndDescriptionHtml}${footerStartTextHtml}${footerEndButtonsHtml}</calcite-card
@@ -190,4 +198,4 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
