@@ -159,7 +159,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
     validity: ValidityStateFlags,
     validationMessage: string | undefined = this.validationMessage,
   ): Promise<void> {
-    this.elementInternals.setValidity(validity, validationMessage);
+    this.elementInternals.setValidity(validity, validationMessage || "");
   }
 
   //#endregion
