@@ -260,7 +260,7 @@ function getLocalizedTimePart(part: TimePart, parts: Intl.DateTimeFormatPart[], 
 }
 
 export function getMeridiem(hour: string | null | undefined): Meridiem | null {
-  if (!isValidNumber(hour ?? undefined)) {
+  if (!isValidNumber(hour)) {
     return null;
   }
   const hourAsNumber = parseInt(hour!);
@@ -303,7 +303,7 @@ export function isValidTime(value: string | Time | null | undefined): value is s
   const secondAsNumber = parseInt(second ?? "");
   const hourValid = isValidNumber(hour) && hourAsNumber >= 0 && hourAsNumber < 24;
   const minuteValid = isValidNumber(minute) && minuteAsNumber >= 0 && minuteAsNumber < 60;
-  const secondValid = isValidNumber(second ?? undefined) && secondAsNumber >= 0 && secondAsNumber < 60;
+  const secondValid = isValidNumber(second) && secondAsNumber >= 0 && secondAsNumber < 60;
   return hourValid && minuteValid && (!second || secondValid);
 }
 
@@ -311,7 +311,7 @@ function isValidTimePart(value: string | null | undefined, part: TimePart): bool
   if (part === "meridiem") {
     return value === "AM" || value === "PM";
   }
-  if (!isValidNumber(value ?? undefined)) {
+  if (!isValidNumber(value)) {
     return false;
   }
   const valueAsString = value as string;
@@ -433,7 +433,7 @@ export function localizeTimeString({
       0,
       parseInt(hour!),
       parseInt(minute!),
-      includeSeconds ? parseInt(second!) : 0,
+      includeSeconds && typeof second === "string" ? parseInt(second) : 0,
       includeSeconds && fractionalSecond ? fractionalSecondPartToMilliseconds(fractionalSecond) : 0,
     ),
   );

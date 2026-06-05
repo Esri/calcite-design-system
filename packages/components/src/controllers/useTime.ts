@@ -182,7 +182,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     if (numberKeys.includes(key)) {
       const keyAsNumber = parseInt(key);
       let newHour;
-      if (isValidNumber(this.hour ?? undefined)) {
+      if (isValidNumber(this.hour)) {
         switch (this.hourFormat) {
           case "12":
             newHour = this.hour === "01" && keyAsNumber >= 0 && keyAsNumber <= 2 ? `1${keyAsNumber}` : keyAsNumber;
