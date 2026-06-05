@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -35,9 +34,9 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
-  defaultValue: Checkbox["checked"];
+  defaultValue?: Checkbox["checked"];
 
   private direction = useDirection();
 
@@ -45,7 +44,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   onLabelClick = (): void => {
     this.toggle();
@@ -79,7 +78,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the checkbox.
@@ -98,16 +97,16 @@ export class Checkbox extends LitElement implements LabelableComponent {
   @property({ reflect: true }) indeterminate = false;
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** Specifies the component's label text. */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -127,7 +126,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value: any;

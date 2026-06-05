@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.3...@esri/calcite-components@5.1.1-next.4) (2026-06-04)
+
+### Bug Fixes
+
+- **date-picker:** update calendar when activeDate is set in range ([#14527](https://github.com/Esri/calcite-design-system/issues/14527)), closes [#13608](https://github.com/Esri/calcite-design-system/issues/13608)
+- **useForm:** update validity when disabled ([#14549](https://github.com/Esri/calcite-design-system/issues/14549)), closes [#14555](https://github.com/Esri/calcite-design-system/issues/14555)
+
+## [5.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.2...@esri/calcite-components@5.1.1-next.3) (2026-05-29)
+
+### Bug Fixes
+
+- **list:** preserve filter input value during rapid item loading ([#14523](https://github.com/Esri/calcite-design-system/issues/14523)), closes [#14454](https://github.com/Esri/calcite-design-system/issues/14454)
+
 ## [5.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.1...@esri/calcite-components@5.1.1-next.2) (2026-05-28)
 
 ### Bug Fixes
