@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
@@ -29,22 +28,22 @@ export class Avatar extends LitElement {
   // #region Public Properties
 
   /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
-  @property({ reflect: true }) fullName: string;
+  @property({ reflect: true }) fullName?: string;
 
   /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image. If the image is private, include an access token in the URL. */
-  @property({ reflect: true }) thumbnail: string;
+  @property({ reflect: true }) thumbnail?: string;
 
   /** Specifies the unique id of the user. */
-  @property({ reflect: true }) userId: string;
+  @property({ reflect: true }) userId?: string;
 
   /** Specifies the username of the user. */
-  @property({ reflect: true }) username: string;
+  @property({ reflect: true }) username?: string;
 
   // #endregion
 

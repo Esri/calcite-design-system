@@ -368,7 +368,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+    this.setUpInteractions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -383,7 +383,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
-      this.setupInteractions();
+      this.setUpInteractions();
     }
 
     if (
@@ -402,7 +402,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -608,7 +608,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
     this.updateSizeInternal({
       inline: null,
@@ -619,8 +619,8 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     this.updateTransform();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private async setUpInteractions(): Promise<void> {
+    this.cleanUpInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
@@ -739,7 +739,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
 
     this.transitionEl = el;
-    this.setupInteractions();
+    this.setUpInteractions();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {

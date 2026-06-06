@@ -1,7 +1,7 @@
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
+import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
@@ -173,3 +173,46 @@ describe("minAsDate and maxAsDate properties", () => {
     expect(input.value).toBe("12/31/2020");
   });
 });
+
+it("should update calendar while typing in input", async () => {
+  const { component } = await mount<InputDatePicker>(<calcite-input-date-picker />);
+  const input = page.getByRole("combobox");
+  await userEvent.click(input);
+  await userEvent.keyboard("10/10/2020");
+  await component.updateComplete;
+
+  const yearInput = getYearInput();
+  const monthSelectMenu = getMonthSelectMenu();
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
+it("should update calendar in range while typing in input", async () => {
+  const { component } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
+  const startInput = page.getByRole("combobox").first();
+  await userEvent.click(startInput);
+  await userEvent.keyboard("10/10/2020");
+  await component.updateComplete;
+
+  const yearInput = getYearInput();
+  const monthSelectMenu = getMonthSelectMenu();
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+
+  await userEvent.keyboard("{Escape}");
+  await userEvent.click(startInput);
+  await component.updateComplete;
+
+  await expect.element(yearInput).toHaveProperty("value", "2020");
+  await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
+function getYearInput(): Locator {
+  return page.getByRole("textbox", { name: "Year" }).first();
+}
+
+function getMonthSelectMenu(): Locator {
+  return page.getByRole("combobox", { name: "Month menu" }).first();
+}

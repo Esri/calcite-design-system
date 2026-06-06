@@ -537,6 +537,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
     updateRefObserver(this.resizeObserver, previousReferenceEl, nextReferenceEl);
 
+    if (this.referenceElementType || !nextReferenceEl) {
+      return;
+    }
+
     this.referenceEl = el;
 
     connectFloatingUI(this);

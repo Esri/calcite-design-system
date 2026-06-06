@@ -1712,11 +1712,11 @@ export class ColorPicker extends LitElement {
         lang={this.messages._lang}
         numberButtonType="none"
         numberingSystem={this.numberingSystem}
-        onKeyDown={this.handleKeyDown}
         oncalciteInputNumberChange={this.handleChannelChange}
         oncalciteInputNumberInput={this.handleChannelInput}
         oncalciteInternalInputNumberBlur={this.handleChannelBlur}
         oncalciteInternalInputNumberFocus={this.handleChannelFocus}
+        onKeyDown={this.handleKeyDown}
         scale={this.scale === "l" ? "m" : "s"}
         // workaround to ensure input borders overlap as desired
         // this is because the build transforms margin-left to its
