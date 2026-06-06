@@ -3,28 +3,28 @@
     "font": {
       "weight": {
         "light": {
-          "value": "{core.font.weight.light}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.light}",
+          "$type": "fontWeights"
         },
         "normal": {
-          "value": "{core.font.weight.regular}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.regular}",
+          "$type": "fontWeights"
         },
         "regular": {
-          "value": "{core.font.weight.regular}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.regular}",
+          "$type": "fontWeights"
         },
         "medium": {
-          "value": "{core.font.weight.medium}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.medium}",
+          "$type": "fontWeights"
         },
         "semibold": {
-          "value": "{core.font.weight.demi}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.demi}",
+          "$type": "fontWeights"
         },
         "bold": {
-          "value": "{core.font.weight.demi}",
-          "type": "fontWeights"
+          "$value": "{core.font.weight.demi}",
+          "$type": "fontWeights"
         }
       }
     }
