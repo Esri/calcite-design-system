@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { getHost, getRootNode, queryElementRoots } from "./dom";
@@ -87,11 +86,11 @@ describe("queries", () => {
           myButtonId,
         });
 
-        const testComponent = document.querySelector("test-component");
-        const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
+        const testComponent = document.querySelector("test-component")!;
+        const queryEl = testComponent.shadowRoot!.querySelector("div")!;
+        const resultEl = (window as TestWindow).queryElementRoots(queryEl, {
           selector: `button.${myButtonClass}`,
-        });
+        })!;
 
         return resultEl?.textContent;
       },
@@ -118,11 +117,11 @@ describe("queries", () => {
           myButtonId,
         });
 
-        const testComponent = document.querySelector("test-component");
-        const queryEl = testComponent.shadowRoot.querySelector("div");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, {
+        const testComponent = document.querySelector("test-component")!;
+        const queryEl = testComponent.shadowRoot!.querySelector("div")!;
+        const resultEl = (window as TestWindow).queryElementRoots(queryEl, {
           id: myButtonId,
-        });
+        })!;
 
         return resultEl?.textContent;
       },
@@ -149,8 +148,8 @@ describe("queries", () => {
           myButtonId,
         });
 
-        const queryEl = document.body.querySelector("span");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, { selector: "button" });
+        const queryEl = document.body.querySelector("span")!;
+        const resultEl = (window as TestWindow).queryElementRoots(queryEl, { selector: "button" })!;
 
         return resultEl?.textContent;
       },
@@ -177,8 +176,8 @@ describe("queries", () => {
           myButtonId,
         });
 
-        const queryEl = document.body.querySelector("span");
-        const resultEl: HTMLElement = (window as TestWindow).queryElementRoots(queryEl, { id: myButtonId });
+        const queryEl = document.body.querySelector("span")!;
+        const resultEl = (window as TestWindow).queryElementRoots(queryEl, { id: myButtonId })!;
 
         return resultEl?.textContent;
       },

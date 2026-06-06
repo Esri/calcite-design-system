@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { KebabCase } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
 import { Ref } from "lit/directives/ref.js";
@@ -17,7 +16,7 @@ interface OpenCloseComponentBase extends LitElement {
   openProp?: string;
 
   /** Specifies the name of CSS transition property. */
-  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
+  transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;

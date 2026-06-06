@@ -546,7 +546,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
           [CSS.inlineChild]: !!this.inlineEditableEl,
         }}
         defaultValue={this.defaultValue}
-        disabled={this.disabled ? true : null}
+        disabled={this.disabled}
         enterKeyHint={this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"]}
         inputMode={this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]}
         maxLength={this.maxLength}
@@ -560,7 +560,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
         ref={this.childRef}
-        required={this.required ? true : null}
+        required={this.required}
         spellcheck={this.el.spellcheck}
         tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
         type="text"

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -66,13 +65,13 @@ export class Pagination extends LitElement {
 
   //#region State Properties
 
-  @state() isXXSmall: boolean;
+  @state() isXXSmall = false;
 
-  @state() lastStartItem: number;
+  @state() lastStartItem = 1;
 
   @state() maxItems = maxItemBreakpoints.xxsmall;
 
-  @state() totalPages: number;
+  @state() totalPages = 1;
 
   //#endregion
 
@@ -85,7 +84,7 @@ export class Pagination extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /** Specifies the number of items per page. */
   @property({ reflect: true }) pageSize = 20;

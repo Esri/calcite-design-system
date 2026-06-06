@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -321,8 +320,8 @@ export class FlowItem extends LitElement {
           beforeClose={beforeClose}
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
           collapsed={collapsed}
+          collapseDirection={collapseDirection}
           collapsible={collapsible}
           description={description}
           disabled={disabled}

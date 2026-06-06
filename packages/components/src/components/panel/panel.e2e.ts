@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
@@ -315,7 +314,9 @@ it("honors calcitePanelScroll event", async () => {
   const scrollSpy = await page.spyOnEvent("calcitePanelScroll");
 
   await page.evaluate((contentContainerSelector) => {
-    const contentContainer = document.querySelector("calcite-panel").shadowRoot.querySelector(contentContainerSelector);
+    const contentContainer = document
+      .querySelector("calcite-panel")!
+      .shadowRoot!.querySelector(contentContainerSelector)!;
 
     contentContainer.dispatchEvent(new CustomEvent("scroll"));
   }, `.${CSS.contentWrapper}`);
