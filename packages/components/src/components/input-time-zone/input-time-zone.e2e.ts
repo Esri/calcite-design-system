@@ -522,7 +522,7 @@ describe("mode", () => {
   describe("theme", () => {
     themed("calcite-input-time-zone", {
       "--calcite-input-time-zone-corner-radius": {
-        shadowSelector: `calcite-combobox >>> .wrapper`,
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
         targetProp: "borderRadius",
       },
     });
