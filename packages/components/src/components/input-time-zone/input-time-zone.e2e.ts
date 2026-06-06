@@ -520,7 +520,7 @@ describe("mode", () => {
   });
 
   describe("theme", () => {
-    themed("calcite-input-time-zone", {
+    themed(html`<calcite-input-time-zone reference-date="2020-01-01"></calcite-input-time-zone>`, {
       "--calcite-input-time-zone-corner-radius": {
         shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
         targetProp: "borderRadius",
