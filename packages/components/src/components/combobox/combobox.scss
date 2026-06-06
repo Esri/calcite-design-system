@@ -69,10 +69,7 @@
   @apply focus-base flex border border-solid;
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
-  border-radius: var(
-    --calcite-combobox-corner-radius,
-    var(--calcite-input-corner-radius, var(--calcite-corner-radius))
-  );
+  border-radius: var(--calcite-combobox-corner-radius, var(--calcite-corner-radius));
   background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));

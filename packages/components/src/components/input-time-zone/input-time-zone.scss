@@ -10,7 +10,7 @@
 
 :host {
   display: block;
-  --calcite-combobox-corner-radius: var(--calcite-input-time-zone-corner-radius);
+  --calcite-combobox-corner-radius: var(--calcite-input-time-zone-corner-radius, var(--calcite-corner-radius));
 }
 
 .offset {
