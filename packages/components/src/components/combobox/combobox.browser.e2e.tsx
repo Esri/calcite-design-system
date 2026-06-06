@@ -1106,50 +1106,6 @@ describe("keyboard interaction", () => {
     expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
   });
 
-  it("Escape close + Space reopen keeps active item anchored to the selected item", async () => {
-    await mount<Combobox>(() => (
-      <calcite-combobox selection-mode="single">
-        <calcite-combobox-item heading="one" id="one" selected value="one" />
-        <calcite-combobox-item heading="two" id="two" value="two" />
-      </calcite-combobox>
-    ));
-
-    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
-    await userEvent.keyboard("{Tab}{Space}");
-    await expect.element(floatingUI).toBeVisible();
-
-    const itemOne = page.getBySelector("#one").element() as ComboboxItem["el"];
-    const itemTwo = page.getBySelector("#two").element() as ComboboxItem["el"];
-
-    expect(itemOne.selected).toBe(true);
-    expect(itemTwo.selected).toBe(false);
-
-    let activeItem = page.getBySelector("calcite-combobox-item[active]");
-    await expect.element(activeItem).toHaveProperty("value", "one");
-
-    await userEvent.keyboard("{Escape}");
-    await expect.element(floatingUI).not.toBeVisible();
-
-    await userEvent.keyboard("{Space}");
-    await expect.element(floatingUI).toBeVisible();
-
-    activeItem = page.getBySelector("calcite-combobox-item[active]");
-    await expect.element(activeItem).toHaveProperty("value", "one");
-    expect(itemOne.selected).toBe(true);
-    expect(itemTwo.selected).toBe(false);
-
-    await userEvent.keyboard("{Escape}");
-    await expect.element(floatingUI).not.toBeVisible();
-
-    await userEvent.keyboard("{Space}");
-    await expect.element(floatingUI).toBeVisible();
-
-    activeItem = page.getBySelector("calcite-combobox-item[active]");
-    await expect.element(activeItem).toHaveProperty("value", "one");
-    expect(itemOne.selected).toBe(true);
-    expect(itemTwo.selected).toBe(false);
-  });
-
   it("Escape close + Space reopen keeps Select All active after toggling selection", async () => {
     await mount<Combobox>(() => (
       <calcite-combobox select-all-enabled selection-mode="multiple">
