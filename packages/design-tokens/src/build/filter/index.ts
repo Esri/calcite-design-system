@@ -9,6 +9,7 @@ import { registerFilterIncludeTokens } from "./include.ts";
 import { registerFilterGlobalTokens } from "./global.ts";
 import { registerFilterLightOrDarkColorTokens } from "./light-or-dark.ts";
 import { registerFilterGlobalTokensJs } from "./global-js.ts";
+import { registerFilterInternalTokens } from "./internal.ts";
 
 export function registerFilters(): void {
   registerFilterBreakpointTokens();
@@ -20,6 +21,7 @@ export function registerFilters(): void {
   registerFilterLightOrDarkColorTokens();
   registerFilterTypographyTokens();
   registerFilterCoreTokens();
+  registerFilterInternalTokens();
   registerFilterSourceTokens();
   registerFilterIncludeTokens();
 }
@@ -35,3 +37,4 @@ export { FilterLightOrDarkColorTokens } from "./light-or-dark.ts";
 export { FilterSourceTokens } from "./source.ts";
 export { FilterIncludeTokens } from "./include.ts";
 export { FilterTypographyTokens } from "./typography.ts";
+export { FilterInternalTokens } from "./internal.ts";

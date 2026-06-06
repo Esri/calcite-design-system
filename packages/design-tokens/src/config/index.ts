@@ -24,7 +24,7 @@ const stylesheetOutputReferences: OutputReferences = (token, options) => {
 
 const config: Config = {
   source: ["src/tokens/semantic/[!$]*.json"],
-  include: ["src/tokens/core/[!$]*.json", "src/tokens/semantic/color/[!$]*.json"],
+  include: ["src/tokens/core/[!$]*.json", "src/tokens/internal/[!$]*.json", "src/tokens/semantic/color/[!$]*.json"],
   preprocessors: [
     "tokens-studio",
     preprocessors.PreprocessorStorePostMergeDictionary,
@@ -50,6 +50,11 @@ const config: Config = {
           filter: filters.FilterSemanticTokens,
         },
         {
+          destination: "internal.scss",
+          format: sdFormats.scssVariables,
+          filter: filters.FilterInternalTokens,
+        },
+        {
           destination: "core.scss",
           format: sdFormats.scssVariables,
           filter: filters.FilterCoreTokens,
@@ -69,7 +74,7 @@ const config: Config = {
           format: formats.FormatIndex,
           filter: filters.FilterLightOrDarkColorTokens,
           options: {
-            imports: ["semantic", "breakpoints", "mixins"],
+            imports: ["internal", "semantic", "breakpoints", "mixins"],
           },
         },
       ],
@@ -105,6 +110,11 @@ const config: Config = {
           filter: filters.FilterSemanticTokens,
         },
         {
+          destination: "internal.css",
+          format: sdFormats.cssVariables,
+          filter: filters.FilterInternalTokens,
+        },
+        {
           destination: "core.css",
           format: sdFormats.cssVariables,
           filter: filters.FilterCoreTokens,
@@ -124,7 +134,7 @@ const config: Config = {
           format: formats.FormatIndex,
           filter: filters.FilterLightOrDarkColorTokens,
           options: {
-            imports: ["semantic", "classes"],
+            imports: ["internal", "semantic", "classes"],
           },
         },
       ],
@@ -189,6 +199,16 @@ const config: Config = {
           filter: filters.FilterSemanticTokens,
         },
         {
+          destination: "internal.js",
+          format: sdFormats.javascriptEs6,
+          filter: filters.FilterInternalTokens,
+        },
+        {
+          destination: "internal.d.ts",
+          format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterInternalTokens,
+        },
+        {
           destination: "core.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterCoreTokens,
@@ -241,6 +261,11 @@ const config: Config = {
           destination: "semantic.json",
           format: formats.FormatCalciteDocs,
           filter: filters.FilterSemanticTokens,
+        },
+        {
+          destination: "internal.json",
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterInternalTokens,
         },
         {
           destination: "core.json",
