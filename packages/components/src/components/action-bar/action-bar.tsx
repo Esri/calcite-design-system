@@ -33,7 +33,7 @@ import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, OBSERVED_ATTRIBUTES, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
@@ -311,12 +311,7 @@ export class ActionBar extends LitElement {
     this.updateGroups();
     this.overflowActions();
     this.updateActions();
-    this.mutationObserver?.observe(this.el, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: OBSERVED_ATTRIBUTES,
-    });
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
   }

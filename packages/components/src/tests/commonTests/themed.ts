@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import type { RequireExactlyOne } from "type-fest";
 import { E2EElement, E2EPage, FindSelector } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect, it } from "vitest";
@@ -120,8 +119,8 @@ export function themed(componentTestSetup: ComponentTestSetup, tokens: Component
         const el = await page.find(selector);
         const tokenStyle = `${token}: ${setTokens[token]}`;
         const target: TargetInfo = { el, selector, shadowSelector, expectedValue };
-        let interactionSelector: InteractionSelector;
-        let stateName: State;
+        let interactionSelector: InteractionSelector | undefined;
+        let stateName: State | undefined;
 
         if (state) {
           stateName = (typeof state === "string" ? state : Object.keys(state)[0]) as State;
@@ -304,7 +303,7 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
       }
     }
 
-    const rect = await handle.boundingBox();
+    const rect = (await handle.boundingBox())!;
     const box = {
       x: rect.x + rect.width / 2,
       y: rect.y + rect.height / 2,
@@ -325,17 +324,21 @@ async function assertThemedProps(page: E2EPage, options: TestTarget): Promise<vo
     try {
       await targetEl[state as Exclude<State, "press">]();
     } catch (error) {
-      // checking for explicit Puppeteer ElementHandle error: https://github.com/puppeteer/puppeteer/blob/68fd7712932f94730b6186107a0509c233938084/packages/puppeteer-core/src/api/ElementHandle.ts#L625
-      const message =
-        error.message === "Node is either not clickable or not an Element"
-          ? `[${token}] target node (${target.selector}${
-              target.shadowSelector ? " >>> " + target.shadowSelector : ""
-            }) must be clickable (larger than 1x1) for state: ${state}`
-          : `[${token}] ${error.message} for state: ${state} on target node (${target.selector}${
-              target.shadowSelector ? " >>> " + target.shadowSelector : ""
-            })`;
+      if (error instanceof Error) {
+        // checking for explicit Puppeteer ElementHandle error: https://github.com/puppeteer/puppeteer/blob/68fd7712932f94730b6186107a0509c233938084/packages/puppeteer-core/src/api/ElementHandle.ts#L625
+        const message =
+          error.message === "Node is either not clickable or not an Element"
+            ? `[${token}] target node (${target.selector}${
+                target.shadowSelector ? " >>> " + target.shadowSelector : ""
+              }) must be clickable (larger than 1x1) for state: ${state}`
+            : `[${token}] ${error.message} for state: ${state} on target node (${target.selector}${
+                target.shadowSelector ? " >>> " + target.shadowSelector : ""
+              })`;
 
-      throw new Error(message);
+        throw new Error(message);
+      } else {
+        throw error;
+      }
     }
   }
 

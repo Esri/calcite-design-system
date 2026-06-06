@@ -232,8 +232,8 @@ calcite-panel {
     w-full
     flex-col
     opacity-0
-    shadow-2-sm
     relative;
+  box-shadow: var(--calcite-shadow-md);
   -webkit-overflow-scrolling: touch;
   visibility: hidden;
 

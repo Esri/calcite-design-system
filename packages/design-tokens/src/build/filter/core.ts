@@ -6,7 +6,7 @@ import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 export const filterCoreTokens: Filter["filter"] = (token, config) =>
   !token.isSource &&
   token.path[0] !== "internal" &&
-  token.type !== "typography" &&
+  token.$type !== "typography" &&
   !isLightOrDarkColorToken(token, config);
 
 export const registerFilterCoreTokens: RegisterFn = () =>
