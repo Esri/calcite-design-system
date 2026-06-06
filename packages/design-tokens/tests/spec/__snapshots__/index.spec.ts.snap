@@ -85,7 +85,10 @@ exports[`CSS > classes should match 1`] = `
 .calcite-typography-regular-minus-1h {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: var(
+    --calcite-font-weight-normal,
+    var(--calcite-internal-font-weight-regular)
+  );
   line-height: 16px;
   letter-spacing: 0;
   paragraph-spacing: 4px;
@@ -294,7 +297,10 @@ exports[`CSS > classes should match 1`] = `
 .calcite-typography-hierarchy-body {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: var(
+    --calcite-font-weight-normal,
+    var(--calcite-internal-font-weight-regular)
+  );
   line-height: 16px;
   letter-spacing: 0;
   paragraph-spacing: 4px;
@@ -987,6 +993,7 @@ exports[`CSS > global should match 1`] = `
  */
 
 :root {
+  --calcite-font-weight-regular: var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular));
   --calcite-color-background-none: rgba(255, 255, 255, 0); /** Deprecated in v4.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-border-width-none: 0;
   --calcite-border-width-sm: 1px;
@@ -1004,12 +1011,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-regular: 400;
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
-  --calcite-font-weight-medium: 500;
-  --calcite-font-weight-semibold: 600;
-  --calcite-font-weight-bold: 600;
   --calcite-font-size-xs: 10px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size: 14px;
@@ -1149,6 +1150,11 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-weight-bold: 600;
 }
 "
 `;
@@ -1159,6 +1165,7 @@ exports[`CSS > index should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+@import url("./internal.css");
 @import url("./semantic.css");
 @import url("./classes.css");
 :root {
@@ -1478,6 +1485,23 @@ exports[`CSS > index should match 1`] = `
 "
 `;
 
+exports[`CSS > internal should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --calcite-internal-font-weight-light: 300;
+  --calcite-internal-font-weight-normal: 400;
+  --calcite-internal-font-weight-regular: 400;
+  --calcite-internal-font-weight-medium: 500;
+  --calcite-internal-font-weight-semibold: 600;
+  --calcite-internal-font-weight-bold: 600;
+}
+"
+`;
+
 exports[`CSS > light should match 1`] = `
 "/**
  * Calcite Design System
@@ -1546,6 +1570,7 @@ exports[`CSS > semantic should match 1`] = `
  */
 
 :root {
+  --calcite-font-weight-regular: var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular));
   --calcite-border-width-none: 0;
   --calcite-border-width-sm: 1px;
   --calcite-border-width-md: 2px;
@@ -1562,12 +1587,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-regular: 400;
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
-  --calcite-font-weight-medium: 500;
-  --calcite-font-weight-semibold: 600;
-  --calcite-font-weight-bold: 600;
   --calcite-font-size-xs: 10px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size: 14px;
@@ -1707,6 +1726,11 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-weight-bold: 600;
 }
 "
 `;
@@ -17515,6 +17539,156 @@ exports[`DOCS (internal) > core should match 1`] = `
       "isSource": false,
       "name": "Z Index 9",
       "path": ["core", "z-index", "9"]
+    },
+    {
+      "key": "{internal.font.weight.light}",
+      "$value": "300",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Light",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "light",
+        "names": {
+          "scss": "$calcite-internal-font-weight-light",
+          "css": "var(--calcite-internal-font-weight-light)",
+          "docs": "internal.font.weight.light",
+          "es6": "calciteInternalFontWeightLight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "light"]
+    },
+    {
+      "key": "{internal.font.weight.normal}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Normal",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "normal",
+        "names": {
+          "scss": "$calcite-internal-font-weight-normal",
+          "css": "var(--calcite-internal-font-weight-normal)",
+          "docs": "internal.font.weight.normal",
+          "es6": "calciteInternalFontWeightNormal"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "normal"]
+    },
+    {
+      "key": "{internal.font.weight.regular}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Regular",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-internal-font-weight-regular",
+          "css": "var(--calcite-internal-font-weight-regular)",
+          "docs": "internal.font.weight.regular",
+          "es6": "calciteInternalFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "regular"]
+    },
+    {
+      "key": "{internal.font.weight.medium}",
+      "$value": "500",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Medium",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "medium",
+        "names": {
+          "scss": "$calcite-internal-font-weight-medium",
+          "css": "var(--calcite-internal-font-weight-medium)",
+          "docs": "internal.font.weight.medium",
+          "es6": "calciteInternalFontWeightMedium"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "medium"]
+    },
+    {
+      "key": "{internal.font.weight.semibold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Semibold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "semibold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-semibold",
+          "css": "var(--calcite-internal-font-weight-semibold)",
+          "docs": "internal.font.weight.semibold",
+          "es6": "calciteInternalFontWeightSemibold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "semibold"]
+    },
+    {
+      "key": "{internal.font.weight.bold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Bold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "bold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-bold",
+          "css": "var(--calcite-internal-font-weight-bold)",
+          "docs": "internal.font.weight.bold",
+          "es6": "calciteInternalFontWeightBold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "bold"]
     }
   ]
 }
@@ -19656,7 +19830,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{font.weight.regular}",
-      "$value": "400",
+      "$value": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
       "$type": "fontWeight",
       "attributes": {
         "category": "font",
@@ -23007,7 +23181,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{typography.default.default}",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "$type": "typography",
       "attributes": {
         "category": "typography",
@@ -23058,7 +23232,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23100,7 +23274,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23142,7 +23316,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23184,7 +23358,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23226,7 +23400,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23268,7 +23442,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23310,7 +23484,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23325,7 +23499,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{typography.default.regular.-1h}",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "$type": "typography",
       "attributes": {
         "category": "typography",
@@ -23377,7 +23551,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23419,7 +23593,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23461,7 +23635,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23503,7 +23677,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23545,7 +23719,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23587,7 +23761,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23629,7 +23803,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23671,7 +23845,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23713,7 +23887,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23755,7 +23929,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23797,7 +23971,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23839,7 +24013,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23881,7 +24055,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23923,7 +24097,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -23965,7 +24139,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24007,7 +24181,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24049,7 +24223,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24091,7 +24265,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24133,7 +24307,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24175,7 +24349,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24217,7 +24391,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24259,7 +24433,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24301,7 +24475,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24343,7 +24517,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24385,7 +24559,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24427,7 +24601,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24469,7 +24643,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24511,7 +24685,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24553,7 +24727,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24595,7 +24769,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24637,7 +24811,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24679,7 +24853,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24721,7 +24895,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24763,7 +24937,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24805,7 +24979,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -24847,7 +25021,7 @@ exports[`DOCS (internal) > global should match 1`] = `
             "sans-serif"
           ],
           "fontSize": "14px",
-          "fontWeight": "400",
+          "fontWeight": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
           "lineHeight": "16px",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
@@ -25062,7 +25236,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     },
     {
       "key": "{typography.hierarchy.body.default}",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "$type": "typography",
       "attributes": {
         "category": "typography",
@@ -25362,6 +25536,165 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Z Index Tooltip",
       "path": ["z-index", "tooltip"]
+    }
+  ]
+}
+"
+`;
+
+exports[`DOCS (internal) > internal should match 1`] = `
+"{
+  "timestamp": "TEST_TIMESTAMP",
+  "tokens": [
+    {
+      "key": "{internal.font.weight.light}",
+      "$value": "300",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Light",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "light",
+        "names": {
+          "scss": "$calcite-internal-font-weight-light",
+          "css": "var(--calcite-internal-font-weight-light)",
+          "docs": "internal.font.weight.light",
+          "es6": "calciteInternalFontWeightLight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "light"]
+    },
+    {
+      "key": "{internal.font.weight.normal}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Normal",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "normal",
+        "names": {
+          "scss": "$calcite-internal-font-weight-normal",
+          "css": "var(--calcite-internal-font-weight-normal)",
+          "docs": "internal.font.weight.normal",
+          "es6": "calciteInternalFontWeightNormal"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "normal"]
+    },
+    {
+      "key": "{internal.font.weight.regular}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Regular",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-internal-font-weight-regular",
+          "css": "var(--calcite-internal-font-weight-regular)",
+          "docs": "internal.font.weight.regular",
+          "es6": "calciteInternalFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "regular"]
+    },
+    {
+      "key": "{internal.font.weight.medium}",
+      "$value": "500",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Medium",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "medium",
+        "names": {
+          "scss": "$calcite-internal-font-weight-medium",
+          "css": "var(--calcite-internal-font-weight-medium)",
+          "docs": "internal.font.weight.medium",
+          "es6": "calciteInternalFontWeightMedium"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "medium"]
+    },
+    {
+      "key": "{internal.font.weight.semibold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Semibold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "semibold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-semibold",
+          "css": "var(--calcite-internal-font-weight-semibold)",
+          "docs": "internal.font.weight.semibold",
+          "es6": "calciteInternalFontWeightSemibold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "semibold"]
+    },
+    {
+      "key": "{internal.font.weight.bold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Bold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "bold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-bold",
+          "css": "var(--calcite-internal-font-weight-bold)",
+          "docs": "internal.font.weight.bold",
+          "es6": "calciteInternalFontWeightBold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "bold"]
     }
   ]
 }
@@ -25843,7 +26176,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     },
     {
       "key": "{font.weight.regular}",
-      "$value": "400",
+      "$value": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
       "$type": "fontWeight",
       "attributes": {
         "category": "font",
@@ -30931,7 +31264,8 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400";
+export const calciteFontWeightRegular =
+  "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))";
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -31102,7 +31436,8 @@ export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "14px",
-  fontWeight: "400",
+  fontWeight:
+    "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
   lineHeight: "16px",
   letterSpacing: "0",
   paragraphSpacing: "4px",
@@ -31137,7 +31472,8 @@ export const calciteTypographyRegularMinus2h = { fontSize: "12px" };
 export const calciteTypographyRegularMinus1h = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "14px",
-  fontWeight: "400",
+  fontWeight:
+    "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
   lineHeight: "16px",
   letterSpacing: "0",
   paragraphSpacing: "4px",
@@ -31338,7 +31674,8 @@ export const calciteTypographyHierarchyBodySnug = { lineHeight: "1.375" };
 export const calciteTypographyHierarchyBody = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
   fontSize: "14px",
-  fontWeight: "400",
+  fontWeight:
+    "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
   lineHeight: "16px",
   letterSpacing: "0",
   paragraphSpacing: "4px",
@@ -31984,6 +32321,36 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
+exports[`ES6 > internal should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const calciteInternalFontWeightLight = "300";
+export const calciteInternalFontWeightNormal = "400";
+export const calciteInternalFontWeightRegular = "400";
+export const calciteInternalFontWeightMedium = "500";
+export const calciteInternalFontWeightSemibold = "600";
+export const calciteInternalFontWeightBold = "600";
+"
+`;
+
+exports[`ES6 > internal types should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const calciteInternalFontWeightLight: string;
+export const calciteInternalFontWeightNormal: string;
+export const calciteInternalFontWeightRegular: string;
+export const calciteInternalFontWeightMedium: string;
+export const calciteInternalFontWeightSemibold: string;
+export const calciteInternalFontWeightBold: string;
+"
+`;
+
 exports[`ES6 > semantic should match 1`] = `
 "/**
  * Calcite Design System
@@ -32020,7 +32387,8 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400";
+export const calciteFontWeightRegular =
+  "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))";
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -33170,6 +33538,7 @@ exports[`SCSS > global should match 1`] = `
 // File to be deprecated in next major release
 // Do not edit directly, this file was auto-generated.
 
+$calcite-font-weight-regular: var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular));
 $calcite-color-background-none: rgba(255, 255, 255, 0); // Deprecated in v4.0.0, removal target v5.0.0 - No longer needed.
 $calcite-border-width-none: 0;
 $calcite-border-width-sm: 1px;
@@ -33187,12 +33556,6 @@ $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
-$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-regular: 400;
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-$calcite-font-weight-medium: 500;
-$calcite-font-weight-semibold: 600;
-$calcite-font-weight-bold: 600;
 $calcite-font-size-xs: 10px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size: 14px;
@@ -33332,6 +33695,11 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-medium: 500;
+$calcite-font-weight-semibold: 600;
+$calcite-font-weight-bold: 600;
 "
 `;
 
@@ -33341,6 +33709,7 @@ exports[`SCSS > index should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+@use "./internal.scss";
 @use "./semantic.scss";
 @use "./breakpoints.scss";
 @use "./mixins.scss";
@@ -33471,6 +33840,20 @@ exports[`SCSS > index should match 1`] = `
 "
 `;
 
+exports[`SCSS > internal should match 1`] = `
+"
+// Calcite Design System
+// Do not edit directly, this file was auto-generated.
+
+$calcite-internal-font-weight-light: 300;
+$calcite-internal-font-weight-normal: 400;
+$calcite-internal-font-weight-regular: 400;
+$calcite-internal-font-weight-medium: 500;
+$calcite-internal-font-weight-semibold: 600;
+$calcite-internal-font-weight-bold: 600;
+"
+`;
+
 exports[`SCSS > light should match 1`] = `
 "
 // Calcite Design System
@@ -33538,7 +33921,10 @@ exports[`SCSS > mixins should match 1`] = `
 @mixin calcite-typography {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: var(
+    --calcite-font-weight-normal,
+    var(--calcite-internal-font-weight-regular)
+  );
   line-height: 16px;
   letter-spacing: 0;
   paragraph-spacing: 4px;
@@ -33864,6 +34250,7 @@ exports[`SCSS > semantic should match 1`] = `
 // Calcite Design System
 // Do not edit directly, this file was auto-generated.
 
+$calcite-font-weight-regular: var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular));
 $calcite-border-width-none: 0;
 $calcite-border-width-sm: 1px;
 $calcite-border-width-md: 2px;
@@ -33880,12 +34267,6 @@ $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
-$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-regular: 400;
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-$calcite-font-weight-medium: 500;
-$calcite-font-weight-semibold: 600;
-$calcite-font-weight-bold: 600;
 $calcite-font-size-xs: 10px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size: 14px;
@@ -34025,5 +34406,10 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-medium: 500;
+$calcite-font-weight-semibold: 600;
+$calcite-font-weight-bold: 600;
 "
 `;
