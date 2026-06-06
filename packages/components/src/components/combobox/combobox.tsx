@@ -1002,7 +1002,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
     // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
-    setTimeout(() => this.scrollToActiveOrSelectedItem(true), 0);
+    setTimeout(() => this.scrollToActiveOrSelectedItem(this.activeItemIndex < 0), 0);
   }
 
   onOpen(): void {
@@ -1067,7 +1067,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private ensureRecentSelectedItemIsActive(): void {
-    const { selectedItems, keyboardNavItems } = this;
+    const { activeItemIndex, selectedItems, keyboardNavItems } = this;
+
+    if (activeItemIndex > -1 && keyboardNavItems[activeItemIndex]) {
+      this.updateActiveItemIndex(activeItemIndex);
+      return;
+    }
+
     const selectedItem = selectedItems[selectedItems.length - 1];
     const targetIndex = selectedItem
       ? keyboardNavItems.indexOf(selectedItem)
