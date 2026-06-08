@@ -760,12 +760,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       }
 
       this.updateComplete.then(async () => {
-        await this.refreshSelectionDisplay();
-
         if (transitioningFromAllSelected) {
           await this.updateComplete;
-          await this.refreshSelectionDisplay();
         }
+
+        await this.refreshSelectionDisplay();
 
         if (this.fitFollowUpRefreshPromise) {
           await this.fitFollowUpRefreshPromise;
@@ -1156,6 +1155,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const selectedChipEls = chipEls.filter((chipEl) => chipEl.selected);
     const enabledSelectedChipEls = selectedChipEls.filter((chipEl) => !chipEl.disabled);
     const disabledSelectedChipEls = selectedChipEls.filter((chipEl) => chipEl.disabled);
+    const getChipWidth = (chipEl: Chip["el"]): number => {
+      const computedWidth = getElementWidth(chipEl);
+      const fallbackWidth = chipEl.getBoundingClientRect().width;
+
+      return Number.isFinite(computedWidth) && computedWidth > 0 ? computedWidth : fallbackWidth;
+    };
+
+    selectedChipEls.forEach((chipEl) => getChipWidth(chipEl));
 
     chipEls.forEach((chipEl) => {
       this.hideChip(chipEl);
@@ -1169,7 +1176,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       let visibleChipsCount = 0;
 
       chips.forEach((chipEl) => {
-        const chipElWidth = getElementWidth(chipEl);
+        const chipElWidth = getChipWidth(chipEl);
 
         if (chipElWidth && chipElWidth <= availableHorizontalChipElSpace) {
           availableHorizontalChipElSpace -= chipElWidth + chipContainerElGap;
@@ -1195,126 +1202,128 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     this.refreshingSelectionDisplay = true;
 
-    try {
-      await this.componentOnReady();
+    await this.componentOnReady();
 
-      if (isSingleLike(this.selectionMode)) {
-        return;
-      }
+    if (isSingleLike(this.selectionMode)) {
+      this.refreshingSelectionDisplay = false;
+      return;
+    }
 
-      if (!this.textInputRef.value || !this.chipContainerEl) {
-        return;
-      }
+    if (!this.textInputRef.value || !this.chipContainerEl) {
+      this.refreshingSelectionDisplay = false;
+      return;
+    }
 
-      const {
-        allSelectedIndicatorChipRef,
-        chipContainerEl,
-        selectionDisplay,
-        placeholder,
-        selectedIndicatorChipRef,
-        textInputRef,
-      } = this;
+    const {
+      allSelectedIndicatorChipRef,
+      chipContainerEl,
+      selectionDisplay,
+      placeholder,
+      selectedIndicatorChipRef,
+      textInputRef,
+    } = this;
 
-      const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap);
-      const chipContainerElWidth = getElementWidth(chipContainerEl);
-      const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
-      // Heuristic placeholder width multiplier for stable hidden chip calculations.
-      const placeholderWidthMultiplier = 0.55;
-      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
-      const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-      const placeholderWidth =
-        measuredPlaceholderWidth > 0
-          ? measuredPlaceholderWidth
-          : Math.max(
-              inputMinWidth,
-              Math.round(
-                (placeholder?.length || 0) *
-                  (parseFloat(fontSize) || parseInt(calciteSize48)) *
-                  placeholderWidthMultiplier,
-              ),
-            );
-      const fitInputWidth = Math.max(inputMinWidth, placeholderWidth);
-      const inputWidth =
-        (selectionDisplay === "fit" ? fitInputWidth : placeholderWidth) + chipContainerElGap;
-      const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
-      const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
-      const largestSelectedIndicatorChipWidth = Math.max(
-        allSelectedIndicatorChipElWidth,
-        selectedIndicatorChipElWidth,
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap);
+    const chipContainerElWidth = getElementWidth(chipContainerEl);
+    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    // Heuristic placeholder width multiplier for stable hidden chip calculations.
+    const placeholderWidthMultiplier = 0.55;
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+    const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
+    const placeholderWidth =
+      measuredPlaceholderWidth > 0
+        ? measuredPlaceholderWidth
+        : Math.max(
+            inputMinWidth,
+            Math.round(
+              (placeholder?.length || 0) *
+                (parseFloat(fontSize) || parseInt(calciteSize48)) *
+                placeholderWidthMultiplier,
+            ),
+          );
+    const fitInputWidth = Math.max(inputMinWidth, placeholderWidth);
+    const inputWidth =
+      (selectionDisplay === "fit" ? fitInputWidth : placeholderWidth) + chipContainerElGap;
+    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
+    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
+    const largestSelectedIndicatorChipWidth = Math.max(
+      allSelectedIndicatorChipElWidth,
+      selectedIndicatorChipElWidth,
+    );
+
+    this.setCompactSelectionDisplay({
+      chipContainerElGap,
+      chipContainerElWidth,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+    });
+
+    if (selectionDisplay !== "fit" && this.allSelected && this.selectAllEnabled) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+        if (chipEl) {
+          this.hideChip(chipEl);
+        }
+      });
+    }
+
+    if (this.indeterminate) {
+      this.selectedItems.forEach((item) => {
+        const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
+        if (chipEl) {
+          this.showChip(chipEl);
+        }
+      });
+    }
+
+    if (selectionDisplay === "fit") {
+      const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
+        (chipEl) => {
+          const chipValue = chipEl.value;
+          const hasValue = chipValue != null && `${chipValue}` !== "";
+          return chipEl.disabled || hasValue;
+        },
       );
 
-      this.setCompactSelectionDisplay({
-        chipContainerElGap,
-        chipContainerElWidth,
-        inputWidth,
-        largestSelectedIndicatorChipWidth,
-      });
-
-      if (selectionDisplay !== "fit" && this.allSelected && this.selectAllEnabled) {
-        this.selectedItems.forEach((item) => {
-          const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-          if (chipEl) {
-            this.hideChip(chipEl);
-          }
-        });
-      }
-
-      if (this.indeterminate) {
-        this.selectedItems.forEach((item) => {
-          const chipEl = this.referenceEl.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-          if (chipEl) {
-            this.showChip(chipEl);
-          }
-        });
-      }
-
-      if (selectionDisplay === "fit") {
-        const chipEls = Array.from(this.el.shadowRoot.querySelectorAll("calcite-chip")).filter(
-          (chipEl) => {
-            const chipValue = chipEl.value;
-            const hasValue = chipValue != null && `${chipValue}` !== "";
-            return chipEl.disabled || hasValue;
-          },
-        );
-
-        const { hiddenChipIndicatorWidth, hideSelectedChips, reservedPlaceholderInputWidth } =
-          this.getFitCompactDisplayState({
-            chipContainerElGap,
-            chipContainerElWidth,
-            inputMinWidth,
-            placeholderWidth,
-            selectedIndicatorChipElWidth,
-          });
-
-        const availableHorizontalChipElSpace = Math.round(
-          chipContainerElWidth -
-            (hiddenChipIndicatorWidth +
-              chipContainerElGap +
-              reservedPlaceholderInputWidth +
-              chipContainerElGap),
-        );
-
-        this.refreshChipDisplay({
-          availableHorizontalChipElSpace,
+      const { hiddenChipIndicatorWidth, hideSelectedChips, reservedPlaceholderInputWidth } =
+        this.getFitCompactDisplayState({
           chipContainerElGap,
-          chipEls,
-          hideSelectedChips,
+          chipContainerElWidth,
+          inputMinWidth,
+          placeholderWidth,
+          selectedIndicatorChipElWidth,
         });
-        const previousHiddenChipsCount = this.selectedHiddenChipsCount;
-        this.syncChipVisibilityCounts(chipEls);
-        const didHiddenCountChange = previousHiddenChipsCount !== this.selectedHiddenChipsCount;
 
-        if (didHiddenCountChange && followUpRefresh) {
-          this.fitFollowUpRefreshPromise = this.updateComplete
-            .then(() => this.refreshSelectionDisplay(false))
-            .finally(() => {
-              this.fitFollowUpRefreshPromise = null;
-            });
-        }
+      const availableHorizontalChipElSpace = Math.round(
+        chipContainerElWidth -
+          (hiddenChipIndicatorWidth +
+            chipContainerElGap +
+            reservedPlaceholderInputWidth +
+            chipContainerElGap),
+      );
+
+      this.refreshChipDisplay({
+        availableHorizontalChipElSpace,
+        chipContainerElGap,
+        chipEls,
+        hideSelectedChips,
+      });
+      const previousHiddenChipsCount = this.selectedHiddenChipsCount;
+      this.syncChipVisibilityCounts(chipEls);
+      const didHiddenCountChange = previousHiddenChipsCount !== this.selectedHiddenChipsCount;
+
+      if (didHiddenCountChange && followUpRefresh) {
+        this.fitFollowUpRefreshPromise = this.updateComplete.then(() =>
+          this.refreshSelectionDisplay(false),
+        );
+
+        this.fitFollowUpRefreshPromise = this.fitFollowUpRefreshPromise.then(() => {
+          this.fitFollowUpRefreshPromise = null;
+        });
       }
-    } finally {
-      this.refreshingSelectionDisplay = false;
     }
+
+    this.refreshingSelectionDisplay = false;
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
@@ -1779,7 +1788,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     this.activeChipIndex = -1;
     this.textInputRef.value.focus();
-    if (this.selectionDisplay === "fit" && this.isMulti()) {
+    if (this.open && this.selectionDisplay === "fit" && this.isMulti()) {
       void this.refreshSelectionDisplay();
     }
   }
