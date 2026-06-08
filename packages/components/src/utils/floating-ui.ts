@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer } from "lit";
 import {
   arrow,
@@ -58,7 +57,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `floatingElement` containing the floating ui.
    */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /**
    * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
@@ -83,7 +82,7 @@ interface PositionFloatingUiOptions {
   /**
    * The `referenceElement` used to position the component according to its `placement` value.
    */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 
   /**
    * The type of floating UI, which determines the default middleware used for positioning.
@@ -319,10 +318,10 @@ export interface FloatingUIComponent {
   floatingLayout?: FloatingLayout;
 
   /** The `floatingElement` containing the floating ui. */
-  floatingEl: HTMLElement;
+  floatingEl?: HTMLElement;
 
   /** The `referenceElement` used to position the component according to its `placement` value. */
-  referenceEl: ReferenceElement;
+  referenceEl?: ReferenceElement;
 }
 
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
@@ -504,13 +503,13 @@ const componentToDebouncedRepositionMap = new WeakMap<
 async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   const { referenceEl, floatingEl } = component;
 
-  if (!floatingEl.isConnected) {
+  if (!floatingEl?.isConnected) {
     return;
   }
 
   const effectiveAutoUpdate = !isServer
     ? autoUpdate
-    : (_refEl: HTMLElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
+    : (_refEl: ReferenceElement, _floatingEl: HTMLElement, updateCallback: () => void): (() => void) => {
         updateCallback();
         return () => {
           /* noop */
@@ -523,7 +522,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
   let repositionPromise: Promise<void>;
 
   const cleanUp = effectiveAutoUpdate(
-    referenceEl,
+    referenceEl!,
     floatingEl,
     // callback is invoked immediately
     () => {
@@ -537,7 +536,7 @@ async function runAutoUpdate(component: FloatingUIComponent): Promise<void> {
 
   autoUpdatingComponentMap.set(component, { state: "active", cleanUp });
 
-  return repositionPromise;
+  return repositionPromise!;
 }
 
 /**

@@ -2,14 +2,14 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
+  LitElement,
   LuminaJsx,
+  method,
+  property,
+  state,
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
@@ -41,12 +41,12 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import {
   CSS,
+  DIRECTION,
+  ICONS,
   IDS,
   INPUT_TYPE_ICONS,
-  SLOTS,
-  ICONS,
-  DIRECTION,
   NUDGE_DELAY_IN_MS,
+  SLOTS,
 } from "./resources";
 import { NumericInputComponent, TextualInputComponent } from "./common/input";
 import { styles } from "./input.scss";
@@ -94,6 +94,7 @@ export class Input
 
   formSupport = useForm<this>({
     inputType: "text",
+    getValue: () => (this.type === "file" ? (this.childRef.value?.files ?? null) : this.value),
   })(this);
 
   private inlineEditableEl: InlineEditable["el"];
@@ -1035,7 +1036,7 @@ export class Input
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
-          disabled={this.disabled ? true : null}
+          disabled={this.disabled}
           enterKeyHint={enterKeyHint}
           inputMode={inputMode}
           key="localized-input"
@@ -1073,7 +1074,7 @@ export class Input
             [CSS.inlineChild]: !!this.inlineEditableEl,
           }}
           defaultValue={this.defaultValue}
-          disabled={this.disabled ? true : null}
+          disabled={this.disabled}
           enterKeyHint={enterKeyHint}
           inputMode={inputMode}
           max={this.maxString}
@@ -1091,10 +1092,8 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={
-            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
-          }
-          required={this.required ? true : null}
+          ref={this.childRef}
+          required={this.required}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -89,11 +88,11 @@ it("keeps aria attributes in sync across DOM mutations", async () => {
 
   await page.$eval("calcite-tabs", (element: Tabs["el"]) => {
     element.ownerDocument
-      .getElementById("insert-after-title")
+      .getElementById("insert-after-title")!
       .insertAdjacentHTML("afterend", `<calcite-tab-title id="inserted-title">Test</calcite-tab-title>`);
 
     element.ownerDocument
-      .getElementById("insert-after-tab")
+      .getElementById("insert-after-tab")!
       .insertAdjacentHTML("afterend", `<calcite-tab id="inserted-tab">Test</calcite-tab>`);
   });
 
@@ -273,7 +272,7 @@ it("should set selected title when tab change is emitted", async () => {
   await page.evaluate(() =>
     document.addEventListener(
       "calciteTabChange",
-      (event) => ((window as TestWindow).selectedTitleTab = (event.target as TabNav["el"]).selectedTitle.tab),
+      (event) => ((window as TestWindow).selectedTitleTab = (event.target as TabNav["el"]).selectedTitle!.tab),
       { once: true },
     ),
   );
@@ -364,13 +363,13 @@ describe("closing tabs", () => {
 
     await page.evaluate(() => {
       document.addEventListener("calciteTabChange", (event) => {
-        (window as TestWindow).selectedTitleTab = (event.target as TabNav["el"]).selectedTitle.innerText;
+        (window as TestWindow).selectedTitleTab = (event.target as TabNav["el"]).selectedTitle!.innerText;
       });
       document.addEventListener("calciteTabClose", (event) => {
         const closedTabTitleElement = event.target as TabTitle["el"];
         const id = closedTabTitleElement.id.split("").at(-1);
         closedTabTitleElement.remove();
-        document.querySelector(`calcite-tab#tab-${id}`).remove();
+        document.querySelector(`calcite-tab#tab-${id}`)!.remove();
       });
     });
 
@@ -396,7 +395,7 @@ describe("closing tabs", () => {
 
       await page.evaluate(() => {
         document
-          .getElementById("tab-title-4")
+          .getElementById("tab-title-4")!
           .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
       });
       await page.waitForChanges();
@@ -415,7 +414,7 @@ describe("closing tabs", () => {
 
       await page.evaluate(() => {
         document
-          .getElementById("tab-title-4")
+          .getElementById("tab-title-4")!
           .insertAdjacentHTML("afterend", `<calcite-tab-title id="tab-title-5" closable>Test</calcite-tab-title>`);
       });
       await page.waitForChanges();
@@ -469,7 +468,7 @@ describe("closing tabs", () => {
       tabs.addEventListener("calciteTabsClose", (event) => {
         const closedTitle = event.target as TabTitle["el"];
         const closedId = closedTitle.id;
-        const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`);
+        const closedTab = tabs.querySelector(`calcite-tab[aria-labelledby="${closedId}"]`)!;
 
         closedTitle.remove();
         closedTab.remove();
@@ -484,7 +483,7 @@ describe("closing tabs", () => {
       await tabCloseSpy.next();
     }
 
-    expect(await allTabTitles.at(-1).getProperty("selected")).toBe(true);
+    expect(await allTabTitles.at(-1)!.getProperty("selected")).toBe(true);
   });
 });
 

@@ -281,6 +281,50 @@ describe("sticky group heading with filter", () => {
 
     expect(filterZIndex).toBeGreaterThan(stickyGroupZIndex);
   });
+
+  it("removes sticky heading offset when filter is disabled", async () => {
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled style="height: 160px; overflow-y: auto;">
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="A1" value="a1" />
+          <calcite-list-item label="A2" value="a2" />
+          <calcite-list-item label="A3" value="a3" />
+          <calcite-list-item label="A4" value="a4" />
+          <calcite-list-item label="A5" value="a5" />
+          <calcite-list-item label="A6" value="a6" />
+          <calcite-list-item label="A7" value="a7" />
+          <calcite-list-item label="A8" value="a8" />
+        </calcite-list-item-group>
+        <calcite-list-item-group heading="Group B">
+          <calcite-list-item label="B1" value="b1" />
+          <calcite-list-item label="B2" value="b2" />
+          <calcite-list-item label="B3" value="b3" />
+          <calcite-list-item label="B4" value="b4" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const list = el as HTMLElement;
+    const stickyContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
+
+    list.scrollTop = scrollTopValue;
+    await afterNextFrame();
+    expect(list.scrollTop).toBeGreaterThan(0);
+
+    const filterInput = page.getBySelector("calcite-list calcite-filter").element();
+    const filterHeight = filterInput.getBoundingClientRect().height;
+    const topWithFilter = stickyContainer.getBoundingClientRect().top;
+
+    el.filterEnabled = false;
+    await afterNextTask();
+    await afterNextFrame();
+
+    const topWithoutFilter = stickyContainer.getBoundingClientRect().top;
+    expect(topWithFilter - topWithoutFilter).toBeGreaterThanOrEqual(filterHeight - 2);
+  });
 });
 
 describe("group filtering", () => {
@@ -441,6 +485,41 @@ describe("group filtering", () => {
 
     expect(rerenderedFilterEl.value).toBe(typedValue);
     expect(el.filterText).toBe("");
+  });
+
+  it("preserves filter input text while items are loading before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+      </calcite-list>,
+    );
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(el.filterText).toBe("");
+
+    for (let i = 0; i < 20; i++) {
+      const item = document.createElement("calcite-list-item");
+      item.label = `Loading item ${i}`;
+      item.value = `loading-item-${i}`;
+      el.append(item);
+
+      vi.advanceTimersByTime(DEBOUNCE.nextTick + 1);
+
+      const filterEl = page
+        .getBySelector("calcite-list calcite-filter")
+        .element() as HTMLElement & {
+        value: string;
+      };
+
+      expect(filterEl.value).toBe(typedValue);
+      expect(el.filterText).toBe("");
+    }
+
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    expect(el.filterText).toBe(typedValue);
   });
 });
 

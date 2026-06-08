@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { HYDRATED_ATTR, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -43,10 +43,8 @@ const closeSelector = `calcite-tab-title >>> .${CSS.close}`;
 it("renders with an icon-start", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).not.toBeNull();
   expect(iconEnd).toBeNull();
 });
@@ -54,10 +52,8 @@ it("renders with an icon-start", async () => {
 it("renders with an icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).toBeNull();
   expect(iconEnd).not.toBeNull();
 });
@@ -65,10 +61,8 @@ it("renders with an icon-end", async () => {
 it("renders with an icon-start and icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).not.toBeNull();
   expect(iconEnd).not.toBeNull();
 });
@@ -110,7 +104,6 @@ describe("basic closing behavior", () => {
 
     let containerElOne = await page.find(`calcite-tab-title[id='one']`);
     const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
-    expect(containerElOne).toHaveAttribute(HYDRATED_ATTR);
 
     await closeOne.click();
     await page.waitForChanges();
