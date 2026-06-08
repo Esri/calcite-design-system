@@ -322,8 +322,8 @@ export class Table extends LitElement {
   private clearStickyHeaderRowStyles(): void {
     this.headRows?.forEach((row) => {
       row.style.removeProperty("--calcite-internal-table-header-offset");
-      row.style.removeProperty("--calcite-internal-table-header-overlap");
       row.style.removeProperty("--calcite-internal-table-header-z-index");
+      row.style.removeProperty("--calcite-internal-table-header-row-position");
     });
   }
 
@@ -523,37 +523,41 @@ export class Table extends LitElement {
       return;
     }
 
-    this.headRows?.forEach((row) => {
-      const tableRow = this.getStickyHeaderRowElement(row);
+    const firstHeadRow = this.headRows?.[0];
 
-      if (tableRow) {
-        this.stickyHeaderResizeObserver?.observe(tableRow);
+    if (!firstHeadRow) {
+      return;
+    }
+
+    const tableRow = this.getStickyHeaderRowElement(firstHeadRow);
+
+    if (tableRow) {
+      this.stickyHeaderResizeObserver?.observe(tableRow);
+    }
+
+    this.stickyHeaderMutationObserver?.observe(firstHeadRow, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+    });
+
+    const headers = (firstHeadRow.focusableCells || []).filter((cell): cell is TableHeader["el"] =>
+      cell.matches("calcite-table-header"),
+    );
+
+    headers.forEach((header) => {
+      const headerCell = this.getStickyHeaderCellElement(header);
+
+      if (headerCell) {
+        this.stickyHeaderResizeObserver?.observe(headerCell);
+
+        this.stickyHeaderMutationObserver?.observe(headerCell, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        });
       }
-
-      this.stickyHeaderMutationObserver?.observe(row, {
-        childList: true,
-        subtree: true,
-        characterData: true,
-        attributes: true,
-      });
-
-      const headers = (row.focusableCells || []).filter((cell): cell is TableHeader["el"] =>
-        cell.matches("calcite-table-header"),
-      );
-
-      headers.forEach((header) => {
-        const headerCell = this.getStickyHeaderCellElement(header);
-
-        if (headerCell) {
-          this.stickyHeaderResizeObserver?.observe(headerCell);
-
-          this.stickyHeaderMutationObserver?.observe(headerCell, {
-            childList: true,
-            subtree: true,
-            characterData: true,
-          });
-        }
-      });
     });
   }
 
@@ -639,25 +643,22 @@ export class Table extends LitElement {
   }
 
   private updateStickyHeaderOffsets(): void {
-    let stickyOffset = 0;
-    const headerCount = this.headRows?.length || 0;
+    const firstHeadRow = this.headRows?.[0];
 
     this.headRows?.forEach((row, index) => {
-      const tableRow = this.getStickyHeaderRowElement(row);
-      const tableRowHeight =
-        tableRow?.getBoundingClientRect().height || tableRow?.offsetHeight || 0;
-
-      row.style.setProperty("--calcite-internal-table-header-offset", `${stickyOffset}px`);
-      row.style.setProperty("--calcite-internal-table-header-overlap", index === 0 ? "0px" : "2px");
+      row.style.setProperty("--calcite-internal-table-header-offset", "0px");
+      row.style.setProperty("--calcite-internal-table-header-z-index", "2");
       row.style.setProperty(
-        "--calcite-internal-table-header-z-index",
-        `${headerCount - index + 1}`,
+        "--calcite-internal-table-header-row-position",
+        index === 0 ? "sticky" : "static",
       );
-
-      stickyOffset += tableRowHeight;
     });
 
-    this.stickyHeaderTotalHeight = stickyOffset;
+    const firstTableRow = firstHeadRow ? this.getStickyHeaderRowElement(firstHeadRow) : null;
+    const firstTableRowHeight =
+      firstTableRow?.getBoundingClientRect().height || firstTableRow?.offsetHeight || 0;
+
+    this.stickyHeaderTotalHeight = firstTableRowHeight;
     this.el.style.setProperty(
       "--calcite-internal-table-sticky-header-total-height",
       `${this.stickyHeaderTotalHeight}px`,
@@ -729,6 +730,15 @@ export class Table extends LitElement {
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.headRows?.forEach((row, index) => {
+      row.style.setProperty("--calcite-internal-table-header-offset", "0px");
+      row.style.setProperty("--calcite-internal-table-header-z-index", "2");
+      row.style.setProperty(
+        "--calcite-internal-table-header-row-position",
+        this.stickyHeader && index === 0 ? "sticky" : "static",
+      );
+    });
 
     if (this.stickyHeader) {
       this.observeStickyHeaderRows();

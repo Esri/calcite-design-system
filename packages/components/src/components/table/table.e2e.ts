@@ -244,7 +244,7 @@ describe("sticky header", () => {
     expect(separators.lastCellBorderBottomWidth).toBe("0px");
   });
 
-  it("applies overlap coverage for stacked sticky headers to avoid seams while scrolling", async () => {
+  it("keeps only the first header row sticky when sticky-header is enabled", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -261,99 +261,49 @@ describe("sticky header", () => {
       </calcite-table>`,
     );
 
-    const stickyHeaderStyles = await page.$eval(
+    const stickyHeaderMetrics = await page.$eval(
       "calcite-table",
       async (table, tableContainerClass) => {
         const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
         const headerRows = table.querySelectorAll<HTMLElement>(`calcite-table-row[slot="table-header"]`);
+        const firstHeaderRow = headerRows[0];
         const secondHeaderRow = headerRows[1];
-        const secondHeaderCell = secondHeaderRow
-          .querySelector<HTMLElement>("calcite-table-header")
-          .shadowRoot.querySelector<HTMLTableCellElement>("th");
-        const scrollContainerBeforeStyles = getComputedStyle(scrollContainer, "::before");
+
+        const getMetrics = () => {
+          const firstHeaderCell = firstHeaderRow
+            .querySelector<HTMLElement>("calcite-table-header")
+            .shadowRoot.querySelector<HTMLTableCellElement>("th");
+          const secondHeaderCell = secondHeaderRow
+            .querySelector<HTMLElement>("calcite-table-header")
+            .shadowRoot.querySelector<HTMLTableCellElement>("th");
+
+          return {
+            firstHeaderPosition: getComputedStyle(firstHeaderRow.shadowRoot.querySelector("tr")).position,
+            firstHeaderTop: Math.round(firstHeaderCell.getBoundingClientRect().top),
+            secondHeaderPosition: getComputedStyle(secondHeaderRow.shadowRoot.querySelector("tr")).position,
+            secondHeaderTop: Math.round(secondHeaderCell.getBoundingClientRect().top),
+          };
+        };
+
+        const before = getMetrics();
 
         scrollContainer.scrollTop = scrollContainer.scrollHeight;
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
         return {
-          scrollContainerBeforeBackgroundColor: scrollContainerBeforeStyles.backgroundColor,
-          scrollContainerBeforeHeight: scrollContainerBeforeStyles.height,
-          overlap: getComputedStyle(secondHeaderRow).getPropertyValue("--calcite-internal-table-header-overlap").trim(),
-          secondHeaderBoxShadow: getComputedStyle(secondHeaderCell).boxShadow,
-          secondHeaderTop: Math.round(secondHeaderCell.getBoundingClientRect().top),
+          after: getMetrics(),
+          before,
         };
       },
       TABLE_CSS.tableContainer,
     );
 
-    expect(stickyHeaderStyles.scrollContainerBeforeHeight).toBe("1px");
-    expect(stickyHeaderStyles.scrollContainerBeforeBackgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-    expect(stickyHeaderStyles.overlap).toBe("2px");
-    expect(stickyHeaderStyles.secondHeaderBoxShadow).not.toBe("none");
-    expect(stickyHeaderStyles.secondHeaderBoxShadow.split(",").length).toBeGreaterThan(1);
-    expect(stickyHeaderStyles.secondHeaderTop).toBeGreaterThanOrEqual(0);
-  });
-
-  it("uses subpixel sticky header row heights when calculating stacked offsets", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(
-      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(7)}
-      </calcite-table>`,
-    );
-
-    const stickyHeaderStyles = await page.$eval("calcite-table", async (table) => {
-      const headerRows = table.querySelectorAll<HTMLElement>(`calcite-table-row[slot="table-header"]`);
-
-      headerRows.forEach((row, index) => {
-        const tableRow = row.shadowRoot.querySelector("tr") as HTMLTableRowElement;
-        const fractionalHeight = index === 0 ? 20.5 : 21.25;
-
-        Object.defineProperty(tableRow, "offsetHeight", {
-          configurable: true,
-          get: () => Math.floor(fractionalHeight),
-        });
-
-        tableRow.getBoundingClientRect = () =>
-          ({
-            bottom: fractionalHeight,
-            height: fractionalHeight,
-            left: 0,
-            right: 0,
-            top: 0,
-            width: 0,
-            x: 0,
-            y: 0,
-            toJSON: () => ({}),
-          }) as DOMRect;
-      });
-
-      table.removeAttribute("sticky-header");
-      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      table.setAttribute("sticky-header", "");
-      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-
-      return {
-        firstOffset: getComputedStyle(headerRows[0]).getPropertyValue("--calcite-internal-table-header-offset").trim(),
-        secondOffset: getComputedStyle(headerRows[1]).getPropertyValue("--calcite-internal-table-header-offset").trim(),
-        stickyHeaderHeight: getComputedStyle(table)
-          .getPropertyValue("--calcite-internal-table-sticky-header-total-height")
-          .trim(),
-      };
-    });
-
-    expect(stickyHeaderStyles.firstOffset).toBe("0px");
-    expect(stickyHeaderStyles.secondOffset).toBe("20.5px");
-    expect(stickyHeaderStyles.stickyHeaderHeight).toBe("41.75px");
+    expect(stickyHeaderMetrics.before.firstHeaderPosition).toBe("sticky");
+    expect(stickyHeaderMetrics.before.secondHeaderPosition).toBe("static");
+    expect(
+      Math.abs(stickyHeaderMetrics.after.firstHeaderTop - stickyHeaderMetrics.before.firstHeaderTop),
+    ).toBeLessThanOrEqual(1);
+    expect(stickyHeaderMetrics.after.secondHeaderTop).toBeLessThan(stickyHeaderMetrics.before.secondHeaderTop);
   });
 
   it("keeps focused body cells visible while navigating downward near the bottom with sticky header enabled", async () => {
