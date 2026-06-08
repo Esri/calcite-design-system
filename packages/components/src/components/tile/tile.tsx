@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
@@ -29,7 +28,7 @@ export class Tile extends LitElement implements SelectableComponent {
 
   // #region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -58,7 +57,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
   /** Specifies a description for the component. Displays below the `heading`. */
-  @property({ reflect: true }) description: string;
+  @property({ reflect: true }) description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -73,16 +72,16 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) embed = false;
 
   /** Specifies the component's heading text. displays between the `icon` and `description`. */
-  @property({ reflect: true }) heading: string;
+  @property({ reflect: true }) heading?: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** When embed is `false`, specifies the URL for the component. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -96,7 +95,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property() interactive = false;
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Defines the layout of the component.

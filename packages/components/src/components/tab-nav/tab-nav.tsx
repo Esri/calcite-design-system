@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 import {
   calciteSize24,
   calciteSize32,
   calciteSize44,
 } from "@esri/calcite-design-tokens/dist/es6/core";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   Direction,
@@ -46,17 +45,17 @@ export class TabNav extends LitElement {
 
   private effectiveDir: Direction = "ltr";
 
-  private intersectionObserver: IntersectionObserver;
+  private intersectionObserver?: IntersectionObserver;
 
   private lastScrollWheelAxis: "x" | "y" = "x";
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl?: Tabs["el"];
 
   private resizeObserver = createObserver("resize", () => {
     this.updateScrollingState();
   });
 
-  private tabTitleContainerEl: HTMLDivElement;
+  private tabTitleContainerEl?: HTMLDivElement;
 
   private makeFirstVisibleTabClosable = false;
 
@@ -75,7 +74,7 @@ export class TabNav extends LitElement {
 
   @state() private hasOverflowingStartTabTitle = false;
 
-  @state() selectedTabId: TabID;
+  @state() selectedTabId!: TabID;
 
   //#endregion
 
@@ -109,13 +108,13 @@ export class TabNav extends LitElement {
    *
    * @readonly
    */
-  @property() selectedTitle: TabTitle["el"] = null;
+  @property() selectedTitle: TabTitle["el"] | null = null;
 
   /** Specifies the name when saving selected `calcite-tab` data to `localStorage`. */
-  @property({ reflect: true }) storageId: string;
+  @property({ reflect: true }) storageId?: string;
 
   /** Specifies text to update multiple components to keep in sync if one changes. */
-  @property({ reflect: true }) syncId: string;
+  @property({ reflect: true }) syncId?: string;
 
   //#endregion
 
@@ -140,9 +139,15 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusNext", this.focusNextTabHandler);
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
-    this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
-    this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
+    this.listen<ToEvents<TabTitle>["calciteInternalTabsActivate"]>(
+      "calciteInternalTabsActivate",
+      this.internalActivateTabHandler,
+    );
+    this.listen<ToEvents<TabTitle>["calciteInternalTabsClose"]>(
+      "calciteInternalTabsClose",
+      this.internalCloseTabHandler,
+    );
     this.listenOn<CustomEvent<TabChangeEventDetail>>(
       document.body,
       "calciteInternalTabChange",
@@ -151,15 +156,19 @@ export class TabNav extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.parentTabsEl = this.el.closest("calcite-tabs");
+    this.parentTabsEl = this.el.closest("calcite-tabs") ?? undefined;
+
     this.resizeObserver?.observe(this.el);
   }
 
   async load(): Promise<void> {
     const storageKey = `calcite-tab-nav-${this.storageId}`;
-    if (localStorage && this.storageId && localStorage.getItem(storageKey)) {
-      const storedTab = JSON.parse(localStorage.getItem(storageKey));
-      this.selectedTabId = storedTab;
+    if (localStorage && this.storageId) {
+      const storageItem = localStorage.getItem(storageKey);
+      if (storageItem) {
+        const storedTab = JSON.parse(storageItem);
+        this.selectedTabId = storedTab;
+      }
     }
   }
 
@@ -180,8 +189,11 @@ export class TabNav extends LitElement {
 
     const { parentTabsEl } = this;
 
-    this.layout = parentTabsEl?.layout;
-    this.bordered = parentTabsEl?.bordered;
+    if (parentTabsEl) {
+      this.layout = parentTabsEl.layout;
+      this.bordered = parentTabsEl.bordered;
+    }
+
     this.effectiveDir = this.direction;
   }
 
@@ -259,7 +271,7 @@ export class TabNav extends LitElement {
   }
 
   private scrollTabTitleIntoView(
-    activatedTabTitle: TabTitle["el"],
+    activatedTabTitle: TabTitle["el"] | null,
     behavior: ScrollBehavior = "smooth",
   ): void {
     if (!activatedTabTitle) {
@@ -432,7 +444,7 @@ export class TabNav extends LitElement {
         tabTitles.reverse();
       }
 
-      let closestToEdge: TabTitle["el"] = null;
+      let closestToEdge: TabTitle["el"] | null = null;
 
       tabTitles.forEach((tabTitle) => {
         const tabTitleBounds = tabTitle.getBoundingClientRect();
@@ -469,16 +481,16 @@ export class TabNav extends LitElement {
         }
       });
 
-      let scrollTo: number;
+      let scrollTo: number | undefined;
       if (closestToEdge) {
         const scrollerButtonContainerWidth = 2 * this.scrollerButtonWidth;
         const offsetAdjustment =
           (direction === "forward" && effectiveDir === "ltr") ||
           (direction === "backward" && effectiveDir === "rtl")
             ? -scrollerButtonContainerWidth
-            : closestToEdge.offsetWidth -
+            : (closestToEdge as TabTitle["el"]).offsetWidth -
               (tabTitleContainer.clientWidth + scrollerButtonContainerWidth);
-        scrollTo = closestToEdge.offsetLeft + offsetAdjustment;
+        scrollTo = (closestToEdge as TabTitle["el"]).offsetLeft + offsetAdjustment;
       } else {
         const scrollPosition = tabTitleContainer.scrollLeft;
         const containerWidth = containerBounds.width;
