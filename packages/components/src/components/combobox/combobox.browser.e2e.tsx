@@ -861,6 +861,15 @@ describe("active item when opened", () => {
 });
 
 describe("keyboard interactions", async () => {
+  it("does not throw when pressing Space then Enter with no items", async () => {
+    const { el } = await mount<Combobox>(<calcite-combobox />);
+
+    await el.setFocus();
+    await userEvent.keyboard("{Space}{Enter}");
+
+    expect(el.open).toBe(false);
+  });
+
   it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox allow-custom-values placeholder="Select a field">
@@ -879,7 +888,7 @@ describe("keyboard interactions", async () => {
 
     await el.setFocus();
     await userEvent.keyboard("{ArrowLeft}");
-    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Space}");
 
     expect(el.selectedItems).toHaveLength(1);
     expect(el.selectedItems[0]).toBe(selectedItem1.element());
@@ -904,7 +913,7 @@ describe("keyboard interactions", async () => {
     await el.setFocus();
     await userEvent.keyboard("{ArrowLeft}");
     await userEvent.keyboard("{ArrowLeft}");
-    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Space}");
 
     expect(el.selectedItems).toHaveLength(1);
     expect(el.selectedItems[0]).toBe(selectedItem2.element());
@@ -1095,5 +1104,83 @@ describe("keyboard interaction", () => {
     await expect.element(floatingUI).not.toBeVisible();
     await expect.element(el).toHaveFocus();
     expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
+  });
+
+  it("Escape close + Space reopen keeps Select All active after toggling selection", async () => {
+    await mount<Combobox>(() => (
+      <calcite-combobox select-all-enabled selection-mode="multiple">
+        <calcite-combobox-item heading="one" id="one" value="one" />
+        <calcite-combobox-item heading="two" id="two" value="two" />
+        <calcite-combobox-item heading="three" id="three" value="three" />
+      </calcite-combobox>
+    ));
+
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    await userEvent.keyboard("{Tab}{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    let activeItem = page.getBySelector("calcite-combobox-item[active]");
+    await expect.element(activeItem).toHaveProperty("label", "Select all");
+
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(page.getBySelector("#one")).toHaveProperty("selected", true);
+    await expect.element(page.getBySelector("#two")).toHaveProperty("selected", true);
+    await expect.element(page.getBySelector("#three")).toHaveProperty("selected", true);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(floatingUI).not.toBeVisible();
+
+    await userEvent.keyboard("{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    activeItem = page.getBySelector("calcite-combobox-item[active]");
+    await expect.element(activeItem).toHaveProperty("label", "Select all");
+
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(page.getBySelector("#one")).toHaveProperty("selected", false);
+    await expect.element(page.getBySelector("#two")).toHaveProperty("selected", false);
+    await expect.element(page.getBySelector("#three")).toHaveProperty("selected", false);
+  });
+
+  it("Escape close + Space reopen keeps long-list scroll location and active item", async () => {
+    const items = Array.from({ length: 60 }, (_, i) => (
+      <calcite-combobox-item
+        heading={`item-${i + 1}`}
+        id={`item-${i + 1}`}
+        value={`item-${i + 1}`}
+      />
+    ));
+
+    await mount<Combobox>(() => (
+      <calcite-combobox selection-mode="multiple">{items}</calcite-combobox>
+    ));
+
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    await userEvent.keyboard("{Tab}{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    for (let i = 0; i < 30; i++) {
+      await userEvent.keyboard("{ArrowDown}");
+    }
+
+    const listContainer = page
+      .getBySelector(`calcite-combobox .${CSS.listContainer}`)
+      .element() as HTMLDivElement;
+    const activeValueBeforeClose = (
+      page.getBySelector("calcite-combobox-item[active]").element() as ComboboxItem["el"]
+    ).value;
+    const scrollTopBeforeClose = listContainer.scrollTop;
+
+    expect(scrollTopBeforeClose).toBeGreaterThan(0);
+
+    const activeValueAfterReopen = (
+      page.getBySelector("calcite-combobox-item[active]").element() as ComboboxItem["el"]
+    ).value;
+    const scrollTopAfterReopen = listContainer.scrollTop;
+
+    expect(activeValueAfterReopen).toBe(activeValueBeforeClose);
+    expect(Math.abs(scrollTopAfterReopen - scrollTopBeforeClose)).toBeLessThanOrEqual(1);
   });
 });
