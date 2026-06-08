@@ -45,14 +45,6 @@ function metadataValuesAreEqual(
   currentMetadata?: Record<string, unknown>,
   previousMetadata?: Record<string, unknown>,
 ): boolean {
-  if (currentMetadata === previousMetadata) {
-    return true;
-  }
-
-  if (!currentMetadata || !previousMetadata) {
-    return false;
-  }
-
   return isEqual(currentMetadata, previousMetadata);
 }
 

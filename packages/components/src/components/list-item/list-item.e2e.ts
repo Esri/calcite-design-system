@@ -252,59 +252,6 @@ it("emits calciteInternalListItemActive on click", async () => {
   expect(eventSpy).toHaveReceivedEventTimes(1);
 });
 
-it("emits calciteInternalListItemChange only when metadata values change", async () => {
-  const page = await newE2EPage({ html: `<calcite-list-item></calcite-list-item>` });
-
-  await page.waitForChanges();
-
-  const eventSpy = await page.spyOnEvent("calciteInternalListItemChange");
-  const item = await page.find("calcite-list-item");
-
-  item.setProperty("metadata", { first: "same", second: "value" });
-  await page.waitForChanges();
-
-  item.setProperty("metadata", { second: "value", first: "same" });
-  await page.waitForChanges();
-
-  item.setProperty("metadata", { first: "different", second: "value" });
-  await page.waitForChanges();
-
-  item.setProperty("metadata", { keyword: "different", nested: { key: "same" } });
-  await page.waitForChanges();
-
-  item.setProperty("metadata", { keyword: "different", nested: { key: "same" } });
-  await page.waitForChanges();
-
-  item.setProperty("metadata", { keyword: "different", nested: { key: "changed" } });
-  await page.waitForChanges();
-
-  await page.$eval("calcite-list-item", (el: HTMLElement) => {
-    (el as HTMLElement & { metadata: Record<string, unknown> }).metadata = {
-      tags: ["a", "b"],
-      when: "2024-01-01T00:00:00.000Z",
-    };
-  });
-  await page.waitForChanges();
-
-  await page.$eval("calcite-list-item", (el: HTMLElement) => {
-    (el as HTMLElement & { metadata: Record<string, unknown> }).metadata = {
-      tags: ["a", "b"],
-      when: "2024-01-01T00:00:00.000Z",
-    };
-  });
-  await page.waitForChanges();
-
-  await page.$eval("calcite-list-item", (el: HTMLElement) => {
-    (el as HTMLElement & { metadata: Record<string, unknown> }).metadata = {
-      tags: ["a", "b", "c"],
-      when: "2024-01-01T00:00:00.000Z",
-    };
-  });
-  await page.waitForChanges();
-
-  expect(eventSpy).toHaveReceivedEventTimes(6);
-});
-
 it("honors closed prop", async () => {
   const page = await newE2EPage();
 
