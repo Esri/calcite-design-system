@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -51,18 +50,16 @@ export class TabTitle extends LitElement {
 
   private closeButtonRef = createRef<Action["el"]>();
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
   private direction = useDirection();
 
   private guid = IDS.host(guid());
 
   /** watches for changing text content */
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateHasText(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl: Tabs["el"] | null = null;
 
   private resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
@@ -81,7 +78,7 @@ export class TabTitle extends LitElement {
 
   //#region State Properties
 
-  @state() controls: string;
+  @state() controls: string | null = null;
 
   /** determine if there is slotted text for styling purposes */
   @state() hasText = false;
@@ -103,16 +100,16 @@ export class TabTitle extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @private */
-  @property({ reflect: true }) layout: TabLayout;
+  @property({ reflect: true }) layout!: TabLayout;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -143,7 +140,7 @@ export class TabTitle extends LitElement {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @property({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab!: string;
 
   //#endregion
 
@@ -179,7 +176,7 @@ export class TabTitle extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) =>
+      nodeListToArray(this.el.parentElement!.children).filter((el) =>
         el.matches("calcite-tab-title"),
       ),
       this.el,
@@ -313,7 +310,7 @@ export class TabTitle extends LitElement {
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
     const targetTabsEl = event
       .composedPath()
-      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+      .find((el) => (el as HTMLElement).tagName === "CALCITE-TABS");
 
     if (targetTabsEl !== this.parentTabsEl) {
       return;
@@ -338,7 +335,7 @@ export class TabTitle extends LitElement {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonRef.value)) {
+        if (!event.composedPath().includes(this.closeButtonRef.value!)) {
           this.activateTab();
           event.preventDefault();
         }
