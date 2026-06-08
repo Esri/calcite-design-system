@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.6...@esri/calcite-components@5.2.0-next.0) (2026-06-08)
+
+### Features
+
+- **flow-item:** add collapseDirection property ([#14588](https://github.com/Esri/calcite-design-system/issues/14588)), closes [#14585](https://github.com/Esri/calcite-design-system/issues/14585)
+
 ## [5.1.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.5...@esri/calcite-components@5.1.1-next.6) (2026-06-08)
 
 ### Bug Fixes
