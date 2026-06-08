@@ -1135,7 +1135,7 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(scrollPosition).toBeTruthy();
 
     await page.keyboard.press("PageUp");
-    await page.waitForFunction((previousScrollY) => window.scrollY < previousScrollY, {}, scrollPosition);
+    await page.waitForFunction((previousScrollY) => window.scrollY < previousScrollY, undefined, scrollPosition);
     expect(
       await page.evaluate((scrollPosition) => {
         return window.scrollY < scrollPosition;
