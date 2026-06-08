@@ -15,8 +15,6 @@ export type StickyTableMeasurements = {
 type StickyMeasurementContext = {
   cellElement: HTMLElement;
   scrollContainer: HTMLElement;
-  stickyHeaderHeight: number;
-  stickyHeaderPosition: string;
   targetTop: number;
 };
 
@@ -85,8 +83,6 @@ function getStickyMeasurementContext(
   return {
     cellElement,
     scrollContainer,
-    stickyHeaderHeight,
-    stickyHeaderPosition,
     targetTop,
   };
 }
