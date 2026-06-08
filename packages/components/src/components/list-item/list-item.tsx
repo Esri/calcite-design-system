@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { isEqual } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -436,7 +437,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
-    if (changes.has("label") || changes.has("description") || changes.has("metadata")) {
+    const metadataChanged = changes.has("metadata");
+    const previousMetadata = changes.get("metadata");
+    const shouldEmitMetadataChange = metadataChanged && !isEqual(this.metadata, previousMetadata);
+
+    if (
+      (changes.has("label") || changes.has("description") || shouldEmitMetadataChange) &&
+      this.hasUpdated
+    ) {
       this.emitCalciteInternalListItemChange();
     }
 
