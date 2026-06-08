@@ -997,8 +997,6 @@ describe("keyboard navigation with chips", () => {
 describe("keyboard navigation in all selection-display mode", () => {
   let page: E2EPage;
   const scrollablePageSizeInPx = 2400;
-  // PageUp/Down scroll test fails without the delay
-  const scrollTestDelayInMilliseconds = 500;
 
   beforeEach(async () => {
     page = await newE2EPage();
@@ -1132,12 +1130,12 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
     await page.keyboard.press("PageDown");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction(() => window.scrollY > 0);
     const scrollPosition = await page.evaluate(() => window.scrollY);
     expect(scrollPosition).toBeTruthy();
 
     await page.keyboard.press("PageUp");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction((previousScrollY) => window.scrollY < previousScrollY, undefined, scrollPosition);
     expect(
       await page.evaluate((scrollPosition) => {
         return window.scrollY < scrollPosition;
