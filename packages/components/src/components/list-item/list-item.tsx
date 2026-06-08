@@ -1,3 +1,4 @@
+import { isEqual } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -39,6 +40,22 @@ declare global {
 }
 
 const focusMap = new Map<List["el"], number | undefined>();
+
+function metadataValuesAreEqual(
+  currentMetadata?: Record<string, unknown>,
+  previousMetadata?: Record<string, unknown>,
+): boolean {
+  if (currentMetadata === previousMetadata) {
+    return true;
+  }
+
+  if (!currentMetadata || !previousMetadata) {
+    return false;
+  }
+
+  return isEqual(currentMetadata, previousMetadata);
+}
+
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -445,7 +462,15 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
-    if (changes.has("label") || changes.has("description") || changes.has("metadata")) {
+    const metadataChanged = changes.has("metadata");
+    const previousMetadata = changes.get("metadata");
+    const shouldEmitMetadataChange =
+      metadataChanged && !metadataValuesAreEqual(this.metadata, previousMetadata);
+
+    if (
+      (changes.has("label") || changes.has("description") || shouldEmitMetadataChange) &&
+      this.hasUpdated
+    ) {
       this.emitCalciteInternalListItemChange();
     }
 
