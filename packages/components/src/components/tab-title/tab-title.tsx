@@ -203,6 +203,9 @@ export class TabTitle extends LitElement {
   /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
+  /** @private */
+  calciteInternalTabTitleChange = createEvent({ cancelable: false });
+
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
    *
@@ -273,6 +276,10 @@ export class TabTitle extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("selected") && (this.hasUpdated || this.selected !== false)) {
       this.selectedHandler();
+    }
+
+    if (changes.has("closed") && this.hasUpdated) {
+      this.calciteInternalTabTitleChange.emit();
     }
 
     if (this.parentTabsEl) {

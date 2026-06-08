@@ -205,11 +205,9 @@ export class Tabs extends LitElement {
     return (
       <>
         <slot name={SLOTS.titleGroup} />
-        {this.hasVisibleTitles ? (
-          <section class={CSS.section}>
-            <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
-          </section>
-        ) : null}
+        <section class={CSS.section} hidden={!this.hasVisibleTitles}>
+          <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
+        </section>
       </>
     );
   }

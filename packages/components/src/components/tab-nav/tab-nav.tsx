@@ -144,6 +144,9 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusNext", this.focusNextTabHandler);
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
+    this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
+    this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
+    this.listen("calciteInternalTabTitleChange", this.syncVisibleTabTitlesState);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listen<ToEvents<TabTitle>["calciteInternalTabsActivate"]>(
       "calciteInternalTabsActivate",
@@ -385,10 +388,13 @@ export class TabNav extends LitElement {
     tabTitles.forEach((child) => {
       this.intersectionObserver?.observe(child);
     });
-    this.updateLastVisibleTabClosable();
-    this.hasVisibleTabTitles = this.getVisibleTabTitlesIndices(tabTitles).length > 0;
+    this.syncVisibleTabTitlesState();
+  }
 
-    this.calciteInternalTabNavSlotChange.emit([...tabTitles]);
+  private syncVisibleTabTitlesState(): void {
+    this.updateLastVisibleTabClosable();
+    this.hasVisibleTabTitles = this.getVisibleTabTitlesIndices(this.tabTitles).length > 0;
+    this.calciteInternalTabNavSlotChange.emit([...this.tabTitles]);
   }
 
   private updateLastVisibleTabClosable(): void {

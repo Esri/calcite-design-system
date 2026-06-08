@@ -298,6 +298,16 @@ describe("closing tabs", () => {
   beforeEach(async (): Promise<void> => {
     page = await newE2EPage();
     await page.setContent(html`
+      <script>
+        const originalConsoleError = console.error;
+        console.error = (...args) => {
+          if (args.some((arg) => typeof arg === "string" && arg.includes("icon failed to load"))) {
+            return;
+          }
+
+          originalConsoleError(...args);
+        };
+      </script>
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="tab-title-1" closable>Tab 1 Title</calcite-tab-title>
@@ -456,9 +466,36 @@ describe("closing tabs", () => {
           TabNavCSS.tabTitleSlotWrapper,
         ),
       ).toBe(true);
-      expect(await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => !tabs.shadowRoot.querySelector("section"))).toBe(
-        true,
-      );
+      expect(
+        await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => tabs.shadowRoot.querySelector("section").hidden),
+      ).toBe(true);
+    });
+
+    it("should show the tab section again when a title is reopened programmatically", async () => {
+      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
+        tabs.lastTabClosable = true;
+      });
+      await page.waitForChanges();
+
+      for (let i = 1; i <= 4; ++i) {
+        await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
+      }
+
+      await page.$eval("#tab-title-4", (tabTitle: TabTitle["el"]) => {
+        tabTitle.closed = false;
+      });
+      await page.waitForChanges();
+
+      expect(
+        await page.$eval(
+          "calcite-tab-nav",
+          (tabNav: TabNav["el"], className: string) => !!tabNav.shadowRoot.querySelector(`.${className}`),
+          TabNavCSS.tabTitleSlotWrapper,
+        ),
+      ).toBe(true);
+      expect(
+        await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => !tabs.shadowRoot.querySelector("section").hidden),
+      ).toBe(true);
     });
   });
 
