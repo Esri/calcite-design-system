@@ -270,16 +270,13 @@ export class TableRow extends LitElement {
           const firstVisibleBodyRow = this.isFirstVisibleBodyRow;
           const useManualBodyRowScrolling = this.rowType === "body";
 
-          if (
-            useManualBodyRowScrolling ||
-            this.stickyHeaderActive ||
-            (firstVisibleBodyRow && this.stickyHeaderEnabled) ||
-            (this.rowType === "head" && this.stickyHeaderEnabled)
-          ) {
-            cellPosition.setFocus({ preventScroll: true });
-          } else {
-            cellPosition.setFocus();
-          }
+          const shouldPreventScroll =
+            this.rowType !== "head" &&
+            (useManualBodyRowScrolling ||
+              this.stickyHeaderActive ||
+              (firstVisibleBodyRow && this.stickyHeaderEnabled));
+
+          cellPosition.setFocus({ preventScroll: shouldPreventScroll });
         }
       }
     }
@@ -292,9 +289,20 @@ export class TableRow extends LitElement {
     const el = event.target as TableCell["el"] | TableHeader["el"];
     const key = event.key;
     const isControl = event.ctrlKey;
+    const isShift = event.shiftKey;
     const cells = this.rowCells;
     if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
       switch (key) {
+        case "Tab":
+          if (this.rowType === "head" && this.stickyHeaderEnabled) {
+            const atBoundary = isShift ? el.positionInRow === 1 : el.positionInRow === cells.length;
+
+            if (!atBoundary) {
+              focusElementInGroup(cells, el, isShift ? "previous" : "next", false, false);
+              event.preventDefault();
+            }
+          }
+          break;
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");
           event.preventDefault();
