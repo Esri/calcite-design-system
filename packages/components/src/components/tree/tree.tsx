@@ -1,6 +1,13 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, setAttribute } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  JsxNode,
+  setAttribute,
+  ToEvents,
+} from "@arcgis/lumina";
 import { focusElement, nodeListToArray, slotChangeGetAssignedElements } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { Scale, SelectionMode } from "../interfaces";
@@ -32,7 +39,7 @@ export class Tree extends LitElement {
   // #region Public Properties
 
   /** @private */
-  @property({ reflect: true }) child: boolean;
+  @property({ reflect: true }) child = false;
 
   /** When `true`, displays indentation guide lines. */
   @property({ reflect: true }) lines = false;
@@ -85,7 +92,10 @@ export class Tree extends LitElement {
     this.listen("focus", this.onFocus);
     this.listen("focusin", this.onFocusIn);
     this.listen("focusout", this.onFocusOut);
-    this.listen("calciteInternalTreeItemSelect", this.onInternalTreeItemSelect);
+    this.listen<ToEvents<TreeItem>["calciteInternalTreeItemSelect"]>(
+      "calciteInternalTreeItemSelect",
+      this.onInternalTreeItemSelect,
+    );
     this.listen("keydown", this.keyDownHandler);
   }
 
@@ -98,7 +108,8 @@ export class Tree extends LitElement {
       this.updateItems();
     }
 
-    const parent: Tree["el"] = this.el.parentElement?.closest("calcite-tree");
+    const parent: Tree["el"] | undefined =
+      this.el.parentElement?.closest("calcite-tree") ?? undefined;
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
@@ -111,8 +122,9 @@ export class Tree extends LitElement {
   private onFocus(): void {
     if (!this.child) {
       const focusTarget =
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])");
+        (this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
+          this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])")) ??
+        undefined;
 
       focusElement(focusTarget, true, "focusable");
     }
@@ -214,7 +226,7 @@ export class Tree extends LitElement {
     }
 
     if (shouldModifyToCurrentSelection) {
-      window.getSelection().removeAllRanges();
+      window.getSelection()!.removeAllRanges();
     }
 
     if (shouldModifyToCurrentSelection && target.selected) {
@@ -338,10 +350,10 @@ export class Tree extends LitElement {
     }
 
     const ancestors: TreeItem["el"][] = [];
-    let parent = item.parentElement.closest<TreeItem["el"]>("calcite-tree-item");
+    let parent = item.parentElement!.closest<TreeItem["el"]>("calcite-tree-item");
     while (parent) {
       ancestors.push(parent);
-      parent = parent.parentElement.closest<TreeItem["el"]>("calcite-tree-item");
+      parent = parent.parentElement!.closest<TreeItem["el"]>("calcite-tree-item");
     }
 
     const childItems = Array.from(
@@ -350,7 +362,7 @@ export class Tree extends LitElement {
     const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
 
-    let futureSelected;
+    let futureSelected: boolean;
     if (updateItem) {
       futureSelected = item.hasChildren ? !(item.selected || item.indeterminate) : !item.selected;
     } else {
@@ -434,10 +446,10 @@ export class Tree extends LitElement {
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaMultiSelectable = this.child
-      ? undefined
+      ? null
       : toAriaBoolean(this.selectionMode === "multiple" || this.selectionMode === "multichildren");
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.role = !this.child ? "tree" : undefined;
+    this.el.role = !this.child ? "tree" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "tabIndex", this.getRootTabIndex());
     return <slot onSlotChange={this.handleDefaultSlotChange} />;
