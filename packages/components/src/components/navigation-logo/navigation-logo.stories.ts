@@ -2,10 +2,10 @@ import { boolean } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
-import { CalciteNavigationLogo } from "./navigation-logo";
+import type { NavigationLogo } from "./navigation-logo";
 const { scale } = ATTRIBUTES;
 
-type NavigationLogoStoryArgs = Pick<CalciteNavigationLogo, "active" | "description" | "heading" | "scale">;
+type NavigationLogoStoryArgs = Pick<NavigationLogo, "active" | "description" | "heading" | "scale">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
