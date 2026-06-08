@@ -424,7 +424,8 @@ export class Table extends LitElement {
 
     const targetRow = this.allRows?.find((row) => row.positionAll === rowPosition);
 
-    const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
+    const adjustedPos =
+      destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
 
     if (rowPosition !== undefined) {
       this.calciteInternalTableRowFocusChange.emit({
@@ -457,10 +458,14 @@ export class Table extends LitElement {
     };
   }
 
-  private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
+  private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
+    if (!el) {
+      return [];
+    }
+
     return el
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
+      .assignedElements({ flatten: true })
+      .filter((el): el is TableRow["el"] => el.matches("calcite-table-row"));
   }
 
   private setStickyHeaderListeners(active: boolean): void {
