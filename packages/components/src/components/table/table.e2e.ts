@@ -373,6 +373,105 @@ describe("sticky header", () => {
     }
   });
 
+  it("keeps scroll position stable when moving focus between sticky header cells via tab and click", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-table sticky-header caption="Simple table" style="block-size: 10rem; inline-size: 20rem;">
+        <calcite-table-row slot="${SLOTS.tableHeader}">
+          <calcite-table-header id="head-1a" heading="Heading" description="Description"></calcite-table-header>
+          <calcite-table-header id="head-1b" heading="Heading" description="Description"></calcite-table-header>
+        </calcite-table-row>
+        ${Array.from(
+          { length: 12 },
+          (_, index) => html`
+            <calcite-table-row id="row-${index + 1}">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          `,
+        ).join("\n")}
+      </calcite-table>`,
+    );
+
+    const initialMetrics = await page.$eval(
+      "calcite-table",
+      async (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const firstBodyRow = table.querySelector<HTMLElement>("#row-1");
+        const firstBodyRowEl = firstBodyRow?.shadowRoot?.querySelector<HTMLTableRowElement>("tr");
+
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+        return {
+          firstBodyTop: firstBodyRowEl ? Math.round(firstBodyRowEl.getBoundingClientRect().top) : null,
+          scrollTop: scrollContainer.scrollTop,
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(initialMetrics.scrollTop).toBeGreaterThan(0);
+
+    await page.$eval("#head-1a", (headerCell) => (headerCell as TableHeader["el"]).setFocus({ preventScroll: true }));
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1b");
+
+    const afterTabMetrics = await page.$eval(
+      "calcite-table",
+      (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const firstBodyRow = table.querySelector<HTMLElement>("#row-1");
+        const firstBodyRowEl = firstBodyRow?.shadowRoot?.querySelector<HTMLTableRowElement>("tr");
+
+        return {
+          firstBodyTop: firstBodyRowEl ? Math.round(firstBodyRowEl.getBoundingClientRect().top) : null,
+          scrollTop: scrollContainer.scrollTop,
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(Math.abs(afterTabMetrics.scrollTop - initialMetrics.scrollTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(afterTabMetrics.firstBodyTop - initialMetrics.firstBodyTop)).toBeLessThanOrEqual(1);
+
+    await page.$eval("#head-1a", (headerCell) => {
+      const headerEl = headerCell as TableHeader["el"];
+      const th = headerEl.shadowRoot?.querySelector("th");
+
+      th?.dispatchEvent(
+        new MouseEvent("mousedown", {
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+    });
+    await page.waitForChanges();
+    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
+
+    const afterClickMetrics = await page.$eval(
+      "calcite-table",
+      (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+        const firstBodyRow = table.querySelector<HTMLElement>("#row-1");
+        const firstBodyRowEl = firstBodyRow?.shadowRoot?.querySelector<HTMLTableRowElement>("tr");
+
+        return {
+          firstBodyTop: firstBodyRowEl ? Math.round(firstBodyRowEl.getBoundingClientRect().top) : null,
+          scrollTop: scrollContainer.scrollTop,
+        };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
+    expect(Math.abs(afterClickMetrics.scrollTop - afterTabMetrics.scrollTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(afterClickMetrics.firstBodyTop - afterTabMetrics.firstBodyTop)).toBeLessThanOrEqual(1);
+  });
+
   it("keeps focus behavior correct when a new first body row is slotted after initialization", async () => {
     const page = await newE2EPage();
 

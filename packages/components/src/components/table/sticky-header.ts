@@ -56,10 +56,9 @@ function getStickyAdjustedTargetTop(
   return Math.max(scrollContainerTop, tableTop) + stickyHeaderOffset;
 }
 
-function getStickyMeasurementContext(
+function getMeasurementContext(
   tableState: StickyTableMeasurements,
   cell: FocusableTablePart | null,
-  requireStickyHeader = false,
 ): StickyMeasurementContext | null {
   const scrollContainer = tableState.getScrollContainer();
   const cellElement = getFocusableCellElement(cell);
@@ -69,10 +68,6 @@ function getStickyMeasurementContext(
   }
 
   const { stickyHeaderHeight, stickyHeaderPosition } = getStickyHeaderState(tableState.table);
-
-  if (requireStickyHeader && (stickyHeaderPosition !== "sticky" || !stickyHeaderHeight)) {
-    return null;
-  }
 
   const targetTop = getStickyAdjustedTargetTop(tableState, scrollContainer, stickyHeaderHeight, stickyHeaderPosition);
 
@@ -87,14 +82,32 @@ function getStickyMeasurementContext(
   };
 }
 
-function retryWithStickyMeasurements(
+function getStickyMeasurementContext(
+  tableState: StickyTableMeasurements,
+  cell: FocusableTablePart | null,
+): StickyMeasurementContext | null {
+  const context = getMeasurementContext(tableState, cell);
+
+  if (!context) {
+    return null;
+  }
+
+  const { stickyHeaderHeight, stickyHeaderPosition } = getStickyHeaderState(tableState.table);
+
+  if (stickyHeaderPosition !== "sticky" || !stickyHeaderHeight) {
+    return null;
+  }
+
+  return context;
+}
+
+function retryWithMeasurements(
   tableState: StickyTableMeasurements,
   cell: FocusableTablePart | null,
   callback: (context: StickyMeasurementContext) => void,
   remainingFrames = 5,
-  requireStickyHeader = false,
 ): void {
-  const context = getStickyMeasurementContext(tableState, cell, requireStickyHeader);
+  const context = getMeasurementContext(tableState, cell);
 
   if (context) {
     callback(context);
@@ -102,7 +115,26 @@ function retryWithStickyMeasurements(
 
   if (remainingFrames > 1) {
     requestAnimationFrame(() => {
-      retryWithStickyMeasurements(tableState, cell, callback, remainingFrames - 1, requireStickyHeader);
+      retryWithMeasurements(tableState, cell, callback, remainingFrames - 1);
+    });
+  }
+}
+
+function retryWithStickyMeasurements(
+  tableState: StickyTableMeasurements,
+  cell: FocusableTablePart | null,
+  callback: (context: StickyMeasurementContext) => void,
+  remainingFrames = 5,
+): void {
+  const context = getStickyMeasurementContext(tableState, cell);
+
+  if (context) {
+    callback(context);
+  }
+
+  if (remainingFrames > 1) {
+    requestAnimationFrame(() => {
+      retryWithStickyMeasurements(tableState, cell, callback, remainingFrames - 1);
     });
   }
 }
@@ -145,11 +177,11 @@ export function ensureFocusedTableCellVisible(
       }
     };
 
-    retryWithStickyMeasurements(tableState, cell, correctFirstBodyRowPosition, 5, true);
+    retryWithStickyMeasurements(tableState, cell, correctFirstBodyRowPosition, 5);
     return;
   }
 
-  retryWithStickyMeasurements(tableState, cell, ensureFocusedBodyCellVisible);
+  retryWithMeasurements(tableState, cell, ensureFocusedBodyCellVisible);
 }
 
 export function ensureFirstVisibleTableCellBelowStickyHeader(
@@ -171,6 +203,5 @@ export function ensureFirstVisibleTableCellBelowStickyHeader(
       }
     },
     5,
-    true,
   );
 }

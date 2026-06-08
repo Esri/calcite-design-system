@@ -8,7 +8,6 @@ import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
-import type { TableHeader } from "../table-header/table-header";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
 import {
@@ -546,24 +545,6 @@ export class Table extends LitElement {
       characterData: true,
       attributes: true,
     });
-
-    const headers = (firstHeadRow.focusableCells || []).filter((cell): cell is TableHeader["el"] =>
-      cell.matches("calcite-table-header"),
-    );
-
-    headers.forEach((header) => {
-      const headerCell = this.getStickyHeaderCellElement(header);
-
-      if (headerCell) {
-        this.stickyHeaderResizeObserver?.observe(headerCell);
-
-        this.stickyHeaderMutationObserver?.observe(headerCell, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-        });
-      }
-    });
   }
 
   private scheduleStickyHeaderOffsetUpdate(): void {
@@ -573,18 +554,6 @@ export class Table extends LitElement {
 
     // Wait for nested component renders so height/position measurements are current.
     this.scheduleNestedAnimationFrameUpdate(() => this.updateStickyHeaderOffsets());
-  }
-
-  private getStickyHeaderCellElement(header: TableHeader["el"]): HTMLTableCellElement | null {
-    if (typeof header.getCellElement !== "function") {
-      return null;
-    }
-
-    try {
-      return header.getCellElement();
-    } catch {
-      return null;
-    }
   }
 
   private getStickyHeaderRowElement(row: TableRow["el"]): HTMLTableRowElement | null {
@@ -647,17 +616,31 @@ export class Table extends LitElement {
     this.setStickyHeaderActive(stickyHeaderActive);
   }
 
+  private applyHeaderRowPositionStyles(): void {
+    this.headRows?.forEach((row) => {
+      row.style.removeProperty("--calcite-internal-table-header-offset");
+      row.style.removeProperty("--calcite-internal-table-header-z-index");
+      row.style.removeProperty("--calcite-internal-table-header-row-position");
+    });
+
+    const firstHeadRow = this.headRows?.[0];
+
+    if (!firstHeadRow) {
+      return;
+    }
+
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-offset", "0px");
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-z-index", "2");
+    firstHeadRow.style.setProperty(
+      "--calcite-internal-table-header-row-position",
+      this.stickyHeader ? "sticky" : "static",
+    );
+  }
+
   private updateStickyHeaderOffsets(): void {
     const firstHeadRow = this.headRows?.[0];
 
-    this.headRows?.forEach((row, index) => {
-      row.style.setProperty("--calcite-internal-table-header-offset", "0px");
-      row.style.setProperty("--calcite-internal-table-header-z-index", "2");
-      row.style.setProperty(
-        "--calcite-internal-table-header-row-position",
-        index === 0 ? "sticky" : "static",
-      );
-    });
+    this.applyHeaderRowPositionStyles();
 
     const firstTableRow = firstHeadRow ? this.getStickyHeaderRowElement(firstHeadRow) : null;
     const firstTableRowHeight =
@@ -736,14 +719,7 @@ export class Table extends LitElement {
     this.footRows = footRows;
     this.allRows = allRows;
 
-    this.headRows?.forEach((row, index) => {
-      row.style.setProperty("--calcite-internal-table-header-offset", "0px");
-      row.style.setProperty("--calcite-internal-table-header-z-index", "2");
-      row.style.setProperty(
-        "--calcite-internal-table-header-row-position",
-        this.stickyHeader && index === 0 ? "sticky" : "static",
-      );
-    });
+    this.applyHeaderRowPositionStyles();
 
     if (this.stickyHeader) {
       this.observeStickyHeaderRows();

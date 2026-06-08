@@ -298,7 +298,11 @@ export class TableRow extends LitElement {
             const atBoundary = isShift ? el.positionInRow === 1 : el.positionInRow === cells.length;
 
             if (!atBoundary) {
-              focusElementInGroup(cells, el, isShift ? "previous" : "next", false, false);
+              const destinationCell = isShift
+                ? cells[el.positionInRow - 2]
+                : cells[el.positionInRow];
+
+              destinationCell?.setFocus({ preventScroll: true });
               event.preventDefault();
             }
           }
