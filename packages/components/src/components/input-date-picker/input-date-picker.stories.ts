@@ -188,104 +188,59 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const defaultAllScales = (): string => html`
-  <style>
-    .container {
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-      inline-size: 1200px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
-  </div>
-`;
+const allScalesTemplate = (layout: "horizontal" | "vertical", range?: boolean, calendars?: number): string => {
+  const scales = scale.values;
+  return html`<style>
+      .container {
+        block-size: 500px;
+        display: flex;
+        gap: 100px;
+      }
+      .range--horizontal {
+        inline-size: 2400px;
+      }
+    </style>
+    <div class="container ${range && layout === "horizontal" ? "range--horizontal" : ""}">
+      ${scales.map(
+        (scale) => html`
+          <calcite-input-date-picker
+            scale="${scale}"
+            open
+            value="2020-12-12"
+            min="2020-12-12"
+            max="2020-12-16"
+            layout="${layout}"
+            calendars="${calendars}"
+            ${boolean("range", range)}
+          ></calcite-input-date-picker>
+        `,
+      )}
+    </div>`;
+};
 
-export const rangeSmallAndLargeScales = (): string => html`
-  <style>
-    .container {
-      inline-size: 1500px;
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker
-      scale="s"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="l"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-  </div>
-`;
+export const allScalesHorizontal = (): string => allScalesTemplate("horizontal");
 
-export const rangeOneCalendarsAllScales = (): string => html`
-  <style>
-    .container {
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-      inline-size: 1200px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker
-      scale="s"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="m"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="l"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-  </div>
-`;
+export const allScalesVertical = (): string => allScalesTemplate("vertical");
+
+export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizontal", true, 2);
+
+allScalesRangeHorizontal.parameters = {
+  chromatic: {
+    modes: {
+      viewport: {
+        width: 2500,
+        height: 800,
+      },
+    },
+    cropToViewport: true,
+  },
+};
+
+export const allScalesRangeVertical = (): string => allScalesTemplate("vertical", true, 2);
+
+export const allScalesRangeOneCalendarHorizontal = (): string => allScalesTemplate("horizontal", false, 1);
+
+export const allScalesRangeOneCalendarVertical = (): string => allScalesTemplate("vertical", false, 1);
 
 export const arabicLocaleDarkModeRTL = (): string => html`
   <style>
