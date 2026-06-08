@@ -35,8 +35,8 @@ export type MinuteOrSecond = "minute" | "second";
 
 export interface Time {
   fractionalSecond?: string | null;
-  hour: string | null;
-  minute: string | null;
+  hour?: string | null;
+  minute?: string | null;
   second?: string | null;
 }
 
@@ -472,7 +472,7 @@ export function localizeTimeString({
     // @see https://issues.chromium.org/issues/40676973
     if (["he", "bs", "mk"].includes(locale)) {
       const localeData = localizedTwentyFourHourMeridiems.get(locale)!;
-      if ((result as string).includes("AM")) {
+      if (result!.includes("AM")) {
         result = (result as string).replaceAll("AM", localeData.am);
       } else if ((result as string).includes("PM")) {
         result = (result as string).replaceAll("PM", localeData.pm);
@@ -494,8 +494,8 @@ export function parseTimeString(value: string | null, step?: number): Time {
     if (secondDecimal?.includes(".")) {
       [second, fractionalSecond] = secondDecimal.split(".");
     }
-    if (step) {
-      fractionalSecond = formatFractionalSecond(fractionalSecond as string, step);
+    if (step && typeof fractionalSecond === "string") {
+      fractionalSecond = formatFractionalSecond(fractionalSecond, step);
     }
     return {
       fractionalSecond,

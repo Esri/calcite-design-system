@@ -99,7 +99,7 @@ export class TimePicker extends LitElement implements TimeComponent {
   @property({ reflect: true }) step = 60;
 
   /** The component's value in UTC (always 24-hour format). */
-  @property() value!: string | null;
+  @property() value: string | null = null;
 
   //#endregion
 
@@ -130,7 +130,6 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   constructor() {
     super();
-    this.value = null;
     this.listen("blur", this.blurHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
     this.listen("keydown", this.keyDownHandler);
@@ -349,9 +348,7 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   private secondUpClickHandler(): void {
     this.activeEl = this.secondRef.value;
-    if (this.activeEl) {
-      this.activeEl.focus();
-    }
+    this.activeEl?.focus();
     this.time.incrementSecond();
   }
 
@@ -404,11 +401,11 @@ export class TimePicker extends LitElement implements TimeComponent {
       minute,
       second,
     } = this.time;
-    const hourIsNumber = isValidNumber(hour ?? undefined);
+    const hourIsNumber = isValidNumber(hour);
     const iconScale = getIconScale(scale);
-    const minuteIsNumber = isValidNumber(minute ?? undefined);
-    const secondIsNumber = isValidNumber(second ?? undefined);
-    const fractionalSecondIsNumber = isValidNumber(fractionalSecond ?? undefined);
+    const minuteIsNumber = isValidNumber(minute);
+    const secondIsNumber = isValidNumber(second);
+    const fractionalSecondIsNumber = isValidNumber(fractionalSecond);
     const showSecondSuffix = locale !== "bg" && localizedSecondSuffix;
     const showMeridiem = hourFormat === "12";
     return (

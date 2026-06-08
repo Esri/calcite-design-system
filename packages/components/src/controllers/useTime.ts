@@ -68,7 +68,7 @@ type TimeProperties = {
   /**
    * The hour portion of the time value (in ISO 24-hour format).
    */
-  hour: string;
+  hour?: string;
   /**
    * The effective hour format, calculated based on the component's hour-format property.
    * The component's hour-format of "user" will resolve to the locale's default hour format.
@@ -131,7 +131,7 @@ type TimeProperties = {
   /**
    * The minute portion of the time value.
    */
-  minute: string;
+  minute?: string;
   /**
    * The second portion of the time value.
    */
@@ -671,7 +671,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       }
     }
     const { hour, minute, second, fractionalSecond } = this;
-    const newValue = toISOTimeString({ hour: hour ?? null, minute: minute ?? null, second, fractionalSecond }, step);
+    const newValue = toISOTimeString({ hour, minute, second, fractionalSecond }, step);
     if (previousValue !== newValue) {
       if (key === "hour" && hourFormat === "12") {
         this.meridiem = getMeridiem(hour);
