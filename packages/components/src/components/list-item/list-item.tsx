@@ -41,13 +41,6 @@ declare global {
 
 const focusMap = new Map<List["el"], number | undefined>();
 
-function metadataValuesAreEqual(
-  currentMetadata?: Record<string, unknown>,
-  previousMetadata?: Record<string, unknown>,
-): boolean {
-  return isEqual(currentMetadata, previousMetadata);
-}
-
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -456,8 +449,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     const metadataChanged = changes.has("metadata");
     const previousMetadata = changes.get("metadata");
-    const shouldEmitMetadataChange =
-      metadataChanged && !metadataValuesAreEqual(this.metadata, previousMetadata);
+    const shouldEmitMetadataChange = metadataChanged && !isEqual(this.metadata, previousMetadata);
 
     if (
       (changes.has("label") || changes.has("description") || shouldEmitMetadataChange) &&
