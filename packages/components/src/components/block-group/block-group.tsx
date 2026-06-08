@@ -21,7 +21,6 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale } from "../interfaces";
@@ -32,6 +31,7 @@ import { styles } from "./block-group.scss";
 import type { BlockDragDetail } from "./interfaces";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
+import { isBlock } from "../block/resources";
 
 declare global {
   interface DeclareElements {
@@ -355,7 +355,7 @@ export class BlockGroup extends LitElement {
 
     this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
       (el): el is Block["el"] | BlockGroup["el"] => {
-        if (el.matches(blockSelector)) {
+        if (isBlock(el)) {
           blockChildren.push(el);
         }
         return el.matches(blockSelector) || el.matches(blockGroupSelector);
