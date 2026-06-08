@@ -230,6 +230,7 @@ export class Button extends LitElement implements LabelableComponent {
 
   private updateHasContent() {
     this.hasContent = hasVisibleContent(this.el);
+    this.setTooltipText();
   }
 
   private setupTextContentObserver() {
@@ -244,10 +245,11 @@ export class Button extends LitElement implements LabelableComponent {
     const {
       contentRef: { value: contentEl },
     } = this;
-    if (contentEl) {
-      this.tooltipText =
-        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
-    }
+    this.tooltipText = contentEl
+      ? contentEl.offsetWidth < contentEl.scrollWidth
+        ? contentEl.innerText || null
+        : null
+      : null;
   }
 
   private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
