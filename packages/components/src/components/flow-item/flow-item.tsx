@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -82,11 +81,7 @@ export class FlowItem extends LitElement {
   /** When `true`, hides the component. */
   @property({ reflect: true }) closed = false;
 
-  /**
-   * Specifies the direction of the collapse.
-   *
-   * @private
-   */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -120,7 +115,7 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) menuOpen = false;
 
   /** Overrides individual strings used by the component. */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
   /**
    * Specifies the type of positioning to use for overlaid content, where:
@@ -309,7 +304,7 @@ export class FlowItem extends LitElement {
       headingLevel,
       loading,
       menuOpen,
-      messages,
+      messageOverrides,
       overlayPositioning,
       beforeClose,
       icon,
@@ -321,8 +316,8 @@ export class FlowItem extends LitElement {
           beforeClose={beforeClose}
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
           collapsed={collapsed}
+          collapseDirection={collapseDirection}
           collapsible={collapsible}
           description={description}
           disabled={disabled}
@@ -332,7 +327,7 @@ export class FlowItem extends LitElement {
           iconFlipRtl={iconFlipRtl}
           loading={loading}
           menuOpen={menuOpen}
-          messageOverrides={messages}
+          messageOverrides={messageOverrides}
           oncalcitePanelClose={this.handleInternalPanelClose}
           oncalcitePanelScroll={this.handleInternalPanelScroll}
           oncalcitePanelToggle={this.handleInternalPanelToggle}

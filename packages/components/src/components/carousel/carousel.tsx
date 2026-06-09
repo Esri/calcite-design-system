@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -20,7 +19,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ArrowType, AutoplayType } from "./interfaces";
+import { ArrowType, AutoplayType, PaginationPosition } from "./interfaces";
 import { styles } from "./carousel.scss";
 
 declare global {
@@ -60,9 +59,9 @@ export class Carousel extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  private slideDurationInterval = null;
+  private slideDurationInterval?;
 
-  private slideInterval = null;
+  private slideInterval?;
 
   private tabListRef = createRef<HTMLDivElement>();
 
@@ -109,7 +108,7 @@ export class Carousel extends LitElement {
 
   @state() playing = false;
 
-  @state() selectedIndex: number;
+  @state() selectedIndex = 0;
 
   @state() slideDurationRemaining = 1;
 
@@ -145,7 +144,7 @@ export class Carousel extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -155,19 +154,22 @@ export class Carousel extends LitElement {
    */
   @property() paginationDisabled: boolean = false;
 
+  /** Specifies the position of the component's pagination controls. */
+  @property({ reflect: true }) paginationPosition: PaginationPosition = "bottom";
+
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
-  @property() paused: boolean;
+  @property() paused!: boolean;
 
   /**
    * The component's selected `calcite-carousel-item`.
    *
    * @readonly
    */
-  @property() selectedItem: CarouselItem["el"];
+  @property() selectedItem!: CarouselItem["el"];
 
   //#endregion
 
@@ -180,7 +182,7 @@ export class Carousel extends LitElement {
     if (
       this.playing ||
       !this.hasMultiple ||
-      (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")
+      (this.autoplay !== "" && this.autoplay !== true && this.autoplay !== "paused")
     ) {
       return;
     }
@@ -434,8 +436,8 @@ export class Carousel extends LitElement {
   }
 
   private handleItemSelection(event: MouseEvent): void {
-    const item = event.target as Action["el"];
-    const requestedPosition = parseInt(item.dataset.index);
+    const item = event.currentTarget as HTMLElement;
+    const requestedPosition = parseInt(item.dataset.index!);
 
     if (requestedPosition === this.selectedIndex) {
       return;
@@ -517,7 +519,7 @@ export class Carousel extends LitElement {
       case " ":
       case "Enter":
         event.preventDefault();
-        if (this.autoplay === "" || this.autoplay || this.autoplay === "paused") {
+        if (this.autoplay === "" || this.autoplay === true || this.autoplay === "paused") {
           this.toggleRotation();
         }
         break;
@@ -558,7 +560,7 @@ export class Carousel extends LitElement {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabListRef.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value!.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
     );
     const currentEl = event.target as Action["el"];
     switch (event.key) {
@@ -618,7 +620,10 @@ export class Carousel extends LitElement {
         onKeyDown={this.tabListKeyDownHandler}
         ref={this.tabListRef}
       >
-        {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
+        {(this.playing ||
+          this.autoplay === "" ||
+          this.autoplay === true ||
+          this.autoplay === "paused") &&
           this.hasMultiple &&
           this.renderRotationControl()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}
@@ -693,8 +698,11 @@ export class Carousel extends LitElement {
 
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
-        {messages.paginationStatus
-          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
+        {messages
+          .paginationStatus!.replace(
+            "{current}",
+            numberStringFormatter.localize(`${selectedIndex + 1}`),
+          )
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );
@@ -721,7 +729,22 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { itemDirection } = this;
+    const { itemDirection, paginationPosition } = this;
+    const paginationArea = this.renderPaginationArea();
+    const itemContainer = (
+      <section
+        class={{
+          [CSS.itemContainer]: true,
+          [CSS.itemContainerForward]: itemDirection === "forward",
+          [CSS.itemContainerBackward]: itemDirection === "backward",
+        }}
+        id={this.containerId}
+        ref={this.itemContainerRef}
+      >
+        <slot onSlotChange={this.handleSlotChange} />
+      </section>
+    );
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -742,18 +765,8 @@ export class Carousel extends LitElement {
           role="group"
           tabIndex={0}
         >
-          <section
-            class={{
-              [CSS.itemContainer]: true,
-              [CSS.itemContainerForward]: itemDirection === "forward",
-              [CSS.itemContainerBackward]: itemDirection === "backward",
-            }}
-            id={this.containerId}
-            ref={this.itemContainerRef}
-          >
-            <slot onSlotChange={this.handleSlotChange} />
-          </section>
-          {this.renderPaginationArea()}
+          {paginationPosition === "top" ? paginationArea : itemContainer}
+          {paginationPosition === "top" ? itemContainer : paginationArea}
           {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("previous")}
           {this.arrowType === "edge" && this.hasMultiple && this.renderArrow("next")}
         </div>

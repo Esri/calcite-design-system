@@ -11,11 +11,11 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  openClose,
   reflects,
   renders,
   t9n,
   topLayer,
-  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -951,6 +951,15 @@ describe("active item when opened", () => {
 });
 
 describe("keyboard interactions", async () => {
+  it("does not throw when pressing Space then Enter with no items", async () => {
+    const { el } = await mount<Combobox>(<calcite-combobox />);
+
+    await el.setFocus();
+    await userEvent.keyboard("{Space}{Enter}");
+
+    expect(el.open).toBe(false);
+  });
+
   it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox allow-custom-values placeholder="Select a field">
@@ -969,7 +978,7 @@ describe("keyboard interactions", async () => {
 
     await el.setFocus();
     await userEvent.keyboard("{ArrowLeft}");
-    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Space}");
 
     expect(el.selectedItems).toHaveLength(1);
     expect(el.selectedItems[0]).toBe(selectedItem1.element());
@@ -994,7 +1003,7 @@ describe("keyboard interactions", async () => {
     await el.setFocus();
     await userEvent.keyboard("{ArrowLeft}");
     await userEvent.keyboard("{ArrowLeft}");
-    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Space}");
 
     expect(el.selectedItems).toHaveLength(1);
     expect(el.selectedItems[0]).toBe(selectedItem2.element());
@@ -1088,11 +1097,23 @@ describe("keyboard interactions", async () => {
       } else {
         const combobox = page.getBySelector("calcite-combobox");
         const input = page.getBySelector("calcite-combobox input");
+        const changeHandler = vi.fn();
+        combobox.element().addEventListener("calciteComboboxChange", changeHandler);
+        const keyDownHandler = vi.fn();
+        el.addEventListener("keydown", keyDownHandler);
+
         await expect.element(combobox).toBeInTheDocument();
         await expect.element(input).toBeInTheDocument();
 
-        await userEvent.click(combobox);
-        await userEvent.keyboard("{Escape}");
+        await userEvent.keyboard("{Tab}{Escape}");
+
+        if (expectedBehavior === "clear") {
+          expect(changeHandler).toHaveBeenCalled();
+          expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
+        } else {
+          expect(changeHandler).not.toHaveBeenCalled();
+          expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", false);
+        }
       }
 
       if (expectedBehavior === "clear") {
@@ -1116,9 +1137,15 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
-          assertValueClearing(selectionMode, false, "keyboard", "no-clear"),
-        );
+        selectionModes.forEach((selectionMode) => {
+          if (selectionMode === "single-persist") {
+            it(`does not clear the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "no-clear"));
+          } else {
+            it(`clears the value in ${selectionMode}-selection mode`, () =>
+              assertValueClearing(selectionMode, false, "keyboard", "clear"));
+          }
+        });
       });
     });
 
@@ -1131,10 +1158,119 @@ describe("keyboard interactions", async () => {
       });
 
       describe("via keyboard", () => {
-        test.for(selectionModes)("does not clear the value in selection mode", (selectionMode) =>
+        test.for(selectionModes)("does not clear the value in %s selection mode", (selectionMode) =>
           assertValueClearing(selectionMode, true, "keyboard", "no-clear"),
         );
       });
     });
+  });
+});
+
+describe("keyboard interaction", () => {
+  it(`remains focused after toggling`, async () => {
+    const { el } = await mount<Combobox>(() => (
+      <calcite-combobox>
+        <calcite-combobox-item value="one" />
+      </calcite-combobox>
+    ));
+    const floatingUI = await page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    const keyDownHandler = vi.fn();
+    el.addEventListener("keydown", keyDownHandler);
+    const openEvent = waitForEvent(el, "calciteComboboxOpen");
+
+    await userEvent.keyboard("{Tab}{Escape}");
+
+    expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", false);
+
+    await userEvent.keyboard("{Space}");
+    await openEvent;
+
+    await expect.element(floatingUI).toBeVisible();
+
+    const closeEvent = waitForEvent(el, "calciteComboboxClose");
+    await userEvent.keyboard("{Escape}");
+    await closeEvent;
+
+    await expect.element(floatingUI).not.toBeVisible();
+    await expect.element(el).toHaveFocus();
+    expect(keyDownHandler.mock.lastCall![0]).toHaveProperty("defaultPrevented", true);
+  });
+
+  it("Escape close + Space reopen keeps Select All active after toggling selection", async () => {
+    await mount<Combobox>(() => (
+      <calcite-combobox select-all-enabled selection-mode="multiple">
+        <calcite-combobox-item heading="one" id="one" value="one" />
+        <calcite-combobox-item heading="two" id="two" value="two" />
+        <calcite-combobox-item heading="three" id="three" value="three" />
+      </calcite-combobox>
+    ));
+
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    await userEvent.keyboard("{Tab}{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    let activeItem = page.getBySelector("calcite-combobox-item[active]");
+    await expect.element(activeItem).toHaveProperty("label", "Select all");
+
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(page.getBySelector("#one")).toHaveProperty("selected", true);
+    await expect.element(page.getBySelector("#two")).toHaveProperty("selected", true);
+    await expect.element(page.getBySelector("#three")).toHaveProperty("selected", true);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(floatingUI).not.toBeVisible();
+
+    await userEvent.keyboard("{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    activeItem = page.getBySelector("calcite-combobox-item[active]");
+    await expect.element(activeItem).toHaveProperty("label", "Select all");
+
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(page.getBySelector("#one")).toHaveProperty("selected", false);
+    await expect.element(page.getBySelector("#two")).toHaveProperty("selected", false);
+    await expect.element(page.getBySelector("#three")).toHaveProperty("selected", false);
+  });
+
+  it("Escape close + Space reopen keeps long-list scroll location and active item", async () => {
+    const items = Array.from({ length: 60 }, (_, i) => (
+      <calcite-combobox-item
+        heading={`item-${i + 1}`}
+        id={`item-${i + 1}`}
+        value={`item-${i + 1}`}
+      />
+    ));
+
+    await mount<Combobox>(() => (
+      <calcite-combobox selection-mode="multiple">{items}</calcite-combobox>
+    ));
+
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+    await userEvent.keyboard("{Tab}{Space}");
+    await expect.element(floatingUI).toBeVisible();
+
+    for (let i = 0; i < 30; i++) {
+      await userEvent.keyboard("{ArrowDown}");
+    }
+
+    const listContainer = page
+      .getBySelector(`calcite-combobox .${CSS.listContainer}`)
+      .element() as HTMLDivElement;
+    const activeValueBeforeClose = (
+      page.getBySelector("calcite-combobox-item[active]").element() as ComboboxItem["el"]
+    ).value;
+    const scrollTopBeforeClose = listContainer.scrollTop;
+
+    expect(scrollTopBeforeClose).toBeGreaterThan(0);
+
+    const activeValueAfterReopen = (
+      page.getBySelector("calcite-combobox-item[active]").element() as ComboboxItem["el"]
+    ).value;
+    const scrollTopAfterReopen = listContainer.scrollTop;
+
+    expect(activeValueAfterReopen).toBe(activeValueBeforeClose);
+    expect(Math.abs(scrollTopAfterReopen - scrollTopBeforeClose)).toBeLessThanOrEqual(1);
   });
 });

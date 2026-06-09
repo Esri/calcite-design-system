@@ -63,8 +63,8 @@
 
 .sticky-pos {
   @apply sticky
-  top-0
-  z-sticky;
+  top-0;
+  z-index: calc(var(--calcite-z-index-sticky) + 1);
   background-color: var(--calcite-list-background-color, var(--calcite-color-foreground-1));
 }
 

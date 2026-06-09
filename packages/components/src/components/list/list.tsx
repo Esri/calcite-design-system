@@ -1,7 +1,15 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../interfaces";
@@ -17,10 +25,10 @@ import {
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
-  MoveEventDetail,
-  SortMenuItem,
-  ReorderEventDetail,
   AddEventDetail,
+  MoveEventDetail,
+  ReorderEventDetail,
+  SortMenuItem,
 } from "../sort-handle/interfaces";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
@@ -36,6 +44,7 @@ import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
+import type { SortHandle } from "../sort-handle/sort-handle";
 
 declare global {
   interface DeclareElements {
@@ -65,15 +74,15 @@ export class List extends LitElement {
 
   dragSelector = listItemSelector;
 
-  filterEl: Filter["el"];
+  filterEl?: Filter["el"];
 
-  defaultSlotEl: HTMLSlotElement;
+  defaultSlotEl?: HTMLSlotElement;
 
   private focusableItems: ListItem["el"][] = [];
 
   handleSelector = "calcite-sort-handle";
 
-  private lastSelectedInfo: { selectedItem: ListItem["el"]; selected: boolean };
+  private lastSelectedInfo?: { selectedItem: ListItem["el"]; selected: boolean };
 
   private listItems: ListItem["el"][] = [];
 
@@ -84,7 +93,7 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
   });
 
-  private parentListEl: List["el"];
+  private parentListEl?: List["el"];
 
   private cancelable = useCancelable<this>()(this);
 
@@ -110,7 +119,7 @@ export class List extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   get hasActiveFilter(): boolean {
-    return (
+    return !!(
       this.filterEnabled &&
       this.filterText &&
       this.filteredItems.length !== this.visibleItems.length
@@ -122,7 +131,7 @@ export class List extends LitElement {
   }
 
   get showNoResultsContainer(): boolean {
-    return (
+    return !!(
       this.filterEnabled &&
       this.filterText &&
       this.hasFilterNoResults &&
@@ -154,7 +163,7 @@ export class List extends LitElement {
 
   //#region State Properties
 
-  @state() assistiveText: string;
+  @state() assistiveText?: string;
 
   @state() dataForFilter: ItemData[] = [];
 
@@ -203,13 +212,13 @@ export class List extends LitElement {
   @property() filterPredicate?: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
-  @property({ reflect: true }) filterLabel: string;
+  @property({ reflect: true }) filterLabel?: string;
 
   /** Specifies placeholder text for the component's filter input field. */
-  @property({ reflect: true }) filterPlaceholder: string;
+  @property({ reflect: true }) filterPlaceholder?: string;
 
   /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
-  @property() filterProps: string[];
+  @property() filterProps?: string[];
 
   /** Text for the component's filter input field. */
   @property({ reflect: true }) filterText: string = "";
@@ -253,7 +262,7 @@ export class List extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -274,7 +283,7 @@ export class List extends LitElement {
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -400,11 +409,20 @@ export class List extends LitElement {
       this.handleCalciteInternalAssistiveTextChange,
     );
     this.listen("calciteListItemSortHandleBeforeOpen", this.updateListItemsDebounced);
-    this.listen("calciteSortHandleReorder", this.handleSortReorder);
-    this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen<ToEvents<SortHandle>["calciteSortHandleReorder"]>(
+      "calciteSortHandleReorder",
+      this.handleSortReorder,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleMove"]>(
+      "calciteSortHandleMove",
+      this.handleSortMove,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleAdd"]>(
+      "calciteSortHandleAdd",
+      this.handleSortAdd,
+    );
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
-    this.listen(
+    this.listen<ToEvents<ListItem>["calciteInternalListItemSelectMultiple"]>(
       "calciteInternalListItemSelectMultiple",
       this.handleCalciteInternalListItemSelectMultiple,
     );
@@ -413,6 +431,7 @@ export class List extends LitElement {
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListItemGroupDefaultSlotChange,
     );
+    this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
   }
 
   override connectedCallback(): void {
@@ -471,6 +490,7 @@ export class List extends LitElement {
   //#region Private Methods
 
   private updateListItems(): void {
+    this.updateFilterRowHeight();
     this.updateGroupItems();
 
     const {
@@ -491,11 +511,12 @@ export class List extends LitElement {
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
 
     items.forEach((item) => {
-      item.scale = scale;
-      item.selectionAppearance = selectionAppearance;
-      item.selectionMode = selectionMode;
-      item.interactionMode = interactionMode;
       if (item.closest(listSelector) === el) {
+        item.scale = scale;
+        item.selectionAppearance = selectionAppearance;
+        item.selectionMode = selectionMode;
+        item.interactionMode = interactionMode;
+
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
           this.validateSortMenuItem({
             type: "move",
@@ -701,11 +722,16 @@ export class List extends LitElement {
     }
 
     event.stopPropagation();
-    this.updateListItemsDebounced();
+    this.handleListItemChange();
   }
 
   private handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
+    if (this.parentListEl) {
+      return;
+    }
+
     event.stopPropagation();
+    this.handleListItemChange();
   }
 
   private connectObserver(): void {
@@ -719,11 +745,7 @@ export class List extends LitElement {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (!dragEnabled) {
-      return;
-    }
-
-    if (defaultSlotEl) {
+    if (dragEnabled && defaultSlotEl) {
       updateListItemChildren(defaultSlotEl);
     }
 
@@ -755,7 +777,7 @@ export class List extends LitElement {
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest(listSelector);
+    this.parentListEl = this.el.parentElement?.closest(listSelector) || undefined;
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -817,7 +839,7 @@ export class List extends LitElement {
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest<ListElement>(parentSelector);
+    const closestParent = el.parentElement!.closest<ListElement>(parentSelector);
 
     if (!closestParent) {
       return;
@@ -898,7 +920,9 @@ export class List extends LitElement {
   }
 
   private async filterAndUpdateData(): Promise<void> {
-    await this.filterEl?.filter(this.filterText);
+    // Keep in-progress user input as source-of-truth during rapid item updates.
+    const filterValue = this.filterEl?.value ?? this.filterText;
+    await this.filterEl?.filter(filterValue);
     this.updateFilteredData();
   }
 
@@ -942,11 +966,9 @@ export class List extends LitElement {
   }
 
   private getGroupHeading(item: ListItem["el"]): string[] {
-    const heading = this.listItemGroups
-      .filter((group) => group.contains(item))
-      .map((group) => group.heading);
-
-    return heading;
+    return this.listItemGroups
+      .filter((group) => group.contains(item) && group.heading)
+      .map((group) => group.heading!);
   }
 
   private updateGroupItems(): void {
@@ -1015,7 +1037,7 @@ export class List extends LitElement {
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl.setFocus();
+        this.filterEl!.setFocus();
         return;
       }
 
@@ -1228,7 +1250,6 @@ export class List extends LitElement {
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
@@ -1279,7 +1300,6 @@ export class List extends LitElement {
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
                         scale={this.scale}
-                        value={filterText}
                       />
                       <slot
                         name={SLOTS.filterActionsEnd}

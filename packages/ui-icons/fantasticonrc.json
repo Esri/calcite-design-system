@@ -1379,6 +1379,13 @@
     "velocity-server": 61916,
     "layer-stream-setting": 61917,
     "arcgis-survey123": 61918,
-    "arcgis-quickcapture": 61919
+    "arcgis-quickcapture": 61919,
+    "total-station": 61920,
+    "gps-receiver": 61921,
+    "buttons": 61922,
+    "review-map": 61923,
+    "return-to-default": 61924,
+    "oriented-imagery-scene-only": 61925,
+    "parquet-feature-layer": 61926
   }
 }

@@ -219,9 +219,9 @@ npm test
 
 `npm test` will run the test suites.
 
-Calcite Components include Vitest's testing tools which are powered by [Vitest](https://vitest.dev) and [Puppeteer](https://github.com/GoogleChrome/puppeteer).
+Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
-If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:stable` or `npm --workspace=packages/components run test:watch:experimental`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
+If you're working on writing tests for a particular component, it can be helpful to use `npm --workspace=packages/components run test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `npm --workspace=packages/components run test:watch:node` or `npm --workspace=packages/components run test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
 Please refer to Calcite's [testing conventions](./packages/components/conventions/Testing.md) for more information.
 
@@ -375,11 +375,13 @@ See the [conventional commits doc](https://www.conventionalcommits.org/en/v1.0.0
 
 ## Pull requests
 
-In order to ensure conventional commits are followed, pull requests will run a check to indicate whether the PR is following the convention or not. The [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) status check will ensure your pull requests are semantic before you merge them.
+Pull requests should follow conventional commits and will be validated by the [Semantic Pull Request](https://github.com/amannn/action-semantic-pull-request) check before merging.
 
-You can update the PR title any time before merging the PR. This may be necessary when the scope or type of the PR changes, or if additional details are needed for the changelog entry.
+You can update the PR title at any time prior to merging. This is useful if the scope or type changes, or if additional clarity is needed for the changelog entry.
 
-By default, the PR body will be used for the commit message when squash merging, so make sure to add any relevant details there.
+By default, the PR body is used as the commit message when squash merging, so include any relevant details there.
+
+See the [PR review guidelines](https://github.com/Esri/calcite-design-system/wiki/PR-Review-Guidelines) wiki page for detailed information on how pull requests are reviewed.
 
 ### Visual snapshots
 

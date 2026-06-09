@@ -24,8 +24,8 @@ export interface DragDetail<
   toEl: To;
   fromEl: From;
   dragEl: Drag;
-  newIndex: number;
-  oldIndex: number;
+  newIndex: number | undefined;
+  oldIndex: number | undefined;
 }
 
 export const CSS = {
@@ -186,12 +186,17 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
       return component.dragEnabled && globalDragState.active;
     }
 
-    async function setUpSortable(component: SortableComponent): Promise<void> {
+    function setUpSortable(component: SortableComponent): void {
       if (dragActive(component)) {
         return;
       }
 
       tearDownSortable(component);
+
+      if (!component.dragEnabled) {
+        return;
+      }
+
       sortableComponentSet.add(component);
       sortable = createSortable(component);
     }

@@ -201,6 +201,10 @@
 
 @include floating-ui.floating-ui-elem-anim(".floating-ui-container");
 
+.floating-ui-container .calcite-floating-ui-anim {
+  box-shadow: var(--calcite-shadow-md);
+}
+
 @media (forced-colors: active) {
   .wrapper,
   .floating-ui-container {

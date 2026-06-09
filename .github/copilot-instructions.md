@@ -104,9 +104,11 @@ In descending order when rules conflict:
 - Do not add unrelated test coverage in the same change.
 - Always use CSS classes when adding/updating stories instead of repeating styles.
 - Targeted commands for component work:
-  - `npm --workspace=packages/components run test:stable -- <path>`
-  - `npm --workspace=packages/components run test:experimental -- <path>`
+  - `npm --workspace=packages/components run test:node -- <path>`
+  - `npm --workspace=packages/components run test:browser -- <path>`
   - `npm --workspace=packages/components run test:watch -- <path>`
+- Avoid defensive test code; keep tests deterministic and make assertions reflect the intended behavior.
+- Keep tests as minimal as possible, focusing on the specific behavior being tested. Avoid extra assertions or setup not directly related to the change.
 
 ## Documentation
 
@@ -131,7 +133,11 @@ In descending order when rules conflict:
 - When drafting review comments or PR text, be direct, collaborative, and specific.
 - Avoid sounding absolute, dismissive, or overly corrective.
 - Prefer wording that explains what changed and why in concrete terms.
-- When helpful, label the type of review comment up front (for example, `fixme` or `suggestion`) so the intent is clear.
+- When helpful, prefix review comments with a label so intent is clear. Format: `<label>:`. Suggested labels:
+  - `blocking:` must be addressed before merge (correctness, accessibility, security, breaking API)
+  - `suggestion:` optional improvement; author may adopt or explain why not
+  - `nit:` minor polish; not worth back-and-forth
+  - `question:` asking for clarification or rationale
 
 ## Reference Docs
 

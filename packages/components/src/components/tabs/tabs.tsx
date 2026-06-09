@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -126,15 +125,18 @@ export class Tabs extends LitElement {
       return;
     }
 
-    let tabIds;
-    let titleIds;
+    let tabIds: string[];
+    let titleIds: string[];
     const tabs = getSlotAssignedElements<Tab["el"]>(this.slotRef.value, "calcite-tab");
+    await Promise.all([...tabs, ...this.titles].map((tabOrTitle) => tabOrTitle.componentOnReady()));
 
     // determine if we are using `tab` based or `index` based tab identifiers.
     if (tabs.some((el) => el.tab) || this.titles.some((el) => el.tab)) {
       // if we are using `tab` based identifiers sort by `tab` to account for
       // possible out of order tabs and get the id of each tab
-      tabIds = tabs.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
+      tabIds = tabs
+        .sort((a, b) => (a.tab && b.tab ? a.tab.localeCompare(b.tab) : 0))
+        .map((el) => el.id);
       titleIds = this.titles.sort((a, b) => a.tab.localeCompare(b.tab)).map((el) => el.id);
     } else {
       // if we are using index based tabs then the `<calcite-tab>` and
@@ -147,12 +149,12 @@ export class Tabs extends LitElement {
 
       // once we have the DOM order as a source of truth we can build the
       // matching tabIds and titleIds arrays
-      tabIds = tabDomIndexes.reduce((ids, indexInDOM, registryIndex) => {
+      tabIds = tabDomIndexes.reduce((ids: string[], indexInDOM, registryIndex) => {
         ids[indexInDOM] = tabs[registryIndex].id;
         return ids;
       }, []);
 
-      titleIds = titleDomIndexes.reduce((ids, indexInDOM, registryIndex) => {
+      titleIds = titleDomIndexes.reduce((ids: string[], indexInDOM, registryIndex) => {
         ids[indexInDOM] = this.titles[registryIndex].id;
         return ids;
       }, []);
@@ -179,13 +181,14 @@ export class Tabs extends LitElement {
         tab.scale = scale;
       }
     });
-
-    Array.from(this.el.querySelectorAll("calcite-tab-nav > calcite-tab-title")).forEach(
-      (title: TabTitle["el"]) => {
-        title.position = position;
-        title.scale = scale;
-      },
+    const tabTitleEls = this.el.querySelectorAll<TabTitle["el"]>(
+      "calcite-tab-nav > calcite-tab-title",
     );
+
+    Array.from(tabTitleEls).forEach((title) => {
+      title.position = position;
+      title.scale = scale;
+    });
   }
 
   // #endregion

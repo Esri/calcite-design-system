@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -312,10 +311,12 @@ it("should set the scale property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.filter);
 
-  const items = await findAll(page, "calcite-list-item");
+  const rootListItems = await findAll(page, "#root > calcite-list-item");
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("scale")).toBe("m");
+  expect(rootListItems).toHaveLength(3);
+
+  for (let i = 0; i < rootListItems.length; i++) {
+    expect(await rootListItems[i].getProperty("scale")).toBe("m");
   }
 
   const rootList = await page.find("#root");
@@ -324,8 +325,8 @@ it("should set the scale property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.filter);
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("scale")).toBe("s");
+  for (let i = 0; i < rootListItems.length; i++) {
+    expect(await rootListItems[i].getProperty("scale")).toBe("s");
   }
 
   rootList.setProperty("scale", "m");
@@ -333,8 +334,8 @@ it("should set the scale property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.filter);
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("scale")).toBe("m");
+  for (let i = 0; i < rootListItems.length; i++) {
+    expect(await rootListItems[i].getProperty("scale")).toBe("m");
   }
 
   rootList.setProperty("scale", "l");
@@ -342,8 +343,8 @@ it("should set the scale property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.filter);
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("scale")).toBe("l");
+  for (let i = 0; i < rootListItems.length; i++) {
+    expect(await rootListItems[i].getProperty("scale")).toBe("l");
   }
 });
 

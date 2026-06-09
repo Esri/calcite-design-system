@@ -1,0 +1,30 @@
+name: PR Merged
+on:
+  pull_request:
+    branches: ["releases/**", rc, dev]
+    types: [closed]
+jobs:
+  milestone:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: benelan/milestone-action@v3
+  refactor:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'refactor')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: "Create Task"
+        uses: actions/github-script@v9
+        env:
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+          MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        with:
+          script: |
+            core.startGroup("Create Task");
+            const action = require('${{ github.workspace }}/.github/scripts/monday/createRefactorTask.js')
+            await action({github, context, core})
+            core.endGroup();

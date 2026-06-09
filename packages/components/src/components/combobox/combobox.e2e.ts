@@ -997,8 +997,6 @@ describe("keyboard navigation with chips", () => {
 describe("keyboard navigation in all selection-display mode", () => {
   let page: E2EPage;
   const scrollablePageSizeInPx = 2400;
-  // PageUp/Down scroll test fails without the delay
-  const scrollTestDelayInMilliseconds = 500;
 
   beforeEach(async () => {
     page = await newE2EPage();
@@ -1087,30 +1085,6 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(firstFocusedGroupItem).toBeTruthy();
   });
 
-  it(`Escape closes the dropdown, but remains focused`, async () => {
-    const inputEl = await page.find(`#myCombobox >>> input`);
-    await inputEl.focus();
-    await page.waitForChanges();
-
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-
-    const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
-    await page.keyboard.press("Space");
-    await page.waitForChanges();
-    await openEventSpy.next();
-    const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
-
-    expect(await floatingUI.isVisible()).toBe(true);
-
-    const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    await closeEventSpy.next();
-
-    expect(await floatingUI.isVisible()).toBe(false);
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-  });
-
   it(`Space opens dropdown and puts focus on first item and subsequent Space do not change the focus`, async () => {
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();
@@ -1156,12 +1130,12 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
     await page.keyboard.press("PageDown");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction(() => window.scrollY > 0);
     const scrollPosition = await page.evaluate(() => window.scrollY);
     expect(scrollPosition).toBeTruthy();
 
     await page.keyboard.press("PageUp");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction((previousScrollY) => window.scrollY < previousScrollY, undefined, scrollPosition);
     expect(
       await page.evaluate((scrollPosition) => {
         return window.scrollY < scrollPosition;

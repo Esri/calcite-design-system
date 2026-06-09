@@ -4,18 +4,23 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Card } from "./card";
 
-const { logicalFlowPosition } = ATTRIBUTES;
+const { scale, logicalFlowPosition } = ATTRIBUTES;
 
-type CardStoryArgs = Pick<Card, "loading" | "selected" | "thumbnailPosition">;
+type CardStoryArgs = Pick<Card, "loading" | "scale" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
   args: {
     loading: false,
+    scale: scale.defaultValue,
     selected: false,
     thumbnailPosition: logicalFlowPosition.defaultValue,
   },
   argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     thumbnailPosition: {
       options: logicalFlowPosition.values,
       control: { type: "select" },
@@ -62,6 +67,7 @@ export const simple = (args: CardStoryArgs): string => html`
   <div style="width: 260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -74,6 +80,7 @@ export const simpleWithFooterLinks = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -86,6 +93,7 @@ export const simpleWithFooterButton = (args: CardStoryArgs): string => html`
   <div style="width:260px">
     <calcite-card
       ${boolean("loading", args.loading)}
+      scale="${args.scale}"
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >

@@ -1,21 +1,15 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-} from "../../utils/form";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
 import { styles } from "./radio-button.scss";
 
@@ -25,8 +19,10 @@ declare global {
   }
 }
 
-export class RadioButton extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -36,17 +32,17 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   private containerRef = createRef<HTMLDivElement>();
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
   defaultValue: RadioButton["value"];
 
   private direction = useDirection();
 
-  formEl: HTMLFormElement;
+  formSupport = useForm({ inputType: "radio" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private rootNode: HTMLElement;
+  private rootNode!: HTMLElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -74,7 +70,7 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the component.
@@ -91,10 +87,10 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   @property() label?: string;
 
   /** Specifies the component's label text. */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -104,6 +100,25 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
+  /**
+   * The component's validation message.
+   * @internal
+   * @mdn [validationMessage](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/validationMessage)
+   */
+  @property() validationMessage?: string;
+
+  /**
+   * The component's current validation state.
+   *
+   * @internal
+   * @readonly
+   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /**
    * The component's value.
@@ -132,6 +147,19 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.containerRef.value, options);
+  }
+
+  /**
+   * Sets the component's validity state.
+   *
+   * @internal
+   */
+  @method()
+  async setValidity(
+    validity: ValidityStateFlags,
+    validationMessage: string | undefined = this.validationMessage,
+  ): Promise<void> {
+    this.elementInternals.setValidity(validity, validationMessage || "");
   }
 
   //#endregion
@@ -186,7 +214,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
       this.checkLastRadioButton();
     }
     connectLabel(this);
-    connectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
     super.connectedCallback();
   }
@@ -217,7 +244,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
 
   override disconnectedCallback(): void {
     disconnectLabel(this);
-    disconnectForm(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 
@@ -231,10 +257,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
     }
 
     this.calciteInternalRadioButtonCheckedChange.emit();
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "radio";
   }
 
   private selectItem(items: RadioButton["el"][], selectedIndex: number): void {
@@ -266,7 +288,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
       return;
     }
 
-    this.uncheckAllRadioButtonsInGroup();
     this.checked = true;
     this.calciteRadioButtonChange.emit();
   }
@@ -319,16 +340,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
           checkedRadioButton.emitCheckedChange();
         });
     }
-  }
-
-  private uncheckAllRadioButtonsInGroup(): void {
-    const radioButtons = this.queryButtons();
-    radioButtons.forEach((radioButton) => {
-      if (radioButton.checked) {
-        radioButton.checked = false;
-        radioButton.focused = false;
-      }
-    });
   }
 
   private uncheckOtherRadioButtonsInGroup(): void {
@@ -482,7 +493,6 @@ export class RadioButton extends LitElement implements LabelableComponent, Check
           <div class={CSS.radio} />
           {this.labelText && <InternalLabel labelText={this.labelText} spacingInlineStart={true} />}
         </div>
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }
