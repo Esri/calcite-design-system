@@ -1541,14 +1541,6 @@ describe("theme", () => {
           targetProp: "borderColor",
         },
         {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.suffix}`,
-          targetProp: "borderColor",
-        },
-        {
           shadowSelector: `.${CSS.numberButtonItem}`,
           targetProp: "borderColor",
         },
@@ -1603,6 +1595,24 @@ describe("theme", () => {
 
   describe("with prefix and suffix", () => {
     themed(html` <calcite-input-number prefix-text="prefix" suffix-text="suffix"></calcite-input-number> `, {
+      "--calcite-input-number-border-color": [
+        {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonItem}`,
+          targetProp: "borderColor",
+        },
+      ],
       "--calcite-input-prefix-size": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "inlineSize",
