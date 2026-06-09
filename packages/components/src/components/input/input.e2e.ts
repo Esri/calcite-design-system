@@ -565,6 +565,10 @@ describe("theme", () => {
         shadowSelector: `input`,
         targetProp: "borderColor",
       },
+      "--calcite-input-shadow": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "boxShadow",
+      },
     });
   });
 
