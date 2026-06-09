@@ -438,12 +438,8 @@ export class Table extends LitElement {
         ? getFocusableRowCell(targetRow.focusableCells || [], adjustedPos, lastCell)
         : null;
 
-      if (targetRow?.rowType === "body" && !targetRow.disabled && targetCell) {
-        ensureFocusedTableCellVisible(
-          this.getStickyTableMeasurements(),
-          targetCell,
-          targetRow.isFirstVisibleBodyRow,
-        );
+      if (targetRow?.rowType === "body" && !targetRow.disabled && targetCell && !leavingHeader) {
+        ensureFocusedTableCellVisible(this.getStickyTableMeasurements(), targetCell);
       }
     }
   }
@@ -699,7 +695,6 @@ export class Table extends LitElement {
 
     allRows?.forEach((row) => {
       row.interactionMode = this.interactionMode;
-      row.isFirstVisibleBodyRow = false;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);
@@ -768,19 +763,12 @@ export class Table extends LitElement {
   }
 
   private paginateRows(): void {
-    let firstVisibleBodyRowFound = false;
-
     this.bodyRows?.forEach((row) => {
       const rowPos = row.positionSection + 1;
       const inView = rowPos >= this.pageStartRow && rowPos < this.pageStartRow + this.pageSize;
       row.itemHidden = this.pageSize > 0 && !inView && !this.footRows.includes(row);
-      row.isFirstVisibleBodyRow = !row.itemHidden && !firstVisibleBodyRowFound;
       row.lastVisibleRow =
         rowPos === this.pageStartRow + this.pageSize - 1 || rowPos === this.bodyRows.length;
-
-      if (row.isFirstVisibleBodyRow) {
-        firstVisibleBodyRowFound = true;
-      }
     });
   }
 

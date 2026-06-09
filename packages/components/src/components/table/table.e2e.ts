@@ -373,7 +373,7 @@ describe("sticky header", () => {
     }
   });
 
-  it("keeps scroll position stable when moving focus between sticky header cells via tab and click", async () => {
+  it("keeps scroll position stable when moving focus from sticky header cells via tab", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
@@ -386,8 +386,8 @@ describe("sticky header", () => {
           { length: 12 },
           (_, index) => html`
             <calcite-table-row id="row-${index + 1}">
-              <calcite-table-cell>cell</calcite-table-cell>
-              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}a">cell</calcite-table-cell>
+              <calcite-table-cell id="cell-${index + 1}b">cell</calcite-table-cell>
             </calcite-table-row>
           `,
         ).join("\n")}
@@ -439,21 +439,11 @@ describe("sticky header", () => {
     expect(Math.abs(afterTabMetrics.scrollTop - initialMetrics.scrollTop)).toBeLessThanOrEqual(1);
     expect(Math.abs(afterTabMetrics.firstBodyTop - initialMetrics.firstBodyTop)).toBeLessThanOrEqual(1);
 
-    await page.$eval("#head-1a", (headerCell) => {
-      const headerEl = headerCell as TableHeader["el"];
-      const th = headerEl.shadowRoot?.querySelector("th");
-
-      th?.dispatchEvent(
-        new MouseEvent("mousedown", {
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
-    });
+    await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await getFocusedElementProp(page, "id")).toBe("head-1a");
+    expect(await getFocusedElementProp(page, "id")).toBe("cell-1b");
 
-    const afterClickMetrics = await page.$eval(
+    const afterBodyTabMetrics = await page.$eval(
       "calcite-table",
       (table, tableContainerClass) => {
         const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
@@ -468,8 +458,8 @@ describe("sticky header", () => {
       TABLE_CSS.tableContainer,
     );
 
-    expect(Math.abs(afterClickMetrics.scrollTop - afterTabMetrics.scrollTop)).toBeLessThanOrEqual(1);
-    expect(Math.abs(afterClickMetrics.firstBodyTop - afterTabMetrics.firstBodyTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(afterBodyTabMetrics.scrollTop - afterTabMetrics.scrollTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(afterBodyTabMetrics.firstBodyTop - afterTabMetrics.firstBodyTop)).toBeLessThanOrEqual(1);
   });
 
   it("keeps focus behavior correct when a new first body row is slotted after initialization", async () => {
@@ -524,6 +514,16 @@ describe("sticky header", () => {
 
     await page.waitForChanges();
 
+    const scrollBeforeFocusMetrics = await page.$eval(
+      "calcite-table",
+      (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+
+        return { scrollTop: scrollContainer.scrollTop };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
     await page.$eval("#head-1a", (headerCell) => (headerCell as TableHeader["el"]).setFocus());
     await page.waitForChanges();
     await page.keyboard.press("ArrowDown");
@@ -535,36 +535,20 @@ describe("sticky header", () => {
       "calcite-table",
       (table, tableContainerClass) => {
         const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
-        const activeCell = document.activeElement as HTMLElement & { shadowRoot: ShadowRoot | null };
-        const activeCellElement = activeCell?.shadowRoot?.querySelector("td, th") as HTMLElement | null;
-        const tableStyles = getComputedStyle(table);
-        const stickyHeaderPosition = tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim();
-        const stickyHeaderHeight = parseFloat(
-          tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
-        );
 
-        if (!scrollContainer || !activeCellElement) {
+        if (!scrollContainer) {
           return null;
         }
 
-        const scrollContainerRect = scrollContainer.getBoundingClientRect();
-        const activeCellRect = activeCellElement.getBoundingClientRect();
-
         return {
-          activeCellTop: activeCellRect.top,
           scrollTop: scrollContainer.scrollTop,
-          visibleViewportTop:
-            scrollContainerRect.top +
-            scrollContainer.clientTop +
-            (stickyHeaderPosition === "sticky" ? stickyHeaderHeight : 0),
         };
       },
       TABLE_CSS.tableContainer,
     );
 
     expect(focusMetrics).not.toBeNull();
-    expect(focusMetrics.scrollTop).toBeLessThan(scrollMetrics.scrollTop);
-    expect(Math.abs(focusMetrics.activeCellTop - focusMetrics.visibleViewportTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(focusMetrics.scrollTop - scrollBeforeFocusMetrics.scrollTop)).toBeLessThanOrEqual(1);
   });
 
   it("keeps paginated sticky-header focus behavior correct when rows are inserted after initialization", async () => {
@@ -625,6 +609,16 @@ describe("sticky header", () => {
 
     await page.waitForChanges();
 
+    const scrollBeforeFocusMetrics = await page.$eval(
+      "calcite-table",
+      (table, tableContainerClass) => {
+        const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
+
+        return { scrollTop: scrollContainer.scrollTop };
+      },
+      TABLE_CSS.tableContainer,
+    );
+
     await page.$eval("#head-paged-1a", (headerCell) => (headerCell as TableHeader["el"]).setFocus());
     await page.waitForChanges();
     await page.keyboard.press("ArrowDown");
@@ -636,36 +630,20 @@ describe("sticky header", () => {
       "calcite-table",
       (table, tableContainerClass) => {
         const scrollContainer = table.shadowRoot.querySelector<HTMLElement>(`.${tableContainerClass}`);
-        const activeCell = document.activeElement as HTMLElement & { shadowRoot: ShadowRoot | null };
-        const activeCellElement = activeCell?.shadowRoot?.querySelector("td, th") as HTMLElement | null;
-        const tableStyles = getComputedStyle(table);
-        const stickyHeaderPosition = tableStyles.getPropertyValue("--calcite-internal-table-header-position").trim();
-        const stickyHeaderHeight = parseFloat(
-          tableStyles.getPropertyValue("--calcite-internal-table-sticky-header-total-height"),
-        );
 
-        if (!scrollContainer || !activeCellElement) {
+        if (!scrollContainer) {
           return null;
         }
 
-        const scrollContainerRect = scrollContainer.getBoundingClientRect();
-        const activeCellRect = activeCellElement.getBoundingClientRect();
-
         return {
-          activeCellTop: activeCellRect.top,
           scrollTop: scrollContainer.scrollTop,
-          visibleViewportTop:
-            scrollContainerRect.top +
-            scrollContainer.clientTop +
-            (stickyHeaderPosition === "sticky" ? stickyHeaderHeight : 0),
         };
       },
       TABLE_CSS.tableContainer,
     );
 
     expect(focusMetrics).not.toBeNull();
-    expect(focusMetrics.scrollTop).toBeLessThan(scrollMetrics.scrollTop);
-    expect(Math.abs(focusMetrics.activeCellTop - focusMetrics.visibleViewportTop)).toBeLessThanOrEqual(1);
+    expect(Math.abs(focusMetrics.scrollTop - scrollBeforeFocusMetrics.scrollTop)).toBeLessThanOrEqual(1);
   });
 
   it("does not paint an extra bottom separator on rowspan body cells that reach the table bottom", async () => {

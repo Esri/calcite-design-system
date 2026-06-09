@@ -6,7 +6,7 @@ import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { createFocusableRowCells, FocusableCell } from "../table/focusable-row-cells";
+import { FocusableCell } from "../table/focusable-row-cells";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -95,9 +95,6 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
-
-  /** @private */
-  @property() isFirstVisibleBodyRow = false;
 
   /** @private */
   @property() lastVisibleRow: boolean;
@@ -267,14 +264,10 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          const firstVisibleBodyRow = this.isFirstVisibleBodyRow;
           const useManualBodyRowScrolling = this.rowType === "body";
 
           const shouldPreventScroll =
-            this.rowType !== "head" &&
-            (useManualBodyRowScrolling ||
-              this.stickyHeaderActive ||
-              (firstVisibleBodyRow && this.stickyHeaderEnabled));
+            this.rowType !== "head" && (useManualBodyRowScrolling || this.stickyHeaderActive);
 
           cellPosition.setFocus({ preventScroll: shouldPreventScroll });
         }
@@ -303,6 +296,9 @@ export class TableRow extends LitElement {
                 : cells[el.positionInRow];
 
               destinationCell?.setFocus({ preventScroll: true });
+              event.preventDefault();
+            } else if (!isShift) {
+              this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "next");
               event.preventDefault();
             }
           }
@@ -384,7 +380,7 @@ export class TableRow extends LitElement {
     const renderedCells = [this.numberedCell, this.selectionCell].filter(
       (cell): cell is FocusableCell => cell != null,
     );
-    const cells = createFocusableRowCells(renderedCells, slottedCells);
+    const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
       cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {

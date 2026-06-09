@@ -168,33 +168,6 @@ export class TableHeader extends LitElement {
     this.focused = true;
   }
 
-  private isStickyHeaderActive(): boolean {
-    if (this.parentRowType !== "head") {
-      return false;
-    }
-
-    const table = this.el.closest("calcite-table");
-
-    if (!table) {
-      return false;
-    }
-
-    return (
-      getComputedStyle(table)
-        .getPropertyValue("--calcite-internal-table-header-position")
-        .trim() === "sticky"
-    );
-  }
-
-  private onContainerMouseDown(event: MouseEvent): void {
-    if (!this.isStickyHeaderActive()) {
-      return;
-    }
-
-    event.preventDefault();
-    this.setFocus({ preventScroll: true });
-  }
-
   //#endregion
 
   //#region Rendering
@@ -236,7 +209,6 @@ export class TableHeader extends LitElement {
         colSpan={this.colSpan}
         onBlur={this.onContainerBlur}
         onFocus={this.onContainerFocus}
-        onMouseDown={this.onContainerMouseDown}
         ref={this.containerRef}
         role={this.parentRowType === "head" ? "columnheader" : "rowheader"}
         rowSpan={this.rowSpan}

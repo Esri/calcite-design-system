@@ -139,11 +139,7 @@ function retryWithStickyMeasurements(
   }
 }
 
-export function ensureFocusedTableCellVisible(
-  tableState: StickyTableMeasurements,
-  cell: FocusableTablePart,
-  isFirstVisibleBodyRow: boolean,
-): void {
+export function ensureFocusedTableCellVisible(tableState: StickyTableMeasurements, cell: FocusableTablePart): void {
   const ensureFocusedBodyCellVisible = ({
     cellElement,
     scrollContainer,
@@ -162,24 +158,6 @@ export function ensureFocusedTableCellVisible(
       scrollContainer.scrollTop += cellRect.bottom - visibleViewportBottom;
     }
   };
-
-  if (isFirstVisibleBodyRow && tableState.table.stickyHeader) {
-    const correctFirstBodyRowPosition = ({
-      cellElement,
-      scrollContainer,
-      targetTop,
-    }: StickyMeasurementContext): void => {
-      const cellTop = cellElement.getBoundingClientRect().top;
-      const scrollDelta = cellTop - targetTop;
-
-      if (Math.abs(scrollDelta) > 0.5) {
-        scrollContainer.scrollTop += scrollDelta;
-      }
-    };
-
-    retryWithStickyMeasurements(tableState, cell, correctFirstBodyRowPosition, 5);
-    return;
-  }
 
   retryWithMeasurements(tableState, cell, ensureFocusedBodyCellVisible);
 }

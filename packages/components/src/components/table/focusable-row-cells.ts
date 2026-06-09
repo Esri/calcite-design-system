@@ -4,13 +4,6 @@ export type FocusableCell = HTMLElement & {
   selectionCell?: boolean;
 };
 
-export function createFocusableRowCells(
-  renderedCells: FocusableCell[],
-  slottedCells: FocusableCell[],
-): FocusableCell[] {
-  return renderedCells.concat(slottedCells);
-}
-
 export function getFocusableRowCell(
   cells: FocusableCell[],
   position: number,
