@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible } from "../../tests/commonTests";
@@ -562,7 +561,7 @@ describe("keyboard interaction", () => {
           // eslint-disable-next-line @cspell/spellchecker -- testing hex code
           await assertTabAndEnterBehavior("c0ffee", "#c0ffeeff", true);
           await assertTabAndEnterBehavior("c0c0c0c0", "#c0c0c0c0", true);
-          await assertTabAndEnterBehavior("", null, true);
+          await assertTabAndEnterBehavior("", undefined, true);
         });
 
         it.skip("prevents committing invalid hexa values", async () => {
@@ -575,7 +574,7 @@ describe("keyboard interaction", () => {
           await assertTabAndEnterBehavior("aab", "#aaaabbff", true);
           await assertTabAndEnterBehavior("aa", "#aaaabbff", true);
           await assertTabAndEnterBehavior("a", "#aaaabbff", true);
-          await assertTabAndEnterBehavior("", null, true);
+          await assertTabAndEnterBehavior("", undefined, true);
         });
 
         it("restores previous value when a nudge key is pressed and no-color is allowed and set", async () => {

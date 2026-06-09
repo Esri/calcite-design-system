@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -34,7 +33,7 @@ export class TableRow extends LitElement {
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
-  private tableRowEl: HTMLTableRowElement;
+  private tableRowEl?: HTMLTableRowElement;
 
   private tableRowSlotRef = createRef<HTMLSlotElement>();
 
@@ -67,7 +66,7 @@ export class TableRow extends LitElement {
    * `"center"` positions content in the middle of a `calcite-table-cell`, and
    * `"end"` positions content at the bottom of a `calcite-table-cell`.
    */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment!: Alignment;
 
   /**
    * When `true`, the item will be hidden
@@ -77,10 +76,10 @@ export class TableRow extends LitElement {
   @property({ reflect: true }) itemHidden = false;
 
   /** @private */
-  @property() bodyRowCount: number;
+  @property() bodyRowCount!: number;
 
   /** @private */
-  @property() cellCount: number;
+  @property() cellCount!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -89,28 +88,28 @@ export class TableRow extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastVisibleRow: boolean;
+  @property() lastVisibleRow = false;
 
   /** @private */
   @property() numbered = false;
 
   /** @private */
-  @property() positionAll: number;
+  @property() positionAll!: number;
 
   /** @private */
-  @property() positionSection: number;
+  @property() positionSection!: number;
 
   /** @private */
-  @property() positionSectionLocalized: string;
+  @property() positionSectionLocalized!: string;
 
   /** @private */
-  @property() readCellContentsToAT: boolean;
+  @property() readCellContentsToAT!: boolean;
 
   /** @private */
-  @property() rowType: RowType;
+  @property() rowType!: RowType;
 
   /** @private */
-  @property() scale: Scale;
+  @property() scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true })
@@ -126,10 +125,10 @@ export class TableRow extends LitElement {
   }
 
   /** @private */
-  @property() selectedRowCount: number;
+  @property() selectedRowCount!: number;
 
   /** @private */
-  @property() selectedRowCountLocalized: string;
+  @property() selectedRowCountLocalized!: string;
 
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
@@ -306,13 +305,13 @@ export class TableRow extends LitElement {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean,
+    lastCell = false,
   ): void {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
-      lastCell,
+      lastCell: lastCell,
     });
   }
 
@@ -322,16 +321,19 @@ export class TableRow extends LitElement {
       : this.rowType !== "head"
         ? "center"
         : "start";
-    const slottedCells = this.tableRowSlotRef.value
-      ?.assignedElements({ flatten: true })
-      ?.filter(
-        (el: TableCell["el"] | TableHeader["el"]) =>
-          el.matches("calcite-table-cell") || el.matches("calcite-table-header"),
-      );
 
-    const renderedCells = Array.from(
-      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell"),
-    )?.filter((el: TableCell["el"] | TableHeader["el"]) => el.numberCell || el.selectionCell);
+    const slottedCells =
+      this.tableRowSlotRef.value
+        ?.assignedElements({ flatten: true })
+        ?.filter((el) => el.matches("calcite-table-cell") || el.matches("calcite-table-header")) ??
+      [];
+
+    const tableRowEls: NodeListOf<TableCell["el"] | TableHeader["el"]> | undefined =
+      this.tableRowEl?.querySelectorAll("calcite-table-header, calcite-table-cell");
+
+    const renderedCells = tableRowEls
+      ? Array.from(tableRowEls).filter((el) => el.numberCell || el.selectionCell)
+      : undefined;
 
     const cells = renderedCells ? renderedCells.concat(slottedCells) : slottedCells;
 
@@ -352,7 +354,7 @@ export class TableRow extends LitElement {
       });
     }
 
-    this.rowCells = (cells as (TableCell["el"] | TableHeader["el"])[]) || [];
+    this.rowCells = cells || [];
     this.cellCount = cells?.length;
   }
 

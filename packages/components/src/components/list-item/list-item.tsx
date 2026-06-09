@@ -1,14 +1,23 @@
-// @ts-strict-ignore
+import { isEqual } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
-import { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
-import { SelectionAppearance } from "../list/resources";
-import { IconName } from "../icon/interfaces";
+import type { SelectionMode, InteractionMode, Scale, FlipContext } from "../interfaces";
+import type { SelectionAppearance } from "../list/resources";
+import type { IconName } from "../icon/interfaces";
 import { type SortableComponentItem } from "../../controllers/useSortable";
-import { SortMenuItem } from "../sort-handle/interfaces";
+import type { SortMenuItem } from "../sort-handle/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
@@ -22,6 +31,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { getDepth, getListItemChildren, listSelector } from "./utils";
 import { CSS, activeCellTestAttribute, ICONS, SLOTS } from "./resources";
 import { styles } from "./list-item.scss";
+import type { ListItemGroup } from "../list-item-group/list-item-group";
 
 declare global {
   interface DeclareElements {
@@ -29,7 +39,8 @@ declare global {
   }
 }
 
-const focusMap = new Map<List["el"], number>();
+const focusMap = new Map<List["el"], number | undefined>();
+
 /**
  * @slot - A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
  * @slot actions-start - A slot for adding actionable `calcite-action` elements before the content of the component.
@@ -62,7 +73,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private handleGridRef = createRef<HTMLDivElement>();
 
-  private sortHandleEl: SortHandle["el"];
+  private sortHandleEl?: SortHandle["el"];
 
   /**
    * Made into a prop for testing purposes only
@@ -91,11 +102,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   @state() hasCustomContent = false;
 
-  @state() level: number = null;
+  @state() level?: number;
 
   @state() expandable = false;
 
-  @state() parentListEl: List["el"];
+  @state() parentListEl?: List["el"];
 
   //#endregion
 
@@ -129,7 +140,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) closed = false;
 
   /** Specifies a description for the component. Displays below the `label`. */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -159,16 +170,16 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  @property({ reflect: true }) interactionMode: InteractionMode = null;
+  @property({ reflect: true }) interactionMode?: InteractionMode;
 
   /** Specifies an accessible label for the component, displays above the `description`. */
-  @property() label: string;
+  @property() label?: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
-  @property() metadata: Record<string, unknown>;
+  @property() metadata?: Record<string, unknown>;
 
   /**
    * Specifies the nesting behavior.
@@ -225,7 +236,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
+  @property({ reflect: true }) selectionAppearance!: Extract<
     "icon" | "border" | "highlight",
     SelectionAppearance
   >;
@@ -235,24 +246,24 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @private
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property({ reflect: true }) selectionMode!: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
-  > = null;
+  >;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setPosition: number;
+  @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number;
+  @property() setSize?: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
@@ -264,13 +275,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() value: any;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * When `true` and the component is `open`, disables top layer placement.
@@ -296,7 +307,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => {
       const { containerRef, parentListEl } = this;
-      const focusIndex = focusMap.get(parentListEl);
+      const focusIndex = focusMap.get(parentListEl!);
 
       if (typeof focusIndex === "number") {
         const cell = this.getGridCells()[focusIndex];
@@ -306,7 +317,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
         }
       }
 
-      return { target: containerRef.value, includeContainer: true, strategy: "focusable" };
+      return { target: containerRef.value!, includeContainer: true, strategy: "focusable" };
     }, options);
   }
 
@@ -385,11 +396,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   constructor() {
     super();
-    this.listen(
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupDefaultSlotChange"]>(
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
     );
-    this.listen(
+    this.listen<ToEvents<List>["calciteInternalListDefaultSlotChange"]>(
       "calciteInternalListDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
     );
@@ -397,7 +408,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   override connectedCallback(): void {
     const { el } = this;
-    this.parentListEl = el.closest(listSelector);
+    this.parentListEl = el.closest(listSelector) || undefined;
     this.level = getDepth(el) + 1;
     this.setSelectionDefaults();
   }
@@ -436,7 +447,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.handleExpandableChange(this.defaultSlotRef.value);
     }
 
-    if (changes.has("label") || changes.has("description") || changes.has("metadata")) {
+    const metadataChanged = changes.has("metadata");
+    const previousMetadata = changes.get("metadata");
+    const shouldEmitMetadataChange = metadataChanged && !isEqual(this.metadata, previousMetadata);
+
+    if (
+      (changes.has("label") || changes.has("description") || shouldEmitMetadataChange) &&
+      this.hasUpdated
+    ) {
       this.emitCalciteInternalListItemChange();
     }
 
@@ -578,7 +596,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     }
   }
 
-  private handleExpandableChange(slotEl: HTMLSlotElement): void {
+  private handleExpandableChange(slotEl?: HTMLSlotElement): void {
     if (!slotEl) {
       return;
     }
@@ -641,7 +659,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
       this.actionsStartRef.value,
       this.contentRef.value,
       this.actionsEndRef.value,
-    ].filter((el) => el && !el.hidden);
+    ].filter((el): el is HTMLDivElement => !!(el && !el.hidden));
   }
 
   private handleItemKeyDown(event: KeyboardEvent): void {
@@ -664,7 +682,9 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     if (
       key === "Enter" &&
+      actionsStartEl &&
       !composedPath.includes(actionsStartEl) &&
+      actionsEndEl &&
       !composedPath.includes(actionsEndEl)
     ) {
       event.preventDefault();
@@ -694,7 +714,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
         }
       } else if (currentIndex === 0) {
         this.focusCell();
-        containerRef.value.focus();
+        containerRef.value!.focus();
       } else if (cells[currentIndex] && cells[prevIndex]) {
         this.focusCell(cells[prevIndex]);
       }
@@ -707,13 +727,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private setFocusCell(
     focusEl: HTMLDivElement | undefined,
-    focusedEl: HTMLElement,
+    focusedEl: HTMLElement | undefined,
     saveFocusIndex: boolean,
   ): void {
     const { parentListEl } = this;
 
     if (saveFocusIndex) {
-      focusMap.set(parentListEl, undefined);
+      focusMap.set(parentListEl!, undefined);
     }
 
     const gridCells = this.getGridCells();
@@ -736,7 +756,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
     focusEl.setAttribute(activeCellTestAttribute, "");
 
     if (saveFocusIndex) {
-      focusMap.set(parentListEl, gridCells.indexOf(focusEl));
+      focusMap.set(parentListEl!, gridCells.indexOf(focusEl));
     }
   }
 
@@ -1060,7 +1080,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
       <this.interactiveContainer disabled={disabled}>
         <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
           <div
-            ariaExpanded={expandable ? expanded : null}
+            ariaExpanded={expandable ? expanded : undefined}
             ariaLabel={label}
             ariaLevel={level}
             ariaSelected={selected}
