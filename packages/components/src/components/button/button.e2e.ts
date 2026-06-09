@@ -27,7 +27,7 @@ it("renders child element as disabled", async () => {
   expect(elementAsButton).toBeNull();
   expect(elementAsLink).not.toBeNull();
 
-  expect(await elementAsLink.getProperty("disabled")).toBe(null);
+  expect(await elementAsLink.getProperty("disabled")).toBeUndefined();
 });
 
 it("renders as a button with default props", async () => {
