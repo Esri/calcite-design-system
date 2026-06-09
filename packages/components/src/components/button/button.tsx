@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { literal } from "lit/static-html.js";
 import {
@@ -61,7 +60,7 @@ export class Button extends LitElement implements LabelableComponent {
 
   formTrigger = useFormTrigger({ disabled: () => !!this.href })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /** watches for changing text content */
   private mutationObserver = createObserver("mutation", () => this.updateHasContent());
@@ -87,7 +86,7 @@ export class Button extends LitElement implements LabelableComponent {
   @state() private hasContent = false;
 
   /** keeps track of the tooltipText */
-  @state() tooltipText: string;
+  @state() tooltipText?: string;
 
   //#endregion
 
@@ -118,26 +117,26 @@ export class Button extends LitElement implements LabelableComponent {
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** Specifies the kind of the component, which will apply to the border and background if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -153,7 +152,7 @@ export class Button extends LitElement implements LabelableComponent {
    *
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /** When `true`, adds a round style to the component. */
   @property({ reflect: true }) round = false;
@@ -169,7 +168,7 @@ export class Button extends LitElement implements LabelableComponent {
    *
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /**
    * Specifies the default behavior of the component.
@@ -246,11 +245,11 @@ export class Button extends LitElement implements LabelableComponent {
     } = this;
     if (contentEl) {
       this.tooltipText =
-        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || null : null;
+        contentEl.offsetWidth < contentEl.scrollWidth ? this.el.innerText || undefined : undefined;
     }
   }
 
-  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement): void {
+  private setChildEl(el: HTMLAnchorElement | HTMLButtonElement | undefined): void {
     updateRefObserver(this.resizeObserver, this.childEl, el);
     this.childEl = el;
   }
@@ -307,7 +306,7 @@ export class Button extends LitElement implements LabelableComponent {
           ariaExpanded={
             this.el.ariaExpanded
               ? (this.el.ariaExpanded as LuminaJsx.HTMLElementTags["button"]["ariaExpanded"])
-              : null
+              : undefined
           }
           ariaLabel={!this.loading ? getLabelText(this) : this.messages.loading}
           ariaLive="polite"
@@ -318,22 +317,22 @@ export class Button extends LitElement implements LabelableComponent {
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
-          disabled={childElType === "button" ? this.disabled : null}
+          disabled={childElType === "button" ? this.disabled : undefined}
           download={
             childElType === "a"
               ? this.download === true || this.download === ""
                 ? ""
-                : this.download || null
-              : null
+                : this.download || undefined
+              : undefined
           }
-          href={childElType === "a" && this.href}
-          name={childElType === "button" && this.name}
+          href={childElType === "a" ? this.href : undefined}
+          name={childElType === "button" ? this.name : undefined}
           ref={this.setChildEl}
-          rel={childElType === "a" && this.rel}
-          tabIndex={this.disabled ? -1 : null}
-          target={childElType === "a" && this.target}
+          rel={childElType === "a" ? this.rel : undefined}
+          tabIndex={this.disabled ? -1 : undefined}
+          target={childElType === "a" ? this.target : undefined}
           title={this.tooltipText}
-          type={childElType === "button" ? this.type : null}
+          type={childElType === "button" ? this.type : undefined}
         >
           {loaderNode}
           {this.iconStart ? iconStartEl : null}
