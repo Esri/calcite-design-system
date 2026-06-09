@@ -589,8 +589,8 @@ export class ColorPicker extends LitElement {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y,
         false,
       );
     }
