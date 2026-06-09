@@ -49,7 +49,7 @@ export class Block extends LitElement {
 
   transitionProp = "margin-top" as const;
 
-  transitionEl?: HTMLElement;
+  transitionEl: HTMLElement | undefined;
 
   private blockSectionChildren: BlockSection["el"][] = [];
 
