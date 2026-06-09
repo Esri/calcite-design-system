@@ -188,7 +188,7 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-const allScalesTemplate = (layout: "horizontal" | "vertical", range?: boolean, calendars?: number): string => {
+const allScalesTemplate = (layout: "horizontal" | "vertical", range = false, calendars = 2): string => {
   const scales = scale.values;
   return html`<style>
       .container {
@@ -222,25 +222,27 @@ export const allScalesHorizontal = (): string => allScalesTemplate("horizontal")
 
 export const allScalesVertical = (): string => allScalesTemplate("vertical");
 
-export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizontal", true, 2);
+export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizontal", true);
 
 allScalesRangeHorizontal.parameters = {
   chromatic: {
     modes: {
-      viewport: {
-        width: 2500,
-        height: 800,
+      largeScreen: {
+        viewport: {
+          width: 2500,
+          height: 800,
+        },
       },
     },
     cropToViewport: true,
   },
 };
 
-export const allScalesRangeVertical = (): string => allScalesTemplate("vertical", true, 2);
+export const allScalesRangeVertical = (): string => allScalesTemplate("vertical", true);
 
-export const allScalesRangeOneCalendarHorizontal = (): string => allScalesTemplate("horizontal", false, 1);
+export const allScalesRangeOneCalendarHorizontal = (): string => allScalesTemplate("horizontal", true, 1);
 
-export const allScalesRangeOneCalendarVertical = (): string => allScalesTemplate("vertical", false, 1);
+export const allScalesRangeOneCalendarVertical = (): string => allScalesTemplate("vertical", true, 1);
 
 export const arabicLocaleDarkModeRTL = (): string => html`
   <style>

@@ -166,10 +166,22 @@ input {
   color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
   text-align: var(--calcite-internal-input-text-alignment);
-  border-width: var(--calcite-internal-input-text-input-border-block-start-width, var(--calcite-border-width-sm))
-    var(--calcite-internal-input-text-input-border-inline-end-width, var(--calcite-border-width-sm))
-    var(--calcite-internal-input-text-input-border-block-end-width, var(--calcite-border-width-sm))
-    var(--calcite-internal-input-text-input-border-inline-start-width, var(--calcite-border-width-sm));
+  border-inline-start-width: var(
+    --calcite-internal-input-text-input-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-input-border-inline-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-start-width: var(
+    --calcite-internal-input-text-input-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-input-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -283,16 +295,28 @@ calcite-icon {
   box-sizing: border-box;
   display: flex;
   align-self: stretch;
-  border-width: var(--calcite-internal-input-text-icon-border-block-start-width, var(--calcite-border-width-sm))
-    var(--calcite-internal-input-text-icon-border-inline-end-width, var(--calcite-border-width-none))
-    var(--calcite-internal-input-text-icon-border-block-end-width, var(--calcite-border-width-sm))
-    var(--calcite-internal-input-text-icon-border-inline-start-width, var(--calcite-border-width-sm));
   border-style: solid;
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
   align-items: center;
   padding-inline-start: var(--calcite-internal-input-text-icon-padding-inline);
+  border-block-start-width: var(
+    --calcite-internal-input-text-icon-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-icon-border-inline-end-width,
+    var(--calcite-border-width-none)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-icon-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-start-width: var(
+    --calcite-internal-input-text-icon-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
 }
 
 .has-prefix .icon {
