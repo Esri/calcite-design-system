@@ -350,13 +350,14 @@ export class ColorPicker extends LitElement {
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/interfaces.ts#L10).
    */
   @property()
-  get value(): ColorValue | undefined {
+  get value(): ColorValue | null | undefined {
     return this._value;
   }
-  set value(value: ColorValue | undefined) {
+  set value(value: ColorValue | null | undefined) {
     const oldValue = this._value;
-    this._value = value;
-    this.handleValueChange(value, oldValue);
+    const effectiveValue = value || undefined;
+    this._value = effectiveValue;
+    this.handleValueChange(effectiveValue, oldValue);
     this._valueWasSet = true;
   }
 
@@ -410,7 +411,8 @@ export class ColorPicker extends LitElement {
       this._value ??= normalizeHex(hexify(DEFAULT_COLOR, this.alphaChannel));
     }
 
-    const { clearable, color, format, value } = this;
+    const { clearable, color, format } = this;
+    const value = this.value as Exclude<this["value"], null>;
     const willSetNoColor = clearable && !value;
     const parsedMode = parseMode(value);
     const valueIsCompatible =
