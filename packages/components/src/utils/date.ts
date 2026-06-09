@@ -55,12 +55,12 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
  * @param iso8601
  * @param isEndDate
  */
-export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | undefined {
+export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | null {
   if (iso8601 instanceof Date) {
     return iso8601;
   }
   if (!iso8601 || typeof iso8601 !== "string") {
-    return undefined;
+    return null;
   }
   const d = iso8601.split(/[: T-]/).map(parseFloat);
   const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
@@ -77,8 +77,8 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | u
 /**
  * Parse a localized date string into a valid Date.
  */
-export function dateFromLocalizedString(value: string | undefined, localeData: DateLocaleData): Date | undefined {
-  if (!localeData || !value) {
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | undefined {
+  if (!localeData) {
     return undefined;
   }
   const { separator } = localeData;
