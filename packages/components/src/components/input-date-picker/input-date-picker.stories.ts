@@ -201,20 +201,22 @@ const allScalesTemplate = (layout: "horizontal" | "vertical", range = false, cal
       }
     </style>
     <div class="container ${range && layout === "horizontal" ? "range--horizontal" : ""}">
-      ${scales.map(
-        (scale) => html`
-          <calcite-input-date-picker
-            scale="${scale}"
-            open
-            value="2020-12-12"
-            min="2020-12-12"
-            max="2020-12-16"
-            layout="${layout}"
-            calendars="${calendars}"
-            ${boolean("range", range)}
-          ></calcite-input-date-picker>
-        `,
-      )}
+      ${scales
+        .map(
+          (scale) => html`
+            <calcite-input-date-picker
+              scale="${scale}"
+              open
+              value="2020-12-12"
+              min="2020-12-12"
+              max="2020-12-16"
+              layout="${layout}"
+              calendars="${calendars}"
+              ${boolean("range", range)}
+            ></calcite-input-date-picker>
+          `,
+        )
+        .join("")}
     </div>`;
 };
 
