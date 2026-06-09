@@ -253,12 +253,6 @@ input {
   @apply border
     border-solid;
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
-    @apply font-normal;
-    color: var(--calcite-input-number-placeholder-text-color, var(--calcite-color-text-3));
-  }
 }
 input:focus {
   @apply border-color-brand;
