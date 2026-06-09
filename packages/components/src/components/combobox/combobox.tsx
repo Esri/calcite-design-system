@@ -339,6 +339,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   @state() selectedVisibleChipsCount = 0;
 
+  @state() fitUsingCompactCountLabel = false;
+
   @state() allItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
@@ -1314,6 +1316,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           selectedIndicatorChipElWidth,
         });
 
+      this.fitUsingCompactCountLabel = hideSelectedChips;
+
       const availableHorizontalChipElSpace = Math.round(
         chipContainerElWidth -
           (hiddenChipIndicatorWidth +
@@ -1333,13 +1337,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       const didHiddenCountChange = previousHiddenChipsCount !== this.selectedHiddenChipsCount;
 
       if (didHiddenCountChange && followUpRefresh) {
-        this.fitFollowUpRefreshPromise = this.updateComplete.then(() =>
-          this.refreshSelectionDisplay(false),
-        );
-
-        this.fitFollowUpRefreshPromise = this.fitFollowUpRefreshPromise.then(() => {
-          this.fitFollowUpRefreshPromise = null;
-        });
+        this.fitFollowUpRefreshPromise = this.updateComplete
+          .then(() => this.refreshSelectionDisplay(false))
+          .then(() => {
+            this.fitFollowUpRefreshPromise = null;
+          });
       }
     }
 
@@ -1907,8 +1909,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderChipCount(count: number, scale: Scale): JsxNode {
-    const label =
-      this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`;
+    const label = this.fitUsingCompactCountLabel
+      ? `${count}`
+      : (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`);
 
     return (
       <calcite-chip

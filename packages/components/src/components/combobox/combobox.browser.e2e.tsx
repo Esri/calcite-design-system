@@ -312,6 +312,25 @@ describe("disabled chip labels", () => {
       .toHaveProperty("label", expect.stringMatching(chipCountLabelPattern));
   });
 
+  it("renders compact indicator chip count for fit display with long placeholder", async () => {
+    await mount<Combobox>(
+      <calcite-combobox
+        placeholder="this is an unusually long string of placeholder text"
+        selection-display="fit"
+        selection-mode="multiple"
+        style="width: 240px;"
+      >
+        <calcite-combobox-item heading="Very long selected item one" selected />
+        <calcite-combobox-item heading="Very long selected item two" selected />
+        <calcite-combobox-item disabled heading="Very long selected item three" selected />
+      </calcite-combobox>,
+    );
+
+    const selectedChipCount = page.getByTestId("selected-chip-count");
+
+    await expect.element(selectedChipCount).toHaveProperty("label", "3");
+  });
+
   it("renders selected chip label instead of +1 count for single fit selection", async () => {
     await mount<Combobox>(
       <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 400px;">
