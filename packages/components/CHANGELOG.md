@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.2...@esri/calcite-components@5.2.0-next.3) (2026-06-09)
+
+### Bug Fixes
+
+- **combobox:** ensure custom values are appended to value regardless of DOM order ([#14522](https://github.com/Esri/calcite-design-system/issues/14522)), closes [#14290](https://github.com/Esri/calcite-design-system/issues/14290)
+
 ## [5.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.1...@esri/calcite-components@5.2.0-next.2) (2026-06-09)
 
 ### Bug Fixes
