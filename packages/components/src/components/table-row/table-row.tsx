@@ -1,6 +1,6 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, method, Fragment } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
@@ -39,8 +39,6 @@ export class TableRow extends LitElement {
   private rowSlotRef = createRef<HTMLSlotElement>();
 
   private selectionCell: TableCell["el"] | TableHeader["el"] | null = null;
-
-  private tableRowEl: HTMLTableRowElement;
 
   private userTriggered = false;
 
@@ -143,16 +141,6 @@ export class TableRow extends LitElement {
 
   //#endregion
 
-  //#region Public Methods
-
-  /** @private */
-  @method()
-  getRowElement(): HTMLTableRowElement | null {
-    return this.tableRowEl;
-  }
-
-  //#endregion
-
   //#region Events
 
   /** @private */
@@ -213,7 +201,7 @@ export class TableRow extends LitElement {
   }
 
   loaded(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
@@ -227,13 +215,13 @@ export class TableRow extends LitElement {
   }
 
   private handleCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       this.updateCells();
     }
   }
 
   private handleDelayedCellChanges(): void {
-    if (this.tableRowEl && this.rowCells.length > 0) {
+    if (this.rowCells.length > 0) {
       requestAnimationFrame(() => this.updateCells());
     }
   }
@@ -515,8 +503,6 @@ export class TableRow extends LitElement {
             if (!el) {
               return;
             }
-
-            this.tableRowEl = el;
 
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(

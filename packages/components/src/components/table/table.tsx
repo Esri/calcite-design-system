@@ -63,40 +63,12 @@ export class Table extends LitElement {
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
 
-  private stickyHeaderOffsetAnimationFrame: number | null = null;
-
-  private stickyHeaderViewportAnimationFrame: number | null = null;
-
   private tableContainerOverflowAnimationFrame: number | null = null;
-
-  private stickyHeaderTotalHeight = 0;
-
-  private stickyHeaderResizeObserver: ResizeObserver | null =
-    typeof ResizeObserver !== "undefined"
-      ? new ResizeObserver(() => this.scheduleStickyHeaderOffsetUpdate())
-      : null;
-
-  private stickyHeaderMutationObserver: MutationObserver | null =
-    typeof MutationObserver !== "undefined"
-      ? new MutationObserver(() => this.scheduleStickyHeaderOffsetUpdate())
-      : null;
 
   private tableContainerResizeObserver: ResizeObserver | null =
     typeof ResizeObserver !== "undefined"
       ? new ResizeObserver(() => this.scheduleTableContainerOverflowUpdate())
       : null;
-
-  private stickyHeaderScrollContainer: HTMLDivElement | null = null;
-
-  private stickyHeaderListenersAttached = false;
-
-  private handleViewportChange = (): void => {
-    if (!this.stickyHeader) {
-      return;
-    }
-
-    this.scheduleStickyHeaderViewportUpdate();
-  };
 
   /**
    * Made into a prop for testing purposes only
@@ -226,37 +198,16 @@ export class Table extends LitElement {
     this.readCellContentsToAT = /safari/i.test(getUserAgentString());
 
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
-
-    this.setStickyHeaderListeners(this.stickyHeader);
-    this.scheduleInitialStickyHeaderOffsetUpdate();
   }
 
   override disconnectedCallback(): void {
-    if (this.stickyHeaderOffsetAnimationFrame !== null) {
-      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
-      this.stickyHeaderOffsetAnimationFrame = null;
-    }
-
-    if (this.stickyHeaderViewportAnimationFrame !== null) {
-      cancelAnimationFrame(this.stickyHeaderViewportAnimationFrame);
-      this.stickyHeaderViewportAnimationFrame = null;
-    }
-
     if (this.tableContainerOverflowAnimationFrame !== null) {
       cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
       this.tableContainerOverflowAnimationFrame = null;
     }
 
-    this.setStickyHeaderListeners(false);
-
-    this.stickyHeaderResizeObserver?.disconnect();
-    this.stickyHeaderMutationObserver?.disconnect();
     this.tableContainerResizeObserver?.disconnect();
     super.disconnectedCallback();
-  }
-
-  override updated(): void {
-    this.setStickyHeaderListeners(this.stickyHeader);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -283,10 +234,8 @@ export class Table extends LitElement {
         row.stickyHeaderEnabled = this.stickyHeader;
       });
 
-      this.setStickyHeaderListeners(this.stickyHeader);
-
       if (this.stickyHeader) {
-        this.scheduleInitialStickyHeaderOffsetUpdate();
+        this.applyHeaderRowPositionStyles();
       } else {
         this.resetStickyHeaderState();
       }
@@ -301,14 +250,6 @@ export class Table extends LitElement {
     this.updateRows();
   }
 
-  private scheduleInitialStickyHeaderOffsetUpdate(): void {
-    if (!this.stickyHeader) {
-      return;
-    }
-
-    this.scheduleStickyHeaderOffsetUpdate();
-  }
-
   private clearStickyHeaderRowStyles(): void {
     this.headRows?.forEach((row) => {
       row.style.removeProperty("--calcite-internal-table-header-offset");
@@ -318,16 +259,11 @@ export class Table extends LitElement {
   }
 
   private resetStickyHeaderState(): void {
-    this.stickyHeaderResizeObserver?.disconnect();
-    this.stickyHeaderMutationObserver?.disconnect();
     this.clearStickyHeaderRowStyles();
-    this.stickyHeaderTotalHeight = 0;
-    this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
-    this.el.style.setProperty("--calcite-internal-table-header-position", "static");
   }
 
   private scheduleAnimationFrameUpdate(
-    frameKey: "stickyHeaderViewportAnimationFrame" | "tableContainerOverflowAnimationFrame",
+    frameKey: "tableContainerOverflowAnimationFrame",
     callback: () => void,
   ): void {
     const frameId = this[frameKey];
@@ -339,19 +275,6 @@ export class Table extends LitElement {
     this[frameKey] = requestAnimationFrame(() => {
       this[frameKey] = null;
       callback();
-    });
-  }
-
-  private scheduleNestedAnimationFrameUpdate(callback: () => void): void {
-    if (this.stickyHeaderOffsetAnimationFrame !== null) {
-      cancelAnimationFrame(this.stickyHeaderOffsetAnimationFrame);
-    }
-
-    this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
-      this.stickyHeaderOffsetAnimationFrame = requestAnimationFrame(() => {
-        this.stickyHeaderOffsetAnimationFrame = null;
-        callback();
-      });
     });
   }
 
@@ -434,43 +357,6 @@ export class Table extends LitElement {
       .filter((el): el is TableRow["el"] => el.matches("calcite-table-row"));
   }
 
-  private setStickyHeaderListeners(active: boolean): void {
-    const scrollContainer = this.tableContainerRef.value;
-
-    if (!active) {
-      this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
-
-      if (this.stickyHeaderListenersAttached) {
-        window.removeEventListener("resize", this.handleViewportChange);
-      }
-
-      this.stickyHeaderScrollContainer = null;
-      this.stickyHeaderListenersAttached = false;
-      return;
-    }
-
-    if (!scrollContainer) {
-      return;
-    }
-
-    if (
-      this.stickyHeaderScrollContainer === scrollContainer &&
-      this.stickyHeaderListenersAttached
-    ) {
-      return;
-    }
-
-    this.stickyHeaderScrollContainer?.removeEventListener("scroll", this.handleViewportChange);
-    scrollContainer.addEventListener("scroll", this.handleViewportChange, { passive: true });
-
-    if (!this.stickyHeaderListenersAttached) {
-      window.addEventListener("resize", this.handleViewportChange);
-    }
-
-    this.stickyHeaderScrollContainer = scrollContainer;
-    this.stickyHeaderListenersAttached = true;
-  }
-
   private observeTableContainer(): void {
     this.tableContainerResizeObserver?.disconnect();
 
@@ -486,89 +372,10 @@ export class Table extends LitElement {
     }
   }
 
-  private observeStickyHeaderRows(): void {
-    this.stickyHeaderResizeObserver?.disconnect();
-    this.stickyHeaderMutationObserver?.disconnect();
-
-    if (!this.stickyHeader) {
-      return;
-    }
-
-    const firstHeadRow = this.headRows?.[0];
-
-    if (!firstHeadRow) {
-      return;
-    }
-
-    const tableRow = this.getStickyHeaderRowElement(firstHeadRow);
-
-    if (tableRow) {
-      this.stickyHeaderResizeObserver?.observe(tableRow);
-    }
-
-    this.stickyHeaderMutationObserver?.observe(firstHeadRow, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-      attributes: true,
-    });
-  }
-
-  private scheduleStickyHeaderOffsetUpdate(): void {
-    if (!this.stickyHeader) {
-      return;
-    }
-
-    // Wait for nested component renders so height/position measurements are current.
-    this.scheduleNestedAnimationFrameUpdate(() => this.updateStickyHeaderOffsets());
-  }
-
-  private getStickyHeaderRowElement(row: TableRow["el"]): HTMLTableRowElement | null {
-    if (typeof row.getRowElement !== "function") {
-      return null;
-    }
-
-    try {
-      return row.getRowElement();
-    } catch {
-      return null;
-    }
-  }
-
-  private scheduleStickyHeaderViewportUpdate(): void {
-    this.scheduleAnimationFrameUpdate("stickyHeaderViewportAnimationFrame", () =>
-      this.updateStickyHeaderPosition(),
-    );
-  }
-
   private scheduleTableContainerOverflowUpdate(): void {
     this.scheduleAnimationFrameUpdate("tableContainerOverflowAnimationFrame", () =>
       this.updateTableContainerOverflow(),
     );
-  }
-
-  private updateStickyHeaderPosition(): void {
-    if (!this.stickyHeader || this.stickyHeaderTotalHeight <= 0) {
-      this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      return;
-    }
-
-    const table = this.tableElement;
-    const scrollContainer = this.tableContainerRef.value;
-    const tableRect = table?.getBoundingClientRect();
-    const scrollContainerRect = scrollContainer?.getBoundingClientRect();
-    const tableBottom = tableRect?.bottom;
-    const scrollContainerTop = scrollContainerRect?.top;
-
-    if (tableBottom == null || scrollContainerTop == null) {
-      this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      return;
-    }
-
-    const stickyHeaderPosition =
-      tableBottom > scrollContainerTop + this.stickyHeaderTotalHeight ? "sticky" : "static";
-
-    this.el.style.setProperty("--calcite-internal-table-header-position", stickyHeaderPosition);
   }
 
   private applyHeaderRowPositionStyles(): void {
@@ -590,24 +397,6 @@ export class Table extends LitElement {
       "--calcite-internal-table-header-row-position",
       this.stickyHeader ? "sticky" : "static",
     );
-  }
-
-  private updateStickyHeaderOffsets(): void {
-    const firstHeadRow = this.headRows?.[0];
-
-    this.applyHeaderRowPositionStyles();
-
-    const firstTableRow = firstHeadRow ? this.getStickyHeaderRowElement(firstHeadRow) : null;
-    const firstTableRowHeight =
-      firstTableRow?.getBoundingClientRect().height || firstTableRow?.offsetHeight || 0;
-
-    this.stickyHeaderTotalHeight = firstTableRowHeight;
-    this.el.style.setProperty(
-      "--calcite-internal-table-sticky-header-total-height",
-      `${this.stickyHeaderTotalHeight}px`,
-    );
-
-    this.updateStickyHeaderPosition();
   }
 
   private updateTableContainerOverflow(): void {
@@ -673,11 +462,6 @@ export class Table extends LitElement {
     this.allRows = allRows;
 
     this.applyHeaderRowPositionStyles();
-
-    if (this.stickyHeader) {
-      this.observeStickyHeaderRows();
-      this.scheduleStickyHeaderOffsetUpdate();
-    }
 
     this.observeTableContainer();
     this.scheduleTableContainerOverflowUpdate();
