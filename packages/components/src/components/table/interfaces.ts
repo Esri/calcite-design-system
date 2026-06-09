@@ -5,7 +5,6 @@ export interface TableRowFocusEvent {
   rowPosition: number;
   destination: FocusElementInGroupDestination;
   lastCell: boolean;
-  preventScroll?: boolean;
 }
 
 export type RowType = "head" | "body" | "foot";

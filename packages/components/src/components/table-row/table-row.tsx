@@ -257,7 +257,7 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          cellPosition.setFocus(event.detail.preventScroll ? { preventScroll: true } : undefined);
+          cellPosition.setFocus();
         }
       }
     }
@@ -284,9 +284,6 @@ export class TableRow extends LitElement {
                 : cells[el.positionInRow];
 
               destinationCell?.setFocus({ preventScroll: true });
-              event.preventDefault();
-            } else if (!isShift) {
-              this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "next");
               event.preventDefault();
             }
           }

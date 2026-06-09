@@ -420,7 +420,6 @@ export class Table extends LitElement {
         rowPosition,
         destination,
         lastCell,
-        preventScroll: leavingHeader,
       });
     }
   }
