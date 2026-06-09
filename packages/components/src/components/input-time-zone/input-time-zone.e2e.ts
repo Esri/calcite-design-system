@@ -358,7 +358,10 @@ describe("mode", () => {
 
           const timeZoneItem = await page.find("calcite-input-time-zone >>> calcite-combobox-item[selected]");
 
-          expect(await timeZoneItem.getProperty("heading")).toMatch(toUserFriendlyName(getCity(name)));
+          const city = getCity(name);
+          expect(city).not.toBeUndefined();
+          expect(await timeZoneItem.getProperty("heading")).toMatch(toUserFriendlyName(city!));
+          expect(await timeZoneItem.getProperty("heading")).toMatch(toUserFriendlyName(city!));
         });
       });
     });
