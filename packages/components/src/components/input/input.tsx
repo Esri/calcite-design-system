@@ -1036,7 +1036,7 @@ export class Input
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           defaultValue={this.defaultValue}
-          disabled={this.disabled ? true : null}
+          disabled={this.disabled}
           enterKeyHint={enterKeyHint}
           inputMode={inputMode}
           key="localized-input"
@@ -1074,7 +1074,7 @@ export class Input
             [CSS.inlineChild]: !!this.inlineEditableEl,
           }}
           defaultValue={this.defaultValue}
-          disabled={this.disabled ? true : null}
+          disabled={this.disabled}
           enterKeyHint={enterKeyHint}
           inputMode={inputMode}
           max={this.maxString}
@@ -1092,10 +1092,8 @@ export class Input
           pattern={this.pattern}
           placeholder={this.placeholder || ""}
           readOnly={this.readOnly}
-          ref={
-            this.childRef as unknown /* using unknown to workaround Lumina dynamic ref type issue */
-          }
-          required={this.required ? true : null}
+          ref={this.childRef}
+          required={this.required}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}

@@ -912,9 +912,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         break;
       case " ":
         if (!this.textInputRef.value.value && !event.defaultPrevented) {
-          if (!this.open) {
+          if (!this.open && this.keyboardNavItems.length) {
             this.open = true;
-            this.shiftActiveItemIndex(1);
+            this.ensureRecentSelectedItemIsActive();
           }
           event.preventDefault();
         }
@@ -1002,7 +1002,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     // scrolling at next tick seems to work best to ensure selected item is immediately focused on open
     // changes from https://github.com/Esri/calcite-design-system/issues/10703 might help improve this
-    setTimeout(() => this.scrollToActiveOrSelectedItem(true), 0);
+    setTimeout(() => this.scrollToActiveOrSelectedItem(this.activeItemIndex < 0), 0);
   }
 
   onOpen(): void {
@@ -1067,11 +1067,21 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private ensureRecentSelectedItemIsActive(): void {
-    const { selectedItems } = this;
-    const targetIndex =
-      selectedItems.length === 0 ? 0 : this.items.indexOf(selectedItems[selectedItems.length - 1]);
+    const { activeItemIndex, selectedItems, keyboardNavItems } = this;
 
-    this.updateActiveItemIndex(targetIndex);
+    if (activeItemIndex > -1 && keyboardNavItems[activeItemIndex]) {
+      this.updateActiveItemIndex(activeItemIndex);
+      return;
+    }
+
+    const selectedItem = selectedItems[selectedItems.length - 1];
+    const targetIndex = selectedItem
+      ? keyboardNavItems.indexOf(selectedItem)
+      : keyboardNavItems.length
+        ? 0
+        : -1;
+
+    this.updateActiveItemIndex(targetIndex > -1 ? targetIndex : keyboardNavItems.length ? 0 : -1);
   }
 
   private hideChip(chipEl: Chip["el"]): void {
