@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.0...@esri/calcite-components@5.2.0-next.1) (2026-06-09)
+
+### Bug Fixes
+
+- **checkbox:** use danger token color when invalid and hovered ([#14586](https://github.com/Esri/calcite-design-system/issues/14586)), closes [#14568](https://github.com/Esri/calcite-design-system/issues/14568)
+
 ## [5.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.6...@esri/calcite-components@5.2.0-next.0) (2026-06-08)
 
 ### Features
