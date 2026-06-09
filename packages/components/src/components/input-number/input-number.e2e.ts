@@ -1547,14 +1547,6 @@ describe("theme", () => {
       ],
       "--calcite-input-number-corner-radius": [
         {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderStartStartRadius",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderEndStartRadius",
-        },
-        {
           shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
           targetProp: "borderStartEndRadius",
         },
@@ -1566,14 +1558,6 @@ describe("theme", () => {
       "--calcite-input-number-height": [
         {
           shadowSelector: `input`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.suffix}`,
           targetProp: "blockSize",
         },
         {
@@ -1611,6 +1595,42 @@ describe("theme", () => {
         {
           shadowSelector: `.${CSS.numberButtonItem}`,
           targetProp: "borderColor",
+        },
+      ],
+      "--calcite-input-number-corner-radius": [
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+      "--calcite-input-number-height": [
+        {
+          shadowSelector: `input`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonWrapper}`,
+          targetProp: "blockSize",
         },
       ],
       "--calcite-input-prefix-size": {
