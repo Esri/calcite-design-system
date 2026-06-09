@@ -427,10 +427,12 @@ export class ColorPicker extends LitElement {
     this.updateDynamicDimensions(STATIC_DIMENSIONS[this.scale].minWidth);
 
     const storageKey = `${DEFAULT_STORAGE_KEY_PREFIX}${this.storageId}`;
-    const storedItem = localStorage.getItem(storageKey);
 
-    if (this.storageId && storedItem) {
-      this.savedColors = JSON.parse(storedItem);
+    if (this.storageId) {
+      const storedItem = localStorage.getItem(storageKey);
+      if (storedItem) {
+        this.savedColors = JSON.parse(storedItem);
+      }
     }
   }
 
