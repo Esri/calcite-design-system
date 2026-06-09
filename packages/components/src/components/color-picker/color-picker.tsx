@@ -264,9 +264,9 @@ export class ColorPicker extends LitElement {
 
   @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
-  @state() colorFieldScopeLeft = 0;
+  @state() colorFieldScopeLeft?: number;
 
-  @state() colorFieldScopeTop = 0;
+  @state() colorFieldScopeTop?: number;
 
   @state() staticDimensions = STATIC_DIMENSIONS.m;
 
@@ -591,8 +591,8 @@ export class ColorPicker extends LitElement {
       event.preventDefault();
       this.scopeOrientation = key === "ArrowDown" || key === "ArrowUp" ? "vertical" : "horizontal";
       this.captureColorFieldColor(
-        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x,
-        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y,
+        this.colorFieldScopeLeft + arrowKeyToXYOffset[key].x || 0,
+        this.colorFieldScopeTop + arrowKeyToXYOffset[key].y || 0,
         false,
       );
     }
@@ -1483,8 +1483,8 @@ export class ColorPicker extends LitElement {
                 ref={this.colorFieldScopeRef}
                 role="slider"
                 style={{
-                  top: `${adjustedColorFieldScopeTop}px`,
-                  left: `${adjustedColorFieldScopeLeft}px`,
+                  top: `${adjustedColorFieldScopeTop || 0}px`,
+                  left: `${adjustedColorFieldScopeLeft || 0}px`,
                 }}
                 tabIndex="0"
               />
@@ -1681,7 +1681,7 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue!);
+                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
