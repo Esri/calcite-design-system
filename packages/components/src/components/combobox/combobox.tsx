@@ -894,8 +894,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
-
-    this.updateSelectedItems();
   }
 
   private calciteInternalComboboxItemChangeHandler(
