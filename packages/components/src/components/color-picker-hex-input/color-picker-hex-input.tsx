@@ -54,7 +54,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region State Properties
 
   /** The last valid/selected color. Used as a fallback if an invalid hex code is entered. */
-  @state() internalColor: ColorInstance | undefined = DEFAULT_COLOR;
+  @state() internalColor?: ColorInstance = DEFAULT_COLOR;
 
   // #endregion
 
