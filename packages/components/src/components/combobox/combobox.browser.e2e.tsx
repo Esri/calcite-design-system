@@ -262,7 +262,7 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChip = page.getBySelector('[data-test-id="disabled-chip-0"]');
+    const disabledChip = page.getByTestId("disabled-chip-0");
     await expect.element(disabledChip).toHaveProperty("label", "Banana");
   });
 
@@ -275,11 +275,11 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChip = page.getBySelector('[data-test-id="disabled-chip-0"]');
+    const disabledChip = page.getByTestId("disabled-chip-0");
     await expect.element(disabledChip).toHaveProperty("label", "Parent / Child");
   });
 
-  it("renders disabled chip count for selection-display=fit", async () => {
+  it("renders disabled chips for selection-display=fit when space allows", async () => {
     await mount<Combobox>(
       <calcite-combobox selection-display="fit" selection-mode="multiple">
         <calcite-combobox-item disabled heading="Apple" selected />
@@ -287,8 +287,106 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const disabledChipCount = page.getBySelector('[data-test-id="selected-chip-count"]');
-    await expect.element(disabledChipCount).toHaveProperty("label", "+2");
+    const disabledChipApple = page.getByTestId("disabled-chip-0");
+    const disabledChipBanana = page.getByTestId("disabled-chip-1");
+    const disabledChipCount = page.getByTestId("selected-chip-count");
+
+    await expect.element(disabledChipApple).toHaveProperty("label", "Apple");
+    await expect.element(disabledChipBanana).toHaveProperty("label", "Banana");
+    await expect.element(disabledChipCount).not.toBeInTheDocument();
+  });
+
+  it("renders disabled chip count for selection-display=fit when space is constrained", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 120px;">
+        <calcite-combobox-item disabled heading="Very long disabled item one" selected />
+        <calcite-combobox-item disabled heading="Very long disabled item two" selected />
+      </calcite-combobox>,
+    );
+
+    const chipCountLabelPattern = /^\+\d+$/;
+
+    const disabledChipCount = page.getByTestId("selected-chip-count");
+    await expect
+      .element(disabledChipCount)
+      .toHaveProperty("label", expect.stringMatching(chipCountLabelPattern));
+  });
+
+  it("renders compact indicator chip count for fit display with long placeholder", async () => {
+    await mount<Combobox>(
+      <calcite-combobox
+        placeholder="this is an unusually long string of placeholder text"
+        selection-display="fit"
+        selection-mode="multiple"
+        style="width: 240px;"
+      >
+        <calcite-combobox-item heading="Very long selected item one" selected />
+        <calcite-combobox-item heading="Very long selected item two" selected />
+        <calcite-combobox-item disabled heading="Very long selected item three" selected />
+      </calcite-combobox>,
+    );
+
+    const selectedChipCount = page.getByTestId("selected-chip-count");
+
+    await expect.element(selectedChipCount).toHaveProperty("label", "3");
+  });
+
+  it("renders selected chip label instead of +1 count for single fit selection", async () => {
+    await mount<Combobox>(
+      <calcite-combobox selection-display="fit" selection-mode="multiple" style="width: 400px;">
+        <calcite-combobox-item heading="Very long item one" selected />
+        <calcite-combobox-item heading="Very long item two" />
+      </calcite-combobox>,
+    );
+
+    const selectedChip = page.getByTestId("chip-0");
+    const selectedChipCount = page.getByTestId("selected-chip-count");
+
+    await expect.element(selectedChipCount).not.toBeInTheDocument();
+    await expect.element(selectedChip).toHaveProperty("label", "Very long item one");
+  });
+
+  it("renders only the all-selected chip for fit selection-display when select-all is checked", async () => {
+    await mount<Combobox>(
+      <calcite-combobox
+        open
+        select-all-enabled
+        selection-display="fit"
+        selection-mode="multiple"
+        style="width: 200px;"
+      >
+        <calcite-combobox-item heading="Trees">
+          <calcite-combobox-item heading="Pine" />
+          <calcite-combobox-item heading="Sequoia" />
+          <calcite-combobox-item heading="Cedar" />
+        </calcite-combobox-item>
+        <calcite-combobox-item heading="Flowers">
+          <calcite-combobox-item heading="Daffodil" />
+          <calcite-combobox-item heading="Nasturtium" />
+        </calcite-combobox-item>
+      </calcite-combobox>,
+    );
+
+    const selectAllItem = page.getByTestId("select-all-item");
+    await expect.element(selectAllItem).toBeInTheDocument();
+    await userEvent.click(selectAllItem);
+
+    const allSelectedChip = page.getByTestId("all-selected-indicator-chip");
+    const selectedChipCount = page.getByTestId("selected-chip-count");
+    const firstSelectedChip = page.getByTestId("chip-0");
+
+    await expect.element(allSelectedChip).toBeInTheDocument();
+    await expect.element(selectedChipCount).not.toBeInTheDocument();
+    await expect.element(firstSelectedChip).not.toBeInTheDocument();
+  });
+
+  it("does not render an all-selected chip when fit selection-display is empty", async () => {
+    await mount<Combobox>(
+      <calcite-combobox select-all-enabled selection-display="fit" selection-mode="multiple" />,
+    );
+
+    const allSelectedChip = page.getByTestId("all-selected-indicator-chip");
+    await expect.element(allSelectedChip).toHaveClass(CSS.chipInvisible);
   });
 
   it("includes disabled selected items in single display count", async () => {
@@ -324,8 +422,19 @@ describe("disabled chip labels", () => {
       </calcite-combobox>,
     );
 
-    const selectAllItem = page.getBySelector(`calcite-combobox-item.${CSS.selectAll}`);
+    const selectAllItem = page.getByTestId("select-all-item");
     await expect.element(selectAllItem).toHaveProperty("indeterminate", true);
+  });
+
+  it("includes disabled selected items in value", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox selection-mode="multiple">
+        <calcite-combobox-item heading="Apple" selected value="apple" />
+        <calcite-combobox-item disabled heading="Banana" selected value="banana" />
+      </calcite-combobox>,
+    );
+
+    expect(el.value).toEqual(["apple", "banana"]);
   });
 });
 
@@ -455,7 +564,7 @@ describe("item selection", () => {
 
         expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
 
-        const chip = page.getBySelector("calcite-chip");
+        const chip = page.getBySelector("calcite-chip").first();
         await expect.element(chip).toBeInTheDocument();
 
         await selectItem(item1);
@@ -489,7 +598,7 @@ describe("item selection", () => {
 
         expect(comboboxItemChangeHandler).toHaveBeenCalledTimes(1);
 
-        const chip = page.getBySelector("calcite-chip");
+        const chip = page.getBySelector("calcite-chip").first();
         await expect.element(chip).toBeInTheDocument();
 
         await selectItem(item1);
