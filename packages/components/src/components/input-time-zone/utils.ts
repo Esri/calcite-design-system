@@ -226,8 +226,8 @@ export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key
  *
  * @private
  */
-export function getCity(timeZone: string): string | undefined {
-  return timeZone.split("/").pop();
+export function getCity(timeZone: string): string {
+  return timeZone.split("/").pop() ?? "";
 }
 
 /**

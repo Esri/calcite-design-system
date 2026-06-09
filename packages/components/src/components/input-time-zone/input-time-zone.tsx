@@ -418,7 +418,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
     const selected = this.findTimeZoneItemByLabel(
       selectedItem.getAttribute("data-label") ?? undefined,
     );
-    const selectedValue = `${selected?.value}`;
+
+    const selectedValue = selected?.value === undefined ? undefined : `${selected?.value}`;
 
     if (this.value === selectedValue && selected?.label === this.selectedTimeZoneItem?.label) {
       return;
