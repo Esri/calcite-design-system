@@ -1103,8 +1103,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 ariaInvalid={this.status === "invalid"}
                 class={{
                   [CSS.input]: true,
-                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                  [CSS.inputNoRightBorder]: this.range,
+                  [CSS.startInput]: true,
                 }}
                 disabled={disabled}
                 icon={ICONS.calendar}
@@ -1189,9 +1188,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   ariaHasPopup="dialog"
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    [CSS.endInput]: true,
                   }}
                   disabled={disabled}
                   icon={ICONS.calendar}

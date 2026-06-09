@@ -30,7 +30,10 @@
 //
 // --calcite-internal-input-text-alignment
 // --calcite-internal-input-text-focus-outline-color
+// --calcite-internal-input-text-icon-border-inline-start-width
 // --calcite-internal-input-text-icon-padding-inline
+// --calcite-internal-input-text-input-border-inline-end-width
+// --calcite-internal-input-text-input-border-inline-start-width
 
 @use "../../styles/includes";
 
@@ -147,7 +150,6 @@ input {
     outline-offset 0s;
   -webkit-appearance: none;
   @apply box-border
-    border
     border-solid
     flex
     flex-1
@@ -164,7 +166,22 @@ input {
   color: var(--calcite-input-text-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
   text-align: var(--calcite-internal-input-text-alignment);
-
+  border-inline-start-width: var(
+    --calcite-internal-input-text-input-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-input-border-inline-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-start-width: var(
+    --calcite-internal-input-text-input-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-input-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
   &:placeholder-shown {
     @apply text-ellipsis;
   }
@@ -180,7 +197,7 @@ input {
   input {
     border-start-start-radius: 0;
     border-end-start-radius: 0;
-    border-inline-start-width: 0;
+    --calcite-internal-input-text-input-border-inline-start-width: var(--calcite-border-width-none);
   }
 }
 
@@ -189,7 +206,7 @@ input {
   input {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
-    border-inline-end-width: 0;
+    --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
   }
 }
 
@@ -278,18 +295,32 @@ calcite-icon {
   box-sizing: border-box;
   display: flex;
   align-self: stretch;
-  border-width: var(--calcite-border-width-sm);
   border-style: solid;
   border-color: var(--calcite-input-text-border-color, var(--calcite-color-border-input));
-  border-inline-end-width: var(--calcite-border-width-none);
   background-color: var(--calcite-input-text-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-input-text-icon-color, var(--calcite-color-text-3));
   align-items: center;
   padding-inline-start: var(--calcite-internal-input-text-icon-padding-inline);
+  border-block-start-width: var(
+    --calcite-internal-input-text-icon-border-block-start-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-end-width: var(
+    --calcite-internal-input-text-icon-border-inline-end-width,
+    var(--calcite-border-width-none)
+  );
+  border-block-end-width: var(
+    --calcite-internal-input-text-icon-border-block-end-width,
+    var(--calcite-border-width-sm)
+  );
+  border-inline-start-width: var(
+    --calcite-internal-input-text-icon-border-inline-start-width,
+    var(--calcite-border-width-sm)
+  );
 }
 
 .has-prefix .icon {
-  border-inline-start-width: 0;
+  --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
 }
 
 // hide browser default clear
@@ -387,22 +418,6 @@ input[type="text"]::-ms-reveal {
     flex
     flex-row
     items-center;
-}
-
-:host(.input--no-bottom-border) input {
-  @apply border-b-0;
-}
-
-:host(.input--no-top-border) input {
-  @apply border-t-0;
-}
-
-:host(.input--no-right-border) input {
-  border-inline-end: 0;
-}
-
-:host(.input--no-left-border) input {
-  border-inline-start: 0;
 }
 
 :host(.border-top-color-one) input {
