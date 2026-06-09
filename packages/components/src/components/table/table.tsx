@@ -16,13 +16,6 @@ import {
   TableRowFocusEvent,
   TableSelectionDisplay,
 } from "./interfaces";
-import { getTableTop } from "./scroll-container";
-import {
-  ensureFirstVisibleTableCellBelowStickyHeader,
-  ensureFocusedTableCellVisible,
-  StickyTableMeasurements,
-} from "./sticky-header";
-import { getFocusableRowCell } from "./focusable-row-cells";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
@@ -75,8 +68,6 @@ export class Table extends LitElement {
   private stickyHeaderViewportAnimationFrame: number | null = null;
 
   private tableContainerOverflowAnimationFrame: number | null = null;
-
-  private stickyHeaderActive = false;
 
   private stickyHeaderTotalHeight = 0;
 
@@ -333,7 +324,6 @@ export class Table extends LitElement {
     this.stickyHeaderTotalHeight = 0;
     this.el.style.setProperty("--calcite-internal-table-sticky-header-total-height", "0px");
     this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-    this.el.style.setProperty("--calcite-internal-table-header-active", "0");
   }
 
   private scheduleAnimationFrameUpdate(
@@ -421,8 +411,6 @@ export class Table extends LitElement {
       (row) => row.positionAll === rowPosition,
     )?.cellCount;
 
-    const targetRow = this.allRows?.find((row) => row.positionAll === rowPosition);
-
     const adjustedPos =
       destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
 
@@ -432,25 +420,9 @@ export class Table extends LitElement {
         rowPosition,
         destination,
         lastCell,
+        preventScroll: leavingHeader,
       });
-
-      const targetCell = targetRow
-        ? getFocusableRowCell(targetRow.focusableCells || [], adjustedPos, lastCell)
-        : null;
-
-      if (targetRow?.rowType === "body" && !targetRow.disabled && targetCell && !leavingHeader) {
-        ensureFocusedTableCellVisible(this.getStickyTableMeasurements(), targetCell);
-      }
     }
-  }
-
-  private getStickyTableMeasurements(): StickyTableMeasurements {
-    return {
-      table: this.el,
-      getScrollContainer: () => this.tableContainerRef.value,
-      getTableTop: (scrollContainer?: HTMLElement | null) =>
-        getTableTop(this.tableElement, scrollContainer),
-    };
   }
 
   private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
@@ -576,17 +548,9 @@ export class Table extends LitElement {
     );
   }
 
-  private setStickyHeaderActive(active: boolean): void {
-    this.stickyHeaderActive = active;
-    this.allRows?.forEach((row) => {
-      row.stickyHeaderActive = active;
-    });
-  }
-
   private updateStickyHeaderPosition(): void {
     if (!this.stickyHeader || this.stickyHeaderTotalHeight <= 0) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      this.setStickyHeaderActive(false);
       return;
     }
 
@@ -599,17 +563,13 @@ export class Table extends LitElement {
 
     if (tableBottom == null || scrollContainerTop == null) {
       this.el.style.setProperty("--calcite-internal-table-header-position", "static");
-      this.setStickyHeaderActive(false);
       return;
     }
 
     const stickyHeaderPosition =
       tableBottom > scrollContainerTop + this.stickyHeaderTotalHeight ? "sticky" : "static";
-    const stickyHeaderActive =
-      stickyHeaderPosition === "sticky" && (tableRect?.top || 0) <= scrollContainerTop;
 
     this.el.style.setProperty("--calcite-internal-table-header-position", stickyHeaderPosition);
-    this.setStickyHeaderActive(stickyHeaderActive);
   }
 
   private applyHeaderRowPositionStyles(): void {
@@ -703,10 +663,9 @@ export class Table extends LitElement {
       row.readCellContentsToAT = this.readCellContentsToAT;
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
       row.stickyHeaderEnabled = this.stickyHeader;
-      row.stickyHeaderActive = this.stickyHeaderActive;
     });
 
-    const colCount = headRows[0]?.cellCount || headRows[0]?.focusableCells?.length || 0;
+    const colCount = headRows[0]?.cellCount || 0;
 
     this.colCount = colCount;
     this.headRows = headRows;
@@ -747,19 +706,6 @@ export class Table extends LitElement {
     this.currentPage = Math.ceil(this.pageStartRow / this.pageSize);
     this.calciteTablePageChange.emit();
     this.updateRows();
-    this.ensureFirstVisibleBodyRowBelowStickyHeaders();
-  }
-
-  private ensureFirstVisibleBodyRowBelowStickyHeaders(): void {
-    const firstVisibleBodyRow = this.bodyRows?.find((row) => !row.itemHidden);
-    const firstVisibleCell = firstVisibleBodyRow
-      ? getFocusableRowCell(firstVisibleBodyRow.focusableCells || [], 1)
-      : null;
-
-    ensureFirstVisibleTableCellBelowStickyHeader(
-      this.getStickyTableMeasurements(),
-      firstVisibleCell,
-    );
   }
 
   private paginateRows(): void {

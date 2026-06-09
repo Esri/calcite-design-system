@@ -1740,9 +1740,19 @@ const stickyHeaderFirstBodyRow = html`
   </calcite-table-row>
 `;
 
+const stickyHeaderLastBodyRow = html`
+  <calcite-table-row>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+  </calcite-table-row>
+`;
+
 const stickyHeaderBodyRows = [
   stickyHeaderFirstBodyRow,
-  Array.from({ length: stickyHeaderBodyRowCount }, () => stickyHeaderBodyRow).join("\n"),
+  Array.from({ length: stickyHeaderBodyRowCount - 1 }, () => stickyHeaderBodyRow).join("\n"),
+  stickyHeaderLastBodyRow,
 ].join("\n");
 
 const stickyHeaderSingleTable = html`<calcite-table

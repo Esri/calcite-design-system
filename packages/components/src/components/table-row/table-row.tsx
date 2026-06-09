@@ -6,7 +6,6 @@ import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
 import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
-import { FocusableCell } from "../table/focusable-row-cells";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
@@ -33,13 +32,13 @@ export class TableRow extends LitElement {
 
   messages;
 
-  private numberedCell: FocusableCell | null = null;
+  private numberedCell: TableCell["el"] | TableHeader["el"] | null = null;
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
   private rowSlotRef = createRef<HTMLSlotElement>();
 
-  private selectionCell: FocusableCell | null = null;
+  private selectionCell: TableCell["el"] | TableHeader["el"] | null = null;
 
   private tableRowEl: HTMLTableRowElement;
 
@@ -91,9 +90,6 @@ export class TableRow extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** @private */
-  @property({ attribute: false }) focusableCells: FocusableCell[] = [];
-
-  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
@@ -122,9 +118,6 @@ export class TableRow extends LitElement {
 
   /** @private */
   @property() stickyHeaderEnabled = false;
-
-  /** @private */
-  @property() stickyHeaderActive = false;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true })
@@ -264,12 +257,7 @@ export class TableRow extends LitElement {
           : this.rowCells?.find((_, index) => index + 1 === position);
 
         if (cellPosition) {
-          const useManualBodyRowScrolling = this.rowType === "body";
-
-          const shouldPreventScroll =
-            this.rowType !== "head" && (useManualBodyRowScrolling || this.stickyHeaderActive);
-
-          cellPosition.setFocus({ preventScroll: shouldPreventScroll });
+          cellPosition.setFocus(event.detail.preventScroll ? { preventScroll: true } : undefined);
         }
       }
     }
@@ -373,12 +361,12 @@ export class TableRow extends LitElement {
       ? this.rowSlotRef.value
           .assignedElements({ flatten: true })
           .filter(
-            (element): element is FocusableCell =>
+            (element): element is TableCell["el"] | TableHeader["el"] =>
               element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
           )
       : [];
     const renderedCells = [this.numberedCell, this.selectionCell].filter(
-      (cell): cell is FocusableCell => cell != null,
+      (cell): cell is TableCell["el"] | TableHeader["el"] => cell != null,
     );
     const cells = renderedCells.concat(slottedCells);
 
@@ -406,8 +394,7 @@ export class TableRow extends LitElement {
       });
     }
 
-    this.focusableCells = cells;
-    this.rowCells = (cells as (TableCell["el"] | TableHeader["el"])[]) || [];
+    this.rowCells = cells;
     this.cellCount = cells?.length;
   }
 

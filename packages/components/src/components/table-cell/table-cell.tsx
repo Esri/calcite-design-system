@@ -117,12 +117,6 @@ export class TableCell extends LitElement {
 
   //#region Public Methods
 
-  /** @private */
-  @method()
-  getCellElement(): HTMLTableCellElement | null {
-    return this.containerRef.value;
-  }
-
   /**
    * Sets focus on the component.
    *
