@@ -62,6 +62,8 @@ import {
   getLabel,
   hasActiveChildren,
   isSingleLike,
+  orderByPrevious,
+  orderValuesByPrevious,
 } from "./utils";
 import { styles } from "./combobox.scss";
 
@@ -170,21 +172,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return match ? [match] : [];
     }
 
-    return (
-      this.allItems
-        .filter(
-          (item) =>
-            item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
-        )
-        /** Preserve order of entered tags */
-        .sort((a, b) => {
-          const aIdx = this.selectedItems.indexOf(a);
-          const bIdx = this.selectedItems.indexOf(b);
-          if (aIdx > -1 && bIdx > -1) {
-            return aIdx - bIdx;
-          }
-          return bIdx - aIdx;
-        })
+    return this.allItems.filter(
+      (item) => item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
     );
   };
 
@@ -814,6 +803,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
+  private updateSelectedItems(): void {
+    this.selectedItems = this.getOrderedSelectedItems(this.getSelectedItems());
+  }
+
   private calciteComboboxItemChangeHandler(
     event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
   ): void {
@@ -850,7 +843,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.ignoreSelectedEventsFlag = true;
       enabledSelectedItems.forEach((el) => (el.selected = false));
       this.ignoreSelectedEventsFlag = false;
-      this.selectedItems = this.getSelectedItems();
+      this.updateSelectedItems();
       this.emitComboboxChange();
     }
 
@@ -877,8 +870,26 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private getValue(): string | string[] {
-    const items = this.selectedItems.map((item) => item.value?.toString());
+    const items = this.getOrderedSelectedValues(
+      this.selectedItems.map((item) => item.value?.toString()),
+    );
+
     return items.length ? (items.length > 1 ? items : items[0]) : "";
+  }
+
+  private getOrderedSelectedValues(selectedValues: string[]): string[] {
+    if (!this.isMulti()) {
+      return selectedValues;
+    }
+
+    const previousValues = Array.isArray(this.value) ? this.value : this.value ? [this.value] : [];
+    return orderValuesByPrevious(selectedValues, previousValues);
+  }
+
+  private getOrderedSelectedItems(
+    selectedItems: HTMLCalciteComboboxItemElement["el"][],
+  ): HTMLCalciteComboboxItemElement["el"][] {
+    return this.isMulti() ? orderByPrevious(selectedItems, this.selectedItems) : selectedItems;
   }
 
   private comboboxInViewport(): boolean {
@@ -899,7 +910,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       }
       item.selected = toggledValue;
     });
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.emitComboboxChange();
   }
 
@@ -1553,7 +1564,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     item.selected = value;
     this.updateAncestors(item);
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.emitComboboxChange();
     this.resetText();
     this.filterItems("");
@@ -1563,7 +1574,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.ignoreSelectedEventsFlag = true;
     this.items.forEach((el) => (el.selected = el === item ? value : false));
     this.ignoreSelectedEventsFlag = false;
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.emitComboboxChange();
 
     if (this.textInputRef.value) {
@@ -1613,7 +1624,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     this.updateItemProps();
 
-    this.selectedItems = this.getSelectedItems();
+    this.updateSelectedItems();
     this.previousAllSelected = this.allSelected;
   }
 
@@ -1948,41 +1959,40 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     let disabledIndex = 0;
 
     if (preserveOrder) {
-      this.allItems.forEach((item) => {
+      const selectedChipItems = this.allItems.filter(
+        (item) => item.selected && (!isAncestors || !hasActiveChildren(item)),
+      );
+      const orderedSelectedChipItems = orderByPrevious(selectedChipItems, this.selectedItems);
+
+      orderedSelectedChipItems.forEach((item) => {
         if (item.disabled) {
-          if (item.selected && (!isAncestors || !hasActiveChildren(item))) {
-            chips.push(
-              this.renderChip({
-                activeChipIndex,
-                disabled: true,
-                index: disabledIndex++,
-                item,
-                messages,
-                readOnly,
-                scale,
-                isAncestors,
-              }),
-            );
-          }
+          chips.push(
+            this.renderChip({
+              activeChipIndex,
+              disabled: true,
+              index: disabledIndex++,
+              item,
+              messages,
+              readOnly,
+              scale,
+              isAncestors,
+            }),
+          );
           return;
         }
 
-        if (!hideSelectedChipsForSelectAll) {
-          if (item.selected && (!isAncestors || !hasActiveChildren(item))) {
-            chips.push(
-              this.renderChip({
-                activeChipIndex,
-                disabled: false,
-                index: selectedIndex++,
-                item,
-                messages,
-                readOnly,
-                scale,
-                isAncestors,
-              }),
-            );
-          }
-        }
+        chips.push(
+          this.renderChip({
+            activeChipIndex,
+            disabled: false,
+            index: selectedIndex++,
+            item,
+            messages,
+            readOnly,
+            scale,
+            isAncestors,
+          }),
+        );
       });
     } else if (!hideSelectedChipsForSelectAll) {
       this.selectedItems.forEach((item) => {

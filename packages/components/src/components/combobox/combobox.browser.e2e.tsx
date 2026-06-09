@@ -730,6 +730,7 @@ describe("item selection", () => {
     await expect.element(customItem).toHaveProperty("heading", "K");
 
     expect(el).toHaveProperty("selectedItems", expect.objectContaining({ length: 1 }));
+    expect(el.value).toEqual("K");
     await expect.element(customItem).toHaveProperty("selected", true);
     expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
   });
@@ -748,18 +749,24 @@ describe("item selection", () => {
     await userEvent.click(el);
     await userEvent.type(el, "K{Enter}");
 
-    const customItem = page.getByLabelText("K");
-    const item1 = page.getByLabelText("one");
+    const items = page.getBySelector("calcite-combobox-item");
+    const chips = page.getBySelector("calcite-chip");
 
-    await expect.element(customItem).toHaveProperty("heading", "K");
-
-    expect(el).toHaveProperty("selectedItems", expect.objectContaining({ length: 1 }));
-    await expect.element(customItem).toHaveProperty("selected", true);
-    await expect.element(item1).toHaveProperty("selected", false);
+    expect(el.selectedItems.map((item) => item.value)).toEqual(["K"]);
+    expect(el.value).toEqual("K");
     expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
+
+    expect(items).toHaveLength(4);
+    await expect.element(items.nth(0)).toHaveProperty("heading", "K");
+    await expect.element(items.nth(0)).toHaveProperty("selected", true);
+    await expect.element(items.nth(1)).toHaveProperty("selected", false);
+    await expect.element(items.nth(2)).toHaveProperty("selected", false);
+    await expect.element(items.nth(3)).toHaveProperty("selected", false);
+
+    expect(chips).toHaveLength(0);
   });
 
-  it.skip("should auto-select new custom values in multiple selection mode", async () => {
+  it("should auto-select new custom values in multiple selection mode", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox allow-custom-values>
         <calcite-combobox-item heading="one" id="one" selected value="one" />
@@ -773,20 +780,24 @@ describe("item selection", () => {
     await userEvent.click(el);
     await userEvent.type(el, "K{Enter}{Escape}");
 
-    const customItem = page.getBySelector("calcite-combobox-item:first-child");
-    const item1 = page.getByLabelText("one", { exact: true });
-    const item2 = page.getByLabelText("two").getByText("two");
+    const items = page.getBySelector("calcite-combobox-item");
     const chips = page.getBySelector("calcite-chip");
 
-    await expect.element(customItem).toHaveProperty("heading", "K");
-
-    expect(el).toHaveProperty("selectedItems", expect.objectContaining({ length: 3 }));
-    expect(chips).toHaveLength(2);
-    await expect.element(chips.elements()[2]).toHaveTextContent("K");
-    await expect.element(customItem).toHaveProperty("selected", true);
-    await expect.element(item1).toHaveProperty("selected", true);
-    await expect.element(item2).toHaveProperty("selected", true);
+    expect(el.selectedItems.map((item) => item.value)).toEqual(["one", "two", "K"]);
+    expect(el.value).toEqual(["one", "two", "K"]);
     expect(comboboxChangeHandler).toHaveBeenCalledTimes(1);
+
+    expect(items).toHaveLength(4);
+    await expect.element(items.nth(0)).toHaveProperty("heading", "K");
+    await expect.element(items.nth(0)).toHaveProperty("selected", true);
+    await expect.element(items.nth(1)).toHaveProperty("selected", true);
+    await expect.element(items.nth(2)).toHaveProperty("selected", true);
+    await expect.element(items.nth(3)).toHaveProperty("selected", false);
+
+    expect(chips).toHaveLength(3);
+    await expect.element(chips.nth(0)).toHaveTextContent("one");
+    await expect.element(chips.nth(1)).toHaveTextContent("two");
+    await expect.element(chips.nth(2)).toHaveTextContent("K");
   });
 
   it("updates the value immediately after selecting an item programmatically", async () => {
