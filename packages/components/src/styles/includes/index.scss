@@ -281,9 +281,9 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   }
 }
 
-@mixin input-placeholder-text {
+@mixin input-placeholder-text($placeholder-text-color: "--calcite-input-placeholder-text-color") {
   ::placeholder {
     @apply font-normal;
-    color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
+    color: var(#{$placeholder-text-color}, var(--calcite-color-text-3));
   }
 }

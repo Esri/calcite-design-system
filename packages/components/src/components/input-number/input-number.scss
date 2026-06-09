@@ -585,7 +585,7 @@ input {
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();
-@include includes.input-placeholder-text();
+@include includes.input-placeholder-text("--calcite-input-number-placeholder-text-color");
 @include includes.clear-button(
   $background-color: "--calcite-input-actions-background-color",
   $background-color-hover: "--calcite-input-actions-background-color-hover",
