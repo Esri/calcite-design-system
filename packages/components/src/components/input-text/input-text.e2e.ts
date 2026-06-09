@@ -267,8 +267,7 @@ describe("theme", () => {
   });
 
   // placeholder styles not working in Puppeteer/Node environment, restore once migrated to browser mode -- https://github.com/Esri/calcite-design-system/issues/11268
-  describe.skip("with placeholder", () => {
-    themed(html`<calcite-input-text placeholder="test"></calcite-input-text>`, {
+  describe.todo("with placeholder", () => {
       "--calcite-input-text-placeholder-text-color": {
         shadowSelector: `input::placeholder`,
         targetProp: "color",
