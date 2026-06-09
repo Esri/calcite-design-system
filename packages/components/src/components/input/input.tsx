@@ -1043,7 +1043,6 @@ export class Input
           maxLength={this.maxLength}
           minLength={this.minLength}
           multiple={this.multiple}
-          name={undefined}
           onBlur={this.inputBlurHandler}
           onFocus={this.inputFocusHandler}
           onInput={this.inputNumberInputHandler}

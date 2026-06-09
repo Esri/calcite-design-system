@@ -63,10 +63,10 @@ interface SortableComponent extends LitElement {
   handleSelector: string;
 
   /** Whether the element can move from the list. */
-  canPull: (detail: DragDetail) => boolean | "clone";
+  canPull?: (detail: DragDetail) => boolean | "clone";
 
   /** Whether the element can be added from another list. */
-  canPut: (detail: DragDetail) => boolean;
+  canPut?: (detail: DragDetail) => boolean;
 
   /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
   onGlobalDragStart: () => void;
@@ -126,7 +126,7 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
         name: group,
         ...(!!component.canPull && {
           pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPull({
+            return component.canPull!({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
@@ -137,7 +137,7 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
         }),
         ...(!!component.canPut && {
           put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPut({
+            return component.canPut!({
               toEl: to.el,
               fromEl: from.el,
               dragEl,

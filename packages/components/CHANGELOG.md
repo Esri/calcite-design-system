@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.0...@esri/calcite-components@5.2.0-next.1) (2026-06-09)
+
+### Bug Fixes
+
+- **checkbox:** use danger token color when invalid and hovered ([#14586](https://github.com/Esri/calcite-design-system/issues/14586)), closes [#14568](https://github.com/Esri/calcite-design-system/issues/14568)
+
+## [5.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.6...@esri/calcite-components@5.2.0-next.0) (2026-06-08)
+
+### Features
+
+- **flow-item:** add collapseDirection property ([#14588](https://github.com/Esri/calcite-design-system/issues/14588)), closes [#14585](https://github.com/Esri/calcite-design-system/issues/14585)
+
+## [5.1.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.5...@esri/calcite-components@5.1.1-next.6) (2026-06-08)
+
+### Bug Fixes
+
+- **combobox:** keep active selection unchanged when expanded and collapsed with keyboard ([#14479](https://github.com/Esri/calcite-design-system/issues/14479)), closes [#12816](https://github.com/Esri/calcite-design-system/issues/12816)
+- **list-item:** only emit internal change event when metadata values differ ([#14580](https://github.com/Esri/calcite-design-system/issues/14580))
+
 ## [5.1.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.4...@esri/calcite-components@5.1.1-next.5) (2026-06-06)
 
 ### Bug Fixes
