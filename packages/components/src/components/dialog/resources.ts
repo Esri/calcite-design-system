@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./interfaces";
 
 export const CSS = {
@@ -40,5 +39,5 @@ export const dialogPlacements: DialogPlacement[] = [
   "center",
 ];
 
-export const initialDragPosition: DialogDragPosition = { x: null, y: null };
-export const initialResizePosition: DialogResizePosition = { top: null, right: null, bottom: null, left: null };
+export const initialDragPosition: DialogDragPosition = { x: NaN, y: NaN };
+export const initialResizePosition: DialogResizePosition = { top: NaN, right: NaN, bottom: NaN, left: NaN };
