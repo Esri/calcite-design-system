@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -9,6 +8,7 @@ import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
+import { isSwatch } from "../swatch/resources";
 
 declare global {
   interface DeclareElements {
@@ -45,7 +45,7 @@ export class SwatchGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -162,17 +162,16 @@ export class SwatchGroup extends LitElement {
   }
 
   private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRef.value
-      ?.assignedElements({ flatten: true })
-      .filter((el): el is Swatch["el"] => el?.matches("calcite-swatch"));
+    const itemsFromSlot =
+      this.slotRef.value?.assignedElements({ flatten: true }).filter((el) => isSwatch(el)) || [];
 
     this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Swatch["el"]>(event);
 
-    if (this.items?.length < 1) {
+    if (this.items.length < 1) {
       return;
     }
 
-    this.items?.forEach((el) => {
+    this.items.forEach((el) => {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;

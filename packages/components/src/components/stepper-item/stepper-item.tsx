@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -49,13 +48,13 @@ export class StepperItem extends LitElement {
   private headerRef = createRef<HTMLDivElement>();
 
   /** position within parent */
-  private itemPosition: number;
+  private itemPosition = 0;
 
   /** the parent stepper component */
-  private parentStepperEl: Stepper["el"];
+  private parentStepperEl?: Stepper["el"];
 
   /** the latest requested item position */
-  private selectedPosition: number;
+  private selectedPosition?: number;
 
   /**
    * Made into a prop for testing purposes only
@@ -72,7 +71,7 @@ export class StepperItem extends LitElement {
 
   //#region State Properties
 
-  @state() stepperItemHasContent: boolean;
+  @state() stepperItemHasContent?: boolean;
 
   //#endregion
 
@@ -82,7 +81,7 @@ export class StepperItem extends LitElement {
   @property({ reflect: true }) complete = false;
 
   /** Specifies a description for the component. Displays below the header text. */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
@@ -91,7 +90,7 @@ export class StepperItem extends LitElement {
   @property({ reflect: true }) error = false;
 
   /** Specifies the component's heading text. */
-  @property() heading: string;
+  @property() heading?: string;
 
   /**
    * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
@@ -115,7 +114,7 @@ export class StepperItem extends LitElement {
    *
    * @private
    */
-  @property({ reflect: true }) layout: StepperLayout;
+  @property({ reflect: true }) layout!: StepperLayout;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -128,7 +127,7 @@ export class StepperItem extends LitElement {
   @property() numbered = false;
 
   /** @private */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
@@ -244,8 +243,8 @@ export class StepperItem extends LitElement {
 
   private updateActiveItemOnChange(event: CustomEvent<StepperItemChangeEventDetail>): void {
     if (
-      event.target === this.parentStepperEl ||
-      event.composedPath().includes(this.parentStepperEl)
+      this.parentStepperEl != null &&
+      (event.target === this.parentStepperEl || event.composedPath().includes(this.parentStepperEl))
     ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
@@ -310,11 +309,11 @@ export class StepperItem extends LitElement {
   }
 
   private getItemPosition(): number {
-    return Array.from(
-      this.parentStepperEl?.querySelectorAll(
-        "calcite-stepper-item:not([hidden]):not([item-hidden])",
-      ),
-    ).indexOf(this.el);
+    const stepperItems = this.parentStepperEl?.querySelectorAll<StepperItem["el"]>(
+      "calcite-stepper-item:not([hidden]):not([item-hidden])",
+    );
+
+    return stepperItems ? Array.from(stepperItems).indexOf(this.el) : -1;
   }
 
   //#endregion
@@ -329,7 +328,7 @@ export class StepperItem extends LitElement {
     // use local var to bypass logic-changing compiler transformation
     const innerDisplayContextTabIndex =
       /* additional tab index logic needed because of display: contents for horizontal layout */
-      this.layout === "horizontal" && !this.disabled ? 0 : null;
+      this.layout === "horizontal" && !this.disabled ? 0 : undefined;
 
     return (
       <this.interactiveContainer disabled={this.disabled}>

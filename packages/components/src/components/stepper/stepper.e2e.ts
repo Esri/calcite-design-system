@@ -1,9 +1,7 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { StepperItem } from "../stepper-item/stepper-item";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
@@ -685,7 +683,7 @@ it("should render correct numbering-system with multiple stepper component", asy
 
   const arabextNumeral1 = new Intl.NumberFormat("ar", {
     numberingSystem: "arabext",
-  } as NumberStringFormatOptions).format(1);
+  }).format(1);
 
   expect(stepper2Number.textContent).toBe(`${arabextNumeral1}.`);
 });
