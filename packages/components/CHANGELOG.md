@@ -3,72 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.2.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.2...@esri/calcite-components@5.2.0-next.3) (2026-06-09)
+## [5.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0...@esri/calcite-components@5.1.1) (2026-06-10)
 
 ### Bug Fixes
 
-- **combobox:** ensure custom values are appended to value regardless of DOM order ([#14522](https://github.com/Esri/calcite-design-system/issues/14522)), closes [#14290](https://github.com/Esri/calcite-design-system/issues/14290)
-
-## [5.2.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.1...@esri/calcite-components@5.2.0-next.2) (2026-06-09)
-
-### Bug Fixes
-
-- **combobox:** correct fit selection count chip ([#14243](https://github.com/Esri/calcite-design-system/issues/14243)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287) [/github.com/Esri/calcite-design-system/issues/12287#issuecomment-4193546634](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/12287/issues/issuecomment-4193546634) [#13458](https://github.com/Esri/calcite-design-system/issues/13458)
-- **input-date-picker:** remove redundant border in vertical layout when range enabled ([#14576](https://github.com/Esri/calcite-design-system/issues/14576)), closes [#14573](https://github.com/Esri/calcite-design-system/issues/14573)
-
-## [5.2.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.0...@esri/calcite-components@5.2.0-next.1) (2026-06-09)
-
-### Bug Fixes
-
-- **checkbox:** use danger token color when invalid and hovered ([#14586](https://github.com/Esri/calcite-design-system/issues/14586)), closes [#14568](https://github.com/Esri/calcite-design-system/issues/14568)
-
-## [5.2.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.6...@esri/calcite-components@5.2.0-next.0) (2026-06-08)
-
-### Features
-
-- **flow-item:** add collapseDirection property ([#14588](https://github.com/Esri/calcite-design-system/issues/14588)), closes [#14585](https://github.com/Esri/calcite-design-system/issues/14585)
-
-## [5.1.1-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.5...@esri/calcite-components@5.1.1-next.6) (2026-06-08)
-
-### Bug Fixes
-
-- **combobox:** keep active selection unchanged when expanded and collapsed with keyboard ([#14479](https://github.com/Esri/calcite-design-system/issues/14479)), closes [#12816](https://github.com/Esri/calcite-design-system/issues/12816)
-- **list-item:** only emit internal change event when metadata values differ ([#14580](https://github.com/Esri/calcite-design-system/issues/14580))
-
-## [5.1.1-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.4...@esri/calcite-components@5.1.1-next.5) (2026-06-06)
-
-### Bug Fixes
-
-- **input:** fix file selection validation for `input[type=file]` ([#14569](https://github.com/Esri/calcite-design-system/issues/14569))
-
-## [5.1.1-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.3...@esri/calcite-components@5.1.1-next.4) (2026-06-04)
-
-### Bug Fixes
-
-- **date-picker:** update calendar when activeDate is set in range ([#14527](https://github.com/Esri/calcite-design-system/issues/14527)), closes [#13608](https://github.com/Esri/calcite-design-system/issues/13608)
-- **useForm:** update validity when disabled ([#14549](https://github.com/Esri/calcite-design-system/issues/14549)), closes [#14555](https://github.com/Esri/calcite-design-system/issues/14555)
-
-## [5.1.1-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.2...@esri/calcite-components@5.1.1-next.3) (2026-05-29)
-
-### Bug Fixes
-
-- **list:** preserve filter input value during rapid item loading ([#14523](https://github.com/Esri/calcite-design-system/issues/14523)), closes [#14454](https://github.com/Esri/calcite-design-system/issues/14454)
-
-## [5.1.1-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.1...@esri/calcite-components@5.1.1-next.2) (2026-05-28)
-
-### Bug Fixes
-
-- **dropdown:** fix virtual element positioning on first render ([#14518](https://github.com/Esri/calcite-design-system/issues/14518)), closes [#14498](https://github.com/Esri/calcite-design-system/issues/14498)
-
-## [5.1.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1-next.0...@esri/calcite-components@5.1.1-next.1) (2026-05-28)
-
-### Bug Fixes
-
-- **combobox:** improve disabled chip handling and select-all behavior ([#14517](https://github.com/Esri/calcite-design-system/issues/14517)), closes [#12287](https://github.com/Esri/calcite-design-system/issues/12287)
-
-## [5.1.1-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0-next.62...@esri/calcite-components@5.1.1-next.0) (2026-05-28)
-
-**Note:** Version bump only for package @esri/calcite-components
+- **checkbox:** Use danger token color when invalid and hovered ([#14586](https://github.com/Esri/calcite-design-system/issues/14586)) ([a751c5e](https://github.com/Esri/calcite-design-system/commit/a751c5e5424f1979b969d26dcce69577ed06da0d))
+- **combobox:** Correct fit selection count chip ([#14243](https://github.com/Esri/calcite-design-system/issues/14243)) ([474715a](https://github.com/Esri/calcite-design-system/commit/474715a1767122d274245d67621f6556e6b8068b))
+- **combobox:** Ensure custom values are appended to value regardless of DOM order ([#14522](https://github.com/Esri/calcite-design-system/issues/14522)) ([0f93110](https://github.com/Esri/calcite-design-system/commit/0f9311053f9756ece960c081232516ef62ca87e6))
+- **combobox:** Improve disabled chip handling and select-all behavior ([#14517](https://github.com/Esri/calcite-design-system/issues/14517)) ([5f5ba4e](https://github.com/Esri/calcite-design-system/commit/5f5ba4eebb01d0a9efbdb10564e822e204678f15))
+- **date-picker:** Update calendar when activeDate is set in range ([#14527](https://github.com/Esri/calcite-design-system/issues/14527)) ([f200b30](https://github.com/Esri/calcite-design-system/commit/f200b30952cbb2f10b7eed1c46c7f5c90f6252e2))
+- **dropdown:** Fix virtual element positioning on first render ([#14518](https://github.com/Esri/calcite-design-system/issues/14518)) ([a324633](https://github.com/Esri/calcite-design-system/commit/a324633eeeded3acb99f1446b464d6d0695357b0))
+- **input-date-picker:** Remove redundant border in vertical layout when range enabled ([#14576](https://github.com/Esri/calcite-design-system/issues/14576)) ([ac99658](https://github.com/Esri/calcite-design-system/commit/ac996583033efb84e8904045225913a42005b53e))
+- **input:** Fix file selection validation for `input[type=file]` ([#14569](https://github.com/Esri/calcite-design-system/issues/14569)) ([9fb0499](https://github.com/Esri/calcite-design-system/commit/9fb0499ee53ae67eea73d86bcc33dc74281c06e8))
+- **list-item:** Only emit internal change event when metadata values differ ([#14580](https://github.com/Esri/calcite-design-system/issues/14580)) ([e9018a6](https://github.com/Esri/calcite-design-system/commit/e9018a6f7441024f67866e894ae2bc9af76ed69f))
+- **list:** Preserve filter input value during rapid item loading ([#14523](https://github.com/Esri/calcite-design-system/issues/14523)) ([e329182](https://github.com/Esri/calcite-design-system/commit/e32918272fb75d92a234b21942873b1fc8362c7e))
+- **useForm:** Update validity when disabled ([#14549](https://github.com/Esri/calcite-design-system/issues/14549)) ([2856c08](https://github.com/Esri/calcite-design-system/commit/2856c08ac1ea717ef45338fd7e355bf68d5102af))
 
 ## [5.1.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.0.2...@esri/calcite-components@5.1.0) (2026-05-28)
 
