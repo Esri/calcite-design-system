@@ -36,30 +36,32 @@ function allScaleComboboxBuilder(
       }
     </style>
 
-    ${selectionModes.map(
-      (selectionMode) => html`
-        <div class="selection-mode-group">
-          ${scales
-            .map(
-              (scale) => html`
-                <div class="combobox-container">
-                  <h3>${selectionMode} selection mode + ${scale} scale</h3>
-                  <calcite-combobox
-                    placeholder="select element"
-                    max-items="10"
-                    selection-mode="${selectionMode}"
-                    open
-                    scale="${scale}"
-                  >
-                    ${items}
-                  </calcite-combobox>
-                </div>
-              `,
-            )
-            .join("")}
-        </div>
-      `,
-    )}
+    ${selectionModes
+      .map(
+        (selectionMode) => html`
+          <div class="selection-mode-group">
+            ${scales
+              .map(
+                (scale) => html`
+                  <div class="combobox-container">
+                    <h3>${selectionMode} selection mode + ${scale} scale</h3>
+                    <calcite-combobox
+                      placeholder="select element"
+                      max-items="10"
+                      selection-mode="${selectionMode}"
+                      open
+                      scale="${scale}"
+                    >
+                      ${items}
+                    </calcite-combobox>
+                  </div>
+                `,
+              )
+              .join("")}
+          </div>
+        `,
+      )
+      .join("")}
   `;
 }
 
