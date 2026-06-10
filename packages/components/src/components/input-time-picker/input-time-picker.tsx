@@ -103,6 +103,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#region Public Properties
 
+  @property() hasFocus: boolean = false;
+
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -267,7 +269,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   constructor() {
     super();
     this.listen("blur", this.blurHandler);
-    this.listen("focus", this.focusHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
   }
@@ -334,14 +335,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
       } else {
         this.previousEmittedValue = value;
       }
-    }
-  }
-
-  private focusHandler(event: FocusEvent): void {
-    const target = event.target as MenuItem["el"];
-    this.isFocused = true;
-    if (target.open && !this.open) {
-      target.open = false;
     }
   }
 
@@ -521,7 +514,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   //#region Rendering
 
   override render(): JsxNode {
-    console.log("active?", this.el.shadowRoot.activeElement);
     const { messages, readOnly, scale } = this;
     const {
       fractionalSecond,
@@ -550,7 +542,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const secondIsNumber = isValidNumber(second);
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
-    const showPlaceholder = (this.placeholder && document.activeElement !== this.el) ?? false;
+    const showPlaceholder = (this.placeholder && !this.hasFocus && !this.time.hasValue()) ?? false;
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
