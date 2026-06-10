@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Scale, SelectionMode } from "../interfaces";
@@ -30,17 +29,17 @@ export class DropdownGroup extends LitElement {
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
   /** the requested group */
-  private requestedDropdownGroup: DropdownGroup["el"];
+  private requestedDropdownGroup?: DropdownGroup["el"];
 
   /** the requested item */
-  private requestedDropdownItem: DropdownItem["el"];
+  private requestedDropdownItem?: DropdownItem["el"];
 
   // #endregion
 
   // #region Public Properties
 
   /** When specified, displays a group title. */
-  @property({ reflect: true }) groupTitle: string;
+  @property({ reflect: true }) groupTitle?: string;
 
   /**
    * The position of the group in the dropdown menu.
@@ -137,7 +136,7 @@ export class DropdownGroup extends LitElement {
     const dropdownSeparator =
       this.position > 0 ? <div class={CSS.separator} role="separator" /> : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = this.groupTitle;
+    this.el.ariaLabel = this.groupTitle ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "group";
 
