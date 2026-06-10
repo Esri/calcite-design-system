@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, labelable, themed } from "../../tests/commonTests";
@@ -28,7 +27,7 @@ it("renders child element as disabled", async () => {
   expect(elementAsButton).toBeNull();
   expect(elementAsLink).not.toBeNull();
 
-  expect(await elementAsLink.getProperty("disabled")).toBe(null);
+  expect(await elementAsLink.getProperty("disabled")).toBeUndefined();
 });
 
 it("renders as a button with default props", async () => {
