@@ -490,7 +490,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
 
     if (changes.has("valueAsDate")) {
-      this.valueAsDateWatcher(this.valueAsDate!);
+      this.valueAsDateWatcher(this.valueAsDate);
     }
 
     if (changes.has("messages")) {
@@ -547,7 +547,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = false;
   }
 
-  private valueAsDateWatcher(valueAsDate: Date | Date[]): void {
+  private valueAsDateWatcher(valueAsDate: Date | Date[] | undefined): void {
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
@@ -687,7 +687,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const { focusedInput, value } = this;
     const focusedInputRef = this.getInputRef(focusedInput);
 
-    const date = focusedInputRef.value?.value
+    const date = focusedInputRef.value
       ? dateFromLocalizedString(focusedInputRef.value?.value, this.localeData)
       : undefined;
     const dateAsISO = dateToISO(date);
@@ -894,7 +894,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    if (this.proximitySelectionDisabled && this.valueAsDate && this.valueAsDate[1] === undefined) {
+    if (this.proximitySelectionDisabled && this.valueAsDate && this.valueAsDate[1] === null) {
       return;
     }
 

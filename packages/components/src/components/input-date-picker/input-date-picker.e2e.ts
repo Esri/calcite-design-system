@@ -672,7 +672,7 @@ describe("minAsDate & maxAsDate", () => {
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
-      picker.minAsDate.getTime(),
+      picker.minAsDate?.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
@@ -694,7 +694,7 @@ describe("minAsDate & maxAsDate", () => {
     await page.waitForChanges();
     const maxDateString = "Mon Nov 15 2023 00:00:00 GMT-0800 (Pacific Standard Time)";
     const maxDateAsTime = await page.$eval("calcite-input-date-picker", (picker: InputDatePicker["el"]) =>
-      picker.maxAsDate.getTime(),
+      picker.maxAsDate?.getTime(),
     );
     expect(maxDateAsTime).toEqual(new Date(maxDateString).getTime());
   });
