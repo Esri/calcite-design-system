@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.1...@esri/calcite-ui-icons@4.6.0-next.2) (2026-06-10)
+
+### Features
+
+- add different image index icons ([#14607](https://github.com/Esri/calcite-design-system/issues/14607))
+
 ## [4.6.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.0...@esri/calcite-ui-icons@4.6.0-next.1) (2026-05-29)
 
 ### Features
