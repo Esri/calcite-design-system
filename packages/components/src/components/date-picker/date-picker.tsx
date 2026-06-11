@@ -1,8 +1,8 @@
 // @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
 import {
-  Fragment,
   createEvent,
+  Fragment,
   h,
   JsxNode,
   LitElement,

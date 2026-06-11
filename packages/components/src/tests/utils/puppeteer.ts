@@ -35,8 +35,7 @@ type MouseInitEvent = Pick<
  * Drag and drop utility based on https://github.com/puppeteer/puppeteer/issues/1366#issuecomment-615887204
  *
  * @param page - the e2e page
- * @param dragStartSelector - Selector for the drag's start
- * @param dragEndSelector - Selector for the drag's end
+ * @param action - Drag action config including origin, handle, and destination selectors
  */
 export async function dragAndDrop(page: E2EPage, action: DragAndDropAction): Promise<void> {
   async function getBounds(selector: DragAndDropSelector): Promise<BoundingBox> {

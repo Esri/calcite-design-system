@@ -221,6 +221,11 @@ function applyClonePull<T>(
   const clone = dragEl.cloneNode(true) as HTMLElement;
   const dragKey = getSortableItemKey(dragEl);
   const cloneKey = getSortableItemKey(clone, true);
+
+  if (clone.id) {
+    clone.id = cloneKey;
+  }
+
   const values = getSortableNodeKeys(initialParent.data.enabledNodes).filter((value) => value !== dragKey);
   const existingItem = initialParent.data.enabledNodes.find((node) => getSortableNodeKey(node) === dragKey)?.el as
     | HTMLElement
