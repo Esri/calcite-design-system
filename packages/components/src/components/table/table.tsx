@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
@@ -207,7 +206,6 @@ export class Table extends LitElement {
     }
 
     this.tableContainerResizeObserver?.disconnect();
-    super.disconnectedCallback();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -368,11 +366,7 @@ export class Table extends LitElement {
   }
 
   private applyHeaderRowPositionStyles(): void {
-    this.headRows?.forEach((row) => {
-      row.style.removeProperty("--calcite-internal-table-header-offset");
-      row.style.removeProperty("--calcite-internal-table-header-z-index");
-      row.style.removeProperty("--calcite-internal-table-header-row-position");
-    });
+    this.clearStickyHeaderRowStyles();
 
     const firstHeadRow = this.headRows?.[0];
 
