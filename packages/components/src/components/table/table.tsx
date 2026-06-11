@@ -262,22 +262,6 @@ export class Table extends LitElement {
     this.clearStickyHeaderRowStyles();
   }
 
-  private scheduleAnimationFrameUpdate(
-    frameKey: "tableContainerOverflowAnimationFrame",
-    callback: () => void,
-  ): void {
-    const frameId = this[frameKey];
-
-    if (frameId !== null) {
-      cancelAnimationFrame(frameId);
-    }
-
-    this[frameKey] = requestAnimationFrame(() => {
-      this[frameKey] = null;
-      callback();
-    });
-  }
-
   private calciteTableRowSelectListener(event: CustomEvent): void {
     if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(event.target as TableRow["el"]);
@@ -373,9 +357,14 @@ export class Table extends LitElement {
   }
 
   private scheduleTableContainerOverflowUpdate(): void {
-    this.scheduleAnimationFrameUpdate("tableContainerOverflowAnimationFrame", () =>
-      this.updateTableContainerOverflow(),
-    );
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+    }
+
+    this.tableContainerOverflowAnimationFrame = requestAnimationFrame(() => {
+      this.tableContainerOverflowAnimationFrame = null;
+      this.updateTableContainerOverflow();
+    });
   }
 
   private applyHeaderRowPositionStyles(): void {
