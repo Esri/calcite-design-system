@@ -10,6 +10,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
+import { createObserver } from "../../utils/observers";
 import {
   TableInteractionMode,
   TableLayout,
@@ -55,7 +56,7 @@ export class Table extends LitElement {
 
   private tableContainerRef = createRef<HTMLDivElement>();
 
-  private tableElement: HTMLTableElement | null = null;
+  private tableEl: HTMLTableElement | null = null;
 
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
@@ -65,10 +66,9 @@ export class Table extends LitElement {
 
   private tableContainerOverflowAnimationFrame: number | null = null;
 
-  private tableContainerResizeObserver: ResizeObserver | null =
-    typeof ResizeObserver !== "undefined"
-      ? new ResizeObserver(() => this.scheduleTableContainerOverflowUpdate())
-      : null;
+  private tableContainerResizeObserver = createObserver("resize", () =>
+    this.scheduleTableContainerOverflowUpdate(),
+  );
 
   /**
    * Made into a prop for testing purposes only
@@ -361,7 +361,7 @@ export class Table extends LitElement {
     this.tableContainerResizeObserver?.disconnect();
 
     const tableContainer = this.tableContainerRef.value;
-    const table = this.tableElement;
+    const table = this.tableEl;
 
     if (tableContainer) {
       this.tableContainerResizeObserver?.observe(tableContainer);
@@ -391,7 +391,7 @@ export class Table extends LitElement {
       return;
     }
 
-    firstHeadRow.style.setProperty("--calcite-internal-table-header-offset", "0px");
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-offset", "0");
     firstHeadRow.style.setProperty("--calcite-internal-table-header-z-index", "2");
     firstHeadRow.style.setProperty(
       "--calcite-internal-table-header-row-position",
@@ -653,7 +653,6 @@ export class Table extends LitElement {
             [CSS.tableContainer]: true,
             [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
           }}
-          data-scroll-container="true"
           ref={this.tableContainerRef}
         >
           <table
@@ -669,7 +668,7 @@ export class Table extends LitElement {
                 return;
               }
 
-              this.tableElement = el;
+              this.tableEl = el;
 
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(

@@ -41,9 +41,9 @@ calcite-table-cell {
 }
 
 :host([slot="table-header"]) tr {
-  position: var(--calcite-internal-table-header-row-position, static);
+  position: var(--calcite-internal-table-header-row-position);
   inset-block-start: var(--calcite-internal-table-header-offset, 0);
-  z-index: var(--calcite-internal-table-header-z-index, 2);
+  z-index: var(--calcite-internal-table-header-z-index, calc(var(--calcite-z-index) + 1));
 }
 
 :host([selected]) calcite-table-cell {

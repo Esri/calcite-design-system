@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
@@ -55,6 +54,14 @@ export class TableRow extends LitElement {
       }
       this.handleRowSelection();
     }
+  };
+
+  private setNumberedCell = (el: TableCell["el"] | TableHeader["el"] | undefined): void => {
+    this.numberedCell = el ?? null;
+  };
+
+  private setSelectionCell = (el: TableCell["el"] | TableHeader["el"] | undefined): void => {
+    this.selectionCell = el ?? null;
   };
 
   private interactiveContainer = useInteractive(this);
@@ -418,9 +425,7 @@ export class TableRow extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
-        ref={(el) => {
-          this.selectionCell = el;
-        }}
+        ref={this.setSelectionCell}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -435,9 +440,7 @@ export class TableRow extends LitElement {
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
-        ref={(el) => {
-          this.selectionCell = el;
-        }}
+        ref={this.setSelectionCell}
         selectionCell={true}
       >
         {this.renderSelectionIcon()}
@@ -447,9 +450,7 @@ export class TableRow extends LitElement {
         alignment="center"
         key="selection-foot"
         parentRowAlignment={this.alignment}
-        ref={(el) => {
-          this.selectionCell = el;
-        }}
+        ref={this.setSelectionCell}
         selectionCell={true}
       />
     );
@@ -462,9 +463,7 @@ export class TableRow extends LitElement {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={(el) => {
-          this.numberedCell = el;
-        }}
+        ref={this.setNumberedCell}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -472,9 +471,7 @@ export class TableRow extends LitElement {
         key="numbered-body"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={(el) => {
-          this.numberedCell = el;
-        }}
+        ref={this.setNumberedCell}
       >
         {this.positionSectionLocalized}
       </calcite-table-cell>
@@ -484,9 +481,7 @@ export class TableRow extends LitElement {
         key="numbered-foot"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={(el) => {
-          this.numberedCell = el;
-        }}
+        ref={this.setNumberedCell}
       />
     );
   }
