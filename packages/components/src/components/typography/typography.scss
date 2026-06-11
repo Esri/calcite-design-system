@@ -1,4 +1,4 @@
-@use "sass:string";
+// @use "sass:string";
 
 :host {
   display: block;
@@ -7,13 +7,13 @@
   overflow: hidden;
 }
 
-:host([truncate-position="end"]) {
+:host([truncate-position="end"]:not([wrap])) {
   text-overflow: ellipsis;
 }
 
-// :host([wrap]) {
-//   white-space: wrap;
-// }
+:host([wrap]) {
+  white-space: normal;
+}
 
 :host([max-lines]) {
   display: -webkit-box;
