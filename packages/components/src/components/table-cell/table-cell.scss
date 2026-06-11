@@ -62,7 +62,7 @@ td.last-cell {
   border-inline-end: 0;
 }
 
-.reaches-body-end {
+:host([reaches-body-end]) td {
   border-block-end: 0;
 }
 
