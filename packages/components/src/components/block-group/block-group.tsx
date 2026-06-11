@@ -1,7 +1,15 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import {
   MoveEventDetail,
@@ -13,7 +21,6 @@ import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { isBlock } from "../block/utils";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { Scale } from "../interfaces";
@@ -21,8 +28,10 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
 import { styles } from "./block-group.scss";
-import { BlockDragDetail } from "./interfaces";
+import type { BlockDragDetail } from "./interfaces";
 import { updateBlockChildren } from "./utils";
+import type { SortHandle } from "../sort-handle/sort-handle";
+import { isBlock } from "../block/resources";
 
 declare global {
   interface DeclareElements {
@@ -56,7 +65,7 @@ export class BlockGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private parentBlockGroupEl: BlockGroup["el"];
+  private parentBlockGroupEl?: BlockGroup["el"];
 
   private sortable = useSortable<this>()(this);
 
@@ -68,7 +77,7 @@ export class BlockGroup extends LitElement {
 
   //#region State Properties
 
-  @state() assistiveText: string;
+  @state() assistiveText?: string;
 
   @state() sortHandleMenuItems: SortMenuItem[] = [];
 
@@ -102,7 +111,7 @@ export class BlockGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -171,9 +180,18 @@ export class BlockGroup extends LitElement {
       this.handleCalciteInternalAssistiveTextChange,
     );
     this.listen("calciteBlockSortHandleBeforeOpen", this.updateBlockItemsDebounced);
-    this.listen("calciteSortHandleReorder", this.handleSortReorder);
-    this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen<ToEvents<SortHandle>["calciteSortHandleReorder"]>(
+      "calciteSortHandleReorder",
+      this.handleSortReorder,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleMove"]>(
+      "calciteSortHandleMove",
+      this.handleSortMove,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleAdd"]>(
+      "calciteSortHandleAdd",
+      this.handleSortAdd,
+    );
   }
 
   override connectedCallback(): void {
@@ -330,7 +348,7 @@ export class BlockGroup extends LitElement {
   }
 
   private setParentBlockGroup(): void {
-    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector);
+    this.parentBlockGroupEl = this.el.parentElement?.closest(blockGroupSelector) || undefined;
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -338,7 +356,7 @@ export class BlockGroup extends LitElement {
 
     this.blockAndGroups = slotChangeGetAssignedElements(event).filter(
       (el): el is Block["el"] | BlockGroup["el"] => {
-        if (el.matches(blockSelector)) {
+        if (isBlock(el)) {
           blockChildren.push(el);
         }
         return el.matches(blockSelector) || el.matches(blockGroupSelector);

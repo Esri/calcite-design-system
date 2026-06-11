@@ -37,8 +37,8 @@ export interface DragDetail<
   toEl: To;
   fromEl: From;
   dragEl: Drag;
-  newIndex: number | null;
-  oldIndex: number;
+  newIndex: number | undefined;
+  oldIndex: number | undefined;
 }
 
 export const CSS = {
@@ -79,10 +79,10 @@ interface SortableComponent extends LitElement {
   handleSelector: string;
 
   /** Whether the element can move from the list. */
-  canPull: (detail: DragDetail) => boolean | "clone";
+  canPull?: (detail: DragDetail) => boolean | "clone";
 
   /** Whether the element can be added from another list. */
-  canPut: (detail: DragDetail) => boolean;
+  canPut?: (detail: DragDetail) => boolean;
 
   /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
   onGlobalDragStart: () => void;
@@ -129,7 +129,7 @@ const globalDragState: { active: boolean } = { active: false };
 const sortableItemKeys = new WeakMap<HTMLElement, string>();
 
 interface SortableNodeRecord {
-  el: Element;
+  el: HTMLElement;
 }
 
 function isDragState<T>(state: BaseDragState<T>): state is DragState<T> {
@@ -140,9 +140,10 @@ function getSortableItems(component: SortableComponent): HTMLElement[] {
   const children = Array.from(component.el.children).filter(
     (child) => child.id !== formKitDraggedNodeCloneId,
   ) as HTMLElement[];
+  const dragSelector = component.dragSelector;
 
-  if (component.dragSelector) {
-    return children.filter((child) => child.matches(component.dragSelector));
+  if (dragSelector) {
+    return children.filter((child) => child.matches(dragSelector));
   }
 
   return children;
@@ -166,7 +167,7 @@ function getSortableItemKey(item: HTMLElement, forceNew = false): string {
 }
 
 function getSortableNodeKey(node: SortableNodeRecord): string {
-  return getSortableItemKey(node.el as HTMLElement);
+  return getSortableItemKey(node.el);
 }
 
 function getSortableNodeKeys(nodes: SortableNodeRecord[]): string[] {
@@ -200,7 +201,7 @@ function createDragDetail(
   toEl: HTMLElement,
   dragEl: HTMLElement,
   oldIndex: number,
-  newIndex: number | null,
+  newIndex: number | undefined,
 ): DragDetail {
   return {
     fromEl,
@@ -211,21 +212,19 @@ function createDragDetail(
   };
 }
 
-function applyClonePull(
+function applyClonePull<T>(
   component: SortableComponent,
   dragEl: HTMLElement,
   initialIndex: number,
-  initialParent: ParentRecord<string>,
+  initialParent: ParentRecord<T>,
 ): void {
   const clone = dragEl.cloneNode(true) as HTMLElement;
   const dragKey = getSortableItemKey(dragEl);
   const cloneKey = getSortableItemKey(clone, true);
-  const values = getSortableNodeKeys(initialParent.data.enabledNodes as SortableNodeRecord[]).filter(
-    (value) => value !== dragKey,
-  );
-  const existingItem = initialParent.data.enabledNodes.find(
-    (node) => getSortableNodeKey(node as SortableNodeRecord) === dragKey,
-  )?.el as HTMLElement | undefined;
+  const values = getSortableNodeKeys(initialParent.data.enabledNodes).filter((value) => value !== dragKey);
+  const existingItem = initialParent.data.enabledNodes.find((node) => getSortableNodeKey(node) === dragKey)?.el as
+    | HTMLElement
+    | undefined;
 
   if (!existingItem) {
     return;
@@ -237,7 +236,7 @@ function applyClonePull(
 }
 
 function getSortableComponentFromParent(parent: ParentRecord<string>): SortableComponent {
-  return parent.el as unknown as SortableComponent;
+  return parent.el as SortableComponent;
 }
 
 function createSortable(component: SortableComponent): void {
@@ -317,7 +316,7 @@ function createSortable(component: SortableComponent): void {
         const fromEl = dragState.initialParent.el;
         const toEl = dragState.currentParent.el;
 
-        component.onDragStart(createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, null));
+        component.onDragStart(createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, undefined));
       },
       onSort: <T>(event: SortEventData<T>) => {
         const dragEl = event.draggedNodes[0].el;
@@ -372,7 +371,7 @@ function createSortable(component: SortableComponent): void {
           });
 
           if (canPull === "clone") {
-            applyClonePull(component, dragEl, dragState.initialIndex, event.initialParent as ParentRecord<string>);
+            applyClonePull(component, dragEl, dragState.initialIndex, event.initialParent);
           }
         }
 
@@ -397,7 +396,9 @@ function createSortable(component: SortableComponent): void {
         const fromEl = dragState.initialParent.el;
         const newIndex = currentValues.findIndex((value) => value === dragKey);
 
-        component.onDragEnd(createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, newIndex));
+        component.onDragEnd(
+          createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, newIndex > -1 ? newIndex : undefined),
+        );
       },
     },
   });

@@ -71,13 +71,9 @@ export class DatePicker extends LitElement {
    */
   @state() dateTimeFormat: Intl.DateTimeFormat;
 
-  @state() endAsDate: Date;
-
   @state() private hoverRange: HoverRange;
 
   @state() private localeData: DateLocaleData;
-
-  @state() startAsDate: Date;
 
   //#endregion
 
@@ -222,7 +218,7 @@ export class DatePicker extends LitElement {
       this.setActiveStartAndEndDates();
     }
 
-    if (changes.has("activeDate")) {
+    if (changes.has("activeDate") && this.hasUpdated) {
       this.activeDateWatcher(this.activeDate);
     }
 
@@ -239,14 +235,11 @@ export class DatePicker extends LitElement {
     if (!this.range) {
       return;
     }
-
-    if (!this.rangeValueChangedByUser) {
-      if (newValue) {
-        this.activeStartDate = newValue;
-        this.activeEndDate = nextMonth(this.activeStartDate);
-      } else {
-        this.resetActiveDates();
-      }
+    if (newValue) {
+      this.activeStartDate = newValue;
+      this.activeEndDate = nextMonth(this.activeStartDate);
+    } else {
+      this.resetActiveDates();
     }
   }
 
@@ -264,7 +257,7 @@ export class DatePicker extends LitElement {
   private valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
-    } else if (newValueAsDate && newValueAsDate !== this.activeDate) {
+    } else if (!this.range && newValueAsDate && newValueAsDate !== this.activeDate) {
       this.activeDate = newValueAsDate as Date;
     }
   }

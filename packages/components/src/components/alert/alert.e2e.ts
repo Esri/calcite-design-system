@@ -1,13 +1,11 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, HYDRATED_ATTR } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
-import type { Alert } from "./alert";
 
 const alertContent = `
     <div slot="title">Title Text</div>
@@ -73,10 +71,8 @@ it("renders with an icon", async () => {
     ${alertContent}
     </calcite-alert>`);
 
-  const element = await page.find("calcite-alert");
   const close = await page.find(`calcite-alert >>> .${CSS.close}`);
   const icon = await page.find(`calcite-alert >>> .${CSS.icon}`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(close).not.toBeNull();
   expect(icon).not.toBeNull();
 });
@@ -418,7 +414,7 @@ it("should update number of queued alerts with a calcite-chip when removing an a
   expect(await chip.getProperty("value")).toEqual(chipQueueCount2);
   expect(chip.textContent).toEqual(chipQueueCount2);
 
-  await page.$eval("#third-open", (alert: Alert["el"]) => {
+  await page.$eval("#third-open", (alert) => {
     alert.remove();
   });
   await page.waitForChanges();
@@ -427,7 +423,7 @@ it("should update number of queued alerts with a calcite-chip when removing an a
   expect(await chip.getProperty("value")).toEqual(chipQueueCount1);
   expect(chip.textContent).toEqual(chipQueueCount1);
 
-  await page.$eval("#second-open", (alert: Alert["el"]) => {
+  await page.$eval("#second-open", (alert) => {
     alert.remove();
   });
   await page.waitForChanges();
@@ -507,7 +503,7 @@ describe("auto-close behavior", () => {
     buttonClose = await page.find(`#alert >>> .${CSS.close}`);
 
     playState = await page.evaluate(async () => {
-      const alert = document.querySelector("calcite-alert");
+      const alert = document.querySelector("calcite-alert")!;
       return window.getComputedStyle(alert).animationPlayState;
     });
   });

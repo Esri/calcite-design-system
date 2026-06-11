@@ -1382,6 +1382,16 @@
     "arcgis-quickcapture": 61919,
     "total-station": 61920,
     "gps-receiver": 61921,
-    "buttons": 61922
+    "buttons": 61922,
+    "review-map": 61923,
+    "return-to-default": 61924,
+    "oriented-imagery-scene-only": 61925,
+    "parquet-feature-layer": 61926,
+    "vegetation-index": 61927,
+    "soil-adjusted-vegetation-index": 61928,
+    "snow-index": 61929,
+    "geology-index": 61930,
+    "fire-index": 61931,
+    "building-index": 61932
   }
 }
