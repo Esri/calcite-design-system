@@ -240,7 +240,7 @@ function getSortableComponentFromParent(parent: ParentRecord<string>): SortableC
 }
 
 function createSortable(component: SortableComponent): void {
-  const { el, group, dragSelector: draggable, sortDisabled } = component;
+  const { el, group, handleSelector, dragSelector, sortDisabled } = component;
 
   dragAndDrop<string>({
     parent: el,
@@ -250,11 +250,11 @@ function createSortable(component: SortableComponent): void {
       root: getRootNode(el),
       group,
       sortable: !sortDisabled,
-      //dragHandle: "calcite-list-item", // todo: fixme
+      dragHandle: handleSelector,
       draggingClass: CSS.dragClass,
       dragPlaceholderClass: CSS.chosenClass,
       dropZoneClass: CSS.ghostClass,
-      draggable: draggable ? (child: HTMLElement) => child.matches(draggable) : undefined,
+      draggable: dragSelector ? (child: HTMLElement) => child.matches(dragSelector) : undefined,
       accepts: (
         targetParent: ParentRecord<string>,
         initialParent: ParentRecord<string>,

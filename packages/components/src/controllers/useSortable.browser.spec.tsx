@@ -68,6 +68,17 @@ it("uses existing sortable classes in FormKit config", async () => {
   expect(call.config.dropZoneClass).toBe(CSS.ghostClass);
 });
 
+it("uses handleSelector as FormKit dragHandle", async () => {
+  const { component } = await mountDragEnabled();
+
+  component.handleSelector = ".custom-handle";
+  component.sortable.reset();
+
+  const call = createSpy.mock.calls.at(-1)?.[0];
+
+  expect(call?.config.dragHandle).toBe(".custom-handle");
+});
+
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
   const { component } = await mountDragEnabled();
 
