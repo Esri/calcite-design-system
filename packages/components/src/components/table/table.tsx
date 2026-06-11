@@ -680,9 +680,6 @@ export class Table extends LitElement {
                 </Fragment>,
                 el,
               );
-
-              this.observeTableContainer();
-              this.scheduleTableContainerOverflowUpdate();
             }}
             role={this.interactionMode === "interactive" ? "grid" : "table"}
           />
