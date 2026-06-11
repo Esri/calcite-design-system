@@ -1,6 +1,15 @@
 // @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import {
+  Fragment,
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+} from "@arcgis/lumina";
 import {
   dateFromISO,
   dateFromRange,
