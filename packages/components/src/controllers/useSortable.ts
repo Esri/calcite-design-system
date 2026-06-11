@@ -137,6 +137,7 @@ function isDragState<T>(state: BaseDragState<T>): state is DragState<T> {
 }
 
 function getSortableItems(component: SortableComponent): HTMLElement[] {
+  // TODO: This reads only direct children, so forwarded slotted content is not included. Consider exposing a component-level API that returns sortable items from flattened slot assignments.
   const children = Array.from(component.el.children).filter(
     (child) => child.id !== formKitDraggedNodeCloneId,
   ) as HTMLElement[];
@@ -187,6 +188,7 @@ function setSortableItems(component: SortableComponent, values: string[]): void 
     const item = itemsByKey.get(value);
 
     if (item) {
+      // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
       component.el.appendChild(item);
     }
   }
@@ -236,6 +238,7 @@ function applyClonePull<T>(
   }
 
   values.splice(initialIndex, 0, cloneKey);
+  // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
   existingItem.parentElement?.insertBefore(clone, existingItem);
   setSortableItems(component, values);
 }
@@ -360,6 +363,7 @@ function createSortable(component: SortableComponent): void {
 
         if (isTargetComponent) {
           if (dragEl.parentElement !== component.el) {
+            // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
             component.el.appendChild(dragEl);
           }
 
