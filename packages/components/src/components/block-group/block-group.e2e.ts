@@ -181,7 +181,7 @@ describe("drag and drop", () => {
     expect(results.endCalledTimes).toBe(1);
     expect(results.oldIndex).toBe(0);
     expect(results.newIndex).toBe(1);
-    expect(results.startNewIndex).toBe(null);
+    expect(results.startNewIndex).toBe(undefined);
     expect(results.startOldIndex).toBe(0);
     expect(results.endNewIndex).toBe(1);
     expect(results.endOldIndex).toBe(0);
