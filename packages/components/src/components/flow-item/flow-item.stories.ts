@@ -15,8 +15,10 @@ interface FlowItemStoryArgs extends Pick<
   | "collapsed"
   | "collapseDirection"
   | "loading"
+  | "menuOpen"
   | "icon"
   | "iconFlipRtl"
+  | "overlayPositioning"
   | "scale"
   | "selected"
 > {
@@ -35,6 +37,8 @@ export default {
     heightScale: scale.defaultValue,
     icon: "",
     iconFlipRtl: false,
+    menuOpen: false,
+    overlayPositioning: "absolute",
     scale: scale.defaultValue,
     loading: false,
     selected: true,
@@ -50,6 +54,10 @@ export default {
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: ["absolute", "fixed"],
       control: { type: "select" },
     },
   },
@@ -106,6 +114,8 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     height-scale="${args.heightScale}"
     scale="${args.scale}"
     ${boolean("loading", args.loading)}
+    ${boolean("menu-open", args.menuOpen)}
+    overlay-positioning="${args.overlayPositioning}"
     ${boolean("selected", args.selected)}
     heading="Heading"
     icon="${args.icon}"

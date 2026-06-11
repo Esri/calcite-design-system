@@ -412,7 +412,7 @@ export class ActionMenu extends LitElement {
       })
       .reduce<Action["el"][]>((previousValue, currentValue) => {
         if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue as Action["el"]);
+          previousValue.push(currentValue);
           return previousValue;
         }
 

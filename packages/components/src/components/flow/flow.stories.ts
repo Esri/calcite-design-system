@@ -19,6 +19,7 @@ export default {
     loading: false,
     menuOpen: false,
     description: "Description",
+    selected: true,
   },
 };
 
