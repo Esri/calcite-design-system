@@ -14,6 +14,7 @@ type DialogStoryArgs = Pick<
   | "heading"
   | "description"
   | "escapeDisabled"
+  | "fullscreenDisabled"
   | "closeDisabled"
   | "placement"
   | "loading"
@@ -25,6 +26,7 @@ type DialogStoryArgs = Pick<
   | "dragEnabled"
   | "resizable"
   | "outsideCloseDisabled"
+  | "width"
 >;
 
 export default {
@@ -46,8 +48,10 @@ export default {
     modal: false,
     dragEnabled: false,
     resizable: false,
+    fullscreenDisabled: false,
     overlayPositioning: overlayPositioning.defaultValue,
     outsideCloseDisabled: false,
+    width: scale.values[0],
   },
   argTypes: {
     kind: {
@@ -59,6 +63,10 @@ export default {
       control: { type: "select" },
     },
     widthScale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    width: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -105,10 +113,12 @@ export const simple = (args: DialogStoryArgs): string => html`
     ${boolean("loading", args.loading)}
     ${boolean("close-disabled", args.closeDisabled)}
     ${boolean("escape-disabled", args.escapeDisabled)}
+    ${boolean("fullscreen-disabled", args.fullscreenDisabled)}
     ${boolean("outside-close-disabled", args.outsideCloseDisabled)}
     kind="${args.kind}"
     scale="${args.scale}"
     width-scale="${args.widthScale}"
+    width="${args.width}"
     placement="${args.placement}"
     heading="${args.heading}"
     icon="${args.icon}"

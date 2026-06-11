@@ -7,7 +7,10 @@ import { DatePicker } from "./date-picker";
 
 const { scale } = ATTRIBUTES;
 
-interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {
+interface DatePickerStoryArgs extends Pick<
+  DatePicker,
+  "calendars" | "layout" | "max" | "min" | "monthStyle" | "numberingSystem" | "range" | "scale" | "value"
+> {
   dir: string;
   lang: string;
   nextMonthLabel: string;
@@ -17,11 +20,15 @@ interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" |
 export default {
   title: "Components/Controls/DatePicker",
   args: {
+    calendars: 2,
     dir: "",
+    layout: "horizontal",
     lang: defaultLocale,
     max: "",
     min: "",
+    monthStyle: "wide",
     nextMonthLabel: "",
+    numberingSystem: "",
     prevMonthLabel: "",
     range: false,
     scale: scale.defaultValue,
@@ -34,6 +41,22 @@ export default {
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: [1, 2],
+      control: { type: "select" },
+    },
+    layout: {
+      options: ["horizontal", "vertical"],
+      control: { type: "select" },
+    },
+    monthStyle: {
+      options: ["wide", "abbreviated"],
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: ["", "arab", "latn"],
       control: { type: "select" },
     },
   },
@@ -51,8 +74,12 @@ export const simple = (args: DatePickerStoryArgs): string => html`
     <calcite-date-picker
       dir="${args.dir}"
       lang="${args.lang}"
+      calendars="${args.calendars}"
+      layout="${args.layout}"
       max="${args.max}"
       min="${args.min}"
+      month-style="${args.monthStyle}"
+      numbering-system="${args.numberingSystem}"
       ${boolean("range", args.range)}
       scale="${args.scale}"
       value="${args.value}"

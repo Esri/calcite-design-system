@@ -7,13 +7,14 @@ import { Chip } from "./chip";
 
 const { scale, appearance, kind } = ATTRIBUTES;
 
-type ChipStoryArgs = Pick<Chip, "scale" | "appearance" | "kind" | "closable" | "selected" | "label">;
+type ChipStoryArgs = Pick<Chip, "appearance" | "closable" | "icon" | "kind" | "label" | "scale" | "selected">;
 
 export default {
   title: "Components/Chip",
   args: {
     scale: scale.defaultValue,
     appearance: appearance.defaultValue,
+    icon: "",
     kind: kind.values[4],
     closable: false,
     selected: false,
@@ -37,6 +38,10 @@ export default {
     label: {
       control: { type: "text" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -46,6 +51,7 @@ export const simple = (args: ChipStoryArgs): string => html`
       scale="${args.scale}"
       appearance="${args.appearance}"
       kind="${args.kind}"
+      icon="${args.icon}"
       label="${args.label}"
       ${boolean("closable", args.closable)}
       ${boolean("selected", args.selected)}

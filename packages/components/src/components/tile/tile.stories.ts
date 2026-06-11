@@ -5,11 +5,11 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 
-const { scale } = ATTRIBUTES;
+const { alignment, scale } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
-  "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
+  "active" | "alignment" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
 > {
   hidden: boolean;
 }
@@ -18,6 +18,7 @@ export default {
   title: "Components/Tiles/Tile",
   args: {
     active: false,
+    alignment: alignment.defaultValue,
     description:
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     disabled: false,
@@ -28,6 +29,10 @@ export default {
     scale: scale.defaultValue,
   },
   argTypes: {
+    alignment: {
+      options: alignment.values.filter((option) => option !== "end"),
+      control: { type: "select" },
+    },
     icon: {
       options: iconNames,
       control: { type: "select" },
@@ -42,6 +47,7 @@ export default {
 export const simple = (args: TileStoryArgs): string => html`
   <calcite-tile
     ${boolean("active", args.active)}
+    alignment="${args.alignment}"
     description="${args.description}"
     ${boolean("disabled", args.disabled)}
     heading="${args.heading}"

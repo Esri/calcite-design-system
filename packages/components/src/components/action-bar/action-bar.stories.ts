@@ -4,11 +4,18 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionBar } from "./action-bar";
 
-const { position, selectionAppearance } = ATTRIBUTES;
+const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<
   ActionBar,
-  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance" | "expandPosition"
+  | "expandDisabled"
+  | "expanded"
+  | "expandPosition"
+  | "floating"
+  | "layout"
+  | "position"
+  | "scale"
+  | "selectionAppearance"
 >;
 
 export default {
@@ -16,14 +23,24 @@ export default {
   args: {
     expandDisabled: false,
     expanded: false,
+    layout: layout.defaultValue,
     position: position.defaultValue,
     expandPosition: "end",
     floating: false,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
+    layout: {
+      options: layout.values,
+      control: { type: "select" },
+    },
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
     expandPosition: {
@@ -42,8 +59,10 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
+    layout="${args.layout}"
     position="${args.position}"
     expand-position="${args.expandPosition}"
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>

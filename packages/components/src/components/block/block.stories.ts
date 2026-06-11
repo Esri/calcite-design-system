@@ -1,4 +1,5 @@
 import { BlockSection } from "../block-section/block-section";
+import { iconNames } from "../../../.storybook/helpers";
 import { boolean } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
@@ -16,6 +17,8 @@ interface BlockStoryArgs
       | "heading"
       | "description"
       | "expanded"
+      | "iconEnd"
+      | "iconStart"
       | "collapsible"
       | "loading"
       | "disabled"
@@ -36,6 +39,8 @@ export default {
     menuPlacement: defaultEndMenuPlacement,
     heading: "Heading",
     description: "description",
+    iconStart: "",
+    iconEnd: "",
     expanded: true,
     collapsible: true,
     loading: false,
@@ -56,6 +61,14 @@ export default {
     headingLevel: {
       control: { type: "number", min: 1, max: 6, step: 1 },
     },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
     toggleDisplay: {
       options: toggleDisplay.values,
       control: { type: "select" },
@@ -71,13 +84,15 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
+    icon-start="${args.iconStart}"
+    icon-end="${args.iconEnd}"
     menu-placement="${args.menuPlacement}"
     ${boolean("expanded", args.expanded)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-disabled", args.dragDisabled)}
-    ${boolean("sort-handle-open", args.dragDisabled)}
+    ${boolean("sort-handle-open", args.sortHandleOpen)}
     heading-level="${args.headingLevel}"
     scale="${args.scale}"
   >

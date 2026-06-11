@@ -12,6 +12,8 @@ type AutocompleteStoryArgs = Pick<
   | "alignment"
   | "disabled"
   | "inputValue"
+  | "icon"
+  | "iconFlipRtl"
   | "label"
   | "loading"
   | "maxLength"
@@ -37,6 +39,8 @@ export default {
   args: {
     alignment: alignment.defaultValue,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
     inputValue: "",
     loading: false,
     open: true,
@@ -74,6 +78,10 @@ export default {
       options: status.values,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
     validationIcon: {
       options: iconNames,
       control: { type: "select" },
@@ -91,11 +99,13 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
     <form class="locate-form">
       <calcite-autocomplete
         ${boolean("disabled", args.disabled)}
+        ${boolean("icon-flip-rtl", args.iconFlipRtl)}
         ${boolean("loading", args.loading)}
         ${boolean("open", args.open)}
         ${boolean("read-only", args.readOnly)}
         ${boolean("required", args.required)}
         alignment="${args.alignment}"
+        icon="${args.icon}"
         input-value="${args.inputValue}"
         label="${args.label}"
         max-length="${args.maxLength}"
