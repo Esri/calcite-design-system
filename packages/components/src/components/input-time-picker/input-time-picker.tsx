@@ -3,6 +3,7 @@ import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
+  state,
   createEvent,
   h,
   method,
@@ -101,9 +102,13 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#endregion
 
-  //#region Public Properties
+  //#region State Properties
 
-  @property() hasFocus: boolean = false;
+  @state() hasFocus: boolean = false;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
@@ -571,103 +576,107 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
             icon={ICONS.clock}
             scale={scale === "l" ? "m" : "s"}
           />
-          {showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
-          <div
-            aria-label={getLabelText(this)}
-            ariaRequired={this.required}
-            class={CSS.inputContainer}
-            dir="ltr"
-            id={IDS.inputContainer}
-            role="group"
-          >
-            {showMeridiem && meridiemStart && this.renderMeridiem()}
-            <span
-              aria-label={this.messages.hour}
-              aria-valuemax="23"
-              aria-valuemin="1"
-              aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
-              aria-valuetext={hour}
-              class={{
-                [CSS.empty]: !localizedHour,
-                [CSS.hour]: true,
-                [CSS.input]: true,
-              }}
-              onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
-              ref={this.hourRef}
-              role="spinbutton"
-              tabIndex={0}
+          <div class={CSS.contentContainer}>
+            {showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
+            <div
+              aria-label={getLabelText(this)}
+              ariaRequired={this.required}
+              class={{ [CSS.inputContainer]: true, [CSS.inputContainerHidden]: showPlaceholder }}
+              dir="ltr"
+              id={IDS.inputContainer}
+              role="group"
             >
-              {localizedHour || emptyPlaceholder}
-            </span>
-            <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
-            <span
-              aria-label={this.messages.minute}
-              aria-valuemax="12"
-              aria-valuemin="1"
-              aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
-              aria-valuetext={minute}
-              class={{
-                [CSS.empty]: !localizedMinute,
-                [CSS.input]: true,
-                [CSS.minute]: true,
-              }}
-              onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
-              ref={this.minuteRef}
-              role="spinbutton"
-              tabIndex={0}
-            >
-              {localizedMinute || emptyPlaceholder}
-            </span>
-            <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
-            {showSecond && (
+              {showMeridiem && meridiemStart && this.renderMeridiem()}
               <span
-                aria-label={this.messages.second}
-                aria-valuemax="59"
-                aria-valuemin="0"
-                aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
-                aria-valuetext={second}
-                class={{
-                  [CSS.empty]: !localizedSecond,
-                  [CSS.input]: true,
-                  [CSS.second]: true,
-                }}
-                onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
-                ref={this.secondRef}
-                role="spinbutton"
-                tabIndex={0}
-              >
-                {localizedSecond || emptyPlaceholder}
-              </span>
-            )}
-            {showFractionalSecond && (
-              <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
-            )}
-            {showFractionalSecond && (
-              <span
-                aria-label={this.messages.fractionalSecond}
-                aria-valuemax="999"
+                aria-label={this.messages.hour}
+                aria-valuemax="23"
                 aria-valuemin="1"
-                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
-                aria-valuetext={localizedFractionalSecond}
+                aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
+                aria-valuetext={hour}
                 class={{
-                  [CSS.empty]: !localizedFractionalSecond,
-                  [CSS.fractionalSecond]: true,
+                  [CSS.empty]: !localizedHour,
+                  [CSS.hour]: true,
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
-                ref={this.fractionalSecondRef}
+                onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
+                ref={this.hourRef}
                 role="spinbutton"
                 tabIndex={0}
               >
-                {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+                {localizedHour || emptyPlaceholder}
               </span>
-            )}
-            {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem()}
+              <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
+              <span
+                aria-label={this.messages.minute}
+                aria-valuemax="12"
+                aria-valuemin="1"
+                aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
+                aria-valuetext={minute}
+                class={{
+                  [CSS.empty]: !localizedMinute,
+                  [CSS.input]: true,
+                  [CSS.minute]: true,
+                }}
+                onFocus={this.timePartFocusHandler}
+                onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
+                ref={this.minuteRef}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {localizedMinute || emptyPlaceholder}
+              </span>
+              <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
+              {showSecond && (
+                <span
+                  aria-label={this.messages.second}
+                  aria-valuemax="59"
+                  aria-valuemin="0"
+                  aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
+                  aria-valuetext={second}
+                  class={{
+                    [CSS.empty]: !localizedSecond,
+                    [CSS.input]: true,
+                    [CSS.second]: true,
+                  }}
+                  onFocus={this.timePartFocusHandler}
+                  onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
+                  ref={this.secondRef}
+                  role="spinbutton"
+                  tabIndex={0}
+                >
+                  {localizedSecond || emptyPlaceholder}
+                </span>
+              )}
+              {showFractionalSecond && (
+                <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
+              )}
+              {showFractionalSecond && (
+                <span
+                  aria-label={this.messages.fractionalSecond}
+                  aria-valuemax="999"
+                  aria-valuemin="1"
+                  aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
+                  aria-valuetext={localizedFractionalSecond}
+                  class={{
+                    [CSS.empty]: !localizedFractionalSecond,
+                    [CSS.fractionalSecond]: true,
+                    [CSS.input]: true,
+                  }}
+                  onFocus={this.timePartFocusHandler}
+                  onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
+                  ref={this.fractionalSecondRef}
+                  role="spinbutton"
+                  tabIndex={0}
+                >
+                  {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+                </span>
+              )}
+              {localizedSecondSuffix && (
+                <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>
+              )}
+              {showMeridiem && !meridiemStart && this.renderMeridiem()}
+            </div>
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>

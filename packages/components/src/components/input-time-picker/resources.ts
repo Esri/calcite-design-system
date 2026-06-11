@@ -3,6 +3,7 @@ import { IconName } from "../icon/interfaces";
 export const CSS = {
   clockIcon: "clock-icon",
   container: "container",
+  contentContainer: "content-container",
   decimalSeparator: "decimal-separator",
   delimiter: "delimiter",
   empty: "empty",
@@ -11,6 +12,7 @@ export const CSS = {
   hourSuffix: "hour-suffix",
   input: "input",
   inputContainer: "input-container",
+  inputContainerHidden: "input-container--hidden",
   meridiem: "meridiem",
   minute: "minute",
   minuteSuffix: "minute-suffix",
