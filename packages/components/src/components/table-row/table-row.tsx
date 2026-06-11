@@ -76,7 +76,7 @@ export class TableRow extends LitElement {
    * `"center"` positions content in the middle of a `calcite-table-cell`, and
    * `"end"` positions content at the bottom of a `calcite-table-cell`.
    */
-  @property({ reflect: true }) alignment: Alignment;
+  @property({ reflect: true }) alignment!: Alignment;
 
   /**
    * When `true`, the item will be hidden
@@ -86,10 +86,10 @@ export class TableRow extends LitElement {
   @property({ reflect: true }) itemHidden = false;
 
   /** @private */
-  @property() bodyRowCount: number;
+  @property() bodyRowCount!: number;
 
   /** @private */
-  @property() cellCount: number;
+  @property() cellCount!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -98,28 +98,28 @@ export class TableRow extends LitElement {
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastVisibleRow: boolean;
+  @property() lastVisibleRow = false;
 
   /** @private */
   @property() numbered = false;
 
   /** @private */
-  @property() positionAll: number;
+  @property() positionAll!: number;
 
   /** @private */
-  @property() positionSection: number;
+  @property() positionSection!: number;
 
   /** @private */
-  @property() positionSectionLocalized: string;
+  @property() positionSectionLocalized!: string;
 
   /** @private */
   @property() readCellContentsToAT: boolean;
 
   /** @private */
-  @property() rowType: RowType;
+  @property() rowType!: RowType;
 
   /** @private */
-  @property() scale: Scale;
+  @property() scale!: Scale;
 
   /** @private */
   @property() stickyHeaderEnabled = false;
@@ -138,10 +138,10 @@ export class TableRow extends LitElement {
   }
 
   /** @private */
-  @property() selectedRowCount: number;
+  @property() selectedRowCount!: number;
 
   /** @private */
-  @property() selectedRowCountLocalized: string;
+  @property() selectedRowCountLocalized!: string;
 
   /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
@@ -353,7 +353,7 @@ export class TableRow extends LitElement {
       ? this.rowSlotRef.value
           .assignedElements({ flatten: true })
           .filter(
-            (element): element is TableCell["el"] | TableHeader["el"] =>
+            (element) =>
               element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
           )
       : [];
@@ -363,7 +363,7 @@ export class TableRow extends LitElement {
     const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
-      cells?.forEach((cell: TableCell["el"] | TableHeader["el"], index) => {
+      cells?.forEach((cell, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
         cell.parentRowAlignment = alignment;
@@ -501,11 +501,11 @@ export class TableRow extends LitElement {
 
             /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
             render(
-              <Fragment>
+              <>
                 {this.numbered && this.renderNumberedCell()}
                 {this.selectionMode !== "none" && this.renderSelectableCell()}
                 <slot ref={this.rowSlotRef} />
-              </Fragment>,
+              </>,
               el,
             );
           }}
