@@ -12088,5 +12088,10 @@
     "alias": ["5.0.0", "raster", "data", "wildfire", "hazard", "risk", "danger", "satellite"],
     "category": "Raster",
     "release": "5.0.0"
+  },
+  "smart-search": {
+    "alias": ["5.0.0", "symbols", "filter", "tool", "identify", "datasets", "variables", "match"],
+    "category": "Symbols",
+    "release": "5.0.0"
   }
 }
