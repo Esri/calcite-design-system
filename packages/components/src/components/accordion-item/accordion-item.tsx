@@ -66,7 +66,7 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a description for the component. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
