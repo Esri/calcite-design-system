@@ -127,7 +127,7 @@ export class Block extends LitElement {
   /** @copyDoc */
   @property() label?: string;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
+  /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /** Determines where the action menu will be positioned. */

@@ -173,7 +173,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
+  /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
