@@ -78,7 +78,7 @@ export class FlowItem extends LitElement {
   /** When `true`, displays a close button in the trailing side of the component's header. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `collapsible` is `true`, specifies the direction of the collapse icon. */

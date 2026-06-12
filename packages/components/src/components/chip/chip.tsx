@@ -70,7 +70,7 @@ export class Chip extends LitElement {
   /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */

@@ -136,7 +136,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** Specifies a description for the component. Displays below the `label`. */

@@ -131,7 +131,7 @@ export class Panel extends LitElement {
   /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** @copyDoc */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
