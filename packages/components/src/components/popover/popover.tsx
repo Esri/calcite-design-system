@@ -178,13 +178,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   * @copyDoc
    *
    * @required
    */

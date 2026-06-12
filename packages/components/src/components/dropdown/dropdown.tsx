@@ -152,15 +152,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
+  /** @copyDoc */
   @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */

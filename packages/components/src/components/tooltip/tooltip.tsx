@@ -107,15 +107,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
+  /** @copyDoc */
   @property() referenceElement!: ReferenceElement | string;
 
   /** Specifies the size of the component. */
