@@ -324,7 +324,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

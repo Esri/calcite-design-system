@@ -117,7 +117,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

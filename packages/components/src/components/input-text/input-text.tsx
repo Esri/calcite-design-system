@@ -240,7 +240,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

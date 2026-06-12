@@ -108,7 +108,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @internal
    * @readonly
