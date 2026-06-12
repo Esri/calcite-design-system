@@ -100,7 +100,7 @@ export class BigDecimal {
   }
 }
 
-export function isValidNumber(numberString?: string): boolean {
+export function isValidNumber(numberString?: string | null): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 

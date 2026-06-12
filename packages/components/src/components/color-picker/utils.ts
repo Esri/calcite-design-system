@@ -1,8 +1,8 @@
-// @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
 import { Dimensions, Scale } from "../interfaces";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./interfaces";
 import { STATIC_DIMENSIONS } from "./resources";
+import { omit } from "es-toolkit";
 
 export const hexChar = /^[0-9A-F]$/i;
 const shorthandHex = /^#[0-9A-F]{3}$/i;
@@ -10,9 +10,13 @@ const longhandHex = /^#[0-9A-F]{6}$/i;
 const shorthandHexWithAlpha = /^#[0-9A-F]{4}$/i;
 const longhandHexWithAlpha = /^#[0-9A-F]{8}$/i;
 
-export function colorFromValue(value: ColorValue | null, clearable = false, mode: SupportedMode): ColorInstance | null {
+export function colorFromValue(
+  value: ColorValue | undefined,
+  clearable = false,
+  mode: SupportedMode,
+): ColorInstance | undefined {
   if (clearable && !value) {
-    return null;
+    return undefined;
   }
 
   return Color(
@@ -26,7 +30,7 @@ export const alphaToOpacity = (alpha: number): number => Number((alpha * 100).to
 
 export const opacityToAlpha = (opacity: number): number => Number((opacity / 100).toFixed(2));
 
-export function isValidHex(hex: string, hasAlpha = false): boolean {
+export function isValidHex(hex: string | undefined, hasAlpha = false): boolean {
   return isShorthandHex(hex, hasAlpha) || isLonghandHex(hex, hasAlpha);
 }
 
@@ -36,7 +40,7 @@ export function canConvertToHexa(hex: string): boolean {
   return !validHexa && validHex;
 }
 
-function evaluateHex(hex: string, length: number, pattern: RegExp): boolean {
+function evaluateHex(hex: string | undefined, length: number, pattern: RegExp): boolean {
   if (!hex) {
     return false;
   }
@@ -44,14 +48,14 @@ function evaluateHex(hex: string, length: number, pattern: RegExp): boolean {
   return hex.length === length && pattern.test(hex);
 }
 
-export function isShorthandHex(hex: string, hasAlpha = false): boolean {
+export function isShorthandHex(hex: string | undefined, hasAlpha = false): boolean {
   const hexLength = hasAlpha ? 5 : 4;
   const hexPattern = hasAlpha ? shorthandHexWithAlpha : shorthandHex;
 
   return evaluateHex(hex, hexLength, hexPattern);
 }
 
-export function isLonghandHex(hex: string, hasAlpha = false): boolean {
+export function isLonghandHex(hex: string | undefined, hasAlpha = false): boolean {
   const hexLength = hasAlpha ? 9 : 7;
   const hexPattern = hasAlpha ? longhandHexWithAlpha : longhandHex;
 
@@ -66,12 +70,12 @@ export function normalizeHex(hex: string, hasAlpha = false, convertFromHexToHexa
   }
 
   if (isShorthandHex(hex, hasAlpha)) {
-    return rgbToHex(hexToRGB(hex, hasAlpha));
+    return rgbToHex(hexToRGB(hex));
   }
 
   if (hasAlpha && convertFromHexToHexa && isValidHex(hex, false /* we only care about RGB hex for conversion */)) {
     const isShorthand = isShorthandHex(hex, false);
-    return rgbToHex(hexToRGB(`${hex}${isShorthand ? "f" : "ff"}`, true));
+    return rgbToHex(hexToRGB(`${hex}${isShorthand ? "f" : "ff"}`));
   }
 
   return hex;
@@ -97,24 +101,14 @@ function numToHex(num: number): string {
 }
 
 export function normalizeAlpha<T extends RGBA | HSVA | HSLA>(colorObject: ReturnType<ColorInstance["object"]>): T {
-  const normalized = { ...colorObject, a: colorObject.alpha ?? 1 /* Color() will omit alpha if 1 */ };
-  delete normalized.alpha;
-
-  return normalized as T;
+  return { ...omit(colorObject, ["alpha"]), a: colorObject.alpha ?? 1 /* Color() will omit alpha if 1 */ } as T;
 }
 
 export function normalizeColor(alphaColorObject: RGBA | HSVA | HSLA): ReturnType<ColorInstance["object"]> {
-  const normalized = { ...alphaColorObject, alpha: alphaColorObject.a ?? 1 };
-  delete normalized.a;
-
-  return normalized;
+  return { ...omit(alphaColorObject, ["a"]), alpha: alphaColorObject.a ?? 1 };
 }
 
-export function hexToRGB(hex: string, hasAlpha = false): RGB | RGBA {
-  if (!isValidHex(hex, hasAlpha)) {
-    return null;
-  }
-
+export function hexToRGB(hex: string): RGB | RGBA {
   hex = hex.replace("#", "");
 
   let r: number;
@@ -173,7 +167,7 @@ export type SupportedMode = CSSColorMode | ObjectColorMode;
 
 export type Format = "auto" | SupportedMode;
 
-export function parseMode(colorValue: ColorValue): SupportedMode | null {
+export function parseMode(colorValue: ColorValue | undefined): SupportedMode | undefined {
   if (typeof colorValue === "string") {
     if (colorValue.startsWith("#")) {
       const { length } = colorValue;
@@ -217,14 +211,14 @@ export function parseMode(colorValue: ColorValue): SupportedMode | null {
     }
   }
 
-  return null;
+  return undefined;
 }
 
 function hasChannels(colorObject: Exclude<ColorValue, string> | null, ...channels: string[]): boolean {
   return channels.every((channel) => channel && colorObject && `${channel}` in colorObject);
 }
 
-export function colorEqual(value1: ColorInstance | null, value2: ColorInstance | null): boolean {
+export function colorEqual(value1: ColorInstance | undefined, value2: ColorInstance | undefined): boolean {
   return value1?.rgb().array().toString() === value2?.rgb().array().toString();
 }
 

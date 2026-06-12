@@ -995,7 +995,6 @@ export class InputNumber
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
-        name={undefined}
         onBlur={this.inputNumberBlurHandler}
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
