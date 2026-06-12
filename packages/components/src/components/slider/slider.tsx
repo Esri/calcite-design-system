@@ -262,7 +262,7 @@ export class Slider extends LitElement implements LabelableComponent {
   /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`. */
   @property() minLabel: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** Overrides individual strings used by the component. */

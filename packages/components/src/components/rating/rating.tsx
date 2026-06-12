@@ -103,7 +103,7 @@ export class Rating extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
   /** Overrides individual strings used by the component. */

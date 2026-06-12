@@ -203,7 +203,7 @@ export class Input
   /** @copyDoc */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */

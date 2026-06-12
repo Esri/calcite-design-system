@@ -100,7 +100,7 @@ export class Select extends LitElement implements LabelableComponent {
    */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/

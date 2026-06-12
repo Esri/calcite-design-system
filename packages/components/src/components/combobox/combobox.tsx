@@ -387,7 +387,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */

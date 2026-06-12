@@ -171,7 +171,7 @@ export class TextArea
   /** @copyDoc */
   @property() label?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
   /**

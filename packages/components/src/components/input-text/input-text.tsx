@@ -156,7 +156,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** Specifies an accessible label for the component's button or hyperlink. */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** When `true`, a busy indicator is displayed. */

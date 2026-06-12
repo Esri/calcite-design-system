@@ -183,7 +183,7 @@ export class InputNumber
   /** Specifies an accessible label for the component's button or hyperlink. */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** When `true`, displays a busy indicator. */

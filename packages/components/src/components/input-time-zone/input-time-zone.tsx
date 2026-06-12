@@ -112,7 +112,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property({ reflect: true }) form: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */

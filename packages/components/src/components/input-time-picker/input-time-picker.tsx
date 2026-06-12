@@ -124,7 +124,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /** @copyDoc */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
   /**
