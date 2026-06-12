@@ -277,7 +277,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** Specifies an icon to display at the start of the component. */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */

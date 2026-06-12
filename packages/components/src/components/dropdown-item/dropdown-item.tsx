@@ -72,7 +72,7 @@ export class DropdownItem extends LitElement {
    */
   @property({ reflect: true }) href: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd: IconName;
 
   /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */

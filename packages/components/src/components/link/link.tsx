@@ -74,7 +74,7 @@ export class Link extends LitElement {
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */

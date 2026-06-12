@@ -76,7 +76,7 @@ export class MenuItem extends LitElement {
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
   @property() href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */

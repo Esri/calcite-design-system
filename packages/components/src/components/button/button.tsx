@@ -118,7 +118,7 @@ export class Button extends LitElement implements LabelableComponent {
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
