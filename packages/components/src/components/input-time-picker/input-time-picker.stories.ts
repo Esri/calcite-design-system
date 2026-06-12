@@ -96,9 +96,65 @@ export const disabled = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
 export const scales = (): string => html`
-  <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
-  <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
-  <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+  <div style="display: flex; gap: 20px">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="s" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="m" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="l" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="s"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="m"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="l"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+  </div>
 `;
 
 export const darkModeRTL = (): string => html`

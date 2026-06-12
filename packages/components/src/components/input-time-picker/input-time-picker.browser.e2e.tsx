@@ -27,6 +27,7 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-input-time-picker"),
     [
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
@@ -44,6 +45,12 @@ describe("defaults", () => {
 describe("is focusable", () => {
   describe("should focus the first focusable element when setFocus is called (ltr)", () => {
     focusable(() => mount("calcite-input-time-picker"), {
+      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+    });
+  });
+
+  describe("should focus the first focusable element when placeholder text is set", () => {
+    focusable(() => mount(<calcite-input-time-picker placeholder="Fill me in" />), {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
     });
   });
