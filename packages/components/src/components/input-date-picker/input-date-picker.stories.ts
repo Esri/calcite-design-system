@@ -11,7 +11,20 @@ const { scale, status } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
-  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  | "calendars"
+  | "disabled"
+  | "layout"
+  | "max"
+  | "min"
+  | "open"
+  | "placement"
+  | "range"
+  | "readOnly"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 > {
   lang: string;
 }
@@ -19,13 +32,19 @@ interface InputDatePickerStoryArgs extends Pick<
 export default {
   title: "Components/Controls/InputDatePicker",
   args: {
+    calendars: 2,
+    disabled: false,
+    layout: "horizontal",
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
+    open: true,
     placement: defaultMenuPlacement,
+    range: false,
+    readOnly: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -44,6 +63,14 @@ export default {
     },
     placement: {
       options: menuPlacements,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: [1, 2],
+      control: { type: "select" },
+    },
+    layout: {
+      options: ["horizontal", "vertical"],
       control: { type: "select" },
     },
     validationIcon: {
@@ -65,13 +92,18 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       scale="${args.scale}"
       status="${args.status}"
       value="${args.value}"
+      calendars="${args.calendars}"
+      ${boolean("disabled", args.disabled)}
       lang="${args.lang}"
+      layout="${args.layout}"
       min="${args.min}"
       max="${args.max}"
+      ${boolean("open", args.open)}
       placement="${args.placement}"
+      ${boolean("range", args.range)}
+      ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
-      open="${boolean("open", true)}"
     ></calcite-input-date-picker>
   </div>
 `;

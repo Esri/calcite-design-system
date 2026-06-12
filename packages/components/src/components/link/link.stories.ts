@@ -8,7 +8,10 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-interface LinkStoryArgs extends Pick<Link, "href" | "disabled"> {
+interface LinkStoryArgs extends Pick<
+  Link,
+  "disabled" | "download" | "href" | "iconEnd" | "iconFlipRtl" | "iconStart" | "rel" | "target"
+> {
   containingFontSize: string;
   containingFontWeight: string;
   text: string;
@@ -22,6 +25,12 @@ export default {
     containingFontWeight: "400",
     href: "http://www.esri.com",
     disabled: false,
+    download: false,
+    iconEnd: "",
+    iconFlipRtl: false,
+    iconStart: "",
+    rel: "",
+    target: "",
     text: "link text here",
     longText:
       "Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et euismod massa aliquam venenatis sem arcu tellus.",
@@ -35,13 +44,31 @@ export default {
       options: ["300", "400", "500", "700"],
       control: { type: "select" },
     },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
-    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.text}</calcite-link>
+    <calcite-link
+      ${boolean("disabled", args.disabled)}
+      ${boolean("download", !!args.download)}
+      href="${args.href}"
+      icon-start="${args.iconStart}"
+      icon-end="${args.iconEnd}"
+      ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
+      rel="${args.rel}"
+      target="${args.target}"
+      >${args.text}</calcite-link
+    >
     around the link
   </div>
 `;

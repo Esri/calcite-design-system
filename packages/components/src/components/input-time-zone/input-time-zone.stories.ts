@@ -8,22 +8,45 @@ const { mode, scale, status } = ATTRIBUTES;
 
 type InputTimeZoneStoryArgs = Pick<
   InputTimeZone,
-  "disabled" | "mode" | "scale" | "status" | "validationMessage" | "validationIcon"
+  | "clearable"
+  | "disabled"
+  | "mode"
+  | "name"
+  | "offsetStyle"
+  | "open"
+  | "readOnly"
+  | "required"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 >;
 
 export default {
   title: "Components/Controls/InputTimeZone",
   args: {
+    clearable: false,
     disabled: false,
     mode: mode.defaultValue,
+    name: "",
+    offsetStyle: "user",
+    open: false,
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     validationMessage: "",
     validationIcon: "",
+    value: "",
   },
   argTypes: {
     mode: {
       options: mode.values,
+      control: { type: "select" },
+    },
+    offsetStyle: {
+      options: ["user", "utc", "gmt"],
       control: { type: "select" },
     },
     scale: {
@@ -50,10 +73,17 @@ export default {
 
 export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
+    ${boolean("clearable", args.clearable)}
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
+    name="${args.name}"
+    offset-style="${args.offsetStyle}"
+    ${boolean("open", args.open)}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
+    value="${args.value}"
     validation-message="${args.validationMessage}"
     validation-icon="${args.validationIcon}"
   ></calcite-input-time-zone>

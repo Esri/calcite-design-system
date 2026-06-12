@@ -16,11 +16,18 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
   | "validationMessage"
   | "validationIcon"
->;
+> & {
+  maxLength?: number;
+  minLength?: number;
+};
 
 export default {
   title: "Components/Controls/Input Text",
@@ -33,6 +40,10 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
@@ -55,6 +66,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -69,6 +84,12 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      icon="${args.icon}"
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
+      ${typeof args.minLength === "number" ? `min-length="${args.minLength}"` : ""}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"

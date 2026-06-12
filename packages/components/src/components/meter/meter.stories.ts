@@ -3,7 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Meter } from "./meter";
 
-const { fillType, appearance, labelType } = ATTRIBUTES;
+const { fillType, appearance, labelType, scale } = ATTRIBUTES;
 
 type MeterStoryArgs = Pick<
   Meter,
@@ -14,7 +14,11 @@ type MeterStoryArgs = Pick<
   | "value"
   | "fillType"
   | "appearance"
+  | "disabled"
+  | "label"
+  | "name"
   | "rangeLabelType"
+  | "scale"
   | "valueLabelType"
   | "unitLabel"
   | "groupSeparator"
@@ -32,7 +36,11 @@ export default {
     value: 0,
     fillType: fillType.defaultValue,
     appearance: appearance.values[2],
+    disabled: false,
+    label: "Meter example",
+    name: "",
     rangeLabelType: labelType.defaultValue,
+    scale: scale.defaultValue,
     valueLabelType: labelType.defaultValue,
     unitLabel: "",
     groupSeparator: false,
@@ -56,20 +64,27 @@ export default {
       options: labelType.values,
       control: { type: "select" },
     },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: MeterStoryArgs): string =>
   html`<calcite-meter
-    label="Meter example"
+    ${boolean("disabled", args.disabled)}
+    label="${args.label}"
     min="${args.min}"
     max="${args.max}"
     low="${args.low}"
     high="${args.high}"
     value="${args.value}"
     fill-type="${args.fillType}"
+    name="${args.name}"
     appearance="${args.appearance}"
     range-label-type="${args.rangeLabelType}"
+    scale="${args.scale}"
     value-label-type="${args.valueLabelType}"
     unit-label="${args.unitLabel}"
     ${boolean("group-separator", args.groupSeparator)}

@@ -20,6 +20,12 @@ type InputNumberStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "groupSeparator"
+  | "icon"
+  | "iconFlipRtl"
+  | "integer"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
   | "validationMessage"
@@ -41,6 +47,12 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    groupSeparator: false,
+    icon: "",
+    iconFlipRtl: false,
+    integer: false,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
@@ -75,6 +87,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -93,6 +109,12 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("group-separator", args.groupSeparator)}
+      icon="${args.icon}"
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("integer", args.integer)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"

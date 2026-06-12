@@ -21,8 +21,12 @@ interface ListStoryArgs
       | "label"
       | "loading"
       | "scale"
+      | "sortDisabled"
       | "selectionAppearance"
       | "selectionMode"
+      | "filterLabel"
+      | "filterPlaceholder"
+      | "filterText"
     >,
     Pick<ListItem, "iconStart" | "iconEnd"> {
   closable: boolean;
@@ -41,9 +45,13 @@ export default {
     interactionMode: interactionMode.values[0],
     label: "My List",
     loading: false,
+    sortDisabled: false,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
+    filterLabel: "Filter list",
+    filterPlaceholder: "Filter items",
+    filterText: "",
     iconStart: "",
     iconEnd: "",
   },
@@ -98,7 +106,11 @@ export const simple = (args: ListStoryArgs): string => html`
     ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("filter-enabled", args.filterEnabled)}
     ${boolean("loading", args.loading)}
+    ${boolean("sort-disabled", args.sortDisabled)}
     display-mode="${args.displayMode}"
+    filter-label="${args.filterLabel}"
+    filter-placeholder="${args.filterPlaceholder}"
+    filter-text="${args.filterText}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
     scale="${args.scale}"

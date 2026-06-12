@@ -12,8 +12,13 @@ interface InputTimePickerStoryArgs extends Pick<
   InputTimePicker,
   | "disabled"
   | "hourFormat"
+  | "max"
+  | "min"
   | "name"
+  | "open"
   | "placement"
+  | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "step"
@@ -30,8 +35,13 @@ export default {
     disabled: false,
     hidden: false,
     hourFormat: undefined,
+    max: "",
+    min: "",
     name: "simple",
+    open: false,
     placement: defaultMenuPlacement,
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     step: 1,
@@ -68,8 +78,13 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
+    max="${args.max}"
+    min="${args.min}"
     name="${args.name}"
+    ${boolean("open", args.open)}
     placement="${args.placement}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
     step="${args.step}"
