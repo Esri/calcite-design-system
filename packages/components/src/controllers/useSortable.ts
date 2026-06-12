@@ -15,7 +15,11 @@ import { guid } from "../utils/guid";
 import { getRootNode } from "../utils/dom";
 
 const sortableComponentSet = new Set<SortableComponent>();
-const formKitDraggedNodeCloneId = "dnd-dragged-node-clone";
+const DRAG_AND_DROP_CLONE_ID = "dnd-dragged-node-clone";
+
+function filterOutDragAndDropClone<T extends Element>(elements: T[]): T[] {
+  return elements.filter((element) => element.id !== DRAG_AND_DROP_CLONE_ID);
+}
 
 export interface MoveDetail<
   To extends HTMLElement = HTMLElement,
@@ -101,6 +105,9 @@ interface SortableComponent extends LitElement {
 
   /** Called by any change to the list (add / update / remove). */
   onDragSort: (detail: DragDetail) => void;
+
+  /** Returns the sortable items managed by the component. */
+  getSortableItems: () => HTMLElement[];
 }
 
 export interface SortableComponentItem {
@@ -136,22 +143,8 @@ function isDragState<T>(state: BaseDragState<T>): state is DragState<T> {
   return "draggedNode" in state && !!state.draggedNode;
 }
 
-function getSortableItems(component: SortableComponent): HTMLElement[] {
-  // TODO: This reads only direct children, so forwarded slotted content is not included. Consider exposing a component-level API that returns sortable items from flattened slot assignments.
-  const children = Array.from(component.el.children).filter(
-    (child) => child.id !== formKitDraggedNodeCloneId,
-  ) as HTMLElement[];
-  const dragSelector = component.dragSelector;
-
-  if (dragSelector) {
-    return children.filter((child) => child.matches(dragSelector));
-  }
-
-  return children;
-}
-
 function getSortableValues(component: SortableComponent): string[] {
-  return getSortableItems(component).map((item) => getSortableItemKey(item));
+  return filterOutDragAndDropClone(component.getSortableItems()).map((item) => getSortableItemKey(item));
 }
 
 function getSortableItemKey(item: HTMLElement, forceNew = false): string {
@@ -176,7 +169,7 @@ function getSortableNodeKeys(nodes: SortableNodeRecord[]): string[] {
 }
 
 function setSortableItems(component: SortableComponent, values: string[]): void {
-  const currentItems = getSortableItems(component);
+  const currentItems = filterOutDragAndDropClone(component.getSortableItems());
   const keyedItems = currentItems.map((item) => [getSortableItemKey(item), item] as const);
   const itemsByKey = new Map(keyedItems);
 
@@ -214,12 +207,7 @@ function createDragDetail(
   };
 }
 
-function applyClonePull<T>(
-  component: SortableComponent,
-  dragEl: HTMLElement,
-  initialIndex: number,
-  initialParent: ParentRecord<T>,
-): void {
+function applyClonePull<T>(dragEl: HTMLElement, initialParent: ParentRecord<T>): void {
   const clone = dragEl.cloneNode(true) as HTMLElement;
   const dragKey = getSortableItemKey(dragEl);
   const cloneKey = getSortableItemKey(clone, true);
@@ -228,7 +216,6 @@ function applyClonePull<T>(
     clone.id = cloneKey;
   }
 
-  const values = getSortableNodeKeys(initialParent.data.enabledNodes).filter((value) => value !== dragKey);
   const existingItem = initialParent.data.enabledNodes.find((node) => getSortableNodeKey(node) === dragKey)?.el as
     | HTMLElement
     | undefined;
@@ -236,11 +223,8 @@ function applyClonePull<T>(
   if (!existingItem) {
     return;
   }
-
-  values.splice(initialIndex, 0, cloneKey);
   // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
   existingItem.parentElement?.insertBefore(clone, existingItem);
-  setSortableItems(component, values);
 }
 
 function getSortableComponentFromParent(parent: ParentRecord<string>): SortableComponent {
@@ -380,7 +364,7 @@ function createSortable(component: SortableComponent): void {
           });
 
           if (canPull === "clone") {
-            applyClonePull(component, dragEl, dragState.initialIndex, event.initialParent);
+            applyClonePull(dragEl, event.initialParent);
           }
         }
 
@@ -416,12 +400,12 @@ function createSortable(component: SortableComponent): void {
 /**
  * A controller for managing Sortable interactions
  */
-export const useSortable = <T extends SortableComponent>(): ReturnType<
-  typeof makeGenericController<UseSortable, T>
-> => {
+export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGenericController<UseSortable, T>> => {
   return makeGenericController<UseSortable, T>((component, controller) => {
+    const sortableComponent = component as T & SortableComponent;
+
     function dragActive(): boolean {
-      return component.dragEnabled && globalDragState.active;
+      return sortableComponent.dragEnabled && globalDragState.active;
     }
 
     function setUpSortable(): void {
@@ -431,12 +415,12 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
 
       tearDownSortable();
 
-      if (!component.dragEnabled || component.disabled) {
+      if (!sortableComponent.dragEnabled || sortableComponent.disabled) {
         return;
       }
 
-      sortableComponentSet.add(component);
-      createSortable(component);
+      sortableComponentSet.add(sortableComponent);
+      createSortable(sortableComponent);
     }
 
     function tearDownSortable(): void {
@@ -444,8 +428,8 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
         return;
       }
 
-      sortableComponentSet.delete(component);
-      tearDown(component.el);
+      sortableComponentSet.delete(sortableComponent);
+      tearDown(sortableComponent.el);
     }
 
     controller.onConnected(() => {

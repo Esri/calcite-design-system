@@ -3,6 +3,7 @@ import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, expect, it, vi } from "vitest";
 import { CSS, useSortable } from "./useSortable";
+import { getSlotAssignedElements } from "../utils/dom";
 
 const { createSpy, destroySpy } = vi.hoisted(() => ({
   createSpy: vi.fn(),
@@ -18,6 +19,9 @@ class Test extends LitElement {
   static tagName = "sortable-test";
   handleSelector = "calcite-sort-handle";
   sortable = useSortable<this>()(this);
+  dragSelector?: string;
+
+  private defaultSlotEl?: HTMLSlotElement;
 
   @property({ type: Boolean }) dragEnabled = false;
 
@@ -29,11 +33,31 @@ class Test extends LitElement {
     return true;
   }
 
+  getSortableItems(): HTMLElement[] {
+    const slot = this.defaultSlotEl;
+
+    if (!slot) {
+      return [];
+    }
+
+    return getSlotAssignedElements<HTMLElement>(slot).filter(
+      (item) => !this.dragSelector || item.matches(this.dragSelector),
+    );
+  }
+
+  private setDefaultSlotEl = (el: HTMLSlotElement): void => {
+    this.defaultSlotEl = el;
+  };
+
   onGlobalDragStart(): void {}
   onGlobalDragEnd(): void {}
   onDragEnd(): void {}
   onDragStart(): void {}
   onDragSort(): void {}
+
+  override render() {
+    return <slot ref={this.setDefaultSlotEl} />;
+  }
 }
 
 beforeEach(() => {
@@ -107,4 +131,99 @@ it("does not reorder DOM when setValues receives the current order", async () =>
   call.setValues(call.getValues());
 
   expect(appendChildSpy).not.toHaveBeenCalled();
+});
+
+it("gets sortable items from the slot and respects dragSelector", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one" class="sortable"></div>
+      <div id="two" class="sortable"></div>
+      <div id="ignored"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  component.dragSelector = ".sortable";
+
+  const call = createSpy.mock.calls[0][0];
+  const getSortableItemsSpy = vi.spyOn(component, "getSortableItems");
+
+  expect(call.getValues()).toEqual(["one", "two"]);
+  expect(getSortableItemsSpy).toHaveBeenCalledTimes(1);
+});
+
+it("does not include the dragged node clone in sortable items", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="dnd-dragged-node-clone"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first, second, clone] = Array.from(component.el.children) as HTMLElement[];
+
+  expect(call.getValues()).toEqual(["one", "two"]);
+  expect(first.id).toBe("one");
+  expect(second.id).toBe("two");
+  expect(clone.id).toBe("dnd-dragged-node-clone");
+});
+
+it("keeps the clone-pull copy before the dragged item", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first, second, third] = Array.from(component.el.children) as HTMLElement[];
+  const targetEl = document.createElement("div");
+
+  vi.spyOn(component, "canPull").mockReturnValue("clone" as never);
+
+  call.config.onTransfer({
+    draggedNodes: [{ el: first }],
+    initialParent: {
+      data: { enabledNodes: [{ el: first }, { el: second }, { el: third }] },
+      el: component.el,
+    },
+    sourceParent: {
+      data: { enabledNodes: [{ el: second }, { el: third }] },
+      el: component.el,
+    },
+    state: {
+      draggedNode: { el: first },
+      initialIndex: 0,
+      initialParent: {
+        data: { enabledNodes: [{ el: first }, { el: second }, { el: third }] },
+        el: component.el,
+      },
+      currentParent: {
+        data: { enabledNodes: [] },
+        el: targetEl,
+      },
+    },
+    targetIndex: 0,
+    targetNodes: [],
+    targetParent: {
+      data: { enabledNodes: [] },
+      el: targetEl,
+    },
+  });
+
+  expect(component.el.children).toHaveLength(4);
+  expect(component.el.children[0]).not.toBe(first);
+  expect(component.el.children[1]).toBe(first);
 });

@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -45,6 +46,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
+import { getSlotAssignedElements } from "../../utils/dom";
 
 declare global {
   interface DeclareElements {
@@ -76,7 +78,7 @@ export class List extends LitElement {
 
   filterEl?: Filter["el"];
 
-  defaultSlotEl?: HTMLSlotElement;
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   private focusableItems: ListItem["el"][] = [];
 
@@ -746,8 +748,8 @@ export class List extends LitElement {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (dragEnabled && defaultSlotEl) {
-      updateListItemChildren(defaultSlotEl);
+    if (dragEnabled && defaultSlotEl.value) {
+      updateListItemChildren(defaultSlotEl.value);
     }
 
     this.sortable.reset();
@@ -939,8 +941,10 @@ export class List extends LitElement {
     this.filterAndUpdateData();
   }
 
-  private setDefaultSlotEl(el: HTMLSlotElement): void {
-    this.defaultSlotEl = el;
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
   }
 
   private setFilterEl(el: Filter["el"]): void {
@@ -1316,7 +1320,7 @@ export class List extends LitElement {
               <div hidden={!this.showEmptyContentContainer}>
                 <slot name={SLOTS.emptyContent} onSlotChange={this.handleEmptyContentSlotChange} />
               </div>
-              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
             </div>
           </div>
           <div

@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -32,6 +33,7 @@ import type { BlockDragDetail } from "./interfaces";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isBlock } from "../block/resources";
+import { getSlotAssignedElements } from "../../utils/dom";
 
 declare global {
   interface DeclareElements {
@@ -50,6 +52,8 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   dragSelector = blockSelector;
 
@@ -225,6 +229,12 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
+  }
 
   private updateBlockItems(): void {
     this.updateGroupItems();
@@ -553,7 +563,7 @@ export class BlockGroup extends LitElement {
           ) : null}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div ariaBusy={loading} ariaLabel={label || ""} class={CSS.groupContainer} role="group">
-            <slot onSlotChange={this.handleDefaultSlotChange} />
+            <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
           </div>
         </div>
       </this.interactiveContainer>

@@ -1,6 +1,7 @@
 // @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
@@ -8,6 +9,7 @@ import { focusElement } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
 import { DragDetail, useSortable } from "../../controllers/useSortable";
+import { getSlotAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 
@@ -29,6 +31,8 @@ export class SortableList extends LitElement {
   //#endregion
 
   //#region Private Properties
+
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   dragEnabled = true;
 
@@ -140,6 +144,12 @@ export class SortableList extends LitElement {
     this.calciteListOrderChange.emit();
   }
 
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
+  }
+
   private handleNudgeEvent(event: CustomEvent<HandleNudge>): void {
     const { direction } = event.detail;
 
@@ -220,7 +230,7 @@ export class SortableList extends LitElement {
             [CSS.containerHorizontal]: horizontal,
           }}
         >
-          <slot />
+          <slot ref={this.defaultSlotEl} />
         </div>
       </this.interactiveContainer>
     );
