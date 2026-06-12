@@ -1,0 +1,78 @@
+import type { ApiExtractorConfig } from "@arcgis/api-extractor/extractor/config";
+
+export const config: ApiExtractorConfig = {
+  documentation: {
+    copyDocDefinitions: {
+      properties: {
+        checked: {
+          description: "When `true`, the component is checked.",
+        },
+        closed: {
+          description: "When `true`, hides the component.",
+        },
+        closable: {
+          description: "When `true`, displays a close button in the component.",
+        },
+        description: {
+          description: "Specifies a description for the component.",
+        },
+        flipPlacements: {
+          description:
+            "Specifies the component's fallback `placement` for slotted content when its initial or specified `placement` has insufficient space available.",
+        },
+        form: {
+          description:
+            "Specifies the `id` of the component's associated form. When not set, the component is associated with its ancestor form element, if one exists.",
+        },
+        heading: {
+          description: "Specifies the component's heading text, displayed between the `icon` and `description`.",
+        },
+        headingLevel: {
+          description:
+            "Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling.",
+        },
+        height: {
+          description: "Specifies the component's height.",
+        },
+        iconEnd: {
+          description: "Specifies an icon to display at the end of the component.",
+        },
+        iconStart: {
+          description: "Specifies an icon to display at the start of the component.",
+        },
+        label: {
+          description: "Specifies an accessible label for the component.",
+        },
+        labelText: {
+          description: "Specifies the component's label text.",
+        },
+        menuFlipPlacements: {
+          description:
+            "Specifies the component's fallback `menuPlacement` when its initial or specified `menuPlacement` has insufficient space available.",
+        },
+        messageOverrides: {
+          description: "Overrides individual strings used by the component.",
+        },
+        name: {
+          description:
+            "Specifies the name of the component. Required to pass the component's `value` on form submission.",
+        },
+        overlayPositioning: {
+          description:
+            'Specifies the type of positioning to use for overlaid content, where:\n\n`"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout, and\n\n`"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
+        },
+        referenceElement: {
+          description:
+            "The `referenceElement` used to position the component according to its `placement` value.\n\nSetting to an `HTMLElement` is preferred so the component does not need to query the DOM.\n\nHowever, a string `id` of the reference element can also be used.\n\nThe component should not be placed within its own `referenceElement` to avoid unintended behavior.",
+        },
+        topLayerDisabled: {
+          description:
+            "When `true` and the component is `open`, disables top layer placement. Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.",
+        },
+        validity: {
+          description: "The component's current validation state.",
+        },
+      },
+    },
+  },
+};
