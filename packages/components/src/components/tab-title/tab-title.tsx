@@ -90,7 +90,7 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** @copyDoc */

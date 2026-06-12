@@ -67,7 +67,7 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** @copyDoc */

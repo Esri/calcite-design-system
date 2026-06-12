@@ -118,7 +118,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */

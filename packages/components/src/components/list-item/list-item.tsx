@@ -133,7 +133,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() sortDisabled = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** @copyDoc */
