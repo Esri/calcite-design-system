@@ -35,7 +35,7 @@ export class SegmentedControlItem extends LitElement {
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** Specifies an icon to display at the end of the component. */
