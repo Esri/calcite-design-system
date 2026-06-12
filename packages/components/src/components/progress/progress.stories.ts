@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -5,11 +6,12 @@ import { Progress } from "./progress";
 
 const { determinateType } = ATTRIBUTES;
 
-type ProgressStoryArgs = Pick<Progress, "type" | "value" | "text">;
+type ProgressStoryArgs = Pick<Progress, "reversed" | "text" | "type" | "value">;
 
 export default {
   title: "Components/Progress",
   args: {
+    reversed: false,
     type: determinateType.defaultValue,
     value: 80,
     text: "",
@@ -26,7 +28,12 @@ export default {
 };
 
 export const simple = (args: ProgressStoryArgs): string => html`
-  <calcite-progress type="${args.type}" value="${args.value}" text="${args.text}"></calcite-progress>
+  <calcite-progress
+    ${boolean("reversed", args.reversed)}
+    type="${args.type}"
+    value="${args.value}"
+    text="${args.text}"
+  ></calcite-progress>
 `;
 
 export const darkModeRTL = (): string => html`

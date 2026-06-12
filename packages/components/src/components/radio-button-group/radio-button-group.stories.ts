@@ -1,11 +1,15 @@
+import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, scale, status } = ATTRIBUTES;
 
-interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
+interface RadioButtonGroupStoryArgs extends Pick<
+  RadioButtonGroup,
+  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
+> {
   hidden: boolean;
 }
 
@@ -16,6 +20,9 @@ export default {
     hidden: false,
     layout: layout.defaultValue,
     scale: scale.defaultValue,
+    status: status.defaultValue,
+    validationIcon: "",
+    validationMessage: "",
   },
   argTypes: {
     layout: {
@@ -35,6 +42,14 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -45,6 +60,9 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     ${boolean("hidden", args.hidden)}
     layout="${args.layout}"
     scale="${args.scale}"
+    status="${args.status}"
+    validation-icon="${args.validationIcon}"
+    validation-message="${args.validationMessage}"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>

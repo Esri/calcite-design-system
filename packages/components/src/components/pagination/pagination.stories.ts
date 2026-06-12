@@ -1,7 +1,7 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
-import { createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Pagination } from "./pagination";
@@ -10,7 +10,7 @@ const { scale } = ATTRIBUTES;
 
 interface PaginationStoryArgs extends Pick<
   Pagination,
-  "scale" | "startItem" | "numberingSystem" | "totalItems" | "pageSize"
+  "groupSeparator" | "numberingSystem" | "pageSize" | "scale" | "startItem" | "totalItems"
 > {
   lang: string;
 }
@@ -22,6 +22,7 @@ export default {
     startItem: 1,
     lang: defaultLocale,
     numberingSystem: defaultNumberingSystem,
+    groupSeparator: false,
     totalItems: 123456789,
     pageSize: 10,
   },
@@ -59,6 +60,7 @@ export const simple = (args: PaginationStoryArgs): string => html`
     start-item="${args.startItem}"
     lang="${args.lang}"
     numbering-system="${args.numberingSystem}"
+    ${boolean("group-separator", args.groupSeparator)}
     total-items="${args.totalItems}"
     page-size="${args.pageSize}"
   >

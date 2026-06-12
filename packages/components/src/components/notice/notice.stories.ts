@@ -6,7 +6,7 @@ import { Notice } from "./notice";
 
 const { scale, width, kind } = ATTRIBUTES;
 
-interface NoticeStoryArgs extends Pick<Notice, "open" | "closable" | "width" | "kind" | "icon"> {
+interface NoticeStoryArgs extends Pick<Notice, "appearance" | "closable" | "icon" | "kind" | "open" | "width"> {
   showIcon: boolean;
   noticeScale: string;
   actionScale: string;
@@ -18,6 +18,7 @@ export default {
     showIcon: true,
     open: true,
     closable: true,
+    appearance: "outline-fill",
     noticeScale: scale.defaultValue,
     width: width.defaultValue,
     kind: kind.defaultValue,
@@ -35,6 +36,10 @@ export default {
     },
     kind: {
       options: kind.values.filter((option) => option !== "inverse" && option !== "neutral"),
+      control: { type: "select" },
+    },
+    appearance: {
+      options: ["outline-fill", "transparent"],
       control: { type: "select" },
     },
     icon: {
@@ -57,6 +62,7 @@ export const simple = (args: NoticeStoryArgs): string => html`
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"
+      appearance="${args.appearance}"
       icon="${args.icon}"
     >
       <div slot="title">Your settings area has changed</div>

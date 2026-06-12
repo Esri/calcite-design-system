@@ -10,8 +10,10 @@ interface SliderStoryArgs extends Pick<
   Slider,
   | "min"
   | "max"
+  | "maxLabel"
   | "value"
   | "step"
+  | "fillPlacement"
   | "minLabel"
   | "disabled"
   | "labelHandles"
@@ -36,6 +38,8 @@ export default {
     max: 100,
     value: 50,
     step: 1,
+    maxLabel: "",
+    fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
     labelHandles: false,
@@ -63,6 +67,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    fillPlacement: {
+      options: ["all", "none", "single"],
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -77,8 +85,10 @@ export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
+    max-label="${args.maxLabel}"
     value="${args.value}"
     step="${args.step}"
+    fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
     ${boolean("label-handles", args.labelHandles)}
