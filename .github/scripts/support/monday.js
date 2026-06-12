@@ -378,6 +378,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 1,
+        clearable: true,
       },
     ],
     [
@@ -385,6 +386,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -392,6 +394,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 3,
+        clearable: true,
       },
     ],
     [
@@ -399,6 +402,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -406,6 +410,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 8,
+        clearable: true,
       },
     ],
     [
@@ -413,6 +418,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -420,6 +426,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -427,6 +434,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 34,
+        clearable: true,
       },
     ],
     [
@@ -434,6 +442,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -441,6 +450,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -448,6 +458,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -455,6 +466,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
