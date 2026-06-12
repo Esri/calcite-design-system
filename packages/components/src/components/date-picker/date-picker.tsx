@@ -112,7 +112,7 @@ export class DatePicker extends LitElement {
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
   @property() maxAsDate: Date;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

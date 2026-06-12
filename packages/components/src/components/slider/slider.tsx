@@ -265,7 +265,7 @@ export class Slider extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property() labelText: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple values, the component's lower value. */

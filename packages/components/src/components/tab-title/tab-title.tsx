@@ -111,7 +111,7 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) layout!: TabLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

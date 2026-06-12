@@ -154,7 +154,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

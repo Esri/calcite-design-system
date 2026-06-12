@@ -69,7 +69,7 @@ export class BlockSection extends LitElement {
   /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

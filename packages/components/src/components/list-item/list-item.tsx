@@ -175,7 +175,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */

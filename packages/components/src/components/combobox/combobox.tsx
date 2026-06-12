@@ -393,7 +393,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission. */

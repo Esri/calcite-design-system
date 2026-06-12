@@ -95,7 +95,7 @@ export class ActionGroup extends LitElement {
   /** Specifies the position of the action menu. */
   @property({ reflect: true }) menuPlacement?: LogicalPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

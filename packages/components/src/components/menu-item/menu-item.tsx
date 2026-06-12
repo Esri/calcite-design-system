@@ -98,7 +98,7 @@ export class MenuItem extends LitElement {
   /** @private */
   @property({ reflect: true }) layout!: Layout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */

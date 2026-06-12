@@ -98,7 +98,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property() labelText?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/

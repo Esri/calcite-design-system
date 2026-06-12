@@ -99,7 +99,7 @@ export class Notice extends LitElement {
     Kind
   > = "brand";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */

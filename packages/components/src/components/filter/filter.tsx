@@ -83,7 +83,7 @@ export class Filter extends LitElement {
   /** @copyDoc */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the component's input placeholder text. */

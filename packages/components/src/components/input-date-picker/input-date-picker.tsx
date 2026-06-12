@@ -229,7 +229,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** Specifies the latest allowed date as a full date object. */
   @property() maxAsDate: Date;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**

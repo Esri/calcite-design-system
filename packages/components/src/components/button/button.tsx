@@ -137,7 +137,7 @@ export class Button extends LitElement implements LabelableComponent {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission. */

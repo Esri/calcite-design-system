@@ -86,7 +86,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
