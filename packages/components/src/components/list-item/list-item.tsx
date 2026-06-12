@@ -274,7 +274,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** The component's value. */
   @property() value: any;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @copyDoc */
