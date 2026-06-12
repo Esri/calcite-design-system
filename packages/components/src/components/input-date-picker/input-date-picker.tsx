@@ -211,7 +211,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** Specifies the component's label text. */

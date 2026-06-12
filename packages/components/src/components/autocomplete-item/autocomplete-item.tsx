@@ -76,7 +76,7 @@ export class AutocompleteItem extends LitElement {
    */
   @property({ reflect: true }) inputValueMatchPattern?: RegExp;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /**

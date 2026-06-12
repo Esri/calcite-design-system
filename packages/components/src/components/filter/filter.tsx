@@ -80,9 +80,7 @@ export class Filter extends LitElement {
    */
   @property() items: object[] = [];
 
-  /**
-   * Specifies an accessible label for the component.
-   */
+  /** @copyDoc */
   @property() label?: string;
 
   /** Overrides individual strings used by the component. */
@@ -233,8 +231,8 @@ export class Filter extends LitElement {
               icon={ICONS.search}
               label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={this.textInputRef}
               scale={scale}

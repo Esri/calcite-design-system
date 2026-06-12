@@ -198,7 +198,7 @@ export class Autocomplete
   /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
   @property() inputValue?: string;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** Specifies the component's label text. */

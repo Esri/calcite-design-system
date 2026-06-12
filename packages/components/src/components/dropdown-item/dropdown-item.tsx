@@ -81,7 +81,7 @@ export class DropdownItem extends LitElement {
   /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart: IconName;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** Specifies the relationship to the linked resource defined in `href`. */

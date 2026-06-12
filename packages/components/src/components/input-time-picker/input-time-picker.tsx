@@ -121,7 +121,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** Specifies the component's label text. */

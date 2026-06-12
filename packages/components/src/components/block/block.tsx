@@ -124,9 +124,7 @@ export class Block extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies an accessible label for the component.
-   */
+  /** @copyDoc */
   @property() label?: string;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */

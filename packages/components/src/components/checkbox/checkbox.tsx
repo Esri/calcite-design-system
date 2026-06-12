@@ -92,7 +92,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** Specifies the component's label text. */

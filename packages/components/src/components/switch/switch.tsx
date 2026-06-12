@@ -58,7 +58,7 @@ export class Switch extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property({ reflect: true }) form: string;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** Specifies the component's end label text. */

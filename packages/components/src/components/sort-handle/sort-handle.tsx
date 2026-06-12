@@ -123,7 +123,7 @@ export class SortHandle extends LitElement {
   /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** Overrides individual strings used by the component. */
