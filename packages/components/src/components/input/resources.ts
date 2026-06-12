@@ -5,6 +5,8 @@ export const CSS = {
   clearButton: "clear-button",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child", // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
+  inlineEditing: "inline-editing",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",

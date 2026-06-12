@@ -25,6 +25,8 @@ type InputStoryArgs = Pick<
   | "placeholder"
   | "validationMessage"
   | "validationIcon"
+  | "inlineEditing"
+  | "inlineEditingControls"
 >;
 
 export default {
@@ -47,6 +49,8 @@ export default {
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditing: false,
+    inlineEditingControls: false,
   },
   argTypes: {
     type: {
@@ -105,6 +109,8 @@ export const simple = (args: InputStoryArgs): string => html`
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
+      ${boolean("inline-editing", args.inlineEditing)}
+      ${boolean("inline-editing-controls", args.inlineEditingControls)}
     ></calcite-input>
   </div>
 `;
@@ -260,4 +266,10 @@ export const overlayDoesNotObscureIcon = (): string =>
 
 export const numberHorizontal = (): string => html`
   <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
+`;
+
+export const inlineEditing = (): string => html`
+  <div>
+    <calcite-input inline-editing inline-editing-controls value="Editable value"></calcite-input>
+  </div>
 `;

@@ -11,6 +11,15 @@
  * @prop --calcite-input-action-icon-color-press: Specifies the icon color of the component's `clearable` element when pressed.
  * @prop --calcite-input-loading-background-color: When `loading`, specifies the background color of the component`s `loading` element.
  * @prop --calcite-input-loading-fill-color: When `loading`, specifies the fill color of the component`s `loading` element.
+ * @prop --calcite-input-text-inline-editing-background-color: When `inline-editing` is enabled, specifies the background color of the component, its inline editing elements and slotted `calcite-action` wrappers.
+ * @prop --calcite-input-text-inline-editing-background-color-hover: When `inline-editing` is enabled, specifies the background color of the component, its inline editing elements and slotted `calcite-action` wrappers, when hovered.
+ * @prop --calcite-input-text-inline-editing-controls-background-color: When `inline-editing` is enabled, specifies the background color of the component's inline editing controls.
+ * @prop --calcite-input-text-inline-editing-controls-background-color-hover: When `inline-editing` is enabled, specifies the background color of the component's inline editing controls, when hovered.
+ * @prop --calcite-input-text-inline-editing-controls-background-color-press: When `inline-editing` is enabled, specifies the background color of the component's inline editing controls, when pressed.
+ * @prop --calcite-input-text-inline-editing-controls-corner-radius: When `inline-editing` is enabled, specifies the corner radius of the component's inline editing controls.
+ * @prop --calcite-input-text-inline-editing-controls-loader-color: When `inline-editing` is enabled, specifies the loader color of the component's inline editing controls.
+ * @prop --calcite-input-text-inline-editing-controls-text-color: When `inline-editing` is enabled, specifies the text color of the component's inline editing controls.
+ * @prop --calcite-input-text-inline-editing-controls-text-color-press: When `inline-editing` is enabled, specifies the text color of the component's inline editing controls, when pressed or hovered.
  * @prop --calcite-input-prefix-size-x: When `prefixText` is provided, specifies the width of the component's prefix element.
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
  * @prop --calcite-input-suffix-size-x: When `suffixText` is provided, specifies the width of the component's suffix element.
@@ -330,9 +339,13 @@ input[type="text"]::-ms-reveal {
   }
 }
 
+.inline-editing {
+  order: 7;
+}
+
 // slotted action
 .action-wrapper {
-  order: 7;
+  order: 8;
   display: flex;
 }
 
@@ -412,7 +425,13 @@ input[type="text"]::-ms-reveal {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default bg-transparent;
+    @apply transition-default;
+
+    // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0 (remove &.inline-editable-child)
+    &.inline-editable-child {
+      @apply bg-transparent;
+    }
+
     .editing-enabled {
       background-color: inherit;
     }
@@ -423,6 +442,43 @@ input {
     flex
     cursor-pointer text-ellipsis;
     padding-inline-start: 0;
+  }
+}
+
+.element-wrapper:has(input.inline-child:not(.editing-enabled)) {
+  .loader,
+  .prefix,
+  .icon,
+  .clear-button,
+  .suffix {
+    display: none;
+  }
+}
+
+// `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0 (remove .inline-editable-child)
+:host([inline-editing]:not([editing-enabled])),
+:host:has(input.inline-child:not(.inline-editable-child):not(.editing-enabled)) {
+  .wrapper {
+    &:hover {
+      input,
+      .inline-editing,
+      .action-wrapper {
+        @apply transition-default;
+        background-color: var(
+          --calcite-input-text-inline-editing-background-color-hover,
+          var(--calcite-color-foreground-2)
+        );
+      }
+    }
+  }
+}
+
+:host([inline-editing]) {
+  input,
+  .inline-editing,
+  .action-wrapper {
+    @apply transition-default;
+    background-color: var(--calcite-input-text-inline-editing-background-color, var(--calcite-color-foreground-1));
   }
 }
 
@@ -438,4 +494,13 @@ input {
   $icon-color: "--calcite-input-action-icon-color",
   $icon-color-hover: "--calcite-input-action-icon-color-hover",
   $icon-color-press: "--calcite-input-action-icon-color-press"
+);
+@include includes.inline-editing(
+  $background-color: "--calcite-input-text-inline-editing-controls-background-color",
+  $background-color-hover: "--calcite-input-text-inline-editing-controls-background-color-hover",
+  $background-color-press: "--calcite-input-text-inline-editing-controls-background-color-press",
+  $corner-radius: "--calcite-input-text-inline-editing-controls-corner-radius",
+  $loader-color: "--calcite-input-text-inline-editing-controls-loader-color",
+  $text-color: "--calcite-input-text-inline-editing-controls-text-color",
+  $text-color-press: "--calcite-input-text-inline-editing-controls-text-color-press"
 );

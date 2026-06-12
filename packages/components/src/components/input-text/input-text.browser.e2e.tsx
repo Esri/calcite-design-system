@@ -14,6 +14,7 @@ import {
   formAssociated,
 } from "../../tests/commonTests/browser";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
+import { CSS as InlineEditingControlsCSS } from "../functional/InlineEditingControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { InputText } from "./input-text";
 
@@ -28,6 +29,14 @@ describe("defaults", () => {
       {
         propertyName: "alignment",
         defaultValue: "start",
+      },
+      {
+        propertyName: "inlineEditing",
+        defaultValue: false,
+      },
+      {
+        propertyName: "inlineEditingControls",
+        defaultValue: false,
       },
       {
         propertyName: "scale",
@@ -66,6 +75,14 @@ describe("reflects", () => {
         value: "center",
       },
       {
+        propertyName: "inlineEditing",
+        value: true,
+      },
+      {
+        propertyName: "inlineEditingControls",
+        value: true,
+      },
+      {
         propertyName: "scale",
         value: "s",
       },
@@ -92,6 +109,94 @@ describe("renders", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input-text`), {
     shadowFocusTargetSelector: "input",
+  });
+
+  describe("inline editing", () => {
+    it("clears value on first Escape when clearable is set", async () => {
+      const { el } = await mount<InputText>(
+        <calcite-input-text clearable inlineEditing inlineEditingControls value="John Doe" />,
+      );
+
+      const input = page.getBySelector("calcite-input-text input");
+
+      await userEvent.click(input);
+      await expect
+        .element(page.getBySelector("calcite-input-text"))
+        .toHaveAttribute("editing-enabled");
+
+      await userEvent.keyboard("{Escape}");
+
+      expect(el.value).toBe("");
+      expect(el.editingEnabled).toBe(true);
+    });
+
+    it("cancels editing on first Escape when clearable is not set", async () => {
+      const { el } = await mount<InputText>(
+        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+      );
+
+      const input = page.getBySelector("calcite-input-text input");
+
+      await userEvent.click(input);
+      await expect
+        .element(page.getBySelector("calcite-input-text"))
+        .toHaveAttribute("editing-enabled");
+
+      await userEvent.keyboard("X");
+      expect(el.value).toBe("John DoeX");
+
+      await userEvent.keyboard("{Escape}");
+
+      expect(el.value).toBe("John Doe");
+      expect(el.editingEnabled).toBe(false);
+    });
+
+    it("emits enable editing change when built-in inline editing is activated", async () => {
+      const { el } = await mount<InputText>(
+        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+      );
+      const enableEditingSpy = vi.fn();
+      el.addEventListener("calciteInputTextInlineEditingEnableEditingChange", enableEditingSpy);
+
+      const input = page.getBySelector("calcite-input-text input");
+      await userEvent.click(input);
+
+      expect(enableEditingSpy).toHaveBeenCalledTimes(1);
+      expect(el.editingEnabled).toBe(true);
+    });
+
+    it("emits confirm and keeps editing enabled when save is clicked without afterConfirm", async () => {
+      const { el } = await mount<InputText>(
+        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+      );
+      const confirmSpy = vi.fn();
+      el.addEventListener("calciteInputTextInlineEditingConfirm", confirmSpy);
+
+      const input = page.getBySelector("calcite-input-text input");
+      await userEvent.click(input);
+      await userEvent.click(
+        page.getBySelector(`calcite-input-text .${InlineEditingControlsCSS.confirmChanges}`),
+      );
+
+      expect(confirmSpy).toHaveBeenCalledTimes(1);
+      expect(el.editingEnabled).toBe(true);
+    });
+
+    it("disables editing when afterConfirm resolves successfully", async () => {
+      const { el } = await mount<InputText>(
+        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+      );
+      el.inlineEditingAfterConfirm = vi.fn().mockResolvedValue(undefined);
+
+      const input = page.getBySelector("calcite-input-text input");
+      await userEvent.click(input);
+      await userEvent.click(
+        page.getBySelector(`calcite-input-text .${InlineEditingControlsCSS.confirmChanges}`),
+      );
+
+      expect(el.inlineEditingAfterConfirm).toHaveBeenCalledTimes(1);
+      expect(el.editingEnabled).toBe(false);
+    });
   });
 
   describe("clearable", () => {

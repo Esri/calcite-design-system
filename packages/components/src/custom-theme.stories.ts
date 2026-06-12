@@ -30,7 +30,7 @@ import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
-import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable"; // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
 import { input, inputTokens } from "./custom-theme/input";
 import {
   inputDatePicker,

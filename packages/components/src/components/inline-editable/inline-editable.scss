@@ -3,22 +3,18 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-inline-editable-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-inline-editable-background-color: Specifies the component's background color.
- * @prop --calcite-inline-editable-button-background-color: When `appearance="solid"` or `appearance="outline-fill"`, specifies the background color of the component's button element.
- * @prop --calcite-inline-editable-button-corner-radius: Specifies the corner radius of the component's button element.
- * @prop --calcite-inline-editable-button-loader-color: Specifies the loader color of the component's button element.
- * @prop --calcite-inline-editable-button-text-color: Specifies the text color of the component's button element.
+ * @prop --calcite-inline-editable-background-color-hover: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-background-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-background-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-background-color-hover: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-background-color-press: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-corner-radius: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-loader-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-text-color: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
+ * @prop --calcite-inline-editable-button-text-color-press: [Deprecated] in v5.1.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number` or `calcite-input-text` built-in inline editing tokens instead.
  */
 
-// AUTO-GENERATED — do not modify. Changes will be overwritten.
-//
-// Internal CSS custom properties for component use only. Overwriting is not recommended.
-//
-// --calcite-internal-button-background-color
-// --calcite-internal-button-border-block-end-color
-// --calcite-internal-button-border-block-start-color
-// --calcite-internal-button-text-color
+// Deprecated in v5.1.0, removal target v7.0.0
 
 @use "../../styles/includes";
 
@@ -69,33 +65,47 @@
   @apply flex;
 }
 
-.cancel-editing-button[appearance="transparent"][kind="neutral"] {
-  --calcite-internal-button-text-color: var(--calcite-color-text-3);
-  --calcite-internal-button-border-block-start-color: var(--calcite-color-border-input);
-  --calcite-internal-button-border-block-end-color: var(--calcite-color-border-input);
-
-  &:hover {
-    --calcite-internal-button-text-color: var(--calcite-color-text-1);
-  }
-}
-
 .enable-editing-button {
   &--hidden {
     pointer-events: none;
     opacity: 0;
     inline-size: 0;
   }
-
-  &[appearance="transparent"][kind="neutral"] {
-    --calcite-internal-button-background-color: transparent;
-  }
 }
 
-calcite-button {
-  --calcite-button-background-color: var(--calcite-inline-editable-button-background-color);
-  --calcite-button-corner-radius: var(--calcite-inline-editable-button-corner-radius);
-  --calcite-button-loader-color: var(--calcite-inline-editable-button-loader-color);
-  --calcite-button-text-color: var(--calcite-inline-editable-button-text-color);
+.enable-editing-button,
+.confirm-changes-button,
+.cancel-editing-button {
+  margin-inline-start: var(--calcite-space-2xs);
+}
+
+calcite-action {
+  --calcite-action-background-color: var(--calcite-inline-editable-button-background-color);
+  --calcite-action-corner-radius: var(--calcite-inline-editable-button-corner-radius);
+  --calcite-action-loader-color: var(--calcite-inline-editable-button-loader-color);
+  --calcite-action-text-color: var(--calcite-inline-editable-button-text-color);
+
+  &:hover {
+    --calcite-action-background-color-hover: var(
+      --calcite-inline-editable-button-background-color-hover,
+      var(--calcite-inline-editable-button-background-color)
+    );
+    --calcite-action-text-color-press: var(
+      --calcite-inline-editable-button-text-color-press,
+      var(--calcite-inline-editable-button-text-color)
+    );
+  }
+
+  &:active {
+    --calcite-action-background-color-press: var(
+      --calcite-inline-editable-button-background-color-press,
+      var(--calcite-inline-editable-button-background-color)
+    );
+    --calcite-action-text-color-press: var(
+      --calcite-inline-editable-button-text-color-press,
+      var(--calcite-inline-editable-button-text-color)
+    );
+  }
 }
 
 @include includes.disabled();

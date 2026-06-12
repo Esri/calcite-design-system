@@ -6,6 +6,8 @@ export const CSS = {
   hasPrefix: "has-prefix",
   hasSuffix: "has-suffix",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child",
+  inlineEditing: "inline-editing",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",

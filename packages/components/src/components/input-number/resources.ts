@@ -6,6 +6,8 @@ export const CSS = {
   clearable: "clearable",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child",
+  inlineEditing: "inline-editing",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",

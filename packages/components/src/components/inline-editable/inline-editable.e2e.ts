@@ -9,6 +9,8 @@ import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
+// Deprecated in v5.1.0, removal target v7.0.0
+
 describe("rendering permutations", () => {
   it("renders default props when none are provided", async () => {
     const page: E2EPage = await newE2EPage();
@@ -24,14 +26,14 @@ describe("rendering permutations", () => {
     expect(element).not.toHaveAttribute("loading");
   });
 
-  it(`should set all internal calcite-button types to 'button'`, async () => {
+  it(`should set all internal calcite-action types to 'action'`, async () => {
     const page = await newE2EPage({
       html: html`<calcite-inline-editable controls editing-enabled>
         <calcite-input />
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -47,7 +49,7 @@ describe("rendering permutations", () => {
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -388,36 +390,61 @@ describe("theme", () => {
       <calcite-input />
     </calcite-inline-editable>`,
     {
+      "--calcite-inline-editable-button-background-color": {
+        shadowSelector: `.${CSS.confirmChangesButton}`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-inline-editable-button-background-color-hover": {
+        shadowSelector: `.${CSS.confirmChangesButton}`,
+        targetProp: "--calcite-action-background-color-hover",
+        state: {
+          hover: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
+        },
+      },
+      "--calcite-inline-editable-button-background-color-press": {
+        shadowSelector: `.${CSS.confirmChangesButton}`,
+        targetProp: "--calcite-action-background-color-press",
+        state: {
+          press: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
+        },
+      },
+      "--calcite-inline-editable-button-text-color-press": {
+        shadowSelector: `.${CSS.confirmChangesButton}`,
+        targetProp: "--calcite-action-text-color-press",
+        state: {
+          press: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
+        },
+      },
       "--calcite-inline-editable-button-corner-radius": [
         {
           shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
+          targetProp: "--calcite-action-corner-radius",
         },
         {
           shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-corner-radius",
+          targetProp: "--calcite-action-corner-radius",
         },
         {
           shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-corner-radius",
+          targetProp: "--calcite-action-corner-radius",
         },
       ],
       "--calcite-inline-editable-button-loader-color": {
         shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-button-loader-color",
+        targetProp: "--calcite-action-loader-color",
       },
       "--calcite-inline-editable-button-text-color": [
         {
           shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-button-text-color",
+          targetProp: "--calcite-action-text-color",
         },
         {
           shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-button-text-color",
+          targetProp: "--calcite-action-text-color",
         },
         {
           shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-button-text-color",
+          targetProp: "--calcite-action-text-color",
         },
       ],
     },

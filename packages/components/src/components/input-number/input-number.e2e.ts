@@ -12,6 +12,7 @@ import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, DIRECTION } from "./resources";
 import type { InputNumber } from "./input-number";
+import { CSS as InlineEditingControlsCSS } from "../functional/InlineEditingControls";
 
 const delayFor2UpdatesInMs = 200;
 
@@ -1722,6 +1723,61 @@ describe("theme", () => {
         state: "focus",
       },
     });
+  });
+
+  describe("inline editing", () => {
+    themed(html`<calcite-input-number inline-editing value="42"></calcite-input-number>`, {
+      "--calcite-input-number-inline-editing-background-color": {
+        shadowSelector: `.${CSS.inlineEditing}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-number-inline-editing-background-color-hover": {
+        shadowSelector: `.${CSS.inlineEditing}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+    });
+    themed(
+      html`<calcite-input-number
+        inline-editing
+        inline-editing-controls
+        editing-enabled
+        value="42"
+      ></calcite-input-number>`,
+      {
+        "--calcite-input-number-inline-editing-controls-background-color": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-input-number-inline-editing-controls-background-color-hover": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-input-number-inline-editing-controls-background-color-press": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditingControlsCSS.confirmChanges}` },
+        },
+        "--calcite-input-number-inline-editing-controls-corner-radius": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-corner-radius",
+        },
+        "--calcite-input-number-inline-editing-controls-loader-color": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-loader-color",
+        },
+        "--calcite-input-number-inline-editing-controls-text-color": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-input-number-inline-editing-controls-text-color-press": {
+          shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditingControlsCSS.confirmChanges}` },
+        },
+      },
+    );
   });
 
   describe("deprecated", () => {

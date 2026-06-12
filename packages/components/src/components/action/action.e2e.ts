@@ -261,6 +261,14 @@ describe("themed", () => {
       },
     );
   });
+  describe("loader color", () => {
+    themed(html`<calcite-action loading></calcite-action>`, {
+      "--calcite-action-loader-color": {
+        shadowSelector: "calcite-loader[inline]",
+        targetProp: "--calcite-loader-progress-color-inline",
+      },
+    });
+  });
   describe("indicator", () => {
     themed(
       html`<calcite-action class="one" indicator text="hello world"></calcite-action
