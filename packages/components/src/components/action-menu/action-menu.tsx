@@ -147,7 +147,7 @@ export class ActionMenu extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /**
@@ -412,7 +412,7 @@ export class ActionMenu extends LitElement {
       })
       .reduce<Action["el"][]>((previousValue, currentValue) => {
         if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue as Action["el"]);
+          previousValue.push(currentValue);
           return previousValue;
         }
 

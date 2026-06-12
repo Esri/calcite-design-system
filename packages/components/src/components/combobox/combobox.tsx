@@ -374,7 +374,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     return this.items.filter((item) => !isHidden(item));
   }
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /**

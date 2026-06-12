@@ -199,7 +199,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
