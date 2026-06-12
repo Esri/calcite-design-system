@@ -1,3 +1,4 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Handle } from "./handle";
 
@@ -23,8 +24,8 @@ export default {
 
 export const simple = (args: HandleStoryArgs): string => html`
   <calcite-handle
-    ${args.disabled ? "disabled" : ""}
-    ${args.selected ? "selected" : ""}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("selected", args.selected)}
     label="${args.label}"
     drag-handle="${args.dragHandle}"
   ></calcite-handle>

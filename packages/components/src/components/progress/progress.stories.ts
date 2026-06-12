@@ -1,5 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Progress } from "./progress";

@@ -1,7 +1,6 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placements } from "../../utils/floating-ui";
-import { modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";

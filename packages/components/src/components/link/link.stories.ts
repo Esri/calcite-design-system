@@ -59,7 +59,6 @@ export const simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
     <calcite-link
-      ${boolean("disabled", args.disabled)}
       ${boolean("download", !!args.download)}
       href="${args.href}"
       icon-start="${args.iconStart}"

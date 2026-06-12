@@ -1,6 +1,5 @@
 import { Decorator } from "@storybook/web-components-vite";
-import { boolean } from "../../../.storybook/utils";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Scale } from "../interfaces";
 import type { Tree } from "./tree";
