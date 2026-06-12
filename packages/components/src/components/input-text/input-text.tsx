@@ -140,11 +140,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** @private */
   @property({ reflect: true }) editingEnabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /**

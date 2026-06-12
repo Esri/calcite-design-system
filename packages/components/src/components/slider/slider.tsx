@@ -215,11 +215,7 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */

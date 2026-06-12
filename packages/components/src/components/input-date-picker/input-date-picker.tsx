@@ -205,11 +205,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */

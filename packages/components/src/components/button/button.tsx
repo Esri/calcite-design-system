@@ -112,11 +112,7 @@ export class Button extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
