@@ -88,7 +88,7 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**

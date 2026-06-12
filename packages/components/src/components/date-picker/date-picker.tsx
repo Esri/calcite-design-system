@@ -97,7 +97,7 @@ export class DatePicker extends LitElement {
   /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Defines the component's layout. */
