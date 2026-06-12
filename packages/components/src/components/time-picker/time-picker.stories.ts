@@ -4,12 +4,13 @@ import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
+import { hourFormats } from "../../utils/time";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
 
 const { scale } = ATTRIBUTES;
 
-interface TimePickerStoryArgs extends Pick<TimePicker, "numberingSystem" | "scale" | "step" | "value"> {
+interface TimePickerStoryArgs extends Pick<TimePicker, "hourFormat" | "numberingSystem" | "scale" | "step" | "value"> {
   disabled: boolean;
   hidden: boolean;
   lang: string;
@@ -23,6 +24,7 @@ export default {
     disabled: false,
     hidden: false,
     lang: defaultLocale,
+    hourFormat: "user",
     name: "simple",
     numberingSystem: defaultNumberingSystem,
     placement: defaultMenuPlacement,
@@ -37,6 +39,10 @@ export default {
     },
     numberingSystem: {
       options: numberingSystems,
+      control: { type: "select" },
+    },
+    hourFormat: {
+      options: hourFormats,
       control: { type: "select" },
     },
     placement: {
@@ -55,6 +61,7 @@ export const simple = (args: TimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     lang="${args.lang}"
+    hour-format="${args.hourFormat}"
     name="${args.name}"
     numbering-system="${args.numberingSystem}"
     placement="${args.placement}"

@@ -9,7 +9,19 @@ const { alignment, scale } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
-  "active" | "alignment" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
+  | "active"
+  | "alignment"
+  | "description"
+  | "disabled"
+  | "embed"
+  | "heading"
+  | "href"
+  | "icon"
+  | "layout"
+  | "scale"
+  | "selected"
+  | "selectionAppearance"
+  | "selectionMode"
 > {
   hidden: boolean;
 }
@@ -22,11 +34,16 @@ export default {
     description:
       "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall.",
     disabled: false,
+    embed: false,
     heading: "Tile heading lorem ipsum",
     hidden: false,
     href: "#",
     icon: "layer",
+    layout: "vertical",
     scale: scale.defaultValue,
+    selected: false,
+    selectionAppearance: "icon",
+    selectionMode: "none",
   },
   argTypes: {
     alignment: {
@@ -41,6 +58,18 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    layout: {
+      options: ["horizontal", "vertical"],
+      control: { type: "select" },
+    },
+    selectionMode: {
+      options: ["none", "single", "multiple"],
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: ["icon", "highlight"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -50,11 +79,16 @@ export const simple = (args: TileStoryArgs): string => html`
     alignment="${args.alignment}"
     description="${args.description}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("embed", args.embed)}
     heading="${args.heading}"
     ${boolean("hidden", args.hidden)}
     href="${args.href}"
     icon="${args.icon}"
+    layout="${args.layout}"
     scale="${args.scale}"
+    ${boolean("selected", args.selected)}
+    selection-mode="${args.selectionMode}"
+    selection-appearance="${args.selectionAppearance}"
   >
   </calcite-tile>
 `;

@@ -10,7 +10,15 @@ const referenceElementHTML = `Ut enim ad minim veniam, quis <calcite-button appe
 
 type TooltipStoryArgs = Pick<
   Tooltip,
-  "placement" | "offsetDistance" | "offsetSkidding" | "open" | "pointerDisabled" | "scale"
+  | "closeOnClick"
+  | "offsetDistance"
+  | "offsetSkidding"
+  | "open"
+  | "overlayPositioning"
+  | "placement"
+  | "pointerDisabled"
+  | "scale"
+  | "topLayerDisabled"
 >;
 
 export default {
@@ -20,8 +28,11 @@ export default {
     offsetDistance: 6,
     offsetSkidding: 0,
     open: false,
+    closeOnClick: false,
+    overlayPositioning: "absolute",
     pointerDisabled: false,
     scale: "m",
+    topLayerDisabled: false,
   },
   argTypes: {
     placement: {
@@ -30,6 +41,10 @@ export default {
     },
     scale: {
       options: ["s", "m", "l"],
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: ["absolute", "fixed"],
       control: { type: "select" },
     },
   },
@@ -41,10 +56,13 @@ export const simple = (args: TooltipStoryArgs): string => html`
     <calcite-tooltip
       reference-element="reference-element"
       placement="${args.placement}"
+      ${boolean("close-on-click", args.closeOnClick)}
       offset-distance="${args.offsetDistance}"
       offset-skidding="${args.offsetSkidding}"
+      overlay-positioning="${args.overlayPositioning}"
       ${boolean("pointer-disabled", args.pointerDisabled)}
       scale="${args.scale}"
+      ${boolean("top-layer-disabled", args.topLayerDisabled)}
       ${boolean("open", args.open)}
     >
       <span> ${contentHTML} </span>

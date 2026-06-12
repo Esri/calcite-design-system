@@ -7,8 +7,11 @@ const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<
   Table,
+  | "currentPage"
   | "pageSize"
+  | "groupSeparator"
   | "interactionMode"
+  | "numberingSystem"
   | "selectionMode"
   | "selectionDisplay"
   | "scale"
@@ -22,8 +25,11 @@ type TableStoryArgs = Pick<
 export default {
   title: "Components/Table",
   args: {
+    currentPage: 1,
     pageSize: 0,
+    groupSeparator: false,
     interactionMode: interactionMode.defaultValue,
+    numberingSystem: "",
     selectionMode: selectionMode.values[1],
     selectionDisplay: "top",
     scale: scale.defaultValue,
@@ -71,8 +77,11 @@ export default {
 
 export const simple = (args: TableStoryArgs): string => html`
   <calcite-table
+    current-page="${args.currentPage}"
     page-size="${args.pageSize}"
+    ${boolean("group-separator", args.groupSeparator)}
     interaction-mode="${args.interactionMode}"
+    numbering-system="${args.numberingSystem}"
     selection-mode="${args.selectionMode}"
     selection-display="${args.selectionDisplay}"
     scale="${args.scale}"

@@ -16,9 +16,16 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
+  | "limitText"
+  | "loading"
+  | "maxLength"
   | "name"
+  | "readOnly"
+  | "required"
   | "validationMessage"
   | "validationIcon"
+  | "value"
+  | "wrap"
 >;
 
 export default {
@@ -32,9 +39,16 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
+    limitText: "",
+    loading: false,
+    maxLength: undefined,
     name: "",
+    readOnly: false,
+    required: false,
     validationMessage: "",
     validationIcon: "",
+    value: "",
+    wrap: "soft",
   },
   argTypes: {
     scale: {
@@ -49,6 +63,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    wrap: {
+      options: ["hard", "soft"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -58,11 +76,18 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     status="${args.status}"
     placeholder="${args.placeholder}"
     ${boolean("disabled", args.disabled)}
+    ${boolean("loading", args.loading)}
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     columns="${args.columns}"
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
+    ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
+    limit-text="${args.limitText}"
     name="${args.name}"
+    value="${args.value}"
+    wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
     validation-icon="${args.validationIcon}"
   >
