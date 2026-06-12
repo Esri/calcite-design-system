@@ -190,7 +190,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the component's height. */
+  /** @copyDoc */
   @property({ reflect: true }) height: Height;
 
   /**
