@@ -396,7 +396,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /** When `true`, displays and positions the component. */

@@ -121,7 +121,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) min = 0;
 
   /**
-   * Specifies the name of the component. Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */

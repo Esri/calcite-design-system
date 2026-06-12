@@ -146,7 +146,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property({ reflect: true }) min: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /** @copyDoc */
   @property() name: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */

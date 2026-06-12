@@ -85,7 +85,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property() labelText?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name?: string;
 
   /**

@@ -67,7 +67,7 @@ export class Switch extends LitElement implements LabelableComponent {
   /** Specifies the component's start label text.*/
   @property() labelTextStart: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /** Specifies the component's size. */

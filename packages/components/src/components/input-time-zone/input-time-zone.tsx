@@ -130,7 +130,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /**
