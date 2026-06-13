@@ -40,15 +40,19 @@
           "docs": "deprecated"
         },
         "extensions": {
-          "calcite.deprecated": true
+          "calcite.deprecated": true,
+          "calcite.runtimeOutputValue": "var(--calcite-font-weight-normal)"
         }
       },
       "regular": {
-        "$value": "var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))",
+        "$value": "{internal.font.weight.regular}",
         "$type": "fontWeights",
         "attributes": {
           "category": "font",
           "group": "weight"
+        },
+        "extensions": {
+          "calcite.runtimeOutputValue": "var(--calcite-font-weight-regular)"
         }
       },
       "medium": {
