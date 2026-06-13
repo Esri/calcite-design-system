@@ -62,7 +62,10 @@ calcite-time-picker {
   display: flex;
   color: var(--calcite-input-time-picker-input-text-color, var(--calcite-color-text-1));
   flex-wrap: nowrap;
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(
+    --calcite-font-weight-regular,
+    var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))
+  );
   inline-size: 100%;
   padding-block: var(--calcite-spacing-base);
   user-select: none;

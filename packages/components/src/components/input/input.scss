@@ -406,7 +406,10 @@ input[type="time"]::-webkit-clear-button {
     border
     border-solid
     leading-none;
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(
+    --calcite-font-weight-regular,
+    var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))
+  );
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
 }
 

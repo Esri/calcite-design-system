@@ -390,7 +390,10 @@ input[readonly]:focus {
     border
     border-solid
     leading-none;
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(
+    --calcite-font-weight-regular,
+    var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))
+  );
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
 }
 

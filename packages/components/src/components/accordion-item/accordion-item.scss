@@ -316,7 +316,10 @@
         var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-1))
       )
     );
-    font-weight: var(--calcite-font-weight-regular);
+    font-weight: var(
+      --calcite-font-weight-regular,
+      var(--calcite-font-weight-normal, var(--calcite-internal-font-weight-regular))
+    );
   }
 }
 
