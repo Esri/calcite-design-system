@@ -159,7 +159,7 @@
   z-index: unset;
 }
 
-calcite-panel {
+.panel {
   --calcite-panel-content-space: var(--calcite-dialog-content-space, var(--calcite-internal-dialog-content-padding));
   --calcite-panel-content-top-space: var(
     --calcite-dialog-content-top-space,
@@ -186,6 +186,34 @@ calcite-panel {
   --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
   --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
+  @apply invisible opacity-0;
+  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
+  transition:
+    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
+    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
+}
+
+::slotted(calcite-panel) {
+  --calcite-panel-space: initial;
+  --calcite-panel-header-content-space: initial;
+  --calcite-panel-content-space: initial;
+  --calcite-panel-content-top-space: initial;
+  --calcite-panel-content-bottom-space: initial;
+  --calcite-panel-footer-space: initial;
+  --calcite-panel-border-color: initial;
+  --calcite-panel-background-color: initial;
+  --calcite-panel-icon-color: initial;
+  --calcite-panel-heading-text-color: initial;
+  --calcite-panel-description-text-color: initial;
+  --calcite-panel-header-background-color: initial;
+  --calcite-panel-header-action-background-color: initial;
+  --calcite-panel-header-action-background-color-hover: initial;
+  --calcite-panel-header-action-background-color-press: initial;
+  --calcite-panel-header-action-text-color: initial;
+  --calcite-panel-header-action-text-color-press: initial;
+  --calcite-panel-footer-background-color: initial;
+  --calcite-popover-border-color: initial;
+  --calcite-panel-corner-radius: initial;
 }
 
 :host([kind="brand"]) calcite-panel {
@@ -263,14 +291,6 @@ calcite-panel {
 }
 
 :host([menu-open]) .dialog {
-  transition:
-    visibility 0ms linear var(--calcite-internal-animation-timing-slow),
-    opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;
-}
-
-.panel {
-  @apply invisible opacity-0;
-  border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   transition:
     visibility 0ms linear var(--calcite-internal-animation-timing-slow),
     opacity var(--calcite-internal-animation-timing-slow) animation.$easing-function;

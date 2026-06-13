@@ -13,6 +13,23 @@
 
       <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
       <!-- you can add a demo snippet by running `npx snippet` -->
+      <style>
+        calcite-panel {
+          /* --calcite-panel-space: 2rem; */
+        }
+      </style>
+
+      <calcite-panel heading="Panel">
+        <span>Hello! I'm outside the dialog and thus dont get the extra padding</span>
+      </calcite-panel>
+      <calcite-dialog reference-element="button" open>
+        <calcite-panel style="--calcite-color-background: lightblue" heading="Extra padding">
+          Hi, I no longer get extra padding inside a dialog
+          <calcite-panel style="--calcite-color-background: lightgreen" heading="Nested panel">
+            I'm a further nested panel and I also don't get the extra padding
+          </calcite-panel>
+        </calcite-panel>
+      </calcite-dialog>
 
       <!-- demo snippet end -->
     </demo-dom-swapper>
