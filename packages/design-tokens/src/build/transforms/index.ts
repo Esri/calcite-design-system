@@ -13,6 +13,7 @@ import { registerValueEnsureType } from "./value/ensure-type.ts";
 import { registerValueCorrectPreprocessValue } from "./value/correct-pretransform-value.ts";
 import { registerValueCorrectPropName } from "./value/correct-prop-name.ts";
 import { registerValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
+import { registerValueRuntimeOutputValue } from "./value/runtime-output-value.ts";
 import { registerNameMergeBreakpoints } from "./name/es6-merge-breakpoints.ts";
 
 export function registerTransformers(): void {
@@ -27,6 +28,7 @@ export function registerTransformers(): void {
   registerValueSizePxToRem();
   registerValueEnsureType();
   registerValueCorrectPreprocessValue();
+  registerValueRuntimeOutputValue();
   registerValueCorrectPostprocessValue();
   registerValueCorrectPropName();
   registerAttributePlatformNames();
@@ -39,6 +41,7 @@ export { TransformValueMergeValues } from "./value/merge-value.ts";
 export { TransformValueEs6MergeBreakpoints } from "./value/es6-merge-breakpoints.ts";
 export { TransformValueEnsureType } from "./value/ensure-type.ts";
 export { TransformValueCorrectPreprocessValue } from "./value/correct-pretransform-value.ts";
+export { TransformValueRuntimeOutputValue } from "./value/runtime-output-value.ts";
 export { TransformValueCorrectPostprocessValue } from "./value/correct-posttransform-value.ts";
 export { TransformValueCorrectPropName } from "./value/correct-prop-name.ts";
 export { TransformNameRemoveTier } from "./name/remove-tier.ts";

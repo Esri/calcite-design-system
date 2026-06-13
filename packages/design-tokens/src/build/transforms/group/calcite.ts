@@ -11,6 +11,7 @@ import type { Platform, RegisterFn } from "../../../types/interfaces.d.ts";
 import { TransformValueEnsureType } from "../value/ensure-type.ts";
 import { TransformValueCorrectPreprocessValue } from "../value/correct-pretransform-value.ts";
 import { TransformValueCorrectPostprocessValue } from "../value/correct-posttransform-value.ts";
+import { TransformValueRuntimeOutputValue } from "../value/runtime-output-value.ts";
 
 export const platformTransforms: Record<Extract<Platform, "css" | "es6">, string[]> = {
   css: [
@@ -44,6 +45,7 @@ export function getTransforms(): string[] {
     TransformValueSizePxToRem,
     TransformValueEnsureType,
     TransformValueCorrectPostprocessValue,
+    TransformValueRuntimeOutputValue,
   ];
 
   return [...agnosticTransforms, ...platformTransforms.css];
