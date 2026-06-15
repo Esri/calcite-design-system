@@ -175,7 +175,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies placeholder text to display when the input does not have focus. */
+  /** Specifies the component's placeholder text. */
   @property() placeholder?: string;
 
   /** Determines the `calcite-time-picker`'s position relative to the input. */
