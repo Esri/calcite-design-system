@@ -1,12 +1,12 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
   JsxNode,
+  LitElement,
+  method,
+  property,
   setAttribute,
   state,
 } from "@arcgis/lumina";
@@ -54,7 +54,7 @@ export class StepperItem extends LitElement {
   private parentStepperEl?: Stepper["el"];
 
   /** the latest requested item position */
-  private selectedPosition?: number;
+  private selectedPosition = 0;
 
   /**
    * Made into a prop for testing purposes only
@@ -71,7 +71,7 @@ export class StepperItem extends LitElement {
 
   //#region State Properties
 
-  @state() stepperItemHasContent?: boolean;
+  @state() stepperItemHasContent = false;
 
   //#endregion
 
@@ -243,8 +243,8 @@ export class StepperItem extends LitElement {
 
   private updateActiveItemOnChange(event: CustomEvent<StepperItemChangeEventDetail>): void {
     if (
-      this.parentStepperEl != null &&
-      (event.target === this.parentStepperEl || event.composedPath().includes(this.parentStepperEl))
+      event.target === this.parentStepperEl ||
+      event.composedPath().includes(this.parentStepperEl!)
     ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
@@ -325,11 +325,6 @@ export class StepperItem extends LitElement {
     this.el.ariaCurrent = this.selected ? "step" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
 
-    // use local var to bypass logic-changing compiler transformation
-    const innerDisplayContextTabIndex =
-      /* additional tab index logic needed because of display: contents for horizontal layout */
-      this.layout === "horizontal" && !this.disabled ? 0 : undefined;
-
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
@@ -341,7 +336,10 @@ export class StepperItem extends LitElement {
           <div
             class={CSS.stepperItemHeader}
             ref={this.headerRef}
-            tabIndex={innerDisplayContextTabIndex}
+            tabIndex={
+              // use local var to bypass logic-changing compiler transformation
+              this.layout === "horizontal" && !this.disabled ? 0 : undefined
+            }
           >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (

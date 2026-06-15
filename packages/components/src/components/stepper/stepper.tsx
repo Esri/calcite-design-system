@@ -1,12 +1,11 @@
 import { PropertyValues } from "lit";
 import {
-  LitElement,
-  property,
   createEvent,
-  h,
-  method,
-  state,
   JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
   ToEvents,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -71,7 +70,7 @@ export class Stepper extends LitElement {
 
   //#region State Properties
 
-  @state() currentActivePosition = 0;
+  @state() currentActivePosition = -1;
 
   //#endregion
 
@@ -231,12 +230,9 @@ export class Stepper extends LitElement {
 
   loaded(): void {
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentActivePosition !== "number") {
+    if (this.currentActivePosition === -1) {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
-
-      if (enabledStepIndex === 0) {
-        this.currentActivePosition = enabledStepIndex;
-      }
+      this.currentActivePosition = enabledStepIndex;
 
       this.calciteInternalStepperItemChange.emit({
         position: enabledStepIndex,
@@ -375,8 +371,7 @@ export class Stepper extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter((el) => isStepperItem(el));
-    this.items = items;
+    this.items = slotChangeGetAssignedElements(event).filter((el) => isStepperItem(el));
     this.updateItems();
     const spacing = Array(this.visibleItems.length).fill("1fr").join(" ");
     const value = this.containerRef.value!;
