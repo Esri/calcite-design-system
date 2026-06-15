@@ -40,9 +40,17 @@ export const config: ApiExtractorConfig = {
             description: descriptionOverrides[apiClass.name] ?? "Specifies a description for the component.",
           };
         },
-        flipPlacements: {
-          description:
-            "Specifies the component's fallback `placement` for slotted content when its initial or specified `placement` has insufficient space available.",
+        flipPlacements(_apiProperty, apiClass) {
+          const descriptionOverrides: Record<string, string> = {
+            Dropdown:
+              "Specifies the component's fallback `placement` for slotted `calcite-dropdown-item`s when their initial or specified `placement` has insufficient space available.",
+          };
+
+          return {
+            description:
+              descriptionOverrides[apiClass.name] ??
+              "Specifies the component's fallback `placement` for slotted content when its initial or specified `placement` has insufficient space available.",
+          };
         },
         form: {
           description:

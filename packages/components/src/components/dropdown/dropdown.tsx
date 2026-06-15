@@ -124,7 +124,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted `calcite-dropdown-item`s when their initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /**
