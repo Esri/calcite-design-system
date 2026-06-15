@@ -566,7 +566,7 @@ describe("theme", () => {
         targetProp: "borderColor",
       },
       "--calcite-input-shadow": {
-        shadowSelector: `.${CSS.wrapper}`,
+        shadowSelector: `.${CSS.inputWrapper}`,
         targetProp: "boxShadow",
       },
     });
