@@ -139,7 +139,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component. Displays below the `label`. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */

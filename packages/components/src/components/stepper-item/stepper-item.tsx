@@ -81,7 +81,7 @@ export class StepperItem extends LitElement {
   /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** Specifies a description for the component. Displays below the header text. */
+  /** @copyDoc */
   @property() description: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */

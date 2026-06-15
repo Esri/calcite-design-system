@@ -13,8 +13,24 @@ export const config: ApiExtractorConfig = {
         closable: {
           description: "When `true`, displays a close button in the component.",
         },
-        description: {
-          description: "Specifies a description for the component.",
+        description(_apiProperty, apiClass) {
+          const descriptionWithPlacement = (placement: string): string =>
+            `Specifies a description for the component. Displays ${placement}.`;
+
+          const descriptionOverrides: Record<string, string> = {
+            AutocompleteItem: descriptionWithPlacement("below the `label`"),
+            Block: descriptionWithPlacement("below the `heading`"),
+            ComboboxItem: descriptionWithPlacement("below the `heading`"),
+            ListItem: descriptionWithPlacement("below the `label`"),
+            NavigationLogo: descriptionWithPlacement("below the `heading`"),
+            StepperItem: descriptionWithPlacement("below the `heading`"),
+            TableHeader: descriptionWithPlacement("below the `heading`"),
+            Tile: descriptionWithPlacement("below the `heading`"),
+          };
+
+          return {
+            description: descriptionOverrides[apiClass.name] ?? "Specifies a description for the component.",
+          };
         },
         flipPlacements: {
           description:

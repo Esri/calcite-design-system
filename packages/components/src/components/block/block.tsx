@@ -85,7 +85,7 @@ export class Block extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a description for the component. Displays below the heading. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
