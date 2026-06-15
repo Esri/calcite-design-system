@@ -9,7 +9,7 @@ module.exports = async ({ github, context, core }) => {
 	const { repo, owner } = context.repo;
 	const logParams = { title: "Add Issues To Backlog" };
 
-	const payload = /** @type {import('@octokit/webhooks-types').IssuesEvent} */ (context.payload);
+	const payload = /** @type {import('@octokit/webhooks-types').IssuesOpenedEvent | import('@octokit/webhooks-types').IssuesEditedEvent}*/ (context.payload);
 	const {
 		action,
 		issue: { labels, milestone, number: issue_number },
