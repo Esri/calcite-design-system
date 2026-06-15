@@ -154,6 +154,20 @@ export const scales = (): string => html`
         ></calcite-input-time-picker>
       </calcite-label>
     </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="s" icon></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="m" icon></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="l" icon></calcite-input-time-picker>
+      </calcite-label>
+    </div>
   </div>
 `;
 
