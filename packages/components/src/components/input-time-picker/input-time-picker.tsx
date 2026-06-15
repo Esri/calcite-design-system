@@ -274,6 +274,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   constructor() {
     super();
     this.listen("blur", this.blurHandler);
+    this.listen("focus", this.focusHandler);
+    this.listen("focusout", this.focusOutHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
   }
@@ -326,6 +328,14 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private blurHandler(): void {
     this.changeEventHandler();
+  }
+
+  private focusHandler(): void {
+    this.hasFocus = true;
+  }
+
+  private focusOutHandler(): void {
+    this.hasFocus = false;
   }
 
   /**

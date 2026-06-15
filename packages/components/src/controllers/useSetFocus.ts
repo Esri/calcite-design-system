@@ -22,17 +22,11 @@ export const useSetFocus = <T extends SetFocusComponent>(): ReturnType<
     let abortController: AbortController;
 
     function handleFocusOut(): void {
-      if ("hasFocus" in component) {
-        component.hasFocus = false;
-      }
       abortController?.abort();
     }
 
     controller.onLoad(() => {
       component.listen("focus", () => {
-        if ("hasFocus" in component) {
-          component.hasFocus = true;
-        }
         abortController = new AbortController();
         component.el.addEventListener("focusout", handleFocusOut, { signal: abortController.signal });
       });
