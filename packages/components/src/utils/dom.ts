@@ -217,7 +217,6 @@ export function closestElementCrossShadowBoundary<T extends Element = Element>(
 export type FocusableElement = SetFocusable | HTMLElement;
 
 export interface SetFocusable extends LitElement {
-  hasFocus?: boolean;
   setFocus: (options?: FocusOptions) => Promise<void>;
 }
 
