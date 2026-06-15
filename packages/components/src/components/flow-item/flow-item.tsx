@@ -90,7 +90,7 @@ export class FlowItem extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a the component's description. */
+  /** @copyDoc */
   @property() description: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
