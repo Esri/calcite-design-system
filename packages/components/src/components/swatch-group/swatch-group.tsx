@@ -161,7 +161,7 @@ export class SwatchGroup extends LitElement {
   }
 
   private handleSlotChange(event: Event): void {
-    this.updateItems(slotChangeGetAssignedElements<Swatch["el"]>(event));
+    this.updateItems(slotChangeGetAssignedElements<Swatch["el"]>(event, "calcite-swatch"));
   }
 
   private updateItems(items = this.items): void {
