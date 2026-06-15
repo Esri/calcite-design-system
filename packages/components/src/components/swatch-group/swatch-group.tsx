@@ -8,7 +8,6 @@ import type { Swatch } from "../swatch/swatch";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
 import { styles } from "./swatch-group.scss";
-import { isSwatch } from "../swatch/resources";
 
 declare global {
   interface DeclareElements {
@@ -161,11 +160,12 @@ export class SwatchGroup extends LitElement {
     event.stopPropagation();
   }
 
-  private updateItems(event?: Event): void {
-    const itemsFromSlot =
-      this.slotRef.value?.assignedElements({ flatten: true }).filter((el) => isSwatch(el)) || [];
+  private handleSlotChange(event: Event): void {
+    this.updateItems(slotChangeGetAssignedElements<Swatch["el"]>(event));
+  }
 
-    this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Swatch["el"]>(event);
+  private updateItems(items = this.items): void {
+    this.items = items;
 
     if (this.items.length < 1) {
       return;
@@ -226,7 +226,7 @@ export class SwatchGroup extends LitElement {
     return (
       <this.interactiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
-          <slot onSlotChange={this.updateItems} ref={this.slotRef} />
+          <slot onSlotChange={this.handleSlotChange} ref={this.slotRef} />
         </div>
       </this.interactiveContainer>
     );
