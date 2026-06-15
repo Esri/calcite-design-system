@@ -1,5 +1,4 @@
-import { Swatch } from "./swatch";
-
+import type { Swatch } from "./swatch";
 export const CSS = {
   imageContainer: "image-container",
   container: "container",
