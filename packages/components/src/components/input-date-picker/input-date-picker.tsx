@@ -321,7 +321,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity?: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()
@@ -937,7 +937,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     inputRef.value.value = newValue;
   }
 
-  private setRangeValue(valueAsDate: Array<Date | undefined>): void {
+  private setRangeValue(valueAsDate: (Date | undefined)[]): void {
     if (!this.range) {
       return;
     }

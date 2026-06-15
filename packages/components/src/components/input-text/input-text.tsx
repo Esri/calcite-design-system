@@ -248,7 +248,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity?: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property()
@@ -513,7 +513,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         onClick={this.disabled || this.readOnly ? undefined : this.clearInputTextValue}
       >
         <ClearButton
-          ariaLabel={this.messages.clear ?? ""}
+          ariaLabel={this.messages.clear}
           disabled={this.disabled || this.readOnly}
           scale={this.scale}
           title={this.messages.clear}

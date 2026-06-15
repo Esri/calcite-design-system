@@ -165,7 +165,7 @@ export class Icon extends LitElement {
     const dir = this.direction;
     const size = scaleToPx[scale];
     const semantic = !!textLabel;
-    const paths = typeof pathData === "string" ? [pathData] : (pathData ?? [""]);
+    const paths = Array.isArray(pathData) ? pathData : [pathData ?? ""];
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaHidden = toAriaBoolean(!semantic);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

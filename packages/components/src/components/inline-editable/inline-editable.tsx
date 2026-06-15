@@ -43,7 +43,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   private shouldEmitCancel = false;
 
-  private valuePriorToEditing?: string;
+  private valuePriorToEditing: string = "";
 
   /**
    * Made into a prop for testing purposes only
@@ -181,7 +181,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   }
 
   private enableEditing() {
-    this.valuePriorToEditing = this.inputEl?.value;
+    this.valuePriorToEditing = this.inputEl?.value ?? "";
     this.editingEnabled = true;
     this.inputEl?.setFocus();
     this.calciteInternalInlineEditableEnableEditingChange.emit();
