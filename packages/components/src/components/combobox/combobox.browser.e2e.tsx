@@ -984,6 +984,7 @@ describe("keyboard interactions", async () => {
   it("does not throw when pressing Space then Enter with no items", async () => {
     const { el } = await mount<Combobox>(<calcite-combobox />);
 
+    await el.setFocus();
     await expect(userEvent.keyboard("{Space}{Enter}")).resolves.toBeUndefined();
 
     expect(el.open).toBe(false);
@@ -1276,7 +1277,7 @@ describe("keyboard interaction", () => {
     await userEvent.keyboard("{Tab}{Space}");
     await expect.element(floatingUI).toBeVisible();
 
-    await userEvent.keyboard("{ArrowDown>30/}");
+    await userEvent.keyboard("{ArrowDown>30}");
 
     const listContainer = page
       .getBySelector(`calcite-combobox .${CSS.listContainer}`)
@@ -1286,6 +1287,12 @@ describe("keyboard interaction", () => {
     const scrollTopBeforeClose = listContainer.scrollTop;
 
     expect(scrollTopBeforeClose).toBeGreaterThan(0);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(floatingUI).not.toBeVisible();
+
+    await userEvent.keyboard("{Space}");
+    await expect.element(floatingUI).toBeVisible();
 
     const activeValueAfterReopen = (activeItem.element() as ComboboxItem["el"]).value;
     const scrollTopAfterReopen = listContainer.scrollTop;
