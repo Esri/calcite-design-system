@@ -41,13 +41,13 @@ export const config: ApiExtractorConfig = {
             "Specifies the `id` of the component's associated form. When not set, the component is associated with its ancestor form element, if one exists.",
         },
         heading(_apiProperty, apiClass) {
-          const specificDescriptions: Record<string, string> = {
+          const descriptionOverrides: Record<string, string> = {
             ListItemGroup: "Specifies the heading text for the nested `calcite-list-item` rows.",
             Tile: "Specifies the component's heading text, displays between the `icon` and `description`.",
           };
 
           return {
-            description: specificDescriptions[apiClass.name] ?? "Specifies the component's heading text.",
+            description: descriptionOverrides[apiClass.name] ?? "Specifies the component's heading text.",
           };
         },
         headingLevel: {
