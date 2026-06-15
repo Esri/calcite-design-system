@@ -94,6 +94,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private secondRef = createRef<HTMLSpanElement>();
 
+  private get showPlaceholder() {
+    return (this.placeholder && !this.hasFocus && !this.time.hasValue) ?? false;
+  }
+
   private time = useTime(this);
 
   private interactiveContainer = useInteractive(this);
@@ -438,6 +442,13 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     }
   }
 
+  private mouseDownHandler(event): void {
+    if (this.showPlaceholder) {
+      event.preventDefault();
+      this.setFocus();
+    }
+  }
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -557,7 +568,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const secondIsNumber = isValidNumber(second);
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
-    const showPlaceholder = (this.placeholder && !this.hasFocus && !this.time.hasValue) ?? false;
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
@@ -587,11 +597,14 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
             scale={scale === "l" ? "m" : "s"}
           />
           <div class={CSS.contentContainer}>
-            {showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
+            {this.showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
             <div
               aria-label={getLabelText(this)}
               ariaRequired={this.required}
-              class={{ [CSS.inputContainer]: true, [CSS.inputContainerHidden]: showPlaceholder }}
+              class={{
+                [CSS.inputContainer]: true,
+                [CSS.inputContainerHidden]: this.showPlaceholder,
+              }}
               dir="ltr"
               id={IDS.inputContainer}
               role="group"
@@ -610,6 +623,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
+                onMouseDown={this.mouseDownHandler}
                 ref={this.hourRef}
                 role="spinbutton"
                 tabIndex={0}
@@ -630,6 +644,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 }}
                 onFocus={this.timePartFocusHandler}
                 onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
+                onMouseDown={this.mouseDownHandler}
                 ref={this.minuteRef}
                 role="spinbutton"
                 tabIndex={0}
@@ -651,6 +666,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   }}
                   onFocus={this.timePartFocusHandler}
                   onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
+                  onMouseDown={this.mouseDownHandler}
                   ref={this.secondRef}
                   role="spinbutton"
                   tabIndex={0}
@@ -675,6 +691,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   }}
                   onFocus={this.timePartFocusHandler}
                   onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
+                  onMouseDown={this.mouseDownHandler}
                   ref={this.fractionalSecondRef}
                   role="spinbutton"
                   tabIndex={0}
@@ -752,6 +769,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
+        onMouseDown={this.mouseDownHandler}
         ref={this.meridiemRef}
         role="spinbutton"
         tabIndex={0}
