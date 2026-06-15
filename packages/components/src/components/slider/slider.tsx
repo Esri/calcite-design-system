@@ -465,7 +465,7 @@ export class Slider extends LitElement implements LabelableComponent {
   private handleKeyDown(event: KeyboardEvent): void {
     const mirror = this.shouldMirror();
     const { activeProp, max, min, pageStep, step } = this;
-    const value = activeProp && this[activeProp];
+    const value = this[activeProp as Exclude<ActiveSliderProperty, "minMaxValue">] as number;
     const { key } = event;
 
     if (isActivationKey(key)) {
