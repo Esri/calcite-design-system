@@ -1,0 +1,19 @@
+name: Add Issues To Backlog
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  add-issues-to-backlog:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Add Issues To Backlog
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addIssuesToBacklog.js')
+            await action({github, context, core})
