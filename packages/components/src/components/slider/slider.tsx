@@ -473,7 +473,7 @@ export class Slider extends LitElement implements LabelableComponent {
       return;
     }
 
-    let adjustment: number | undefined;
+    let adjustment: number = NaN;
 
     if (key === "ArrowUp" || key === "ArrowRight") {
       const directionFactor = mirror && key === "ArrowRight" ? -1 : 1;
@@ -495,12 +495,12 @@ export class Slider extends LitElement implements LabelableComponent {
       adjustment = max;
     }
 
-    if (Number.isNaN(adjustment)) {
+    if (isNaN(adjustment)) {
       return;
     }
 
     event.preventDefault();
-    const fixedDecimalAdjustment = Number(adjustment!.toFixed(decimalPlaces(step)));
+    const fixedDecimalAdjustment = Number(adjustment.toFixed(decimalPlaces(step)));
     this.setValue({
       [activeProp as SetValueProperty]: this.clamp(fixedDecimalAdjustment, activeProp),
     });
