@@ -337,7 +337,7 @@ export class StepperItem extends LitElement {
             class={CSS.stepperItemHeader}
             ref={this.headerRef}
             tabIndex={
-              // use local var to bypass logic-changing compiler transformation
+              // additional tab index logic needed because of display: contents for horizontal layout
               this.layout === "horizontal" && !this.disabled ? 0 : undefined
             }
           >
