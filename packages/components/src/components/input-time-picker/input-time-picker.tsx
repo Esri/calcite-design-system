@@ -547,7 +547,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const secondIsNumber = isValidNumber(second);
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
-    const showPlaceholder = (this.placeholder && !this.hasFocus && !this.time.hasValue()) ?? false;
+    const showPlaceholder = (this.placeholder && !this.hasFocus && !this.time.hasValue) ?? false;
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
