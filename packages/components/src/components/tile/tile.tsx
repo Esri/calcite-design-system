@@ -71,7 +71,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** Specifies the component's heading text. displays between the `icon` and `description`. */
+  /** @copyDoc */
   @property({ reflect: true }) heading?: string;
 
   /** @copyDoc */

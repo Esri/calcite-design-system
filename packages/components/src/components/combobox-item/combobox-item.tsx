@@ -75,8 +75,7 @@ export class ComboboxItem extends LitElement {
   @property({ reflect: true }) guid = guid();
 
   /**
-   * Specifies the component's heading text.
-   *
+   * @copyDoc
    * @required
    */
   @property() heading: string;

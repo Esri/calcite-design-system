@@ -96,7 +96,7 @@ export class FlowItem extends LitElement {
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading: string;
 
   /** @copyDoc */

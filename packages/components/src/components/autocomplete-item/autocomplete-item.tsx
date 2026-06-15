@@ -54,8 +54,7 @@ export class AutocompleteItem extends LitElement {
   @property() guid = IDS.host(guid());
 
   /**
-   * Specifies the component's heading text.
-   *
+   * @copyDoc
    * @required
    */
   @property() heading!: string;

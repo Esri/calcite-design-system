@@ -141,7 +141,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
   /** @copyDoc */

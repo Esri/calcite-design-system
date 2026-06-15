@@ -90,7 +90,7 @@ export class StepperItem extends LitElement {
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading: string;
 
   /**

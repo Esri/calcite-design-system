@@ -60,7 +60,7 @@ export class TableHeader extends LitElement {
   /** Specifies a description for the component. Displays below the `heading`. */
   @property({ reflect: true }) description?: string;
 
-  /** Specifies the component's heading text. Displays above the `description`. */
+  /** @copyDoc */
   @property({ reflect: true }) heading?: string;
 
   /** @private */

@@ -35,7 +35,7 @@ export class NavigationLogo extends LitElement {
   /** Specifies a description for the component. Displays below the `heading`. */
   @property() description: string;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading: string;
 
   /** @copyDoc */
