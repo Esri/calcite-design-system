@@ -1,4 +1,3 @@
-import type { Swatch } from "./swatch";
 export const CSS = {
   imageContainer: "image-container",
   container: "container",
@@ -32,7 +31,3 @@ export const IDS = {
   swatchSolid: "swatch-solid",
   swatchTransparent: "swatch-transparent",
 };
-
-export function isSwatch(el?: Element | null): el is Swatch["el"] {
-  return el?.tagName === "CALCITE-SWATCH";
-}
