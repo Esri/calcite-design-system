@@ -102,7 +102,7 @@ export const config: ApiExtractorConfig = {
         },
         referenceElement: {
           description:
-            "The `referenceElement` used to position the component according to its `placement` value.\n\nSetting to an `HTMLElement` is preferred so the component does not need to query the DOM.\n\nHowever, a string `id` of the reference element can also be used.\n\nThe component should not be placed within its own `referenceElement` to avoid unintended behavior.",
+            "The `referenceElement` is used to position the component according to its `placement` value.\n\nSetting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.\n\nHowever, a string `id` of the reference element can also be used.\n\nThe component should not be placed within its own `referenceElement` to avoid unintended behavior.",
         },
         topLayerDisabled: {
           description:
