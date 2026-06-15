@@ -2894,8 +2894,8 @@ describe("keyboard navigation", () => {
           },
           "--calcite-table-row-border-color": {
             selector: "#row-1",
-            shadowSelector: "calcite-table-cell",
-            targetProp: "--calcite-internal-table-row-border-block-end-color",
+            shadowSelector: "calcite-table-cell >>> td",
+            targetProp: "borderBottomColor",
           },
         },
       );
