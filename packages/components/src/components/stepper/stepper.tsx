@@ -1,6 +1,7 @@
 import { PropertyValues } from "lit";
 import {
   createEvent,
+  h,
   JsxNode,
   LitElement,
   method,
