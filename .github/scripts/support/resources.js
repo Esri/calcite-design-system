@@ -39,6 +39,8 @@ const resources = {
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
+      breakingChange: "breaking change",
+      futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
     },
     priority: {

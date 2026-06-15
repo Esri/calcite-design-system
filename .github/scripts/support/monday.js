@@ -138,6 +138,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
     stalled: { id: "color_mkv79bbx", title: "Stalled" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
+    breaking: { id: "color_mm48xr8j", title: "Breaking" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
     figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
@@ -179,6 +180,22 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.blocked,
         value: "Blocked",
+        clearable: true,
+      },
+    ],
+    [
+      planning.breakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Breaking Change",
+        clearable: true,
+      },
+    ],
+    [
+      planning.futureBreakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Future Breaking Change",
         clearable: true,
       },
     ],
@@ -371,6 +388,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 1,
+        clearable: true,
       },
     ],
     [
@@ -378,6 +396,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -385,6 +404,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 3,
+        clearable: true,
       },
     ],
     [
@@ -392,6 +412,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -399,6 +420,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 8,
+        clearable: true,
       },
     ],
     [
@@ -406,6 +428,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -413,6 +436,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -420,6 +444,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 34,
+        clearable: true,
       },
     ],
     [
@@ -427,6 +452,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -434,6 +460,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -441,6 +468,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -448,6 +476,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
