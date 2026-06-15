@@ -77,10 +77,10 @@ calcite-time-picker {
     font-weight: var(--calcite-font-weight-medium);
   }
 }
-/* https://stackoverflow.com/questions/6780614/css-how-to-position-two-elements-on-top-of-each-other-without-specifying-a-hei */
+
 .content-container {
   display: grid;
-  inline-size: 100%;
+  flex-grow: 1;
   .input-container,
   .placeholder {
     grid-column: 1;

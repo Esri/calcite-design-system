@@ -104,7 +104,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#region State Properties
 
-  @state() hasFocus: boolean = false;
+  @state() hasFocus = false;
 
   //#endregion
 
