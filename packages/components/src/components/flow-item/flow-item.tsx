@@ -75,7 +75,7 @@ export class FlowItem extends LitElement {
   /** Specifies a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the component's header. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** @copyDoc */

@@ -10,8 +10,16 @@ export const config: ApiExtractorConfig = {
         closed: {
           description: "When `true`, hides the component.",
         },
-        closable: {
-          description: "When `true`, displays a close button in the component.",
+        closable(_apiProperty, apiClass) {
+          const descriptionOverrides: Record<string, string> = {
+            FlowItem: "When `true`, displays a close button in the trailing side of the component's header.",
+            Panel: "When `true`, displays a close button in the trailing side of the component's header.",
+          };
+
+          return {
+            description:
+              descriptionOverrides[apiClass.name] ?? "When `true`, displays a close button in the component.",
+          };
         },
         description(_apiProperty, apiClass) {
           const descriptionWithPlacement = (placement: string): string =>
