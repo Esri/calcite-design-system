@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { getDateTimeFormat, Locale } from "../../utils/locale";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
@@ -228,7 +227,7 @@ export function getMessageOrKeyFallback(messages: InputTimeZone["messages"], key
  * @private
  */
 export function getCity(timeZone: string): string {
-  return timeZone.split("/").pop();
+  return timeZone.split("/").pop() ?? "";
 }
 
 /**
@@ -257,7 +256,7 @@ function getTimeZoneShortOffset(timeZone: TimeZone, locale: Locale, referenceDat
 
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
-  return parts.find(({ type }) => type === "timeZoneName").value;
+  return parts.find(({ type }) => type === "timeZoneName")!.value;
 }
 
 function hasGroups(items: TimeZoneItem[] | TimeZoneItemGroup[]): items is TimeZoneItemGroup[] {
@@ -269,12 +268,12 @@ function flattenTimeZoneItems(timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[
 }
 
 export function findTimeZoneItemByProp(
-  timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[],
+  timeZoneItems: TimeZoneItem[] | TimeZoneItemGroup[] | undefined,
   prop: string,
-  valueToMatch: string | number | null,
-): TimeZoneItem | null {
-  return valueToMatch == null
-    ? null
+  valueToMatch: string | number | undefined,
+): TimeZoneItem | undefined {
+  return valueToMatch === undefined || timeZoneItems === undefined
+    ? undefined
     : flattenTimeZoneItems(timeZoneItems).find(
         (item) =>
           // intentional == to match string to number
