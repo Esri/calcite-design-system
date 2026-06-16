@@ -59,23 +59,28 @@ function clampAndApplySize(
   size: number | null | undefined,
   bounds: AxisBounds,
   el: HTMLElement,
-): number | null | undefined {
+): number | null {
   const cssPropertyName = `${axis}-size`;
+
   if (size === undefined) {
-    return undefined;
+    return null;
   }
   if (size === null) {
     el.style.removeProperty(cssPropertyName);
     return null;
   }
+
   let clampedSize = size;
+
   if (bounds.min !== null) {
     clampedSize = Math.round(Math.max(clampedSize, bounds.min));
   }
   if (bounds.max !== null) {
     clampedSize = Math.round(Math.min(clampedSize, bounds.max));
   }
+
   el.style.setProperty(cssPropertyName, `${Math.round(clampedSize)}px`);
+
   return clampedSize;
 }
 
@@ -86,7 +91,7 @@ export function applyAxes(
   sizes: { inline?: number | null; block?: number | null },
   el: HTMLElement,
   getBounds?: GetBounds,
-): { inline?: number | null; block?: number | null } {
+): { inline: number | null; block: number | null } {
   const bounds = getBounds?.() ?? {
     inline: { min: null, max: null },
     block: { min: null, max: null },
