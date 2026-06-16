@@ -157,12 +157,16 @@ describe("is form-associated", () => {
   });
 });
 
-function normalizeWhitespace(value: string): string {
+function normalizeWhitespace(value: string | null): string | null {
+  if (value === null) {
+    return null;
+  }
+
   const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
   return value.replaceAll(whitespaceRegexPattern, "");
 }
 
-async function assertDisplayedTime(value: string): Promise<void> {
+async function assertDisplayedTime(value: string | null): Promise<void> {
   const el = page.getBySelector("calcite-input-time-picker").element() as InputTimePicker["el"];
   await el.manager.component.updateComplete;
   const displayedValue = normalizeWhitespace(el.shadowRoot!.textContent);
