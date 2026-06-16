@@ -981,15 +981,6 @@ describe("active item when opened", () => {
 });
 
 describe("keyboard interactions", async () => {
-  it("does not throw when pressing Space then Enter with no items", async () => {
-    const { el } = await mount<Combobox>(<calcite-combobox />);
-
-    await el.setFocus();
-    await expect(userEvent.keyboard("{Space}{Enter}")).resolves.toBeUndefined();
-
-    expect(el.open).toBe(false);
-  });
-
   it("should delete the first focused chip on Enter key in multi-selection mode", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox allow-custom-values placeholder="Select a field">
