@@ -691,6 +691,18 @@ export class Input
     });
   }
 
+  private clearButtonPointerDownHandler(event: PointerEvent): void {
+    event.preventDefault();
+  }
+
+  private clearButtonClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.clearInputValue(event);
+    const target = this.type === "number" ? this.childNumberRef.value : this.childRef.value;
+    target?.focus();
+  }
+
   private emitChangeIfUserModified(): void {
     if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
       this.calciteInputChange.emit();
@@ -1060,7 +1072,10 @@ export class Input
     const clearButton = (
       <div
         class={CSS.clearButton}
-        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
+        onClick={this.disabled || this.readOnly ? undefined : this.clearButtonClickHandler}
+        onPointerDown={
+          this.disabled || this.readOnly ? undefined : this.clearButtonPointerDownHandler
+        }
       >
         <ClearButton
           ariaLabel={this.messages.clear}
