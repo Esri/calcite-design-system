@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { labelable, themed } from "../../tests/commonTests";
@@ -118,7 +117,7 @@ it("allows restricting input length", async () => {
 
   const getInputValidity = async () =>
     page.$eval("calcite-input", (element: Input["el"]) => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       return input.validity.valid;
     });
 
@@ -512,7 +511,7 @@ describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of tex
       "calcite-input",
       (element: Input["el"]) => {
         document.addEventListener("calciteInputInput", async () => {
-          const input = element.shadowRoot.querySelector("input");
+          const input = element.shadowRoot!.querySelector("input")!;
           if (input.selectionStart === 0) {
             cursorHomeCount++;
           }

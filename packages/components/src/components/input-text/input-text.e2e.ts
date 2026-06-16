@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -123,7 +122,7 @@ it("allows restricting input length", async () => {
 
   const getInputValidity = async () =>
     page.$eval("calcite-input-text", (element: InputText["el"]) => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       return input.validity.valid;
     });
 

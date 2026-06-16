@@ -4,7 +4,7 @@ import { h } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 
 interface ClearButtonProps {
-  ariaLabel: string;
+  ariaLabel: string | undefined;
   ref?: Ref<HTMLDivElement>;
   disabled?: boolean;
   focusable?: boolean;
@@ -35,7 +35,7 @@ export const ClearButton = ({
       <calcite-action
         disabled={disabled}
         icon="x"
-        label={ariaLabel}
+        label={ariaLabel ?? ""}
         onClick={onClick}
         scale={scale}
         tabIndex={focusable ? undefined : -1}
