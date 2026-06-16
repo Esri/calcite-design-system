@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { h } from "@arcgis/lumina";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   focusable,
+  focusTrap,
   hidden,
   openClose,
   reflects,
@@ -87,6 +88,21 @@ describe("is focusable", () => {
       },
     );
   });
+});
+
+describe("focus-trap", () => {
+  focusTrap(
+    () =>
+      mount(
+        <calcite-sheet>
+          <input id="focusable-content" />
+        </calcite-sheet>,
+      ),
+    {
+      toggleProp: "open",
+      focusTarget: () => page.getBySelector("#focusable-content"),
+    },
+  );
 });
 
 describe("reflects", () => {
