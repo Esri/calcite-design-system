@@ -6,6 +6,7 @@ import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
+  focusTrap,
   reflects,
   hidden,
   renders,
@@ -139,6 +140,28 @@ describe("is focusable", () => {
     focusable(() => mount(renderDialog(true)), {
       focusTargetSelector,
     });
+  });
+});
+
+describe("focus-trap", () => {
+  describe("default", () => {
+    focusTrap(() => mount(<calcite-dialog heading="Title">Content</calcite-dialog>), {
+      toggleProp: "open",
+    });
+  });
+
+  describe("modal", () => {
+    focusTrap(
+      () =>
+        mount(
+          <calcite-dialog heading="Title" modal>
+            Content
+          </calcite-dialog>,
+        ),
+      {
+        toggleProp: "open",
+      },
+    );
   });
 });
 
