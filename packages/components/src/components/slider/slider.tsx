@@ -316,7 +316,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ reflect: true }) step = 1;
 
   /** Specifies the interval between tick marks on the number line. */
-  @property({ reflect: true }) ticks = 0;
+  @property({ reflect: true }) ticks?: number;
 
   /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
@@ -590,7 +590,7 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private getTickDensity(): number {
-    const density = (this.max - this.min) / this.ticks / maxTickElementThreshold;
+    const density = (this.max - this.min) / this.ticks! / maxTickElementThreshold;
 
     return density < 1 ? 1 : density;
   }
