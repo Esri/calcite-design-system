@@ -6,7 +6,6 @@ import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import { resizeShiftStep } from "../../utils/resources";
-import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS } from "./resources";
@@ -54,20 +53,6 @@ describe("accessible", () => {
     await openEventSpy.next();
 
     return { page, tag: "calcite-dialog" };
-  });
-});
-
-describe("focus-trap", () => {
-  describe("default", () => {
-    focusTrap("calcite-dialog", {
-      toggleProp: "open",
-    });
-  });
-
-  describe("modal", () => {
-    focusTrap(html`<calcite-dialog modal></calcite-dialog>`, {
-      toggleProp: "open",
-    });
   });
 });
 

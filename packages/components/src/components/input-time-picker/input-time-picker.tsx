@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -63,11 +62,11 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private activeEl: HTMLSpanElement;
+  private activeEl?: HTMLSpanElement;
 
   private containerRef = createRef<HTMLDivElement>();
 
-  defaultValue: InputTimePicker["value"];
+  defaultValue?: InputTimePicker["value"];
 
   private direction = useDirection();
 
@@ -81,15 +80,15 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private hourRef = createRef<HTMLSpanElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private meridiemRef = createRef<HTMLSpanElement>();
 
   private minuteRef = createRef<HTMLSpanElement>();
 
-  private popoverEl: Popover["el"];
+  private popoverEl?: Popover["el"];
 
-  private previousEmittedValue: string;
+  private previousEmittedValue?: string;
 
   private secondRef = createRef<HTMLSpanElement>();
 
@@ -114,7 +113,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies the component's hour format, where:
@@ -126,10 +125,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** Specifies the component's label text. */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /**
    * When the component resides in a form,
@@ -137,7 +136,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
@@ -148,13 +147,13 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
   /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
-  @property() name: string;
+  @property() name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem!: NumberingSystem;
 
   /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
@@ -194,12 +193,12 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
    * The component's current validation state.
@@ -207,10 +206,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The time value in ISO (24-hour) format. */
-  @property() value: string;
+  @property() value!: string;
 
   //#endregion
 
@@ -326,7 +325,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     if (previousEmittedValue !== value) {
       const changeEvent = this.calciteInputTimePickerChange.emit();
       if (changeEvent.defaultPrevented) {
-        this.time.setValue(this.previousEmittedValue);
+        this.time.setValue(this.previousEmittedValue ?? null);
       } else {
         this.previousEmittedValue = value;
       }
@@ -455,7 +454,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   }
 
   private requestTimePickerUpdate(): void {
-    this.timePickerRef.value.manager?.component.requestUpdate();
+    this.timePickerRef.value?.manager?.component.requestUpdate();
   }
 
   private setCalcitePopoverEl(el: Popover["el"]): void {
@@ -578,7 +577,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               aria-label={this.messages.hour}
               aria-valuemax="23"
               aria-valuemin="1"
-              aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
+              aria-valuenow={(hourIsNumber && parseInt(hour!)) || "0"}
               aria-valuetext={hour}
               class={{
                 [CSS.empty]: !localizedHour,
@@ -598,7 +597,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               aria-label={this.messages.minute}
               aria-valuemax="12"
               aria-valuemin="1"
-              aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
+              aria-valuenow={(minuteIsNumber && parseInt(minute!)) || "0"}
               aria-valuetext={minute}
               class={{
                 [CSS.empty]: !localizedMinute,
@@ -619,7 +618,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.second}
                 aria-valuemax="59"
                 aria-valuemin="0"
-                aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
+                aria-valuenow={(secondIsNumber && parseInt(second!)) || "0"}
                 aria-valuetext={second}
                 class={{
                   [CSS.empty]: !localizedSecond,
@@ -643,7 +642,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.fractionalSecond}
                 aria-valuemax="999"
                 aria-valuemin="1"
-                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
+                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond!)) || "0"}
                 aria-valuetext={localizedFractionalSecond}
                 class={{
                   [CSS.empty]: !localizedFractionalSecond,
@@ -683,7 +682,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
           triggerDisabled={true}
         >
           <calcite-time-picker
-            hourFormat={this.time.hourFormat}
+            hourFormat={this.time.hourFormat ?? undefined}
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
