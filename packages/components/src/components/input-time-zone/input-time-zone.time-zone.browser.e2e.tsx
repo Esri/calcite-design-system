@@ -22,7 +22,7 @@ import { afterNextFrame } from "../../tests/utils/timing";
  * runtime, match it to one of the stable fixtures below, and run expectations for that configured zone.
  *
  * Run this file once per required time zone by setting BROWSER_TIME_ZONE. If the browser context uses a
- * time zone not listed in testTimeZoneItems, this suite fails immediately so a missing or unsupported
+ * time zone not listed in testTimeZones, this suite fails immediately so a missing or unsupported
  * config is visible.
  */
 

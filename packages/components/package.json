@@ -51,7 +51,7 @@
     "screenshot-tests:publish": "npm run screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "npm run util:clean-js-files && concurrently --kill-others --raw \"trap 'npm run util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig.demos.json --watch\" \"npm run build:watch-dev\"",
     "test": "concurrently --passthrough-arguments \"npm:test:node -- {@}\" \"npm:test:browser -- {@}\" --",
-    "test:ci": "npm run util:install-playwright && concurrently --passthrough-arguments --names node,browser,time-zone \"npm run test:node 2>test-node.err.log\" \"npm run test:browser 2>test-browser.err.log\" \"npm run test:browser:time-zone 2>test-time-zone.err.log\" || node support/log-test-output.ts",
+    "test:ci": "concurrently --passthrough-arguments --names node,browser,time-zone \"npm run test:node 2>test-node.err.log\" \"npm run test:browser 2>test-browser.err.log\" \"npm run test:browser:time-zone 2>test-time-zone.err.log\" || node support/log-test-output.ts",
     "test:node": "vitest run",
     "test:browser": "npm run util:install-playwright && BROWSER_TESTS=true vitest run",
     "test:browser:time-zone": "npm run util:install-playwright && node support/run-time-zone-browser-tests.ts run",

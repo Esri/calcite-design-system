@@ -28,7 +28,6 @@ export default defineConfig(
         ui: false,
       },
       include: [timeZoneBrowserTestMatch],
-      exclude: [],
       passWithNoTests: true,
       setupFiles: "./src/tests/browser/setup.ts",
     },

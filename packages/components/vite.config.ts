@@ -100,7 +100,7 @@ export function createConfig({
         ui: false,
       },
       include: runBrowserTests ? [browserTestMatch] : [allSpecAndE2ETestMatch],
-      exclude: runBrowserTests ? [timeZoneBrowserTestMatch] : [...defaultExclude, browserTestMatch],
+      exclude: runBrowserTests ? [...defaultExclude, timeZoneBrowserTestMatch] : [...defaultExclude, browserTestMatch],
       passWithNoTests: true,
       setupFiles: "./src/tests/browser/setup.ts",
     },
