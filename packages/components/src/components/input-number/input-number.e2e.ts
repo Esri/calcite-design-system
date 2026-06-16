@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { KeyInput } from "puppeteer";
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -457,13 +456,13 @@ describe.skip("increment/decrement functionality", () => {
     await inputEventSpy.next();
 
     expect(eventSpy).toHaveReceivedEventTimes(1);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.up("ArrowUp");
     await page.waitForChanges();
 
     expect(eventSpy).toHaveReceivedEventTimes(2);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
 
     const totalNudgesUp = inputEventSpy.length;
     expect(await input.getProperty("value")).toBe(`${totalNudgesUp}`);
@@ -473,13 +472,13 @@ describe.skip("increment/decrement functionality", () => {
     await page.waitForTimeout(delayFor2UpdatesInMs);
 
     expect(eventSpy).toHaveReceivedEventTimes(3);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
 
     await page.keyboard.up("ArrowDown");
     await page.waitForChanges();
 
     expect(eventSpy).toHaveReceivedEventTimes(4);
-    expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+    expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
 
     const totalNudgesDown = inputEventSpy.length - totalNudgesUp;
     const finalNudgedValue = totalNudgesUp - totalNudgesDown;
@@ -771,12 +770,9 @@ it("value stays in sync when value property is controlled with javascript", asyn
   const input = await page.find("calcite-input-number >>> input");
 
   await page.evaluate(() => {
-    document
-      .querySelector("calcite-input-number")
-      .addEventListener("calciteInputNumberInput", (event: InputEvent): void => {
-        const target = event.target as HTMLInputElement;
-        target.value = "5";
-      });
+    document.querySelector("calcite-input-number")!.addEventListener("calciteInputNumberInput", (event): void => {
+      (event.target as HTMLInputElement).value = "5";
+    });
   });
 
   await calciteInput.click();
@@ -954,10 +950,10 @@ it("allows shift tabbing", async () => {
   const calciteInput2 = await page.find("#input2");
   await calciteInput2.callMethod("setFocus");
   await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("two");
+  expect(await page.evaluate(() => document.activeElement!.getAttribute("label"))).toEqual("two");
   await page.keyboard.down("Shift");
   await page.keyboard.press("Tab");
-  expect(await page.evaluate(() => document.activeElement.getAttribute("label"))).toEqual("one");
+  expect(await page.evaluate(() => document.activeElement!.getAttribute("label"))).toEqual("one");
 });
 
 it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
@@ -1433,7 +1429,7 @@ describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of tex
       "calcite-input-number",
       (element: InputNumber["el"]) => {
         document.addEventListener("calciteInputNumberInput", async () => {
-          const input = element.shadowRoot.querySelector("input");
+          const input = element.shadowRoot!.querySelector("input")!;
           if (input.selectionStart === 0) {
             cursorHomeCount++;
           }

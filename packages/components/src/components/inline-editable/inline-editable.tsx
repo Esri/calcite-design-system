@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
@@ -45,13 +44,13 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   private enableEditingButtonRef = createRef<Action["el"]>();
 
-  private inputEl: (Input | InputNumber | InputText)["el"];
+  private inputEl?: (Input | InputNumber | InputText)["el"];
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private shouldEmitCancel: boolean;
+  private shouldEmitCancel = false;
 
-  private valuePriorToEditing: string;
+  private valuePriorToEditing: string = "";
 
   /**
    * Made into a prop for testing purposes only
@@ -73,7 +72,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Public Properties
 
   /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
-  @property() afterConfirm: () => Promise<void>;
+  @property() afterConfirm?: () => Promise<void>;
 
   /** When `true` and `editingEnabled` is `true`, displays save and cancel controls. */
   @property({ reflect: true }) controls = false;
@@ -193,7 +192,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   }
 
   private enableEditing() {
-    this.valuePriorToEditing = this.inputEl?.value;
+    this.valuePriorToEditing = this.inputEl?.value ?? "";
     this.editingEnabled = true;
     this.inputEl?.setFocus();
     this.calciteInternalInlineEditableEnableEditingChange.emit();
@@ -228,9 +227,13 @@ export class InlineEditable extends LitElement implements LabelableComponent {
       const confirmChangesButton = this.confirmChangesButtonRef.value;
       const cancelEditingButton = this.cancelEditingButtonRef.value;
       const composedPath = event.composedPath();
-      const tabFromInput = composedPath.includes(this.inputEl);
-      const tabFromConfirm = composedPath.includes(confirmChangesButton);
-      const tabFromCancel = composedPath.includes(cancelEditingButton);
+      const tabFromInput = this.inputEl ? composedPath.includes(this.inputEl) : false;
+      const tabFromConfirm = confirmChangesButton
+        ? composedPath.includes(confirmChangesButton)
+        : false;
+      const tabFromCancel = cancelEditingButton
+        ? composedPath.includes(cancelEditingButton)
+        : false;
 
       if (!event.shiftKey && tabFromConfirm) {
         event.preventDefault();

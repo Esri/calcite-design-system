@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, labelable, themed } from "../../tests/commonTests";
@@ -188,7 +187,7 @@ describe("has controls", () => {
     const cancelEditingButton = await page.find(`calcite-inline-editable >>> .${CSS.cancelEditingButton}`);
     expect(await input.getProperty("value")).toBe("John Doe");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("-typo");
@@ -208,7 +207,7 @@ describe("has controls", () => {
     await element.click();
     expect(await input.getProperty("value")).toBe("John Doe");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("-typo");
@@ -263,7 +262,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");
@@ -288,7 +287,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find(`calcite-inline-editable >>> .${CSS.confirmChangesButton}`);
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");
@@ -317,7 +316,7 @@ describe("has controls", () => {
     await enableEditingButton.click();
     const confirmChangesButton = await page.find("calcite-inline-editable >>> .confirm-changes-button");
     await page.$eval("calcite-input", (element: Input["el"]): void => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       input.setSelectionRange(input.value.length, input.value.length);
     });
     await input.type("Moe");

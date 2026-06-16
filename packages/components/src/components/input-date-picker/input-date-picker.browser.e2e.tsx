@@ -168,8 +168,8 @@ describe("minAsDate and maxAsDate properties", () => {
     expect(el.value).toBe("2020-12-31");
 
     const input = el.shadowRoot
-      .querySelector<HTMLElement>("calcite-input-text")
-      ?.shadowRoot.querySelector<HTMLInputElement>("input");
+      .querySelector<HTMLElement>("calcite-input-text")!
+      .shadowRoot!.querySelector<HTMLInputElement>("input")!;
     expect(input.value).toBe("12/31/2020");
   });
 });
