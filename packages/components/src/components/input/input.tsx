@@ -43,7 +43,6 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
-import InlineEditableT9nStrings from "../inline-editable/assets/t9n/messages.en.json";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "./interfaces";
 import {
@@ -1262,11 +1261,11 @@ export class Input
           {this.selfManagedInlineEditing && (
             <div class={CSS.inlineEditing}>
               <InlineEditingControls
-                cancelEditingLabel={InlineEditableT9nStrings.cancelEditing}
-                confirmChangesLabel={InlineEditableT9nStrings.confirmChanges}
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
                 editingEnabled={this.editingEnabled}
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
-                enableEditingLabel={InlineEditableT9nStrings.enableEditing}
+                enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditingLoading}
                 onCancelEditing={() => this.useInlineEditing.cancelEditing()}
                 onConfirmChanges={() =>

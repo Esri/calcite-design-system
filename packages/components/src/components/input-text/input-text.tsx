@@ -36,7 +36,6 @@ import type { InlineEditable } from "../inline-editable/inline-editable"; // `ca
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import InlineEditableT9nStrings from "../inline-editable/assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-text.scss";
@@ -713,11 +712,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
           {this.selfManagedInlineEditing && (
             <div class={CSS.inlineEditing}>
               <InlineEditingControls
-                cancelEditingLabel={InlineEditableT9nStrings.cancelEditing}
-                confirmChangesLabel={InlineEditableT9nStrings.confirmChanges}
+                cancelEditingLabel={this.messages.cancelInlineEditing}
+                confirmChangesLabel={this.messages.confirmInlineEditingChanges}
                 editingEnabled={this.editingEnabled}
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
-                enableEditingLabel={InlineEditableT9nStrings.enableEditing}
+                enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditingLoading}
                 onCancelEditing={() => this.useInlineEditing.cancelEditing()}
                 onConfirmChanges={() =>
