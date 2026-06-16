@@ -459,7 +459,6 @@ describe("clearable", () => {
         value: `${alternateTimeZoneItem.offset}`,
       });
 
-      // @ts-expect-error -- passing unsupported value
       el.value = null;
       await waitForUpdates(component);
 
