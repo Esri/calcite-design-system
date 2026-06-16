@@ -139,6 +139,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   constructor() {
     super();
     this.listen("calciteInternalInputBlur", this.blurHandler);
+    this.listen("calciteInternalInputNumberBlur", this.blurHandler);
+    this.listen("calciteInternalInputTextBlur", this.blurHandler);
     this.listen("keydown", this.escapeKeyHandler);
   }
 
