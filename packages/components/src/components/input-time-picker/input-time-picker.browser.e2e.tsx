@@ -55,6 +55,42 @@ describe("is focusable", () => {
     });
   });
 
+  it("should focus the first input in reading order (hour) when mouse is pressed on any input and the placeholder text is visible", async () => {
+    await mount(
+      <calcite-input-time-picker hour-format="12" placeholder="Fill me in" step={0.001} />,
+    );
+    const firstInput = await page.getByRole("spinbutton", { name: "Hour" }).findElement();
+    const getActiveElement = () => document?.activeElement?.shadowRoot?.activeElement;
+
+    await page.getByRole("combobox").click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "AM/PM" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Fractional second" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Second" }).first().click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Minute" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Hour" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+  });
+
   describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
     focusable(() => mount(<calcite-input-time-picker dir="rtl" lang="ar" />), {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.meridiem}`,
