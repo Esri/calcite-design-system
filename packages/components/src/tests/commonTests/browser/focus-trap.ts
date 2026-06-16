@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page } from "vitest/browser";
 import { getEventPrefix, waitForEvent } from "./utils";
 import { FocusTrapComponent } from "../../../controllers/useFocusTrap";
+import { afterFocusShiftDelay } from "../../utils/focus-trap";
 
 interface FocusTrapOptions {
   /**
@@ -24,6 +25,7 @@ async function toggleComponent(el: FocusTrapTestElement, toggleProp: string): Pr
 
   el[toggleProp] = true;
   await openEvent;
+  await afterFocusShiftDelay();
 }
 
 /**
@@ -64,7 +66,7 @@ export function focusTrap(setup: () => ReturnType<typeof mount>, options: FocusT
       await expect.element(target).toHaveFocus();
     });
 
-    it("focuses when true", async () => {
+    it("focuses when set to undefined (default behavior)", async () => {
       const { el, target } = await setUpTest();
 
       await expect.element(target).not.toHaveFocus();
@@ -78,9 +80,9 @@ export function focusTrap(setup: () => ReturnType<typeof mount>, options: FocusT
     describe("when focusTrapDisabled = true", () => {
       it("focuses when false", async () => {
         const { el, target } = await setUpTest();
-
         el.focusTrapDisabled = true;
         el.focusTrapOptions = { initialFocus: false };
+
         await expect.element(target).not.toHaveFocus();
 
         await toggleComponent(el, toggleProp);
@@ -90,9 +92,8 @@ export function focusTrap(setup: () => ReturnType<typeof mount>, options: FocusT
 
       it("focuses by default", async () => {
         const { el, target } = await setUpTest();
-
         el.focusTrapDisabled = true;
-        el.focusTrapOptions = { initialFocus: undefined };
+
         await expect.element(target).not.toHaveFocus();
 
         await toggleComponent(el, toggleProp);
@@ -100,7 +101,7 @@ export function focusTrap(setup: () => ReturnType<typeof mount>, options: FocusT
         await expect.element(target).toHaveFocus();
       });
 
-      it("focuses when true", async () => {
+      it("focuses when set to undefined (default behavior)", async () => {
         const { el, target } = await setUpTest();
 
         el.focusTrapDisabled = true;
