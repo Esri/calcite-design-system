@@ -13,6 +13,7 @@ interface InputTimePickerStoryArgs extends Pick<
   | "disabled"
   | "hourFormat"
   | "name"
+  | "placeholder"
   | "placement"
   | "scale"
   | "status"
@@ -69,6 +70,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
     name="${args.name}"
+    placeholder="${args.placeholder}"
     placement="${args.placement}"
     scale="${args.scale}"
     status="${args.status}"
