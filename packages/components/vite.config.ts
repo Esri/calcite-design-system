@@ -113,4 +113,4 @@ export function createConfig({
   };
 }
 
-export default defineConfig(createConfig());
+export default defineConfig(() => createConfig());
