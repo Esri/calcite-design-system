@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -187,39 +186,6 @@ describe("header", () => {
   });
 });
 
-it("should allow the CSS custom property to be overridden when applied to :root", async () => {
-  const overrideStyle = "0px";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<style>
-        :root {
-          --calcite-block-padding: ${overrideStyle}
-        }
-      </style>
-      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-       </calcite-block>`,
-  );
-  const content = await page.find(`calcite-block >>> .${CSS.content}`);
-  const contentStyles = await content.getComputedStyle();
-  const contentPadding = await contentStyles.getPropertyValue("padding");
-  expect(contentPadding).toEqual(overrideStyle);
-});
-
-it("should allow the CSS custom property to be overridden when applied to element", async () => {
-  const overrideStyle = "0px";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`,
-  );
-  const content = await page.find(`calcite-block >>> .${CSS.content}`);
-  const contentStyles = await content.getComputedStyle();
-  const contentPadding = await contentStyles.getPropertyValue("padding");
-  expect(contentPadding).toEqual(overrideStyle);
-});
-
 it("should set aria-label", async () => {
   const label = "Spatial";
   const page = await newE2EPage();
@@ -349,6 +315,16 @@ describe("theme", () => {
         <div>content</div>
       </calcite-block>`,
       {
+        "--calcite-block-padding": [
+          {
+            shadowSelector: `section.${CSS.content}`,
+            targetProp: "paddingBlock",
+          },
+          {
+            shadowSelector: `section.${CSS.content}`,
+            targetProp: "paddingInline",
+          },
+        ],
         "--calcite-block-text-color": {
           shadowSelector: `.${CSS.contentStart}`,
           targetProp: "color",

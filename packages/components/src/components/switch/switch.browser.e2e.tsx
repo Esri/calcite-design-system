@@ -6,7 +6,12 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  renders,
 } from "../../tests/commonTests/browser";
+
+describe("renders", () => {
+  renders(() => mount("calcite-switch"), { display: "inline-block" });
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-switch"));

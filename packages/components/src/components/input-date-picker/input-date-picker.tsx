@@ -552,7 +552,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
-    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
@@ -1104,8 +1103,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 ariaInvalid={this.status === "invalid"}
                 class={{
                   [CSS.input]: true,
-                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                  [CSS.inputNoRightBorder]: this.range,
+                  [CSS.startInput]: true,
                 }}
                 disabled={disabled}
                 icon={ICONS.calendar}
@@ -1190,9 +1188,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   ariaHasPopup="dialog"
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    [CSS.endInput]: true,
                   }}
                   disabled={disabled}
                   icon={ICONS.calendar}

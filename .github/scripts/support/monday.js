@@ -9,7 +9,7 @@ const REPO_CALCITE = "calcite-design-system";
 const REPO_DOCS = "calcite-documentation";
 
 /**
- * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
+ * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue or pull request object
  * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
  * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
@@ -138,6 +138,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
     stalled: { id: "color_mkv79bbx", title: "Stalled" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
+    breaking: { id: "color_mm48xr8j", title: "Breaking" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
     figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
@@ -186,6 +187,22 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.blocked,
         value: "Blocked",
+        clearable: true,
+      },
+    ],
+    [
+      planning.breakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Breaking Change",
+        clearable: true,
+      },
+    ],
+    [
+      planning.futureBreakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Future Breaking Change",
         clearable: true,
       },
     ],
@@ -378,6 +395,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 1,
+        clearable: true,
       },
     ],
     [
@@ -385,6 +403,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -392,6 +411,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 3,
+        clearable: true,
       },
     ],
     [
@@ -399,6 +419,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -406,6 +427,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 8,
+        clearable: true,
       },
     ],
     [
@@ -413,6 +435,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -420,6 +443,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -427,6 +451,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 34,
+        clearable: true,
       },
     ],
     [
@@ -434,6 +459,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -441,6 +467,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -448,6 +475,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -455,6 +483,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -473,6 +502,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
         clearable: true,
       },
     ],
+    [
+      issueType.pull_request,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "PR",
+      },
+    ],
   ]);
 
   /**
@@ -486,6 +522,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     [getUsername("anveshmekala"), { role: mondayColumns.developers, id: 48387134 }],
     [getUsername("aPreciado88"), { role: mondayColumns.developers, id: 60795249 }],
     [getUsername("ashetland"), { role: mondayColumns.designers, id: 45851619 }],
+    [getUsername("benelan"), { role: mondayColumns.developers, id: 104096847 }],
     [getUsername("brendan-vincent-rice"), { role: mondayColumns.developers, id: 96903694 }],
     [getUsername("chezHarper"), { role: mondayColumns.designers, id: 71157966 }],
     [getUsername("DintaMel"), { role: mondayColumns.productEngineers, id: 92955697 }],
@@ -871,6 +908,11 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
+    if ("merged" in issue || issue.pull_request?.merged_at) {
+      handleState("closed");
+      addLabel(issueType.pull_request);
+    }
+
     const { id: syncId, source } = await getId();
     if (syncId) {
       core.notice(`Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`, logParams);
@@ -1005,7 +1047,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     setColumnValue(mondayColumns.open, stateMap[issue.state], logParams);
 
     if (action === "closed") {
-      if (issue.state_reason !== "completed") {
+      if ("state_reason" in issue && issue.state_reason !== "completed") {
         setColumnValue(mondayColumns.status, CLOSED, logParams);
       } else if (includesLabel(issue.labels, issueType.design)) {
         setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);

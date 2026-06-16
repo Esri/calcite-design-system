@@ -37,12 +37,12 @@ const transformValueMergeValues: ValueTransform["transform"] = async (token, con
 
   if (tokenIndex > -1 && lightToken.key && !state.sameValueThemeTokens.has(lightToken.key)) {
     return {
-      light: lightToken.value,
-      dark: darkToken.value,
+      light: lightToken.$value,
+      dark: darkToken.$value,
     };
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueMergeValues: RegisterFn = () => {

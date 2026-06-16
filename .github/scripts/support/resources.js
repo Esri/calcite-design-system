@@ -17,6 +17,8 @@ const resources = {
       i18nL10n: "i18n-l10n",
       newComponent: "new component",
       perf: "perf",
+      // "pr" is not a GitHub label, rather a keyword used to sync the `PR` issue type to Monday.com
+      pull_request: "pr",
       refactor: "refactor",
       research: "research",
       test: "testing",
@@ -38,6 +40,8 @@ const resources = {
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
+      breakingChange: "breaking change",
+      futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
     },
     priority: {

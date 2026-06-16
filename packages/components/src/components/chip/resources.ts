@@ -1,4 +1,5 @@
 import { IconName } from "../icon/interfaces";
+import type { Chip } from "./chip";
 
 export const CSS = {
   title: "title",
@@ -29,3 +30,7 @@ export const ICONS: Record<string, IconName> = {
   uncheckedMultiple: "square",
   checkedMultiple: "check-square-f",
 };
+
+export function isChip(el: Element | null): el is Chip["el"] {
+  return el?.tagName === "CALCITE-CHIP";
+}

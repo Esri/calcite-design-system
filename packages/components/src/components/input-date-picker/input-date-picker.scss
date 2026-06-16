@@ -45,6 +45,12 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-date-picker-toggle-spacing
+// --calcite-internal-input-text-icon-border-block-end-width
+// --calcite-internal-input-text-icon-border-block-start-width
+// --calcite-internal-input-text-icon-border-inline-start-width
+// --calcite-internal-input-text-input-border-block-end-width
+// --calcite-internal-input-text-input-border-block-start-width
+// --calcite-internal-input-text-input-border-inline-end-width
 // --calcite-internal-input-text-input-padding-inline-end
 
 @use "../../styles/includes";
@@ -61,7 +67,7 @@
   box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
 
   .menu-container .calcite-floating-ui-anim {
-    box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-sm));
+    box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-md));
   }
 }
 
@@ -236,6 +242,25 @@
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
   --calcite-input-text-placeholder-text-color: var(--calcite-input-date-picker-placeholder-text-color);
+}
+
+:host([range]) .input--start {
+  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+}
+
+:host([layout="vertical"][range]) .input--start {
+  --calcite-internal-input-text-icon-border-block-end-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-input-border-block-end-width: var(--calcite-border-width-none);
+}
+
+:host([layout="horizontal"]) .input--end {
+  --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
+}
+
+:host([layout="vertical"]) .input--end {
+  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-input-border-block-start-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-icon-border-block-start-width: var(--calcite-border-width-none);
 }
 
 calcite-date-picker {

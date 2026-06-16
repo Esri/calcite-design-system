@@ -107,17 +107,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/patrickarlt">
-      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
-      <br />
-      <sub><b>Patrick Arlt</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/arowles">
       <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
       <br />
       <sub><b>Ashley Rowles</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/patrickarlt">
+      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
+      <br />
+      <sub><b>Patrick Arlt</b></sub>
     </a>
   </td>
   <td align="center">
@@ -239,17 +239,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/mpriour">
-      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
-      <br />
-      <sub><b>Matt Priour</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/ashetland">
       <img src="https://avatars.githubusercontent.com/u/108549080?v=4" width="100;" alt="ashetland"/>
       <br />
       <sub><b>Aaron Shetland</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/mpriour">
+      <img src="https://avatars.githubusercontent.com/u/142636?v=4" width="100;" alt="mpriour"/>
+      <br />
+      <sub><b>Matt Priour</b></sub>
     </a>
   </td>
   <td align="center">

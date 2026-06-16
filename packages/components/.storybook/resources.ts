@@ -1,4 +1,4 @@
-import {
+import type {
   Alignment,
   Appearance,
   LogicalFlowPosition,
@@ -13,20 +13,19 @@ import {
   IconType,
   CollapseDirection,
   SelectionAppearance,
-} from "../../components/src/components/interfaces.ts";
-import { ArrowType } from "../src/components/carousel/interfaces.ts";
-import { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
-import { TileSelectType } from "../src/components/tile-select/interfaces.ts";
-import { TableInteractionMode } from "../src/components/table/interfaces.ts";
-import { DeterminateType } from "../src/components/loader/interfaces.ts";
-import { MeterFillType, MeterLabelType } from "../src/components/meter/interfaces.ts";
-import { DropdownClickType } from "../src/components/dropdown/interfaces.ts";
-import { TextType } from "../src/components/input/interfaces.ts";
-import { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
-import { DisplayMode } from "../src/components/sheet/interfaces.ts";
-import { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
-import { OverlayPositioning } from "../src/components";
-import { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
+} from "../src/components/interfaces.ts";
+import type { ArrowType } from "../src/components/carousel/interfaces.ts";
+import type { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
+import type { TableInteractionMode } from "../src/components/table/interfaces.ts";
+import type { DeterminateType } from "../src/components/loader/interfaces.ts";
+import type { MeterFillType, MeterLabelType } from "../src/components/meter/interfaces.ts";
+import type { DropdownClickType } from "../src/components/dropdown/interfaces.ts";
+import type { TextType } from "../src/components/input/interfaces.ts";
+import type { TimeZoneMode } from "../src/components/input-time-zone/interfaces.ts";
+import type { DisplayMode } from "../src/components/sheet/interfaces.ts";
+import type { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
+import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
+import type { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -50,7 +49,6 @@ interface CommonAttributes {
   toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
   layout: AttributeMetadata<Layout>;
   dir: AttributeMetadata<Dir>;
-  buttonType: AttributeMetadata<TileSelectType>;
   interactionMode: AttributeMetadata<TableInteractionMode>;
   iconType: AttributeMetadata<IconType>;
   determinateType: AttributeMetadata<DeterminateType>;
@@ -101,7 +99,6 @@ const layoutOptions: Layout[] = [
 ];
 const numberingSystems = ["arab", "arabext", "latn"];
 const dirOptions: Dir[] = ["ltr", "rtl"];
-const buttonTypeOptions: TileSelectType[] = ["radio", "checkbox"];
 const interactionModeOptions: TableInteractionMode[] = ["interactive", "static"];
 const iconTypeOptions: IconType[] = ["chevron", "caret", "ellipsis", "overflow", "plus-minus"];
 const determinateTypeOptions: DeterminateType[] = ["determinate", "indeterminate"];
@@ -190,10 +187,6 @@ export const ATTRIBUTES: CommonAttributes = {
   dir: {
     values: dirOptions,
     defaultValue: dirOptions[0],
-  },
-  buttonType: {
-    values: buttonTypeOptions,
-    defaultValue: buttonTypeOptions[0],
   },
   interactionMode: {
     values: interactionModeOptions,
