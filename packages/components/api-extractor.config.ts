@@ -41,7 +41,7 @@ export const config: ApiExtractorConfig = {
           };
         },
         flipPlacements(_apiProperty, apiClass) {
-		  const description =
+          const description =
             "Specifies the component's fallback `placement` for slotted {{content}} when its initial or specified `placement` has insufficient space available.";
           const descriptionWithContent = (content: string): string => description.replace("{{content}}", content);
 
@@ -52,7 +52,6 @@ export const config: ApiExtractorConfig = {
           return {
             description: descriptionOverrides[apiClass.name] ?? descriptionWithContent("content"),
           };
-
         },
         form: {
           description:
