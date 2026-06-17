@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { themed } from "../../tests/commonTests";

@@ -172,7 +172,7 @@ export function datePartsFromISO(isoDate: string): { day: string; month: string;
  * @param d1
  * @param d2
  */
-export function sameDate(d1: Date, d2: Date): boolean {
+export function sameDate(d1: Date | undefined, d2: Date | undefined): boolean {
   return (
     d1 instanceof Date &&
     d2 instanceof Date &&
