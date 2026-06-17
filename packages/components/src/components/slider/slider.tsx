@@ -214,11 +214,7 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
@@ -265,10 +261,10 @@ export class Slider extends LitElement implements LabelableComponent {
   /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`. */
   @property() minLabel?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** For multiple values, the component's lower value. */
@@ -327,7 +323,7 @@ export class Slider extends LitElement implements LabelableComponent {
   @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

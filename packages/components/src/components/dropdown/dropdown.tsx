@@ -124,7 +124,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted `calcite-dropdown-item`s when their initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /**
@@ -144,13 +144,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -158,15 +152,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   *The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
+  /** @copyDoc */
   @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */
@@ -180,9 +166,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property() selectedItems: DropdownItem["el"][] = [];
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

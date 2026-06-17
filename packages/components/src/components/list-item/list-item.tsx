@@ -133,13 +133,13 @@ export class ListItem extends LitElement implements SortableComponentItem {
    */
   @property() sortDisabled = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
-  /** Specifies a description for the component. Displays below the `label`. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -175,7 +175,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** Specifies an accessible label for the component, displays above the `description`. */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
@@ -274,19 +274,17 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /** The component's value. */
   @property() value: any;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

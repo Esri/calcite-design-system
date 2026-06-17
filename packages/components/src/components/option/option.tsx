@@ -36,7 +36,7 @@ export class Option extends LitElement {
   })
   disabled = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** When `true`, the component is selected. */
