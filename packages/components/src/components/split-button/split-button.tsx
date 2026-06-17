@@ -82,7 +82,7 @@ export class SplitButton extends LitElement {
   /** Accessible name for the dropdown menu. */
   @property({ reflect: true }) dropdownLabel?: string;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements?: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
@@ -95,13 +95,7 @@ export class SplitButton extends LitElement {
   /** When `true`, a busy indicator is displayed on the primary button. */
   @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -142,9 +136,7 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) target?: string;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

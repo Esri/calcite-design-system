@@ -162,20 +162,16 @@ export class TextArea
    */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
   /**
@@ -194,7 +190,7 @@ export class TextArea
    */
   @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -262,7 +258,7 @@ export class TextArea
   @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

@@ -108,20 +108,16 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
   /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
   @property({ reflect: true }) maxItems = 0;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -133,7 +129,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /** @copyDoc */
   @property({ reflect: true }) name?: string;
 
   /**
@@ -148,13 +144,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
@@ -184,9 +174,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -201,7 +189,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

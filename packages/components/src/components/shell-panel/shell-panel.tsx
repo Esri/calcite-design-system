@@ -121,7 +121,7 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -134,7 +134,7 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the component's height. */
+  /** @copyDoc */
   @property({ reflect: true }) height: Height;
 
   /**

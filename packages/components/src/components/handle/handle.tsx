@@ -64,7 +64,7 @@ export class Handle extends LitElement {
    */
   @property() label: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is selected. */

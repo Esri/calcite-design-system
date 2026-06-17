@@ -189,7 +189,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the component's height. */
+  /** @copyDoc */
   @property({ reflect: true }) height: Height;
 
   /**
@@ -199,7 +199,7 @@ export class Sheet extends LitElement {
    */
   @property() label: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
@@ -231,9 +231,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) resizable = false;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
