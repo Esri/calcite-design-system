@@ -1531,17 +1531,18 @@ describe("drag and drop", () => {
       });
     });
 
-    await dragAndDrop(
-      page,
-      {
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="one"]`,
+      },
+      handleElement: {
         element: `calcite-list-item[value="one"]`,
         shadow: "calcite-sort-handle",
       },
-      {
+      destinationElement: {
         element: `calcite-list-item[value="two"]`,
-        shadow: "calcite-sort-handle",
       },
-    );
+    });
 
     const [first, second] = await findAll(page, "calcite-list-item");
     expect(await first.getProperty("value")).toBe("two");
@@ -1569,7 +1570,7 @@ describe("drag and drop", () => {
     expect(results.endCalledTimes).toBe(1);
     expect(results.oldIndex).toBe(0);
     expect(results.newIndex).toBe(1);
-    expect(results.startNewIndex).toBe(null);
+    expect(results.startNewIndex).toBe(undefined);
     expect(results.startOldIndex).toBe(0);
     expect(results.endNewIndex).toBe(1);
     expect(results.endOldIndex).toBe(0);
@@ -1678,47 +1679,53 @@ describe("drag and drop", () => {
       );
     });
 
-    await dragAndDrop(
-      page,
-      {
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="d"]`,
+      },
+      handleElement: {
         element: `calcite-list-item[value="d"]`,
         shadow: "calcite-sort-handle",
       },
-      {
+      destinationElement: {
         element: `#first-letters`,
         pointerPosition: {
           vertical: "bottom",
         },
       },
-    );
+    });
 
-    await dragAndDrop(
-      page,
-      {
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="e"]`,
+      },
+      handleElement: {
         element: `calcite-list-item[value="e"]`,
         shadow: "calcite-sort-handle",
       },
-      {
+      destinationElement: {
         element: `#numbers`,
         pointerPosition: {
           vertical: "bottom",
         },
       },
-    );
+    });
 
-    await dragAndDrop(
-      page,
-      {
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="e"]`,
+      },
+      handleElement: {
         element: `calcite-list-item[value="e"]`,
         shadow: "calcite-sort-handle",
       },
-      {
+      destinationElement: {
         element: `#no-group`,
         pointerPosition: {
           vertical: "bottom",
         },
       },
-    );
+    });
 
     const [first, second, third, fourth, fifth, sixth, seventh, eight, ninth] = await findAll(
       page,

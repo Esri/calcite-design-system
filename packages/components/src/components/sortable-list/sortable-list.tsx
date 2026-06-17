@@ -1,4 +1,5 @@
 // @ts-strict-ignore
+import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
@@ -106,6 +107,12 @@ export class SortableList extends LitElement {
 
   override disconnectedCallback(): void {
     this.endObserving();
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) {
+      this.sortable.reset();
+    }
   }
 
   //#endregion

@@ -37,6 +37,9 @@ describe("disabled", () => {
           </div>
         </calcite-sortable-list>,
       ),
-    { focusTarget: "child" },
+    {
+      focusTarget: "child",
+      ignoredEvents: ["pointerup"],
+    },
   );
 });

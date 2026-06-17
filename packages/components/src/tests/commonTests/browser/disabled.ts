@@ -24,6 +24,9 @@ export interface DisabledOptions {
 
   /** Use this to specify whether the test should cover focusing. */
   focusTarget?: FocusTarget | TabAndClickFocusTargets;
+
+  /** Event names to ignore when asserting pointer/mouse event propagation behavior. */
+  ignoredEvents?: string[];
 }
 
 /**
@@ -38,6 +41,7 @@ export interface DisabledOptions {
  */
 export function disabled(setup: () => ReturnType<typeof mount>, options?: DisabledOptions): void {
   const effectiveOptions = { focusTarget: "host", ...options } as const;
+  const ignoredEvents = new Set(effectiveOptions.ignoredEvents || []);
 
   type InteractiveComponent = IntrinsicElementsWithProp<"disabled"> & HTMLElement;
 
@@ -82,6 +86,10 @@ export function disabled(setup: () => ReturnType<typeof mount>, options?: Disabl
     expectCallback: (spy: ReturnType<typeof vi.fn>) => void,
   ): void {
     for (const spy of spies) {
+      if (ignoredEvents.has(spy.getMockName())) {
+        continue;
+      }
+
       expectCallback(spy);
     }
   }

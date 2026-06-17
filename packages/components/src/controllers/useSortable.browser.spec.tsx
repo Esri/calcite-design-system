@@ -2,17 +2,16 @@ import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, expect, it, vi } from "vitest";
-import { useSortable } from "./useSortable";
+import { CSS, useSortable } from "./useSortable";
 
 const { createSpy, destroySpy } = vi.hoisted(() => ({
   createSpy: vi.fn(),
   destroySpy: vi.fn(),
 }));
 
-vi.mock("sortablejs", () => ({
-  default: {
-    create: createSpy.mockImplementation(() => ({ destroy: destroySpy })),
-  },
+vi.mock("@formkit/drag-and-drop", () => ({
+  dragAndDrop: createSpy.mockImplementation(() => undefined),
+  tearDown: destroySpy,
 }));
 
 class Test extends LitElement {
@@ -59,12 +58,53 @@ it("creates Sortable when dragEnabled is true", async () => {
   expect(createSpy).toHaveBeenCalledTimes(1);
 });
 
+it("uses existing sortable classes in FormKit config", async () => {
+  await mountDragEnabled();
+
+  const call = createSpy.mock.calls[0][0];
+
+  expect(call.config.draggingClass).toBe(CSS.dragClass);
+  expect(call.config.dragPlaceholderClass).toBe(CSS.chosenClass);
+  expect(call.config.dropZoneClass).toBe(CSS.ghostClass);
+});
+
+it("uses handleSelector as FormKit dragHandle", async () => {
+  const { component } = await mountDragEnabled();
+
+  component.handleSelector = ".custom-handle";
+  component.sortable.reset();
+
+  const call = createSpy.mock.calls.at(-1)?.[0];
+
+  expect(call?.config.dragHandle).toBe(".custom-handle");
+});
+
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
   const { component } = await mountDragEnabled();
 
   component.dragEnabled = false;
   component.sortable.reset();
 
-  expect(destroySpy).toHaveBeenCalledTimes(1);
+  expect(destroySpy).toHaveBeenCalledTimes(2);
   expect(createSpy).toHaveBeenCalledTimes(1);
+});
+
+it("does not reorder DOM when setValues receives the current order", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const appendChildSpy = vi.spyOn(component.el, "appendChild");
+
+  call.setValues(call.getValues());
+
+  expect(appendChildSpy).not.toHaveBeenCalled();
 });
