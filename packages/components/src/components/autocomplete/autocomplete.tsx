@@ -43,7 +43,7 @@ import { Validation } from "../functional/Validation";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
+import { useOpenClose } from "../../controllers/useOpenClose";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { styles } from "./autocomplete.scss";
@@ -143,6 +143,20 @@ export class Autocomplete
 
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
+  })(this);
+
+  openCloseController = useOpenClose<this>({
+    channels: [
+      {
+        lifecycle: {
+          onBeforeOpen: () => this.onBeforeOpen(),
+          onOpen: () => this.onOpen(),
+          onBeforeClose: () => this.onBeforeClose(),
+          onClose: () => this.onClose(),
+        },
+        watchedProps: ["open"],
+      },
+    ],
   })(this);
 
   //#endregion
@@ -531,7 +545,6 @@ export class Autocomplete
       this.activeIndex = -1;
     }
 
-    toggleOpenClose(this);
     this.setFloatingElSize();
     this.reposition(true);
   }
