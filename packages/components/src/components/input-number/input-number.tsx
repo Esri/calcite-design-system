@@ -233,9 +233,7 @@ export class InputNumber
   @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
-   *@property({ reflect: true }) name?: string;
-   * Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
