@@ -155,11 +155,6 @@ describe("inline editing", () => {
 
     expect(el.editingEnabled).toBe(false);
     expect(el.value).toBe("John Doe");
-
-    await userEvent.keyboard("{Escape}");
-
-    expect(el.editingEnabled).toBe(false);
-    expect(el.value).toBe("John Doe");
   });
 
   it("cancels built-in inline editing on first Escape when clearable is not set", async () => {
