@@ -18,8 +18,12 @@ const commonExpand = {
 };
 
 const stylesheetOutputReferences: OutputReferences = (token, options) => {
-  // output specific token references to match test output
-  return !!(isCornerRadius(token) && token.path.includes("default")) || primitiveValueOutputReferences(token, options);
+  // output token references for tokens marked with calcite.outputReference extension
+  return (
+    !!token.original?.$extensions?.["calcite.outputReference"] ||
+    !!(isCornerRadius(token) && token.path.includes("default")) ||
+    primitiveValueOutputReferences(token, options)
+  );
 };
 
 const config: Config = {
