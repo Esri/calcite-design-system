@@ -209,7 +209,7 @@ describe("inline editing", () => {
 
   it("disables editing when afterConfirm resolves successfully", async () => {
     const { el } = await mount<Input>(
-      <calcite-input inlineEditing inlineEditingControls value="John Doe" />,
+      <calcite-input inline-editing inline-editing-controls value="John Doe" />,
     );
     el.inlineEditingAfterConfirm = vi.fn().mockResolvedValue(undefined);
 
