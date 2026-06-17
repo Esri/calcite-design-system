@@ -60,7 +60,7 @@ export const config: ApiExtractorConfig = {
         heading(_apiProperty, apiClass) {
           const descriptionOverrides: Record<string, string> = {
             ListItemGroup: "Specifies the heading text for the nested `calcite-list-item` rows.",
-            Tile: "Specifies the component's heading text, displays between the `icon` and `description`.",
+            Tile: "Specifies the component's heading text that displays between the `icon` and `description`.",
           };
 
           return {
