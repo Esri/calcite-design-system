@@ -138,7 +138,7 @@ describe("is focusable", () => {
 describe("inline editing", () => {
   it("clears value on first Escape and restores value on second Escape for built-in inline editing when clearable is set", async () => {
     const { el } = await mount<Input>(
-      <calcite-input clearable inlineEditing inlineEditingControls value="John Doe" />,
+      <calcite-input clearable inline-editing inline-editing-controls value="John Doe" />,
     );
 
     const input = page.getBySelector("calcite-input input");
@@ -164,7 +164,7 @@ describe("inline editing", () => {
 
   it("cancels built-in inline editing on first Escape when clearable is not set", async () => {
     const { el } = await mount<Input>(
-      <calcite-input inlineEditing inlineEditingControls value="John Doe" />,
+      <calcite-input inline-editing inline-editing-controls value="John Doe" />,
     );
 
     const input = page.getBySelector("calcite-input input");
@@ -183,7 +183,7 @@ describe("inline editing", () => {
 
   it("emits enable editing change when built-in inline editing is activated", async () => {
     const { el } = await mount<Input>(
-      <calcite-input inlineEditing inlineEditingControls value="John Doe" />,
+      <calcite-input inline-editing inline-editing-controls value="John Doe" />,
     );
     const enableEditingSpy = vi.fn();
     el.addEventListener("calciteInputInlineEditingEnableEditingChange", enableEditingSpy);
@@ -197,7 +197,7 @@ describe("inline editing", () => {
 
   it("emits confirm and keeps editing enabled when save is clicked without afterConfirm", async () => {
     const { el } = await mount<Input>(
-      <calcite-input inlineEditing inlineEditingControls value="John Doe" />,
+      <calcite-input inline-editing inline-editing-controls value="John Doe" />,
     );
     const confirmSpy = vi.fn();
     el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);

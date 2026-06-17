@@ -114,7 +114,7 @@ describe("is focusable", () => {
   describe("inline editing", () => {
     it("clears value on first Escape when clearable is set", async () => {
       const { el } = await mount<InputText>(
-        <calcite-input-text clearable inlineEditing inlineEditingControls value="John Doe" />,
+        <calcite-input-text clearable inline-editing inline-editing-controls value="John Doe" />,
       );
 
       const input = page.getBySelector("calcite-input-text input");
@@ -132,7 +132,7 @@ describe("is focusable", () => {
 
     it("cancels editing on first Escape when clearable is not set", async () => {
       const { el } = await mount<InputText>(
-        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+        <calcite-input-text inline-editing inline-editing-controls value="John Doe" />,
       );
 
       const input = page.getBySelector("calcite-input-text input");
@@ -153,7 +153,7 @@ describe("is focusable", () => {
 
     it("emits enable editing change when built-in inline editing is activated", async () => {
       const { el } = await mount<InputText>(
-        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+        <calcite-input-text inline-editing inline-editing-controls value="John Doe" />,
       );
       const enableEditingSpy = vi.fn();
       el.addEventListener("calciteInputTextInlineEditingEnableEditingChange", enableEditingSpy);
@@ -167,7 +167,7 @@ describe("is focusable", () => {
 
     it("emits confirm and keeps editing enabled when save is clicked without afterConfirm", async () => {
       const { el } = await mount<InputText>(
-        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+        <calcite-input-text inline-editing inline-editing-controls value="John Doe" />,
       );
       const confirmSpy = vi.fn();
       el.addEventListener("calciteInputTextInlineEditingConfirm", confirmSpy);
@@ -184,7 +184,7 @@ describe("is focusable", () => {
 
     it("disables editing when afterConfirm resolves successfully", async () => {
       const { el } = await mount<InputText>(
-        <calcite-input-text inlineEditing inlineEditingControls value="John Doe" />,
+        <calcite-input-text inline-editing inline-editing-controls value="John Doe" />,
       );
       el.inlineEditingAfterConfirm = vi.fn().mockResolvedValue(undefined);
 

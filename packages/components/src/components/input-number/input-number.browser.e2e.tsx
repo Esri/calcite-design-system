@@ -135,7 +135,7 @@ describe("disabled", () => {
 describe("inline editing", () => {
   it("clears value on first Escape when clearable is set", async () => {
     const { el } = await mount<InputNumber>(
-      <calcite-input-number clearable inlineEditing inlineEditingControls value="123" />,
+      <calcite-input-number clearable inline-editing inline-editing-controls value="123" />,
     );
 
     const input = page.getBySelector("calcite-input-number input");
@@ -153,7 +153,7 @@ describe("inline editing", () => {
 
   it("cancels editing on first Escape when clearable is not set", async () => {
     const { el } = await mount<InputNumber>(
-      <calcite-input-number inlineEditing inlineEditingControls value="123" />,
+      <calcite-input-number inline-editing inline-editing-controls value="123" />,
     );
 
     const input = page.getBySelector("calcite-input-number input");
@@ -174,7 +174,7 @@ describe("inline editing", () => {
 
   it("emits enable editing change when built-in inline editing is activated", async () => {
     const { el } = await mount<InputNumber>(
-      <calcite-input-number inlineEditing inlineEditingControls value="123" />,
+      <calcite-input-number inline-editing inline-editing-controls value="123" />,
     );
     const enableEditingSpy = vi.fn();
     el.addEventListener("calciteInputNumberInlineEditingEnableEditingChange", enableEditingSpy);
@@ -188,7 +188,7 @@ describe("inline editing", () => {
 
   it("emits confirm and keeps editing enabled when save is clicked without afterConfirm", async () => {
     const { el } = await mount<InputNumber>(
-      <calcite-input-number inlineEditing inlineEditingControls value="123" />,
+      <calcite-input-number inline-editing inline-editing-controls value="123" />,
     );
     const confirmSpy = vi.fn();
     el.addEventListener("calciteInputNumberInlineEditingConfirm", confirmSpy);
@@ -205,7 +205,7 @@ describe("inline editing", () => {
 
   it("disables editing when afterConfirm resolves successfully", async () => {
     const { el } = await mount<InputNumber>(
-      <calcite-input-number inlineEditing inlineEditingControls value="123" />,
+      <calcite-input-number inline-editing inline-editing-controls value="123" />,
     );
     el.inlineEditingAfterConfirm = vi.fn().mockResolvedValue(undefined);
 
