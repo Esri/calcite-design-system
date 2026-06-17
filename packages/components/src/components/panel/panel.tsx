@@ -99,19 +99,8 @@ export class Panel extends LitElement {
     channels: [
       {
         lifecycle: {
-          onBeforeOpen: () => {},
-          onOpen: () => {},
-          onBeforeClose: () => {},
-          onClose: () => {},
-        },
-        watchedProps: ["closed"],
-      },
-      {
-        lifecycle: {
-          onBeforeOpen: () => {},
-          onOpen: (host) => host.calcitePanelExpand.emit(),
-          onBeforeClose: () => {},
-          onClose: (host) => host.calcitePanelCollapse.emit(),
+          onOpen: () => this.calcitePanelExpand.emit(),
+          onClose: () => this.calcitePanelCollapse.emit(),
         },
         watchedProps: ["collapsed"],
       },

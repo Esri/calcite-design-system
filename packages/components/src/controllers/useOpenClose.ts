@@ -33,10 +33,10 @@ type MultiWatchedProps<T extends UseOpenCloseComponent> = readonly [
 ];
 
 type UseOpenCloseLifecycleHooks<T extends UseOpenCloseComponent> = {
-  onBeforeOpen: (host: T) => void;
-  onOpen: (host: T) => void;
-  onBeforeClose: (host: T) => void;
-  onClose: (host: T) => void;
+  onBeforeOpen?: (host: T) => void;
+  onOpen?: (host: T) => void;
+  onBeforeClose?: (host: T) => void;
+  onClose?: (host: T) => void;
 };
 
 /**
@@ -192,9 +192,9 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
       const isOpen = getCurrentOpenState();
 
       if (isOpen) {
-        lifecycle.onBeforeOpen(host);
+        lifecycle.onBeforeOpen?.(host);
       } else {
-        lifecycle.onBeforeClose(host);
+        lifecycle.onBeforeClose?.(host);
       }
 
       await host.updateComplete;
@@ -207,9 +207,9 @@ export function useOpenClose<T extends UseOpenCloseComponent>(
       const latestOpenState = getCurrentOpenState();
 
       if (latestOpenState) {
-        lifecycle.onOpen(host);
+        lifecycle.onOpen?.(host);
       } else {
-        lifecycle.onClose(host);
+        lifecycle.onClose?.(host);
       }
     }
   });

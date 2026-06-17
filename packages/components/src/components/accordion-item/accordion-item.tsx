@@ -47,10 +47,8 @@ export class AccordionItem extends LitElement {
     channels: [
       {
         lifecycle: {
-          onBeforeOpen: () => {},
-          onOpen: (host) => host.calciteAccordionItemExpand.emit(),
-          onBeforeClose: () => {},
-          onClose: (host) => host.calciteAccordionItemCollapse.emit(),
+          onOpen: () => this.calciteAccordionItemExpand.emit(),
+          onClose: () => this.calciteAccordionItemCollapse.emit(),
         },
         watchedProps: ["expanded"],
       },

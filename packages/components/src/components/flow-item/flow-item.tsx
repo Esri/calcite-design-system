@@ -64,7 +64,7 @@ export class FlowItem extends LitElement {
 
   transitionProp = "opacity" as const;
 
-  get transitionEl(): Panel["el"] {
+  get transitionEl(): Panel["el"] | undefined {
     return this.containerRef.value;
   }
 
@@ -76,19 +76,8 @@ export class FlowItem extends LitElement {
     channels: [
       {
         lifecycle: {
-          onBeforeOpen: () => {},
-          onOpen: () => {},
-          onBeforeClose: () => {},
-          onClose: () => {},
-        },
-        watchedProps: ["closed"],
-      },
-      {
-        lifecycle: {
-          onBeforeOpen: () => {},
-          onOpen: (host) => host.calciteFlowItemExpand.emit(),
-          onBeforeClose: () => {},
-          onClose: (host) => host.calciteFlowItemCollapse.emit(),
+          onOpen: () => this.calciteFlowItemExpand.emit(),
+          onClose: () => this.calciteFlowItemCollapse.emit(),
         },
         watchedProps: ["collapsed"],
       },
@@ -103,7 +92,7 @@ export class FlowItem extends LitElement {
   @property() beforeBack?: () => Promise<void>;
 
   /** Specifies a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
   /** When `true`, displays a close button in the trailing side of the component's header. */
   @property({ reflect: true }) closable = false;
@@ -121,19 +110,19 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) collapsible = false;
 
   /** Specifies a the component's description. */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's heading text. */
-  @property() heading: string;
+  @property() heading?: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
