@@ -113,7 +113,7 @@ export class TableRow extends LitElement {
   @property() positionSectionLocalized!: string;
 
   /** @private */
-  @property() readCellContentsToAT: boolean;
+  @property() readCellContentsToAT!: boolean;
 
   /** @private */
   @property() rowType!: RowType;
@@ -333,13 +333,13 @@ export class TableRow extends LitElement {
     cellPosition: number,
     rowPosition: number,
     destination: FocusElementInGroupDestination,
-    lastCell?: boolean,
+    lastCell = false,
   ): void {
     this.calciteInternalTableRowFocusRequest.emit({
       cellPosition,
       rowPosition,
       destination,
-      lastCell,
+      lastCell: lastCell,
     });
   }
 
@@ -386,7 +386,7 @@ export class TableRow extends LitElement {
       });
     }
 
-    this.rowCells = cells;
+    this.rowCells = cells || [];
     this.cellCount = cells?.length;
   }
 
