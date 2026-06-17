@@ -1,8 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { h } from "@arcgis/lumina";
+import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
-import { h } from "@arcgis/lumina";
 import {
   defaults,
   disabled,
@@ -247,6 +247,360 @@ describe("is form-associated", () => {
   });
 });
 
+describe("increment/decrement functionality", () => {
+  let upButton: Locator;
+  let downButton: Locator;
+
+  beforeEach(() => {
+    upButton = page.getByTestId("number-button-up");
+    downButton = page.getByTestId("number-button-down");
+  });
+
+  async function pressAndHold(
+    target: ReturnType<typeof page.getByTestId>,
+    ms: number,
+  ): Promise<void> {
+    const rect = await target.element().getBoundingClientRect();
+    await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await commands.mouseDown();
+    await new Promise((resolve) => setTimeout(resolve, ms));
+    await commands.mouseUp();
+  }
+
+  it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number
+        step={10}
+        value="100000000000000000000000000000000000000000000000000."
+      />,
+    );
+
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000000");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000010");
+
+    el.step = 0.1;
+    await userEvent.click(downButton, { clickCount: 10 });
+
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000009");
+  });
+
+  it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+    const { el } = await mount("calcite-input-number");
+    el.value = "1.23e-60";
+
+    expect(el.value).toBe("1.23e-60");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("1.00000000000000000000000000000000000000000000000000000000000123");
+
+    el.step = 0.1;
+    await userEvent.click(downButton, { clickCount: 5 });
+
+    expect(el.value).toBe("0.50000000000000000000000000000000000000000000000000000000000123");
+  });
+
+  it("correctly increments and decrements decimal value when step precision matches initial value precision", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.001} value="3.123" />);
+
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("3.122");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.124");
+
+    await userEvent.click(upButton, { clickCount: 10 });
+    expect(el.value).toBe("3.134");
+  });
+
+  it("correctly increments and decrements initial decimal value by 1 when step is default", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="3.123" />);
+
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("2.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("4.123");
+
+    await userEvent.click(upButton, { clickCount: 10 });
+    expect(el.value).toBe("14.123");
+  });
+
+  it("correctly increments and decrements value when step is an integer", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={10} value="15" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("15");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("25");
+  });
+
+  it("correctly increments and decrements on long hold on mousedown when step is decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.01} value="0" />);
+    const inputEventSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventSpy);
+
+    await pressAndHold(upButton, NUDGE_DELAY_IN_MS * 4);
+    const totalNudgesUp = inputEventSpy.mock.calls.length;
+    expect(el.value).toBe(`${totalNudgesUp * 0.01}`);
+
+    await pressAndHold(downButton, NUDGE_DELAY_IN_MS * 4);
+    const totalNudgesDown = inputEventSpy.mock.calls.length - totalNudgesUp;
+    const finalNudgedValue = totalNudgesUp - totalNudgesDown;
+    expect(el.value).toBe(`${finalNudgedValue * 0.01}`);
+  });
+
+  it("decrements to max when value is higher", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={10} value="20" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("9");
+  });
+
+  it("increments to min when value is lower", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number min={20} value="11" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("20");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("20");
+  });
+
+  it("correctly increments and decrements value by one when step is any", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step="any" value="5.5" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("4.5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("5.5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("6.5");
+  });
+
+  it("correctly increments and decrements value by one when step is undefined", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="5" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("4");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("6");
+  });
+
+  it("correctly stops decrementing value when min is set", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number min={10} value="11" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+  });
+
+  it("correctly stops incrementing value when max is set", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={10} value="9" />);
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("10");
+  });
+
+  it("should emit event when up or down clicked", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={0} value="-2" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(upButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+
+    await userEvent.click(downButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(2);
+
+    await userEvent.click(downButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(3);
+  });
+
+  it("should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    const keydownEvents: KeyboardEvent[] = [];
+    el.addEventListener("keydown", (event: KeyboardEvent) => keydownEvents.push(event));
+
+    await userEvent.keyboard("{Tab}");
+
+    await userEvent.keyboard("{ArrowUp>}");
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+    await userEvent.keyboard("{/ArrowUp}");
+
+    const totalNudgesUp = inputEventHandler.mock.calls.length;
+    expect(totalNudgesUp).toBeGreaterThan(0);
+    expect(el.value).toBe(`${totalNudgesUp}`);
+
+    await userEvent.keyboard("{ArrowDown>}");
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+    await userEvent.keyboard("{/ArrowDown}");
+
+    const totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
+    const finalNudgedValue = totalNudgesUp - totalNudgesDown;
+    expect(el.value).toBe(`${finalNudgedValue}`);
+
+    expect(keydownEvents.length).toBeGreaterThanOrEqual(2);
+    expect(keydownEvents.at(-1)?.defaultPrevented).toBe(true);
+  });
+
+  describe("mouse events on arrow buttons", () => {
+    it("data-adjustment='up': should emit an event regularly on mousedown", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+      await pressAndHold(upButton, NUDGE_DELAY_IN_MS * 2);
+
+      const totalNudgesUp = inputEventHandler.mock.calls.length;
+      expect(totalNudgesUp).toBeGreaterThan(0);
+      expect(el.value).toBe(`${totalNudgesUp}`);
+    });
+
+    it("data-adjustment='up': should stop emitting an event on mouseleave", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      const rect = await upButton.element().getBoundingClientRect();
+      await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      await commands.mouseDown();
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseMove(rect.x - 1, rect.y - 1);
+
+      const totalNudgesUp = inputEventHandler.mock.calls.length;
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseUp();
+
+      expect(el.value).toBe(`${totalNudgesUp}`);
+    });
+
+    it("data-adjustment='down': should emit an event regularly on mousedown", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+      await pressAndHold(downButton, NUDGE_DELAY_IN_MS * 2);
+
+      const totalNudgesDown = inputEventHandler.mock.calls.length;
+      expect(totalNudgesDown).toBeGreaterThan(0);
+      expect(el.value).toBe(`-${totalNudgesDown}`);
+    });
+
+    it("data-adjustment='down': should stop emitting an event on mouseleave", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      const rect = await downButton.element().getBoundingClientRect();
+      await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      await commands.mouseDown();
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseMove(rect.x - 1, rect.y - 1);
+
+      const totalNudgesDown = inputEventHandler.mock.calls.length;
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseUp();
+
+      expect(el.value).toBe(`-${totalNudgesDown}`);
+    });
+  });
+
+  it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+
+    await userEvent.keyboard("{Tab}");
+    await Promise.all([userEvent.keyboard("{ArrowUp}"), userEvent.keyboard("{ArrowDown}")]);
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+
+    expect(el.value).toBe("0");
+  });
+
+  it("should emit event only twice when toggled fast between up/down arrows", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.keyboard("{Tab}");
+    await Promise.all([
+      userEvent.keyboard("{ArrowUp>}{/ArrowUp}"),
+      userEvent.keyboard("{ArrowDown>}{/ArrowDown}"),
+    ]);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(2);
+  });
+
+  it("up/down arrow keys increments and decrements correctly when the step is a decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.1} />);
+
+    await userEvent.keyboard("{Tab}{ArrowUp}");
+    expect(el.value).toBe("0.1");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expect(el.value).toBe("0.2");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("0.1");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("0");
+  });
+
+  it("up/down arrow keys increments and decrements correctly when the step is an integer and the value is a decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={5} value="1.008" />);
+
+    await userEvent.keyboard("{Tab}{ArrowUp}");
+    expect(el.value).toBe("6.008");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expect(el.value).toBe("11.008");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("6.008");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("1.008");
+  });
+});
+
 describe("nudging", () => {
   afterEach(() => {
     vi.useRealTimers();
@@ -335,7 +689,9 @@ describe("number locale support", () => {
         useGrouping: false,
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
-      const { el } = await mount(<calcite-input-number lang={locale} value={expectedValue} />);
+      const { el } = await mount<InputNumber>(
+        <calcite-input-number lang={locale} value={expectedValue} />,
+      );
       const input = page.getBySelector("calcite-input-number input");
 
       expect(el).toHaveProperty("value", expectedValue);
@@ -368,7 +724,7 @@ describe("number locale support", () => {
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
       const decimalSeparator = numberStringFormatter.decimal;
-      const { el } = await mount(<calcite-input-number lang={locale} />);
+      const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
       const input = page.getBySelector("calcite-input-number input");
 
       await userEvent.keyboard(`{Tab}`);
@@ -387,7 +743,7 @@ describe("number locale support", () => {
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
       const decimalSeparator = numberStringFormatter.decimal;
-      const { el } = await mount(<calcite-input-number lang={locale} />);
+      const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
       const input = page.getBySelector("calcite-input-number input");
 
       await userEvent.keyboard(`{Tab}1${decimalSeparator}5e-6`);
@@ -477,7 +833,7 @@ describe("number locale support", () => {
     });
 
     it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
-      await mount(<calcite-input-number lang={locale} value="0.0000" />);
+      await mount<InputNumber>(<calcite-input-number lang={locale} value="0.0000" />);
       const input = page.getBySelector("calcite-input-number input");
 
       await expect.element(input).toHaveProperty("value", "0");
@@ -514,7 +870,7 @@ it("integer property prevents decimals and exponential notation", async () => {
   expect(el).toHaveProperty("value", "-986"); // test incrementing
 });
 
-it("emits events when value is modified", () => {
+it("emits events when value is modified", async () => {
   const { el } = await mount("calcite-input-number");
 
   const calciteInputNumberInput = vi.fn();
