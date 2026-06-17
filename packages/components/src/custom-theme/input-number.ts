@@ -34,7 +34,24 @@ export const inputNumberTokens = {
   calciteInputNumberInlineEditingControlsTextColorPress: "",
 };
 
-export const inputNumber = html`<calcite-input-number
+export const inputNumber = html` <calcite-input-number placeholder="placeholder"></calcite-input-number>
+  <calcite-input-number placeholder="placeholder" number-button-type="horizontal"></calcite-input-number>`;
+
+export const inputNumberWithPrefixAndSuffix = html`<calcite-input-number
+    prefix-text="prefix"
+    suffix-text="suffix"
+    value="10"
+    clearable
+  ></calcite-input-number>
+  <calcite-input-number
+    prefix-text="prefix"
+    suffix-text="suffix"
+    value="10"
+    clearable
+    number-button-type="horizontal"
+  ></calcite-input-number>`;
+
+export const inputNumberLoading = html`<calcite-input-number
     prefix-text="prefix"
     suffix-text="suffix"
     value="10"

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";

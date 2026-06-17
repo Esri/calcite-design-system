@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
@@ -63,7 +62,7 @@ it("sets custom width correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("width");
     },
     `.${CSS.content}`,
@@ -84,7 +83,7 @@ it("sets custom width and max correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("width");
     },
     `.${CSS.content}`,
@@ -105,7 +104,7 @@ it("sets custom height correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("height");
     },
     `.${CSS.content}`,
@@ -286,7 +285,7 @@ it("should close when the scrim is clicked", async () => {
   sheet.setProperty("open", true);
   await page.waitForChanges();
   expect(sheet).toHaveAttribute("open");
-  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(false);
 });
@@ -298,7 +297,7 @@ it("should not close when the scrim is clicked", async () => {
   sheet.setProperty("open", true);
   await page.waitForChanges();
   expect(sheet).toHaveAttribute("open");
-  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(true);
 });
