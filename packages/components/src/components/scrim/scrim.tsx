@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
@@ -43,7 +42,7 @@ export class Scrim extends LitElement {
 
   @state() hasContent = false;
 
-  @state() loaderScale: Scale;
+  @state() loaderScale?: Scale;
 
   //#endregion
 

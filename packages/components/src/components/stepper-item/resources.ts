@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
+import type { StepperItem } from "./stepper-item";
 
 export const CSS = {
   container: "container",
@@ -19,3 +20,7 @@ export const ICONS: Record<string, IconName> = {
   exclamationMarkCircleF: "exclamationMarkCircleF",
   checkCircleF: "checkCircleF",
 };
+
+export function isStepperItem(el?: Element | null): el is StepperItem["el"] {
+  return el?.tagName === "CALCITE-STEPPER-ITEM";
+}

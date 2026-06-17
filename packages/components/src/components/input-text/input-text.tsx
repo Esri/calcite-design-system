@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -64,19 +63,19 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private childRef = createRef<HTMLInputElement>();
 
-  defaultValue: InputText["value"];
+  defaultValue?: InputText["value"];
 
   private direction = useDirection();
 
-  private inlineEditableEl: InlineEditable["el"];
+  private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private previousEmittedValue: string;
+  private previousEmittedValue?: string;
 
-  private previousValue: string;
+  private previousValue!: string;
 
   private previousValueOrigin: SetValueOrigin = "initial";
 
@@ -125,7 +124,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: AutoFill;
+  @property() autocomplete?: AutoFill;
 
   /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
@@ -141,23 +140,23 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) editingEnabled = false;
 
   /** @copyDoc */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies an icon to display.
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies an accessible label for the component's button or hyperlink. */
-  @property() label: string;
+  @property() label?: string;
 
   /** @copyDoc */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -168,7 +167,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -179,7 +178,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
    * Specifies the name of the component.
@@ -188,7 +187,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When the component resides in a form,
@@ -197,17 +196,17 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @property() pattern: string;
+  @property() pattern?: string;
 
   /**
    * Specifies the component's placeholder text.
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /** Specifies text to display at the start of the component. */
-  @property() prefixText: string;
+  @property() prefixText?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
@@ -229,15 +228,15 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies text to display at the end of the component. */
-  @property() suffixText: string;
+  @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
    * @copyDoc
@@ -245,7 +244,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property()
@@ -312,7 +311,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   override connectedCallback(): void {
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
@@ -392,7 +391,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private inputTextBlurHandler() {
     this.calciteInternalInputTextBlur.emit({
-      element: this.childRef.value,
+      element: this.childRef.value!,
       value: this.value,
     });
 
@@ -407,8 +406,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperRef.value) ||
-      composedPath.includes(this.actionWrapperRef.value)
+      !composedPath.includes(this.inputWrapperRef.value!) ||
+      composedPath.includes(this.actionWrapperRef.value!)
     ) {
       return;
     }
@@ -418,7 +417,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
-      element: this.childRef.value,
+      element: this.childRef.value!,
       value: this.value,
     });
   }
@@ -558,7 +557,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         ref={this.childRef}
         required={this.required}
         spellcheck={this.el.spellcheck}
-        tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : null}
+        tabIndex={this.disabled || (this.inlineEditableEl && !this.editingEnabled) ? -1 : undefined}
         type="text"
         value={this.value}
       />
