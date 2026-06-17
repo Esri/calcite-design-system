@@ -68,37 +68,37 @@ export class DatePicker extends LitElement {
   //#region State Properties
 
   /** Active end date. */
-  @state() activeEndDate: Date;
+  @state() activeEndDate?: Date;
 
   /** Active start date. */
-  @state() activeStartDate: Date;
+  @state() activeStartDate?: Date;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
    *
    * @private
    */
-  @state() dateTimeFormat: Intl.DateTimeFormat;
+  @state() dateTimeFormat?: Intl.DateTimeFormat;
 
-  @state() private hoverRange: HoverRange;
+  @state() private hoverRange?: HoverRange;
 
-  @state() private localeData: DateLocaleData;
+  @state() private localeData!: DateLocaleData;
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies the component's active date. */
-  @property() activeDate: Date;
+  @property() activeDate?: Date;
 
   /** When `range` is `true`, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
-  @property({ reflect: true }) activeRange: "start" | "end";
+  @property({ reflect: true }) activeRange?: "start" | "end";
 
   /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -107,10 +107,10 @@ export class DatePicker extends LitElement {
    * When the component resides in a form,
    * specifies the latest allowed date (`"yyyy-mm-dd"`).
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @property() maxAsDate: Date;
+  @property() maxAsDate?: Date;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -119,16 +119,16 @@ export class DatePicker extends LitElement {
    * When the component resides in a form,
    * specifies the earliest allowed date (`"yyyy-mm-dd"`).
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @property() minAsDate: Date;
+  @property() minAsDate?: Date;
 
   /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @property({ reflect: true }) proximitySelectionDisabled = false;
@@ -140,10 +140,10 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). */
-  @property() value: string | string[];
+  @property() value?: string | string[];
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
-  @property() valueAsDate: Date | Date[];
+  @property() valueAsDate?: Date | Date[];
 
   //#endregion
 

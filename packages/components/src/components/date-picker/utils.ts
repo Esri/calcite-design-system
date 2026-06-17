@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { defaultLocale, normalizeLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
@@ -131,7 +130,7 @@ export function applyLocaleOverride(locale: Locale): Locale {
  * @param value
  */
 
-export function getValueAsDateRange(value: string[]): Date[] {
+export function getValueAsDateRange(value: string[]): (Date | null)[] {
   return value.map((v, index) => dateFromISO(v, index === 1));
 }
 

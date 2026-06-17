@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { ConditionalPick } from "type-fest";
@@ -200,9 +199,9 @@ describe("when the lang is set to Slovak calendar", () => {
     const text: string = await page.evaluate(
       () =>
         document
-          .querySelector("calcite-date-picker")
-          .shadowRoot.querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector(".week-header").textContent,
+          .querySelector("calcite-date-picker")!
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector(".week-header")!.textContent,
     );
 
     expect(text).toEqual("po");
@@ -995,7 +994,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1089,7 +1088,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1117,7 +1116,7 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
 
   async function getActiveMonthDate(): Promise<string> {
     return page.$eval("calcite-date-picker", (datePicker: DatePicker["el"]) =>
-      datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString(),
+      datePicker.shadowRoot!.querySelector("calcite-date-picker-month")!.activeDate.toISOString(),
     );
   }
 
@@ -1125,10 +1124,10 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
     return page.$eval(
       "calcite-date-picker",
       (datePicker: DatePicker["el"]) =>
-        datePicker.shadowRoot
-          .querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector("calcite-date-picker-month-header")
-          .shadowRoot.querySelector<HTMLInputElement>(".year").value,
+        datePicker
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector("calcite-date-picker-month-header")!
+          .shadowRoot!.querySelector<HTMLInputElement>(".year")!.value,
     );
   }
 
@@ -1412,7 +1411,7 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
     page,
     `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
   );
-  return days.find((d) => !d.classList.contains("noncurrent"));
+  return days.find((d) => !d.classList.contains("noncurrent"))!;
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {
