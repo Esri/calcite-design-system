@@ -75,6 +75,10 @@ export const simple = (args: ActionBarStoryArgs): string => html`
   </calcite-action-bar>
 `;
 
+simple.args = {
+  layout: "vertical",
+};
+
 export const floating = (args: ActionBarStoryArgs): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar position="${args.position}" floating>

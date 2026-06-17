@@ -65,6 +65,10 @@ export const simple = (args: ActionPadStoryArgs): string => html`
   </calcite-action-pad>
 `;
 
+simple.args = {
+  layout: "vertical",
+};
+
 export const withDefinedWidths = (): string => html`
   <style>
     calcite-action-pad {

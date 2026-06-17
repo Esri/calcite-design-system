@@ -140,6 +140,10 @@ export const simple = (args: FlowStoryArgs): string => html`
   </calcite-flow>
 `;
 
+simple.args = {
+  selected: false,
+};
+
 export const darkModeRTL = (): string => html`
   <calcite-flow class="calcite-mode-dark" dir="rtl">
     <calcite-flow-item heading="Heading" description="Description"> ${createItemHTML(item1HTML)} </calcite-flow-item>

@@ -31,7 +31,8 @@ export default {
       control: { type: "select" },
     },
     headingLevel: {
-      control: { type: "number", min: 1, max: 6, step: 1 },
+      options: [1, 2, 3, 4, 5, 6],
+      control: { type: "select" },
     },
   },
 };

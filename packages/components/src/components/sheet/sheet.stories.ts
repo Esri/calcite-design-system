@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 
-const { logicalFlowPosition, displayMode, scale, width } = ATTRIBUTES;
+const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
 type SheetStoryArgs = Pick<Sheet, "displayMode" | "heightScale" | "open" | "position" | "resizable" | "width">;
 
@@ -14,7 +14,7 @@ export default {
     resizable: false,
     position: logicalFlowPosition.values[0],
     displayMode: displayMode.values[1],
-    width: width.defaultValue,
+    width: scale.defaultValue,
     heightScale: scale.defaultValue,
   },
   argTypes: {
@@ -27,7 +27,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: scale.values,
       control: { type: "select" },
     },
     heightScale: {

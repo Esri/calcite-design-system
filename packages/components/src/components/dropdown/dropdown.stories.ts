@@ -5,7 +5,7 @@ import { defaultMenuPlacement, placements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
 
-const { clickType, overlayPositioning, scale, selectionMode, width } = ATTRIBUTES;
+const { clickType, overlayPositioning, scale, selectionMode } = ATTRIBUTES;
 
 type DropdownStoryArgs = Pick<
   Dropdown,
@@ -28,7 +28,7 @@ export default {
     open: true,
     overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
-    width: width.defaultValue,
+    width: scale.defaultValue,
     widthScale: scale.defaultValue,
     type: clickType.defaultValue,
     closeOnSelectDisabled: false,
@@ -45,7 +45,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: scale.values,
       control: { type: "select" },
     },
     widthScale: {
@@ -95,6 +95,10 @@ export const simple = (args: DropdownStoryArgs): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+simple.args = {
+  width: "m",
+};
 
 export const smallViewport = (): string => html`
   <calcite-dropdown open>

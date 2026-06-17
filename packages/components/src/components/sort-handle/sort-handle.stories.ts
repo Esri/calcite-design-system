@@ -46,11 +46,26 @@ export const simple = (args: SortHandleStoryArgs): string => html`
   ></calcite-sort-handle>
 `;
 
-export const closed = (): string =>
-  simple({ disabled: false, open: false, placement: "leading-start", scale: "m", sortDisabled: false });
+export const closed = (): string => html`
+  <calcite-sort-handle
+    label="test"
+    set-position="4"
+    set-size="10"
+    placement="leading-start"
+    scale="m"
+  ></calcite-sort-handle>
+`;
 
-export const open = (): string =>
-  simple({ disabled: false, open: true, placement: "leading-start", scale: "m", sortDisabled: false });
+export const open = (): string => html`
+  <calcite-sort-handle
+    label="test"
+    set-position="4"
+    set-size="10"
+    placement="bottom-start"
+    scale="m"
+    open
+  ></calcite-sort-handle>
+`;
 
 export const logicalPlacement = (): string =>
   html`<calcite-sort-handle
