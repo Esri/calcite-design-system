@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -81,13 +80,13 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** Accessible name for the dropdown menu. */
-  @property({ reflect: true }) dropdownLabel: string;
+  @property({ reflect: true }) dropdownLabel?: string;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies the kind of the component, which will apply to border and background, if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -96,13 +95,7 @@ export class SplitButton extends LitElement {
   /** When `true`, a busy indicator is displayed on the primary button. */
   @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -110,7 +103,7 @@ export class SplitButton extends LitElement {
    *
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
@@ -118,19 +111,19 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconEnd: IconName;
+  @property({ reflect: true, type: String }) primaryIconEnd?: IconName;
 
   /** Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) primaryIconFlipRtl: FlipContext;
+  @property({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconStart: IconName;
+  @property({ reflect: true, type: String }) primaryIconStart?: IconName;
 
   /** Specifies an accessible name for the primary button. */
-  @property({ reflect: true }) primaryLabel: string;
+  @property({ reflect: true }) primaryLabel?: string;
 
   /** Specifies the text displayed in the primary button. */
-  @property({ reflect: true }) primaryText: string;
+  @property({ reflect: true }) primaryText?: string;
 
   /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -140,12 +133,10 @@ export class SplitButton extends LitElement {
    *
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -207,9 +198,9 @@ export class SplitButton extends LitElement {
             disabled={this.disabled}
             download={this.download}
             href={this.href}
-            iconEnd={this.primaryIconEnd ? this.primaryIconEnd : null}
-            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
-            iconStart={this.primaryIconStart ? this.primaryIconStart : null}
+            iconEnd={this.primaryIconEnd}
+            iconFlipRtl={this.primaryIconFlipRtl}
+            iconStart={this.primaryIconStart}
             kind={this.kind}
             label={this.primaryLabel}
             loading={this.loading}

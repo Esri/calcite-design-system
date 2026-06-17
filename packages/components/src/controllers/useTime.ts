@@ -66,6 +66,10 @@ type TimeProperties = {
    */
   fractionalSecond: string;
   /**
+   * Returns true if any portion of the time value is truthy.
+   */
+  hasValue: boolean;
+  /**
    * The hour portion of the time value (in ISO 24-hour format).
    */
   hour?: string;
@@ -142,6 +146,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Properties
 
   fractionalSecond?: string | null;
+
+  get hasValue(): boolean {
+    return Boolean(this?.hour || this?.minute || this?.second || this?.fractionalSecond || this?.meridiem);
+  }
 
   hour?: string | null;
 

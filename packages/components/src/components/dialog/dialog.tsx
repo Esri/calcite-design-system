@@ -197,10 +197,10 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
   @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies the component's kind, which determines the top border styling. */
@@ -221,7 +221,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays a scrim blocking interaction underneath the component. */
@@ -245,13 +245,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the component's placement. */
@@ -264,9 +258,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
