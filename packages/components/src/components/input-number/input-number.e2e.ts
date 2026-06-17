@@ -3,7 +3,7 @@ import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compil
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable, themed } from "../../tests/commonTests";
-import { assertCaretPosition, findAll, getElementXY, isElementFocused, selectText } from "../../tests/utils/puppeteer";
+import { assertCaretPosition, findAll, getElementXY, isElementFocused } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
@@ -688,78 +688,6 @@ describe("direct changes to the value", () => {
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
   });
-});
-
-describe("emits events when value is modified", () => {
-  async function assertChangeEvents(): Promise<void> {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-
-    const element = await page.find("calcite-input-number");
-    const calciteInputNumberInput = await element.spyOnEvent("calciteInputNumberInput");
-    const calciteInputNumberChange = await element.spyOnEvent("calciteInputNumberChange");
-
-    const inputFirstPart = "12345";
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, inputFirstPart);
-    expect(await element.getProperty("value")).toBe(inputFirstPart);
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Enter");
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Enter");
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
-
-    const textSecondPart = "67890";
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await typeNumberValue(page, textSecondPart);
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
-    expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await page.keyboard.press("Tab");
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
-    expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
-
-    const programmaticSetValue = "1337";
-    element.setProperty("value", programmaticSetValue);
-    await page.waitForChanges();
-
-    expect(await element.getProperty("value")).toBe(programmaticSetValue);
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
-
-    await element.callMethod("setFocus");
-    await page.waitForChanges();
-    await selectText(element);
-    await page.keyboard.press("Backspace");
-    await page.keyboard.press("Tab");
-
-    expect(await element.getProperty("value")).toBe("");
-    expect(calciteInputNumberInput).toHaveReceivedEventTimes(11);
-    expect(calciteInputNumberChange).toHaveReceivedEventTimes(3);
-  }
-
-  it("emits events", () => assertChangeEvents());
 });
 
 it("value stays in sync when value property is controlled with javascript", async () => {

@@ -1,8 +1,8 @@
-import { h } from "@arcgis/lumina";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
+import { h } from "@arcgis/lumina";
 import {
   defaults,
   disabled,
@@ -512,4 +512,60 @@ it("integer property prevents decimals and exponential notation", async () => {
 
   await userEvent.click(numberHorizontalItemUp);
   expect(el).toHaveProperty("value", "-986"); // test incrementing
+});
+
+it("emits events when value is modified", () => {
+  const { el } = await mount("calcite-input-number");
+
+  const calciteInputNumberInput = vi.fn();
+  el.addEventListener("calciteInputNumberInput", calciteInputNumberInput);
+  const calciteInputNumberChange = vi.fn();
+  el.addEventListener("calciteInputNumberChange", calciteInputNumberChange);
+
+  const inputFirstPart = "12345";
+
+  await userEvent.keyboard("{Tab}");
+  await userEvent.keyboard(inputFirstPart);
+  expect(el.value).toBe(inputFirstPart);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(0);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  const textSecondPart = "67890";
+  await userEvent.keyboard("{Enter}");
+  await userEvent.keyboard(textSecondPart);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+  expect(el.value).toBe(`${inputFirstPart}${textSecondPart}`);
+
+  await userEvent.keyboard("{Tab}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+  expect(el.value).toBe(`${inputFirstPart}${textSecondPart}`);
+
+  const programmaticSetValue = "1337";
+  el.value = programmaticSetValue;
+
+  expect(el.value).toBe(programmaticSetValue);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+
+  await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+  await userEvent.keyboard("{selectall}");
+  await userEvent.keyboard("{Backspace}{Tab}");
+
+  expect(el.value).toBe("");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(11);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
 });
