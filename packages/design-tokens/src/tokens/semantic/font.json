@@ -44,7 +44,8 @@
         }
       },
       "regular": {
-        "$value": "{core.font.weight.regular}",
+        "$value": "{font.weight.normal}",
+        "$description": "Replaces `--calcite-font-weight-normal`",
         "$type": "fontWeights",
         "attributes": {
           "category": "font",
