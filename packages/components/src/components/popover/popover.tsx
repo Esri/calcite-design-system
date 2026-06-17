@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -59,13 +58,13 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   referenceElementController = useReferenceElement({ manager })(this);
 
-  private arrowEl: SVGSVGElement;
+  private arrowEl?: SVGSVGElement;
 
   private direction = useDirection();
 
-  private filteredFlipPlacements: FlipPlacement[];
+  private filteredFlipPlacements?: FlipPlacement[];
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -82,7 +81,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
     },
   })(this);
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+  private mutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
   );
 
@@ -124,7 +123,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
-  @state() referenceEl: ReferenceElement;
+  @state() referenceEl?: ReferenceElement;
 
   //#endregion
 
@@ -140,7 +139,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) flipDisabled = false;
 
   /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  @property() flipPlacements?: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
@@ -154,20 +153,20 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /** Specifies the component's heading text. */
-  @property() heading: string;
+  @property() heading?: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -209,7 +208,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @required
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElement!: ReferenceElement | string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -257,7 +256,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
       {
         direction: this.direction,
         floatingEl,
-        referenceEl: referenceEl,
+        referenceEl,
         overlayPositioning,
         placement,
         flipDisabled,
@@ -383,7 +382,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
+      : undefined;
   }
 
   private hide(): void {

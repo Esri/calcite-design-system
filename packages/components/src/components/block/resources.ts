@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
+import type { Block } from "./block";
 
 export const IDS = {
   content: "content",
@@ -45,3 +46,7 @@ export const ICONS: Record<string, IconName> = {
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 };
+
+export function isBlock(el?: Element | null): el is Block["el"] {
+  return el?.tagName === "CALCITE-BLOCK";
+}

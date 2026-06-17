@@ -1,5 +1,13 @@
-// @ts-strict-ignore
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   hasVisibleContent,
@@ -64,7 +72,7 @@ export class Panel extends LitElement {
 
   private containerRef = createRef<HTMLElement>();
 
-  private panelScrollEl: HTMLElement;
+  private panelScrollEl?: HTMLElement;
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
@@ -80,7 +88,7 @@ export class Panel extends LitElement {
   transitionProp = "opacity" as const;
 
   get transitionEl(): HTMLElement {
-    return this.panelScrollEl;
+    return this.panelScrollEl ?? this;
   }
 
   private focusSetter = useSetFocus<this>()(this);
@@ -147,7 +155,7 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
   /** When `true`, displays a close button in the component. */
   @property({ reflect: true }) closable = false;
@@ -174,19 +182,19 @@ export class Panel extends LitElement {
   @property({ reflect: true }) collapsible = false;
 
   /** Specifies a description for the component. */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's heading text. */
-  @property() heading: string;
+  @property() heading?: string;
 
   /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -195,7 +203,7 @@ export class Panel extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -286,7 +294,7 @@ export class Panel extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.panelCloseHandler);
+    this.listen<ToEvents<Panel>["calcitePanelClose"]>("calcitePanelClose", this.panelCloseHandler);
   }
 
   override disconnectedCallback(): void {
@@ -424,7 +432,7 @@ export class Panel extends LitElement {
     this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
-  private setPanelScrollEl(el: HTMLElement): void {
+  private setPanelScrollEl(el?: HTMLElement): void {
     updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
   }

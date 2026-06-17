@@ -46,11 +46,25 @@ export const simple = (args: LinkStoryArgs): string => html`
   </div>
 `;
 
-export const asButton = (): string => html`
+export const simpleNoWrappingText = (args: LinkStoryArgs): string => html`
+  <div
+    style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; width: 300px; border: 1px solid black;"
+  >
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.text}</calcite-link>
+  </div>
+`;
+
+export const noHref = (): string => html`
   <div style="font-size: 16px; font-weight: 400;">
     Some wrapping text
     <calcite-link>link text here</calcite-link>
     around the link
+  </div>
+`;
+
+export const noHrefNoWrappingText = (): string => html`
+  <div style="font-size: 16px; font-weight: 400; width: 300px; border: 1px solid black;">
+    <calcite-link>link text here</calcite-link>
   </div>
 `;
 
@@ -83,6 +97,18 @@ export const multiLine = (args: LinkStoryArgs): string => html`
     Some wrapping text
     <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.longText}</calcite-link>
     around the link
+  </div>
+`;
+
+export const multiLineNoWrappingText = (args: LinkStoryArgs): string => html`
+  <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; max-width: 400px;">
+    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.longText}</calcite-link>
+  </div>
+`;
+
+export const multiLineNoWrappingTextNoHref = (args: LinkStoryArgs): string => html`
+  <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight}; max-width: 400px;">
+    <calcite-link ${boolean("disabled", args.disabled)}>${args.longText}</calcite-link>
   </div>
 `;
 

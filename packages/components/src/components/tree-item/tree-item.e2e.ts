@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -125,7 +124,7 @@ it("should navigate to the inner link when a child item is clicked and not the o
   await page.waitForChanges();
 
   const hash = await page.evaluate(() => {
-    const item = document.getElementById("secondItem");
+    const item = document.getElementById("secondItem")!;
     item.click();
     return window.location.hash;
   });
@@ -223,8 +222,8 @@ describe("when a parent tree-item is expanded and a new item is appended into it
         </calcite-tree>
       </calcite-panel>`);
     await page.evaluate(() => {
-      const tree = document.querySelector("#target-tree");
-      document.querySelector("#add-item-btn").addEventListener("click", () => {
+      const tree = document.querySelector("#target-tree")!;
+      document.querySelector("#add-item-btn")!.addEventListener("click", () => {
         const newItem = document.createElement("calcite-tree-item");
         newItem.id = "newbie";
         newItem.appendChild(document.createTextNode("Child 2"));
@@ -362,13 +361,13 @@ it("displaying an expanded item is visible", async () => {
     </calcite-tree>
   `);
 
-  await page.$eval("#root", (root: Tree["el"]) => (root.style.display = ""));
+  await page.$eval("#root", (root) => ((root as Tree["el"]).style.display = ""));
   await page.waitForChanges();
 
   const item = await page.$("#child");
-  const itemBounds = await item.boundingBox();
+  const itemBounds = await item!.boundingBox();
 
-  expect(itemBounds.height).not.toBe(0);
+  expect(itemBounds!.height).not.toBe(0);
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
@@ -433,9 +432,9 @@ describe("selection", () => {
       const treeItem = await page.find("#item-1");
       const selectSpy = await treeItem.spyOnEvent("calciteTreeItemSelect");
 
-      await treeItem.setProperty("selected", true);
+      treeItem.setProperty("selected", true);
       await page.waitForChanges();
-      await treeItem.setProperty("selected", false);
+      treeItem.setProperty("selected", false);
       await page.waitForChanges();
 
       expect(selectSpy).toHaveReceivedEventTimes(0);

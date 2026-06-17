@@ -165,3 +165,16 @@ export const darkModeFloatRTL = (): string =>
   </div>`;
 
 darkModeFloatRTL.parameters = { themes: modesDarkDefault };
+
+export const shadowAcrossModesAndPositions = (): string => html`
+  <style>
+    :root {
+      --calcite-sheet-scrim-background: transparent;
+      --calcite-sheet-shadow: 0 8px 24px blue;
+    }
+  </style>
+  <calcite-sheet label="overlay + block" open position="block-start">${panelHTML}</calcite-sheet>
+  <calcite-sheet display-mode="float" label="float + block" open position="block-end">${panelHTML}</calcite-sheet>
+  <calcite-sheet label="overlay + inline" open position="inline-start">${panelHTML}</calcite-sheet>
+  <calcite-sheet display-mode="float" label="float + inline" open position="inline-end">${panelHTML}</calcite-sheet>
+`;

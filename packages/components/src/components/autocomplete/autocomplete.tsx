@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -87,11 +86,11 @@ export class Autocomplete
     this.handleGlobalAttributesChanged,
   );
 
-  defaultValue: Autocomplete["value"];
+  defaultValue!: Autocomplete["value"];
 
   private direction = useDirection();
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   floatingLayout?: FloatingLayout;
 
@@ -101,7 +100,7 @@ export class Autocomplete
 
   private inputId = IDS.input(this.guid);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private listId = IDS.list(this.guid);
 
@@ -114,11 +113,11 @@ export class Autocomplete
 
   transitionProp = "opacity" as const;
 
-  referenceEl: Input["el"];
+  referenceEl?: Input["el"];
 
   transitionRef = createRef<HTMLDivElement>();
 
-  private inputValueMatchPattern: RegExp;
+  private inputValueMatchPattern?: RegExp;
 
   private mutationObserver = createObserver("mutation", () => this.getAllItemsDebounced());
 
@@ -175,39 +174,39 @@ export class Autocomplete
    *
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: AutoFill;
+  @property() autocomplete?: AutoFill;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  @property() flipPlacements?: FlipPlacement[];
 
   /**
    * Specifies the `id` of the component's associated form.
    *
    * When not set, the component is associated with its ancestor form element, if one exists.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /**
    * When `true` or not set, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
    * To hide the default icon, set the property to `false` using JavaScript.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
-  @property() inputValue: string;
+  @property() inputValue?: string;
 
   /** Specifies an accessible label for the component. */
-  @property() label: string;
+  @property() label?: string;
 
   /** Specifies the component's label text. */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -218,7 +217,7 @@ export class Autocomplete
    *
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
   /** Overrides individual strings used by the component. */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -229,7 +228,7 @@ export class Autocomplete
    *
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
    * Specifies the name of the component.
@@ -238,7 +237,7 @@ export class Autocomplete
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -259,14 +258,14 @@ export class Autocomplete
    *
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
-  @property() pattern: string;
+  @property() pattern?: string;
 
   /**
    * Specifies placeholder text for the component.
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
@@ -274,7 +273,7 @@ export class Autocomplete
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /** Specifies the component's prefix text. */
-  @property() prefixText: string;
+  @property() prefixText?: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
@@ -296,7 +295,7 @@ export class Autocomplete
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the component's suffix text. */
-  @property() suffixText: string;
+  @property() suffixText?: string;
 
   /**
    * When `true` and the component is `open`, disables top layer placement.
@@ -308,12 +307,12 @@ export class Autocomplete
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
    * The component's current validation state.
@@ -321,7 +320,7 @@ export class Autocomplete
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** Specifies the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
   @property() value = "";
@@ -376,7 +375,7 @@ export class Autocomplete
    */
   @method()
   async selectText(): Promise<void> {
-    return this.referenceEl.selectText();
+    return this.referenceEl?.selectText();
   }
 
   /**
@@ -464,8 +463,9 @@ export class Autocomplete
     let itemsAndGroupsUpdated = false;
 
     if (changes.has("inputValue") && (this.hasUpdated || this.inputValue)) {
-      this.inputValueMatchPattern =
-        this.inputValue && new RegExp(`(${escapeRegExp(this.inputValue)})`, "i");
+      this.inputValueMatchPattern = this.inputValue
+        ? new RegExp(`(${escapeRegExp(this.inputValue)})`, "i")
+        : undefined;
       this.updateItems();
       this.updateGroups();
       itemsAndGroupsUpdated = true;
@@ -595,7 +595,7 @@ export class Autocomplete
   }
 
   private updateItems(): void {
-    let activeDescendant: string = null;
+    let activeDescendant = "";
 
     this.items.forEach((item) => {
       item.scale = this.scale;
@@ -735,7 +735,7 @@ export class Autocomplete
     this.calciteAutocompleteTextInput.emit();
   }
 
-  private setFloatingEl(el: HTMLDivElement): void {
+  private setFloatingEl(el: HTMLDivElement | undefined): void {
     this.floatingEl = el;
     connectFloatingUI(this);
   }
@@ -788,11 +788,11 @@ export class Autocomplete
             messageOverrides={this.messages}
             minLength={this.minLength}
             name={this.name}
-            onClick={this.inputClickHandler}
-            onKeyDown={this.keyDownHandler}
             oncalciteInputChange={this.changeHandler}
             oncalciteInputInput={this.inputHandler}
             oncalciteInternalInputFocus={this.handleInputFocus}
+            onClick={this.inputClickHandler}
+            onKeyDown={this.keyDownHandler}
             pattern={this.pattern}
             placeholder={this.placeholder}
             prefixText={this.prefixText}

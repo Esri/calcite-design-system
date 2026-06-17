@@ -104,9 +104,11 @@ In descending order when rules conflict:
 - Do not add unrelated test coverage in the same change.
 - Always use CSS classes when adding/updating stories instead of repeating styles.
 - Targeted commands for component work:
-  - `npm --workspace=packages/components run test:stable -- <path>`
-  - `npm --workspace=packages/components run test:experimental -- <path>`
+  - `npm --workspace=packages/components run test:node -- <path>`
+  - `npm --workspace=packages/components run test:browser -- <path>`
   - `npm --workspace=packages/components run test:watch -- <path>`
+- Avoid defensive test code; keep tests deterministic and make assertions reflect the intended behavior.
+- Keep tests as minimal as possible, focusing on the specific behavior being tested. Avoid extra assertions or setup not directly related to the change.
 
 ## Documentation
 

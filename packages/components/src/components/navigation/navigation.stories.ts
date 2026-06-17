@@ -1,7 +1,7 @@
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Navigation } from "./navigation";
+import type { Navigation } from "./navigation";
 const { scale } = ATTRIBUTES;
 
 type NavigationStoryArgs = Pick<Navigation, "label" | "navigationAction" | "scale">;

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -51,7 +50,7 @@ describe("clear button", () => {
     page = await newE2EPage();
     await page.setContent("<calcite-filter></calcite-filter>");
     await page.evaluate(() => {
-      const filter = document.querySelector("calcite-filter");
+      const filter = document.querySelector("calcite-filter")!;
       filter.items = [{ foo: "bar" }];
     });
   });
@@ -73,9 +72,9 @@ describe("clear button", () => {
       await page.$eval(
         "calcite-filter",
         async (filter: Filter["el"], buttonSelector: string): Promise<void> => {
-          return filter.shadowRoot
-            .querySelector("calcite-input")
-            .shadowRoot.querySelector<HTMLElement>(buttonSelector)
+          return filter
+            .shadowRoot!.querySelector("calcite-input")!
+            .shadowRoot!.querySelector<HTMLElement>(buttonSelector)!
             .click();
         },
         `.${INPUT_CSS.clearButton}`,
@@ -115,7 +114,7 @@ describe("filter behavior", () => {
     page = await newE2EPage();
     await page.setContent("<calcite-filter></calcite-filter>");
     await page.evaluate(() => {
-      const filter = document.querySelector("calcite-filter");
+      const filter = document.querySelector("calcite-filter")!;
       filter.items = [
         {
           name: "Harry",
@@ -225,7 +224,7 @@ describe("filter behavior with predefined value prop", () => {
     page = await newE2EPage();
     await page.setContent(`<calcite-filter value="harry"></calcite-filter>`);
     await page.evaluate(() => {
-      const filter = document.querySelector("calcite-filter");
+      const filter = document.querySelector("calcite-filter")!;
       filter.items = [
         {
           name: "Harry",
@@ -265,7 +264,7 @@ describe("filter method", () => {
     page = await newE2EPage();
     await page.setContent(`<calcite-filter></calcite-filter>`);
     await page.evaluate(() => {
-      const filter = document.querySelector("calcite-filter");
+      const filter = document.querySelector("calcite-filter")!;
       filter.items = [
         {
           name: "Harry",

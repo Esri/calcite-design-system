@@ -349,7 +349,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * Use this method to programmatically override the components's width (inline) and/or height (block).
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
@@ -382,7 +382,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+    this.setUpInteractions();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -397,7 +397,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false))
     ) {
-      this.setupInteractions();
+      this.setUpInteractions();
     }
 
     if (
@@ -412,7 +412,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -614,7 +614,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
       translateX || translateY ? `translate(${translateX}px, ${translateY}px)` : null;
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
     this.updateSizeInternal({
       inline: null,
@@ -625,8 +625,8 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     this.updateTransform();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private async setUpInteractions(): Promise<void> {
+    this.cleanUpInteractions();
 
     const { el, transitionEl, resizable, dragEnabled, resizePosition, dragPosition } = this;
 
@@ -745,7 +745,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
     }
 
     this.transitionEl = el;
-    this.setupInteractions();
+    this.setUpInteractions();
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -844,9 +844,9 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               loading={this.loading}
               menuOpen={this.menuOpen}
               messageOverrides={this.messageOverrides}
-              onKeyDown={this.handlePanelKeyDown}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
+              onKeyDown={this.handlePanelKeyDown}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}

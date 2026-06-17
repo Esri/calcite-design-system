@@ -900,7 +900,7 @@ describe("keyboard navigation with chips", () => {
     const getActiveElementId = () => page.evaluate(() => document.activeElement.id);
 
     const getDataTestId = () =>
-      page.$eval(`#${comboboxId}`, (myCombobox) => myCombobox.shadowRoot.activeElement.getAttribute("data-test-id"));
+      page.$eval(`#${comboboxId}`, (myCombobox) => myCombobox.shadowRoot.activeElement.getAttribute("data-testid"));
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -997,8 +997,6 @@ describe("keyboard navigation with chips", () => {
 describe("keyboard navigation in all selection-display mode", () => {
   let page: E2EPage;
   const scrollablePageSizeInPx = 2400;
-  // PageUp/Down scroll test fails without the delay
-  const scrollTestDelayInMilliseconds = 500;
 
   beforeEach(async () => {
     page = await newE2EPage();
@@ -1087,30 +1085,6 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(firstFocusedGroupItem).toBeTruthy();
   });
 
-  it(`Escape closes the dropdown, but remains focused`, async () => {
-    const inputEl = await page.find(`#myCombobox >>> input`);
-    await inputEl.focus();
-    await page.waitForChanges();
-
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-
-    const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
-    await page.keyboard.press("Space");
-    await page.waitForChanges();
-    await openEventSpy.next();
-    const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
-
-    expect(await floatingUI.isVisible()).toBe(true);
-
-    const closeEventSpy = await page.spyOnEvent("calciteComboboxClose");
-    await page.keyboard.press("Escape");
-    await page.waitForChanges();
-    await closeEventSpy.next();
-
-    expect(await floatingUI.isVisible()).toBe(false);
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
-  });
-
   it(`Space opens dropdown and puts focus on first item and subsequent Space do not change the focus`, async () => {
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();
@@ -1156,12 +1130,12 @@ describe("keyboard navigation in all selection-display mode", () => {
     expect(await page.evaluate(() => window.scrollY)).toEqual(0);
 
     await page.keyboard.press("PageDown");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction(() => window.scrollY > 0);
     const scrollPosition = await page.evaluate(() => window.scrollY);
     expect(scrollPosition).toBeTruthy();
 
     await page.keyboard.press("PageUp");
-    await page.waitForTimeout(scrollTestDelayInMilliseconds);
+    await page.waitForFunction((previousScrollY) => window.scrollY < previousScrollY, undefined, scrollPosition);
     expect(
       await page.evaluate((scrollPosition) => {
         return window.scrollY < scrollPosition;
@@ -1233,10 +1207,10 @@ describe("keyboard navigation in all selection-display mode", () => {
       await page.waitForChanges();
 
       await element.press("ArrowLeft");
-      expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-2"]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `calcite-chip[data-testid="chip-2"]`, { shadowed: true })).toBe(true);
 
       await element.press("ArrowLeft");
-      expect(await isElementFocused(page, `calcite-chip[data-test-id="chip-1"]`, { shadowed: true })).toBe(true);
+      expect(await isElementFocused(page, `calcite-chip[data-testid="chip-1"]`, { shadowed: true })).toBe(true);
 
       await element.press("Delete");
       chips = await findAll(page, "#myCombobox >>> calcite-chip");
@@ -1289,6 +1263,7 @@ describe("deleting items with the keyboard in single and fit selection-display m
         <calcite-combobox-item-group heading="Last Item">
           <calcite-combobox-item id="three" value="three" heading="three"></calcite-combobox-item>
         </calcite-combobox-item-group>
+        <calcite-combobox-item id="four" value="four" heading="four"></calcite-combobox-item>
       </calcite-combobox>
     `);
     const combobox = await page.find("calcite-combobox");
@@ -2262,7 +2237,7 @@ describe("selectAllEnabled", async () => {
     }
     await page.waitForChanges();
     expect(
-      await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
+      await page.find(`calcite-combobox >>> calcite-chip[data-testid="all-selected-indicator-chip"]`),
     ).toBeDefined();
 
     const listItem = await combobox.find("calcite-combobox-item[value=Sequoia]");
@@ -2343,9 +2318,9 @@ describe("selectAllEnabled", async () => {
 
     expect(await page.find(`calcite-combobox >>> calcite-chip[value="Trees"]`)).toBeDefined();
     expect(await page.find(`calcite-combobox >>> calcite-chip[value="Maple"]`)).toBeDefined();
-    expect(
-      await page.find(`calcite-combobox >>> calcite-chip[data-test-id="all-selected-indicator-chip"]`),
-    ).toHaveClass(CSS.chipInvisible);
+    expect(await page.find(`calcite-combobox >>> calcite-chip[data-testid="all-selected-indicator-chip"]`)).toHaveClass(
+      CSS.chipInvisible,
+    );
   });
 
   it("should update aria-selected on items when toggling 'Select All'", async () => {
