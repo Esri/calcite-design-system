@@ -228,14 +228,6 @@ input {
 }
 
 // states
-input {
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-ms-input-placeholder {
-    @apply font-normal;
-    color: var(--calcite-input-number-placeholder-text-color, var(--calcite-color-text-3));
-  }
-}
 input:focus {
   @apply border-color-brand;
   color: var(--calcite-input-text-text-color-focus, var(--calcite-color-text-1));
@@ -445,7 +437,7 @@ input {
 @include includes.form-validation-message();
 @include includes.hidden-form-input();
 @include includes.base-component();
-@include includes.input-placeholder-text();
+@include includes.input-placeholder-text("--calcite-input-text-placeholder-text-color");
 @include includes.clear-button(
   $background-color: "--calcite-input-action-background-color",
   $background-color-hover: "--calcite-input-action-background-color-hover",
