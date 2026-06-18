@@ -882,7 +882,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    if (this.proximitySelectionDisabled && this.valueAsDate && this.valueAsDate[1] === undefined) {
+    if (
+      this.proximitySelectionDisabled &&
+      Array.isArray(this.valueAsDate) &&
+      this.valueAsDate[1] === undefined
+    ) {
       return;
     }
 

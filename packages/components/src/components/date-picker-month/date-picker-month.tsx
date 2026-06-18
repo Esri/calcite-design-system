@@ -447,10 +447,10 @@ export class DatePickerMonth extends LitElement {
     }
     const { start, end } = this.hoverRange;
     const isStartFocused = this.isFocusedOnStart();
-    const isEndAfterStart = this.startDate && end! > this.startDate;
-    const isEndBeforeEnd = this.endDate && end! < this.endDate;
-    const isStartAfterStart = this.startDate && start! > this.startDate;
-    const isStartBeforeEnd = this.endDate && start! < this.endDate;
+    const isEndAfterStart = this.startDate && end && end > this.startDate;
+    const isEndBeforeEnd = this.endDate && end && end < this.endDate;
+    const isStartAfterStart = this.startDate && start && start > this.startDate;
+    const isStartBeforeEnd = this.endDate && start && start < this.endDate;
 
     const isEndDateAfterStartAndBeforeEnd =
       !isStartFocused && this.startDate && isEndAfterStart && (!this.endDate || isEndBeforeEnd);
@@ -468,18 +468,48 @@ export class DatePickerMonth extends LitElement {
     const isStartFocused = this.isFocusedOnStart();
     const insideRange = this.isHoverInRange();
 
-    const isDateBeforeStartDateAndAfterStart = date > start! && date < this.startDate!;
-    const isDateAfterEndDateAndBeforeEnd = date < end! && date > this.endDate!;
-    const isDateBeforeEndDateAndAfterEnd = date > end! && date < this.endDate!;
-    const isDateAfterStartDateAndBeforeStart = date < start! && date > this.startDate!;
-    const isDateAfterStartDateAndBeforeEnd = date < end! && date > this.startDate!;
-    const isDateBeforeEndDateAndAfterStart = date > start! && date < this.endDate!;
+    const isDateBeforeStartDateAndAfterStart = !!(
+      start &&
+      date > start &&
+      this.startDate &&
+      date < this.startDate
+    );
+    const isDateAfterEndDateAndBeforeEnd = !!(
+      end &&
+      date < end &&
+      this.endDate &&
+      date > this.endDate
+    );
+    const isDateBeforeEndDateAndAfterEnd = !!(
+      end &&
+      date > end &&
+      this.endDate &&
+      date < this.endDate
+    );
+    const isDateAfterStartDateAndBeforeStart = !!(
+      start &&
+      date < start &&
+      this.startDate &&
+      date > this.startDate
+    );
+    const isDateAfterStartDateAndBeforeEnd = !!(
+      end &&
+      date < end &&
+      this.startDate &&
+      date > this.startDate
+    );
+    const isDateBeforeEndDateAndAfterStart = !!(
+      start &&
+      date > start &&
+      this.endDate &&
+      date < this.endDate
+    );
     const hasBothStartAndEndDate = this.startDate && this.endDate;
 
     if (insideRange) {
       if (hasBothStartAndEndDate) {
         return isStartFocused
-          ? date < this.endDate! &&
+          ? !!(this.endDate && date < this.endDate) &&
               (isDateAfterStartDateAndBeforeStart || isDateBeforeStartDateAndAfterStart)
           : isDateBeforeEndDateAndAfterEnd || isDateAfterEndDateAndBeforeEnd;
       } else if (this.startDate && !this.endDate) {
