@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -89,7 +89,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     value="${args.value}"
     wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   >
   </calcite-text-area>
 `;

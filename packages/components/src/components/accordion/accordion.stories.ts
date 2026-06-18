@@ -1,5 +1,5 @@
 import { AccordionItem } from "../accordion-item/accordion-item";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
@@ -78,32 +78,32 @@ export const simple = (args: AccordionStoryArgs): string => html`
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     >
       ${accordionItemContent}
     </calcite-accordion-item>
     <calcite-accordion-item
       heading="${args.heading}"
       description="${args.description}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
       expanded
     >
       ${accordionItemContent}

@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { menuPlacements } from "../../utils/floating-ui";
@@ -97,7 +97,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
       label="${args.label}"
       numbering-system="${args.numberingSystem}"
       placement="${args.placement}"

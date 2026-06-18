@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { FlowItem } from "./flow-item";
@@ -118,7 +118,7 @@ export const simple = (args: FlowItemStoryArgs): string => html`
     overlay-positioning="${args.overlayPositioning}"
     ${boolean("selected", args.selected)}
     heading="Heading"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     icon-flip-rtl="${args.iconFlipRtl}"
     description="A wonderful flow item description"
   >

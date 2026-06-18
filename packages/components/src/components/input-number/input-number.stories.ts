@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
@@ -110,7 +110,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
       ${boolean("group-separator", args.groupSeparator)}
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${boolean("integer", args.integer)}
       ${boolean("read-only", args.readOnly)}
@@ -118,7 +118,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
   </div>

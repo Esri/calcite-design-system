@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -83,7 +83,7 @@ export const simple = (args: TileStoryArgs): string => html`
     heading="${args.heading}"
     ${boolean("hidden", args.hidden)}
     href="${args.href}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     layout="${args.layout}"
     scale="${args.scale}"
     ${boolean("selected", args.selected)}

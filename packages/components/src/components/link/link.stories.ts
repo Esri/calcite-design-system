@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
 import { Link } from "./link";
@@ -61,8 +61,8 @@ export const simple = (args: LinkStoryArgs): string => html`
     <calcite-link
       ${boolean("download", !!args.download)}
       href="${args.href}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
       ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
       rel="${args.rel}"
       target="${args.target}"

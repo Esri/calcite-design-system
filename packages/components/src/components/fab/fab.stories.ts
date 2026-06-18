@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { iconNames } from "../../../.storybook/helpers";
@@ -50,7 +50,7 @@ export const simple = (args: FabStoryArgs): string => html`
   <calcite-fab
     appearance="${args.appearance}"
     ${boolean("disabled", args.disabled)}
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("icon-flip-rtl", args.iconFlipRtl)}
     kind="${args.kind}"
     label="${args.label}"

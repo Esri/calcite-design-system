@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placements } from "../../utils/floating-ui";
@@ -90,8 +90,8 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("disabled", args.disabled)}
       placement="${args.placement}"
-      primary-icon-start="${args.primaryIconStart}"
-      primary-icon-end="${args.primaryIconEnd}"
+      ${optionalAttribute("primary-icon-start", args.primaryIconStart)}
+      ${optionalAttribute("primary-icon-end", args.primaryIconEnd)}
       primary-text="${args.primaryText}"
       primary-label="${args.primaryLabel}"
       dropdown-label="${args.dropdownLabel}"

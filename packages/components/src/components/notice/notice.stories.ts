@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Notice } from "./notice";
@@ -63,7 +63,7 @@ export const simple = (args: NoticeStoryArgs): string => html`
       width="${args.width}"
       kind="${args.kind}"
       appearance="${args.appearance}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
@@ -82,7 +82,7 @@ export const linkNoHref = (args: NoticeStoryArgs): string => html`
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
@@ -101,7 +101,7 @@ export const longLinkText = (args: NoticeStoryArgs): string => html`
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
@@ -122,7 +122,7 @@ export const longLinkTextNoHref = (args: NoticeStoryArgs): string => html`
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
@@ -136,7 +136,7 @@ export const longLinkTextNoHref = (args: NoticeStoryArgs): string => html`
 
 export const customIcon = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice icon="${args.icon}" open closable scale="m" width="auto" kind="brand">
+    <calcite-notice ${optionalAttribute("icon", args.icon)} open closable scale="m" width="auto" kind="brand">
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
       <calcite-link slot="link" title="my action">Learn more</calcite-link>

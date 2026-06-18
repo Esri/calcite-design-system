@@ -1,5 +1,5 @@
 import { Option } from "../option/option";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -56,7 +56,7 @@ export const simple = (args: SelectStoryArgs): string => html`
       width="${args.width}"
       scale="${args.scale}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
       <calcite-option
         ${boolean("disabled", args.optionDisabled)}

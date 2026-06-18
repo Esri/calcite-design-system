@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
@@ -57,8 +57,8 @@ export const simple = (args: MenuItemStoryArgs): string => html`
       href="${args.href}"
       rel="${args.rel}"
       target="${args.target}"
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
       ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
       label="${args.label}"
       ${boolean("active", args.active)}

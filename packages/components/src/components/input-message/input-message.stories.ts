@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputMessage } from "./input-message";
@@ -37,7 +37,7 @@ export default {
 
 export const simple = (args: InputMessageStoryArgs): string => html`
   <calcite-input-message
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("icon-flip-rtl", args.iconFlipRtl)}
     scale="${args.scale}"
     status="${args.status}"

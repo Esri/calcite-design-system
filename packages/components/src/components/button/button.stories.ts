@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
@@ -63,8 +63,8 @@ export const simple = (args: ButtonStoryArgs): string => html`
     scale="${args.scale}"
     ${boolean("round", args.round)}
     href="${args.href}"
-    icon-start="${args.iconStart}"
-    icon-end="${args.iconEnd}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     width="${args.width}"

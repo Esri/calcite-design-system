@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
@@ -106,7 +106,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
     scale="${args.scale}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("loading", args.loading)}
     menu-placement="${args.menuPlacement}"
     heading="Heading"

@@ -1,5 +1,5 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
@@ -103,7 +103,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
   </div>
 `;

@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
@@ -121,7 +121,7 @@ export const simple = (args: DialogStoryArgs): string => html`
     width="${args.width}"
     placement="${args.placement}"
     heading="${args.heading}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     icon-flip-rtl="${args.iconFlipRtl}"
     description="${args.description}"
     overlay-positioning="${args.overlayPositioning}"

@@ -1,6 +1,6 @@
 import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
@@ -120,22 +120,22 @@ export const simple = (args: ListStoryArgs): string => html`
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
       description="Aliquam tincidunt mauris eu risus."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Vestibulum commodo felis quis tortor.
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       disabled
@@ -143,8 +143,8 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       drag-disabled
@@ -152,15 +152,15 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       unavailable
       label="Vestibulum commodo felis quis tortor."
       description="Vestibulum auctor dapibus neque."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
   </calcite-list>
 `;

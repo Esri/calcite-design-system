@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { setCSSVariables } from "../../tests/utils/cssTokenValues";
@@ -35,7 +35,7 @@ export default {
 export const simple = (args: IconStoryArgs): string => html`
   <calcite-icon
     ${boolean("flip-rtl", !!args.flipRtl)}
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("preload", args.preload)}
     scale="${args.scale}"
     text-label="${args.textLabel}"

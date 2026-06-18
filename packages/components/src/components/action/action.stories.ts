@@ -1,5 +1,5 @@
 import { without } from "es-toolkit";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -72,7 +72,7 @@ export const simple = (args: ActionStoryArgs): string => html`
       alignment="${args.alignment}"
       appearance="${args.appearance}"
       ${boolean("disabled", args.disabled)}
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
       ${boolean("indicator", args.indicator)}
       label="${args.label}"
       ${boolean("loading", args.loading)}
