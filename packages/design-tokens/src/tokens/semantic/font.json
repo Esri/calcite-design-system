@@ -47,6 +47,9 @@
         "$value": "{font.weight.normal}",
         "$description": "Replaces `--calcite-font-weight-normal`",
         "$type": "fontWeights",
+        "$extensions": {
+          "calcite.outputReference": true
+        },
         "attributes": {
           "category": "font",
           "group": "weight"

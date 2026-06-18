@@ -3,6 +3,9 @@
     "default": {
       "$value": "{corner-radius.none}",
       "$type": "borderRadius",
+      "$extensions": {
+        "calcite.outputReference": true
+      },
       "attributes": {
         "category": "corner-radius"
       }
