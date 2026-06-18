@@ -10,11 +10,14 @@ const platforms: {
 }[] = [
   {
     name: "css",
-    files: ["breakpoints", "classes", "core", "dark", "global", "index", "light", "semantic"],
+    files: ["breakpoints", "classes", "core", "dark", "global", "index", "internal", "light", "semantic"],
   },
-  { name: "scss", files: ["breakpoints", "core", "dark", "global", "index", "light", "mixins", "semantic"] },
-  { name: "es6", files: ["breakpoints", "core", "global", "semantic"] },
-  { name: "docs", files: ["core", "global", "semantic"], internal: true },
+  {
+    name: "scss",
+    files: ["breakpoints", "core", "dark", "global", "index", "internal", "light", "mixins", "semantic"],
+  },
+  { name: "es6", files: ["breakpoints", "core", "global", "internal", "semantic"] },
+  { name: "docs", files: ["core", "global", "internal", "semantic"], internal: true },
 ];
 
 platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
