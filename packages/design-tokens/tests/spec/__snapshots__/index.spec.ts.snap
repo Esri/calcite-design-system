@@ -1005,7 +1005,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
@@ -1149,6 +1148,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
 }
 "
 `;
@@ -1563,7 +1563,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-regular: 400;
   --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
@@ -1707,6 +1706,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
 }
 "
 `;
@@ -19657,6 +19657,7 @@ exports[`DOCS (internal) > global should match 1`] = `
     {
       "key": "{font.weight.regular}",
       "$value": "400",
+      "$description": "Replaces \`--calcite-font-weight-normal\`",
       "$type": "fontWeight",
       "attributes": {
         "category": "font",
@@ -25844,6 +25845,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
     {
       "key": "{font.weight.regular}",
       "$value": "400",
+      "$description": "Replaces \`--calcite-font-weight-normal\`",
       "$type": "fontWeight",
       "attributes": {
         "category": "font",
@@ -30931,7 +30933,7 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400";
+export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -31493,6 +31495,7 @@ export const calciteFontFamilyCode: [string, string, string, string, string];
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
+/** Replaces \`--calcite-font-weight-normal\` */
 export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
 export const calciteFontWeightSemibold: string;
@@ -32020,7 +32023,7 @@ export const calciteFontFamilyCode = [
 ]; // Font family for code with fallbacks
 export const calciteFontWeightLight = "300"; // For Avenir Next World (secondary font family)
 export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-export const calciteFontWeightRegular = "400";
+export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
 export const calciteFontWeightBold = "600";
@@ -32234,6 +32237,7 @@ export const calciteFontFamilyCode: [string, string, string, string, string];
 export const calciteFontWeightLight: string;
 /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
 export const calciteFontWeightNormal: string;
+/** Replaces \`--calcite-font-weight-normal\` */
 export const calciteFontWeightRegular: string;
 export const calciteFontWeightMedium: string;
 export const calciteFontWeightSemibold: string;
@@ -33188,7 +33192,6 @@ $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
@@ -33332,6 +33335,7 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 "
 `;
 
@@ -33881,7 +33885,6 @@ $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-regular: 400;
 $calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
@@ -34025,5 +34028,6 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 "
 `;
