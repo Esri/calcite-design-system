@@ -3,8 +3,8 @@ import { numberStringFormatter } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
-  start: Date;
-  end: Date;
+  start: Date | null;
+  end: Date | null;
 }
 
 /**
@@ -14,7 +14,7 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(date?: Date, min?: Date | string, max?: Date | string): boolean {
+export function inRange(date: Date | null, min: Date | string | null, max: Date | string | null): boolean {
   if (!date) {
     return false;
   }
@@ -32,7 +32,7 @@ export function inRange(date?: Date, min?: Date | string, max?: Date | string): 
  * @param min
  * @param max
  */
-export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | null {
+export function dateFromRange(date: any, min: Date | string | null, max: Date | string | null): Date | null {
   if (!(date instanceof Date)) {
     return null;
   }
@@ -217,10 +217,14 @@ export function getDateInMonth(date: Date, month: number): Date {
  * @param min
  * @param max
  */
-export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
+export function getFirstValidDateInMonth(date: Date | null, min: Date | null, max: Date | null): Date | null {
+  if (!date) {
+    return null;
+  }
+
   const newDate = new Date(date);
   newDate.setDate(1);
-  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max)!;
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
 }
 
 /**
@@ -301,6 +305,8 @@ export function setEndOfDay(date: Date): Date {
  * @param date1
  * @param date2
  */
-export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
-  return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
+export function hasSameMonthAndYear(date1?: Date, date2?: Date): boolean {
+  return (
+    (date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear()) || false
+  );
 }

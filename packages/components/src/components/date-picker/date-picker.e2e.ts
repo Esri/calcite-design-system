@@ -1,6 +1,5 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
@@ -222,7 +221,7 @@ describe("min & max", () => {
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-date-picker", (picker: DatePicker["el"]) =>
-      picker.minAsDate.getTime(),
+      picker.minAsDate?.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
@@ -1374,8 +1373,8 @@ async function getActiveDate(page: E2EPage): Promise<string> {
   return getDateIsoStringFromProp(page, "activeDate");
 }
 
-async function getDateIsoStringFromProp(page: E2EPage, prop: keyof ConditionalPick<DatePicker, Date>): Promise<string> {
-  return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop]?.toISOString(), prop);
+async function getDateIsoStringFromProp(page: E2EPage, prop): Promise<string> {
+  return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop].toISOString(), prop);
 }
 
 async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
