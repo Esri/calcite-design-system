@@ -25,12 +25,12 @@ Usage: Use `@copyDoc` when the same description is shared across multiple compon
 - Add shared definitions in [api-extractor.config.ts](../api-extractor.config.ts) within `copyDocDefinitions`.
 - Use the `@copyDoc` tag in the component file in place of the description. Other tags, such as `@deprecated` or `@required`, can still be used in conjunction with `@copyDoc`. Example:
 
-```js
-/**
- * @copyDoc
- * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
- */
-```
+  ```js
+  /**
+   * @copyDoc
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+   */
+  ```
 
 `@copyDoc` support
 
