@@ -212,7 +212,7 @@ export class DatePickerMonth extends LitElement {
     }
 
     const isRTL = this.el.dir === "rtl";
-    const dateValue = (event.target as DatePickerDay["el"]).value!;
+    const dateValue = (event.target as DatePickerDay["el"]).value;
 
     switch (event.key) {
       case "ArrowUp":
@@ -425,7 +425,7 @@ export class DatePickerMonth extends LitElement {
     if (target.disabled) {
       this.calciteInternalDatePickerMonthMouseOut.emit();
     } else {
-      this.calciteInternalDatePickerDayHover.emit(target.value!);
+      this.calciteInternalDatePickerDayHover.emit(target.value);
     }
     event.stopPropagation();
   }
@@ -433,7 +433,7 @@ export class DatePickerMonth extends LitElement {
   private daySelect(event: CustomEvent): void {
     const target = event.target as DatePickerDay["el"];
     this.activeFocus = false;
-    this.calciteInternalDatePickerDaySelect.emit(target.value!);
+    this.calciteInternalDatePickerDaySelect.emit(target.value);
     event.stopPropagation();
   }
 

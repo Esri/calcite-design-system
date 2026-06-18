@@ -89,7 +89,7 @@ export class DatePickerDay extends LitElement {
   @property({ reflect: true }) startOfRange = false;
 
   /** The component's value. */
-  @property() value?: Date;
+  @property() value!: Date;
 
   //#endregion
 
