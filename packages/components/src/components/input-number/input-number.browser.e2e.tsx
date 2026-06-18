@@ -247,6 +247,84 @@ describe("is form-associated", () => {
   });
 });
 
+it("renders number buttons in default vertical alignment", async () => {
+  await mount("calcite-input-number");
+
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
+it("renders number buttons in horizontal vertical alignment and number button type is horizontal", async () => {
+  await mount<InputNumber>(<calcite-input-number number-button-type="horizontal" />);
+
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).toBeInTheDocument();
+});
+
+it("does not render number buttons in default vertical alignment and read-only", async () => {
+  await mount<InputNumber>(<calcite-input-number read-only />);
+
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+});
+
+it("does not render number buttons in horizontal alignment, number button type is horizontal, and read-only", async () => {
+  await mount<InputNumber>(<calcite-input-number number-button-type="horizontal" read-only />);
+
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
+it("renders no buttons and number button type is none", async () => {
+  await mount<InputNumber>(<calcite-input-number number-button-type="none" />);
+
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
 describe("increment/decrement functionality", () => {
   let upButton: Locator;
   let downButton: Locator;
