@@ -74,6 +74,7 @@ jobs:
             fi
           fi
 
+          git checkout "$release_commit" -- package-lock.json
           git checkout "$release_commit" -- packages/*/CHANGELOG.md
           git checkout "$kept_commit" -- packages/*/package.json
           git add packages/*/CHANGELOG.md packages/*/package.json
