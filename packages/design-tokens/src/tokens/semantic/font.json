@@ -22,7 +22,7 @@
     },
     "weight": {
       "light": {
-        "$value": "{core.font.weight.light}",
+        "$value": "{internal.font.weight.light}",
         "$description": "For Avenir Next World (secondary font family)",
         "$type": "fontWeights",
         "attributes": {
@@ -31,7 +31,7 @@
         }
       },
       "normal": {
-        "$value": "{core.font.weight.regular}",
+        "$value": "{internal.font.weight.normal}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead.",
         "$type": "fontWeights",
         "attributes": {
@@ -56,7 +56,7 @@
         }
       },
       "medium": {
-        "$value": "{core.font.weight.medium}",
+        "$value": "{internal.font.weight.medium}",
         "$type": "fontWeights",
         "attributes": {
           "category": "font",
@@ -64,7 +64,7 @@
         }
       },
       "semibold": {
-        "$value": "{core.font.weight.demi}",
+        "$value": "{internal.font.weight.semibold}",
         "$type": "fontWeights",
         "attributes": {
           "category": "font",
@@ -72,7 +72,7 @@
         }
       },
       "bold": {
-        "$value": "{core.font.weight.demi}",
+        "$value": "{internal.font.weight.bold}",
         "$type": "fontWeights",
         "attributes": {
           "category": "font",
