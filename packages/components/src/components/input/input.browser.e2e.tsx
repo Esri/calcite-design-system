@@ -861,7 +861,7 @@ describe("input type number increment/decrement functionality", () => {
     // dispatching synthetic events best emulates the original use case from https://github.com/Esri/calcite-design-system/pull/3908
     // otherwise, `userEvent.keyboard` emits 2 additional events due to async nature
     function dispatchKeyboardEvent(type: "keydown" | "keyup", key: "ArrowUp" | "ArrowDown"): void {
-      input.dispatchEvent(new KeyboardEvent(type, { key }));
+      input.dispatchEvent(new KeyboardEvent(type, { key, bubbles: true, cancelable: true, composed: true }));
     }
 
     dispatchKeyboardEvent("keydown", "ArrowUp");
