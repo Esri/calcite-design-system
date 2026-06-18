@@ -61,7 +61,7 @@ export const simple = (args: RatingStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
   ></calcite-rating>
 `;
 

@@ -85,7 +85,7 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
     status="${args.status}"
     value="${args.value}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
   ></calcite-input-time-zone>
 `;
 

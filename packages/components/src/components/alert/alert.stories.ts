@@ -97,7 +97,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
-      ${optionalAttribute("icon", args.icon)}
+      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
       label="${args.label}"
       numbering-system="${args.numberingSystem}"
       placement="${args.placement}"

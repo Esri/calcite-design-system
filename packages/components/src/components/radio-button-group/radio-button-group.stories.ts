@@ -61,7 +61,7 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     layout="${args.layout}"
     scale="${args.scale}"
     status="${args.status}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     validation-message="${args.validationMessage}"
   >
     <calcite-label layout="inline">
