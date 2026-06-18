@@ -103,7 +103,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", args.validationIcon)}
+      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     ></calcite-input-date-picker>
   </div>
 `;

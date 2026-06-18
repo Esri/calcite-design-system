@@ -89,7 +89,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     value="${args.value}"
     wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
   >
   </calcite-text-area>
 `;

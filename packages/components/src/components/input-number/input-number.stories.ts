@@ -110,7 +110,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
       ${boolean("group-separator", args.groupSeparator)}
-      ${optionalAttribute("icon", args.icon)}
+      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${boolean("integer", args.integer)}
       ${boolean("read-only", args.readOnly)}
@@ -118,7 +118,7 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", args.validationIcon)}
+      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     >
     </calcite-input-number>
   </div>

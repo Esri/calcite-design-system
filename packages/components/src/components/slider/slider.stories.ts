@@ -101,7 +101,7 @@ export const simple = (args: SliderStoryArgs): string => html`
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
   ></calcite-slider>
 `;
 

@@ -37,7 +37,7 @@ export default {
 
 export const simple = (args: InputMessageStoryArgs): string => html`
   <calcite-input-message
-    ${optionalAttribute("icon", args.icon)}
+    ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
     ${boolean("icon-flip-rtl", args.iconFlipRtl)}
     scale="${args.scale}"
     status="${args.status}"

@@ -84,7 +84,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
-      ${optionalAttribute("icon", args.icon)}
+      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
       ${typeof args.minLength === "number" ? `min-length="${args.minLength}"` : ""}
@@ -93,7 +93,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", args.validationIcon)}
+      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     >
     </calcite-input-text>
   </div>

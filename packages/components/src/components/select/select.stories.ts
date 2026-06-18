@@ -56,7 +56,7 @@ export const simple = (args: SelectStoryArgs): string => html`
       width="${args.width}"
       scale="${args.scale}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", args.validationIcon)}
+      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     >
       <calcite-option
         ${boolean("disabled", args.optionDisabled)}

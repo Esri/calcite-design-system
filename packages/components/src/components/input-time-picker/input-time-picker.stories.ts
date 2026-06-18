@@ -90,7 +90,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     status="${args.status}"
     step="${args.step}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", args.validationIcon)}
+    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
     value="${args.value}"
   >
   </calcite-input-time-picker>
