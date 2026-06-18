@@ -1,6 +1,6 @@
 import { BlockSection } from "../block-section/block-section";
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -39,15 +39,12 @@ export default {
     menuPlacement: defaultEndMenuPlacement,
     heading: "Heading",
     description: "description",
-    iconStart: "",
-    iconEnd: "",
     expanded: true,
     collapsible: true,
     loading: false,
     disabled: false,
     dragDisabled: false,
     sortHandleOpen: false,
-    headingLevel: 2,
     text: "Animals",
     sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
@@ -59,7 +56,8 @@ export default {
       control: { type: "select" },
     },
     headingLevel: {
-      control: { type: "number", min: 1, max: 6, step: 1 },
+      options: ["", 1, 2, 3, 4, 5, 6],
+      control: { type: "select" },
     },
     iconStart: {
       options: ["", ...iconNames],
@@ -84,8 +82,8 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
-    icon-start="${args.iconStart}"
-    icon-end="${args.iconEnd}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     menu-placement="${args.menuPlacement}"
     ${boolean("expanded", args.expanded)}
     ${boolean("collapsible", args.collapsible)}
@@ -93,7 +91,7 @@ export const simple = (args: BlockStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-disabled", args.dragDisabled)}
     ${boolean("sort-handle-open", args.sortHandleOpen)}
-    heading-level="${args.headingLevel}"
+    ${optionalAttribute("heading-level", args.headingLevel)}
     scale="${args.scale}"
   >
     <calcite-block-section

@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -17,8 +17,6 @@ export default {
     active: false,
     description: "City of AcmeCo",
     heading: "ArcGIS Online",
-    headingLevel: 2,
-    icon: "",
     scale: scale.defaultValue,
   },
   argTypes: {
@@ -42,8 +40,8 @@ export const simple = (args: NavigationLogoStoryArgs): string =>
     ${boolean("active", args.active)}
     description="${args.description}"
     heading="${args.heading}"
-    heading-level="${args.headingLevel}"
-    icon="${args.icon}"
+    ${optionalAttribute("heading-level", args.headingLevel)}
+    ${optionalAttribute("icon", args.icon)}
     scale="${args.scale}"
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
