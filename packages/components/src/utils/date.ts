@@ -3,8 +3,8 @@ import { numberStringFormatter } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
-  start: Date | null;
-  end: Date | null;
+  start?: Date;
+  end?: Date;
 }
 
 /**
@@ -14,11 +14,7 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(
-  date: Date | undefined,
-  min: Date | string | undefined,
-  max: Date | string | undefined,
-): boolean {
+export function inRange(date?: Date, min?: Date | string, max?: Date | string): boolean {
   if (!date) {
     return false;
   }
@@ -36,11 +32,7 @@ export function inRange(
  * @param min
  * @param max
  */
-export function dateFromRange(
-  date: any,
-  min: Date | string | undefined,
-  max: Date | string | undefined,
-): Date | undefined {
+export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | undefined {
   if (!(date instanceof Date)) {
     return undefined;
   }
@@ -225,11 +217,7 @@ export function getDateInMonth(date: Date, month: number): Date {
  * @param min
  * @param max
  */
-export function getFirstValidDateInMonth(
-  date: Date | undefined,
-  min: Date | undefined,
-  max: Date | undefined,
-): Date | undefined {
+export function getFirstValidDateInMonth(date?: Date, min?: Date, max?: Date): Date | undefined {
   if (!date) {
     return undefined;
   }

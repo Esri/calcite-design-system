@@ -329,7 +329,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   /** The component's `value` as a full date object. */
-  @property() valueAsDate?: Date | (Date | null)[];
+  @property() valueAsDate?: Date | (Date | undefined)[];
 
   //#endregion
 
@@ -509,7 +509,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      let newValueAsDate: Date | (Date | null)[] | undefined;
+      let newValueAsDate: Date | (Date | undefined)[] | undefined;
 
       try {
         if (Array.isArray(newValue)) {
@@ -535,9 +535,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = false;
   }
 
-  private valueAsDateWatcher(valueAsDate?: Date | (Date | null)[]): void {
+  private valueAsDateWatcher(valueAsDate?: Date | (Date | undefined)[]): void {
     const newValue = Array.isArray(valueAsDate)
-      ? [dateToISO(valueAsDate[0] ?? undefined), dateToISO(valueAsDate[1] ?? undefined)]
+      ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;

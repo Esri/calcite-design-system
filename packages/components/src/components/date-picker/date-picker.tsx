@@ -142,7 +142,7 @@ export class DatePicker extends LitElement {
   @property() value?: string | string[];
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
-  @property() valueAsDate?: Date | (Date | null)[];
+  @property() valueAsDate?: Date | (Date | undefined)[];
 
   //#endregion
 
@@ -262,7 +262,7 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private valueAsDateWatcher(newValueAsDate?: Date | (Date | null)[]): void {
+  private valueAsDateWatcher(newValueAsDate?: Date | (Date | undefined)[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
     } else if (!this.range && newValueAsDate && newValueAsDate !== this.activeDate) {
@@ -342,8 +342,8 @@ export class DatePicker extends LitElement {
       return;
     }
     const { valueAsDate } = this;
-    const start = Array.isArray(valueAsDate) ? valueAsDate[0] : null;
-    const end = Array.isArray(valueAsDate) ? valueAsDate[1] : null;
+    const start = Array.isArray(valueAsDate) ? valueAsDate[0] : undefined;
+    const end = Array.isArray(valueAsDate) ? valueAsDate[1] : undefined;
 
     const date = new Date(event.detail);
     this.hoverRange = {
@@ -435,28 +435,28 @@ export class DatePicker extends LitElement {
     this.hoverRange = undefined;
   }
 
-  private getEndDate(): Date | null {
-    return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || null;
+  private getEndDate(): Date | undefined {
+    return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-  private setEndDate(date: Date | null, emit = true): void {
+  private setEndDate(date?: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
-    this.value = [dateToISO(startDate ?? undefined), dateToISO(date ?? undefined)];
+    this.value = [dateToISO(startDate), dateToISO(date)];
     this.valueAsDate = [startDate, date];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
 
-  private getStartDate(): Date | null {
-    return (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || null;
+  private getStartDate(): Date | undefined {
+    return (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined;
   }
 
   private setStartDate(date: Date, emit = true): void {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
-    this.value = [dateToISO(date), dateToISO(endDate ?? undefined)];
+    this.value = [dateToISO(date), dateToISO(endDate)];
     this.valueAsDate = [date, endDate];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
@@ -501,7 +501,7 @@ export class DatePicker extends LitElement {
     } else {
       if (this.proximitySelectionDisabled) {
         this.setStartDate(date, false);
-        this.setEndDate(null, false);
+        this.setEndDate(undefined, false);
         this.calciteDatePickerRangeChange.emit();
       } else {
         if (this.activeRange) {
@@ -510,7 +510,7 @@ export class DatePicker extends LitElement {
           } else {
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
-              this.setEndDate(null, false);
+              this.setEndDate(undefined, false);
               this.activeEndDate = undefined;
             }
             this.setStartDate(date);

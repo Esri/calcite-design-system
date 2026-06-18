@@ -130,8 +130,8 @@ export function applyLocaleOverride(locale: Locale): Locale {
  * @param value
  */
 
-export function getValueAsDateRange(value: string[]): (Date | null)[] {
-  return value.map((v, index) => dateFromISO(v, index === 1) ?? null);
+export function getValueAsDateRange(value: string[]): (Date | undefined)[] {
+  return value.map((v, index) => dateFromISO(v, index === 1));
 }
 
 function getSource<T extends string>(changes: PropertyValues, stringProp: T, dateProp: T): T | null {

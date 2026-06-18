@@ -186,7 +186,7 @@ export class DatePickerDay extends LitElement {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dayLabel = this.dateTimeFormat?.format(this.value) ?? null;
+    const dayLabel = this.dateTimeFormat.format(this.value) ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = dayLabel;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

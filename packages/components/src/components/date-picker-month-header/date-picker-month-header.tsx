@@ -118,9 +118,7 @@ export class DatePickerMonthHeader extends LitElement {
    *
    * @private
    */
-  calciteInternalDatePickerMonthHeaderSelectChange = createEvent<Date>({
-    cancelable: false,
-  });
+  calciteInternalDatePickerMonthHeaderSelectChange = createEvent<Date>({ cancelable: false });
 
   // #endregion
 

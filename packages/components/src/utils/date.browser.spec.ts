@@ -26,7 +26,7 @@ import { numberStringFormatter } from "./locale";
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
-    expect(inRange(new Date(), null, null)).toEqual(true);
+    expect(inRange(new Date())).toEqual(true);
   });
   it("returns false when out of range, true when in range", () => {
     const min = new Date(2020, 0, 1);
@@ -40,11 +40,11 @@ describe("inRange", () => {
 
 describe("dateFromRange", () => {
   it("returns null from bad input", () => {
-    expect(dateFromRange("abcdefghijkl" as any, null, null)).toEqual(null);
+    expect(dateFromRange("abcdefghijkl" as any)).toEqual(null);
   });
   it("returns date with no min/max", () => {
     const date = new Date();
-    expect(dateFromRange(date, null, null)).toEqual(date);
+    expect(dateFromRange(date)).toEqual(date);
   });
   it("returns correct date from range", () => {
     const min = new Date(2020, 0, 1);
