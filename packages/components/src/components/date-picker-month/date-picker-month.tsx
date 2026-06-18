@@ -415,8 +415,8 @@ export class DatePickerMonth extends LitElement {
       (this.endDate && !sameDate(this.startDate, this.endDate) && sameDate(this.endDate, date)) ||
       (!this.endDate &&
         this.hoverRange &&
-        sameDate(this.startDate, this.hoverRange.end ?? undefined) &&
-        sameDate(date, this.hoverRange.end ?? undefined))
+        sameDate(this.startDate, this.hoverRange.end) &&
+        sameDate(date, this.hoverRange.end))
     );
   }
 
