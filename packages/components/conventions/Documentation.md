@@ -18,6 +18,31 @@ Follow these conventions when adding or editing API reference:
 - Verify slots and properties/attributes don't use the text "optional" in their descriptions.
 - For CSS token properties, avoid the use of forward slashes (`/`) in descriptions as it causes the generated API documentation to be cut off.
 
+### Shared definitions using `@copyDoc`
+
+Usage: Use `@copyDoc` when the same description is shared across multiple components.
+
+- Add shared definitions in [api-extractor.config.ts](../api-extractor.config.ts) within `copyDocDefinitions`.
+- Use the `@copyDoc` tag in the component file in place of the description. Other tags, such as `@deprecated` or `@required`, can still be used in conjunction with `@copyDoc`. Example:
+
+```js
+/**
+@copyDoc
+@deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+*/
+```
+
+Supported sections: `properties`, `methods`, and `events`
+
+Unsupported sections: `slots`
+
+If a component needs different verbiage than an `@copyDoc` description, either:
+
+- Use override functions as seen for the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts).
+- Add a description in the component file and don't use `@copyDoc`.
+
+For additional guidance, review the WebGIS reference `@copyDoc` documentation.
+
 ### Deprecation notices
 
 There are two ways to document deprecations, depending on the API reference. In both cases a deprecated chip will be displayed in the SDK site within the component's API reference section.
