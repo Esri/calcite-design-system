@@ -541,11 +541,7 @@ export class DatePicker extends LitElement {
    * @param min
    * @param max
    */
-  private getActiveDate(
-    value: Date | undefined,
-    min: Date | undefined,
-    max: Date | undefined,
-  ): Date | undefined {
+  private getActiveDate(value?: Date, min?: Date, max?: Date): Date | undefined {
     const activeDate = dateFromRange(new Date(), min, max);
 
     return (
@@ -557,11 +553,7 @@ export class DatePicker extends LitElement {
     );
   }
 
-  private getActiveEndDate(
-    value: Date | undefined,
-    min: Date | undefined,
-    max: Date | undefined,
-  ): Date | undefined {
+  private getActiveEndDate(value?: Date, min?: Date, max?: Date): Date | undefined {
     return (
       dateFromRange(this.activeEndDate, min, max) ||
       value ||
