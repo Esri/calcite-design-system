@@ -6,9 +6,9 @@ export interface DateTimeInputComponent {
 }
 
 export interface NumericInputComponent {
-  min: number;
-  max: number;
-  step: number | "any";
+  min?: number;
+  max?: number;
+  step?: number | "any";
 }
 
 export interface TextualInputComponent {

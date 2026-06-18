@@ -76,13 +76,13 @@ export class MenuItem extends LitElement {
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
   @property() href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @private */
@@ -98,7 +98,7 @@ export class MenuItem extends LitElement {
   /** @private */
   @property({ reflect: true }) layout!: Layout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */

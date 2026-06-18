@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
@@ -115,7 +114,7 @@ it("resets to previous value when default event behavior is prevented", async ()
   const inputTimePicker = await page.find("calcite-input-time-picker");
 
   await page.evaluate(() => {
-    const inputTimePicker = document.querySelector("calcite-input-time-picker");
+    const inputTimePicker = document.querySelector("calcite-input-time-picker")!;
     inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
       event.preventDefault();
     });
@@ -154,7 +153,7 @@ it("when set to readOnly, element still focusable but won't display the controls
   await component.click();
   await page.waitForChanges();
 
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("canReadOnly");
   expect(await popover.getProperty("open")).toBe(false);
 
   await component.click();

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible } from "../../tests/commonTests";
@@ -185,9 +184,10 @@ describe("Responsive loading spinner", () => {
       expect(scrimContainer).toBeDefined();
       await page.$eval(
         ".scrim-container",
-        (scrimContainer: HTMLElement, width: number, height: number) => {
-          scrimContainer.style.width = `${width}px`;
-          scrimContainer.style.height = `${height}px`;
+        (scrimContainer, width, height) => {
+          const { style } = scrimContainer as HTMLElement;
+          style.width = `${width}px`;
+          style.height = `${height}px`;
         },
         width,
         height,
