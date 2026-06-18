@@ -868,7 +868,7 @@ describe("input type number increment/decrement functionality", () => {
     dispatchKeyboardEvent("keydown", "ArrowDown");
     dispatchKeyboardEvent("keyup", "ArrowUp");
     dispatchKeyboardEvent("keyup", "ArrowDown");
-    vi.advanceTimersByTime(1000);
+    vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
     expect(inputEventHandler).toHaveBeenCalledTimes(2);
   });
