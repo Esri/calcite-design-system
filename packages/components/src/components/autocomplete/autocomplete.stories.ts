@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -105,7 +105,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         ${boolean("read-only", args.readOnly)}
         ${boolean("required", args.required)}
         alignment="${args.alignment}"
-        icon="${args.icon}"
+        ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
         input-value="${args.inputValue}"
         label="${args.label}"
         max-length="${args.maxLength}"
@@ -118,7 +118,10 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         scale="${args.scale}"
         status="${args.status}"
         suffix-text="${args.suffixText}"
-        validation-icon="${args.validationIcon}"
+        ${optionalAttribute(
+          "validation-icon",
+          typeof args.validationIcon === "string" ? args.validationIcon : undefined,
+        )}
         validation-message="${args.validationMessage}"
         value="${args.value}"
       >
