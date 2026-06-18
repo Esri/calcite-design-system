@@ -27,9 +27,9 @@ Usage: Use `@copyDoc` when the same description is shared across multiple compon
 
 ```js
 /**
-@copyDoc
-@deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
-*/
+ * @copyDoc
+ * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+ */
 ```
 
 Supported sections: `properties`, `methods`, and `events`
