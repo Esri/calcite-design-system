@@ -33,7 +33,7 @@ interface OpenCloseComponentBase extends LitElement {
 
 export interface OpenCloseComponentWithEl extends OpenCloseComponentBase {
   /** Specifies element that the transition is allowed to emit on. */
-  transitionEl: HTMLElement | undefined;
+  transitionEl?: HTMLElement;
 }
 
 export interface OpenCloseComponentWithRef extends OpenCloseComponentBase {

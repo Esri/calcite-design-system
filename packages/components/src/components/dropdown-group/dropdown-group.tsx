@@ -111,8 +111,8 @@ export class DropdownGroup extends LitElement {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
     this.calciteInternalDropdownItemChange.emit({
-      requestedDropdownGroup: this.requestedDropdownGroup,
-      requestedDropdownItem: this.requestedDropdownItem,
+      requestedDropdownGroup: this.requestedDropdownGroup!,
+      requestedDropdownItem: this.requestedDropdownItem!,
     });
   }
 

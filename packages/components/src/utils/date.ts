@@ -14,7 +14,11 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(date: Date | null, min: Date | string | null, max: Date | string | null): boolean {
+export function inRange(
+  date: Date | undefined,
+  min: Date | string | undefined,
+  max: Date | string | undefined,
+): boolean {
   if (!date) {
     return false;
   }
@@ -32,9 +36,13 @@ export function inRange(date: Date | null, min: Date | string | null, max: Date 
  * @param min
  * @param max
  */
-export function dateFromRange(date: any, min: Date | string | null, max: Date | string | null): Date | null {
+export function dateFromRange(
+  date: any,
+  min: Date | string | undefined,
+  max: Date | string | undefined,
+): Date | undefined {
   if (!(date instanceof Date)) {
-    return null;
+    return undefined;
   }
   const time = date.getTime();
   const beforeMin = min instanceof Date && time < min.getTime();
@@ -55,12 +63,12 @@ export function dateFromRange(date: any, min: Date | string | null, max: Date | 
  * @param iso8601
  * @param isEndDate
  */
-export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | null {
+export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | undefined {
   if (iso8601 instanceof Date) {
     return iso8601;
   }
   if (!iso8601 || typeof iso8601 !== "string") {
-    return null;
+    return undefined;
   }
   const d = iso8601.split(/[: T-]/).map(parseFloat);
   const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
@@ -217,9 +225,13 @@ export function getDateInMonth(date: Date, month: number): Date {
  * @param min
  * @param max
  */
-export function getFirstValidDateInMonth(date: Date | null, min: Date | null, max: Date | null): Date | null {
+export function getFirstValidDateInMonth(
+  date: Date | undefined,
+  min: Date | undefined,
+  max: Date | undefined,
+): Date | undefined {
   if (!date) {
-    return null;
+    return undefined;
   }
 
   const newDate = new Date(date);
@@ -306,7 +318,5 @@ export function setEndOfDay(date: Date): Date {
  * @param date2
  */
 export function hasSameMonthAndYear(date1?: Date, date2?: Date): boolean {
-  return (
-    (date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear()) || false
-  );
+  return !!(date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear());
 }

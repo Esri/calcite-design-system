@@ -62,9 +62,9 @@ export class DatePickerMonthHeader extends LitElement {
 
   // #region State Properties
 
-  @state() nextMonthDate: Date | null = null;
+  @state() nextMonthDate?: Date;
 
-  @state() prevMonthDate: Date | null = null;
+  @state() prevMonthDate?: Date;
 
   // #endregion
 
@@ -74,7 +74,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() activeDate?: Date;
 
   /** @copyDoc */
-  @property({ type: Number }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel!: HeadingLevel;
 
   /** CLDR locale data for translated calendar info. */
   @property() localeData!: DateLocaleData;
@@ -88,7 +88,7 @@ export class DatePickerMonthHeader extends LitElement {
    *
    * @private
    */
-  @property() messages?: DatePicker["messages"]["_overrides"];
+  @property() messages!: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property() min?: Date;
@@ -104,7 +104,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale?: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** Already selected date. */
   @property() selectedDate?: Date;
@@ -161,16 +161,8 @@ export class DatePickerMonthHeader extends LitElement {
       return;
     }
 
-    this.nextMonthDate = dateFromRange(
-      nextMonth(this.activeDate),
-      this.min ?? null,
-      this.max ?? null,
-    );
-    this.prevMonthDate = dateFromRange(
-      prevMonth(this.activeDate),
-      this.min ?? null,
-      this.max ?? null,
-    );
+    this.nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
+    this.prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
   }
 
   /**
@@ -251,10 +243,10 @@ export class DatePickerMonthHeader extends LitElement {
     const { abbreviated, wide } = this.localeData.months;
     const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
     const monthIndex = localeMonths.indexOf(target.value);
-    let newDate = this.activeDate ? getDateInMonth(this.activeDate, monthIndex) : null;
+    let newDate = this.activeDate ? getDateInMonth(this.activeDate, monthIndex) : undefined;
 
-    if (!inRange(newDate, this.min ?? null, this.max ?? null)) {
-      newDate = dateFromRange(newDate, this.min ?? null, this.max ?? null);
+    if (!inRange(newDate, this.min, this.max)) {
+      newDate = dateFromRange(newDate, this.min, this.max);
     }
     this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate!);
     this.setYearSelectMenuWidth();
@@ -266,7 +258,7 @@ export class DatePickerMonthHeader extends LitElement {
   }: {
     localizedYear: string;
     offset?: number;
-  }): Date | null {
+  }): Date | undefined {
     const { min, max, activeDate } = this;
     const parsedYear = Number(numberStringFormatter.delocalize(localizedYear));
     const length = parsedYear.toString().length;
@@ -277,10 +269,10 @@ export class DatePickerMonthHeader extends LitElement {
     if (activeDate && year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year);
-      return dateFromRange(nextDate, min ?? null, max ?? null);
+      return dateFromRange(nextDate, min, max);
     }
 
-    return null;
+    return undefined;
   }
 
   /**
@@ -348,14 +340,13 @@ export class DatePickerMonthHeader extends LitElement {
 
     const newActiveDate = getDateInMonth(this.activeDate, index);
 
-    if ((!this.min && !this.max) || inRange(newActiveDate, this.min ?? null, this.max ?? null)) {
+    if ((!this.min && !this.max) || inRange(newActiveDate, this.min, this.max)) {
       return true;
     }
 
-    return (
+    return !!(
       (this.max && hasSameMonthAndYear(newActiveDate, this.max)) ||
-      (this.min && hasSameMonthAndYear(newActiveDate, this.min)) ||
-      false
+      (this.min && hasSameMonthAndYear(newActiveDate, this.min))
     );
   }
 
@@ -368,16 +359,16 @@ export class DatePickerMonthHeader extends LitElement {
 
     if (isDirectionLeft && this.min) {
       const prevMonthDate = dateFromRange(
-        this.activeDate ? prevMonth(this.activeDate) : null,
+        this.activeDate ? prevMonth(this.activeDate) : undefined,
         this.min,
-        this.max ?? null,
+        this.max,
       );
       isTargetLastValidMonth = prevMonthDate ? hasSameMonthAndYear(prevMonthDate, this.min) : false;
     } else if (this.max) {
       const nextMonthDate = dateFromRange(
-        this.activeDate ? nextMonth(this.activeDate) : null,
-        this.min ?? null,
-        this.max ?? null,
+        this.activeDate ? nextMonth(this.activeDate) : undefined,
+        this.min,
+        this.max,
       );
       isTargetLastValidMonth = nextMonthDate ? hasSameMonthAndYear(nextMonthDate, this.max) : false;
     }
@@ -492,7 +483,7 @@ export class DatePickerMonthHeader extends LitElement {
     return (
       <calcite-select
         class={CSS.monthPicker}
-        label={this.messages?.monthMenu}
+        label={this.messages.monthMenu}
         oncalciteSelectChange={this.handleMonthChange}
         ref={this.monthPickerRef}
         width="auto"
@@ -520,7 +511,7 @@ export class DatePickerMonthHeader extends LitElement {
     return (
       <span class={CSS.yearContainer}>
         <input
-          ariaLabel={this.messages?.year}
+          ariaLabel={this.messages.year}
           class={{ [CSS.year]: true }}
           inputMode="numeric"
           maxLength="4"
@@ -542,15 +533,15 @@ export class DatePickerMonthHeader extends LitElement {
     const isDirectionRight = direction === "right";
     const isDisabled =
       hasSameMonthAndYear(
-        (isDirectionRight ? this.nextMonthDate : this.prevMonthDate) ?? undefined,
+        isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
         this.activeDate,
-      ) || !inRange(this.activeDate ?? null, this.min ?? null, this.max ?? null);
+      ) || !inRange(this.activeDate, this.min, this.max);
 
     return (
       <calcite-action
         alignment="center"
         ariaDisabled={isDisabled}
-        ariaLabel={isDirectionRight ? this.messages?.nextMonth : this.messages?.prevMonth}
+        ariaLabel={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
         compact={true}
         data-direction={direction}
@@ -562,7 +553,7 @@ export class DatePickerMonthHeader extends LitElement {
         ref={isDirectionRight ? this.nextMonthActionRef : this.prevMonthActionRef}
         role="button"
         scale={this.scale}
-        text={isDirectionRight ? this.messages?.nextMonth : this.messages?.prevMonth}
+        text={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
       />
     );
   }

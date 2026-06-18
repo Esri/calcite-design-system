@@ -58,7 +58,7 @@ export class DatePickerMonth extends LitElement {
 
   //#region State Properties
 
-  @state() focusedDate: Date | null = null;
+  @state() focusedDate?: Date;
 
   //#endregion
 
@@ -75,13 +75,13 @@ export class DatePickerMonth extends LitElement {
    *
    * @private
    */
-  @property() dateTimeFormat?: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /** End date currently active. */
   @property() endDate?: Date;
 
   /** @copyDoc */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
 
   /** The range of dates currently being hovered. */
   @property() hoverRange?: HoverRange;
@@ -91,7 +91,7 @@ export class DatePickerMonth extends LitElement {
    *
    * @private
    */
-  @property({ reflect: true }) layout?: "horizontal" | "vertical";
+  @property({ reflect: true }) layout!: "horizontal" | "vertical";
 
   /**
    * CLDR locale data for current locale.
@@ -108,19 +108,19 @@ export class DatePickerMonth extends LitElement {
    *
    * @private
    */
-  @property() messages?: DatePicker["messages"]["_overrides"];
+  @property() messages!: DatePicker["messages"]["_overrides"];
 
   /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
   @property() min?: Date;
 
   /** Specifies the monthStyle used by the component. */
-  @property() monthStyle?: "abbreviated" | "wide";
+  @property() monthStyle!: "abbreviated" | "wide";
 
   /** When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates. */
   @property({ reflect: true }) range: boolean = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale?: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** Already selected date. */
   @property() selectedDate?: Date;
@@ -190,7 +190,7 @@ export class DatePickerMonth extends LitElement {
     }
 
     if (changes.has("selectedDate")) {
-      this.focusedDate = this.selectedDate ?? null;
+      this.focusedDate = this.selectedDate;
     }
   }
 
@@ -200,9 +200,9 @@ export class DatePickerMonth extends LitElement {
 
   private updateFocusedDateWithActive(newActiveDate: Date): void {
     if (!this.selectedDate) {
-      this.focusedDate = inRange(newActiveDate, this.min ?? null, this.max ?? null)
+      this.focusedDate = inRange(newActiveDate, this.min, this.max)
         ? newActiveDate
-        : dateFromRange(newActiveDate, this.min ?? null, this.max ?? null);
+        : dateFromRange(newActiveDate, this.min, this.max);
     }
   }
 
@@ -282,9 +282,9 @@ export class DatePickerMonth extends LitElement {
     const nextDate = new Date(targetDate);
     nextDate.setMonth(targetDate.getMonth() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
-      dateFromRange(nextDate, this.min ?? null, this.max ?? null)!,
+      dateFromRange(nextDate, this.min, this.max)!,
     );
-    this.focusedDate = dateFromRange(nextDate, this.min ?? null, this.max ?? null);
+    this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
     this.calciteInternalDatePickerDayHover.emit(nextDate);
   }
@@ -299,10 +299,10 @@ export class DatePickerMonth extends LitElement {
     const nextDate = new Date(targetDate);
     nextDate.setDate(targetDate.getDate() + step);
     this.calciteInternalDatePickerMonthActiveDateChange.emit(
-      dateFromRange(nextDate, this.min ?? null, this.max ?? null)!,
+      dateFromRange(nextDate, this.min, this.max)!,
     );
 
-    this.focusedDate = dateFromRange(nextDate, this.min ?? null, this.max ?? null);
+    this.focusedDate = dateFromRange(nextDate, this.min, this.max);
     this.activeFocus = true;
     this.calciteInternalDatePickerDayHover.emit(nextDate);
   }
@@ -457,7 +457,7 @@ export class DatePickerMonth extends LitElement {
     const isStartDateBeforeEndAndAfterStart =
       isStartFocused && this.startDate && isStartAfterStart && isStartBeforeEnd;
 
-    return isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart || false;
+    return !!(isEndDateAfterStartAndBeforeEnd || isStartDateBeforeEndAndAfterStart);
   }
 
   private isRangeHover(date: Date): boolean {
@@ -565,10 +565,8 @@ export class DatePickerMonth extends LitElement {
     }
   }
 
-  private getFirstValidDateOfMonth(date: Date): Date | null {
-    return date.getDate() === 1
-      ? date
-      : getFirstValidDateInMonth(date, this.min ?? null, this.max ?? null);
+  private getFirstValidDateOfMonth(date: Date): Date | undefined {
+    return date.getDate() === 1 ? date : getFirstValidDateInMonth(date, this.min, this.max);
   }
 
   //#endregion
@@ -635,7 +633,7 @@ export class DatePickerMonth extends LitElement {
     { active, currentMonth, currentDay, date, day }: Day,
     key: number,
   ): JsxNode {
-    const isDateInRange = inRange(date, this.min ?? null, this.max ?? null);
+    const isDateInRange = inRange(date, this.min, this.max);
 
     return (
       <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
@@ -674,7 +672,7 @@ export class DatePickerMonth extends LitElement {
         }}
       >
         <calcite-date-picker-month-header
-          activeDate={isEndCalendar ? (nextMonth(this.activeDate) ?? undefined) : this.activeDate}
+          activeDate={isEndCalendar ? nextMonth(this.activeDate) : this.activeDate}
           data-test-calendar={isEndCalendar ? "end" : "start"}
           headingLevel={this.headingLevel}
           localeData={this.localeData}

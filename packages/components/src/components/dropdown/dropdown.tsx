@@ -1,5 +1,14 @@
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { nextFrame } from "../../utils/dom";
 import {
@@ -89,7 +98,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private scrollerEl?: HTMLDivElement;
 
-  transitionEl!: HTMLDivElement;
+  transitionEl?: HTMLDivElement;
 
   onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
@@ -266,7 +275,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.listenOn(window, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
-    this.listen("calciteInternalDropdownItemSelect", this.handleItemSelect);
+    this.listen<ToEvents<DropdownItem>["calciteInternalDropdownItemSelect"]>(
+      "calciteInternalDropdownItemSelect",
+      this.handleItemSelect,
+    );
   }
 
   override connectedCallback(): void {
@@ -611,7 +623,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getYDistanceFromScroller(last: HTMLElement): number {
+  private getYDistanceFromScroller(last: HTMLElement | undefined): number {
+    if (!last) {
+      return NaN;
+    }
     const style = last.getBoundingClientRect();
     return last.offsetTop + style.height;
   }

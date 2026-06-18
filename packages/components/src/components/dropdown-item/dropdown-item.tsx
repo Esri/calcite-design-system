@@ -229,7 +229,7 @@ export class DropdownItem extends LitElement {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl,
+      requestedDropdownGroup: this.parentDropdownGroupEl!,
     });
   }
 

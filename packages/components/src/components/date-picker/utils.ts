@@ -131,7 +131,7 @@ export function applyLocaleOverride(locale: Locale): Locale {
  */
 
 export function getValueAsDateRange(value: string[]): (Date | null)[] {
-  return value.map((v, index) => dateFromISO(v, index === 1));
+  return value.map((v, index) => dateFromISO(v, index === 1) ?? null);
 }
 
 function getSource<T extends string>(changes: PropertyValues, stringProp: T, dateProp: T): T | null {

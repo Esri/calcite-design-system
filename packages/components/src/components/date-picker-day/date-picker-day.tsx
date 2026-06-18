@@ -55,7 +55,7 @@ export class DatePickerDay extends LitElement {
    *
    * @private
    */
-  @property() dateTimeFormat?: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /**
    * Day of the month to be shown.
@@ -80,7 +80,7 @@ export class DatePickerDay extends LitElement {
   @property({ reflect: true }) rangeHover = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale?: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
