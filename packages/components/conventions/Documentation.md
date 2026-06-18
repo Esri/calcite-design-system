@@ -32,9 +32,11 @@ Usage: Use `@copyDoc` when the same description is shared across multiple compon
  */
 ```
 
-Supported sections: `properties`, `methods`, and `events`
+`@copyDoc` support
 
-Unsupported sections: `slots`
+- Supported sections: `properties`, `methods`, and `events`
+- Unsupported sections: `slots`
+- Supported fields: `deprecated`, `description`, `docsTags`, `readonly`, and `return`
 
 If a component needs different verbiage than an `@copyDoc` description, either:
 
