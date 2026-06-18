@@ -218,6 +218,23 @@ describe("inline editing", () => {
     expect(el.inlineEditingAfterConfirm).toHaveBeenCalledTimes(1);
     expect(el.editingEnabled).toBe(false);
   });
+
+  it("saves changes on blur and disables editing when inline editing controls are off", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-editing value="123" />);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("4");
+    await userEvent.tab();
+
+    expect(el.value).toBe("1234");
+    expect(el.editingEnabled).toBe(false);
+  });
 });
 
 describe("clearable", () => {

@@ -222,6 +222,21 @@ describe("inline editing", () => {
     expect(el.inlineEditingAfterConfirm).toHaveBeenCalledTimes(1);
     expect(el.editingEnabled).toBe(false);
   });
+
+  it("saves changes on blur and disables editing when inline editing controls are off", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-editing value="John Doe" />);
+
+    const input = page.getBySelector("calcite-input input");
+    await userEvent.click(input);
+
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("X");
+    await userEvent.tab();
+
+    expect(el.value).toBe("John DoeX");
+    expect(el.editingEnabled).toBe(false);
+  });
 });
 
 describe("translation support", () => {

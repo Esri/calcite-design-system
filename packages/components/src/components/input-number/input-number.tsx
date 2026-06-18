@@ -639,6 +639,11 @@ export class InputNumber
   private inputNumberBlurHandler() {
     this.stopNudging();
     this.calciteInternalInputNumberBlur.emit();
+
+    if (this.selfManagedInlineEditing && this.editingEnabled && !this.inlineEditingControls) {
+      this.useInlineEditing.disable();
+    }
+
     this.emitChangeIfUserModified();
   }
 

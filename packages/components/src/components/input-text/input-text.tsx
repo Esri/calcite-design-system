@@ -491,6 +491,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       value: this.value,
     });
 
+    if (this.selfManagedInlineEditing && this.editingEnabled && !this.inlineEditingControls) {
+      this.useInlineEditing.disable();
+    }
+
     this.emitChangeIfUserModified();
   }
 

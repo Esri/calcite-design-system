@@ -197,6 +197,23 @@ describe("is focusable", () => {
       expect(el.inlineEditingAfterConfirm).toHaveBeenCalledTimes(1);
       expect(el.editingEnabled).toBe(false);
     });
+
+    it("saves changes on blur and disables editing when inline editing controls are off", async () => {
+      const { el } = await mount<InputText>(<calcite-input-text inline-editing value="John Doe" />);
+
+      const input = page.getBySelector("calcite-input-text input");
+      await userEvent.click(input);
+
+      await expect
+        .element(page.getBySelector("calcite-input-text"))
+        .toHaveAttribute("editing-enabled");
+
+      await userEvent.keyboard("X");
+      await userEvent.tab();
+
+      expect(el.value).toBe("John DoeX");
+      expect(el.editingEnabled).toBe(false);
+    });
   });
 
   describe("clearable", () => {
