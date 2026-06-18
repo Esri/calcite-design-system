@@ -1004,11 +1004,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
-  --calcite-font-weight-medium: 500;
-  --calcite-font-weight-semibold: 600;
-  --calcite-font-weight-bold: 600;
   --calcite-font-size-xs: 10px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size: 14px;
@@ -1148,6 +1143,11 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-weight-bold: 600;
   --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
 }
 "
@@ -1159,6 +1159,7 @@ exports[`CSS > index should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+@import url("./internal.css");
 @import url("./semantic.css");
 @import url("./classes.css");
 :root {
@@ -1478,6 +1479,23 @@ exports[`CSS > index should match 1`] = `
 "
 `;
 
+exports[`CSS > internal should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --calcite-internal-font-weight-light: 300;
+  --calcite-internal-font-weight-normal: 400;
+  --calcite-internal-font-weight-regular: 400;
+  --calcite-internal-font-weight-medium: 500;
+  --calcite-internal-font-weight-semibold: 600;
+  --calcite-internal-font-weight-bold: 600;
+}
+"
+`;
+
 exports[`CSS > light should match 1`] = `
 "/**
  * Calcite Design System
@@ -1562,11 +1580,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-corner-radius-pill: 9999px;
   --calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; /** Primary font with fallbacks */
   --calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; /** Font family for code with fallbacks */
-  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
-  --calcite-font-weight-medium: 500;
-  --calcite-font-weight-semibold: 600;
-  --calcite-font-weight-bold: 600;
   --calcite-font-size-xs: 10px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size: 14px;
@@ -1706,6 +1719,11 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
+  --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
+  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-medium: 500;
+  --calcite-font-weight-semibold: 600;
+  --calcite-font-weight-bold: 600;
   --calcite-font-weight-regular: var(--calcite-font-weight-normal); /** Replaces \`--calcite-font-weight-normal\` */
 }
 "
@@ -17515,6 +17533,156 @@ exports[`DOCS (internal) > core should match 1`] = `
       "isSource": false,
       "name": "Z Index 9",
       "path": ["core", "z-index", "9"]
+    },
+    {
+      "key": "{internal.font.weight.light}",
+      "$value": "300",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Light",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "light",
+        "names": {
+          "scss": "$calcite-internal-font-weight-light",
+          "css": "var(--calcite-internal-font-weight-light)",
+          "docs": "internal.font.weight.light",
+          "es6": "calciteInternalFontWeightLight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "light"]
+    },
+    {
+      "key": "{internal.font.weight.normal}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Normal",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "normal",
+        "names": {
+          "scss": "$calcite-internal-font-weight-normal",
+          "css": "var(--calcite-internal-font-weight-normal)",
+          "docs": "internal.font.weight.normal",
+          "es6": "calciteInternalFontWeightNormal"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "normal"]
+    },
+    {
+      "key": "{internal.font.weight.regular}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Regular",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-internal-font-weight-regular",
+          "css": "var(--calcite-internal-font-weight-regular)",
+          "docs": "internal.font.weight.regular",
+          "es6": "calciteInternalFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "regular"]
+    },
+    {
+      "key": "{internal.font.weight.medium}",
+      "$value": "500",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Medium",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "medium",
+        "names": {
+          "scss": "$calcite-internal-font-weight-medium",
+          "css": "var(--calcite-internal-font-weight-medium)",
+          "docs": "internal.font.weight.medium",
+          "es6": "calciteInternalFontWeightMedium"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "medium"]
+    },
+    {
+      "key": "{internal.font.weight.semibold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Semibold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "semibold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-semibold",
+          "css": "var(--calcite-internal-font-weight-semibold)",
+          "docs": "internal.font.weight.semibold",
+          "es6": "calciteInternalFontWeightSemibold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "semibold"]
+    },
+    {
+      "key": "{internal.font.weight.bold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Bold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "bold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-bold",
+          "css": "var(--calcite-internal-font-weight-bold)",
+          "docs": "internal.font.weight.bold",
+          "es6": "calciteInternalFontWeightBold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "bold"]
     }
   ]
 }
@@ -25369,6 +25537,165 @@ exports[`DOCS (internal) > global should match 1`] = `
 "
 `;
 
+exports[`DOCS (internal) > internal should match 1`] = `
+"{
+  "timestamp": "TEST_TIMESTAMP",
+  "tokens": [
+    {
+      "key": "{internal.font.weight.light}",
+      "$value": "300",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Light",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "light",
+        "names": {
+          "scss": "$calcite-internal-font-weight-light",
+          "css": "var(--calcite-internal-font-weight-light)",
+          "docs": "internal.font.weight.light",
+          "es6": "calciteInternalFontWeightLight"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "light"]
+    },
+    {
+      "key": "{internal.font.weight.normal}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Normal",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "normal",
+        "names": {
+          "scss": "$calcite-internal-font-weight-normal",
+          "css": "var(--calcite-internal-font-weight-normal)",
+          "docs": "internal.font.weight.normal",
+          "es6": "calciteInternalFontWeightNormal"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "normal"]
+    },
+    {
+      "key": "{internal.font.weight.regular}",
+      "$value": "400",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Regular",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "regular",
+        "names": {
+          "scss": "$calcite-internal-font-weight-regular",
+          "css": "var(--calcite-internal-font-weight-regular)",
+          "docs": "internal.font.weight.regular",
+          "es6": "calciteInternalFontWeightRegular"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "regular"]
+    },
+    {
+      "key": "{internal.font.weight.medium}",
+      "$value": "500",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Medium",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "medium",
+        "names": {
+          "scss": "$calcite-internal-font-weight-medium",
+          "css": "var(--calcite-internal-font-weight-medium)",
+          "docs": "internal.font.weight.medium",
+          "es6": "calciteInternalFontWeightMedium"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "medium"]
+    },
+    {
+      "key": "{internal.font.weight.semibold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Semibold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "semibold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-semibold",
+          "css": "var(--calcite-internal-font-weight-semibold)",
+          "docs": "internal.font.weight.semibold",
+          "es6": "calciteInternalFontWeightSemibold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "semibold"]
+    },
+    {
+      "key": "{internal.font.weight.bold}",
+      "$value": "600",
+      "$type": "fontWeight",
+      "filePath": "src/tokens/internal/font.json",
+      "isSource": false,
+      "name": "Internal Font Weight Bold",
+      "attributes": {
+        "category": "internal",
+        "type": "font",
+        "item": "weight",
+        "subitem": "bold",
+        "names": {
+          "scss": "$calcite-internal-font-weight-bold",
+          "css": "var(--calcite-internal-font-weight-bold)",
+          "docs": "internal.font.weight.bold",
+          "es6": "calciteInternalFontWeightBold"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "internal"
+        }
+      },
+      "path": ["internal", "font", "weight", "bold"]
+    }
+  ]
+}
+"
+`;
+
 exports[`DOCS (internal) > semantic should match 1`] = `
 "{
   "timestamp": "TEST_TIMESTAMP",
@@ -31987,6 +32314,36 @@ export const calciteZIndexTooltip: string;
 "
 `;
 
+exports[`ES6 > internal should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const calciteInternalFontWeightLight = "300";
+export const calciteInternalFontWeightNormal = "400";
+export const calciteInternalFontWeightRegular = "400";
+export const calciteInternalFontWeightMedium = "500";
+export const calciteInternalFontWeightSemibold = "600";
+export const calciteInternalFontWeightBold = "600";
+"
+`;
+
+exports[`ES6 > internal types should match 1`] = `
+"/**
+ * Calcite Design System
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const calciteInternalFontWeightLight: string;
+export const calciteInternalFontWeightNormal: string;
+export const calciteInternalFontWeightRegular: string;
+export const calciteInternalFontWeightMedium: string;
+export const calciteInternalFontWeightSemibold: string;
+export const calciteInternalFontWeightBold: string;
+"
+`;
+
 exports[`ES6 > semantic should match 1`] = `
 "/**
  * Calcite Design System
@@ -33191,11 +33548,6 @@ $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
-$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-$calcite-font-weight-medium: 500;
-$calcite-font-weight-semibold: 600;
-$calcite-font-weight-bold: 600;
 $calcite-font-size-xs: 10px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size: 14px;
@@ -33335,6 +33687,11 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-medium: 500;
+$calcite-font-weight-semibold: 600;
+$calcite-font-weight-bold: 600;
 $calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 "
 `;
@@ -33345,6 +33702,7 @@ exports[`SCSS > index should match 1`] = `
  * Do not edit directly, this file was auto-generated.
  */
 
+@use "./internal.scss";
 @use "./semantic.scss";
 @use "./breakpoints.scss";
 @use "./mixins.scss";
@@ -33472,6 +33830,20 @@ exports[`SCSS > index should match 1`] = `
   --calcite-color-surface-1: #212121;
   --calcite-color-focus: var(--calcite-color-brand);
 }
+"
+`;
+
+exports[`SCSS > internal should match 1`] = `
+"
+// Calcite Design System
+// Do not edit directly, this file was auto-generated.
+
+$calcite-internal-font-weight-light: 300;
+$calcite-internal-font-weight-normal: 400;
+$calcite-internal-font-weight-regular: 400;
+$calcite-internal-font-weight-medium: 500;
+$calcite-internal-font-weight-semibold: 600;
+$calcite-internal-font-weight-bold: 600;
 "
 `;
 
@@ -33884,11 +34256,6 @@ $calcite-corner-radius-round: 4px; // Deprecated in v3.1.0, removal target v5.0.
 $calcite-corner-radius-pill: 9999px;
 $calcite-font-family: 'Avenir Next', Avenir, 'Helvetica Neue', sans-serif; // Primary font with fallbacks
 $calcite-font-family-code: Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace; // Font family for code with fallbacks
-$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
-$calcite-font-weight-medium: 500;
-$calcite-font-weight-semibold: 600;
-$calcite-font-weight-bold: 600;
 $calcite-font-size-xs: 10px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size: 14px;
@@ -34028,6 +34395,11 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
+$calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
+$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-medium: 500;
+$calcite-font-weight-semibold: 600;
+$calcite-font-weight-bold: 600;
 $calcite-font-weight-regular: $calcite-font-weight-normal; // Replaces \`--calcite-font-weight-normal\`
 "
 `;
