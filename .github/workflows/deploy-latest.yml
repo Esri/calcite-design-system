@@ -66,7 +66,7 @@ jobs:
             conflicts="$(git diff --name-only --diff-filter=U)"
 
             if [ -n "$conflicts" ] && echo "$conflicts" |
-              grep -qvE 'packages/.*/(CHANGELOG\.md|package\.json)'; then
+              grep -qvE '^(package-lock\.json|packages/.*/(CHANGELOG\.md|package\.json))$'; then
               echo "Aborting cherry-pick due to unexpected conflicts:"
               echo "$conflicts"
               git cherry-pick --abort
