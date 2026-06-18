@@ -10,6 +10,7 @@
 // Note the script automatically adds the "@" character in to notify the planner(s)
 const {
   labels: { issueWorkflow, planning },
+  milestones,
 } = require("./support/resources");
 const { removeLabel } = require("./support/utils");
 
@@ -47,9 +48,9 @@ module.exports = async ({ github, context }) => {
     label: issueWorkflow.inDevelopment,
   });
 
-  await github.rest.issues.addLabels({
+  await github.rest.issues.update({
     ...issueProps,
-    labels: [issueWorkflow.needsMilestone],
+    milestone: milestones.backlog.number,
   });
 
   /* Update issue */
@@ -77,8 +78,6 @@ module.exports = async ({ github, context }) => {
       event_type: "SyncActionChanges",
       milestone_updated: true,
       assignee_updated: true,
-      label_name: issueWorkflow.needsMilestone,
-      label_action: "added",
     },
   });
 };
