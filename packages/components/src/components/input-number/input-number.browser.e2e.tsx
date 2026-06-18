@@ -256,10 +256,7 @@ describe("increment/decrement functionality", () => {
     downButton = page.getByTestId("number-button-down");
   });
 
-  async function pressAndHold(
-    target: ReturnType<typeof page.getByTestId>,
-    ms: number,
-  ): Promise<void> {
+  async function pressAndHold(target: Locator, ms: number): Promise<void> {
     const rect = await target.element().getBoundingClientRect();
     await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
     await commands.mouseDown();
