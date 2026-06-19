@@ -97,6 +97,21 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     return usernameMap[publicUsername] || publicUsername;
   }
 
+  /**
+   * Return the appropriate Monday.com column ID based on repository context.
+   * @param {object} columnIds - An object containing the column IDs for each repository
+   * @param {string} columnIds.calcite - The column ID for the Calcite repository
+   * @param {string} columnIds.docs - The column ID for the Docs repository
+   * @return {string} - The appropriate column ID for the current repository
+   */
+  function getColumnId(columnIds) {
+    if (GITHUB_REPO === REPO_DOCS) {
+      return columnIds.docs;
+    }
+
+    return columnIds.calcite;
+  }
+
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
    * @property {string} title - The Monday.com column title. Used for logging, not critical to functionality
@@ -125,7 +140,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       type: "multiAppendable",
     },
     status: { id: "dup__of_overall_status__1", title: "Status" },
-    date: { id: "date6", title: "Milestone" },
+    milestoneTitle: {
+      id: getColumnId({
+        calcite: "text_mm4fjj0n",
+        docs: "text_mm4fbb1a",
+      }),
+      title: "Milestone",
+    },
+    milestoneDate: { id: "date6", title: "Milestone Date" },
     priority: { id: "priority", title: "Priority" },
     typeDropdown: {
       id: "dropdown_mkwhjde2",
@@ -988,35 +1010,31 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   /**
-   * Update columnUpdates based on milestone title
+   * Update columnUpdates based on milestone values.
+   * If no milestone is present, the milestone columns are cleared.
    */
   function handleMilestone() {
     const logParams = { title: "Handle Milestone" };
     if (!issueMilestone) {
-      setColumnValue(mondayColumns.date, "", logParams);
+      setColumnValue(mondayColumns.milestoneTitle, "", logParams);
+      setColumnValue(mondayColumns.milestoneDate, "", logParams);
       return;
     }
-    const milestoneTitle = issueMilestone.title;
-    const milestoneDateRegex = /\d{4}-\d{2}-\d{2}/;
-    const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
-    if (milestoneDate) {
-      setColumnValue(mondayColumns.date, milestoneDate, logParams);
-      const { needsTriage, installed, readyForDev } = issueWorkflow;
-      setAssignedStatus({
-        assignedCondition: notInLifecycle({
-          labels,
-          skip: [needsTriage],
-        }),
-        unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
-      });
-    } else {
-      setColumnValue(mondayColumns.date, "", logParams);
+    // The milestone date is returned in ISO format (e.g., "2026-06-30T00:00:00Z"),
+    // but Monday requires just the date portion.
+    const milestoneDate = issueMilestone.due_on ? issueMilestone.due_on.slice(0, 10) : "";
+    setColumnValue(mondayColumns.milestoneTitle, issueMilestone.title, logParams);
+    setColumnValue(mondayColumns.milestoneDate, milestoneDate, logParams);
 
-      if (inMilestoneStatus()) {
-        setColumnValue(mondayColumns.status, milestoneTitle, logParams);
-      }
-    }
+    const { needsTriage, installed, readyForDev } = issueWorkflow;
+    setAssignedStatus({
+      assignedCondition: notInLifecycle({
+        labels,
+        skip: [needsTriage],
+      }),
+      unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
+    });
   }
 
   /**
