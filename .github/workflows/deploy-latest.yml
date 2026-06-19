@@ -74,10 +74,10 @@ jobs:
             fi
           fi
 
-          git checkout "$release_commit" -- package-lock.json
           git checkout "$release_commit" -- packages/*/CHANGELOG.md
+          git checkout "$kept_commit" -- package-lock.json
           git checkout "$kept_commit" -- packages/*/package.json
-          git add packages/*/CHANGELOG.md packages/*/package.json
+          git add package-lock.json packages/*/CHANGELOG.md packages/*/package.json
 
           if git diff --name-only --diff-filter=U | grep -q .; then
             echo "Aborting cherry-pick, as there are still conflicts after auto-resolution."
