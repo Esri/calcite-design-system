@@ -112,8 +112,8 @@
     "storybook": "10.3.6",
     "storybook-addon-rtl": "3.0.1",
     "style-dictionary": "5.4.4",
-    "stylelint": "16.26.1",
-    "stylelint-config-recommended-scss": "15.0.1",
+    "stylelint": "17.13.0",
+    "stylelint-config-recommended-scss": "17.0.1",
     "stylelint-use-logical-spec": "5.0.1",
     "tailwindcss": "3.4.19",
     "turbo": "2.9.18",
@@ -138,5 +138,10 @@
     "@nx/nx-darwin-arm64": "21.6.11",
     "@nx/nx-linux-x64-gnu": "21.6.11",
     "@nx/nx-win32-x64-msvc": "21.6.11"
+  },
+  "overrides": {
+    "stylelint-use-logical-spec": {
+      "stylelint": "17.13.0"
+    }
   }
 }
