@@ -27,7 +27,6 @@ const resources = {
     },
     issueWorkflow: {
       needsTriage: "needs triage",
-      needsMilestone: "needs milestone",
       inDesign: "1 - in design",
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
@@ -75,10 +74,10 @@ const resources = {
     },
     productColor: "006B75",
   },
-  milestone: {
-    backlog: "Backlog",
-    stalled: "Stalled",
-    freezer: "Freezer",
+  milestones: {
+    backlog: { name: "Backlog", number: 154 },
+    stalled: { name: "Stalled", number: 75 },
+    freezer: { name: "Freezer", number: 28 },
   },
   teams: {
     admins: "calcite-design-system-admins",
