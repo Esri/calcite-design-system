@@ -99,9 +99,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
   /**
    * Return the appropriate Monday.com column ID based on repository context.
-   * @param {object} columnIds - An object containing the column IDs for each repository
-   * @param {string} columnIds.calcite - The column ID for the Calcite repository
-   * @param {string} columnIds.docs - The column ID for the Docs repository
+   * @param {{ calcite: string; docs: string }} columnIds - An object containing the column IDs for each repository
    * @return {string} - The appropriate column ID for the current repository
    */
   function getColumnId(columnIds) {
