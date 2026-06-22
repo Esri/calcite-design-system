@@ -81,7 +81,7 @@ export class DatePickerMonth extends LitElement {
   /** End date currently active. */
   @property() endDate?: Date;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** The range of dates currently being hovered. */

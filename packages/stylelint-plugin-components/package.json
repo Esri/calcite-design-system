@@ -24,6 +24,6 @@
     "util:update-3rd-party-notices": "node ../../support/createThirdPartyNotices.mts"
   },
   "peerDependencies": {
-    "stylelint": ">=16.26.1"
+    "stylelint": ">=17"
   }
 }

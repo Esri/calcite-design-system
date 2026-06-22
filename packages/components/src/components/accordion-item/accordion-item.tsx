@@ -66,16 +66,16 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a description for the component. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
@@ -88,7 +88,7 @@ export class AccordionItem extends LitElement {
    */
   @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
@@ -98,7 +98,7 @@ export class AccordionItem extends LitElement {
    */
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /**
@@ -115,7 +115,7 @@ export class AccordionItem extends LitElement {
    */
   @property({ reflect: true }) scale!: Scale;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

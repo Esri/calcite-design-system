@@ -37,7 +37,7 @@ export class ListItemGroup extends LitElement {
    */
   @property({ reflect: true }) filterHidden = false;
 
-  /** Specifies the heading text for the nested `calcite-list-item` rows. */
+  /** @copyDoc */
   @property({ reflect: true }) heading?: string;
 
   /**

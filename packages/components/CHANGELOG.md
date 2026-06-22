@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.2...@esri/calcite-components@5.2.0-next.4) (2026-06-18)
+
+### Features
+
+- **input-time-picker:** add placeholder property ([#14613](https://github.com/Esri/calcite-design-system/issues/14613)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
+
+### Bug Fixes
+
+- **input-number, input-text:** apply placeholder text color token ([#14595](https://github.com/Esri/calcite-design-system/issues/14595))
+
 ## [5.1.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.1...@esri/calcite-components@5.1.2-next.2) (2026-06-12)
 
 **Note:** Version bump only for package @esri/calcite-components

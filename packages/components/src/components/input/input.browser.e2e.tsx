@@ -856,14 +856,22 @@ describe("input type number increment/decrement functionality", () => {
     const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
     el.addEventListener("calciteInputInput", inputEventHandler);
+    const input = page.getBySelector("calcite-input input").element();
 
-    await el.setFocus();
-    await Promise.all([
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowDown}"),
-      userEvent.keyboard("{ArrowDown}"),
-    ]);
+    // dispatching synthetic events best emulates the original use case from https://github.com/Esri/calcite-design-system/pull/3908
+    // otherwise, `userEvent.keyboard` emits 2 additional events due to async nature
+    function dispatchKeyboardEvent(type: "keydown" | "keyup", key: "ArrowUp" | "ArrowDown"): void {
+      input.dispatchEvent(
+        new KeyboardEvent(type, { key, bubbles: true, cancelable: true, composed: true }),
+      );
+    }
+
+    await userEvent.keyboard("{Tab}");
+    dispatchKeyboardEvent("keydown", "ArrowUp");
+    dispatchKeyboardEvent("keydown", "ArrowDown");
+    dispatchKeyboardEvent("keyup", "ArrowUp");
+    dispatchKeyboardEvent("keyup", "ArrowDown");
+    vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
     expect(inputEventHandler).toHaveBeenCalledTimes(2);
   });
