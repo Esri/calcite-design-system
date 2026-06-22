@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, statSync} from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import chalk from "chalk";
 
 interface TestLog {
@@ -9,6 +9,7 @@ interface TestLog {
 const logs: TestLog[] = [
   { name: "Node", file: "test-node.err.log" },
   { name: "Browser", file: "test-browser.err.log" },
+  { name: "Time zone", file: "test-time-zone.err.log" },
 ];
 
 let hadError = false;
