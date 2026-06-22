@@ -319,7 +319,7 @@ export class Pagination extends LitElement {
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
-      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
+      <span ariaHidden="true" class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
         &hellip;
       </span>
     );
