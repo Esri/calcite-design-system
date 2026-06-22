@@ -6,6 +6,7 @@ import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
 import { afterNextFrame } from "../../utils/timing";
 import type { LitElement } from "@arcgis/lumina";
+import { waitForEvent } from "./utils";
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `absolute` and `fixed` overlay positioning strategies.
@@ -68,12 +69,14 @@ export function floatingUIOwner(
       return floatingUiEl.style.transform;
     }
 
-    function scrollTo(x: number, y: number): void {
-      window.scrollTo(x, y);
-    }
-
     async function scrollToAndWait(x: number, y: number): Promise<void> {
-      scrollTo(x, y);
+      if (x === window.scrollX && y === window.scrollY) {
+        return;
+      }
+
+      const scroll = waitForEvent(window, "scroll");
+      window.scrollTo(x, y);
+      await scroll;
       await afterNextFrame();
     }
 

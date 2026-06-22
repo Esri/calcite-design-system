@@ -33,7 +33,7 @@ export function getEventPrefix(el: HTMLElement): CalciteEventNamePrefix {
 }
 
 /**
- * Waits for a specific event to be emitted from the given element.
+ * Waits for a specific event to be emitted from the given event target.
  *
  * @example
  *
@@ -41,7 +41,7 @@ export function getEventPrefix(el: HTMLElement): CalciteEventNamePrefix {
  * // trigger event
  * await event;
  */
-export function waitForEvent(el: HTMLElement, eventName: string): Promise<void> {
+export function waitForEvent(el: EventTarget, eventName: string): Promise<void> {
   return new Promise<void>((resolve) => {
     el.addEventListener(eventName, () => resolve(), { once: true });
   });
