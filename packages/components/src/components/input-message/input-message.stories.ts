@@ -13,7 +13,7 @@ type InputMessageStoryArgs = Pick<InputMessage, "icon" | "iconFlipRtl" | "scale"
 export default {
   title: "Components/InputMessage",
   args: {
-    icon: "",
+    icon: "information",
     iconFlipRtl: false,
     message: "Message",
     scale: scale.defaultValue,

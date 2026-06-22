@@ -27,7 +27,7 @@ export default {
   args: {
     autoClose: false,
     autoCloseDuration: duration.defaultValue,
-    icon: "",
+    icon: "lightbulb",
     iconFlipRtl: false,
     kind: kind.defaultValue,
     label: "Alert",
