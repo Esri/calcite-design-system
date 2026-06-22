@@ -146,7 +146,7 @@ export class Carousel extends LitElement {
    */
   @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

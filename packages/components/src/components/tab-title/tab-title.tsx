@@ -90,28 +90,28 @@ export class TabTitle extends LitElement {
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /** @private */
   @property({ reflect: true }) layout!: TabLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

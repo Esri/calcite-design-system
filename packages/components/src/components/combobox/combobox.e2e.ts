@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { accessible, labelable } from "../../tests/commonTests";
@@ -897,10 +896,10 @@ describe("keyboard navigation with chips", () => {
     const inputId = "input";
     const chipId = "chip";
 
-    const getActiveElementId = () => page.evaluate(() => document.activeElement.id);
+    const getActiveElementId = () => page.evaluate(() => document.activeElement!.id);
 
     const getDataTestId = () =>
-      page.$eval(`#${comboboxId}`, (myCombobox) => myCombobox.shadowRoot.activeElement.getAttribute("data-testid"));
+      page.$eval(`#${comboboxId}`, (myCombobox) => myCombobox.shadowRoot!.activeElement!.getAttribute("data-testid"));
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -1016,7 +1015,7 @@ describe("keyboard navigation in all selection-display mode", () => {
     const input = await page.find(`#myCombobox >>> input`);
     await input.focus();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const container = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
     const visible = await container.isVisible();
@@ -1025,7 +1024,7 @@ describe("keyboard navigation in all selection-display mode", () => {
 
   it("tab moves to next input, but doesn't open the item group", async () => {
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const floatingUI = await page.find(`#myCombobox >>> .${CSS.floatingUIContainer}`);
     expect(await floatingUI.isVisible()).toBe(false);
@@ -1035,7 +1034,7 @@ describe("keyboard navigation in all selection-display mode", () => {
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
     await page.keyboard.press("Space");
@@ -1059,7 +1058,7 @@ describe("keyboard navigation in all selection-display mode", () => {
       const inputEl = await page.find(`#myCombobox >>> input`);
       await inputEl.focus();
       await page.waitForChanges();
-      expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+      expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
       await page.keyboard.type("asdf");
       await page.waitForChanges();
       await page.keyboard.press("ArrowDown");
@@ -1074,7 +1073,7 @@ describe("keyboard navigation in all selection-display mode", () => {
     await inputEl.focus();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
     await page.keyboard.press("ArrowDown");
@@ -1090,7 +1089,7 @@ describe("keyboard navigation in all selection-display mode", () => {
     await inputEl.focus();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const openEventSpy = await page.spyOnEvent("calciteComboboxOpen");
     await page.keyboard.press("Space");
@@ -1185,7 +1184,7 @@ describe("keyboard navigation in all selection-display mode", () => {
   });
 
   describe("keyboard interaction with chips", () => {
-    let element;
+    let element!: E2EElement;
     let chips;
 
     beforeEach(async () => {
@@ -1424,7 +1423,7 @@ describe("calciteComboboxItemChange event correctly updates active item index", 
     await element.press("Tab");
     await closeEventSpy.next();
     await element.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).not.toBe("calcite-combobox");
   });
 
   it("after click interaction with listbox, user can transition to using keyboard “enter” to toggle selected on/off", async () => {
@@ -1444,7 +1443,7 @@ describe("calciteComboboxItemChange event correctly updates active item index", 
     await element.press("Tab");
     await closeEventSpy.next();
     await element.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).not.toBe("calcite-combobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).not.toBe("calcite-combobox");
   });
 });
 
@@ -1802,7 +1801,7 @@ it("should not focus on the combobox when items are programmatically selected", 
   item.setProperty("selected", true);
   await page.waitForChanges();
   const focusedId = await page.evaluate(() => {
-    const el = document.activeElement;
+    const el = document.activeElement!;
     return el.id;
   });
   await page.waitForChanges();
@@ -1822,7 +1821,7 @@ it("should gain focus when it's items are selected via click", async () => {
   await item.click();
   await page.waitForChanges();
   const focusedId = await page.evaluate(() => {
-    const el = document.activeElement;
+    const el = document.activeElement!;
     return el.id;
   });
 
@@ -1842,7 +1841,7 @@ it("should gain focus when it's items are selected via keyboard interaction", as
   await page.keyboard.press("Enter");
   await page.keyboard.press("Escape");
   await page.waitForChanges();
-  const focusedId = await page.evaluate(() => document.activeElement.id);
+  const focusedId = await page.evaluate(() => document.activeElement!.id);
   expect(focusedId).toBe("demoId");
 });
 
@@ -1885,10 +1884,10 @@ describe("custom input value when clicked outside of the component", () => {
     await page.waitForChanges();
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
 
     const comboboxRect = await page.evaluate(() => {
-      const comboboxEl = document.querySelector("#myCombobox");
+      const comboboxEl = document.querySelector("#myCombobox")!;
       return comboboxEl.getBoundingClientRect().toJSON();
     });
 
@@ -1899,7 +1898,7 @@ describe("custom input value when clicked outside of the component", () => {
     await page.waitForChanges();
     await page.mouse.up();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).not.toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).not.toBe("myCombobox");
     expect(await inputEl.getProperty("value")).toBe("");
     expect(await combobox.getProperty("value")).toBe(allowCustomValues ? "three" : "");
     expect(eventSpy).toHaveReceivedEventTimes(allowCustomValues ? 1 : 0);
@@ -1937,7 +1936,7 @@ describe("custom input value on blur using keyboard", () => {
     const inputEl = await page.find(`#myCombobox >>> input`);
     await inputEl.focus();
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toBe("myCombobox");
+    expect(await page.evaluate(() => document.activeElement!.id)).toBe("myCombobox");
     await page.keyboard.type("three");
     await page.waitForChanges();
     await page.keyboard.press("Tab");

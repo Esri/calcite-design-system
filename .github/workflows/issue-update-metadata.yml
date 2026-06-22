@@ -1,4 +1,4 @@
-name: Add Issue Labels
+name: Update Issue Metadata
 on:
   issues:
     types: [opened, edited]
@@ -44,4 +44,11 @@ jobs:
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addComponentLabel.js')
+            await action({github, context, core})
+
+      - name: Add Issues To Backlog
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/addIssuesToBacklog.js')
             await action({github, context, core})

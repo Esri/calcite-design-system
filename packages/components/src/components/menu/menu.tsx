@@ -54,7 +54,7 @@ export class Menu extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Layout = "horizontal";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
