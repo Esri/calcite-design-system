@@ -80,6 +80,13 @@ export class Tile extends LitElement implements SelectableComponent {
   /** When embed is `false`, specifies the URL for the component. */
   @property({ reflect: true }) href?: string;
 
+  /**
+   * Specifies where to open the linked document defined in the `href` property.
+   *
+   * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
+   */
+  @property({ reflect: true }) target?: string;
+
   /** Specifies an icon to display. */
   @property({ reflect: true, type: String }) icon?: IconName;
 
@@ -328,12 +335,12 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   override render(): JsxNode {
-    const { disabled } = this;
+    const { disabled, target } = this;
 
     return (
       <this.interactiveContainer disabled={disabled}>
         {this.href ? (
-          <calcite-link disabled={disabled} href={this.href}>
+          <calcite-link disabled={disabled} href={this.href} target={target}>
             {this.renderTile()}
           </calcite-link>
         ) : (

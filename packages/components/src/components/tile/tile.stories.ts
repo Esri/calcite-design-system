@@ -9,7 +9,7 @@ const { scale } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
-  "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale"
+  "active" | "description" | "disabled" | "heading" | "href" | "icon" | "scale" | "target"
 > {
   hidden: boolean;
 }
@@ -26,6 +26,7 @@ export default {
     href: "#",
     icon: "layer",
     scale: scale.defaultValue,
+    target: "",
   },
   argTypes: {
     icon: {
@@ -49,6 +50,18 @@ export const simple = (args: TileStoryArgs): string => html`
     href="${args.href}"
     icon="${args.icon}"
     scale="${args.scale}"
+    target="${args.target}"
+  >
+  </calcite-tile>
+`;
+
+export const linkTarget = (): string => html`
+  <calcite-tile
+    description="Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall."
+    heading="Tile heading lorem ipsum"
+    href="https://www.esri.com"
+    icon="layer"
+    target="_self"
   >
   </calcite-tile>
 `;

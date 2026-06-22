@@ -29,6 +29,7 @@ describe("defaults", () => {
       { propertyName: "selected", defaultValue: false },
       { propertyName: "selectionAppearance", defaultValue: "icon" },
       { propertyName: "selectionMode", defaultValue: "none" },
+      { propertyName: "target", defaultValue: undefined },
       { propertyName: "headingLevel", defaultValue: undefined },
     ],
   );
@@ -59,6 +60,7 @@ describe("reflects", () => {
       { propertyName: "selected", value: true },
       { propertyName: "selectionAppearance", value: "border" },
       { propertyName: "selectionMode", value: "single-persist" },
+      { propertyName: "target", value: "_blank" },
       { propertyName: "headingLevel", value: 2 },
     ],
   );
@@ -83,6 +85,14 @@ describe("renders", () => {
 
     await expect.element(link).toHaveAttribute("href", "http://www.esri.com");
     await expect.element(anchor).toHaveAttribute("href", "http://www.esri.com");
+  });
+
+  it("renders target on anchor when href and target attributes are supplied", async () => {
+    await mount(<calcite-tile href="http://www.esri.com" target="_blank" />);
+
+    const anchor = page.getBySelector("calcite-tile calcite-link a");
+
+    await expect.element(anchor).toHaveAttribute("target", "_blank");
   });
 
   it("renders heading only when supplied", async () => {
