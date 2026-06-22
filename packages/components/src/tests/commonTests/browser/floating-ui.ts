@@ -5,6 +5,7 @@ import { css } from "../../../../support/formatting";
 import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
 import { afterNextFrame } from "../../utils/timing";
+import { LitElement } from "@arcgis/lumina";
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `overlay` and `fixed` overlay positioning strategies.
@@ -24,7 +25,7 @@ import { afterNextFrame } from "../../utils/timing";
  * });
  */
 export function floatingUIOwner(
-  setup: () => Promise<RenderResult<FloatingUIComponent>>,
+  setup: () => Promise<RenderResult<FloatingUIComponent & LitElement>>,
   togglePropName: string,
   options?: {
     /** Use this to specify the selector in the shadow DOM for the floating-ui element. */
