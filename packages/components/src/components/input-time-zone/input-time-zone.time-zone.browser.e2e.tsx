@@ -70,21 +70,18 @@ async function waitForTimeZoneItemRefresh(
   selector: string,
   expectedUpdate: "recreated" | "reused",
 ): Promise<ComboboxItem["el"]> {
-  return vi.waitFor(
-    async () => {
-      await waitForUpdates(component);
-      const currentItem = getTimeZoneItem(selector);
-      const itemWasRecreated = currentItem !== previousItem;
-      const expectedItemRecreation = expectedUpdate === "recreated";
+  return vi.waitFor(async () => {
+    await waitForUpdates(component);
+    const currentItem = getTimeZoneItem(selector);
+    const itemWasRecreated = currentItem !== previousItem;
+    const expectedItemRecreation = expectedUpdate === "recreated";
 
-      if (itemWasRecreated !== expectedItemRecreation) {
-        throw new Error(`Expected time zone item to be ${expectedUpdate}.`);
-      }
+    if (itemWasRecreated !== expectedItemRecreation) {
+      throw new Error(`Expected time zone item to be ${expectedUpdate}.`);
+    }
 
-      return currentItem;
-    },
-    { timeout: 100 },
-  );
+    return currentItem;
+  });
 }
 
 async function waitForFilter(): Promise<void> {
