@@ -82,13 +82,13 @@ Lifecycle labels are used to communicate the state of an issue. Each issue can o
 - `4 - installed`: Issues that have been merged to the `dev` branch and/or are ready for QA/QC.
 - `5 - verified`: Issues that have been tested, confirmed as mitigated, and are ready to close.
 
-### Paused issue process
+### Paused issues
 
-When work has begun on an issue, but has paused for varying reasons (e.g., priorities shifting, waiting on a meeting or individual), the `paused` label should be added. This helps ensure the issue's status is clearly communicated, aiding in the prioritization and planning process.
+When work has begun on an issue, but has paused for varying reasons (e.g., priorities shifting, waiting on a meeting or individual), the `paused` label is added. The label ensures the issue's status is clearly communicated, aiding in the prioritization and planning process.
 
 When adding the `paused` label, add a comment to the issue stating **why** it has been paused and if predictable, when work is expected to resume. No other lifecycle label change is needed.
 
-Paused issues may be moved into future milestones or the `Backlog` by PEs, depending on when work is expected to resume and the priority of the issue.
+Paused issues may be moved into future milestones or the `Backlog` milestone by Calcite contributing members, depending on when work is expected to resume and the priority of the issue.
 
 ### Issues that cannot be worked on
 
