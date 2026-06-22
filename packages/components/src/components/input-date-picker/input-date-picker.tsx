@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
 import { createRef, Ref } from "lit/directives/ref.js";
 import {
@@ -96,13 +95,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private commonDateSeparators = [".", "-", "/"];
 
-  private currentOpenInput: "start" | "end";
+  private currentOpenInput?: "start" | "end";
 
-  private datePickerEl: DatePicker["el"];
+  private datePickerEl?: DatePicker["el"];
 
-  private dateTimeFormat: Intl.DateTimeFormat;
+  private dateTimeFormat?: Intl.DateTimeFormat;
 
-  defaultValue: InputDatePicker["value"];
+  defaultValue?: InputDatePicker["value"];
 
   private dialogId = IDS.dialog(guid());
 
@@ -110,11 +109,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private endInputRef = createRef<InputText["el"]>();
 
-  private endWrapper: HTMLDivElement;
+  private endWrapper?: HTMLDivElement;
 
-  private filteredFlipPlacements: FlipPlacement[];
+  private filteredFlipPlacements?: FlipPlacement[];
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   private focusOnOpen = false;
 
@@ -142,7 +141,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     inputType: "date",
   })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   transitionProp = "opacity" as const;
 
@@ -150,11 +149,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private rangeStartValueChangedByUser = false;
 
-  referenceEl: HTMLDivElement;
+  referenceEl?: HTMLDivElement;
 
   private startInputRef = createRef<InputText["el"]>();
 
-  private startWrapper: HTMLDivElement;
+  private startWrapper?: HTMLDivElement;
 
   transitionRef = createRef<HTMLDivElement>();
 
@@ -183,11 +182,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   //#region State Properties
 
-  @state() datePickerActiveDate: Date;
+  @state() datePickerActiveDate?: Date;
 
   @state() focusedInput: "start" | "end" = "start";
 
-  @state() private localeData: DateLocaleData;
+  @state() private localeData!: DateLocaleData;
 
   //#endregion
 
@@ -199,27 +198,23 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -228,42 +223,36 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * When the component resides in a form,
    * specifies the latest allowed date ("yyyy-mm-dd").
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
   /** Specifies the latest allowed date as a full date object. */
-  @property() maxAsDate: Date;
+  @property() maxAsDate?: Date;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
    * specifies the earliest allowed date ("yyyy-mm-dd").
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
   /** Specifies the earliest allowed date as a full date object. */
-  @property() minAsDate: Date;
+  @property() minAsDate?: Date;
 
   /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, displays the `calcite-date-picker` component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -300,29 +289,27 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()
@@ -342,7 +329,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   /** The component's `value` as a full date object. */
-  @property() valueAsDate: Date | Date[];
+  @property() valueAsDate?: Date | Date[];
 
   //#endregion
 
@@ -453,21 +440,21 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
-      this.minAsDate = dateFromISO(this.min);
+      this.minAsDate = dateFromISO(this.min!) ?? undefined;
     } else if (minSource === "minAsDate") {
-      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate)) ?? undefined;
     }
 
     if (maxSource === "max") {
-      this.maxAsDate = dateFromISO(this.max);
+      this.maxAsDate = dateFromISO(this.max!) ?? undefined;
     } else if (maxSource === "maxAsDate") {
-      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate)) ?? undefined;
     }
 
     if ((minSource || maxSource) && !Array.isArray(this.valueAsDate)) {
       const validValueAsDate = dateFromRange(this.valueAsDate, this.minAsDate, this.maxAsDate);
       if (validValueAsDate !== this.valueAsDate) {
-        this.valueAsDate = validValueAsDate;
+        this.valueAsDate = validValueAsDate ?? undefined;
       }
     }
 
@@ -522,13 +509,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      let newValueAsDate: Date | Date[];
+      let newValueAsDate: Date | Date[] | undefined;
 
       try {
         if (Array.isArray(newValue)) {
           newValueAsDate = getValueAsDateRange(newValue);
         } else if (newValue) {
-          newValueAsDate = dateFromISO(newValue);
+          newValueAsDate = dateFromISO(newValue) ?? undefined;
         } else {
           newValueAsDate = undefined;
         }
@@ -548,7 +535,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = false;
   }
 
-  private valueAsDateWatcher(valueAsDate: Date | Date[]): void {
+  private valueAsDateWatcher(valueAsDate: Date | Date[] | undefined): void {
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
@@ -631,11 +618,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
     const path = event.composedPath();
-    const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
+    const wasToggleClicked = path.find((el) =>
+      (el as HTMLElement).classList?.contains(CSS.toggleIcon),
+    );
 
     if (wasToggleClicked) {
       const targetInput = position === "start" ? startInputRef : endInputRef;
-      targetInput.value.setFocus();
+      targetInput.value?.setFocus();
     }
 
     if (!range || !this.open || currentOpenInput === position) {
@@ -648,7 +637,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
+      : undefined;
   }
 
   onLabelClick(): void {
@@ -685,7 +674,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   private commitValue(): void {
     const { focusedInput, value } = this;
     const focusedInputRef = this.getInputRef(focusedInput);
-    const date = dateFromLocalizedString(focusedInputRef.value.value, this.localeData);
+
+    const date = focusedInputRef.value
+      ? dateFromLocalizedString(focusedInputRef.value?.value, this.localeData)
+      : undefined;
     const dateAsISO = dateToISO(date);
     const valueIsArray = Array.isArray(value);
     if (this.range) {
@@ -696,21 +688,21 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         }
         if (date) {
           this.setRangeValue([
-            focusedInput === "start" ? date : dateFromISO(value[0]),
-            focusedInput === "end" ? date : dateFromISO(value[1]),
+            focusedInput === "start" ? date : (dateFromISO(value[0]) ?? undefined),
+            focusedInput === "end" ? date : (dateFromISO(value[1]) ?? undefined),
           ]);
           this.localizeInputValues();
         } else {
           this.setRangeValue([
-            focusedInput === "end" && dateFromISO(value[0]),
-            focusedInput === "start" && dateFromISO(value[1]),
+            focusedInput === "end" ? (dateFromISO(value[0]) ?? undefined) : undefined,
+            focusedInput === "start" ? (dateFromISO(value[1]) ?? undefined) : undefined,
           ]);
         }
       } else {
         if (date) {
           this.setRangeValue([
-            focusedInput === "start" ? date : dateFromISO(value[0]),
-            focusedInput === "end" ? date : dateFromISO(value[1]),
+            focusedInput === "start" ? date : (dateFromISO(value[0]) ?? undefined),
+            focusedInput === "end" ? date : (dateFromISO(value[1]) ?? undefined),
           ]);
           this.localizeInputValues();
         }
@@ -733,7 +725,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     const targetHasSelect = event
       .composedPath()
-      .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
+      .some((el) => (el as HTMLElement).tagName === "CALCITE-SELECT");
 
     if (key === "Enter") {
       const preCommitValue = this.value;
@@ -873,7 +865,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
-      this.startInputRef.value.setFocus();
+      this.startInputRef.value?.setFocus();
       this.open = false;
       return;
     }
@@ -890,7 +882,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    if (this.proximitySelectionDisabled && this.valueAsDate[1] === null) {
+    if (this.proximitySelectionDisabled && this.valueAsDate && this.valueAsDate[1] === null) {
       return;
     }
 
@@ -914,8 +906,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         )
       : null;
 
-    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
-    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat?.format(date)) ?? "", "start");
+    this.setInputValue(
+      (this.range && endDate && this.dateTimeFormat?.format(endDate)) || "",
+      "end",
+    );
   }
 
   private getInputRef(input: "start" | "end" = "start"): Ref<InputText["el"]> {
@@ -930,7 +925,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     inputRef.value.value = newValue;
   }
 
-  private setRangeValue(valueAsDate: Date[]): void {
+  private setRangeValue(valueAsDate: (Date | undefined)[]): void {
     if (!this.range) {
       return;
     }
@@ -939,13 +934,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const oldValueIsArray = Array.isArray(oldValue);
     const valueIsArray = Array.isArray(valueAsDate);
 
-    const newStartDate = valueIsArray ? valueAsDate[0] : null;
+    const newStartDate = valueIsArray ? valueAsDate[0] : undefined;
     let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
     if (newStartDateISO) {
       newStartDateISO = this.getNormalizedDate(newStartDateISO);
     }
 
-    const newEndDate = valueIsArray ? valueAsDate[1] : null;
+    const newEndDate = valueIsArray ? valueAsDate[1] : undefined;
     let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
     if (newEndDateISO) {
       newEndDateISO = this.getNormalizedDate(newEndDateISO);
@@ -975,7 +970,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
   }
 
-  private setValue(value: Date | string): void {
+  private setValue(value: Date | string | undefined): void {
     if (this.range) {
       return;
     }
@@ -989,7 +984,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
 
     this.userChangedValue = true;
-    this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
+    this.valueAsDate = newValue ? (dateFromISO(newValue) ?? undefined) : undefined;
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -1048,7 +1043,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private focusInput(): void {
     const focusedInput = this.focusedInput === "start" ? this.startInputRef : this.endInputRef;
-    focusedInput.value.setFocus();
+    focusedInput.value?.setFocus();
   }
 
   //#endregion
@@ -1103,8 +1098,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 ariaInvalid={this.status === "invalid"}
                 class={{
                   [CSS.input]: true,
-                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                  [CSS.inputNoRightBorder]: this.range,
+                  [CSS.startInput]: true,
                 }}
                 disabled={disabled}
                 icon={ICONS.calendar}
@@ -1189,9 +1183,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   ariaHasPopup="dialog"
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    [CSS.endInput]: true,
                   }}
                   disabled={disabled}
                   icon={ICONS.calendar}

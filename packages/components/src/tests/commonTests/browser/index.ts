@@ -2,6 +2,7 @@ export { cancelable } from "./cancelable";
 export { defaults } from "./defaults";
 export { disabled } from "./disabled";
 export { focusable } from "./focusable";
+export { focusTrap } from "./focus-trap";
 export { formAssociated } from "./form-associated";
 export { hidden } from "./hidden";
 export { floatingUIOwner, delegatesToFloatingUiOwningComponent, handlesActionMenuPlacements } from "./floating-ui";

@@ -91,7 +91,7 @@ export class TabNav extends LitElement {
   /** @private */
   @property() lastTabClosable = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
