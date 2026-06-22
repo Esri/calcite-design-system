@@ -132,7 +132,10 @@ interface UseSortable {
   reset: () => void;
 }
 
-const globalDragState: { active: boolean } = { active: false };
+const globalDragState: { active: boolean; touchPointerIds: Set<number> } = {
+  active: false,
+  touchPointerIds: new Set<number>(),
+};
 const sortableItemKeys = new WeakMap<HTMLElement, string>();
 
 interface SortableNodeRecord {
@@ -403,9 +406,34 @@ function createSortable(component: SortableComponent): void {
 export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGenericController<UseSortable, T>> => {
   return makeGenericController<UseSortable, T>((component, controller) => {
     const sortableComponent = component as T & SortableComponent;
+    const componentTouchPointerIds = new Set<number>();
+    let pointerEventsRoot: EventTarget | null = null;
+
+    const clearComponentTouchPointers = (): void => {
+      componentTouchPointerIds.forEach((pointerId) => {
+        globalDragState.touchPointerIds.delete(pointerId);
+      });
+      componentTouchPointerIds.clear();
+    };
+
+    const handlePointerDown = (event: PointerEvent): void => {
+      if (event.pointerType === "touch") {
+        componentTouchPointerIds.add(event.pointerId);
+        globalDragState.touchPointerIds.add(event.pointerId);
+      }
+    };
+
+    const handlePointerEnd = (event: Event): void => {
+      if (!(event instanceof PointerEvent) || event.pointerType !== "touch") {
+        return;
+      }
+
+      componentTouchPointerIds.delete(event.pointerId);
+      globalDragState.touchPointerIds.delete(event.pointerId);
+    };
 
     function dragActive(): boolean {
-      return sortableComponent.dragEnabled && globalDragState.active;
+      return sortableComponent.dragEnabled && (globalDragState.active || globalDragState.touchPointerIds.size > 0);
     }
 
     function setUpSortable(): void {
@@ -423,8 +451,8 @@ export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGener
       createSortable(sortableComponent);
     }
 
-    function tearDownSortable(): void {
-      if (dragActive()) {
+    function tearDownSortable(force = false): void {
+      if (!force && dragActive()) {
         return;
       }
 
@@ -433,11 +461,24 @@ export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGener
     }
 
     controller.onConnected(() => {
+      pointerEventsRoot = getRootNode(sortableComponent.el);
+      sortableComponent.el.addEventListener("pointerdown", handlePointerDown, true);
+      pointerEventsRoot.addEventListener("pointerup", handlePointerEnd, true);
+      pointerEventsRoot.addEventListener("pointercancel", handlePointerEnd, true);
       setUpSortable();
     });
 
     controller.onDisconnected(() => {
-      tearDownSortable();
+      sortableComponent.el.removeEventListener("pointerdown", handlePointerDown, true);
+
+      if (pointerEventsRoot) {
+        pointerEventsRoot.removeEventListener("pointerup", handlePointerEnd, true);
+        pointerEventsRoot.removeEventListener("pointercancel", handlePointerEnd, true);
+        pointerEventsRoot = null;
+      }
+
+      clearComponentTouchPointers();
+      tearDownSortable(true);
     });
 
     return {
