@@ -113,7 +113,8 @@ export function floatingUIOwner(
 
     const elRect = el.getBoundingClientRect();
     const floatingUiElRect = floatingUiEl.getBoundingClientRect();
-    const middleScrollDistanceInPx = elRect.height / 2;
+    const fallbackShiftDistanceWithoutHiding = 10;
+    const middleScrollDistanceInPx = elRect.height > 0 ? elRect.height / 2 : fallbackShiftDistanceWithoutHiding;
     const initialOpenTranslate = getTranslate(getTransform());
 
     async function scrollToAndGetTranslate(x: number, y: number): Promise<Translate> {
