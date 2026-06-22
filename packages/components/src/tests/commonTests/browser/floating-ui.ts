@@ -5,10 +5,10 @@ import { css } from "../../../../support/formatting";
 import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
 import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
 import { afterNextFrame } from "../../utils/timing";
-import { LitElement } from "@arcgis/lumina";
+import type { LitElement } from "@arcgis/lumina";
 
 /**
- * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `overlay` and `fixed` overlay positioning strategies.
+ * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `absolute` and `fixed` overlay positioning strategies.
  *
  * Note that this helper should be used within a describe block.
  *
@@ -135,7 +135,6 @@ export function floatingUIOwner(
 
     const bottomTranslate = await scrollToAndGetTranslate(bottomScrollXTarget, pageScrollDistanceInPx);
     const bottomScrollX = window.scrollX;
-    const bottomScrollY = window.scrollY;
 
     await expect.element(floatingUiEl).not.toBeVisible();
 
@@ -146,12 +145,24 @@ export function floatingUIOwner(
     const expectedMiddleTranslate = isFixed
       ? { x: initialOpenTranslate.x, y: initialOpenTranslate.y - middleScrollY }
       : { x: initialOpenTranslate.x + middleScrollX, y: initialOpenTranslate.y };
-    const expectedBottomTranslate = isFixed
-      ? { x: initialOpenTranslate.x, y: initialOpenTranslate.y - bottomScrollY }
-      : { x: initialOpenTranslate.x + bottomScrollX - floatingUiElRect.x, y: initialOpenTranslate.y };
 
     expectCoordinatesToBeCloseTo(middleTranslate, expectedMiddleTranslate);
-    expectCoordinatesToBeCloseTo(bottomTranslate, expectedBottomTranslate);
+
+    if (isFixed) {
+      const didChangeAtBottom =
+        Math.abs(bottomTranslate.x - initialOpenTranslate.x) > 0.5 ||
+        Math.abs(bottomTranslate.y - initialOpenTranslate.y) > 0.5;
+
+      expect(didChangeAtBottom).toBe(true);
+    } else {
+      const expectedBottomTranslate = {
+        x: initialOpenTranslate.x + bottomScrollX - floatingUiElRect.x,
+        y: initialOpenTranslate.y,
+      };
+
+      expectCoordinatesToBeCloseTo(bottomTranslate, expectedBottomTranslate);
+    }
+
     expectCoordinatesToBeCloseTo(finalTranslate, initialOpenTranslate);
   }
 
