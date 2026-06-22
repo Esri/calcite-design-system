@@ -5,9 +5,9 @@ export type ComboboxChildElement = ComboboxItem["el"] | ComboboxItemGroup["el"];
 export type SelectionDisplay = "all" | "fit" | "single";
 
 export interface ItemData extends BaseData {
-  description: string;
-  metadata: Record<string, unknown>;
-  shortHeading: string;
+  description: string | undefined;
+  metadata: Record<string, unknown> | undefined;
+  shortHeading: string | undefined;
   el: ComboboxItem["el"] | ComboboxItemGroup["el"];
 }
 

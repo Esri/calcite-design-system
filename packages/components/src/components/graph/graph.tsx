@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
@@ -34,7 +33,7 @@ export class Graph extends LitElement {
    * Array of values describing a single color stop ([offset, color, opacity])
    * These color stops should be sorted by offset value.
    */
-  @property() colorStops: ColorStop[];
+  @property() colorStops?: ColorStop[];
 
   /**
    * Array of tuples describing a single data point ([x, y])
@@ -42,25 +41,33 @@ export class Graph extends LitElement {
    */
   @property() data: DataSeries = [];
 
-  /** End of highlight color if highlighting range. */
-  @property() highlightMax: number;
+  /**
+   * End of highlight color if highlighting range.
+   *
+   * @required
+   */
+  @property() highlightMax!: number;
 
-  /** Start of highlight color if highlighting range. */
-  @property() highlightMin: number;
+  /**
+   * Start of highlight color if highlighting range.
+   *
+   * @required
+   */
+  @property() highlightMin!: number;
 
   /**
    * Highest point of the range.
    *
    * @required
    */
-  @property({ reflect: true }) max: number;
+  @property({ reflect: true }) max!: number;
 
   /**
    * Lowest point of the range.
    *
    * @required
    */
-  @property({ reflect: true }) min: number;
+  @property({ reflect: true }) min!: number;
 
   // #endregion
 
