@@ -9,7 +9,6 @@ import { LitElement } from "@arcgis/lumina";
 
 /**
  * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `overlay` and `fixed` overlay positioning strategies.
- * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
  * Note that this helper should be used within a describe block.
  *
