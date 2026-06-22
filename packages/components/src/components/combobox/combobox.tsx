@@ -1852,7 +1852,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
 
     return this.readOnly
-      ? (this.messages.nonEditable?.replace("{value}", `${value}`) ?? "")
+      ? (this.messages.nonEditable?.replace("{value}", `${value}`) ?? `${value}`)
       : value;
   }
 
