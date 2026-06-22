@@ -1,13 +1,13 @@
-import { expect, it } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
+import { describe, expect, it, onTestFinished } from "vitest";
+import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { css } from "../../../../support/formatting";
-import { IntrinsicElementsWithProp } from "../../utils/interfaces";
-import { FlipPlacement } from "../../../utils/floating-ui";
+import type { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import type { FlipPlacement, FloatingUIComponent } from "../../../utils/floating-ui";
 import { afterNextFrame } from "../../utils/timing";
 
 /**
- * This helper will test if a floating-ui-owning component has configured the floating-ui correctly.
+ * This helper will test if a floating-ui-owning component has configured the floating-ui correctly for both `overlay` and `fixed` overlay positioning strategies.
  * At the moment, this only tests if the scroll event listeners are only active when the floating-ui is displayed.
  *
  * Note that this helper should be used within a describe block.
@@ -24,17 +24,23 @@ import { afterNextFrame } from "../../utils/timing";
  * });
  */
 export function floatingUIOwner(
-  setup: () => ReturnType<typeof mount>,
+  setup: () => Promise<RenderResult<FloatingUIComponent>>,
   togglePropName: string,
   options?: {
     /** Use this to specify the selector in the shadow DOM for the floating-ui element. */
     shadowSelector?: string;
   },
 ): void {
-  it("owns a floating-ui", async () => {
+  type OverlayPositioning = "absolute" | "fixed";
+
+  async function testOverlayPositioning(overlayPositioning: OverlayPositioning): Promise<void> {
     const viewportSizeInPx = 800;
-    const scrollablePageSizeInPx = viewportSizeInPx * 4;
-    const { el } = await setup();
+    const pageScrollDistanceInPx = viewportSizeInPx * 4;
+    const scrollablePageSizeInPx = pageScrollDistanceInPx + viewportSizeInPx;
+    const { el, reRender } = await setup();
+
+    el.overlayPositioning = overlayPositioning;
+    await reRender();
 
     // use smaller viewport to enable scrolling
     await page.viewport(viewportSizeInPx, viewportSizeInPx);
@@ -48,66 +54,115 @@ export function floatingUIOwner(
     `;
     document.head.append(style);
 
+    onTestFinished(() => style.remove());
+
     const shadowSelector = options?.shadowSelector;
-    const floatingUIEl = shadowSelector ? el.shadowRoot.querySelector<HTMLElement>(shadowSelector)! : el;
+    const floatingUiEl = shadowSelector ? el.shadowRoot.querySelector<HTMLElement>(shadowSelector)! : el;
+
+    type Translate = {
+      x: number;
+      y: number;
+    };
 
     function getTransform(): string {
-      return floatingUIEl.style.transform;
+      return floatingUiEl.style.transform;
     }
 
     function scrollTo(x: number, y: number): void {
       window.scrollTo(x, y);
     }
 
-    function waitForScrollEvent(): Promise<void> {
-      return new Promise<void>((resolve) => {
-        window.addEventListener("scroll", () => resolve(), { once: true });
-      });
+    async function scrollToAndWait(x: number, y: number): Promise<void> {
+      scrollTo(x, y);
+      await afterNextFrame();
     }
 
-    try {
-      el[togglePropName] = false;
-      await afterNextFrame();
+    el[togglePropName] = false;
+    await reRender();
 
-      const initialClosedTransform = getTransform();
+    const initialClosedTransform = getTransform();
 
-      // floating-ui's autoUpdate triggers on scroll, so we wait for the event + animation frame to ensure DOM updates take place
+    // floating-ui's autoUpdate triggers on scroll, so we wait for the event + animation frame to ensure DOM updates take place
+    await scrollToAndWait(pageScrollDistanceInPx, pageScrollDistanceInPx);
 
-      scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
-      await waitForScrollEvent();
-      await afterNextFrame();
+    function getTranslate(transform: string): Translate {
+      const translateMatch = /translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(transform)!;
 
-      expect(getTransform()).toBe(initialClosedTransform);
-      await expect.element(floatingUIEl).not.toBeVisible();
-
-      scrollTo(0, 0);
-      await waitForScrollEvent();
-      await afterNextFrame();
-
-      expect(getTransform()).toBe(initialClosedTransform);
-      await expect.element(floatingUIEl).not.toBeVisible();
-
-      el[togglePropName] = true;
-      await afterNextFrame();
-
-      const initialOpenTransform = getTransform();
-
-      scrollTo(scrollablePageSizeInPx, scrollablePageSizeInPx);
-      await waitForScrollEvent();
-      await afterNextFrame();
-
-      expect(getTransform()).not.toBe(initialOpenTransform);
-      await expect.element(floatingUIEl).not.toBeVisible();
-
-      scrollTo(0, 0);
-      await waitForScrollEvent();
-      await afterNextFrame();
-
-      expect(getTransform()).toBe(initialOpenTransform);
-      await expect.element(floatingUIEl).toBeVisible();
-    } finally {
-      style.remove();
+      return {
+        x: Number(translateMatch[1]),
+        y: Number(translateMatch[2]),
+      };
     }
+
+    expect(getTransform()).toBe(initialClosedTransform);
+    await expect.element(floatingUiEl).not.toBeVisible();
+
+    await scrollToAndWait(0, 0);
+
+    expect(getTransform()).toBe(initialClosedTransform);
+    await expect.element(floatingUiEl).not.toBeVisible();
+
+    el[togglePropName] = true;
+    await reRender();
+    await afterNextFrame();
+
+    await expect.element(floatingUiEl).toBeVisible();
+
+    const elRect = el.getBoundingClientRect();
+    const floatingUiElRect = floatingUiEl.getBoundingClientRect();
+    const middleScrollDistanceInPx = elRect.height / 2;
+    const initialOpenTranslate = getTranslate(getTransform());
+
+    async function scrollToAndGetTranslate(x: number, y: number): Promise<Translate> {
+      await scrollToAndWait(x, y);
+      return getTranslate(getTransform());
+    }
+
+    function expectCoordinatesToBeCloseTo(actual: Translate, expected: Translate): void {
+      expect(actual.x).toBeCloseTo(expected.x, 1);
+      expect(actual.y).toBeCloseTo(expected.y, 1);
+    }
+
+    const isFixed = overlayPositioning === "fixed";
+    const middleScrollXTarget = isFixed ? 0 : middleScrollDistanceInPx;
+    const bottomScrollXTarget = isFixed ? 0 : pageScrollDistanceInPx;
+
+    const middleTranslate = await scrollToAndGetTranslate(middleScrollXTarget, middleScrollDistanceInPx);
+    const middleScrollX = window.scrollX;
+    const middleScrollY = window.scrollY;
+
+    await expect.element(floatingUiEl).toBeVisible();
+
+    const bottomTranslate = await scrollToAndGetTranslate(bottomScrollXTarget, pageScrollDistanceInPx);
+    const bottomScrollX = window.scrollX;
+    const bottomScrollY = window.scrollY;
+
+    await expect.element(floatingUiEl).not.toBeVisible();
+
+    const finalTranslate = await scrollToAndGetTranslate(0, 0);
+
+    await expect.element(floatingUiEl).toBeVisible();
+
+    const expectedMiddleTranslate = isFixed
+      ? { x: initialOpenTranslate.x, y: initialOpenTranslate.y - middleScrollY }
+      : { x: initialOpenTranslate.x + middleScrollX, y: initialOpenTranslate.y };
+    const expectedBottomTranslate = isFixed
+      ? { x: initialOpenTranslate.x, y: initialOpenTranslate.y - bottomScrollY }
+      : { x: initialOpenTranslate.x + bottomScrollX - floatingUiElRect.x, y: initialOpenTranslate.y };
+
+    expectCoordinatesToBeCloseTo(middleTranslate, expectedMiddleTranslate);
+    expectCoordinatesToBeCloseTo(bottomTranslate, expectedBottomTranslate);
+    expectCoordinatesToBeCloseTo(finalTranslate, initialOpenTranslate);
+  }
+
+  describe("overlay positioning", () => {
+    it("owns a floating-ui with absolute positioning", async () => {
+      await testOverlayPositioning("absolute");
+    });
+
+    it("owns a floating-ui with fixed positioning", async () => {
+      await testOverlayPositioning("fixed");
+    });
   });
 }
 

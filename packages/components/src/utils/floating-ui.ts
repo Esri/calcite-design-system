@@ -20,6 +20,7 @@ import { offsetParent } from "composed-offset-position";
 import { Layout } from "../components/interfaces";
 import { DEBOUNCE } from "./resources";
 import { Direction } from "./dom";
+import { LitElement } from "@arcgis/lumina";
 
 (function setUpFloatingUiForShadowDomPositioning(): void {
   if (!isServer) {
@@ -281,7 +282,7 @@ export type MenuPlacement = Extract<
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
-export interface FloatingUIComponent {
+export interface FloatingUIComponent extends LitElement {
   /** Whether the component is opened. */
   open: boolean;
 
