@@ -6,6 +6,7 @@ export type SelectionDisplay = "all" | "fit" | "single";
 
 export interface ItemData extends BaseData {
   description: string | undefined;
+  filterDisabled: boolean;
   metadata: Record<string, unknown> | undefined;
   shortHeading: string | undefined;
   el: ComboboxItem["el"];
