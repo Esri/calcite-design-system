@@ -37,7 +37,7 @@
 .content {
   @apply w-auto
   overflow-y-auto
-  overflow-x-hidden
+  overflow-x-hidden;
   inline-size: var(--calcite-dropdown-width, var(--calcite-internal-dropdown-width));
   background-color: var(--calcite-dropdown-background-color, var(--calcite-color-foreground-1));
   max-block-size: var(--calcite-dropdown-max-height, 45vh);
