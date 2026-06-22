@@ -8,10 +8,12 @@ export interface ItemData extends BaseData {
   description: string | undefined;
   metadata: Record<string, unknown> | undefined;
   shortHeading: string | undefined;
-  el: ComboboxItem["el"] | ComboboxItemGroup["el"];
+  el: ComboboxItem["el"];
 }
 
-export type GroupData = BaseData;
+export type GroupData = BaseData & {
+  el: ComboboxItemGroup["el"];
+};
 
 interface BaseData {
   label: string;
