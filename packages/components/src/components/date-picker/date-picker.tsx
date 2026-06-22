@@ -319,7 +319,7 @@ export class DatePicker extends LitElement {
       const isDateOutOfCurrentRange =
         month !== this.activeStartDate?.getMonth() &&
         (this.calendars === 1 ||
-          (this.activeStartDate ? month !== nextMonth(this.activeStartDate)?.getMonth() : false));
+          (this.activeStartDate ? month !== nextMonth(this.activeStartDate).getMonth() : false));
 
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {

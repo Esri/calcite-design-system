@@ -71,7 +71,7 @@ export class DatePickerMonthHeader extends LitElement {
   // #region Public Properties
 
   /** The focused date is indicated and will become the selected date if the user proceeds. */
-  @property() activeDate?: Date;
+  @property() activeDate!: Date;
 
   /** @copyDoc */
   @property({ type: Number }) headingLevel!: HeadingLevel;
@@ -241,12 +241,12 @@ export class DatePickerMonthHeader extends LitElement {
     const { abbreviated, wide } = this.localeData.months;
     const localeMonths = this.monthStyle === "wide" ? wide : abbreviated;
     const monthIndex = localeMonths.indexOf(target.value);
-    let newDate = this.activeDate ? getDateInMonth(this.activeDate, monthIndex) : undefined;
+    let newDate = getDateInMonth(this.activeDate, monthIndex);
 
     if (!inRange(newDate, this.min, this.max)) {
-      newDate = dateFromRange(newDate, this.min, this.max);
+      newDate = dateFromRange(newDate, this.min, this.max)!;
     }
-    this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate!);
+    this.calciteInternalDatePickerMonthHeaderSelectChange.emit(newDate);
     this.setYearSelectMenuWidth();
   }
 
@@ -264,7 +264,7 @@ export class DatePickerMonthHeader extends LitElement {
     const inRange =
       year && (!min || min.getFullYear() <= year) && (!max || max.getFullYear() >= year);
     // if you've supplied a year and it's in range
-    if (activeDate && year && inRange && length === localizedYear.length) {
+    if (year && inRange && length === localizedYear.length) {
       const nextDate = new Date(activeDate);
       nextDate.setFullYear(year);
       return dateFromRange(nextDate, min, max);
@@ -299,9 +299,8 @@ export class DatePickerMonthHeader extends LitElement {
       this.calciteInternalDatePickerMonthHeaderSelectChange.emit(inRangeDate);
     }
 
-    const inRangeOrActiveDate = inRangeDate || activeDate;
-    if (commit && yearInputRef.value && inRangeOrActiveDate) {
-      yearInputRef.value.value = this.formatCalendarYear(inRangeOrActiveDate.getFullYear());
+    if (commit && yearInputRef.value) {
+      yearInputRef.value.value = this.formatCalendarYear((inRangeDate || activeDate).getFullYear());
     }
   }
 
@@ -317,10 +316,6 @@ export class DatePickerMonthHeader extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      if (!this.activeDate) {
-        return;
-      }
-
       const computedStyle = getComputedStyle(el);
       // we recreate the shorthand vs using computedStyle.font because browsers will return "" instead of the expected value
       const shorthandFont = `${computedStyle.fontStyle} ${computedStyle.fontVariant} ${computedStyle.fontWeight} ${computedStyle.fontSize}/${computedStyle.lineHeight} ${computedStyle.fontFamily}`;
@@ -332,10 +327,6 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private isMonthInRange(index: number): boolean {
-    if (!this.activeDate) {
-      return false;
-    }
-
     const newActiveDate = getDateInMonth(this.activeDate, index);
 
     if ((!this.min && !this.max) || inRange(newActiveDate, this.min, this.max)) {
@@ -356,18 +347,10 @@ export class DatePickerMonthHeader extends LitElement {
     let isTargetLastValidMonth = false;
 
     if (isDirectionLeft && this.min) {
-      const prevMonthDate = dateFromRange(
-        this.activeDate ? prevMonth(this.activeDate) : undefined,
-        this.min,
-        this.max,
-      );
+      const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = prevMonthDate ? hasSameMonthAndYear(prevMonthDate, this.min) : false;
     } else if (this.max) {
-      const nextMonthDate = dateFromRange(
-        this.activeDate ? nextMonth(this.activeDate) : undefined,
-        this.min,
-        this.max,
-      );
+      const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = nextMonthDate ? hasSameMonthAndYear(nextMonthDate, this.max) : false;
     }
 
@@ -476,7 +459,7 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private renderMonthPicker(): JsxNode {
-    const activeMonth = this.activeDate?.getMonth();
+    const activeMonth = this.activeDate.getMonth();
     const monthData = this.localeData.months[this.monthStyle];
     return (
       <calcite-select
@@ -503,9 +486,7 @@ export class DatePickerMonthHeader extends LitElement {
 
   private renderYearInput(): JsxNode {
     const suffix = this.localeData.year?.suffix;
-    const localizedYear = this.activeDate
-      ? this.formatCalendarYear(this.activeDate.getFullYear())
-      : undefined;
+    const localizedYear = this.formatCalendarYear(this.activeDate.getFullYear());
     return (
       <span class={CSS.yearContainer}>
         <input
