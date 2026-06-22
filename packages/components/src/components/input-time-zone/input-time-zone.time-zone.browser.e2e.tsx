@@ -1,5 +1,5 @@
 import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { DEBOUNCE } from "../../utils/resources";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
@@ -68,18 +68,23 @@ async function waitForTimeZoneItemRefresh(
   component: InputTimeZone,
   previousItem: ComboboxItem["el"],
   selector: string,
+  expectedUpdate: "recreated" | "reused",
 ): Promise<ComboboxItem["el"]> {
-  for (let i = 0; i < 10; i++) {
-    await waitForUpdates(component);
+  return vi.waitFor(
+    async () => {
+      await waitForUpdates(component);
+      const currentItem = getTimeZoneItem(selector);
+      const itemWasRecreated = currentItem !== previousItem;
+      const expectedItemRecreation = expectedUpdate === "recreated";
 
-    const currentItem = getTimeZoneItem(selector);
+      if (itemWasRecreated !== expectedItemRecreation) {
+        throw new Error(`Expected time zone item to be ${expectedUpdate}.`);
+      }
 
-    if (currentItem !== previousItem) {
       return currentItem;
-    }
-  }
-
-  return getTimeZoneItem(selector);
+    },
+    { timeout: 100 },
+  );
 }
 
 async function waitForFilter(): Promise<void> {
@@ -197,7 +202,12 @@ describe("mode", () => {
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
 
-      let currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      let currItem = await waitForTimeZoneItemRefresh(
+        component,
+        prevItem,
+        itemSelector,
+        "recreated",
+      );
       let currItemLabel = currItem.heading;
       let currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
@@ -209,7 +219,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.referenceDate = "2020-06-01";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "recreated");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
@@ -221,7 +231,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.mode = "offset";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
@@ -264,7 +274,7 @@ describe("mode", () => {
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
 
-      let currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      let currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       let currItemLabel = currItem.heading;
       let currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
@@ -276,7 +286,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.referenceDate = "2020-06-01";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
@@ -288,7 +298,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.mode = "name";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
@@ -386,7 +396,12 @@ describe("mode", () => {
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
 
-      let currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      let currItem = await waitForTimeZoneItemRefresh(
+        component,
+        prevItem,
+        itemSelector,
+        "recreated",
+      );
       let currItemLabel = currItem.heading;
       let currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
@@ -398,7 +413,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.referenceDate = "2020-06-01";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
@@ -410,7 +425,7 @@ describe("mode", () => {
       prevSelectedItemLabel = currSelectedItemLabel;
       el.mode = "region";
 
-      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector);
+      currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       currItemLabel = currItem.heading;
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).toBe(prevItem);
