@@ -136,7 +136,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
-    stalled: { id: "color_mkv79bbx", title: "Stalled" },
+    paused: { id: "color_mkv79bbx", title: "Paused" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
     breaking: { id: "color_mm48xr8j", title: "Breaking" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
@@ -488,10 +488,10 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
-      milestones.stalled.name,
+      planning.paused,
       {
-        column: mondayColumns.stalled,
-        value: "Stalled",
+        column: mondayColumns.paused,
+        value: "Paused",
         clearable: true,
       },
     ],
@@ -994,7 +994,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const logParams = { title: "Handle Milestone" };
     if (!issueMilestone) {
       setColumnValue(mondayColumns.date, "", logParams);
-      clearLabel(milestones.stalled.name);
       return;
     }
     const milestoneTitle = issueMilestone.title;
@@ -1003,7 +1002,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     if (milestoneDate) {
       setColumnValue(mondayColumns.date, milestoneDate, logParams);
-      clearLabel(milestones.stalled.name);
       const { needsTriage, installed, readyForDev } = issueWorkflow;
       setAssignedStatus({
         assignedCondition: notInLifecycle({
@@ -1015,11 +1013,8 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     } else {
       setColumnValue(mondayColumns.date, "", logParams);
 
-      if (milestoneTitle === milestones.stalled.name) {
-        addLabel(milestones.stalled.name);
-      } else if (inMilestoneStatus()) {
+      if (inMilestoneStatus()) {
         setColumnValue(mondayColumns.status, milestoneTitle, logParams);
-        clearLabel(milestones.stalled.name);
       }
     }
   }
