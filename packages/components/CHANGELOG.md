@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.4...@esri/calcite-components@5.2.0-next.5) (2026-06-23)
+
+### Bug Fixes
+
+- **pagination:** ignore truncation indicators in screen readers ([#14677](https://github.com/Esri/calcite-design-system/issues/14677))
+
 ## [5.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.2...@esri/calcite-components@5.2.0-next.4) (2026-06-18)
 
 ### Features
