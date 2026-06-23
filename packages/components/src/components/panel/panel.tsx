@@ -336,7 +336,7 @@ export class Panel extends LitElement {
       event.defaultPrevented ||
       this.closed ||
       !this.closable ||
-      this.focusTrapRef.value?.active
+      !this.focusTrapDisabled
     ) {
       return;
     }
