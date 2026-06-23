@@ -1,7 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { CSS } from "../tree-item/resources";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { SelectionMode } from "../interfaces";
@@ -11,7 +10,6 @@ import { mockConsole } from "../../tests/utils/logging";
  * Helper to ensure an item is clicked and avoids clicking on any of its children
  *
  * @param page – the test page
- * @param itemSelector – the selector for the item click target
  * @param item
  */
 async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
@@ -22,11 +20,6 @@ async function directItemClick(page: E2EPage, item: E2EElement): Promise<void> {
 }
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(`<calcite-tree></calcite-tree>`);
-});
-
 describe("it forwards focus", () => {
   it("to first selected item", async () => {
     const page = await newE2EPage({
@@ -86,21 +79,6 @@ describe("it forwards focus", () => {
 
     expect(await page.evaluate(() => document.activeElement!.matches("body"))).toBe(true);
   });
-});
-
-describe("accessible: with nested children", () => {
-  accessible(html`
-    <calcite-tree lines>
-      <calcite-tree-item>
-        <a href="#">Child 2</a>
-        <calcite-tree slot="children">
-          <calcite-tree-item>
-            <a href="http://www.esri.com">Grandchild 1</a>
-          </calcite-tree-item>
-        </calcite-tree>
-      </calcite-tree-item>
-    </calcite-tree>
-  `);
 });
 
 it("should correctly select tree in ancestors selection mode", async () => {

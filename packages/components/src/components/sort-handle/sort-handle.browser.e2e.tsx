@@ -11,6 +11,7 @@ import {
   renders,
   t9n,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -27,6 +28,10 @@ function getDropdownFromItemText(text: string) {
 
   return page.elementLocator(dropdown);
 }
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-sort-handle`));
+});
 
 describe("defaults", () => {
   defaults(

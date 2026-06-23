@@ -1,6 +1,17 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  accessible,
+} from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-color-picker-hex-input`));
+});
 
 describe("defaults", () => {
   defaults(

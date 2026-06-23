@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -12,6 +13,17 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+describe("accessible with icon only", () => {
+  accessible(() =>
+    mount(`calcite-chip`, {
+      afterConnect: (el) => {
+        el.label = "Gray basemap";
+        el.icon = "basemap";
+      },
+    }),
+  );
+});
 
 describe("defaults", () => {
   defaults(

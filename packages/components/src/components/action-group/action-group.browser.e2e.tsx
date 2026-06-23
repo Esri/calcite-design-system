@@ -12,6 +12,7 @@ import {
   renders,
   slots,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -27,6 +28,10 @@ function renderActionGroup(): JsxNode {
     </calcite-action-group>
   );
 }
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-action-group`));
+});
 
 describe("defaults", () => {
   defaults(

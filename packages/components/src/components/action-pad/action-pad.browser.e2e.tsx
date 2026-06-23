@@ -11,12 +11,17 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 import { html } from "lit";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-action-pad`));
+});
 
 describe("defaults", () => {
   defaults(

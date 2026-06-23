@@ -7,7 +7,12 @@ import {
   t9n,
   disabled,
   renders,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-button`));
+});
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });

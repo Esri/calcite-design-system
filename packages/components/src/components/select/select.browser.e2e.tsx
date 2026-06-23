@@ -12,9 +12,14 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Select } from "./select";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-select`));
+});
 
 describe("defaults", () => {
   defaults(

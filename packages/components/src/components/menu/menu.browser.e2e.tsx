@@ -1,7 +1,11 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import { focusable, hidden, renders, t9n, accessible } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-menu`));
+});
 
 describe("honors hidden attribute", () => {
   hidden(() =>

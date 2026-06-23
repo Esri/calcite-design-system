@@ -1,7 +1,18 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders, disabled } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  disabled,
+  accessible,
+} from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-tile-group`));
+});
 
 describe("defaults", () => {
   defaults(

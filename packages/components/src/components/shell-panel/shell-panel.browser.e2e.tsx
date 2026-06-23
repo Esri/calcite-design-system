@@ -3,7 +3,15 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
-import { defaults, hidden, reflects, renders, slots, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  slots,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";
 import { CSS, SLOTS } from "./resources";
@@ -11,6 +19,10 @@ import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-shell-panel`));
+});
 
 describe("defaults", () => {
   defaults(

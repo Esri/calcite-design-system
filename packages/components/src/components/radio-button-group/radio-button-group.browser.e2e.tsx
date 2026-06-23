@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import {
+  accessible,
   defaults,
   focusable,
   hidden,
@@ -13,6 +14,16 @@ import {
 } from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(`calcite-radio-button-group`, {
+      afterConnect: (el) => {
+        el.innerHTML = `<calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label>`;
+      },
+    }),
+  );
+});
 
 describe("defaults", () => {
   defaults(

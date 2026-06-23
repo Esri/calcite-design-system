@@ -10,10 +10,15 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-alert`));
+});
 
 describe("defaults", () => {
   defaults(

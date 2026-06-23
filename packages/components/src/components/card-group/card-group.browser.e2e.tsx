@@ -2,8 +2,19 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+} from "../../tests/commonTests/browser";
 import type { CardGroup } from "./card-group";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-card-group`));
+});
 
 describe("defaults", () => {
   defaults(

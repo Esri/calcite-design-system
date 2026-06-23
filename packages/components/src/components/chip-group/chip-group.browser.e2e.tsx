@@ -1,7 +1,11 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { disabled, focusable, hidden, renders, accessible } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-chip-group`));
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-chip-group"));

@@ -1,7 +1,7 @@
-import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  accessible,
   defaults,
   focusable,
   reflects,
@@ -12,6 +12,58 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() =>
+    mount("calcite-split-button", {
+      afterConnect: (el) => {
+        el.dropdownLabel = "Show options";
+        el.primaryText = "Button Text";
+        el.innerHTML = renderContentString;
+      },
+    }),
+  );
+});
+
+describe("accessible when disabled", () => {
+  accessible(() =>
+    mount("calcite-split-button", {
+      afterConnect: (el) => {
+        el.disabled = true;
+        el.dropdownLabel = "Show options";
+        el.primaryText = "Button Text";
+        el.innerHTML = renderContentString;
+      },
+    }),
+  );
+});
+
+describe("accessible when loading", () => {
+  accessible(() =>
+    mount("calcite-split-button", {
+      afterConnect: (el) => {
+        el.dropdownLabel = "Show options";
+        el.loading = true;
+        el.primaryText = "Button Text";
+        el.innerHTML = renderContentString;
+      },
+    }),
+  );
+});
+
+describe("accessible with icons and no text", () => {
+  accessible(() =>
+    mount("calcite-split-button", {
+      afterConnect: (el) => {
+        el.dropdownLabel = "Show options";
+        el.primaryLabel = "Button label";
+        el.setAttribute("icon-end", "plus");
+        el.setAttribute("icon-start", "plus");
+        el.innerHTML = renderContentString;
+      },
+    }),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -85,25 +137,23 @@ describe("renders", () => {
   renders(() => mount("calcite-split-button"), { display: "inline-block" });
 });
 
-function renderContent(): JsxNode {
-  return (
-    <calcite-dropdown-group>
-      <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-      <calcite-dropdown-item id="item-2" selected>
-        Item2
-      </calcite-dropdown-item>
-    </calcite-dropdown-group>
-  );
-}
+const renderContentString = `
+  <calcite-dropdown-group>
+    <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+    <calcite-dropdown-item id="item-2" selected>Item2</calcite-dropdown-item>
+  </calcite-dropdown-group>
+`;
 
 describe("focusable", () => {
   focusable(
     () =>
-      mount(
-        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
-          {renderContent()}
-        </calcite-split-button>,
-      ),
+      mount("calcite-split-button", {
+        afterConnect: (el) => {
+          el.dropdownLabel = "Show options";
+          el.primaryText = "Button Text";
+          el.innerHTML = renderContentString;
+        },
+      }),
     {
       shadowFocusTargetSelector: "calcite-button",
     },

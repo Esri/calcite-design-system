@@ -2,7 +2,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   findAll,
@@ -17,17 +16,6 @@ import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
 
 mockConsole();
-
-const simpleReferenceElementDropdownHTML = html`
-  <calcite-dropdown reference-element="trigger">
-    <calcite-dropdown-group id="group-1">
-      <calcite-dropdown-item id="item-1"> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-2" selected> Dropdown Item Content </calcite-dropdown-item>
-      <calcite-dropdown-item id="item-3"> Dropdown Item Content </calcite-dropdown-item>
-    </calcite-dropdown-group>
-  </calcite-dropdown>
-  <calcite-button id="trigger">Open dropdown</calcite-button>
-`;
 
 const dropdownSelectionModeContent = html`
   <calcite-dropdown>
@@ -1043,14 +1031,6 @@ it("focus is returned to trigger after close", async () => {
   await page.waitForChanges();
   expect(await dropdownWrapper.isVisible()).toBe(false);
   expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
-});
-
-describe("accessible", () => {
-  accessible(html`${dropdownSelectionModeContent}`);
-});
-
-describe("accessible reference element", () => {
-  accessible(simpleReferenceElementDropdownHTML);
 });
 
 it("correct role and aria properties are applied based on selection type", async () => {

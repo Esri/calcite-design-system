@@ -9,11 +9,16 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-action-menu`));
+});
 
 describe("defaults", () => {
   defaults(

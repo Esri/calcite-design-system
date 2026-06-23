@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -22,6 +23,18 @@ import { getColorFieldDimensions } from "./utils";
 vi.mock("es-toolkit", { spy: true });
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-color-picker"));
+  accessible(() =>
+    mount(`calcite-color-picker`, {
+      afterConnect: (el) => {
+        el.clearable = true;
+        el.value = "";
+      },
+    }),
+  );
+});
 
 afterEach(() => {
   vi.restoreAllMocks();

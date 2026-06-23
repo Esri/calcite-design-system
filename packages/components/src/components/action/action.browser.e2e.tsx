@@ -8,7 +8,12 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-action`));
+});
 
 describe("defaults", () => {
   defaults(

@@ -12,12 +12,17 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { Popover } from "./popover";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-popover`));
+});
 
 describe("defaults", () => {
   defaults(

@@ -1,15 +1,7 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(`<calcite-progress label="my progress"></calcite-progress>`);
-});
-
-describe("accessible with value", () => {
-  accessible(`<calcite-progress value="50" type="indeterminate" text="percentage"></calcite-progress>`);
-});
 
 describe("theme", () => {
   themed(html`<calcite-progress text="optional text" type="determinate" value="50"></calcite-progress>`, {

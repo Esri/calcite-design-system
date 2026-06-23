@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  accessible,
   defaults,
   focusable,
   reflects,
@@ -10,6 +11,16 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(`calcite-accordion-item`, {
+      afterConnect: (el) => {
+        el.heading = "My Heading";
+      },
+    }),
+  );
+});
 
 describe("defaults", () => {
   defaults(

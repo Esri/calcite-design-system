@@ -8,8 +8,13 @@ import {
   hidden,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-block-section`));
+});
 
 describe("defaults", () => {
   defaults(

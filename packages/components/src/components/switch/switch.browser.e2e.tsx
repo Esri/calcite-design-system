@@ -7,7 +7,12 @@ import {
   hidden,
   internalLabel,
   renders,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-switch`));
+});
 
 describe("renders", () => {
   renders(() => mount("calcite-switch"), { display: "inline-block" });

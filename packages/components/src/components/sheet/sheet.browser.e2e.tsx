@@ -12,6 +12,7 @@ import {
   reflects,
   renders,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";
@@ -19,6 +20,10 @@ import { CSS } from "./resources";
 import { Sheet } from "./sheet";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-sheet`));
+});
 
 describe("defaults", () => {
   defaults(

@@ -12,6 +12,7 @@ import {
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
@@ -23,6 +24,10 @@ import { overflowActions } from "./utils";
 import { html } from "lit";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-action-bar`));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-action-bar");

@@ -9,8 +9,13 @@ import {
   slots,
   t9n,
   reflects,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-card`));
+});
 
 describe("defaults", () => {
   defaults(

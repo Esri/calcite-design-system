@@ -1,15 +1,8 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { selectText } from "../../tests/utils/puppeteer";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible("calcite-color-picker-hex-input");
-  accessible("<calcite-color-picker-hex-input color='#c0ffee'></calcite-color-picker-hex-input>");
-  accessible("<calcite-color-picker-hex-input allow-empty color=''></calcite-color-picker-hex-input>");
-});
 
 it("supports no color", async () => {
   const page = await newE2EPage();

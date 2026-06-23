@@ -14,11 +14,16 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-dialog`));
+});
 
 describe("defaults", () => {
   defaults(

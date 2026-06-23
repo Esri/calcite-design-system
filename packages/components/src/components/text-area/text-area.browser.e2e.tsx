@@ -2,6 +2,7 @@ import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   cancelable,
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -16,6 +17,19 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
+});
+
+describe("accessible", () => {
+  accessible(() =>
+    mount("calcite-label", {
+      afterConnect: (el) => {
+        el.innerHTML = `
+          add notes
+          <calcite-text-area max-length="50" name="something" required></calcite-text-area>
+        `;
+      },
+    }),
+  );
 });
 
 describe("defaults", () => {

@@ -13,12 +13,17 @@ import {
   t9n,
   disabled,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-block`));
+});
 
 describe("defaults", () => {
   defaults(

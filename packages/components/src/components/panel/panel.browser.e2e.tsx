@@ -13,6 +13,7 @@ import {
   focusable,
   t9n,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -73,6 +74,10 @@ export function renderScrollingContent(): JsxNode {
 }
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-panel`));
+});
 
 describe("defaults", () => {
   defaults(

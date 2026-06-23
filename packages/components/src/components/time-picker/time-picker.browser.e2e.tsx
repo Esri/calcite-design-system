@@ -2,13 +2,24 @@ import { h } from "@arcgis/lumina";
 import { it, expect, describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { formatTimePart, getLocaleHourFormat, localizeTimeString } from "../../utils/time";
 import { CSS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-time-picker`));
+});
 
 describe("defaults", () => {
   defaults(

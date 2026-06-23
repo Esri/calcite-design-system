@@ -2,8 +2,19 @@ import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+} from "../../tests/commonTests/browser";
 import type { Link } from "./link";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-link`));
+});
 
 describe("defaults", () => {
   defaults(

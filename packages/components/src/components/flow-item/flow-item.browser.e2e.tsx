@@ -11,12 +11,17 @@ import {
   focusable,
   t9n,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
 import { SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-flow-item`));
+});
 
 describe("defaults", () => {
   defaults(

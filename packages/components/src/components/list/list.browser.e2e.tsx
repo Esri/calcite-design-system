@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
@@ -21,6 +22,10 @@ import { List } from "./list";
 import { CSS as listCSS } from "./resources";
 
 const scrollTopValue = 120;
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-list`));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-list");

@@ -13,6 +13,7 @@ import {
   t9n,
   openClose,
   formAssociated,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -22,6 +23,10 @@ import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-input-time-picker`));
+});
 
 describe("defaults", () => {
   defaults(

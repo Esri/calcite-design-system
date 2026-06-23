@@ -13,11 +13,16 @@ import {
   topLayer,
   openClose,
   formAssociated,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { afterNextTask } from "../../tests/utils/timing";
 import type { InputDatePicker } from "./input-date-picker";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-input-date-picker`));
+});
 
 describe("defaults", () => {
   defaults(

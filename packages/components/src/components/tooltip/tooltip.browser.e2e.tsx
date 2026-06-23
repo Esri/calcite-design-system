@@ -10,6 +10,7 @@ import {
   floatingUIOwner,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { css } from "../../../support/formatting";
@@ -21,6 +22,10 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-tooltip`));
+});
 
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {

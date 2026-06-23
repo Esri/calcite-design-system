@@ -8,7 +8,12 @@ import {
   hidden,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-inline-editable`));
+});
 
 describe("defaults", () => {
   defaults(

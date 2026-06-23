@@ -1,7 +1,15 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, hidden, renders, slots, t9n, openClose } from "../../tests/commonTests/browser";
+import {
+  focusable,
+  hidden,
+  renders,
+  slots,
+  t9n,
+  openClose,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
@@ -16,6 +24,10 @@ function renderContent(): JsxNode {
     </>
   );
 }
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-notice`));
+});
 
 describe("is focusable", () => {
   describe("with link and closable => focuses on link", () => {

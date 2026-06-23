@@ -17,6 +17,7 @@ import {
   formAssociated,
   openClose,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -25,6 +26,10 @@ import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-autocomplete`));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-autocomplete");

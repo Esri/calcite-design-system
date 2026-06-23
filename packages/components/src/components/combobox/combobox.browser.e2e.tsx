@@ -16,6 +16,7 @@ import {
   renders,
   t9n,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -27,6 +28,10 @@ import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-combobox`));
+});
 
 describe("cancelable", () => {
   cancelable("calcite-combobox");

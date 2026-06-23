@@ -1,7 +1,11 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, accessible } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-shell`));
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-shell"));

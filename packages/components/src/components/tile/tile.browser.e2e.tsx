@@ -10,8 +10,13 @@ import {
   reflects,
   renders,
   slots,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-tile`));
+});
 
 describe("defaults", () => {
   defaults(
