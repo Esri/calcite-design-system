@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, labelable, themed } from "../../tests/commonTests";
@@ -243,7 +242,7 @@ it("does not change height & width when status changes from valid to invalid", a
   await page.setContent(`<calcite-text-area max-length="1" validation-message="Must not be blank"></calcite-text-area>
       `);
   await page.evaluate(() => {
-    const textarea = document.querySelector("calcite-text-area");
+    const textarea = document.querySelector("calcite-text-area")!;
     textarea.addEventListener("calciteTextAreaInput", () => {
       const { value } = textarea;
       textarea.status = value ? "valid" : "invalid";
@@ -304,7 +303,7 @@ it("should not set width and height to auto when resizing viewport to narrow hei
 
   await page.evaluate((resizableContainerRect) => {
     const resizableContainer = document.getElementById("resizable-container");
-    const resizer = document.getElementById("resizer");
+    const resizer = document.getElementById("resizer")!;
     let resizableContainerY;
 
     resizer.addEventListener("mousedown", (event) => {
@@ -315,8 +314,8 @@ it("should not set width and height to auto when resizing viewport to narrow hei
 
     function onMouseMove(event) {
       const dy = event.clientY - resizableContainerY;
-      resizableContainer.style.height = `${resizableContainerRect.height - dy}px`;
-      resizableContainer.style.top = `${resizableContainerRect.top + dy}px`;
+      resizableContainer!.style.height = `${resizableContainerRect.height - dy}px`;
+      resizableContainer!.style.top = `${resizableContainerRect.top + dy}px`;
     }
 
     function onMouseUp() {

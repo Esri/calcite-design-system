@@ -10,7 +10,7 @@ import type {
   ComponentTestContent,
 } from "../interfaces";
 
-export { HYDRATED_ATTR, propToAttr } from "../utils";
+export { propToAttr } from "../utils";
 
 export function isHTML(tagOrHTML: string): boolean {
   return tagOrHTML.trim().startsWith("<");

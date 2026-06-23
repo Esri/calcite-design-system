@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
@@ -41,13 +40,13 @@ export class Table extends LitElement {
 
   //#region Private Properties
 
-  private allRows: TableRow["el"][];
+  private allRows: TableRow["el"][] = [];
 
-  private bodyRows: TableRow["el"][];
+  private bodyRows: TableRow["el"][] = [];
 
-  private footRows: TableRow["el"][];
+  private footRows: TableRow["el"][] = [];
 
-  private headRows: TableRow["el"][];
+  private headRows: TableRow["el"][] = [];
 
   private paginationRef = createRef<Pagination["el"]>();
 
@@ -72,7 +71,7 @@ export class Table extends LitElement {
 
   @state() pageStartRow = 1;
 
-  @state() readCellContentsToAT: boolean;
+  @state() readCellContentsToAT = false;
 
   @state() selectedCount = 0;
 
@@ -90,7 +89,7 @@ export class Table extends LitElement {
    *
    * @required
    */
-  @property() caption: string;
+  @property() caption!: string;
 
   /**
    * Sets/gets the current page
@@ -106,7 +105,7 @@ export class Table extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the position of the row in numeric form. */
@@ -171,7 +170,10 @@ export class Table extends LitElement {
     super();
     this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
     this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
-    this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
+    this.listen<CustomEvent<TableRowFocusEvent>>(
+      "calciteInternalTableRowFocusRequest",
+      this.calciteInternalTableRowFocusEvent,
+    );
   }
 
   async load(): Promise<void> {
@@ -262,11 +264,10 @@ export class Table extends LitElement {
         break;
     }
 
-    const destinationCount = this.allRows?.find(
-      (row) => row.positionAll === rowPosition,
-    )?.cellCount;
+    const destinationCount = this.allRows.find((row) => row.positionAll === rowPosition)?.cellCount;
 
-    const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
+    const adjustedPos =
+      destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
 
     if (rowPosition !== undefined) {
       this.calciteInternalTableRowFocusChange.emit({
@@ -278,40 +279,42 @@ export class Table extends LitElement {
     }
   }
 
-  private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
-    return el
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
+  private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
+    if (!el) {
+      return [];
+    }
+
+    return el.assignedElements({ flatten: true }).filter((el) => el.matches("calcite-table-row"));
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotRef.value) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value);
+    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value);
+    const footRows = this.getSlottedRows(this.tableFootSlotRef.value);
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
-    headRows?.forEach((row) => {
-      const position = headRows?.indexOf(row);
+    headRows.forEach((row) => {
+      const position = headRows.indexOf(row);
       row.rowType = "head";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    bodyRows?.forEach((row) => {
-      const position = bodyRows?.indexOf(row);
+    bodyRows.forEach((row) => {
+      const position = bodyRows.indexOf(row);
       row.rowType = "body";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    footRows?.forEach((row) => {
-      const position = footRows?.indexOf(row);
+    footRows.forEach((row) => {
+      const position = footRows.indexOf(row);
       row.rowType = "foot";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    allRows?.forEach((row) => {
+    allRows.forEach((row) => {
       row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
@@ -522,7 +525,7 @@ export class Table extends LitElement {
             ariaColCount={this.colCount}
             ariaMultiSelectable={
               /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
-              this.selectionMode === "multiple" ? "true" : null
+              this.selectionMode === "multiple" ? "true" : undefined
             }
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { throttle } from "es-toolkit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -65,11 +64,11 @@ export class TextArea
     this.handleGlobalAttributesChanged,
   );
 
-  defaultValue: TextArea["value"];
+  defaultValue?: TextArea["value"];
 
   private footerRef = createRef<HTMLElement>();
 
-  private validationMessageEl: HTMLDivElement;
+  private validationMessageEl?: HTMLDivElement;
 
   formSupport = useForm<this>({
     inputType: "text",
@@ -77,11 +76,11 @@ export class TextArea
 
   private guid = guid();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private textAreaEl: HTMLTextAreaElement;
+  private textAreaEl?: HTMLTextAreaElement;
 
-  private localizedCharacterLengthObj: CharacterLengthObj;
+  private localizedCharacterLengthObj!: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
@@ -95,7 +94,7 @@ export class TextArea
       validationMessageHeight,
     } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerRef.value.style.width = `${textAreaWidth}px`;
+      this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
 
     if (this.resize === "none") {
@@ -141,9 +140,9 @@ export class TextArea
 
   //#region State Properties
 
-  @state() endSlotHasElements: boolean;
+  @state() endSlotHasElements = false;
 
-  @state() startSlotHasElements: boolean;
+  @state() startSlotHasElements = false;
 
   //#endregion
 
@@ -154,7 +153,7 @@ export class TextArea
    *
    * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
-  @property({ reflect: true }) columns: number;
+  @property({ reflect: true }) columns?: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -163,21 +162,17 @@ export class TextArea
    */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /**
    * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
@@ -193,9 +188,9 @@ export class TextArea
    *
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -204,24 +199,24 @@ export class TextArea
    *
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
    * Specifies the name of the component. Required to pass the component's value on form submission.
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the placeholder text for the component.
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
@@ -246,7 +241,7 @@ export class TextArea
    *
    * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
-  @property({ reflect: true }) rows: number;
+  @property({ reflect: true }) rows?: number;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "l" | "m" | "s" = "m";
@@ -255,20 +250,20 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value = "";
@@ -374,7 +369,7 @@ export class TextArea
   }
 
   private handleInput(event: InputEvent): void {
-    this.value = event.target["value"];
+    this.value = (event.target as HTMLTextAreaElement).value;
     this.calciteTextAreaInput.emit();
   }
 
@@ -386,7 +381,7 @@ export class TextArea
     if (!this.value) {
       const nodes = this.el.childNodes;
       nodes.forEach((el) => {
-        if (el.nodeName === "#text") {
+        if (el.nodeName === "#text" && el.nodeValue) {
           this.value = el.nodeValue.trim();
         }
       });
@@ -415,7 +410,7 @@ export class TextArea
     const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
       this.getHeightAndWidthOfElements();
     if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
-      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
+      this.textAreaEl!.style.height = `${elHeight - footerHeight}px`;
     }
   }
 
@@ -458,7 +453,7 @@ export class TextArea
   }
 
   private isCharacterLimitExceeded(): boolean {
-    return this.value?.length > this.maxLength;
+    return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
   }
 
   private setValidationRef(el: HTMLDivElement): void {

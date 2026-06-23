@@ -1,6 +1,6 @@
 name: Test
 description: Associate issue for a test (e.g., a new test, an unstable test that was skipped, Chromatic, etc.)
-labels: ["testing", "needs milestone"]
+labels: ["testing"]
 body:
   - type: markdown
     attributes:

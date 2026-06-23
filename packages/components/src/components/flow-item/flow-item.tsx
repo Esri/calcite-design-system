@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -76,17 +75,13 @@ export class FlowItem extends LitElement {
   /** Specifies a function to run before the component closes. */
   @property() beforeClose: () => Promise<void>;
 
-  /** When `true`, displays a close button in the trailing side of the component's header. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
-  /**
-   * Specifies the direction of the collapse.
-   *
-   * @private
-   */
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
@@ -95,16 +90,16 @@ export class FlowItem extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a the component's description. */
+  /** @copyDoc */
   @property() description: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
 
   /** Specifies an icon to display. */
@@ -119,16 +114,10 @@ export class FlowItem extends LitElement {
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
@@ -145,9 +134,7 @@ export class FlowItem extends LitElement {
   @property() showBackButton = false;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -321,8 +308,8 @@ export class FlowItem extends LitElement {
           beforeClose={beforeClose}
           closable={closable}
           closed={closed}
-          collapseDirection={collapseDirection}
           collapsed={collapsed}
+          collapseDirection={collapseDirection}
           collapsible={collapsible}
           description={description}
           disabled={disabled}

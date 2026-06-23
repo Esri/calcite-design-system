@@ -1,7 +1,7 @@
 // @ts-check
 const {
   labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff, productColor },
-  milestone,
+  milestones,
   packages,
 } = require("./resources");
 const { includesLabel, notInLifecycle } = require("./utils");
@@ -22,7 +22,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     core.setFailed(message);
     process.exit(1);
   }
-  
+
   /**
    * @param {NodeJS.ProcessEnv} env
    * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; GITHUB_REPO: typeof REPO_CALCITE | typeof REPO_DOCS; }}
@@ -32,7 +32,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       failWorkflow("A Monday.com env variable is not set.");
     }
   }
-  
+
   assertMondayEnv(process.env);
   const { MONDAY_KEY, MONDAY_BOARD, GITHUB_REPO } = process.env;
   if (!issue) {
@@ -40,7 +40,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
-  
+
   /** @type {Record<string, string> | null} - The username mapping for the Doc repo, if provided and parsed **/
   let usernameMap = null;
 
@@ -53,7 +53,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
-  
+
   /**
    * Parse the USERNAME_MAP environment variable as JSON and validate its structure.
    * Fails the workflow if JSON is missing or invalid.
@@ -66,20 +66,20 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     } catch (error) {
       failWorkflow(`Invalid Username JSON Map: ${error instanceof Error ? error.message : String(error)}`);
     }
-  
+
     if (typeof parsed !== "object" || parsed === null) {
       failWorkflow(`Username Map must be a non-null object`);
     }
-  
+
     for (const [key, value] of Object.entries(parsed)) {
       if (typeof value !== "string") {
         throw new Error(`Value for key "${key}" must be a string`);
       }
     }
-  
+
     return parsed;
   }
-  
+
   /**
    * Return the appropriate username based on repository context and username mapping values.
    * @param {string} publicUsername - The public GitHub username to map
@@ -89,11 +89,11 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     if (GITHUB_REPO === REPO_CALCITE) {
       return publicUsername;
     }
-    
+
     if (!usernameMap) {
       usernameMap = parseUsernameJSON();
     }
-    
+
     return usernameMap[publicUsername] || publicUsername;
   }
 
@@ -136,8 +136,9 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
-    stalled: { id: "color_mkv79bbx", title: "Stalled" },
+    paused: { id: "color_mkv79bbx", title: "Paused" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
+    breaking: { id: "color_mm48xr8j", title: "Breaking" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
     figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
@@ -156,13 +157,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.status,
         value: "Needs Triage",
-      },
-    ],
-    [
-      issueWorkflow.needsMilestone,
-      {
-        column: mondayColumns.status,
-        value: "Needs Milestone",
       },
     ],
     [
@@ -186,6 +180,22 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.blocked,
         value: "Blocked",
+        clearable: true,
+      },
+    ],
+    [
+      planning.breakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Breaking Change",
+        clearable: true,
+      },
+    ],
+    [
+      planning.futureBreakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Future Breaking Change",
         clearable: true,
       },
     ],
@@ -378,6 +388,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 1,
+        clearable: true,
       },
     ],
     [
@@ -385,6 +396,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -392,6 +404,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 3,
+        clearable: true,
       },
     ],
     [
@@ -399,6 +412,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -406,6 +420,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 8,
+        clearable: true,
       },
     ],
     [
@@ -413,6 +428,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -420,6 +436,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -427,6 +444,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 34,
+        clearable: true,
       },
     ],
     [
@@ -434,6 +452,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -441,6 +460,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -448,6 +468,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -455,6 +476,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -466,11 +488,18 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
-      milestone.stalled,
+      planning.paused,
       {
-        column: mondayColumns.stalled,
-        value: "Stalled",
+        column: mondayColumns.paused,
+        value: "Paused",
         clearable: true,
+      },
+    ],
+    [
+      issueType.pull_request,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "PR",
       },
     ],
   ]);
@@ -872,13 +901,17 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
-    if ("merged" in issue) {
+    if ("merged" in issue || issue.pull_request?.merged_at) {
       handleState("closed");
+      addLabel(issueType.pull_request);
     }
 
     const { id: syncId, source } = await getId();
     if (syncId) {
-      core.notice(`Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`, logParams);
+      core.notice(
+        `Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`,
+        logParams,
+      );
       setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
@@ -961,7 +994,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     const logParams = { title: "Handle Milestone" };
     if (!issueMilestone) {
       setColumnValue(mondayColumns.date, "", logParams);
-      clearLabel(milestone.stalled);
       return;
     }
     const milestoneTitle = issueMilestone.title;
@@ -970,23 +1002,19 @@ module.exports = function Monday(issue, core, updateIssueBody) {
 
     if (milestoneDate) {
       setColumnValue(mondayColumns.date, milestoneDate, logParams);
-      clearLabel(milestone.stalled);
-      const { needsTriage, needsMilestone, installed, readyForDev } = issueWorkflow;
+      const { needsTriage, installed, readyForDev } = issueWorkflow;
       setAssignedStatus({
         assignedCondition: notInLifecycle({
           labels,
-          skip: [needsTriage, needsMilestone],
+          skip: [needsTriage],
         }),
         unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
       });
     } else {
       setColumnValue(mondayColumns.date, "", logParams);
 
-      if (milestoneTitle === milestone.stalled) {
-        addLabel(milestone.stalled);
-      } else if (inMilestoneStatus()) {
+      if (inMilestoneStatus()) {
         setColumnValue(mondayColumns.status, milestoneTitle, logParams);
-        clearLabel(milestone.stalled);
       }
     }
   }
@@ -1042,12 +1070,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   function addLabel(label, color = "") {
     if (label === planning.monday) {
-      return;
-    }
-
-    const { needsMilestone, readyForDev } = issueWorkflow;
-    if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      core.notice(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`, { title: "Add Label" });
       return;
     }
 
@@ -1109,7 +1131,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    * @returns {boolean} - True if in a status milestone, false otherwise
    */
   function inMilestoneStatus() {
-    return [milestone.backlog, milestone.freezer].includes(issueMilestone?.title || "");
+    return [milestones.backlog.name, milestones.freezer.name].includes(issueMilestone?.title || "");
   }
 
   /**

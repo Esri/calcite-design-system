@@ -168,8 +168,8 @@ describe("minAsDate and maxAsDate properties", () => {
     expect(el.value).toBe("2020-12-31");
 
     const input = el.shadowRoot
-      .querySelector<HTMLElement>("calcite-input-text")
-      ?.shadowRoot.querySelector<HTMLInputElement>("input");
+      .querySelector<HTMLElement>("calcite-input-text")!
+      .shadowRoot!.querySelector<HTMLInputElement>("input")!;
     expect(input.value).toBe("12/31/2020");
   });
 });
@@ -181,8 +181,8 @@ it("should update calendar while typing in input", async () => {
   await userEvent.keyboard("10/10/2020");
   await component.updateComplete;
 
-  const yearInput = getYearInputValue();
-  const monthSelectMenu = getMonthSelectValue();
+  const yearInput = getYearInput();
+  const monthSelectMenu = getMonthSelectMenu();
 
   await expect.element(yearInput).toHaveProperty("value", "2020");
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
@@ -195,8 +195,8 @@ it("should update calendar in range while typing in input", async () => {
   await userEvent.keyboard("10/10/2020");
   await component.updateComplete;
 
-  const yearInput = getYearInputValue();
-  const monthSelectMenu = getMonthSelectValue();
+  const yearInput = getYearInput();
+  const monthSelectMenu = getMonthSelectMenu();
 
   await expect.element(yearInput).toHaveProperty("value", "2020");
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
@@ -209,10 +209,10 @@ it("should update calendar in range while typing in input", async () => {
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
 });
 
-function getYearInputValue(): Locator {
+function getYearInput(): Locator {
   return page.getByRole("textbox", { name: "Year" }).first();
 }
 
-function getMonthSelectValue(): Locator {
+function getMonthSelectMenu(): Locator {
   return page.getByRole("combobox", { name: "Month menu" }).first();
 }

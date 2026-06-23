@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { DateLocaleData } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
 
@@ -15,9 +14,9 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
+export function inRange(date?: Date, min?: Date | string, max?: Date | string): boolean {
   if (!date) {
-    return;
+    return false;
   }
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
@@ -77,14 +76,10 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
 
 /**
  * Parse a localized date string into a valid Date.
- * return false if date is invalid, or out of range
- *
- * @param value
- * @param localeData
  */
-export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date {
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | undefined {
   if (!localeData) {
-    return null;
+    return undefined;
   }
   const { separator } = localeData;
   const parts = parseDateString(value, localeData);
@@ -104,7 +99,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (validDay && validMonth && validDate && validLength && validYear) {
     return date;
   }
-  return null;
+  return undefined;
 }
 
 export function parseCalendarYear(year: number, localeData: DateLocaleData): number {
@@ -177,7 +172,7 @@ export function datePartsFromISO(isoDate: string): { day: string; month: string;
  * @param d1
  * @param d2
  */
-export function sameDate(d1: Date, d2: Date): boolean {
+export function sameDate(d1: Date | undefined, d2: Date | undefined): boolean {
   return (
     d1 instanceof Date &&
     d2 instanceof Date &&
@@ -225,7 +220,7 @@ export function getDateInMonth(date: Date, month: number): Date {
 export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
   const newDate = new Date(date);
   newDate.setDate(1);
-  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
+  return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max)!;
 }
 
 /**
