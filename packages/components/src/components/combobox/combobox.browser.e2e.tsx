@@ -175,7 +175,7 @@ describe("focusable", () => {
 describe("owns a floating-ui", () => {
   floatingUIOwner(
     () =>
-      mount(
+      mount<Combobox>(
         <calcite-combobox>
           <calcite-combobox-item heading="One" icon="banana" id="one" value="one" />
           <calcite-combobox-item heading="Two" icon="beaker" id="two" selected value="two" />
