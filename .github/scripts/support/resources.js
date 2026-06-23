@@ -42,6 +42,7 @@ const resources = {
       breakingChange: "breaking change",
       futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
+      paused: "paused",
     },
     priority: {
       low: "p - low",
@@ -76,7 +77,6 @@ const resources = {
   },
   milestones: {
     backlog: { name: "Backlog", number: 154 },
-    stalled: { name: "Stalled", number: 75 },
     freezer: { name: "Freezer", number: 28 },
   },
   teams: {
