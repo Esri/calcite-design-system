@@ -171,7 +171,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
+  /** When `true`, prevents focus trapping and dialog semantics. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** @copyDoc */
