@@ -287,7 +287,7 @@ describe("accessible", () => {
 
   describe("collapsible and closable", () => {
     accessible(html`
-      <calcite-panel collapsible closable>
+      <calcite-panel collapsible closable heading="Test heading" description="Test description">
         <calcite-action-bar slot="${SLOTS.actionBar}">
           <calcite-action-group>
             <calcite-action text="Add" icon="plus"></calcite-action>
