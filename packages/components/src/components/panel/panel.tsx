@@ -36,7 +36,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
-import { FocusTrap } from "../focus-trap/focus-trap";
+import type { FocusTrap } from "../focus-trap/focus-trap";
 
 declare global {
   interface DeclareElements {
