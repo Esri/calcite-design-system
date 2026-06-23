@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -14,6 +15,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
+import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
 mockConsole();
@@ -82,6 +84,10 @@ describe("defaults", () => {
         propertyName: "showBackButton",
         defaultValue: false,
       },
+      {
+        propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
     ],
   );
 });
@@ -143,6 +149,10 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "focusTrapDisabled",
+        value: true,
       },
     ],
   );
@@ -211,5 +221,48 @@ describe("disabled", () => {
         },
       },
     );
+  });
+});
+
+describe("focus trap", () => {
+  it("passes focusTrapDisabled to the internal panel", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable focusTrapDisabled heading="Flow heading" selected />,
+    );
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+
+    component.el.focusTrapDisabled = false;
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+  });
+
+  it("supports focus trap behavior through keyboard interaction", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable heading="Flow heading" selected>
+        <button type="button">inside one</button>
+        <button type="button">inside two</button>
+      </calcite-flow-item>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+
+    await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
+    await expect.element(component.el).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(component.el).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
   });
 });

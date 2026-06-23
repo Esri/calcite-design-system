@@ -9,7 +9,6 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -61,8 +60,6 @@ export class FlowItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
-
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -110,6 +107,9 @@ export class FlowItem extends LitElement {
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
+
+  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
+  @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -171,7 +171,7 @@ export class FlowItem extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.backButtonRef.value || this.containerRef.value, options);
+    return this.containerRef.value?.setFocus(options);
   }
 
   //#endregion
@@ -301,6 +301,7 @@ export class FlowItem extends LitElement {
       beforeClose,
       icon,
       iconFlipRtl,
+      focusTrapDisabled,
     } = this;
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -313,6 +314,7 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
+          focusTrapDisabled={focusTrapDisabled}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}

@@ -30,13 +30,13 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
-import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
+import { FocusTrap } from "../focus-trap/focus-trap";
 
 declare global {
   interface DeclareElements {
@@ -70,7 +70,7 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLElement>();
+  private focusTrapRef = createRef<FocusTrap["el"]>();
 
   private panelScrollEl?: HTMLElement;
 
@@ -84,8 +84,6 @@ export class Panel extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private _closed = false;
-
-  private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -173,6 +171,9 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
+  @property({ reflect: true }) focusTrapDisabled = false;
+
   /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
@@ -228,7 +229,7 @@ export class Panel extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.containerRef.value, options);
+    return this.focusTrapRef.value?.setFocus(options);
   }
 
   //#endregion
@@ -266,6 +267,16 @@ export class Panel extends LitElement {
         this.calcitePanelCollapse.emit();
       } else {
         this.calcitePanelExpand.emit();
+      }
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("focusTrapDisabled") || changes.has("closable") || changes.has("closed")) {
+      if (!this.closed && this.closable && !this.focusTrapDisabled) {
+        this.focusTrapRef.value?.activate();
+      } else {
+        this.focusTrapRef.value?.deactivate();
       }
     }
   }
@@ -320,10 +331,18 @@ export class Panel extends LitElement {
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      this.emitCloseEvent();
+    if (
+      event.key !== "Escape" ||
+      event.defaultPrevented ||
+      this.closed ||
+      !this.closable ||
+      this.focusTrapRef.value?.active
+    ) {
+      return;
     }
+
+    event.preventDefault();
+    this.emitCloseEvent();
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
@@ -723,16 +742,41 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed } = this;
+    const { disabled, loading, closed, heading, description, focusTrapDisabled, closable } = this;
+    const hasDialogRole = !focusTrapDisabled && closable;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
-        {this.renderHeaderNode()}
-        {this.renderContent()}
-        {this.renderContentBottom()}
-        {this.renderFooterNode()}
-        <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-      </article>
+      <div
+        ariaBusy={loading}
+        ariaDescription={hasDialogRole && description ? description : undefined}
+        ariaLabel={hasDialogRole && heading ? heading : undefined}
+        ariaLive={hasDialogRole ? "polite" : undefined}
+        class={CSS.container}
+        hidden={closed}
+        role={hasDialogRole ? "dialog" : "article"}
+      >
+        <calcite-focus-trap
+          focusTrapDisabled={!hasDialogRole || closed}
+          focusTrapOptions={{
+            allowOutsideClick: true,
+            escapeDeactivates: (event) => {
+              if (!event.defaultPrevented && this.closable) {
+                this.emitCloseEvent();
+                event.preventDefault();
+              }
+
+              return false;
+            },
+          }}
+          ref={this.focusTrapRef}
+        >
+          {this.renderHeaderNode()}
+          {this.renderContent()}
+          {this.renderContentBottom()}
+          {this.renderFooterNode()}
+          <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
+        </calcite-focus-trap>
+      </div>
     );
 
     return (

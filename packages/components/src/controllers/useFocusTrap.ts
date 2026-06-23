@@ -81,7 +81,7 @@ export type FocusTrapOptions =
   /**
    * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions)
    */
-  Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
+  Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate" | "escapeDeactivates"> & {
     /**
      * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
      */
