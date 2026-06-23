@@ -3,6 +3,7 @@ import { html } from "../../support/formatting";
 export const DropdownTokens = {
   calciteDropdownWidth: "",
   calciteDropdownBackgroundColor: "",
+  calciteDropdownMaxHeight: "",
 };
 
 export const DropdownGroupTokens = {
