@@ -84,6 +84,8 @@ export class ShellPanel extends LitElement {
 
   //#region State Properties
 
+  @state() private hasActionBar = false;
+
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
     blockSize: null,
@@ -443,10 +445,13 @@ export class ShellPanel extends LitElement {
     if (!this.actionBarContainerEl) {
       return;
     }
-    const { layout } = this;
+    // const { layout } = this;
     const rect = this.actionBarContainerEl.getBoundingClientRect();
-    const size = layout === "horizontal" ? rect.height : rect.width;
-    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-size", `${size}px`);
+    // const size = layout === "horizontal" ? rect.height : rect.width;
+    const width = rect.width;
+    const height = rect.height;
+    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-width", `${width}px`);
+    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-height", `${height}px`);
   }
 
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
@@ -465,14 +470,15 @@ export class ShellPanel extends LitElement {
 
   private async handleActionBarSlotChange(event: Event): Promise<void> {
     const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
+      el.matches("calcite-action-bar"),
     );
 
     this.actionBars = actionBars;
+    this.hasActionBar = actionBars.length > 0;
     this.setActionBarsLayout(actionBars);
-    this.setupActionBarObserver();
 
     await this.updateComplete;
+
     actionBars.forEach((actionBar) => actionBar.overflowActions());
   }
 
@@ -633,7 +639,13 @@ export class ShellPanel extends LitElement {
     }
 
     return (
-      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+      <div
+        class={{
+          [CSS.container]: true,
+          [CSS.floatAll]: displayMode === "float-all",
+          "has-action-bar": this.hasActionBar,
+        }}
+      >
         {mainNodes}
       </div>
     );

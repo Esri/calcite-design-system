@@ -397,7 +397,9 @@ const shellSampleContentStyles = `
     .panel-content {
       font-weight: bold;
       color: #fff;
+      color: #000;
       background-color: #007AC2;
+      background-color: white;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
@@ -3156,10 +3158,11 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
 
   return html` ${shellSampleContentStyles}
     <div
-      style="padding: 0;
-      position: absolute;
-      inset: 0;
-      border: 0 solid green;"
+      style="padding: 1rem; 
+        position: absolute; 
+        inset: 1rem; 
+        border: 0px solid green; 
+        data-note: 'remove this wrapping div';"
     >
       <calcite-shell
         style="
