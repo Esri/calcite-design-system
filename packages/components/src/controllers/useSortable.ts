@@ -247,8 +247,11 @@ function createSortable(component: SortableComponent): void {
       sortable: !sortDisabled,
       dragHandle: handleSelector,
       draggingClass: CSS.dragClass,
+      synthDraggingClass: CSS.dragClass,
       dragPlaceholderClass: CSS.chosenClass,
+      synthDragPlaceholderClass: CSS.chosenClass,
       dropZoneClass: CSS.ghostClass,
+      synthDropZoneClass: CSS.ghostClass,
       draggable: dragSelector ? (child: HTMLElement) => child.matches(dragSelector) : undefined,
       accepts: (
         targetParent: ParentRecord<string>,
