@@ -5,6 +5,7 @@ import { JsxNode } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import type { Tabs } from "./tabs";
