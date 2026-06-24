@@ -306,9 +306,10 @@ export class Panel extends LitElement {
 
   //#region Private Methods
 
-  focusTrapDisabledOverride(): boolean {
-    return this.focusTrapDisabled || !this.closable || this.closed;
-  }
+/** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+focusTrapDisabledOverride(): boolean {
+  return this.focusTrapDisabled || !this.closable || this.closed;
+}
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
