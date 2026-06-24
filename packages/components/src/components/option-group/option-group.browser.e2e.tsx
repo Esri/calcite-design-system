@@ -40,7 +40,11 @@ describe("renders", () => {
 });
 
 it("has a label", async () => {
-  await mount(`calcite-option-group`, { afterConnect: (el) => (el.label = "test-group") });
+  await mount<"calcite-option-group">(`calcite-option-group`, {
+    afterConnect: (el) => {
+      el.label = "test-group";
+    },
+  });
   const label = page.getByText("test-group");
 
   await expect.element(label).toBeVisible();

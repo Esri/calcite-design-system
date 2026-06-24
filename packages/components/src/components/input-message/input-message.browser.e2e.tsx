@@ -4,7 +4,11 @@ import { accessible, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   accessible(() =>
-    mount(`calcite-input-message`, { afterConnect: (el) => (el.textContent = "Text") }),
+    mount<"calcite-input-message">(`calcite-input-message`, {
+      afterConnect: (el) => {
+        el.textContent = "Text";
+      },
+    }),
   );
 });
 
@@ -20,12 +24,23 @@ describe("accessible with icon", () => {
 });
 
 describe("honors hidden attribute", () => {
-  hidden(() => mount(`calcite-input-message`, { afterConnect: (el) => (el.textContent = "Text") }));
+  hidden(() =>
+    mount<"calcite-input-message">(`calcite-input-message`, {
+      afterConnect: (el) => {
+        el.textContent = "Text";
+      },
+    }),
+  );
 });
 
 describe("renders", () => {
   renders(
-    () => mount(`calcite-input-message`, { afterConnect: (el) => (el.textContent = "content") }),
+    () =>
+      mount<"calcite-input-message">(`calcite-input-message`, {
+        afterConnect: (el) => {
+          el.textContent = "content";
+        },
+      }),
     {
       display: "flex",
     },
