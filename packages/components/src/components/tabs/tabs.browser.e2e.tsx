@@ -152,6 +152,7 @@ describe("closing tabs", () => {
     tabsEl.lastTabClosable = true;
     await component.updateComplete;
     await new Promise((resolve) => requestAnimationFrame(resolve));
+    expect(tabsEl.hasAttribute("last-tab-closable")).toBe(true);
 
     for (let i = 1; i <= 3; i++) {
       await closeTitleById(component);
@@ -171,7 +172,7 @@ describe("closing tabs", () => {
     tabsEl.lastTabClosable = false;
     await component.updateComplete;
     await new Promise((resolve) => requestAnimationFrame(resolve));
-
+    expect(tabsEl.hasAttribute("last-tab-closable")).toBe(false);
     expect(lastVisibleTitle.closable).toBe(false);
     expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(0);
   });
