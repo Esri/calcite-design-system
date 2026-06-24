@@ -81,7 +81,10 @@ describe("renders", () => {
 
 describe("owns a floating-ui", () => {
   floatingUIOwner(
-    () => mount(<calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />),
+    () =>
+      mount<InputDatePicker>(
+        <calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />,
+      ),
     "open",
     { shadowSelector: ".menu-container" },
   );
