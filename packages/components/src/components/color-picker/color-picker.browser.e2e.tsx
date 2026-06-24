@@ -24,13 +24,18 @@ vi.mock("es-toolkit", { spy: true });
 
 mockConsole();
 
-describe("accessible", () => {
-  accessible(() => mount("calcite-color-picker"));
-  accessible(() => mount(<calcite-color-picker clearable value="" />));
-});
-
 afterEach(() => {
   vi.restoreAllMocks();
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker"));
+  });
+
+  describe("clearable + cleared", () => {
+    accessible(() => mount(<calcite-color-picker clearable value="" />));
+  });
 });
 
 describe("cancelable", () => {

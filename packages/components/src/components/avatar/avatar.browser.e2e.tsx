@@ -4,8 +4,13 @@ import { h } from "@arcgis/lumina";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount("calcite-avatar"));
-  accessible(() => mount(<calcite-avatar thumbnail="https://placehold.co/120x120" />));
+  describe("default", () => {
+    accessible(() => mount("calcite-avatar"));
+  });
+
+  describe("with thumbnail", () => {
+    accessible(() => mount(<calcite-avatar thumbnail="https://placehold.co/120x120" />));
+  });
 });
 
 describe("defaults", () => {
