@@ -1,5 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
+import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
@@ -1373,7 +1374,7 @@ async function getActiveDate(page: E2EPage): Promise<string> {
   return getDateIsoStringFromProp(page, "activeDate");
 }
 
-async function getDateIsoStringFromProp(page: E2EPage, prop): Promise<string> {
+async function getDateIsoStringFromProp(page: E2EPage, prop: keyof ConditionalPick<DatePicker, Date>): Promise<string> {
   return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop].toISOString(), prop);
 }
 

@@ -329,7 +329,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   /** The component's `value` as a full date object. */
-  @property() valueAsDate?: Date | (Date | undefined)[];
+  @property() valueAsDate?: Date | Date[];
 
   //#endregion
 
@@ -527,6 +527,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
         this.valueAsDate = newValueAsDate;
       }
 
@@ -896,15 +897,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      this.range
-        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate,
+      this.range ? Array.isArray(this.valueAsDate) && this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate,
     );
     const endDate = this.range
       ? dateFromRange(
-          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
+          Array.isArray(this.valueAsDate) && this.valueAsDate[1],
           this.minAsDate,
           this.maxAsDate,
         )
@@ -958,6 +957,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.userChangedValue = true;
     this.value = newValue;
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
