@@ -57,7 +57,7 @@ export class TabNav extends LitElement {
 
   private tabTitleContainerEl?: HTMLDivElement;
 
-  private makeFirstVisibleTabClosable = false;
+  private firstVisibleTabMadeNonClosable?: TabTitle["el"];
 
   /**
    * Made into a prop for testing purposes only.
@@ -329,6 +329,8 @@ export class TabNav extends LitElement {
       this.selectedTabId = event.detail;
       this.selectedTitle = await this.getTabTitleById(this.selectedTabId);
     }
+
+    this.syncVisibleTabTitlesState();
   }
 
   private globalInternalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
@@ -408,19 +410,21 @@ export class TabNav extends LitElement {
     }
 
     const firstVisibleTabTitle = tabTitles[visibleTabTitlesIndices[0]];
-    const shouldRestoreClosable =
-      this.makeFirstVisibleTabClosable && (totalVisibleTabTitles > 1 || this.lastTabClosable);
+    const shouldDisableCloseButton = !this.lastTabClosable && totalVisibleTabTitles === 1;
 
-    if (shouldRestoreClosable) {
-      firstVisibleTabTitle.closable = true;
-      this.makeFirstVisibleTabClosable = false;
+    if (shouldDisableCloseButton) {
+      if (firstVisibleTabTitle.closable) {
+        this.firstVisibleTabMadeNonClosable = firstVisibleTabTitle;
+        firstVisibleTabTitle.closable = false;
+      }
       return;
     }
 
-    if (totalVisibleTabTitles === 1 && !this.lastTabClosable && firstVisibleTabTitle.closable) {
-      this.makeFirstVisibleTabClosable = true;
-      firstVisibleTabTitle.closable = false;
+    if (this.firstVisibleTabMadeNonClosable && !this.firstVisibleTabMadeNonClosable.closed) {
+      this.firstVisibleTabMadeNonClosable.closable = true;
     }
+
+    this.firstVisibleTabMadeNonClosable = undefined;
   }
 
   private setTabTitleContainerEl(el: HTMLDivElement) {

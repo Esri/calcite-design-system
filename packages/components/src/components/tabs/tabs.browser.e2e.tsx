@@ -182,4 +182,30 @@ describe("closing tabs", () => {
     expect(lastVisibleTitle.closable).toBe(false);
     expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(0);
   });
+
+  it("restores the lone tab's close button when another tab is reopened", async () => {
+    const { tabsEl, component } = await setupClosableTabs();
+
+    tabsEl.lastTabClosable = false;
+    await component.updateComplete;
+
+    for (let i = 1; i <= 3; i++) {
+      await closeTitleById(component);
+    }
+
+    const loneTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
+    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-3");
+
+    expect(loneTitle?.closable).toBe(false);
+
+    if (!reopenedTitle) {
+      return;
+    }
+
+    reopenedTitle.closed = false;
+    await component.updateComplete;
+    await afterNextFrame();
+
+    expect(loneTitle?.closable).toBe(true);
+  });
 });
