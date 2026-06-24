@@ -396,9 +396,7 @@ const shellSampleContentStyles = `
   <style>
     .panel-content {
       font-weight: bold;
-      color: #fff;
-      color: #000;
-      background-color: #007AC2;
+      color: black;
       background-color: white;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -3156,36 +3154,30 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   const isHorizontal = args.shellPanelSlot === "panel-top" || args.shellPanelSlot === "panel-bottom";
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
 
-  return html` ${shellSampleContentStyles}
-    <div
-      style="padding: 1rem; 
-        position: absolute; 
-        inset: 1rem; 
-        border: 0px solid green; 
-        data-note: 'remove this wrapping div';"
-    >
-      <calcite-shell
-        style="
+  return html`
+    ${shellSampleContentStyles}
+    <calcite-shell
+      style="
         --calcite-shell-panel-height: 400px; 
         --calcite-shell-panel-min-height: 200px; 
         --calcite-shell-panel-max-height: 900px; 
         --calcite-shell-panel-min-width: 200px; 
         --calcite-shell-panel-max-width: 900px;"
+    >
+      <calcite-shell-panel
+        id="shellPanel"
+        slot="${args.shellPanelSlot}"
+        action-bar-position="${args.actionBarPosition}"
+        layout="${isHorizontal ? "horizontal" : "vertical"}"
+        position="${panelPosition}"
+        width="l"
+        ${boolean("resizable", args.isResizable)}
       >
-        <calcite-shell-panel
-          id="shellPanel"
-          slot="${args.shellPanelSlot}"
-          action-bar-position="${args.actionBarPosition}"
-          layout="${isHorizontal ? "horizontal" : "vertical"}"
-          position="${panelPosition}"
-          width="l"
-          ${boolean("resizable", args.isResizable)}
-        >
-          ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
-        </calcite-shell-panel>
-        ${actionBarPositionPanelHTML}
-      </calcite-shell>
-    </div>`;
+        ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
+      </calcite-shell-panel>
+      ${actionBarPositionPanelHTML}
+    </calcite-shell>
+  `;
 };
 
 shellPanelWithActionBarPositionProp.args = {

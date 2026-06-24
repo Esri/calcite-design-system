@@ -50,9 +50,7 @@
 // --calcite-internal-shell-panel-resize-handle-bar-border-block-start
 // --calcite-internal-shell-panel-resize-handle-bar-border-inline-end
 // --calcite-internal-shell-panel-resize-handle-bar-border-inline-start
-// --calcite-internal-shell-panel-resize-handle-bar-footprint-negative
 // --calcite-internal-shell-panel-resize-handle-bar-footprint-side-size
-// --calcite-internal-shell-panel-resize-handle-bar-offset-before-action-bar
 // --calcite-internal-shell-panel-resize-handle-bar-size
 // --calcite-internal-shell-panel-resize-handle-footprint-size
 // --calcite-internal-shell-panel-resize-handle-inline-size
@@ -85,11 +83,9 @@
     4px 0 8px -1px rgba(0, 0, 0, 0.08), 2px 0 4px -1px rgba(0, 0, 0, 0.04);
   --calcite-internal-shell-panel-shadow-inline-end:
     -4px 0 8px -1px rgba(0, 0, 0, 0.08), -2px 0 4px -1px rgba(0, 0, 0, 0.04);
-
   --calcite-internal-shell-panel-border: var(--calcite-border-width-sm) solid
     var(--calcite-shell-border-color, var(--calcite-color-border-3)); // TODO: apply wherever this value is used
-
-  --calcite-internal-shell-panel-resize-handle-bar-size: 10px;
+  --calcite-internal-shell-panel-resize-handle-bar-size: var(--calcite-size-4xs);
   --calcite-internal-shell-panel-resize-handle-footprint-size: 24px;
   --calcite-internal-shell-panel-resize-handle-bar-footprint-side-size: calc(
       var(--calcite-internal-shell-panel-resize-handle-footprint-size) - var(
@@ -97,19 +93,6 @@
         )
     ) /
     2;
-
-  --calcite-internal-shell-panel-resize-handle-bar-footprint-negative: calc(
-    var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size) * -1
-  );
-
-  --calcite-internal-shell-panel-resize-handle-bar-offset-before-action-bar: calc(
-    calc(
-        var(--calcite-internal-shell-panel-action-bar-width) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
-  );
   --calcite-internal-shell-panel-action-bar-thickness: var(--calcite-internal-shell-panel-action-bar-width, 0);
 }
 
@@ -797,12 +780,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 }
 
 :host([action-bar-position]) {
+  --calcite-shell-border-color: red; // TODO: testing only, remove this
+
   ::slotted(calcite-action-bar) {
     display: flex;
     flex: 1 1 0;
   }
-
-  --calcite-shell-border-color: red; // TODO: remove this
 }
 
 :host([action-bar-position="start"][slot="panel-start"]) {
@@ -820,6 +803,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-bar-border-inline-end: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-start: 0;
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
+
+  // inset
+  --calcite-internal-shell-panel-resize-handle-inset-inline-end: 0;
 }
 
 :host([action-bar-position="start"][slot="panel-end"]) {
@@ -836,8 +822,12 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-bar-border-block-end: 0;
 
   // inset
-  --calcite-internal-shell-panel-resize-handle-inset-inline-start: var(
-    --calcite-internal-shell-panel-resize-handle-bar-offset-before-action-bar
+  --calcite-internal-shell-panel-resize-handle-inset-inline-start: calc(
+    calc(
+        var(--calcite-internal-shell-panel-action-bar-width) +
+          var(--calcite-internal-shell-panel-resize-handle-bar-size)
+      ) *
+      -1
   );
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: auto;
 
@@ -870,8 +860,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: calc(
     calc(
         var(--calcite-internal-shell-panel-action-bar-width) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
+          var(--calcite-internal-shell-panel-resize-handle-bar-size)
       ) *
       -1
   );
@@ -900,6 +889,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-c-panel-border-inline-start: var(--calcite-internal-shell-panel-border);
   --calcite-internal-shell-panel-c-panel-border-block-start: 0;
   --calcite-internal-shell-panel-c-panel-border-block-end: 0;
+
+  // inset
+  --calcite-internal-shell-panel-resize-handle-inset-inline-start: 0;
 
   // padding
   --calcite-internal-shell-panel-content-padding-inline-start: 0;
@@ -931,11 +923,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   // inset
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: calc(
-    calc(
-        var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
   );
 
   &:host([resizable]) {
@@ -966,22 +954,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   // inset
   --calcite-internal-shell-panel-resize-handle-inset-inline-start: calc(
-    calc(
-        var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
   );
-
-  // z-index
-  z-index: 2; // TODO: variablize this
 
   &:host([resizable]) {
     // padding
-    --calcite-internal-shell-panel-content-padding-inline-start: 0;
     --calcite-internal-shell-panel-container-padding-inline-start: var(
       --calcite-internal-shell-panel-resize-handle-bar-size
     );
+
+    --calcite-internal-shell-panel-content-padding-inline-start: 0;
   }
 }
 
@@ -1004,11 +986,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   // inset
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: calc(
-    calc(
-        var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
   );
 
   // padding
@@ -1040,19 +1018,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   // inset
   --calcite-internal-shell-panel-resize-handle-inset-inline-start: calc(
-    calc(
-        var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
   );
 
   &:host([resizable]) {
     // padding
-    --calcite-internal-shell-panel-content-padding-inline-start: 0;
     --calcite-internal-shell-panel-container-padding-inline-start: var(
       --calcite-internal-shell-panel-resize-handle-bar-size
     );
+
+    --calcite-internal-shell-panel-content-padding-inline-start: 0;
   }
 }
 
@@ -1077,15 +1052,17 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   --calcite-internal-shell-panel-action-bar-border-block-start: var(--calcite-internal-shell-panel-border);
 
-  &:host([resizable]) {
-    // inset
-    --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
-      (var(--calcite-internal-shell-panel-action-bar-height) * -1) - var(
-          --calcite-internal-shell-panel-resize-handle-bar-size
-        ) -
-        7px
-    ); // TODO: variablize this
+  // inset
+  --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
+    calc(
+        var(--calcite-internal-shell-panel-action-bar-height) +
+          var(--calcite-internal-shell-panel-resize-handle-bar-size) +
+          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
+      ) *
+      -1
+  ); // TODO: variablize this?
 
+  &:host([resizable]) {
     // padding
     --calcite-internal-shell-panel-container-padding-block-start: var(
       --calcite-internal-shell-panel-resize-handle-bar-size
@@ -1106,14 +1083,19 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   // inset
   --calcite-internal-shell-panel-resize-handle-inset-block-end: calc(
-    (var(--calcite-internal-shell-panel-action-bar-height) * -1) - 17px
-  ); // brendan
+    calc(
+        var(--calcite-internal-shell-panel-action-bar-height) +
+          var(--calcite-internal-shell-panel-resize-handle-bar-size) +
+          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
+      ) *
+      -1
+  );
 
   // padding
   --calcite-internal-shell-panel-content-padding-block-end: 0;
 
   // z-index
-  z-index: 2; // TODO: variablize this
+  --calcite-shell-panel-z-index: var(--calcite-z-index-sticky);
 
   &:host([resizable]) {
     // padding
@@ -1153,14 +1135,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
           var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
       ) *
       -1
-  );
-  --calcite-internal-shell-panel-resize-handle-inset-block-end: calc(
-    calc(
-        var(--calcite-internal-shell-panel-resize-handle-bar-size) +
-          var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
-      ) *
-      -1
-  );
+  ); // TODO: variablize this?
 
   // flex-direction
   --calcite-internal-shell-panel-container-flex-direction: row;
@@ -1170,13 +1145,13 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 
   --calcite-internal-shell-panel-resize-handle-inset-inline-start: calc(
     var(--calcite-internal-shell-panel-action-bar-width) * -1
-  ); // TODO: variablize negative value?
+  );
 
   // size
   --calcite-internal-shell-panel-resize-handle-inline-size: auto;
 
   // z-index
-  z-index: 2; // TODO: variablize this
+  --calcite-shell-panel-z-index: var(--calcite-z-index-sticky);
 
   &:host([resizable]) {
     // padding
@@ -1204,7 +1179,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-inset-inline-start: 0;
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: calc(
     var(--calcite-internal-shell-panel-action-bar-width) * -1
-  ); // TODO: variablize negative value?
+  );
   --calcite-internal-shell-panel-resize-handle-inset-block-end: calc(
     calc(
         var(--calcite-internal-shell-panel-resize-handle-bar-size) +
@@ -1220,7 +1195,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-inline-size: auto;
 
   // z-index
-  z-index: 2; // TODO: variablize this
+  --calcite-shell-panel-z-index: var(--calcite-z-index-sticky);
 
   &:host([resizable]) {
     // padding
@@ -1249,7 +1224,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
     var(--calcite-internal-shell-panel-action-bar-width) * -1
   );
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: 0;
-  --calcite-internal-shell-panel-resize-handle-inset-block-start: -10px; // TODO: variablize this
+  --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
+  );
 
   // size
   --calcite-internal-shell-panel-resize-handle-inline-size: auto;
@@ -1282,7 +1259,9 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
   --calcite-internal-shell-panel-resize-handle-inset-inline-end: calc(
     var(--calcite-internal-shell-panel-action-bar-width) * -1
   );
-  --calcite-internal-shell-panel-resize-handle-inset-block-start: -10px; // TODO: variablize this
+  --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
+    var(--calcite-internal-shell-panel-resize-handle-bar-size) * -1
+  );
 
   // size
   --calcite-internal-shell-panel-resize-handle-inline-size: auto;
