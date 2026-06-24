@@ -26,14 +26,7 @@ mockConsole();
 
 describe("accessible", () => {
   accessible(() => mount("calcite-color-picker"));
-  accessible(() =>
-    mount(`calcite-color-picker`, {
-      afterConnect: (el) => {
-        el.clearable = true;
-        el.value = "";
-      },
-    }),
-  );
+  accessible(() => mount(<calcite-color-picker clearable value="" />));
 });
 
 afterEach(() => {

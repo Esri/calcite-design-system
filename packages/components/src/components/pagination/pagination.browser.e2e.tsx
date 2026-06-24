@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import {
   accessible,
   defaults,
@@ -27,15 +28,7 @@ describe("defaults", () => {
 });
 
 describe("accessible", () => {
-  accessible(() =>
-    mount("calcite-pagination", {
-      afterConnect: (el) => {
-        el.pageSize = 10;
-        el.startItem = 50;
-        el.totalItems = 100;
-      },
-    }),
-  );
+  accessible(() => mount(<calcite-pagination page-size="10" start-item="50" total-items="100" />));
 });
 
 describe("is focusable", () => {

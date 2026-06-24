@@ -1,22 +1,23 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import { accessible, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
   accessible(() =>
-    mount(`calcite-accordion`, {
-      afterConnect: (el) => {
-        el.innerHTML = `
-          <calcite-accordion-item heading="Accordion Title 1">
-            Accordion Item Content
-          </calcite-accordion-item>
-          <calcite-accordion-item description="A description" heading="Accordion Title 2" expanded>
-            Accordion Item Content
-          </calcite-accordion-item>
-          <calcite-accordion-item heading="Accordion Title 3">Accordion Item Content</calcite-accordion-item>
-        `;
-      },
-    }),
+    mount(
+      <calcite-accordion>
+        <calcite-accordion-item heading="Accordion Title 1">
+          Accordion Item Content
+        </calcite-accordion-item>
+        <calcite-accordion-item description="A description" expanded heading="Accordion Title 2">
+          Accordion Item Content
+        </calcite-accordion-item>
+        <calcite-accordion-item heading="Accordion Title 3">
+          Accordion Item Content
+        </calcite-accordion-item>
+      </calcite-accordion>,
+    ),
   );
 });
 

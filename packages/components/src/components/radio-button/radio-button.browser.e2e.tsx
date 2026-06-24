@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import {
   accessible,
   focusable,
@@ -28,24 +29,18 @@ describe("defaults", () => {
 
 describe("accessible", () => {
   accessible(() =>
-    mount("calcite-label", {
-      afterConnect: (el) => {
-        el.innerHTML = `<calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label`;
-      },
-    }),
+    mount(
+      <calcite-label>
+        <calcite-radio-button id="example" name="example" value="one" />
+        label
+      </calcite-label>,
+    ),
   );
 });
 
 describe("accessible without calcite-label", () => {
   accessible(() =>
-    mount("calcite-radio-button", {
-      afterConnect: (el) => {
-        el.id = "example";
-        el.label = "label";
-        el.name = "example";
-        el.value = "one";
-      },
-    }),
+    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
   );
 });
 

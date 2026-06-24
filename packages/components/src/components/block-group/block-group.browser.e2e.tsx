@@ -17,15 +17,13 @@ mockConsole();
 
 describe("accessible", () => {
   accessible(() =>
-    mount(`calcite-block-group`, {
-      afterConnect: (el) => {
-        el.innerHTML = `
-          <calcite-block heading="heading" description="description" open collapsible>
-            <div>content</div>
-          </calcite-block>
-        `;
-      },
-    }),
+    mount(
+      <calcite-block-group>
+        <calcite-block collapsible description="description" heading="heading" open>
+          <div>content</div>
+        </calcite-block>
+      </calcite-block-group>,
+    ),
   );
 });
 

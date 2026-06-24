@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import {
   accessible,
   defaults,
@@ -13,13 +14,7 @@ import {
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() =>
-    mount(`calcite-accordion-item`, {
-      afterConnect: (el) => {
-        el.heading = "My Heading";
-      },
-    }),
-  );
+  accessible(() => mount(<calcite-accordion-item heading="My Heading" />));
 });
 
 describe("defaults", () => {

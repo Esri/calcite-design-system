@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import { accessible, defaults, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { page, userEvent } from "vitest/browser";
@@ -12,21 +13,18 @@ describe("accessible", () => {
 
 describe("accessible: with nested children", () => {
   accessible(() =>
-    mount("calcite-tree", {
-      afterConnect: (el) => {
-        el.lines = true;
-        el.innerHTML = `
-          <calcite-tree-item>
-            <a href="#">Child 2</a>
-            <calcite-tree slot="children">
-              <calcite-tree-item>
-                <a href="http://www.esri.com">Grandchild 1</a>
-              </calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-        `;
-      },
-    }),
+    mount(
+      <calcite-tree lines>
+        <calcite-tree-item>
+          <a href="#">Child 2</a>
+          <calcite-tree slot="children">
+            <calcite-tree-item>
+              <a href="http://www.esri.com">Grandchild 1</a>
+            </calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>,
+    ),
   );
 });
 

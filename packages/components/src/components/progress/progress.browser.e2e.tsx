@@ -4,25 +4,11 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, hidden, renders } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() =>
-    mount(`calcite-progress`, {
-      afterConnect: (el) => {
-        el.label = "my progress";
-      },
-    }),
-  );
+  accessible(() => mount(<calcite-progress label="my progress" />));
 });
 
 describe("accessible with value", () => {
-  accessible(() =>
-    mount(`calcite-progress`, {
-      afterConnect: (el) => {
-        el.value = 50;
-        el.type = "indeterminate";
-        el.text = "percentage";
-      },
-    }),
-  );
+  accessible(() => mount(<calcite-progress text="percentage" type="indeterminate" value={50} />));
 });
 
 describe("honors hidden attribute", () => {

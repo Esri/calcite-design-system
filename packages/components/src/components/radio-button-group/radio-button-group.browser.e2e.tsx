@@ -17,11 +17,14 @@ import { RadioButtonGroup } from "./radio-button-group";
 
 describe("accessible", () => {
   accessible(() =>
-    mount(`calcite-radio-button-group`, {
-      afterConnect: (el) => {
-        el.innerHTML = `<calcite-label><calcite-radio-button></calcite-radio-button>Label</calcite-label>`;
-      },
-    }),
+    mount(
+      <calcite-radio-button-group>
+        <calcite-label>
+          <calcite-radio-button />
+          Label
+        </calcite-label>
+      </calcite-radio-button-group>,
+    ),
   );
 });
 
