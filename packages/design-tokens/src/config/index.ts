@@ -8,7 +8,7 @@ import type { OutputReferences, TransformedToken } from "style-dictionary/types"
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../types/extensions.d.ts";
 import { preprocessors, transformers, filters, headers, formats } from "../build/registry/index.ts";
-import { isBreakpointExpand, isCornerRadius } from "../build/utils/token-types.ts";
+import { isBreakpointExpand } from "../build/utils/token-types.ts";
 import { primitiveValueOutputReferences } from "../build/utils/output-references.ts";
 
 const commonExpand = {
@@ -24,11 +24,7 @@ const hasOutputReferenceExtension = (token: TransformedToken): boolean =>
 
 const stylesheetOutputReferences: OutputReferences = (token, options) => {
   // output token references for tokens marked with calcite.outputReference extension
-  return (
-    hasOutputReferenceExtension(token) ||
-    !!(isCornerRadius(token) && token.path.includes("default")) ||
-    primitiveValueOutputReferences(token, options)
-  );
+  return hasOutputReferenceExtension(token) || primitiveValueOutputReferences(token, options);
 };
 
 const config: Config = {
