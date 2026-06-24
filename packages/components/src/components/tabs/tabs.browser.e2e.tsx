@@ -9,7 +9,6 @@ import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import type { Tabs } from "./tabs";
-import { afterNextFrame } from "../../tests/utils/timing";
 
 mockConsole("error");
 
