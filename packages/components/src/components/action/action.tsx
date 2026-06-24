@@ -63,6 +63,8 @@ export class Action extends LitElement {
 
   formTrigger = useFormTrigger()(this);
 
+  private labelElRef = createRef<HTMLSpanElement>();
+
   //#endregion
 
   //#region Public Properties
@@ -217,6 +219,27 @@ export class Action extends LitElement {
 
   //#endregion
 
+  //#region Private Methods
+
+  private getAccessibleLabel(): string {
+    const labelFallback = this.label || this.text || "";
+
+    return this.indicator
+      ? this.messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
+  }
+
+  private getLabelledByElements(): Element[] | undefined {
+    const labelledByElements = [
+      ...(this.labelElRef.value ? [this.labelElRef.value] : []),
+      ...(this.aria?.labelledByElements ?? []),
+    ];
+
+    return labelledByElements.length ? labelledByElements : undefined;
+  }
+
+  //#endregion
+
   //#region Rendering
 
   private renderTextContainer(): JsxNode {
@@ -242,7 +265,7 @@ export class Action extends LitElement {
         ariaLive="polite"
         class={CSS.indicatorText}
         ref={this.indicatorRef}
-        role="img"
+        role="region"
       >
         {indicator ? messages.indicator : null}
       </div>
@@ -285,25 +308,21 @@ export class Action extends LitElement {
     ) : null;
   }
 
-  private renderButton(): JsxNode {
-    const {
-      compact,
-      disabled,
-      icon,
-      loading,
-      textEnabled,
-      label,
-      text,
-      indicator,
-      indicatorRef,
-      buttonId,
-      messages,
-    } = this;
-    const labelFallback = label || text || "";
+  private renderLabel(): JsxNode {
+    const ariaLabel = this.getAccessibleLabel();
 
-    const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+    return ariaLabel ? (
+      <span hidden ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
+  }
+
+  private renderButton(): JsxNode {
+    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
+      this;
+    const ariaLabel = this.getAccessibleLabel() || undefined;
+    const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -316,6 +335,7 @@ export class Action extends LitElement {
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        {this.renderLabel()}
       </>
     );
 
@@ -336,7 +356,7 @@ export class Action extends LitElement {
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
           ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
@@ -359,7 +379,7 @@ export class Action extends LitElement {
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
         ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
         class={buttonClasses}
