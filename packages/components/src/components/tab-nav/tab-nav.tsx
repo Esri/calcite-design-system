@@ -590,7 +590,8 @@ export class TabNav extends LitElement {
 
   private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
     const { tabTitles } = this;
-    const visibleTabTitles = this.enabledTabTitles;
+    const visibleTabTitles = tabTitles.filter((tabTitle) => !tabTitle.closed);
+    const enabledVisibleTabTitles = this.enabledTabTitles;
     const totalVisibleTabTitles = visibleTabTitles.length;
     const selectionModified = closedTabTitleEl.selected;
 
@@ -606,10 +607,11 @@ export class TabNav extends LitElement {
     if (selectionModified) {
       const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
       const nextVisibleTabTitle =
-        visibleTabTitles.find((tabTitle) => tabTitles.indexOf(tabTitle) > closedTabTitleIndex) ||
-        visibleTabTitles.at(-1)!;
+        enabledVisibleTabTitles.find(
+          (tabTitle) => tabTitles.indexOf(tabTitle) > closedTabTitleIndex,
+        ) || enabledVisibleTabTitles.at(-1);
 
-      nextVisibleTabTitle.activateTab();
+      nextVisibleTabTitle?.activateTab();
     }
 
     this.updateLastVisibleTabClosable();
