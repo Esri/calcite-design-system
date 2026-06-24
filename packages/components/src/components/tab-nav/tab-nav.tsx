@@ -590,11 +590,10 @@ export class TabNav extends LitElement {
 
   private handleTabTitleClose(closedTabTitleEl: TabTitle["el"]): void {
     const { tabTitles } = this;
+    const visibleTabTitles = this.enabledTabTitles;
+    const totalVisibleTabTitles = visibleTabTitles.length;
     const selectionModified = closedTabTitleEl.selected;
-    const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
 
-    const visibleTabTitlesIndices = this.getVisibleTabTitlesIndices(tabTitles);
-    const totalVisibleTabTitles = visibleTabTitlesIndices.length;
     this.hasVisibleTabTitles = totalVisibleTabTitles > 0;
     this.calciteInternalTabNavSlotChange.emit([...tabTitles]);
 
@@ -604,31 +603,16 @@ export class TabNav extends LitElement {
       return;
     }
 
-    if (totalVisibleTabTitles === 1) {
-      this.updateLastVisibleTabClosable();
+    if (selectionModified) {
+      const closedTabTitleIndex = tabTitles.findIndex((el) => el === closedTabTitleEl);
+      const nextVisibleTabTitle =
+        visibleTabTitles.find((tabTitle) => tabTitles.indexOf(tabTitle) > closedTabTitleIndex) ||
+        visibleTabTitles.at(-1)!;
 
-      if (selectionModified) {
-        tabTitles[visibleTabTitlesIndices[0]].activateTab();
-      } else {
-        this.selectedTabId = visibleTabTitlesIndices[0];
-      }
-    } else if (totalVisibleTabTitles > 1) {
-      const nextVisibleTabTitleIndex = visibleTabTitlesIndices.find(
-        (value) => value > closedTabTitleIndex,
-      );
-      const nextSelectedTabTitleIndex =
-        nextVisibleTabTitleIndex === undefined
-          ? visibleTabTitlesIndices[visibleTabTitlesIndices.length - 1]
-          : nextVisibleTabTitleIndex;
-
-      if (this.selectedTitle === closedTabTitleEl) {
-        if (selectionModified) {
-          tabTitles[nextSelectedTabTitleIndex].activateTab();
-        } else {
-          this.selectedTabId = nextSelectedTabTitleIndex;
-        }
-      }
+      nextVisibleTabTitle.activateTab();
     }
+
+    this.updateLastVisibleTabClosable();
 
     requestAnimationFrame(() => {
       const selectedTitle = this.selectedTitle;
@@ -646,10 +630,6 @@ export class TabNav extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    if (!this.hasVisibleTabTitles) {
-      return null;
-    }
-
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tablist";
     return (
@@ -660,6 +640,7 @@ export class TabNav extends LitElement {
           [CSS.position(this.position)]: true,
           [CSS_UTILITY.rtl]: this.effectiveDir === "rtl",
         }}
+        hidden={!this.hasVisibleTabTitles}
       >
         <div
           class={{

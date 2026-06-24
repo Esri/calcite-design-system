@@ -110,8 +110,16 @@ export class Tabs extends LitElement {
   // #region Private Methods
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
-    this.titles = [...event.detail];
-    this.hasVisibleTitles = this.titles.some((title) => !title.closed);
+    const nextTitles = [...event.detail] as TabTitle["el"][];
+    const titlesChanged =
+      nextTitles.length !== this.titles.length ||
+      nextTitles.some((title, index) => this.titles[index] !== title);
+
+    if (titlesChanged) {
+      this.titles = nextTitles;
+    }
+
+    this.hasVisibleTitles = nextTitles.some((title) => !title.closed);
   }
 
   private defaultSlotChangeHandler(event: Event): void {
