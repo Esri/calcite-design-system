@@ -611,6 +611,13 @@ export class TabNav extends LitElement {
           (tabTitle) => tabTitles.indexOf(tabTitle) > closedTabTitleIndex,
         ) || enabledVisibleTabTitles.at(-1);
 
+      if (!nextVisibleTabTitle) {
+        this.selectedTitle = null;
+        this.selectedTabId = undefined;
+        this.updateLastVisibleTabClosable();
+        return;
+      }
+
       nextVisibleTabTitle?.activateTab();
     }
 
