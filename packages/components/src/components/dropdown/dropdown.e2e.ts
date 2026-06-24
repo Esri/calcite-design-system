@@ -1588,6 +1588,10 @@ describe("theme", () => {
       targetProp: "backgroundColor",
       shadowSelector: `.${CSS.content}`,
     },
+    "--calcite-dropdown-max-height": {
+      targetProp: "maxHeight",
+      shadowSelector: `.${CSS.content}`,
+    },
   };
   themed(`<calcite-dropdown open></calcite-dropdown>`, tokens);
 });
