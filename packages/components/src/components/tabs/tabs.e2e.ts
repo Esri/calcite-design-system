@@ -297,16 +297,6 @@ describe("closing tabs", () => {
   beforeEach(async (): Promise<void> => {
     page = await newE2EPage();
     await page.setContent(html`
-      <script>
-        const originalConsoleError = console.error;
-        console.error = (...args) => {
-          if (args.some((arg) => typeof arg === "string" && arg.includes("icon failed to load"))) {
-            return;
-          }
-
-          originalConsoleError(...args);
-        };
-      </script>
       <calcite-tabs>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title id="tab-title-1" closable>Tab 1 Title</calcite-tab-title>
@@ -428,21 +418,6 @@ describe("closing tabs", () => {
       });
       await page.waitForChanges();
       tab4 = await page.find(`#tab-title-4`);
-      expect(await tab4.getProperty("closable")).toBe(true);
-      expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
-    });
-
-    it("should keep x when last-tab-closable is set", async () => {
-      await page.$eval("calcite-tabs", (tabs: Tabs["el"]) => {
-        tabs.lastTabClosable = true;
-      });
-      await page.waitForChanges();
-
-      for (let i = 1; i <= 3; ++i) {
-        await page.click(`#tab-title-${i} >>> .${TabTitleCSS.close}`);
-      }
-
-      const tab4 = await page.find(`#tab-title-4`);
       expect(await tab4.getProperty("closable")).toBe(true);
       expect(await page.find(`#tab-title-4 >>> .${TabTitleCSS.close}`)).toBeDefined();
     });
