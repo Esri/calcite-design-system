@@ -1144,7 +1144,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-normal: var(--calcite-internal-font-weight-normal); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -1720,7 +1720,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
   --calcite-font-weight-light: 300; /** For Avenir Next World (secondary font family) */
-  --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
+  --calcite-font-weight-normal: var(--calcite-internal-font-weight-normal); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
@@ -19815,7 +19815,8 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "extensions": {
-        "calcite.deprecated": true
+        "calcite.deprecated": true,
+        "calcite.outputReference": true
       },
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
@@ -26162,7 +26163,8 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "extensions": {
-        "calcite.deprecated": true
+        "calcite.deprecated": true,
+        "calcite.outputReference": true
       },
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
@@ -33688,7 +33690,7 @@ $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-normal: $calcite-internal-font-weight-normal; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-bold: 600;
@@ -34396,7 +34398,7 @@ $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
 $calcite-font-weight-light: 300; // For Avenir Next World (secondary font family)
-$calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
+$calcite-font-weight-normal: $calcite-internal-font-weight-normal; // Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
 $calcite-font-weight-bold: 600;
