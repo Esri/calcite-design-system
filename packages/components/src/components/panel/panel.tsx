@@ -75,6 +75,17 @@ export class Panel extends LitElement {
 
   private panelScrollEl?: HTMLElement;
 
+  private resizeObserver = createObserver("resize", () => this.resizeHandler());
+
+  /**
+   * Made into a prop for testing purposes only
+   *
+   * @private
+   */
+  messages = useT9n<typeof T9nStrings>();
+
+  private _closed = false;
+
   private focusSetter = useSetFocus<this>()(this);
 
   private focusTrapController = useFocusTrap<this>({
@@ -90,17 +101,6 @@ export class Panel extends LitElement {
       },
     },
   })(this);
-
-  private resizeObserver = createObserver("resize", () => this.resizeHandler());
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
-  private _closed = false;
 
   private interactiveContainer = useInteractive(this);
 
