@@ -40,7 +40,8 @@
           "docs": "deprecated"
         },
         "extensions": {
-          "calcite.deprecated": true
+          "calcite.deprecated": true,
+          "calcite.outputReference": true
         }
       },
       "regular": {
