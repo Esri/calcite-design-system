@@ -50,6 +50,6 @@ export { TransformNameRemovePrefix } from "./name/remove-prefix.ts";
 export { TransformNameIncludePlusMinus } from "./name/include-plus-minus.ts";
 export { TransformNameCapitalCase } from "./name/capital-case.ts";
 export { TransformNameEs6MergeBreakpoints } from "./name/es6-merge-breakpoints.ts";
-export { TransformCalciteGroup, platformTransforms } from "./group/calcite.ts";
+export { TransformCalciteGroup, TransformCalciteRuntimeGroup, platformTransforms } from "./group/calcite.ts";
 export { TransformAttributePlatformNames } from "./attribute/platform-names.ts";
 export { TransformAttributeSchema } from "./attribute/schema.ts";

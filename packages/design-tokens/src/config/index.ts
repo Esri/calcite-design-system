@@ -92,7 +92,7 @@ const config: Config = {
       },
     },
     css: {
-      transformGroup: transformers.TransformCalciteGroup,
+      transformGroup: transformers.TransformCalciteRuntimeGroup,
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [

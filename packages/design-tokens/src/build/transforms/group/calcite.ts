@@ -32,7 +32,7 @@ export const platformTransforms: Record<Extract<Platform, "css" | "es6">, string
   ],
 };
 
-export function getTransforms(): string[] {
+export function getTransforms(includeRuntimeOutputValue = false): string[] {
   const agnosticTransforms = [
     TransformValueCorrectPreprocessValue,
     "ts/descriptionToComment",
@@ -45,13 +45,17 @@ export function getTransforms(): string[] {
     TransformValueSizePxToRem,
     TransformValueEnsureType,
     TransformValueCorrectPostprocessValue,
-    TransformValueRuntimeOutputValue,
   ];
+
+  if (includeRuntimeOutputValue) {
+    agnosticTransforms.push(TransformValueRuntimeOutputValue);
+  }
 
   return [...agnosticTransforms, ...platformTransforms.css];
 }
 
 export const TransformCalciteGroup = "calcite";
+export const TransformCalciteRuntimeGroup = "calcite-runtime";
 
 export const registerTransformCalciteGroup: RegisterFn = () => {
   const builtinTransforms = StyleDictionary.hooks.transformGroups.css.filter(
@@ -63,5 +67,10 @@ export const registerTransformCalciteGroup: RegisterFn = () => {
   StyleDictionary.registerTransformGroup({
     name: TransformCalciteGroup,
     transforms: [...builtinTransforms, ...getTransforms()],
+  });
+
+  StyleDictionary.registerTransformGroup({
+    name: TransformCalciteRuntimeGroup,
+    transforms: [...builtinTransforms, ...getTransforms(true)],
   });
 };
