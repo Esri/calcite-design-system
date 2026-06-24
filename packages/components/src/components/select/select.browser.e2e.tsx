@@ -18,7 +18,15 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Select } from "./select";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-select`));
+  accessible(() =>
+    mount(
+      <calcite-select label="required-for-a11y-test">
+        <calcite-option>uno</calcite-option>
+        <calcite-option>dos</calcite-option>
+        <calcite-option>tres</calcite-option>
+      </calcite-select>,
+    ),
+  );
 });
 
 describe("defaults", () => {

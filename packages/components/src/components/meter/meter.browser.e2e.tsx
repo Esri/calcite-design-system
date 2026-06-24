@@ -4,7 +4,7 @@ import { h } from "@arcgis/lumina";
 import { defaults, hidden, reflects, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-meter`));
+  accessible(() => mount(<calcite-meter label="A great meter" />));
 });
 
 describe("defaults", () => {

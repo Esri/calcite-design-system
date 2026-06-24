@@ -13,7 +13,23 @@ import {
 import type { Link } from "./link";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-link`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-link>link</calcite-link>));
+  });
+
+  describe("with href", () => {
+    accessible(() => mount(<calcite-link href="/">link</calcite-link>));
+  });
+
+  describe("with icons", () => {
+    accessible(() =>
+      mount(
+        <calcite-link href="/" icon-end="plus" icon-start="plus">
+          Go
+        </calcite-link>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

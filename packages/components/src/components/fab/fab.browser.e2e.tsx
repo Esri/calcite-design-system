@@ -10,7 +10,15 @@ import {
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-fab`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-fab label="hello world" text="hello world" />));
+  });
+
+  describe("disabled text-enabled", () => {
+    accessible(() =>
+      mount(<calcite-fab disabled label="hello world" text="hello world" text-enabled />),
+    );
+  });
 });
 
 describe("defaults", () => {

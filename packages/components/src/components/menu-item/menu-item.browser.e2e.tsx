@@ -10,7 +10,13 @@ import {
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-menu-item`));
+  accessible(() =>
+    mount(
+      <calcite-menu>
+        <calcite-menu-item text="calcite" />
+      </calcite-menu>,
+    ),
+  );
 });
 
 describe("reflects", () => {

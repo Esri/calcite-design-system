@@ -12,7 +12,7 @@ import {
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-action`));
+  accessible(() => mount(<calcite-action text="hello world" />));
 });
 
 describe("defaults", () => {

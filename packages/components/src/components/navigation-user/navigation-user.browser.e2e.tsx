@@ -13,7 +13,7 @@ import {
 import { CSS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-navigation-user`));
+  accessible(() => mount(<calcite-navigation-user label="user" />));
 });
 
 describe("defaults", () => {

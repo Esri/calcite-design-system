@@ -30,7 +30,7 @@ function getDropdownFromItemText(text: string) {
 }
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-sort-handle`));
+  accessible(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
 });
 
 describe("defaults", () => {

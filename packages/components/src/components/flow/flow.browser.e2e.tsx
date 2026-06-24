@@ -7,15 +7,13 @@ mockConsole();
 
 describe("accessible", () => {
   accessible(() =>
-    mount("calcite-flow", {
-      afterConnect: (el) => {
-        el.innerHTML = `
-          <calcite-flow-item></calcite-flow-item>
-          <calcite-flow-item></calcite-flow-item>
-          <calcite-flow-item></calcite-flow-item>
-        `;
-      },
-    }),
+    mount(
+      <calcite-flow>
+        <calcite-flow-item />
+        <calcite-flow-item />
+        <calcite-flow-item />
+      </calcite-flow>,
+    ),
   );
 });
 

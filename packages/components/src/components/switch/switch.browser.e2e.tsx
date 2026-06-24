@@ -11,7 +11,13 @@ import {
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-switch`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-switch label="test-label" />));
+  });
+
+  describe("checked", () => {
+    accessible(() => mount(<calcite-switch checked label="test-label" />));
+  });
 });
 
 describe("renders", () => {
