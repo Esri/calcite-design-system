@@ -11,7 +11,60 @@ import {
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-tile-group`));
+  describe("in selection-mode none", () => {
+    accessible(() =>
+      mount(
+        <calcite-tile-group>
+          <calcite-tile label="item-1" />
+          <calcite-tile label="item-2" />
+        </calcite-tile-group>,
+      ),
+    );
+  });
+
+  describe("in selection-mode single", () => {
+    accessible(() =>
+      mount(
+        <calcite-tile-group selection-mode="single">
+          <calcite-tile label="item-1" />
+          <calcite-tile label="item-2" />
+        </calcite-tile-group>,
+      ),
+    );
+  });
+
+  describe("in selection-mode single-persist", () => {
+    accessible(() =>
+      mount(
+        <calcite-tile-group selection-mode="single-persist">
+          <calcite-tile label="item-1" />
+          <calcite-tile label="item-2" />
+        </calcite-tile-group>,
+      ),
+    );
+  });
+
+  describe("in selection-mode multiple", () => {
+    accessible(() =>
+      mount(
+        <calcite-tile-group selection-mode="multiple">
+          <calcite-tile label="item-1" />
+          <calcite-tile label="item-2" />
+        </calcite-tile-group>,
+      ),
+    );
+  });
+
+  describe("as links", () => {
+    accessible(() =>
+      mount(
+        <calcite-tile-group>
+          <calcite-tile href="#" label="item-1" />
+          <calcite-tile href="#" label="item-2" />
+        </calcite-tile-group>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

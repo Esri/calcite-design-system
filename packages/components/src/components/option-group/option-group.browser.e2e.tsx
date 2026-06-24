@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount("calcite-option-group"));
+  accessible(() => mount(<calcite-option-group label="test-group-1" />));
 });
 
 describe("defaults", () => {

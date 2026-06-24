@@ -15,7 +15,43 @@ import {
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-tile`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-tile />));
+  });
+
+  describe("with label only", () => {
+    accessible(() => mount(<calcite-tile label="my-tile" />));
+  });
+
+  describe("in single selection-mode", () => {
+    accessible(() => mount(<calcite-tile label="my-tile" selection-mode="single" />));
+  });
+
+  describe("in single-persist selection-mode", () => {
+    accessible(() => mount(<calcite-tile label="my-tile" selection-mode="single-persist" />));
+  });
+
+  describe("in multiple selection-mode", () => {
+    accessible(() => mount(<calcite-tile label="my-tile" selection-mode="multiple" />));
+  });
+
+  describe("as link", () => {
+    describe("with heading", () => {
+      accessible(() => mount(<calcite-tile heading="My link" href="#" />));
+    });
+
+    describe("with description", () => {
+      accessible(() => mount(<calcite-tile description="My link" href="#" />));
+    });
+
+    describe("with heading and label", () => {
+      accessible(() => mount(<calcite-tile heading="My link" href="#" label="my-tile" />));
+    });
+
+    describe("with description and label", () => {
+      accessible(() => mount(<calcite-tile description="My link" href="#" label="my-tile" />));
+    });
+  });
 });
 
 describe("defaults", () => {

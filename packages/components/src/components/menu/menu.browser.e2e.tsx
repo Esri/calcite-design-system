@@ -4,7 +4,13 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { focusable, hidden, renders, t9n, accessible } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-menu`));
+  accessible(() =>
+    mount(
+      <calcite-menu>
+        <calcite-menu-item text="calcite" />
+      </calcite-menu>,
+    ),
+  );
 });
 
 describe("honors hidden attribute", () => {

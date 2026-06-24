@@ -30,7 +30,40 @@ import type { Combobox } from "./combobox";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-combobox`));
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+        </calcite-combobox>,
+      ),
+    );
+  });
+
+  describe("with item group", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item-group label="Conifers">
+            <calcite-combobox-item heading="Pine" value="Pine" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+      ),
+    );
+  });
+
+  describe("with open selected items", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" open value="Trees">
+          <calcite-combobox-item-group label="Conifers">
+            <calcite-combobox-item heading="Pine" selected value="Pine" />
+            <calcite-combobox-item heading="Spruce" selected value="Spruce" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+      ),
+    );
+  });
 });
 
 describe("cancelable", () => {

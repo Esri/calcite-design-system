@@ -21,7 +21,38 @@ import { Popover } from "./popover";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-popover`));
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("with close button", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover closable label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

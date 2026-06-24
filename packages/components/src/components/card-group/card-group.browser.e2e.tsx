@@ -13,7 +13,65 @@ import {
 import type { CardGroup } from "./card-group";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-card-group`));
+  describe("is accessible in selection mode none (default)", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode single", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="single">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode single-persist", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="single-persist">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode multiple", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="multiple">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

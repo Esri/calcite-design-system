@@ -12,7 +12,21 @@ import {
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-swatch`));
+  describe("default", () => {
+    accessible(() => mount("calcite-swatch"));
+  });
+
+  describe("selected + value", () => {
+    accessible(() => mount(<calcite-swatch label="swatch" selected value="123" />));
+  });
+
+  describe("color + value", () => {
+    accessible(() => mount(<calcite-swatch color="#c0ffee" label="swatch" value="123" />));
+  });
+
+  describe("color + selected + value", () => {
+    accessible(() => mount(<calcite-swatch color="#c0ffee" label="swatch" selected value="123" />));
+  });
 });
 
 describe("disabled", () => {
