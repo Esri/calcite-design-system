@@ -44,8 +44,6 @@
 .content ::slotted(calcite-flow) {
   @apply flex-auto self-stretch;
   max-block-size: unset;
-
-  border: 0;
 }
 
 .content--behind {

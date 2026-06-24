@@ -444,9 +444,7 @@ export class ShellPanel extends LitElement {
     if (!this.actionBarContainerEl) {
       return;
     }
-    // const { layout } = this;
     const rect = this.actionBarContainerEl.getBoundingClientRect();
-    // const size = layout === "horizontal" ? rect.height : rect.width;
     const width = rect.width;
     const height = rect.height;
     this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-width", `${width}px`);
@@ -522,7 +520,6 @@ export class ShellPanel extends LitElement {
       attributeFilter: ["expanded"],
     });
 
-    // Set initial state
     this.updateContentMaxWidthFromActionBar(actionBar);
   }
 
