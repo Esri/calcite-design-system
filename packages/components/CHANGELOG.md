@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.5...@esri/calcite-components@5.2.0-next.6) (2026-06-24)
+
+### Features
+
+- **dropdown:** add max-height css token ([#14680](https://github.com/Esri/calcite-design-system/issues/14680)), closes [#12486](https://github.com/Esri/calcite-design-system/issues/12486)
+
 ## [5.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.4...@esri/calcite-components@5.2.0-next.5) (2026-06-23)
 
 ### Bug Fixes
