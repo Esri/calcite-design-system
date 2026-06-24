@@ -76,7 +76,7 @@ export class TabNav extends LitElement {
 
   @state() private hasVisibleTabTitles = true;
 
-  @state() selectedTabId: TabID;
+  @state() selectedTabId: TabID | undefined;
 
   //#endregion
 
@@ -144,8 +144,6 @@ export class TabNav extends LitElement {
     this.listen("calciteInternalTabsFocusNext", this.focusNextTabHandler);
     this.listen("calciteInternalTabsFocusFirst", this.focusFirstTabHandler);
     this.listen("calciteInternalTabsFocusLast", this.focusLastTabHandler);
-    this.listen("calciteInternalTabsActivate", this.internalActivateTabHandler);
-    this.listen("calciteInternalTabsClose", this.internalCloseTabHandler);
     this.listen("calciteInternalTabTitleChange", this.syncVisibleTabTitlesState);
     this.listen("calciteInternalTabTitleRegister", this.updateTabTitles);
     this.listen<ToEvents<TabTitle>["calciteInternalTabsActivate"]>(
@@ -185,7 +183,11 @@ export class TabNav extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("selectedTitle") && (this.hasUpdated || this.selectedTitle !== null)) {
+    if (
+      changes.has("selectedTitle") &&
+      (this.hasUpdated || this.selectedTitle !== null) &&
+      this.selectedTabId !== undefined
+    ) {
       this.calciteInternalTabChange.emit({
         tab: this.selectedTabId,
       });
@@ -216,7 +218,7 @@ export class TabNav extends LitElement {
     if (
       this.tabTitles.length &&
       this.tabTitles.every((title) => !title.selected) &&
-      !this.selectedTabId
+      this.selectedTabId === undefined
     ) {
       this.tabTitles[0].getTabIdentifier().then((tab) => {
         this.calciteInternalTabChange.emit({
@@ -344,12 +346,11 @@ export class TabNav extends LitElement {
   private async selectedTabIdChanged(): Promise<void> {
     await this.componentOnReady();
 
-    if (
-      localStorage &&
-      this.storageId &&
-      this.selectedTabId !== undefined &&
-      this.selectedTabId !== null
-    ) {
+    if (this.selectedTabId === undefined) {
+      return;
+    }
+
+    if (localStorage && this.storageId) {
       localStorage.setItem(`calcite-tab-nav-${this.storageId}`, JSON.stringify(this.selectedTabId));
     }
 
@@ -599,7 +600,7 @@ export class TabNav extends LitElement {
 
     if (totalVisibleTabTitles === 0) {
       this.selectedTitle = null;
-      this.selectedTabId = null;
+      this.selectedTabId = undefined;
       return;
     }
 
@@ -620,7 +621,7 @@ export class TabNav extends LitElement {
           ? visibleTabTitlesIndices[visibleTabTitlesIndices.length - 1]
           : nextVisibleTabTitleIndex;
 
-      if (this.selectedTabId === closedTabTitleIndex) {
+      if (this.selectedTitle === closedTabTitleEl) {
         if (selectionModified) {
           tabTitles[nextSelectedTabTitleIndex].activateTab();
         } else {
@@ -630,7 +631,7 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      focusElement(tabTitles[this.selectedTabId]);
+      focusElement(this.selectedTitle ?? undefined);
     });
   }
 
