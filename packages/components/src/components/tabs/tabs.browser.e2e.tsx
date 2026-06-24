@@ -11,8 +11,13 @@ import type { Tabs } from "./tabs";
 
 mockConsole("error");
 
-async function closeTitleById(component: { updateComplete: Promise<unknown> }): Promise<void> {
-  const closeButton = page.getByRole("button", { name: "Close" }).first();
+async function closeTitleById(
+  component: { updateComplete: Promise<unknown> },
+  titleId?: string,
+): Promise<void> {
+  const closeButton = titleId
+    ? page.getBySelector(`#${titleId}`).getByRole("button", { name: "Close" })
+    : page.getByRole("button", { name: "Close" }).first();
 
   await userEvent.click(closeButton);
   await component.updateComplete;
@@ -151,7 +156,7 @@ describe("closing tabs", () => {
 
     tabsEl.lastTabClosable = true;
     await component.updateComplete;
-    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await afterNextFrame();
     expect(tabsEl.hasAttribute("last-tab-closable")).toBe(true);
 
     for (let i = 1; i <= 3; i++) {
@@ -171,7 +176,7 @@ describe("closing tabs", () => {
 
     tabsEl.lastTabClosable = false;
     await component.updateComplete;
-    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await afterNextFrame();
     expect(tabsEl.hasAttribute("last-tab-closable")).toBe(false);
     expect(lastVisibleTitle.closable).toBe(false);
     expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(0);
