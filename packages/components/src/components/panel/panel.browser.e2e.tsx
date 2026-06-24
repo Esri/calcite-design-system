@@ -359,7 +359,7 @@ describe("disabled", () => {
 });
 
 describe("focus trap", () => {
-  it("passes focusTrapDisabled to the internal focus trap", async () => {
+  it("applies dialog semantics only when focus trap is enabled", async () => {
     const { component } = await mount<Panel>(
       <calcite-panel closable focusTrapDisabled heading="Panel heading" />,
     );
@@ -373,9 +373,18 @@ describe("focus trap", () => {
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
   });
 
+  it("does not apply dialog semantics when not closable", async () => {
+    await mount<Panel>(<calcite-panel heading="Panel heading" />);
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Panel heading" }))
+      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("article")).toBeInTheDocument();
+  });
+
   it("does not close or emit close on Escape when not closable", async () => {
     const { component } = await mount<Panel>(
-      <calcite-panel focusTrapDisabled heading="Panel heading">
+      <calcite-panel heading="Panel heading">
         <button type="button">inside one</button>
       </calcite-panel>,
     );
@@ -392,7 +401,7 @@ describe("focus trap", () => {
     expect(closeEventCount).toBe(0);
   });
 
-  it("cycles focus within the internal focus trap when activated", async () => {
+  it("cycles focus within the focus trap when activated", async () => {
     const { component } = await mount<Panel>(
       <calcite-panel closable heading="Panel heading">
         <button type="button">inside one</button>

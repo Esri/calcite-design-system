@@ -30,13 +30,14 @@ import { CollapseDirection, Scale } from "../interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
 import type { ActionBar } from "../action-bar/action-bar";
+import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
-import type { FocusTrap } from "../focus-trap/focus-trap";
 
 declare global {
   interface DeclareElements {
@@ -70,9 +71,25 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private focusTrapRef = createRef<FocusTrap["el"]>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private panelScrollEl?: HTMLElement;
+
+  private focusSetter = useSetFocus<this>()(this);
+
+  private focusTrapController = useFocusTrap<this>({
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && this.closable) {
+          this.emitCloseEvent();
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
@@ -171,7 +188,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, prevents focus trapping and dialog semantics. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
+  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** @copyDoc */
@@ -229,7 +246,7 @@ export class Panel extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusTrapRef.value?.setFocus(options);
+    return this.focusSetter(() => this.containerRef.value, options);
   }
 
   //#endregion
@@ -274,9 +291,9 @@ export class Panel extends LitElement {
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("focusTrapDisabled") || changes.has("closable") || changes.has("closed")) {
       if (!this.closed && this.closable && !this.focusTrapDisabled) {
-        this.focusTrapRef.value?.activate();
+        this.focusTrapController.activate();
       } else {
-        this.focusTrapRef.value?.deactivate();
+        this.focusTrapController.deactivate();
       }
     }
   }
@@ -288,6 +305,10 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  focusTrapDisabledOverride(): boolean {
+    return this.focusTrapDisabled || !this.closable || this.closed;
+  }
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
@@ -331,13 +352,7 @@ export class Panel extends LitElement {
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (
-      event.key !== "Escape" ||
-      event.defaultPrevented ||
-      this.closed ||
-      !this.closable ||
-      !this.focusTrapDisabled
-    ) {
+    if (event.key !== "Escape" || event.defaultPrevented || this.closed || !this.closable) {
       return;
     }
 
@@ -753,29 +768,14 @@ export class Panel extends LitElement {
         ariaLive={hasDialogRole ? "polite" : undefined}
         class={CSS.container}
         hidden={closed}
+        ref={this.containerRef}
         role={hasDialogRole ? "dialog" : "article"}
       >
-        <calcite-focus-trap
-          focusTrapDisabled={!hasDialogRole || closed}
-          focusTrapOptions={{
-            allowOutsideClick: true,
-            escapeDeactivates: (event) => {
-              if (!event.defaultPrevented && this.closable) {
-                this.emitCloseEvent();
-                event.preventDefault();
-              }
-
-              return false;
-            },
-          }}
-          ref={this.focusTrapRef}
-        >
-          {this.renderHeaderNode()}
-          {this.renderContent()}
-          {this.renderContentBottom()}
-          {this.renderFooterNode()}
-          <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-        </calcite-focus-trap>
+        {this.renderHeaderNode()}
+        {this.renderContent()}
+        {this.renderContentBottom()}
+        {this.renderFooterNode()}
+        <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
       </div>
     );
 

@@ -108,7 +108,7 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closable` is `false` or `closed` is `true`. */
+  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
