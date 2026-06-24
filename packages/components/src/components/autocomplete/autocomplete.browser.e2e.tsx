@@ -21,7 +21,7 @@ import {
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { Autocomplete } from "./autocomplete";
+import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -261,7 +261,7 @@ function renderAutocomplete(): JsxNode {
 
 describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
-    floatingUIOwner(() => mount(renderAutocomplete), "open", {
+    floatingUIOwner(() => mount<Autocomplete>(renderAutocomplete), "open", {
       shadowSelector: `.${CSS.floatingUIContainer}`,
     });
   });

@@ -136,7 +136,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Popover>(
           <>
             <calcite-popover placement="auto" reference-element="ref">
               content
