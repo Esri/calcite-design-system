@@ -1,5 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
 import {
   defaults,
   focusable,
