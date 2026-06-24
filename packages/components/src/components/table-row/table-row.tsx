@@ -265,24 +265,9 @@ export class TableRow extends LitElement {
     const el = event.target as TableCell["el"] | TableHeader["el"];
     const key = event.key;
     const isControl = event.ctrlKey;
-    const isShift = event.shiftKey;
     const cells = this.rowCells;
     if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
       switch (key) {
-        case "Tab":
-          if (this.rowType === "head" && this.stickyHeaderEnabled) {
-            const atBoundary = isShift ? el.positionInRow === 1 : el.positionInRow === cells.length;
-
-            if (!atBoundary) {
-              const destinationCell = isShift
-                ? cells[el.positionInRow - 2]
-                : cells[el.positionInRow];
-
-              destinationCell?.setFocus({ preventScroll: true });
-              event.preventDefault();
-            }
-          }
-          break;
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");
           event.preventDefault();
