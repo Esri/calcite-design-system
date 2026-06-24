@@ -2,14 +2,20 @@ import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
+import { page, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import type { Tabs } from "./tabs";
 
-async function closeTitleById(tabsEl: Tabs["el"], tabTitleId: string): Promise<void> {
-  const tabTitle = tabsEl.querySelector(`#${tabTitleId}`) as TabTitle["el"];
-  tabTitle.closed = true;
+mockConsole("error");
+
+async function closeTitleById(component: { updateComplete: Promise<unknown> }): Promise<void> {
+  const closeButton = page.getByRole("button", { name: "Close" }).first();
+
+  await userEvent.click(closeButton);
+  await component.updateComplete;
 }
 
 describe("defaults", () => {
@@ -96,8 +102,7 @@ describe("closing tabs", () => {
     const { tabsEl, component } = await setupClosableTabs();
 
     for (let i = 1; i <= 4; i++) {
-      await closeTitleById(tabsEl, `tab-title-${i}`);
-      await component.updateComplete;
+      await closeTitleById(component);
     }
 
     const allTabTitles = Array.from<TabTitle["el"]>(tabsEl.querySelectorAll("calcite-tab-title"));
@@ -112,18 +117,62 @@ describe("closing tabs", () => {
     const { tabsEl, component } = await setupClosableTabs();
 
     for (let i = 1; i <= 4; i++) {
-      await closeTitleById(tabsEl, `tab-title-${i}`);
-      await component.updateComplete;
+      await closeTitleById(component);
     }
 
-    const reopenedTitle = tabsEl.querySelector("#tab-title-4") as TabTitle["el"];
+    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
+
+    expect(reopenedTitle).not.toBeNull();
+
+    if (!reopenedTitle) {
+      return;
+    }
+
     reopenedTitle.closed = false;
     await component.updateComplete;
 
-    const reopenedTab = tabsEl.querySelector("#tab-4") as Tab["el"];
+    const reopenedTab = tabsEl.querySelector<Tab["el"]>("#tab-4");
+
+    expect(reopenedTab).not.toBeNull();
+
+    if (!reopenedTab) {
+      return;
+    }
 
     expect(reopenedTitle.closed).toBe(false);
     expect(reopenedTitle.hidden).toBe(false);
+    expect(reopenedTab.hidden).toBe(false);
     expect(reopenedTab.selected).toBe(true);
+    expect(reopenedTitle.tabIndex).toBe(0);
+  });
+
+  it("removes the close button again when lastTabClosable is set back to false", async () => {
+    const { tabsEl, component } = await setupClosableTabs();
+
+    tabsEl.lastTabClosable = true;
+    await component.updateComplete;
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    for (let i = 1; i <= 3; i++) {
+      await closeTitleById(component);
+    }
+
+    const lastVisibleTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
+
+    expect(lastVisibleTitle).not.toBeNull();
+
+    if (!lastVisibleTitle) {
+      return;
+    }
+
+    expect(lastVisibleTitle.closable).toBe(true);
+    expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(1);
+
+    tabsEl.lastTabClosable = false;
+    await component.updateComplete;
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    expect(lastVisibleTitle.closable).toBe(false);
+    expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(0);
   });
 });

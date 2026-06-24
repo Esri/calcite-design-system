@@ -631,7 +631,13 @@ export class TabNav extends LitElement {
     }
 
     requestAnimationFrame(() => {
-      focusElement(this.selectedTitle ?? undefined);
+      const selectedTitle = this.selectedTitle;
+
+      if (!selectedTitle) {
+        return;
+      }
+
+      focusElement(selectedTitle);
     });
   }
 
