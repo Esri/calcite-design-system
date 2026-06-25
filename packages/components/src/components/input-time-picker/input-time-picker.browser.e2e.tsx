@@ -26,7 +26,7 @@ mockConsole();
 
 describe("accessible", () => {
   describe("default", () => {
-    accessible(() => mount("calcite-time-picker"));
+    accessible(() => mount("calcite-input-time-picker"));
   });
 
   describe("with label", () => {
@@ -34,7 +34,7 @@ describe("accessible", () => {
   });
 
   describe("using seconds", () => {
-    accessible(() => mount(<calcite-time-picker step={1} value="00:00:00" />));
+    accessible(() => mount(<calcite-input-time-picker step={1} value="00:00:00" />));
   });
 });
 

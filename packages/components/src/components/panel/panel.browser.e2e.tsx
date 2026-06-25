@@ -79,7 +79,7 @@ describe("accessible", () => {
   accessible(() =>
     mount(
       <calcite-panel>
-        <calcite-action-bar slot="${SLOTS.actionBar}">
+        <calcite-action-bar slot={SLOTS.actionBar}>
           <calcite-action-group>
             <calcite-action icon="plus" text="Add" />
             <calcite-action icon="save" text="Save" />
