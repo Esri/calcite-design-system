@@ -262,11 +262,12 @@ export class Action extends LitElement {
     return indicator ? (
       <div
         aria-labelledby={buttonId}
+        ariaLive="polite"
         class={CSS.indicatorText}
         ref={this.indicatorRef}
-        role="status"
+        role="region"
       >
-        {messages.indicator}
+        {indicator ? messages.indicator : null}
       </div>
     ) : null;
   }
