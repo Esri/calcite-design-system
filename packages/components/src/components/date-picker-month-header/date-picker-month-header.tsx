@@ -299,7 +299,7 @@ export class DatePickerMonthHeader extends LitElement {
   }
 
   private setYearSelectWidthOffset(): void {
-    this.yearSelectWidthOffset = ICON_WIDTH_M + 3 * parseInt(this.getYearSelectPadding());
+    this.yearSelectWidthOffset = ICON_WIDTH_M + 3 * parseInt(this.getYearSelectPadding(), 10);
     this.setYearSelectMenuWidth();
   }
 
