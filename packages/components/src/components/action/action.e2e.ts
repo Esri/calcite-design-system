@@ -146,30 +146,6 @@ it("should have icon container if loading", async () => {
   expect(iconContainer).not.toBeNull();
 });
 
-it("should use text prop for a11y attributes when text is not enabled", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe("hello world");
-});
-
-it("should set aria-label with indicator", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
-});
-
-it("should have label", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action text="hello world" label="hi"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe("hi");
-});
-
 it("should have a indicator live region", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-action></calcite-action>`);

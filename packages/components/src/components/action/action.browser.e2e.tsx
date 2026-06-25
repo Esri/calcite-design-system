@@ -11,6 +11,7 @@ import {
   t9n,
   accessible,
 } from "../../tests/commonTests/browser";
+import { page } from "vitest/browser";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-action text="hello world" />));
@@ -178,4 +179,22 @@ describe("type property", () => {
     const button = el.shadowRoot?.querySelector("button");
     expect(button?.type).toBe("submit");
   });
+});
+
+it("should use text prop for a11y attributes when text is not enabled", async () => {
+  await mount(<calcite-action text="hello world" />);
+
+  await expect.element(page.getByLabelText(`hello world`)).toBeDefined();
+});
+
+it("should set aria-label with indicator", async () => {
+  await mount(<calcite-action indicator text="hello world" />);
+
+  await expect.element(page.getByLabelText(`hello world (Indicator present)`)).toBeDefined();
+});
+
+it("should have label", async () => {
+  await mount(<calcite-action label="hi" text="hello world" />);
+
+  await expect.element(page.getByLabelText(`hi`)).toBeDefined();
 });
