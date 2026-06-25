@@ -72,7 +72,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     return this.referenceElement ? this.type : undefined;
   }
 
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   referenceElementController = useReferenceElement({ manager })(this);
 
   private direction = useDirection();
@@ -162,7 +161,6 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /** @copyDoc */
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */
