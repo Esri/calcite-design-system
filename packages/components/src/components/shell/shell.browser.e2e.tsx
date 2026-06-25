@@ -1,10 +1,22 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { hidden, renders, slots, accessible } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-shell`));
+  accessible(() =>
+    mount(
+      <calcite-shell>
+        <calcite-shell-panel position="start" slot={SLOTS.panelStart}>
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel position="end" slot={SLOTS.panelEnd}>
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    ),
+  );
 });
 
 describe("honors hidden attribute", () => {

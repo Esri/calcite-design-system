@@ -12,9 +12,27 @@ import {
   accessible,
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
+
+const placeholder = placeholderImage({
+  width: 350,
+  height: 150,
+});
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-card`));
+  describe("default", () => {
+    accessible(() => mount("calcite-card"));
+  });
+
+  describe("when selectable (deprecated)", () => {
+    accessible(() =>
+      mount(
+        <calcite-card label="example-label" selectable>
+          <img alt="Test image" slot="thumbnail" src={placeholder} />
+        </calcite-card>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

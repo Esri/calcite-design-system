@@ -21,7 +21,20 @@ import type { Shell } from "../shell/shell";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-shell-panel`));
+  accessible(() =>
+    mount(
+      <calcite-shell-panel position="start" slot="panel-start">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+            <calcite-action icon="save" text="Save" />
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-group>
+        </calcite-action-bar>
+        <p>Primary Content</p>
+      </calcite-shell-panel>,
+    ),
+  );
 });
 
 describe("defaults", () => {

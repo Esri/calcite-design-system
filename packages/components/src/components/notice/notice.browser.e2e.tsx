@@ -26,7 +26,39 @@ function renderContent(): JsxNode {
 }
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-notice`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-notice open>{renderContent()}</calcite-notice>));
+  });
+
+  describe("with icon", () => {
+    accessible(() =>
+      mount(
+        <calcite-notice icon open>
+          {renderContent()}
+        </calcite-notice>,
+      ),
+    );
+  });
+
+  describe("with icon with close button", () => {
+    accessible(() =>
+      mount(
+        <calcite-notice closable open>
+          {renderContent()}
+        </calcite-notice>,
+      ),
+    );
+  });
+
+  describe("with icon and close button", () => {
+    accessible(() =>
+      mount(
+        <calcite-notice closable icon open>
+          {renderContent()}
+        </calcite-notice>,
+      ),
+    );
+  });
 });
 
 describe("is focusable", () => {

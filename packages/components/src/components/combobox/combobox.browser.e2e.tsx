@@ -65,6 +65,18 @@ describe("accessible", () => {
       ),
     );
   });
+
+  describe("with highlight selection appearance", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" selection-appearance="highlight">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+          <calcite-combobox-item heading="Spruce" value="Spruce" />
+          <calcite-combobox-item heading="Fir" value="Fir" />
+        </calcite-combobox>,
+      ),
+    );
+  });
 });
 
 describe("cancelable", () => {

@@ -13,7 +13,26 @@ import {
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-tree-item`));
+  describe("default", () => {
+    accessible(() => mount("calcite-tree-item"));
+  });
+
+  describe("with nested children", () => {
+    accessible(() =>
+      mount(
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="http://www.esri.com">Grandchild 1</a>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

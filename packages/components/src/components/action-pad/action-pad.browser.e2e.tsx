@@ -20,7 +20,29 @@ import { html } from "lit";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-action-pad`));
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-pad>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    );
+  });
+
+  describe("should be accessible when expanded", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-pad expanded>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {

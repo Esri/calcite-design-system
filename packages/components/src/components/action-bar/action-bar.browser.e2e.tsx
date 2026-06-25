@@ -26,7 +26,29 @@ import { html } from "lit";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-action-bar`));
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-bar>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-bar>,
+      ),
+    );
+  });
+
+  describe("when expanded", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-bar expanded>
+          <calcite-action-group>
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-group>
+        </calcite-action-bar>,
+      ),
+    );
+  });
 });
 
 describe("cancelable", () => {

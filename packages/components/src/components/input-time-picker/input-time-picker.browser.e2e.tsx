@@ -25,7 +25,17 @@ import { InputTimePicker } from "./input-time-picker";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-input-time-picker`));
+  describe("default", () => {
+    accessible(() => mount("calcite-time-picker"));
+  });
+
+  describe("with label", () => {
+    accessible(() => mount(<calcite-input-time-picker label="Input Time Picker" />));
+  });
+
+  describe("using seconds", () => {
+    accessible(() => mount(<calcite-time-picker step={1} value="00:00:00" />));
+  });
 });
 
 describe("defaults", () => {

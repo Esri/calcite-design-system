@@ -1,82 +1,84 @@
+import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
-  accessible,
   defaults,
   focusable,
   reflects,
   hidden,
   renders,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() =>
-    mount(
-      <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
-        <calcite-dropdown-group>
-          <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected>
-            Item2
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>,
-    ),
-  );
-});
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
 
-describe("accessible when disabled", () => {
-  accessible(() =>
-    mount(
-      <calcite-split-button disabled dropdown-label="Show options" primary-text="Button Text">
-        <calcite-dropdown-group>
-          <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected>
-            Item2
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>,
-    ),
-  );
-});
+  describe("accessible when disabled", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button disabled dropdown-label="Show options" primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
 
-describe("accessible when loading", () => {
-  accessible(() =>
-    mount(
-      <calcite-split-button dropdown-label="Show options" loading primary-text="Button Text">
-        <calcite-dropdown-group>
-          <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected>
-            Item2
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>,
-    ),
-  );
-});
+  describe("accessible when loading", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" loading primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
 
-describe("accessible with icons and no text", () => {
-  accessible(() =>
-    mount(
-      <calcite-split-button
-        dropdown-label="Show options"
-        icon-end="plus"
-        icon-start="plus"
-        primary-label="Button label"
-      >
-        <calcite-dropdown-group>
-          <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-          <calcite-dropdown-item id="item-2" selected>
-            Item2
-          </calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-split-button>,
-    ),
-  );
+  describe("accessible with icons and no text", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button
+          dropdown-label="Show options"
+          icon-end="plus"
+          icon-start="plus"
+          primary-label="Button label"
+        >
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {
@@ -151,23 +153,25 @@ describe("renders", () => {
   renders(() => mount("calcite-split-button"), { display: "inline-block" });
 });
 
-const renderContentString = `
-  <calcite-dropdown-group>
-    <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" selected>Item2</calcite-dropdown-item>
-  </calcite-dropdown-group>
-`;
+function renderContent(): JsxNode {
+  return (
+    <calcite-dropdown-group>
+      <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+      <calcite-dropdown-item id="item-2" selected>
+        Item2
+      </calcite-dropdown-item>
+    </calcite-dropdown-group>
+  );
+}
 
 describe("focusable", () => {
   focusable(
     () =>
-      mount("calcite-split-button", {
-        afterConnect: (el) => {
-          el.dropdownLabel = "Show options";
-          el.primaryText = "Button Text";
-          el.innerHTML = renderContentString;
-        },
-      }),
+      mount(
+        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          {renderContent()}
+        </calcite-split-button>,
+      ),
     {
       shadowFocusTargetSelector: "calcite-button",
     },

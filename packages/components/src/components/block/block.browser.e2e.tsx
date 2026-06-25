@@ -22,7 +22,13 @@ import { CSS, SLOTS } from "./resources";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-block`));
+  accessible(() =>
+    mount(
+      <calcite-block collapsible description="description" expanded heading="heading">
+        <div>content</div>
+      </calcite-block>,
+    ),
+  );
 });
 
 describe("defaults", () => {

@@ -1,9 +1,28 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-color-picker-swatch`));
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker-swatch"));
+  });
+
+  describe("selected + value", () => {
+    accessible(() => mount(<calcite-color-picker-swatch label="swatch" selected value="123" />));
+  });
+
+  describe("color + value", () => {
+    accessible(() =>
+      mount(<calcite-color-picker-swatch color="#c0ffee" label="swatch" value="123" />),
+    );
+  });
+
+  describe("color + selected + value", () => {
+    accessible(() =>
+      mount(<calcite-color-picker-swatch color="#c0ffee" label="swatch" selected value="123" />),
+    );
+  });
 });
 
 describe("defaults", () => {

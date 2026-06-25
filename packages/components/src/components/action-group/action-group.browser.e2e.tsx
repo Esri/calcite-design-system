@@ -30,7 +30,14 @@ function renderActionGroup(): JsxNode {
 }
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-action-group`));
+  accessible(() =>
+    mount(
+      <calcite-action-group scale="l">
+        <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      </calcite-action-group>,
+    ),
+  );
 });
 
 describe("defaults", () => {

@@ -21,7 +21,7 @@ import { afterNextTask } from "../../tests/utils/timing";
 import type { InputDatePicker } from "./input-date-picker";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-input-date-picker`));
+  accessible(() => mount(<calcite-input-date-picker label="Input Date Picker" />));
 });
 
 describe("defaults", () => {

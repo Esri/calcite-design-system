@@ -1,8 +1,7 @@
 import { describe } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
+import { mount } from "@arcgis/lumina-compiler/testing";
 import {
-  accessible,
   focusable,
   formAssociated,
   internalLabel,
@@ -11,21 +10,9 @@ import {
   defaults,
   reflects,
   hidden,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-
-describe("defaults", () => {
-  defaults(
-    () => mount("calcite-radio-button"),
-    [
-      { propertyName: "scale", defaultValue: "m" },
-      {
-        propertyName: "validity",
-        defaultValue: defaultValidity,
-      },
-    ],
-  );
-});
 
 describe("accessible", () => {
   accessible(() =>
@@ -44,6 +31,19 @@ describe("accessible without calcite-label", () => {
   );
 });
 
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-radio-button"),
+    [
+      { propertyName: "scale", defaultValue: "m" },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+    ],
+  );
+});
+
 describe("is form-associated", () => {
   describe("no group", () => {
     formAssociated(() => mount("calcite-radio-button"), {
@@ -57,26 +57,22 @@ describe("is form-associated", () => {
   describe.skip("group", () => {
     formAssociated(
       () =>
-        mount("calcite-radio-button-group", {
-          afterConnect: (el) => {
-            el.name = "using";
-            el.required = true;
-            el.innerHTML = `
-              <calcite-label layout="inline">
-                Yes
-                <calcite-radio-button required value="yes"></calcite-radio-button>
-              </calcite-label>
-              <calcite-label layout="inline">
-                No
-                <calcite-radio-button required value="no"></calcite-radio-button>
-              </calcite-label>
-              <calcite-label layout="inline">
-                Maybe
-                <calcite-radio-button required value="maybe"></calcite-radio-button>
-              </calcite-label>
-            `;
-          },
-        }),
+        mount(
+          <calcite-radio-button-group name="using" required>
+            <calcite-label layout="inline">
+              Yes
+              <calcite-radio-button required value="yes" />
+            </calcite-label>
+            <calcite-label layout="inline">
+              No
+              <calcite-radio-button required value="no" />
+            </calcite-label>
+            <calcite-label layout="inline">
+              Maybe
+              <calcite-radio-button required value="maybe" />
+            </calcite-label>
+          </calcite-radio-button-group>,
+        ),
       {
         testValue: true,
         inputType: "radio",

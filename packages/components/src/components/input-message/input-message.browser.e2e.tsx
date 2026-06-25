@@ -12,25 +12,11 @@ describe("accessible with icon", () => {
 });
 
 describe("honors hidden attribute", () => {
-  hidden(() =>
-    mount<"calcite-input-message">(`calcite-input-message`, {
-      afterConnect: (el) => {
-        el.textContent = "Text";
-      },
-    }),
-  );
+  hidden(() => mount(<calcite-input-message>Text</calcite-input-message>));
 });
 
 describe("renders", () => {
-  renders(
-    () =>
-      mount<"calcite-input-message">(`calcite-input-message`, {
-        afterConnect: (el) => {
-          el.textContent = "content";
-        },
-      }),
-    {
-      display: "flex",
-    },
-  );
+  renders(() => mount(<calcite-input-message>content</calcite-input-message>), {
+    display: "flex",
+  });
 });
