@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.6...@esri/calcite-components@5.2.0-next.7) (2026-06-25)
+
+### Features
+
+- **tabs:** Add `last-tab-closable` functionality ([#14446](https://github.com/Esri/calcite-design-system/issues/14446)), closes [#14346](https://github.com/Esri/calcite-design-system/issues/14346)
+
 ## [5.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.5...@esri/calcite-components@5.2.0-next.6) (2026-06-24)
 
 ### Features
