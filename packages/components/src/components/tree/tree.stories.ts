@@ -26,16 +26,18 @@ const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
     </style>
 
     <div class="container">
-      ${scales.map(
-        (scale) => html`
-          <div class="tree-container">
-            <h3>${selectionMode} selection mode + ${scale} scale</h3>
-            <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
-              ${items}
-            </calcite-tree>
-          </div>
-        `,
-      )}
+      ${scales
+        .map(
+          (scale) => html`
+            <div class="tree-container">
+              <h3>${selectionMode} selection mode + ${scale} scale</h3>
+              <calcite-tree selection-mode="${selectionMode}" ${lines ? "lines" : ""} scale="${scale}">
+                ${items}
+              </calcite-tree>
+            </div>
+          `,
+        )
+        .join("")}
     </div>
   `;
 };
