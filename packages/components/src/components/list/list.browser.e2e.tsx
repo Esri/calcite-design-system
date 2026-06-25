@@ -704,7 +704,7 @@ describe("filter item data updates", () => {
     await waitForFilteredLength(el, 1);
     await waitForFilterItemsMatch(
       filterEl,
-      (item) => item.el === listItem && item.heading?.includes(headingToken),
+      (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
   });
 });
