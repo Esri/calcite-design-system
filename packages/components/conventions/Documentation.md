@@ -20,10 +20,10 @@ Follow these conventions when adding or editing API reference:
 
 ### Shared definitions using `@copyDoc`
 
-Usage: Use `@copyDoc` when the same description is shared across multiple components.
+When a description is shared across multiple components, the `@copyDoc` tag should be used. This improves consistency and reduces repetition.
 
 - Add shared definitions in [api-extractor.config.ts](../api-extractor.config.ts) within `copyDocDefinitions`.
-- Use the `@copyDoc` tag in the component file in place of the description. Other tags, such as `@deprecated` or `@required`, can still be used in conjunction with `@copyDoc`. Example:
+- Use the `@copyDoc` tag in the component file in place of the description. Other tags, such as `@deprecated` or `@required`, can still be used in conjunction with `@copyDoc`:
 
   ```js
   /**
@@ -32,7 +32,7 @@ Usage: Use `@copyDoc` when the same description is shared across multiple compon
    */
   ```
 
-`@copyDoc` support
+`@copyDoc` support:
 
 - Supported sections: `properties`, `methods`, and `events`
 - Unsupported sections: `slots`
@@ -40,7 +40,7 @@ Usage: Use `@copyDoc` when the same description is shared across multiple compon
 
 If a component needs different verbiage than an `@copyDoc` description, either:
 
-- Use override functions as seen for the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts).
+- Use override functions, such as the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts).
 - Add a description in the component file and don't use `@copyDoc`.
 
 For additional guidance, review the Web GIS reference `@copyDoc` documentation.
