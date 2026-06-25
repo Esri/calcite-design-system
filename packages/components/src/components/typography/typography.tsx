@@ -90,12 +90,12 @@ export class Typography extends LitElement {
     this.resizeObserver?.observe(this.el);
   }
 
-  override disconnectedCallback(): void {
-    this.resizeObserver?.disconnect();
-  }
-
   async loaded(): Promise<void> {
     this.el.style.setProperty("--calcite-internal-text-max-lines", this.maxLines?.toString());
+  }
+
+  override disconnectedCallback(): void {
+    this.resizeObserver?.disconnect();
   }
 
   //#endregion
@@ -103,7 +103,6 @@ export class Typography extends LitElement {
   //#region Private Methods
 
   private handleDefaultSlotChange(event: Event): void {
-    //Prevent recursion when we update slot text programmatically.
     if (this.isTextContentChanged) {
       this.isTextContentChanged = false;
       return;
@@ -113,13 +112,11 @@ export class Typography extends LitElement {
   }
 
   private truncateText(): void {
-    // Defer until layout is stable.
     requestAnimationFrame(() => {
       const clientWidth = this.el.clientWidth;
       if (!clientWidth) {
         return;
       }
-
       const computedStyle = getComputedStyle(this.el);
       const font = computedStyle.font || `${computedStyle.fontSize} ${computedStyle.fontFamily}`;
       const textWidth = getTextWidth(this.value, font);
