@@ -311,11 +311,7 @@ export class Action extends LitElement {
   private renderLabel(): JsxNode {
     const ariaLabel = this.getAccessibleLabel();
 
-    return ariaLabel ? (
-      <span hidden ref={this.labelElRef}>
-        {ariaLabel}
-      </span>
-    ) : null;
+    return ariaLabel ? <span ariaLabel={ariaLabel} hidden ref={this.labelElRef} /> : null;
   }
 
   private renderButton(): JsxNode {
