@@ -23,7 +23,7 @@ Follow these conventions when adding or editing API reference:
 When a description is shared across multiple components, the `@copyDoc` tag should be used. This improves consistency and reduces repetition. To add shared component documentation definitions, perform the following:
 
 - Add a shared definition in the [api-extractor.config.ts file](../api-extractor.config.ts) within the `copyDocDefinitions` object. The `copyDocDefinitions` object stores shared documentation definitions by section, such as `properties`, `methods`, and `events`. The example below adds a shared definition for the `checked` property.
-  ```js
+  ```ts
   copyDocDefinitions: {
     properties: {
       checked: {
@@ -33,14 +33,14 @@ When a description is shared across multiple components, the `@copyDoc` tag shou
   ```
 - Use the `@copyDoc` tag in the component file in place of the description. If a matching category and name exists in `copyDocDefinitions`, in this case `properties` and `checked`, then the documentation will use the associated description. In the example below, the description would read "When `true`, the component is checked."
 
-  ```js
+  ```tsx
     /** @copyDoc */
     @property({ reflect: true }) checked = false;
   ```
 
   - Other tags, such as `@deprecated` or `@required`, can be used in conjunction with `@copyDoc`, such as with the example below.
 
-    ```js
+    ```tsx
     /**
      * @copyDoc
      * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
