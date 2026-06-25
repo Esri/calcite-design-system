@@ -43,7 +43,7 @@ If a component needs different verbiage than an `@copyDoc` description, either:
 - Use override functions as seen for the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts).
 - Add a description in the component file and don't use `@copyDoc`.
 
-For additional guidance, review the WebGIS reference `@copyDoc` documentation.
+For additional guidance, review the Web GIS reference `@copyDoc` documentation.
 
 ### Deprecation notices
 
