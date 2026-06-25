@@ -20,11 +20,51 @@ import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
 import { CSS as listCSS } from "./resources";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 
 const scrollTopValue = 120;
 
+const placeholder = placeholderImage({
+  width: 350,
+  height: 150,
+});
+
 describe("accessible", () => {
-  accessible(() => mount(`calcite-list`));
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-list>
+          <calcite-list-item description="kingdom" label="candy">
+            <calcite-action icon="banana" label="finn" slot="actions-start" />
+            <calcite-icon icon="banana" slot="content-start" />
+            <img alt="Test image" slot="content-start" src={placeholder} />
+            <calcite-icon icon="banana" slot="content-end" />
+            <calcite-action icon="banana" label="jake" slot="actions-end" />
+          </calcite-list-item>
+          <calcite-list-item description="hello world" label="test" non-interactive />
+          <calcite-list-item description="hello world" label="test" />
+        </calcite-list>,
+      ),
+    );
+    accessible(() =>
+      mount(
+        <calcite-list
+          filter-enabled
+          filter-text="Bananas"
+          selection-appearance="border"
+          selection-mode="single"
+        >
+          <calcite-list-item label="Apples" value="apples" />
+          <calcite-list-item label="Oranges" value="oranges" />
+          <calcite-list-item label="Pears" value="pears" />
+          <calcite-notice icon kind="warning" open scale="s" slot="filter-no-results">
+            <div slot="title">No fruits found</div>
+            <div slot="message">Try a different fruit?</div>
+          </calcite-notice>
+        </calcite-list>,
+      ),
+    );
+  });
 });
 
 describe("cancelable", () => {

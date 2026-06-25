@@ -13,7 +13,19 @@ import {
 import type { Navigation } from "./navigation";
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-navigation`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-navigation label="test" />));
+  });
+
+  describe("with navigation action and logo", () => {
+    accessible(() =>
+      mount(
+        <calcite-navigation label="test" navigation-action>
+          <calcite-navigation-logo heading="Test" />
+        </calcite-navigation>,
+      ),
+    );
+  });
 });
 
 describe("defaults", () => {
