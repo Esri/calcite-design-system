@@ -48,18 +48,11 @@ module.exports = async ({ github, context }) => {
     label: issueWorkflow.inDesign,
   });
 
-  await github.rest.issues.update({
-    ...issueProps,
-    milestone: milestones.backlog.number,
-  });
-
-  /* Update issue */
-
-  // Clear assignees and milestone
+  // Clear assignees and set milestone to backlog
   await github.rest.issues.update({
     ...issueProps,
     assignees: [],
-    milestone: null,
+    milestone: milestones.backlog.number,
   });
 
   // Add a comment to notify the planner(s)
