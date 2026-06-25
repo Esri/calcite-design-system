@@ -9,19 +9,15 @@ describe("accessible", () => {
   });
 
   describe("selected + value", () => {
-    accessible(() => mount(<calcite-color-picker-swatch label="swatch" selected value="123" />));
+    accessible(() => mount(<calcite-color-picker-swatch active />));
   });
 
   describe("color + value", () => {
-    accessible(() =>
-      mount(<calcite-color-picker-swatch color="#c0ffee" label="swatch" value="123" />),
-    );
+    accessible(() => mount(<calcite-color-picker-swatch color="#c0ffee" />));
   });
 
-  describe("color + selected + value", () => {
-    accessible(() =>
-      mount(<calcite-color-picker-swatch color="#c0ffee" label="swatch" selected value="123" />),
-    );
+  describe("color + active + value", () => {
+    accessible(() => mount(<calcite-color-picker-swatch active color="#c0ffee" />));
   });
 });
 
