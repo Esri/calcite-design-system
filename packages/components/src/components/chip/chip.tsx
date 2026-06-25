@@ -408,11 +408,7 @@ export class Chip extends LitElement {
           {this.selectionMode !== "none" && this.renderSelectionIcon()}
           {this.renderChipImage()}
           {this.icon && this.renderIcon()}
-          {this.label ? (
-            <span hidden ref={this.labelElRef}>
-              {this.label}
-            </span>
-          ) : null}
+          {this.label ? <span ariaLabel={this.label} hidden ref={this.labelElRef} /> : null}
           <span class={CSS.title}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </span>

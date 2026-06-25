@@ -250,7 +250,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
+  messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useSetFocus<this>()(this);
 
