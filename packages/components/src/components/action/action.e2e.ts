@@ -146,26 +146,6 @@ it("should have icon container if loading", async () => {
   expect(iconContainer).not.toBeNull();
 });
 
-it("should have a indicator live region", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action></calcite-action>`);
-  await page.waitForChanges();
-
-  const action = await page.find("calcite-action");
-  const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
-
-  expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
-  expect(liveRegion.textContent).toBe("");
-
-  action.setProperty("indicator", true);
-  await page.waitForChanges();
-
-  expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
-  expect(liveRegion.textContent).toBe("Indicator present");
-});
-
 describe("themed", () => {
   describe("background color", () => {
     themed(html`<calcite-action></calcite-action>`, {

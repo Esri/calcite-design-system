@@ -1,7 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -9,7 +10,6 @@ import {
   reflects,
   renders,
   t9n,
-  accessible,
 } from "../../tests/commonTests/browser";
 import { page } from "vitest/browser";
 
@@ -181,20 +181,38 @@ describe("type property", () => {
   });
 });
 
-it("should use text prop for a11y attributes when text is not enabled", async () => {
-  await mount(<calcite-action text="hello world" />);
+describe("a11y attributes", () => {
+  it("should use text prop for a11y attributes when text is not enabled", async () => {
+    await mount(<calcite-action text="hello world" />);
 
-  await expect.element(page.getByRole("button", { name: "hello world" })).toBeDefined();
-});
+    await expect.element(page.getByRole("button", { name: "hello world" })).toBeDefined();
+  });
 
-it("should set aria-label with indicator", async () => {
-  await mount(<calcite-action indicator text="hello world" />);
+  it("should set aria-label with indicator", async () => {
+    await mount(<calcite-action indicator text="hello world" />);
 
-  await expect.element(page.getByLabelText("hello world (Indicator present)")).toBeDefined();
-});
+    await expect.element(page.getByLabelText("hello world (Indicator present)")).toBeDefined();
+  });
 
-it("should have label", async () => {
-  await mount(<calcite-action label="hi" text="hello world" />);
+  it("should have label", async () => {
+    await mount(<calcite-action label="hi" text="hello world" />);
 
-  await expect.element(page.getByLabelText("hi")).toBeDefined();
+    await expect.element(page.getByLabelText("hi")).toBeDefined();
+  });
+
+  it("should have a indicator live region", async () => {
+    const { el, reRender } = await mount("calcite-action");
+    const liveRegion = page.getByRole("region");
+
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    await expect.element(liveRegion).toBeInTheDocument();
+    await expect.element(liveRegion).toHaveTextContent("");
+
+    el.indicator = true;
+    await reRender();
+
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    await expect.element(liveRegion).toBeInTheDocument();
+    await expect.element(liveRegion).toHaveTextContent("Indicator present");
+  });
 });
