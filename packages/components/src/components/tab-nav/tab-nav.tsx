@@ -76,7 +76,7 @@ export class TabNav extends LitElement {
 
   @state() private hasVisibleTabTitles = true;
 
-  @state() selectedTabId: TabID | undefined;
+  @state() selectedTabId?: TabID;
 
   //#endregion
 
@@ -622,7 +622,7 @@ export class TabNav extends LitElement {
         return;
       }
 
-      nextVisibleTabTitle?.activateTab();
+      nextVisibleTabTitle.activateTab();
     }
 
     this.updateLastVisibleTabClosable();

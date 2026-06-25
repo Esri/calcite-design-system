@@ -74,7 +74,7 @@ describe("renders", () => {
 describe("closing tabs", () => {
   async function setupClosableTabs() {
     const { el: tabsEl, component } = await mount<Tabs>(
-      <calcite-tabs>
+      <calcite-tabs last-tab-closable>
         <calcite-tab-nav slot="title-group">
           <calcite-tab-title closable id="tab-title-1">
             Tab 1 Title
@@ -97,9 +97,6 @@ describe("closing tabs", () => {
         </calcite-tab>
       </calcite-tabs>,
     );
-
-    tabsEl.lastTabClosable = true;
-    await component.updateComplete;
 
     return { tabsEl, component };
   }
@@ -126,24 +123,16 @@ describe("closing tabs", () => {
       await closeTitleById(component);
     }
 
-    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
+    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4")!;
 
     expect(reopenedTitle).not.toBeNull();
-
-    if (!reopenedTitle) {
-      return;
-    }
 
     reopenedTitle.closed = false;
     await component.updateComplete;
 
-    const reopenedTab = tabsEl.querySelector<Tab["el"]>("#tab-4");
+    const reopenedTab = tabsEl.querySelector<Tab["el"]>("#tab-4")!;
 
     expect(reopenedTab).not.toBeNull();
-
-    if (!reopenedTab) {
-      return;
-    }
 
     expect(reopenedTitle.closed).toBe(false);
     expect(reopenedTitle.hidden).toBe(false);
@@ -154,7 +143,7 @@ describe("closing tabs", () => {
 
   it("removes the close button again when lastTabClosable is set back to false", async () => {
     const { tabsEl, component } = await setupClosableTabs();
-
+    const closeButtons = page.getByRole("button", { name: "Close" }).first();
     tabsEl.lastTabClosable = true;
     await component.updateComplete;
     await afterNextFrame();
@@ -164,23 +153,19 @@ describe("closing tabs", () => {
       await closeTitleById(component);
     }
 
-    const lastVisibleTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
+    const lastVisibleTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4")!;
 
     expect(lastVisibleTitle).not.toBeNull();
 
-    if (!lastVisibleTitle) {
-      return;
-    }
-
     expect(lastVisibleTitle.closable).toBe(true);
-    expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(1);
+    expect(closeButtons).toHaveLength(1);
 
     tabsEl.lastTabClosable = false;
     await component.updateComplete;
     await afterNextFrame();
     expect(tabsEl.hasAttribute("last-tab-closable")).toBe(false);
     expect(lastVisibleTitle.closable).toBe(false);
-    expect(page.getByRole("button", { name: "Close" }).all()).toHaveLength(0);
+    expect(closeButtons).toHaveLength(0);
   });
 
   it("restores the lone tab's close button when another tab is reopened", async () => {
@@ -193,14 +178,10 @@ describe("closing tabs", () => {
       await closeTitleById(component);
     }
 
-    const loneTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4");
-    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-3");
+    const loneTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4")!;
+    const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-3")!;
 
-    expect(loneTitle?.closable).toBe(false);
-
-    if (!reopenedTitle) {
-      return;
-    }
+    expect(loneTitle.closable).toBe(false);
 
     reopenedTitle.closed = false;
     await component.updateComplete;
