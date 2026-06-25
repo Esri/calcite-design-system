@@ -82,7 +82,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -103,13 +103,13 @@ export class Chip extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() parentChipGroup: ChipGroup["el"];
+  @property() parentChipGroup?: ChipGroup["el"];
 
   /**
    * Specifies the size of the component.
@@ -286,7 +286,7 @@ export class Chip extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedChips.emit();
     }
-    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentChipGroup!.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalChipSelect.emit();
