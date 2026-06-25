@@ -187,6 +187,6 @@ describe("closing tabs", () => {
     await component.updateComplete;
     await afterNextFrame();
 
-    expect(loneTitle?.closable).toBe(true);
+    expect(loneTitle.closable).toBe(true);
   });
 });

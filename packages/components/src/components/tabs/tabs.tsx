@@ -43,7 +43,7 @@ export class Tabs extends LitElement {
    */
   @state() titles: TabTitle["el"][] = [];
 
-  @state() private hasVisibleTitles = true;
+  @state() hasVisibleTitles = true;
 
   // #endregion
 
@@ -111,9 +111,7 @@ export class Tabs extends LitElement {
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
     const nextTitles = [...event.detail] as TabTitle["el"][];
-    const titlesChanged =
-      nextTitles.length !== this.titles.length ||
-      nextTitles.some((title, index) => this.titles[index] !== title);
+    const titlesChanged = nextTitles.some((title, index) => this.titles[index] !== title);
 
     if (titlesChanged) {
       this.titles = nextTitles;
