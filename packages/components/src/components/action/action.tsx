@@ -321,7 +321,6 @@ export class Action extends LitElement {
   private renderButton(): JsxNode {
     const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
       this;
-    const ariaLabel = this.getAccessibleLabel() || undefined;
     const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
@@ -355,7 +354,6 @@ export class Action extends LitElement {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
-          ariaLabel={ariaLabel}
           ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
@@ -378,7 +376,6 @@ export class Action extends LitElement {
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
-        ariaLabel={ariaLabel}
         ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
