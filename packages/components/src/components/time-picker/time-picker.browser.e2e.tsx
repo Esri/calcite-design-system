@@ -18,7 +18,13 @@ import { CSS } from "./resources";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-time-picker`));
+  describe("default", () => {
+    accessible(() => mount("calcite-time-picker"));
+  });
+
+  describe("using seconds", () => {
+    accessible(() => mount(<calcite-time-picker step={1} value="00:00:00" />));
+  });
 });
 
 describe("defaults", () => {
