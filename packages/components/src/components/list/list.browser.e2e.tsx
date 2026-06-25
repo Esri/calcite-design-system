@@ -46,6 +46,9 @@ describe("accessible", () => {
         </calcite-list>,
       ),
     );
+  });
+
+  describe("with filter + selection", () => {
     accessible(() =>
       mount(
         <calcite-list
