@@ -19,6 +19,8 @@ import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -34,7 +36,7 @@ export class Action extends LitElement {
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -311,7 +313,11 @@ export class Action extends LitElement {
   private renderLabel(): JsxNode {
     const ariaLabel = this.getAccessibleLabel();
 
-    return ariaLabel ? <span ariaLabel={ariaLabel} hidden ref={this.labelElRef} /> : null;
+    return ariaLabel ? (
+      <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
   }
 
   private renderButton(): JsxNode {

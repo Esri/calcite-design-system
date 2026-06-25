@@ -13,7 +13,9 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { styles } from "./chip.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -28,7 +30,7 @@ declare global {
 export class Chip extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -408,7 +410,11 @@ export class Chip extends LitElement {
           {this.selectionMode !== "none" && this.renderSelectionIcon()}
           {this.renderChipImage()}
           {this.icon && this.renderIcon()}
-          {this.label ? <span ariaLabel={this.label} hidden ref={this.labelElRef} /> : null}
+          {this.label ? (
+            <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+              {this.label}
+            </span>
+          ) : null}
           <span class={CSS.title}>
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </span>
