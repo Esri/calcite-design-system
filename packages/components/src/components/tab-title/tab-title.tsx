@@ -204,7 +204,7 @@ export class TabTitle extends LitElement {
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
   /** @private */
-  calciteInternalTabTitleChange = createEvent({ cancelable: false });
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
@@ -279,7 +279,7 @@ export class TabTitle extends LitElement {
     }
 
     if (changes.has("closed") && this.hasUpdated) {
-      this.calciteInternalTabTitleChange.emit();
+      this.calciteInternalTabTitleCloseChange.emit();
     }
 
     if (this.parentTabsEl) {
