@@ -13,7 +13,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
-// Deprecated in v5.1.0, removal target v7.0.0
+// Deprecated in v5.2.0, removal target v7.0.0
 
 describe("defaults", () => {
   defaults(

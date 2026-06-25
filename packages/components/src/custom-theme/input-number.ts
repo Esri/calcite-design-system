@@ -23,15 +23,14 @@ export const inputNumberTokens = {
   calciteInputSuffixBackgroundColor: "",
   calciteInputSuffixSize: "",
   calciteInputSuffixTextColor: "",
-  calciteInputNumberInlineEditingBackgroundColor: "",
   calciteInputNumberInlineEditingBackgroundColorHover: "",
-  calciteInputNumberInlineEditingControlsBackgroundColor: "",
-  calciteInputNumberInlineEditingControlsBackgroundColorHover: "",
-  calciteInputNumberInlineEditingControlsBackgroundColorPress: "",
-  calciteInputNumberInlineEditingControlsCornerRadius: "",
-  calciteInputNumberInlineEditingControlsLoaderColor: "",
-  calciteInputNumberInlineEditingControlsTextColor: "",
-  calciteInputNumberInlineEditingControlsTextColorPress: "",
+  calciteInputNumberInlineEditingControlBackgroundColor: "",
+  calciteInputNumberInlineEditingControlBackgroundColorHover: "",
+  calciteInputNumberInlineEditingControlBackgroundColorPress: "",
+  calciteInputNumberInlineEditingControlCornerRadius: "",
+  calciteInputNumberInlineEditingControlLoaderColor: "",
+  calciteInputNumberInlineEditingControlTextColor: "",
+  calciteInputNumberInlineEditingControlTextColorPress: "",
 };
 
 export const inputNumber = html` <calcite-input-number placeholder="placeholder"></calcite-input-number>

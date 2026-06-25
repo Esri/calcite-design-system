@@ -688,10 +688,6 @@ describe("theme", () => {
 
   describe("inline editing", () => {
     themed(html`<calcite-input inline-editing value="Forty two"></calcite-input>`, {
-      "--calcite-input-inline-editing-background-color": {
-        shadowSelector: `.${CSS.inlineEditing}`,
-        targetProp: "backgroundColor",
-      },
       "--calcite-input-inline-editing-background-color-hover": {
         shadowSelector: `.${CSS.inlineEditing}`,
         targetProp: "backgroundColor",
@@ -701,33 +697,33 @@ describe("theme", () => {
     themed(
       html`<calcite-input inline-editing inline-editing-controls editing-enabled value="Forty two"></calcite-input>`,
       {
-        "--calcite-input-inline-editing-controls-background-color": {
+        "--calcite-input-inline-editing-control-background-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-background-color",
         },
-        "--calcite-input-inline-editing-controls-background-color-hover": {
+        "--calcite-input-inline-editing-control-background-color-hover": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-background-color-hover",
           state: "hover",
         },
-        "--calcite-input-inline-editing-controls-background-color-press": {
+        "--calcite-input-inline-editing-control-background-color-press": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-background-color-press",
           state: { press: `calcite-input >>> .${InlineEditingControlsCSS.confirmChanges}` },
         },
-        "--calcite-input-inline-editing-controls-corner-radius": {
+        "--calcite-input-inline-editing-control-corner-radius": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-corner-radius",
         },
-        "--calcite-input-inline-editing-controls-loader-color": {
+        "--calcite-input-inline-editing-control-loader-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-loader-color",
         },
-        "--calcite-input-inline-editing-controls-text-color": {
+        "--calcite-input-inline-editing-control-text-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-text-color",
         },
-        "--calcite-input-inline-editing-controls-text-color-press": {
+        "--calcite-input-inline-editing-control-text-color-press": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,
           targetProp: "--calcite-action-text-color-press",
           state: { press: `calcite-input >>> .${InlineEditingControlsCSS.confirmChanges}` },

@@ -31,7 +31,7 @@ import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { UseInlineEditing } from "../../controllers/useInlineEditing";
 import type { Action } from "../action/action";
-import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
+import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -75,7 +75,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   private direction = useDirection();
 
-  // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
   private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
@@ -133,17 +133,17 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     },
   });
 
-  // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0 (remove !this.inlineEditableEl)
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditing(): boolean {
     return this.inlineEditing && !this.inlineEditableEl;
   }
 
-  // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
   private get hasInlineEditingContext(): boolean {
     return this.inlineEditing || !!this.inlineEditableEl;
   }
 
-  // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0 (remove this.inlineEditableEl ? this.inlineEditableEl.editingEnabled)
+  // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove this.inlineEditableEl ? this.inlineEditableEl.editingEnabled)
   private get inlineEditingEnabledInContext(): boolean {
     return this.inlineEditableEl ? this.inlineEditableEl.editingEnabled : this.editingEnabled;
   }
@@ -382,7 +382,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   override connectedCallback(): void {
-    // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
     this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
@@ -651,7 +651,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         class={{
           [CSS.editingEnabled]: this.inlineEditingEnabledInContext,
           [CSS.inlineChild]: this.hasInlineEditingContext,
-          [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.1.0, removal target v7.0.0
+          [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
         }}
         defaultValue={this.defaultValue}
         disabled={this.disabled}

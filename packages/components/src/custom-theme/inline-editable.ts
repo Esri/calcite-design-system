@@ -1,6 +1,6 @@
 import { html } from "../../support/formatting";
 
-// Deprecated in v5.1.0, removal target v7.0.0
+// Deprecated in v5.2.0, removal target v7.0.0
 
 export const inlineEditableTokens = {
   calciteInlineEditableBackgroundColor: "",
