@@ -7,7 +7,13 @@ import { mockConsole } from "../../tests/utils/logging";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() => mount(`calcite-scrim`));
+  describe("default", () => {
+    accessible(() => mount(<calcite-scrim>My content</calcite-scrim>));
+  });
+
+  describe("when loading", () => {
+    accessible(() => mount(<calcite-scrim loading>My content</calcite-scrim>));
+  });
 });
 
 describe("defaults", () => {
