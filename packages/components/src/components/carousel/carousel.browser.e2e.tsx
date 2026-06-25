@@ -58,7 +58,7 @@ describe("accessible", () => {
   describe("with pagination disabled", () => {
     accessible(() =>
       mount(() => (
-        <calcite-carousel label="Carousel example" paginationDisabled={false}>
+        <calcite-carousel label="Carousel example" paginationDisabled>
           <calcite-carousel-item label="Carousel Item 1">
             <p>carousel item content</p>
           </calcite-carousel-item>

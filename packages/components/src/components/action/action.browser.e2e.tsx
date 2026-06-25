@@ -184,7 +184,7 @@ describe("type property", () => {
 it("should use text prop for a11y attributes when text is not enabled", async () => {
   await mount(<calcite-action text="hello world" />);
 
-  await expect.element(page.getByLabelText(`hello world`)).toBeDefined();
+  await expect.element(page.getByRole("button", { name: "hello world" })).toBeDefined();
 });
 
 it("should set aria-label with indicator", async () => {

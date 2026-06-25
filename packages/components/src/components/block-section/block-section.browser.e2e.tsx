@@ -13,27 +13,7 @@ import {
 import { CSS } from "./resources";
 
 describe("accessible", () => {
-  describe("expanded", () => {
-    accessible(() =>
-      mount(
-        <calcite-block-section expanded text="text" toggle-display="switch">
-          <div>some content</div>
-        </calcite-block-section>,
-      ),
-    );
-  });
-
-  describe("collapsed", () => {
-    accessible(() =>
-      mount(
-        <calcite-block-section text="text" toggle-display="switch">
-          <div>some content</div>
-        </calcite-block-section>,
-      ),
-    );
-  });
-
-  describe("toggle-display = 'switch'", () => {
+  describe("default", () => {
     describe("expanded", () => {
       accessible(() =>
         mount(
@@ -48,6 +28,28 @@ describe("accessible", () => {
       accessible(() =>
         mount(
           <calcite-block-section text="text">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
+  });
+
+  describe("toggle-display = 'switch'", () => {
+    describe("expanded", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section expanded text="text" toggle-display="switch">
+            <div>some content</div>
+          </calcite-block-section>,
+        ),
+      );
+    });
+
+    describe("collapsed", () => {
+      accessible(() =>
+        mount(
+          <calcite-block-section text="text" toggle-display="switch">
             <div>some content</div>
           </calcite-block-section>,
         ),
