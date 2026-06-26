@@ -1,8 +1,11 @@
 import { Decorator } from "@storybook/web-components-vite";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Scale } from "../interfaces";
 import type { Tree } from "./tree";
+
+const { scale, selectionMode } = ATTRIBUTES;
 
 type TreeStoryArgs = Pick<Tree, "lines" | "scale" | "selectionMode">;
 
@@ -14,7 +17,7 @@ type TreeStoryArgs = Pick<Tree, "lines" | "scale" | "selectionMode">;
 const allScaleTreeBuilder: Decorator = (itemsStory, context): string => {
   const items = itemsStory();
   const { selectionMode = "single", lines } = context.args;
-  const scales: Scale[] = ["s", "m", "l"];
+  const scales: Scale[] = scale.values;
 
   return html`
     <style>
@@ -52,11 +55,11 @@ export default {
   },
   argTypes: {
     selectionMode: {
-      options: ["none", "single", "single-persist", "multiple", "ancestors"],
+      options: selectionMode.values.filter((option) => option !== "children" && option !== "multichildren"),
       control: { type: "select" },
     },
     scale: {
-      options: ["s", "m", "l"],
+      options: scale.values,
       control: { type: "select" },
     },
   },

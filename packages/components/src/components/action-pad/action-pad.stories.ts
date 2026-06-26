@@ -16,7 +16,7 @@ export default {
   args: {
     expandDisabled: false,
     expanded: false,
-    layout: layout.defaultValue,
+    layout: layout.values[1],
     position: position.defaultValue,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
@@ -64,10 +64,6 @@ export const simple = (args: ActionPadStoryArgs): string => html`
     </calcite-action-group>
   </calcite-action-pad>
 `;
-
-simple.args = {
-  layout: "vertical",
-};
 
 export const withDefinedWidths = (): string => html`
   <style>

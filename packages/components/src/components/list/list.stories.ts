@@ -7,7 +7,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
 
-const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
+const { listDisplayMode, selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
   extends
@@ -67,7 +67,7 @@ export default {
       control: { type: "select" },
     },
     displayMode: {
-      options: ["flat", "nested"],
+      options: listDisplayMode.values,
       control: { type: "select" },
     },
     scale: {
@@ -79,7 +79,7 @@ export default {
       control: { type: "select" },
     },
     iconStart: {
-      options: iconNames,
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     iconEnd: {

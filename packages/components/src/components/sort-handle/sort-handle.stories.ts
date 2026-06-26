@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { SortHandle } from "./sort-handle";
 
-const { scale } = ATTRIBUTES;
+const { scale, sortHandlePlacement } = ATTRIBUTES;
 
 type SortHandleStoryArgs = Pick<SortHandle, "disabled" | "open" | "placement" | "scale" | "sortDisabled">;
 
@@ -18,7 +18,7 @@ export default {
   },
   argTypes: {
     placement: {
-      options: ["leading-start", "leading-end", "trailing-start", "trailing-end"],
+      options: sortHandlePlacement.values,
       control: { type: "select" },
     },
     scale: {

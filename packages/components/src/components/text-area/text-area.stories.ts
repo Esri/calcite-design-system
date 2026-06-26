@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TextArea } from "./text-area";
 
-const { scale, status } = ATTRIBUTES;
+const { scale, status, textAreaWrap } = ATTRIBUTES;
 
 type TextAreaStoryArgs = Pick<
   TextArea,
@@ -23,10 +23,11 @@ type TextAreaStoryArgs = Pick<
   | "readOnly"
   | "required"
   | "validationMessage"
-  | "validationIcon"
   | "value"
   | "wrap"
->;
+> & {
+  validationIcon: string;
+};
 
 export default {
   title: "Components/TextArea",
@@ -64,7 +65,7 @@ export default {
       control: { type: "select" },
     },
     wrap: {
-      options: ["hard", "soft"],
+      options: textAreaWrap.values,
       control: { type: "select" },
     },
   },
@@ -89,7 +90,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     value="${args.value}"
     wrap="${args.wrap}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   >
   </calcite-text-area>
 `;

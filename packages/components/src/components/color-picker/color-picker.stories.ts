@@ -3,7 +3,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPicker } from "./color-picker";
 
-const { scale } = ATTRIBUTES;
+const { colorPickerFormat, scale } = ATTRIBUTES;
 
 type ColorPickerStoryArgs = Pick<
   ColorPicker,
@@ -39,21 +39,7 @@ export default {
       control: { type: "select" },
     },
     format: {
-      options: [
-        "auto",
-        "hex",
-        "hexa",
-        "rgb-css",
-        "rgba-css",
-        "hsl-css",
-        "hsla-css",
-        "rgb",
-        "rgba",
-        "hsl",
-        "hsla",
-        "hsv",
-        "hsva",
-      ],
+      options: colorPickerFormat.values,
       control: { type: "select" },
     },
   },

@@ -1,11 +1,10 @@
 import { StepperItem } from "../stepper-item/stepper-item";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
-import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Stepper } from "./stepper";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, numberingSystem, scale } = ATTRIBUTES;
 
 type StepperArgs = Pick<Stepper, "icon" | "layout" | "numbered" | "numberingSystem" | "scale">;
 
@@ -38,7 +37,7 @@ export default {
     scale: scale.defaultValue,
     numbered: true,
     icon: true,
-    numberingSystem: defaultNumberingSystem,
+    numberingSystem: numberingSystem.defaultValue,
     heading1: "Choose method",
     description1: "Add members without sending invitations",
     heading2: "Compile member list",
@@ -66,7 +65,7 @@ export default {
       control: { type: "select" },
     },
     numberingSystem: {
-      options: numberingSystems,
+      options: numberingSystem.values,
       control: { type: "select" },
     },
   },

@@ -1,18 +1,16 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Autocomplete } from "./autocomplete";
 
-const { scale, alignment, status, overlayPositioning } = ATTRIBUTES;
+const { scale, alignment, menuPlacement, status, overlayPositioning } = ATTRIBUTES;
 
 type AutocompleteStoryArgs = Pick<
   Autocomplete,
   | "alignment"
   | "disabled"
   | "inputValue"
-  | "icon"
   | "iconFlipRtl"
   | "label"
   | "loading"
@@ -29,10 +27,12 @@ type AutocompleteStoryArgs = Pick<
   | "scale"
   | "status"
   | "suffixText"
-  | "validationIcon"
   | "validationMessage"
   | "value"
->;
+> & {
+  icon: string;
+  validationIcon: string;
+};
 
 export default {
   title: "Components/Controls/Autocomplete",
@@ -46,7 +46,7 @@ export default {
     open: true,
     overlayPositioning: overlayPositioning.defaultValue,
     placeholder: "Placeholder text",
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
     prefixText: "",
     readOnly: false,
     required: false,
@@ -67,7 +67,7 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
@@ -105,7 +105,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         ${boolean("read-only", args.readOnly)}
         ${boolean("required", args.required)}
         alignment="${args.alignment}"
-        ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
+        ${optionalAttribute("icon", args.icon)}
         input-value="${args.inputValue}"
         label="${args.label}"
         max-length="${args.maxLength}"
@@ -118,10 +118,7 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         scale="${args.scale}"
         status="${args.status}"
         suffix-text="${args.suffixText}"
-        ${optionalAttribute(
-          "validation-icon",
-          typeof args.validationIcon === "string" ? args.validationIcon : undefined,
-        )}
+        ${optionalAttribute("validation-icon", args.validationIcon)}
         validation-message="${args.validationMessage}"
         value="${args.value}"
       >

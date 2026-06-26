@@ -5,7 +5,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 
-const { alignment, scale } = ATTRIBUTES;
+const { alignment, horizontalVerticalLayout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
@@ -59,15 +59,15 @@ export default {
       control: { type: "select" },
     },
     layout: {
-      options: ["horizontal", "vertical"],
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     selectionMode: {
-      options: ["none", "single", "multiple"],
+      options: tileSelectionMode.values,
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: ["icon", "highlight"],
+      options: tileSelectionAppearance.values,
       control: { type: "select" },
     },
   },

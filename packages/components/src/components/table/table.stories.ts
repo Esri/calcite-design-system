@@ -3,7 +3,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Table } from "./table";
 
-const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
+const { interactionMode, selectionDisplay, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<
   Table,
@@ -52,7 +52,7 @@ export default {
       control: { type: "select" },
     },
     selectionDisplay: {
-      options: ["none", "top"],
+      options: selectionDisplay.values,
       control: { type: "select" },
     },
     scale: {

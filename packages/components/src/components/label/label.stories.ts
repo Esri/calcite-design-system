@@ -3,7 +3,7 @@ import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Label } from "./label";
 
-const { alignment, scale } = ATTRIBUTES;
+const { alignment, labelLayout, scale } = ATTRIBUTES;
 
 type LabelStoryArgs = Pick<Label, "alignment" | "for" | "layout" | "scale">;
 
@@ -21,7 +21,7 @@ export default {
       control: { type: "select" },
     },
     layout: {
-      options: ["default", "block", "inline", "inline-space-between"],
+      options: labelLayout.values,
       control: { type: "select" },
     },
     scale: {

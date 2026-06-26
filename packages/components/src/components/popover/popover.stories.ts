@@ -1,11 +1,10 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { placements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
 import { Popover } from "./popover";
 
-const { scale } = ATTRIBUTES;
+const { placement, scale } = ATTRIBUTES;
 
 const contentHTML = `
 <div style="width: 300px; padding:12px 16px;">
@@ -49,7 +48,7 @@ export default {
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     scale: {

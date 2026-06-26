@@ -2,16 +2,14 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { menuPlacements } from "../../utils/floating-ui";
 import { Alert } from "./alert";
 
-const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
+const { scale, duration, kind, menuPlacement, numberingSystem, queue } = ATTRIBUTES;
 
 type AlertStoryArgs = Pick<
   Alert,
   | "autoClose"
   | "autoCloseDuration"
-  | "icon"
   | "iconFlipRtl"
   | "kind"
   | "label"
@@ -20,7 +18,9 @@ type AlertStoryArgs = Pick<
   | "placement"
   | "scale"
   | "queue"
->;
+> & {
+  icon: string;
+};
 
 export default {
   title: "Components/Alert",
@@ -31,11 +31,11 @@ export default {
     iconFlipRtl: false,
     kind: kind.defaultValue,
     label: "Alert",
-    numberingSystem: numberingSystem[2],
+    numberingSystem: numberingSystem.defaultValue,
     open: true,
-    placement: menuPlacements[4],
-    scale: "m",
-    queue: "last",
+    placement: menuPlacement.defaultValue,
+    scale: scale.defaultValue,
+    queue: queue.defaultValue,
   },
   argTypes: {
     autoCloseDuration: {
@@ -51,11 +51,11 @@ export default {
       control: { type: "select" },
     },
     numberingSystem: {
-      options: numberingSystem,
+      options: numberingSystem.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     queue: {
@@ -97,7 +97,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
-      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
+      ${optionalAttribute("icon", args.icon)}
       label="${args.label}"
       numbering-system="${args.numberingSystem}"
       placement="${args.placement}"

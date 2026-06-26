@@ -4,7 +4,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { Slider } from "./slider";
 
-const { scale, status } = ATTRIBUTES;
+const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
 interface SliderStoryArgs extends Pick<
   Slider,
@@ -26,9 +26,9 @@ interface SliderStoryArgs extends Pick<
   | "scale"
   | "status"
   | "validationMessage"
-  | "validationIcon"
 > {
   temperature: string;
+  validationIcon: string;
 }
 
 export default {
@@ -68,7 +68,7 @@ export default {
       control: { type: "select" },
     },
     fillPlacement: {
-      options: ["all", "none", "single"],
+      options: sliderFillPlacement.values,
       control: { type: "select" },
     },
   },
@@ -101,7 +101,7 @@ export const simple = (args: SliderStoryArgs): string => html`
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-slider>
 `;
 

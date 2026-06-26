@@ -8,9 +8,10 @@ const { layout, scale, status } = ATTRIBUTES;
 
 interface RadioButtonGroupStoryArgs extends Pick<
   RadioButtonGroup,
-  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
+  "disabled" | "layout" | "scale" | "status" | "validationMessage"
 > {
   hidden: boolean;
+  validationIcon: string;
 }
 
 export default {
@@ -61,7 +62,7 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     layout="${args.layout}"
     scale="${args.scale}"
     status="${args.status}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"
   >
     <calcite-label layout="inline">

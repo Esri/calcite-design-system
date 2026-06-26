@@ -4,7 +4,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, overlayPositioning, scale } = ATTRIBUTES;
 
 interface FlowItemStoryArgs extends Pick<
   FlowItem,
@@ -38,7 +38,7 @@ export default {
     icon: "",
     iconFlipRtl: false,
     menuOpen: false,
-    overlayPositioning: "absolute",
+    overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
     loading: false,
     selected: true,
@@ -57,7 +57,7 @@ export default {
       control: { type: "select" },
     },
     overlayPositioning: {
-      options: ["absolute", "fixed"],
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
   },

@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimeZone } from "./input-time-zone";
 
-const { mode, scale, status } = ATTRIBUTES;
+const { mode, scale, status, timeZoneOffsetStyle } = ATTRIBUTES;
 
 type InputTimeZoneStoryArgs = Pick<
   InputTimeZone,
@@ -18,10 +18,11 @@ type InputTimeZoneStoryArgs = Pick<
   | "required"
   | "scale"
   | "status"
-  | "validationIcon"
   | "validationMessage"
   | "value"
->;
+> & {
+  validationIcon: string;
+};
 
 export default {
   title: "Components/Controls/InputTimeZone",
@@ -46,7 +47,7 @@ export default {
       control: { type: "select" },
     },
     offsetStyle: {
-      options: ["user", "utc", "gmt"],
+      options: timeZoneOffsetStyle.values,
       control: { type: "select" },
     },
     scale: {
@@ -85,7 +86,7 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
     status="${args.status}"
     value="${args.value}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-input-time-zone>
 `;
 

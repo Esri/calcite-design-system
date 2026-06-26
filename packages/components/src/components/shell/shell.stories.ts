@@ -6,9 +6,8 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "../dialog/dialog";
-import { dialogPlacements } from "../dialog/resources";
 
-const { shellDisplayMode, position, scale } = ATTRIBUTES;
+const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
   centerPanelPosition: ShellPanel["position"];
@@ -2931,7 +2930,7 @@ embeddedSlotsInteractive.args = {
 embeddedSlotsInteractive.argTypes = {
   dialogPlacement: {
     control: { type: "select" },
-    options: dialogPlacements,
+    options: dialogPlacement.values,
   },
   dialogWidth: {
     control: "text",

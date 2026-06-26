@@ -23,7 +23,7 @@ export default {
   args: {
     expandDisabled: false,
     expanded: false,
-    layout: layout.defaultValue,
+    layout: layout.values[1],
     position: position.defaultValue,
     expandPosition: "end",
     floating: false,
@@ -74,10 +74,6 @@ export const simple = (args: ActionBarStoryArgs): string => html`
     </calcite-action-group>
   </calcite-action-bar>
 `;
-
-simple.args = {
-  layout: "vertical",
-};
 
 export const floating = (args: ActionBarStoryArgs): string =>
   html`<div style="padding:20px;">

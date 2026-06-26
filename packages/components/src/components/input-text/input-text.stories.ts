@@ -16,15 +16,15 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
-  | "icon"
   | "iconFlipRtl"
   | "readOnly"
   | "required"
   | "value"
   | "placeholder"
   | "validationMessage"
-  | "validationIcon"
 > & {
+  icon: string;
+  validationIcon: string;
   maxLength?: number;
   minLength?: number;
 };
@@ -84,7 +84,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
-      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
+      ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
       ${typeof args.minLength === "number" ? `min-length="${args.minLength}"` : ""}
@@ -93,7 +93,7 @@ export const simple = (args: InputTextStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
   </div>

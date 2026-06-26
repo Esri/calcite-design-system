@@ -1,13 +1,11 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { supportedNlsLocales } from "../date-picker/utils";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
@@ -22,19 +20,19 @@ interface InputDatePickerStoryArgs extends Pick<
   | "readOnly"
   | "scale"
   | "status"
-  | "validationIcon"
   | "validationMessage"
   | "value"
 > {
   lang: string;
+  validationIcon: string;
 }
 
 export default {
   title: "Components/Controls/InputDatePicker",
   args: {
-    calendars: 2,
+    calendars: calendarCount.defaultValue,
     disabled: false,
-    layout: "horizontal",
+    layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
@@ -42,7 +40,7 @@ export default {
     max: "2023-12-18",
     lang: defaultLocale,
     open: true,
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
     range: false,
     readOnly: false,
     validationMessage: "",
@@ -58,19 +56,19 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     calendars: {
-      options: [1, 2],
+      options: calendarCount.values,
       control: { type: "select" },
     },
     layout: {
-      options: ["horizontal", "vertical"],
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     validationIcon: {
@@ -103,7 +101,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
   </div>
 `;

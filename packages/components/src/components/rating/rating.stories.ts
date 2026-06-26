@@ -8,17 +8,10 @@ const { scale, status } = ATTRIBUTES;
 
 type RatingStoryArgs = Pick<
   Rating,
-  | "scale"
-  | "value"
-  | "showChip"
-  | "average"
-  | "count"
-  | "readOnly"
-  | "disabled"
-  | "status"
-  | "validationMessage"
-  | "validationIcon"
->;
+  "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled" | "status" | "validationMessage"
+> & {
+  validationIcon: string;
+};
 
 export default {
   title: "Components/Controls/Rating",
@@ -61,7 +54,7 @@ export const simple = (args: RatingStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-rating>
 `;
 

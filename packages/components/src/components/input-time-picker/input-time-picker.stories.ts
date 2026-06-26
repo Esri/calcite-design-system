@@ -1,12 +1,10 @@
 import { iconNames } from "../../../.storybook/helpers";
 import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { hourFormats } from "../../utils/time";
 import { InputTimePicker } from "./input-time-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { hourFormat, menuPlacement, scale, status } = ATTRIBUTES;
 
 interface InputTimePickerStoryArgs extends Pick<
   InputTimePicker,
@@ -24,10 +22,10 @@ interface InputTimePickerStoryArgs extends Pick<
   | "status"
   | "step"
   | "validationMessage"
-  | "validationIcon"
   | "value"
 > {
   hidden: boolean;
+  validationIcon: string;
 }
 
 export default {
@@ -40,7 +38,7 @@ export default {
     min: "",
     name: "simple",
     open: false,
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
     readOnly: false,
     required: false,
     scale: scale.defaultValue,
@@ -52,11 +50,11 @@ export default {
   },
   argTypes: {
     hourFormat: {
-      options: hourFormats,
+      options: hourFormat.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
@@ -90,7 +88,7 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     status="${args.status}"
     step="${args.step}"
     validation-message="${args.validationMessage}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     value="${args.value}"
   >
   </calcite-input-time-picker>

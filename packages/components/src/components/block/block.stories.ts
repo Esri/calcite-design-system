@@ -4,11 +4,11 @@ import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { Block } from "./block";
 
-const { toggleDisplay, scale } = ATTRIBUTES;
+const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
   extends
@@ -52,11 +52,11 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     headingLevel: {
-      options: ["", 1, 2, 3, 4, 5, 6],
+      options: headingLevelWithNone.values,
       control: { type: "select" },
     },
     iconStart: {

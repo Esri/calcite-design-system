@@ -2,10 +2,9 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { placements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
 
-const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
+const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
 
 type SplitButtonStoryArgs = Pick<
   SplitButton,
@@ -61,7 +60,7 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     primaryIconStart: {

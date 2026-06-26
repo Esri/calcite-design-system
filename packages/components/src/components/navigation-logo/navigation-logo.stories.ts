@@ -4,7 +4,7 @@ import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import type { NavigationLogo } from "./navigation-logo";
-const { scale } = ATTRIBUTES;
+const { headingLevel, scale } = ATTRIBUTES;
 
 type NavigationLogoStoryArgs = Pick<
   NavigationLogo,
@@ -29,7 +29,7 @@ export default {
       control: { type: "select" },
     },
     headingLevel: {
-      options: [1, 2, 3, 4, 5, 6],
+      options: headingLevel.values,
       control: { type: "select" },
     },
   },

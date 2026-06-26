@@ -68,7 +68,7 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
-    ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"
   >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>

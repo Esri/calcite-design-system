@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { TileGroup } from "./tile-group";
 
-const { alignment, dir, layout, scale } = ATTRIBUTES;
+const { alignment, dir, layout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
 
 interface TileGroupStoryArgs extends Pick<
   TileGroup,
@@ -51,11 +51,11 @@ export default {
       control: { type: "select" },
     },
     selectionMode: {
-      options: ["none", "single", "multiple"],
+      options: tileSelectionMode.values,
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: ["icon", "highlight"],
+      options: tileSelectionAppearance.values,
       control: { type: "select" },
     },
   },

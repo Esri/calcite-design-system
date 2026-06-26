@@ -1,8 +1,10 @@
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
-import { placements } from "../../utils/floating-ui";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { Tooltip } from "./tooltip";
+
+const { overlayPositioning, placement, scale } = ATTRIBUTES;
 
 const contentHTML = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua`;
 
@@ -24,27 +26,27 @@ type TooltipStoryArgs = Pick<
 export default {
   title: "Components/Tooltip",
   args: {
-    placement: placements[0],
+    placement: placement.defaultValue,
     offsetDistance: 6,
     offsetSkidding: 0,
     open: false,
     closeOnClick: false,
-    overlayPositioning: "absolute",
+    overlayPositioning: overlayPositioning.defaultValue,
     pointerDisabled: false,
-    scale: "m",
+    scale: scale.defaultValue,
     topLayerDisabled: false,
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     scale: {
-      options: ["s", "m", "l"],
+      options: scale.values,
       control: { type: "select" },
     },
     overlayPositioning: {
-      options: ["absolute", "fixed"],
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
   },

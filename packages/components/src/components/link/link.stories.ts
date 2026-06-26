@@ -1,12 +1,15 @@
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Link } from "./link";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
+
+const { fontSize, fontWeight } = ATTRIBUTES;
 
 interface LinkStoryArgs extends Pick<
   Link,
@@ -37,11 +40,11 @@ export default {
   },
   argTypes: {
     containingFontSize: {
-      options: ["12", "14", "16", "18", "20", "24", "32"],
+      options: fontSize.values,
       control: { type: "select" },
     },
     containingFontWeight: {
-      options: ["300", "400", "500", "700"],
+      options: fontWeight.values,
       control: { type: "select" },
     },
     iconStart: {

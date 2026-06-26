@@ -2,8 +2,9 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "./dialog";
-const { kind, scale, overlayPositioning } = ATTRIBUTES;
-import { dialogPlacements, SLOTS } from "./resources";
+import { SLOTS } from "./resources";
+
+const { dialogPlacement, kind, scale, overlayPositioning } = ATTRIBUTES;
 
 type DialogStoryArgs = Pick<
   Dialog,
@@ -37,7 +38,7 @@ export default {
     escapeDisabled: false,
     scale: scale.defaultValue,
     widthScale: scale.values[0],
-    placement: "center",
+    placement: dialogPlacement.defaultValue,
     heading: "My Dialog",
     description: "My description!",
     closeDisabled: false,
@@ -75,7 +76,7 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: dialogPlacements,
+      options: dialogPlacement.values,
       control: { type: "select" },
     },
   },

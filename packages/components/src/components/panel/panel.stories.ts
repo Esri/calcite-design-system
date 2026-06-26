@@ -1,11 +1,11 @@
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, placement, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs extends Pick<
   Panel,
@@ -42,7 +42,7 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     collapseDirection: {

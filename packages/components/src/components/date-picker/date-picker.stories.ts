@@ -2,10 +2,10 @@ import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { supportedNlsLocales } from "./utils";
 import { DatePicker } from "./date-picker";
 
-const { scale } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, monthStyle, numberingSystemWithNone, scale, supportedNlsLocale } =
+  ATTRIBUTES;
 
 interface DatePickerStoryArgs extends Pick<
   DatePicker,
@@ -36,7 +36,7 @@ export default {
   },
   argTypes: {
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     scale: {
@@ -44,19 +44,19 @@ export default {
       control: { type: "select" },
     },
     calendars: {
-      options: [1, 2],
+      options: calendarCount.values,
       control: { type: "select" },
     },
     layout: {
-      options: ["horizontal", "vertical"],
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     monthStyle: {
-      options: ["wide", "abbreviated"],
+      options: monthStyle.values,
       control: { type: "select" },
     },
     numberingSystem: {
-      options: ["", "arab", "latn"],
+      options: numberingSystemWithNone.values,
       control: { type: "select" },
     },
   },

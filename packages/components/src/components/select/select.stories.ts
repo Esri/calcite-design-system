@@ -9,9 +9,10 @@ const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs
   extends
-    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage" | "validationIcon">,
+    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage">,
     Pick<Option, "label" | "selected" | "value"> {
   optionDisabled: Option["disabled"];
+  validationIcon: string;
 }
 
 export default {
@@ -56,7 +57,7 @@ export const simple = (args: SelectStoryArgs): string => html`
       width="${args.width}"
       scale="${args.scale}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
       <calcite-option
         ${boolean("disabled", args.optionDisabled)}

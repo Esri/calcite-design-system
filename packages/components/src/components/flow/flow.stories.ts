@@ -19,7 +19,7 @@ export default {
     loading: false,
     menuOpen: false,
     description: "Description",
-    selected: true,
+    selected: false,
   },
 };
 
@@ -139,10 +139,6 @@ export const simple = (args: FlowStoryArgs): string => html`
     </calcite-flow-item>
   </calcite-flow>
 `;
-
-simple.args = {
-  selected: false,
-};
 
 export const darkModeRTL = (): string => html`
   <calcite-flow class="calcite-mode-dark" dir="rtl">

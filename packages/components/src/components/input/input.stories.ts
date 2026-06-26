@@ -19,7 +19,6 @@ type InputStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
-  | "icon"
   | "iconFlipRtl"
   | "value"
   | "name"
@@ -29,8 +28,10 @@ type InputStoryArgs = Pick<
   | "status"
   | "placeholder"
   | "validationMessage"
-  | "validationIcon"
->;
+> & {
+  icon: string;
+  validationIcon: string;
+};
 
 export default {
   title: "Components/Controls/Input",
@@ -113,7 +114,7 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
-      ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
+      ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       value="${args.value}"
       name="${args.name}"
@@ -123,7 +124,7 @@ export const simple = (args: InputStoryArgs): string => html`
       status="${args.status}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${optionalAttribute("validation-icon", typeof args.validationIcon === "string" ? args.validationIcon : undefined)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input>
   </div>
 `;

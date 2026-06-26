@@ -6,7 +6,8 @@ import { InputMessage } from "./input-message";
 
 const { scale, status: statusAttribute } = ATTRIBUTES;
 
-type InputMessageStoryArgs = Pick<InputMessage, "icon" | "iconFlipRtl" | "scale" | "status"> & {
+type InputMessageStoryArgs = Pick<InputMessage, "iconFlipRtl" | "scale" | "status"> & {
+  icon: string;
   message: string;
 };
 
@@ -37,7 +38,7 @@ export default {
 
 export const simple = (args: InputMessageStoryArgs): string => html`
   <calcite-input-message
-    ${optionalAttribute("icon", typeof args.icon === "string" ? args.icon : undefined)}
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("icon-flip-rtl", args.iconFlipRtl)}
     scale="${args.scale}"
     status="${args.status}"
