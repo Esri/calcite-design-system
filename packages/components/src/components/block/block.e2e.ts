@@ -158,7 +158,7 @@ describe("header", () => {
     const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);
     expect(menuSlot).toBeDefined();
 
-    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
+    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot!.name);
     expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
   });
 

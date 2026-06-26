@@ -33,7 +33,7 @@ it("computes a background fill color based on user id", async () => {
   const page = await newE2EPage();
   await page.setContent("<calcite-avatar user-id='25684463a00c449585dbb32a065f6b74'></calcite-avatar>");
   const style = await page.evaluate(() => {
-    const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
+    const background = document.querySelector("calcite-avatar")!.shadowRoot!.querySelector(".background")!;
     return background.getAttribute("style");
   });
   expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
@@ -45,7 +45,7 @@ it("computes a background fill if id is not a valid hex", async () => {
   const initials = await page.find("calcite-avatar >>> .initials");
   expect(initials).toEqualText("TH");
   const style = await page.evaluate(() => {
-    const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
+    const background = document.querySelector("calcite-avatar")!.shadowRoot!.querySelector(".background")!;
     return background.getAttribute("style");
   });
   expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");

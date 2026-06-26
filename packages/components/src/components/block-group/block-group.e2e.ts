@@ -125,20 +125,23 @@ describe("drag and drop", () => {
       testWindow.oldIndex = -1;
       testWindow.startCalledTimes = 0;
       testWindow.endCalledTimes = 0;
-      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
+        testWindow.newIndex = detail.newIndex!;
+        testWindow.oldIndex = detail.oldIndex!;
       });
-      blockGroup.addEventListener("calciteBlockGroupDragEnd", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupDragEnd", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.endCalledTimes++;
-        testWindow.endNewIndex = event.detail.newIndex;
-        testWindow.endOldIndex = event.detail.oldIndex;
+        testWindow.endNewIndex = detail.newIndex!;
+        testWindow.endOldIndex = detail.oldIndex!;
       });
-      blockGroup.addEventListener("calciteBlockGroupDragStart", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupDragStart", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.startCalledTimes++;
-        testWindow.startNewIndex = event.detail.newIndex;
-        testWindow.startOldIndex = event.detail.oldIndex;
+        testWindow.startNewIndex = detail.newIndex!;
+        testWindow.startOldIndex = detail.oldIndex!;
       });
     });
 
@@ -220,7 +223,7 @@ describe("drag and drop", () => {
 
     const moveToItemIds = await page.evaluate((letterBlockSelector) => {
       return Array.from(document.querySelectorAll(letterBlockSelector))
-        .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
+        .map((item) => (item as Block["el"]).moveToItems.map((moveToItem) => moveToItem.id))
         .flat();
     }, letterBlockSelector);
 
@@ -228,7 +231,7 @@ describe("drag and drop", () => {
 
     const moveToItemElementIds = await page.evaluate((letterBlockSelector) => {
       return Array.from(document.querySelectorAll(letterBlockSelector))
-        .map((item: Block["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
+        .map((item) => (item as Block["el"]).moveToItems.map((moveToItem) => moveToItem.element.id))
         .flat();
     }, letterBlockSelector);
 
@@ -421,13 +424,14 @@ describe("drag and drop", () => {
     await page.$eval("calcite-block-group", (blockGroup: BlockGroup["el"]) => {
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
-      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex!;
+        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
@@ -510,30 +514,32 @@ describe("drag and drop", () => {
     let componentMoves = 0;
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#component1", (blockGroup: BlockGroup["el"]) => {
+    await page.$eval("#component1", (blockGroup) => {
       const testWindow = window as TestWindow;
       testWindow.component1CalledTimes = 0;
-      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.component1CalledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex!;
+        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#component2", (blockGroup: BlockGroup["el"]) => {
+    await page.$eval("#component2", (blockGroup) => {
       const testWindow = window as TestWindow;
       testWindow.component2CalledTimes = 0;
-      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event: CustomEvent<BlockDragDetail>) => {
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
+        const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.component2CalledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex!;
+        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
@@ -552,8 +558,8 @@ describe("drag and drop", () => {
       const event = component.waitForEvent(eventName);
       await page.$eval(
         `#${componentItemId}`,
-        (item: Block["el"], moveToId, eventName) => {
-          const element = document.querySelector<BlockGroup["el"]>(`#${moveToId}`);
+        (item, moveToId, eventName) => {
+          const element = document.querySelector<BlockGroup["el"]>(`#${moveToId}`)!;
           item.dispatchEvent(
             new CustomEvent(eventName, {
               detail: {
@@ -640,8 +646,8 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    let moveToItems: string[] = await page.$eval("#three", (item: Block["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
+    let moveToItems: string[] = await page.$eval("#three", (item) =>
+      (item as Block["el"]).moveToItems.map((moveToItem) => moveToItem.label),
     );
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe("Group 1");
@@ -655,8 +661,8 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    moveToItems = await page.$eval("#three", (item: Block["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
+    moveToItems = await page.$eval("#three", (item) =>
+      (item as Block["el"]).moveToItems.map((moveToItem) => moveToItem.label),
     );
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe(newLabel);
