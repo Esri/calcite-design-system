@@ -635,8 +635,8 @@ function findAnimation(
     .getAnimations()
     .find((anim): anim is TransitionOrAnimationInstance =>
       type === "transition"
-        ? anim instanceof CSSTransition && anim.transitionProperty === transitionPropOrAnimationName
-        : anim instanceof CSSAnimation && anim.animationName === transitionPropOrAnimationName,
+        ? "transitionProperty" in anim && anim.transitionProperty === transitionPropOrAnimationName
+        : "animationName" in anim && anim.animationName === transitionPropOrAnimationName,
     );
 }
 

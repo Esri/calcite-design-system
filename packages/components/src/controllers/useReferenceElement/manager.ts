@@ -563,7 +563,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaControlsElements" in referenceEl) {
-      const newElements = (referenceEl.ariaDescribedByElements ?? []).filter((element) => element !== component.el);
+      const newElements = (referenceEl.ariaControlsElements ?? []).filter((element) => element !== component.el);
       referenceEl.ariaControlsElements = newElements.length > 0 ? newElements : null;
     }
 
