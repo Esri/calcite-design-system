@@ -8,8 +8,10 @@ const { layout, appearance, scale, width, status } = ATTRIBUTES;
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
-  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationIcon" | "validationMessage"
->;
+  "layout" | "appearance" | "scale" | "width" | "disabled" | "status" | "validationMessage"
+> & {
+  validationIcon: string;
+};
 
 export default {
   title: "Components/Controls/Radio/Segmented Control",
