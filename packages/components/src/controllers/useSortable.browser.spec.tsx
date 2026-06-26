@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { beforeEach, expect, it, vi } from "vitest";
 import { CSS, useSortable } from "./useSortable";
 import { getSlotAssignedElements } from "../utils/dom";
+import { logger } from "../utils/logger";
 
 const { createSpy, destroySpy } = vi.hoisted(() => ({
   createSpy: vi.fn(),
@@ -60,6 +61,20 @@ class Test extends LitElement {
   }
 }
 
+class TestWithDelayedSortableItems extends Test {
+  static override tagName = "sortable-delayed-items-test";
+
+  private sortableItemsReady = false;
+
+  override updated(): void {
+    this.sortableItemsReady = true;
+  }
+
+  override getSortableItems(): HTMLElement[] {
+    return this.sortableItemsReady ? super.getSortableItems() : [];
+  }
+}
+
 beforeEach(() => {
   createSpy.mockClear();
   destroySpy.mockClear();
@@ -98,9 +113,11 @@ it("uses handleSelector as FormKit dragHandle", async () => {
   component.handleSelector = ".custom-handle";
   component.sortable.reset();
 
-  const call = createSpy.mock.calls.at(-1)?.[0];
+  await vi.waitFor(() => {
+    const call = createSpy.mock.calls.at(-1)?.[0];
 
-  expect(call?.config.dragHandle).toBe(".custom-handle");
+    expect(call?.config.dragHandle).toBe(".custom-handle");
+  });
 });
 
 it("destroys Sortable when dragEnabled becomes false and reset runs", async () => {
@@ -109,8 +126,168 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
   component.dragEnabled = false;
   component.sortable.reset();
 
-  expect(destroySpy).toHaveBeenCalledTimes(2);
+  await vi.waitFor(() => {
+    expect(destroySpy).toHaveBeenCalledTimes(2);
+  });
+
   expect(createSpy).toHaveBeenCalledTimes(1);
+});
+
+it("waits for drag end before destroying Sortable on reset", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first] = Array.from(component.el.children) as HTMLElement[];
+  const dragState = {
+    draggedNode: { el: first },
+    initialIndex: 0,
+    initialParent: {
+      data: { enabledNodes: [{ el: first }] },
+      el: component.el,
+    },
+    currentParent: {
+      data: { enabledNodes: [{ el: first }] },
+      el: component.el,
+    },
+  };
+
+  call.config.onDragstart({
+    draggedNode: { el: first },
+    state: dragState,
+  });
+
+  component.dragEnabled = false;
+  component.sortable.reset();
+
+  await vi.waitFor(() => {
+    expect(destroySpy).toHaveBeenCalledTimes(1);
+  });
+
+  call.config.onDragend({
+    draggedNode: { el: first },
+    state: dragState,
+    values: [first.id],
+  });
+
+  await vi.waitFor(() => {
+    expect(destroySpy).toHaveBeenCalledTimes(2);
+  });
+
+  expect(createSpy).toHaveBeenCalledTimes(1);
+});
+
+it("waits for first update when sortable items are initially unavailable", async () => {
+  await mount(
+    html`<sortable-delayed-items-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-delayed-items-test>`,
+    {
+      dynamicComponents: [TestWithDelayedSortableItems],
+    },
+  );
+
+  await vi.waitFor(() => {
+    const call = createSpy.mock.calls[0]?.[0];
+
+    expect(call?.getValues()).toEqual(["one", "two", "three"]);
+  });
+});
+
+it("logs and recovers after sortable operation failure", async () => {
+  const warnSpy = vi.spyOn(logger, "warn").mockImplementation(() => undefined);
+
+  try {
+    destroySpy.mockImplementationOnce(() => {
+      throw new Error("teardown failed");
+    });
+
+    const { component } = await mountDragEnabled();
+
+    await vi.waitFor(() => {
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[sortable] Lifecycle operation failed"),
+      );
+    });
+
+    component.sortable.reset();
+
+    await vi.waitFor(() => {
+      expect(createSpy).toHaveBeenCalledTimes(1);
+    });
+  } finally {
+    warnSpy.mockRestore();
+  }
+});
+
+it("tears down when disconnected during active drag", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first] = Array.from(component.el.children) as HTMLElement[];
+
+  call.config.onDragstart({
+    draggedNode: { el: first },
+    state: {
+      draggedNode: { el: first },
+      initialIndex: 0,
+      initialParent: {
+        data: { enabledNodes: [{ el: first }] },
+        el: component.el,
+      },
+      currentParent: {
+        data: { enabledNodes: [{ el: first }] },
+        el: component.el,
+      },
+    },
+  });
+
+  let destroyCallsBeforeDragEnd = 0;
+
+  try {
+    component.el.remove();
+
+    await vi.waitFor(() => {
+      expect(destroySpy).toHaveBeenCalledTimes(2);
+    });
+
+    destroyCallsBeforeDragEnd = destroySpy.mock.calls.length;
+    expect(destroyCallsBeforeDragEnd).toBe(2);
+  } finally {
+    call.config.onDragend({
+      draggedNode: { el: first },
+      state: {
+        draggedNode: { el: first },
+        initialIndex: 0,
+        initialParent: {
+          data: { enabledNodes: [{ el: first }] },
+          el: component.el,
+        },
+        currentParent: {
+          data: { enabledNodes: [{ el: first }] },
+          el: component.el,
+        },
+      },
+      values: [first.id],
+    });
+  }
+
+  expect(destroyCallsBeforeDragEnd).toBe(2);
 });
 
 it("does not reorder DOM when setValues receives the current order", async () => {

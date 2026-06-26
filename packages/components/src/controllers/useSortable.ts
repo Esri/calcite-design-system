@@ -13,6 +13,7 @@ import {
 } from "@formkit/drag-and-drop";
 import { guid } from "../utils/guid";
 import { getRootNode } from "../utils/dom";
+import { logger } from "../utils/logger";
 
 const sortableComponentSet = new Set<SortableComponent>();
 const DRAG_AND_DROP_CLONE_ID = "dnd-dragged-node-clone";
@@ -53,10 +54,15 @@ export const CSS = {
 };
 
 function onGlobalDragStart(): void {
+  globalDragCompletion = createDeferred();
+
   sortableComponentSet.forEach((component) => component.onGlobalDragStart());
 }
 
 function onGlobalDragEnd(): void {
+  globalDragCompletion?.resolve();
+  globalDragCompletion = undefined;
+
   sortableComponentSet.forEach((component) => component.onGlobalDragEnd());
 }
 
@@ -132,9 +138,34 @@ interface UseSortable {
   reset: () => void;
 }
 
-const globalDragState: { active: boolean } = {
-  active: false,
-};
+interface Deferred {
+  promise: Promise<void>;
+  resolve: () => void;
+}
+
+let globalDragCompletion: Deferred | undefined;
+
+function createDeferred(): Deferred {
+  let resolve = (): void => undefined;
+  const promise = new Promise<void>((resolveDeferred) => {
+    resolve = resolveDeferred;
+  });
+
+  return {
+    promise,
+    resolve,
+  };
+}
+
+function waitForGlobalDragToComplete(): Promise<void> {
+  return globalDragCompletion?.promise ?? Promise.resolve();
+}
+
+function reportSortableOperationError(error: unknown): void {
+  logger.warn(
+    `[sortable] Lifecycle operation failed${error instanceof Error ? `: ${error.name}: ${error.message}` : ""}`,
+  );
+}
 
 const sortableItemKeys = new WeakMap<HTMLElement, string>();
 
@@ -305,8 +336,7 @@ function createSortable(component: SortableComponent): void {
           return;
         }
 
-        if (!globalDragState.active) {
-          globalDragState.active = true;
+        if (!globalDragCompletion) {
           onGlobalDragStart();
         }
 
@@ -383,8 +413,7 @@ function createSortable(component: SortableComponent): void {
           return;
         }
 
-        if (globalDragState.active) {
-          globalDragState.active = false;
+        if (globalDragCompletion) {
           onGlobalDragEnd();
         }
 
@@ -409,29 +438,36 @@ function createSortable(component: SortableComponent): void {
 export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGenericController<UseSortable, T>> => {
   return makeGenericController<UseSortable, T>((component, controller) => {
     const sortableComponent = component as T & SortableComponent;
+    let pendingSortableOperation = Promise.resolve();
 
-    function dragActive(): boolean {
-      return sortableComponent.dragEnabled && globalDragState.active;
+    function queueSortableOperation(operation: () => Promise<void>): void {
+      pendingSortableOperation = pendingSortableOperation
+        .catch(reportSortableOperationError)
+        .then(operation)
+        .catch(reportSortableOperationError);
     }
 
-    function setUpSortable(): void {
-      if (dragActive()) {
-        return;
-      }
+    async function setUpSortable(): Promise<void> {
+      await waitForGlobalDragToComplete();
 
-      tearDownSortable();
+      sortableComponentSet.delete(sortableComponent);
+      tearDown(sortableComponent.el);
 
       if (!sortableComponent.dragEnabled || sortableComponent.disabled) {
         return;
+      }
+
+      if (!sortableComponent.getSortableItems().length && !sortableComponent.hasUpdated) {
+        await sortableComponent.updateComplete;
       }
 
       sortableComponentSet.add(sortableComponent);
       createSortable(sortableComponent);
     }
 
-    function tearDownSortable(): void {
-      if (dragActive()) {
-        return;
+    async function tearDownSortable(): Promise<void> {
+      if (sortableComponent.isConnected) {
+        await waitForGlobalDragToComplete();
       }
 
       sortableComponentSet.delete(sortableComponent);
@@ -439,16 +475,16 @@ export const useSortable = <T extends LitElement>(): ReturnType<typeof makeGener
     }
 
     controller.onConnected(() => {
-      setUpSortable();
+      queueSortableOperation(setUpSortable);
     });
 
     controller.onDisconnected(() => {
-      tearDownSortable();
+      queueSortableOperation(tearDownSortable);
     });
 
     return {
       reset: () => {
-        setUpSortable();
+        queueSortableOperation(setUpSortable);
       },
     };
   });
