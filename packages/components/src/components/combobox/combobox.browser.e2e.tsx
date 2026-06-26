@@ -990,10 +990,12 @@ describe("active item when opened", () => {
         </calcite-combobox>
       ));
       const firstSelectedItem = page.getByLabelText("Flowers").getByLabelText("Black Eyed Susan");
-      const secondSelectedItem = page.getByLabelText("Rocks").filter({ hasText: "Rocks" });
+      const secondSelectedItem = page
+        .getBySelector("calcite-combobox-item")
+        .filter({ hasText: "Rocks" });
 
-      await expect.element(firstSelectedItem.element()).toBeInViewport();
-      await expect.element(firstSelectedItem.element()).toHaveProperty("selected", true);
+      await expect.element(firstSelectedItem).toBeInViewport();
+      await expect.element(firstSelectedItem).toHaveProperty("selected", true);
 
       await expect.element(secondSelectedItem).not.toBeInViewport();
       await expect.element(secondSelectedItem).toHaveProperty("selected", true);

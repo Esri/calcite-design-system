@@ -1924,7 +1924,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private renderChipCount(count: number, scale: Scale): JsxNode {
     const label = this.fitUsingCompactCountLabel
       ? `${count}`
-      : (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`);
+      : (this.messages.disabledSelectedCount.replace("{count}", `${count}`) ?? `+${count}`);
 
     return (
       <calcite-chip
