@@ -20,7 +20,17 @@ Follow these conventions when adding or editing API reference:
 
 ### Shared definitions using `@copyDoc`
 
-When a description is shared across multiple components, the `@copyDoc` tag should be used. This improves consistency and reduces repetition. To add shared component documentation definitions, perform the following:
+When a description is shared across multiple components, the `@copyDoc` tag should be used. This improves consistency and reduces repetition.
+
+#### Support
+
+- Supported sections: `properties`, `methods`, and `events`
+- Unsupported sections: `slots`
+- Supported fields: `deprecated`, `description`, `docsTags`, `readonly`, and `return`
+
+#### Usage
+
+To add shared component documentation definitions, perform the following:
 
 - Add a shared definition in the [api-extractor.config.ts file](../api-extractor.config.ts) within the `copyDocDefinitions` object. The `copyDocDefinitions` object stores shared documentation definitions by section, such as `properties`, `methods`, and `events`. The example below adds a shared definition for the `checked` property.
   ```ts
@@ -46,12 +56,6 @@ When a description is shared across multiple components, the `@copyDoc` tag shou
      * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
      */
     ```
-
-`@copyDoc` support:
-
-- Supported sections: `properties`, `methods`, and `events`
-- Unsupported sections: `slots`
-- Supported fields: `deprecated`, `description`, `docsTags`, `readonly`, and `return`
 
 In some cases a component may need different verbiage than the default description in `@copyDoc`. For example, most `heading` properties use the verbiage "Specifies the component's heading text." List Item Group uses the more specific description "Specifies the heading text for the nested `calcite-list-item` rows."
 To facilitate using a component-specific description either:
