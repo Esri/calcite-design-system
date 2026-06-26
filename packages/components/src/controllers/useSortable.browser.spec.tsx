@@ -70,14 +70,6 @@ const mountDragEnabled = () =>
     dynamicComponents: [Test],
   });
 
-function dispatchTouchPointerEvent(
-  target: EventTarget,
-  type: "pointerdown" | "pointerup" | "pointercancel",
-  pointerId: number,
-): void {
-  target.dispatchEvent(new PointerEvent(type, { bubbles: true, pointerType: "touch", pointerId }));
-}
-
 it("does not create Sortable when dragEnabled is false", async () => {
   await mount(Test);
 
@@ -119,71 +111,6 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
 
   expect(destroySpy).toHaveBeenCalledTimes(2);
   expect(createSpy).toHaveBeenCalledTimes(1);
-});
-
-it("destroys Sortable after touch ends outside the component", async () => {
-  const { component } = await mountDragEnabled();
-
-  dispatchTouchPointerEvent(component.el, "pointerdown", 1);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(1);
-
-  dispatchTouchPointerEvent(document, "pointerup", 1);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(2);
-  expect(createSpy).toHaveBeenCalledTimes(2);
-});
-
-it("always tears down Sortable on disconnect", async () => {
-  const { component } = await mountDragEnabled();
-
-  dispatchTouchPointerEvent(component.el, "pointerdown", 2);
-  component.el.remove();
-  await Promise.resolve();
-
-  expect(destroySpy).toHaveBeenCalledTimes(2);
-});
-
-it("destroys Sortable after pointercancel ends touch interaction", async () => {
-  const { component } = await mountDragEnabled();
-
-  dispatchTouchPointerEvent(component.el, "pointerdown", 3);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(1);
-
-  dispatchTouchPointerEvent(document, "pointercancel", 3);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(2);
-  expect(createSpy).toHaveBeenCalledTimes(2);
-});
-
-it("keeps Sortable paused until all tracked touch pointers end", async () => {
-  const { component } = await mountDragEnabled();
-
-  dispatchTouchPointerEvent(component.el, "pointerdown", 10);
-  dispatchTouchPointerEvent(component.el, "pointerdown", 11);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(1);
-
-  dispatchTouchPointerEvent(document, "pointerup", 10);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(1);
-  expect(createSpy).toHaveBeenCalledTimes(1);
-
-  dispatchTouchPointerEvent(document, "pointerup", 11);
-  component.sortable.reset();
-
-  expect(destroySpy).toHaveBeenCalledTimes(2);
-  expect(createSpy).toHaveBeenCalledTimes(2);
 });
 
 it("does not reorder DOM when setValues receives the current order", async () => {

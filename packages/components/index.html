@@ -8,14 +8,40 @@
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
-
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
-    </demo-dom-swapper>
-    <demo-options></demo-options>
+    <calcite-shell>
+      <calcite-shell-panel slot="panel-start">
+        <calcite-panel heading="Drag List Items between Lists example">
+          <calcite-block expanded heading="Places to visit" description="Where we'd like to go" icon-start="map">
+            <calcite-list drag-enabled group="places-group" label="Places to visit">
+              <calcite-list-item label="Narnia" description="Land full of forests and valleys" value="narnia">
+              </calcite-list-item>
+              <calcite-list-item
+                label="Kings Landing"
+                description="Capitol of the Seven Kingdoms"
+                value="kings-landing"
+              >
+              </calcite-list-item>
+              <calcite-list-item label="Neverland" description="Where you never have to grow up" value="neverland">
+              </calcite-list-item>
+            </calcite-list>
+          </calcite-block>
+          <calcite-block expanded heading="Visited places" description="Where we've been" icon-start="tour">
+            <calcite-list drag-enabled group="places-group" label="Visited places">
+              <calcite-list-item label="Gotham City" description="Home to Wayne Industries" value="gotham-city">
+              </calcite-list-item>
+              <calcite-list-item label="The Shire" description="Adventure at your fingertips" value="the-shire">
+              </calcite-list-item>
+              <calcite-list-item
+                label="Hogsmeade"
+                description="Grab a butterbeer at the Three Broomsticks"
+                value="hogsmeade"
+              >
+              </calcite-list-item>
+            </calcite-list>
+          </calcite-block>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <calcite-panel heading="Content"></calcite-panel>
+    </calcite-shell>
   </body>
 </html>
