@@ -84,8 +84,8 @@ describe("clear", () => {
     el.items = [{ foo: "bar" }];
 
     const input = el.shadowRoot
-      .querySelector("calcite-input")
-      .shadowRoot.querySelector<HTMLInputElement>("input");
+      .querySelector("calcite-input")!
+      .shadowRoot!.querySelector<HTMLInputElement>("input")!;
     const escapeDefaultPrevented: boolean[] = [];
 
     el.addEventListener("keydown", (event) => {

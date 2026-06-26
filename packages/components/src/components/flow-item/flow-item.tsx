@@ -73,7 +73,7 @@ export class FlowItem extends LitElement {
   @property() beforeBack?: () => Promise<void>;
 
   /** Specifies a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
   /** @copyDoc */
   @property({ reflect: true }) closable = false;
@@ -91,19 +91,19 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) collapsible = false;
 
   /** @copyDoc */
-  @property() description: string;
+  @property() description?: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /** @copyDoc */
-  @property() heading: string;
+  @property() heading?: string;
 
   /** @copyDoc */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;

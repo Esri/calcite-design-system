@@ -74,8 +74,8 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#two",
-      (elm: FlowItem["el"], backButtonCSS: string) => {
-        elm.shadowRoot.querySelector<Action["el"]>(`.${backButtonCSS}`)?.click();
+      (elm, backButtonCSS: string) => {
+        elm.shadowRoot!.querySelector<Action["el"]>(`.${backButtonCSS}`)?.click();
       },
       ITEM_CSS.backButton,
     );
@@ -107,7 +107,7 @@ describe("works with flow-items", () => {
 
       lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
 
-      lastFlowItem?.shadowRoot.querySelector<HTMLElement>(backButtonSelector)?.click();
+      lastFlowItem?.shadowRoot!.querySelector<HTMLElement>(backButtonSelector)?.click();
     }, `.${ITEM_CSS.backButton}`);
     await page.waitForChanges();
 
@@ -416,19 +416,19 @@ it("supports custom flow-items", async () => {
       }
 
       connectedCallback(): void {
-        this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected"));
-        this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
-        this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected"));
+        this.flowItemEl.setAttribute("heading", this.getAttribute("heading")!);
+        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
+        this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button")!);
+        this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open")!);
+        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
         this.selected = this.hasAttribute("selected");
         this.showBackButton = this.hasAttribute("show-back-button");
         this.menuOpen = this.hasAttribute("menu-open");
-        this.heading = this.getAttribute("heading");
+        this.heading = this.getAttribute("heading")!;
       }
 
       get heading(): string {
-        return this.getAttribute("heading");
+        return this.getAttribute("heading")!;
       }
 
       set heading(value: string) {
@@ -494,8 +494,8 @@ it("supports custom flow-items", async () => {
   await page.evaluate(
     async (displayedItemSelector: string, ITEM_CSS) => {
       document
-        .querySelector(displayedItemSelector)
-        .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
+        .querySelector(displayedItemSelector)!
+        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
         .click();
     },
     displayedItemSelector,
@@ -510,9 +510,9 @@ it("supports custom flow-items", async () => {
   await page.evaluate(
     async (displayedItemSelector: string, ITEM_CSS) => {
       document
-        .querySelector(displayedItemSelector)
-        .shadowRoot.querySelector("calcite-flow-item")
-        .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
+        .querySelector(displayedItemSelector)!
+        .shadowRoot!.querySelector("calcite-flow-item")!
+        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
         .click();
     },
     displayedItemSelector,

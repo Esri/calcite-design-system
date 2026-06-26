@@ -150,7 +150,7 @@ it("should not focus on the slotted form element when a label's text is selected
   `);
 
   await page.$eval("calcite-label", (el) => {
-    const selection = window.getSelection();
+    const selection = window.getSelection()!;
     selection.removeAllRanges();
     const range = document.createRange();
     range.selectNode(el);
@@ -167,8 +167,8 @@ it("clicking sibling label focuses input when both are inside a shadowRoot", asy
   const page = await newE2EPage();
 
   await page.evaluate(() => {
-    document.addEventListener("calciteInputFocus", (event: CustomEvent): void => {
-      (window as any).eventDetail = event.detail;
+    document.addEventListener("calciteInputFocus", (event): void => {
+      (window as any).eventDetail = (event as CustomEvent).detail;
     });
   });
 
@@ -189,7 +189,7 @@ it("clicking sibling label focuses input when both are inside a shadowRoot", asy
     const shadowComponent = document.createElement("shadow-component");
     document.body.appendChild(shadowComponent);
 
-    shadowComponent.shadowRoot.querySelector("calcite-label").click();
+    shadowComponent.shadowRoot!.querySelector("calcite-label")!.click();
   });
 
   const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);

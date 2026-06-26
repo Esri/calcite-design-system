@@ -471,13 +471,13 @@ describe("clearable", () => {
       expect(el.value).toBe("");
     });
 
-    it("null", async () => {
+    it("undefined", async () => {
       const { el, component } = await mountInputTimeZone({
         clearable: true,
         value: `${alternateTimeZoneItem.offset}`,
       });
 
-      el.value = null;
+      el.value = undefined;
       await waitForUpdates(component);
 
       expect(el.value).toBe("");
@@ -555,7 +555,7 @@ describe("selection of subsequent items with the same offset", () => {
       const expectedTimeZoneItem = testTimeZones[3];
 
       expect(el.value).toBe(`${expectedTimeZoneItem.offset}`);
-      expect(itemMetadata.filterValue).toContain(expectedTimeZoneItem.name);
+      expect(itemMetadata!.filterValue).toContain(expectedTimeZoneItem.name);
     });
   });
 });
