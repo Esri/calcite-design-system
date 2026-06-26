@@ -30,10 +30,6 @@ describe("useValue", () => {
       this.value = testCurrentValue;
       this.valueController.commitCurrentValue({ changeEventEmitter: this.testValueChange });
     }
-
-    render() {
-      return <span />;
-    }
   }
 
   class TestCustomValueComponent extends LitElement {
@@ -60,10 +56,6 @@ describe("useValue", () => {
     @method() async simulateCommitCurrentValue(): Promise<void> {
       this.customValue = true;
       this.valueController.commitCurrentValue({ changeEventEmitter: this.testValueChange });
-    }
-
-    render() {
-      return <span />;
     }
   }
 
