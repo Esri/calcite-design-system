@@ -156,7 +156,7 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     components: ReferenceElementComponent[] | nil,
     composedPath: EventTarget[],
   ): boolean => {
-    return (
+    return !!(
       activeComponents?.some((component) => component?.open && composedPath.includes(component.el)) ||
       components?.some((component) => component?.open && composedPath.includes(component.el))
     );
@@ -449,10 +449,12 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
   };
 
   const addShadowListeners = (shadowRoot: ShadowRoot): void => {
+    // @ts-expect-error -- ShadowRoot is missing global events, see https://github.com/whatwg/dom/issues/1097
     shadowRoot.addEventListener("focusin", focusInHandler);
   };
 
   const removeShadowListeners = (shadowRoot: ShadowRoot): void => {
+    // @ts-expect-error -- ShadowRoot is missing global events, see https://github.com/whatwg/dom/issues/1097
     shadowRoot.removeEventListener("focusin", focusInHandler);
   };
 
@@ -561,8 +563,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.click && "ariaControlsElements" in referenceEl) {
-      const newElements = referenceEl.ariaControlsElements?.filter((element) => element !== component.el);
-      referenceEl.ariaControlsElements = newElements?.length > 0 ? newElements : null;
+      const newElements = (referenceEl.ariaDescribedByElements ?? []).filter((element) => element !== component.el);
+      referenceEl.ariaControlsElements = newElements.length > 0 ? newElements : null;
     }
 
     if (options.click && "ariaExpanded" in referenceEl) {
@@ -577,8 +579,8 @@ export const referenceElementManager = (options: ReferenceElementManagerOptions)
     }
 
     if (options.hover && "ariaDescribedByElements" in referenceEl) {
-      const newElements = referenceEl.ariaDescribedByElements?.filter((element) => element !== component.el);
-      referenceEl.ariaDescribedByElements = newElements?.length > 0 ? newElements : null;
+      const newElements = (referenceEl.ariaDescribedByElements ?? []).filter((element) => element !== component.el);
+      referenceEl.ariaDescribedByElements = newElements.length > 0 ? newElements : null;
     }
   };
 

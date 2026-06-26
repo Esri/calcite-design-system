@@ -118,8 +118,8 @@ function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): b
 function getValidityFlags(validityState: ValidityState): ValidityStateFlags {
   const validityFlags: ValidityStateFlags = {};
 
-  for (const [key, invalid] of Object.entries(validityState) as [keyof ValidityState, boolean][]) {
-    if (key !== "valid" && invalid) {
+  for (const [key, isInvalid] of Object.entries(validityState) as [keyof ValidityState, boolean][]) {
+    if (key !== "valid" && isInvalid) {
       validityFlags[key] = true;
     }
   }

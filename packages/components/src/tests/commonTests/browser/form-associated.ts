@@ -1,13 +1,14 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { RenderResult } from "@arcgis/lumina-compiler/testing";
+import type { RenderResult } from "@arcgis/lumina-compiler/testing";
 import {
   componentsWithInputEvent,
-  FormComponent,
+  type FormComponent,
   getClearValidationEventName,
-  ValidationProps,
+  type ValidationProps,
 } from "../../../controllers/useForm";
-import { TestSetup } from "./interfaces";
+import type { TestSetup } from "./interfaces";
+import type { RadioButtonGroup } from "../../../components/radio-button-group/radio-button-group";
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */
@@ -418,13 +419,13 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     });
   }
 
-  function expectValidationProps(element: HTMLElement, validationProps?: ValidationProps): void {
+  function expectValidationProps(element: HTMLElement, validationProps?: Partial<ValidationProps>): void {
     let testProps = validationProps;
 
     // radio-button is form-associated, but the validation props are on the parent group
     if (element.nodeName === "CALCITE-RADIO-BUTTON") {
       element.id = "radio-button";
-      const groupEl = element.closest("calcite-radio-button-group")!;
+      const groupEl = element.closest<RadioButtonGroup["el"]>("calcite-radio-button-group")!;
 
       testProps = {
         message: groupEl.validationMessage,
