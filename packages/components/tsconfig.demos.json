@@ -2,8 +2,7 @@
   "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false
+    "noImplicitAny": false
   },
   "include": ["src/demos"]
 }
