@@ -73,7 +73,7 @@ export default tseslint.config(
           max: 1,
         },
       ],
-      radix: ["error"], // "error" severity will be restored by https://github.com/Esri/calcite-design-system/issues/14401
+      radix: ["error"],
 
       "unicorn/filename-case": [
         "error",
