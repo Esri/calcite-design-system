@@ -191,8 +191,8 @@ it("does not overflow page bounds when requested css variable sizes are larger t
 
   const internalDialog = await page.find(`calcite-dialog >>> .${CSS.dialog}`);
   const style = await internalDialog.getComputedStyle();
-  expect(parseInt(style.width)).toBeLessThanOrEqual(800);
-  expect(parseInt(style.height)).toBeLessThanOrEqual(800);
+  expect(parseInt(style.width, 10)).toBeLessThanOrEqual(800);
+  expect(parseInt(style.height, 10)).toBeLessThanOrEqual(800);
 });
 
 it("escapeDisabled", async () => {
@@ -882,8 +882,8 @@ describe("keyboard resize", () => {
     let computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
     const initialInlineSize = computedStyle.inlineSize;
-    const initialHeight = parseInt(initialBlockSize);
-    const initialWidth = parseInt(initialInlineSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
@@ -939,9 +939,9 @@ describe("keyboard resize", () => {
 
     let computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
-    const initialHeight = parseInt(initialBlockSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
     const initialInlineSize = computedStyle.inlineSize;
-    const initialWidth = parseInt(initialInlineSize);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     await dispatchDialogKeydown({ page, key: "ArrowUp", shiftKey: true });
 
