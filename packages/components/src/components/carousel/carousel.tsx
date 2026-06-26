@@ -561,7 +561,7 @@ export class Carousel extends LitElement {
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
       ...this.tabListRef.value!.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
-    );
+    ) as HTMLElement[];
     const currentEl = event.target as Action["el"];
     switch (event.key) {
       case "ArrowRight":
