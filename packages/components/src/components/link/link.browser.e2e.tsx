@@ -8,7 +8,7 @@ import {
   focusable,
   hidden,
   renders,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import type { Link } from "./link";
 
@@ -149,5 +149,24 @@ describe("link interactivity", () => {
       expect(navigateHandler.mock.lastCall![0].destination.url).toBe(targetUrl);
       expect(clickEvent).toHaveBeenCalledTimes(1);
     });
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-link href="#" icon-end="information" icon-start="banana">
+            link
+          </calcite-link>,
+        ),
+      {
+        "--calcite-link-text-color": {
+          shadowSelector: "a",
+          targetProp: "color",
+        },
+      },
+    );
   });
 });

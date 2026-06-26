@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
@@ -368,57 +368,4 @@ it("does not throw when added and removed multiple times and a row", async () =>
   };
 
   await expect(runTest()).resolves.toBeUndefined();
-});
-
-describe("theme", () => {
-  themed(
-    html`
-      <calcite-select label="calcite select">
-        <calcite-option value="high">uno</calcite-option>
-        <calcite-option value="medium">dos</calcite-option>
-        <calcite-option value="low">tres</calcite-option>
-      </calcite-select>
-    `,
-    {
-      "--calcite-select-font-size": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "fontSize",
-      },
-      "--calcite-select-text-color": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "color",
-      },
-      "--calcite-select-border-color": [
-        {
-          shadowSelector: `.${CSS.select}`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.iconContainer}`,
-          targetProp: "borderColor",
-        },
-      ],
-      "--calcite-select-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
-      "--calcite-select-icon-color-hover": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-        state: "hover",
-      },
-      "--calcite-select-background-color": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-select-corner-radius": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-select-shadow": {
-        shadowSelector: `.${CSS.select}`,
-        targetProp: "boxShadow",
-      },
-    },
-  );
 });

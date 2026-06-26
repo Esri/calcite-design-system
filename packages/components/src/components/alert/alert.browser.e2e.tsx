@@ -2,6 +2,7 @@ import { h, Fragment, type JsxNode } from "@arcgis/lumina";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   reflects,
@@ -10,7 +11,7 @@ import {
   t9n,
   topLayer,
   openClose,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
@@ -149,4 +150,27 @@ it("retains close button during auto-close delay and closes when clicked", async
   await userEvent.click(closeButton);
 
   expect(alert.open).toBe(false);
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-alert label="this is a default alert"> </calcite-alert>), {
+    "--calcite-alert-width": {
+      selector: `calcite-alert`,
+      targetProp: "inlineSize",
+    },
+    "--calcite-alert-background-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-alert-corner-radius": [
+      {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+    ],
+    "--calcite-alert-shadow": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "boxShadow",
+    },
+  });
 });

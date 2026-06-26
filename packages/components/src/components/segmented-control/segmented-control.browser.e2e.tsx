@@ -11,8 +11,10 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -211,4 +213,13 @@ describe("disabled", () => {
       ),
     { focusTarget: "child" },
   );
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-segmented-control"), {
+    "--calcite-segmented-control-border-color": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "outlineColor",
+    },
+  });
 });

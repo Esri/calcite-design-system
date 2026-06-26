@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   focusable,
@@ -12,9 +13,10 @@ import {
   t9n,
   topLayer,
   openClose,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Popover } from "./popover";
 
@@ -271,6 +273,63 @@ describe("auto-close", () => {
         </>,
         mountOptions,
       ),
+    );
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-popover heading="I'm a heading in the header using the 'heading' prop!">
+            Lorem Ipsum
+          </calcite-popover>,
+        ),
+      {
+        "--calcite-popover-background-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrow}`,
+            targetProp: "fill",
+          },
+        ],
+        "--calcite-popover-border-color": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "borderBlockEndColor",
+          },
+          {
+            shadowSelector: `.${FloatingCSS.arrowStroke}`,
+            targetProp: "stroke",
+          },
+        ],
+        "--calcite-popover-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-popover-max-size-x": {
+          shadowSelector: `.${CSS.positionContainer}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-popover-text-color": [
+          {
+            shadowSelector: `.${CSS.heading}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.headerContainer}`,
+            targetProp: "color",
+          },
+        ],
+      },
     );
   });
 });

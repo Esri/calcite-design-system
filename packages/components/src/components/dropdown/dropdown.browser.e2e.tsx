@@ -1,25 +1,25 @@
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { JsxNode } from "@arcgis/lumina";
 import {
   accessible,
   defaults,
-  focusable,
-  reflects,
-  hidden,
-  renders,
-  floatingUIOwner,
   disabled,
-  topLayer,
+  floatingUIOwner,
+  focusable,
+  hidden,
   openClose,
+  reflects,
+  renders,
+  themed,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import type { Dropdown } from "./dropdown";
 
-mockConsole();
+mockConsole(["warn", "error"]);
 
 describe("defaults", () => {
   defaults(() => mount("calcite-dropdown"), {
@@ -694,5 +694,22 @@ describe("keyboard navigation", () => {
 
     await pressReferenceElementKey("ArrowDown");
     expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-dropdown open />), {
+    "--calcite-dropdown-width": {
+      targetProp: "inlineSize",
+      shadowSelector: `.${CSS.content}`,
+    },
+    "--calcite-dropdown-background-color": {
+      targetProp: "backgroundColor",
+      shadowSelector: `.${CSS.content}`,
+    },
+    "--calcite-dropdown-max-height": {
+      targetProp: "maxHeight",
+      shadowSelector: `.${CSS.content}`,
+    },
   });
 });

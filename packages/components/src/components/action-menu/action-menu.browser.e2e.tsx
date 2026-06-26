@@ -9,10 +9,10 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 
@@ -132,5 +132,24 @@ describe("delegates to floating-ui-owner component", () => {
         </calcite-action-menu>,
       ),
     "calcite-popover",
+  );
+});
+
+describe("theme", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-action-menu open>
+          <calcite-action icon="plus" id="triggerAction" slot={SLOTS.trigger} text="Add" />
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    {
+      "--calcite-action-menu-items-space": {
+        shadowSelector: `.${CSS.menu}`,
+        targetProp: "gap",
+      },
+    },
   );
 });

@@ -8,8 +8,11 @@ import {
   renders,
   slots,
   accessible,
+themed
 } from "../../tests/commonTests/browser";
 import { SLOTS } from "./resources";
+
+import { CSS, IDS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -47,4 +50,29 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-swatch"), SLOTS);
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-swatch"), {
+      "--calcite-swatch-corner-radius": [
+        { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
+        { shadowSelector: `#${IDS.swatchRect}`, targetProp: "rx" },
+      ],
+    });
+  });
+  describe("solid", () => {
+    themed(() => mount(<calcite-swatch color="#ff8200" />), {
+      "--calcite-swatch-corner-radius": [
+        { shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" },
+      ],
+    });
+  });
+  describe("transparent", () => {
+    themed(() => mount(<calcite-swatch color="rgba(255, 255, 255, 0.5)" />), {
+      "--calcite-swatch-corner-radius": [
+        { shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" },
+      ],
+    });
+  });
 });

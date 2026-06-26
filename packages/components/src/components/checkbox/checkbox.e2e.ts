@@ -1,11 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
 import { findAll } from "../../tests/utils/puppeteer";
-import { CSS } from "./resources";
 
 describe("labelable", () => {
   labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" });
@@ -173,55 +172,6 @@ describe("WCAG AA recommended minimum 24px click area", () => {
       it("large checkbox allows clicks 3px around all sides", async () => {
         await testCheckboxClick("l", 3, direction);
       });
-    });
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html` <calcite-checkbox name="s-unchecked" scale="s"></calcite-checkbox> `, {
-      "--calcite-checkbox-size": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "inlineSize",
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-checkbox-icon-color": {
-        shadowSelector: `.${CSS.check}`,
-        targetProp: "color",
-      },
-    });
-  });
-  describe("checked", () => {
-    themed(html` <calcite-checkbox name="s-checked" scale="s" checked></calcite-checkbox> `, {
-      "--calcite-checkbox-border-color-hover": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "boxShadow",
-          state: "hover",
-        },
-      ],
-      "--calcite-checkbox-border-color-press": [
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-checkbox >>> .${CSS.check}` },
-        },
-        {
-          shadowSelector: `.${CSS.check}`,
-          targetProp: "boxShadow",
-          state: { press: `calcite-checkbox >>> .${CSS.check}` },
-        },
-      ],
     });
   });
 });

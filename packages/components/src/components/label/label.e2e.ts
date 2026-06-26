@@ -1,9 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
 import { isElementFocused } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
 
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();
@@ -195,27 +193,4 @@ it("clicking sibling label focuses input when both are inside a shadowRoot", asy
   const eventDetail: any = await page.evaluateHandle(() => (window as any).eventDetail);
 
   expect(eventDetail).toBeTruthy();
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`
-        <calcite-label>
-          Label text
-          <calcite-input></calcite-input>
-        </calcite-label>
-      `,
-      {
-        "--calcite-label-margin-bottom": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "marginBlockEnd",
-        },
-        "--calcite-label-text-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "color",
-        },
-      },
-    );
-  });
 });

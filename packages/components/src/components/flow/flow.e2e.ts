@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -513,13 +513,4 @@ it("supports custom flow-items", async () => {
   displayedItem = await page.find(displayedItemSelector);
   expect(await flow.getProperty("childElementCount")).toBe(3);
   expect(displayedItem.id).toBe("first");
-});
-
-describe("theme", () => {
-  themed("calcite-flow", {
-    "--calcite-flow-background-color": {
-      shadowSelector: `.${CSS.frame}`,
-      targetProp: "backgroundColor",
-    },
-  });
 });

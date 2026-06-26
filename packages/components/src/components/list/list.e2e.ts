@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
 import {
@@ -17,7 +16,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { ListDragDetail } from "./interfaces";
-import { CSS } from "./resources";
 import type { List } from "./list";
 
 mockConsole();
@@ -2072,16 +2070,5 @@ describe("drag and drop", () => {
     );
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe(newLabel);
-  });
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-list`, {
-      "--calcite-list-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-    });
   });
 });

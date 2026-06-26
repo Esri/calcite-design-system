@@ -1,7 +1,8 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent, page } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+
 import {
   cancelable,
   defaults,
@@ -12,7 +13,7 @@ import {
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
@@ -21,7 +22,7 @@ import { ActionBar } from "./action-bar";
 import type { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { overflowActions } from "./utils";
-import { html } from "lit";
+import { CSS } from "./resources";
 
 mockConsole();
 
@@ -460,13 +461,15 @@ describe("per-group overflow-actions-disabled", () => {
     expect(group2.overflowActionsDisabled).toBe(false);
   });
   it("keeps actions tabbable when tabbing out", async () => {
-    await mount(html`
-      <calcite-action-bar expand-disabled>
-        <calcite-action text="first" icon="number-circle-1"></calcite-action>
-        <calcite-action text="second" icon="number-circle-2"></calcite-action>
-      </calcite-action-bar>
-      <calcite-action text="third" icon="number-circle-3"></calcite-action>
-    `);
+    await mount(
+      <>
+        <calcite-action-bar expand-disabled>
+          <calcite-action icon="number-circle-1" text="first" />
+          <calcite-action icon="number-circle-2" text="second" />
+        </calcite-action-bar>
+        <calcite-action icon="number-circle-3" text="third" />
+      </>,
+    );
     const actions = page.getBySelector("calcite-action");
 
     await userEvent.keyboard("{Tab}");
@@ -556,5 +559,99 @@ describe("overflow-disabled actions", () => {
     await expect
       .element(page.getBySelector("calcite-action[overflow-disabled]"))
       .not.toHaveAttribute("slot");
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-bar expanded layout="vertical">
+            <calcite-action-group>
+              <calcite-action icon="plus" id="my-action" label="Add Item" text="Add" />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action-menu label="Save and open">
+                <calcite-action
+                  icon="save"
+                  id="menu-action"
+                  label="Save"
+                  text="Save"
+                  text-enabled
+                />
+              </calcite-action-menu>
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      {
+        "--calcite-action-bar-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-bar-expanded-max-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-action-bar-items-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      },
+    );
+  });
+  describe("floating", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-bar expanded floating layout="vertical">
+            <calcite-action-group>
+              <calcite-action icon="plus" id="my-action" label="Add Item" text="Add" />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action-menu label="Save and open">
+                <calcite-action
+                  icon="save"
+                  id="menu-action"
+                  label="Save"
+                  text="Save"
+                  text-enabled
+                />
+              </calcite-action-menu>
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      {
+        "--calcite-action-bar-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-action-bar-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+      },
+    );
+  });
+
+  it("should emit expanded/collapsed events when toggled", async () => {
+    const { el, reRender } = await mount<ActionBar>(<calcite-action-bar />);
+    const expandSpy = vi.fn();
+    const collapseSpy = vi.fn();
+
+    el.addEventListener("calciteActionBarExpand", expandSpy);
+    el.addEventListener("calciteActionBarCollapse", collapseSpy);
+
+    el.expanded = true;
+    await reRender();
+    expect(el.expanded).toBe(true);
+    expect(expandSpy).toHaveBeenCalledTimes(1);
+    expect(collapseSpy).toHaveBeenCalledTimes(0);
+
+    el.expanded = false;
+    await reRender();
+    expect(el.expanded).toBe(false);
+    expect(expandSpy).toHaveBeenCalledTimes(1);
+    expect(collapseSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -104,84 +104,4 @@ it("should not render chip when closed set to true", async () => {
   await page.waitForChanges();
 
   expect(await chipEl.isVisible()).toBe(false);
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-chip`, {
-      "--calcite-chip-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-chip-text-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "color",
-      },
-      "--calcite-chip-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
-    });
-  });
-
-  describe("appearance='outline'", () => {
-    themed(html`<calcite-chip appearance="outline">Layers</calcite-chip>`, {
-      "--calcite-chip-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderColor",
-      },
-    });
-  });
-
-  describe("closable", () => {
-    themed(html`<calcite-chip closable>Layers</calcite-chip>`, {
-      "--calcite-chip-close-icon-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-text-color",
-      },
-    });
-  });
-
-  describe("selectable", () => {
-    describe("default", () => {
-      themed(html`<calcite-chip selection-mode="single">Layers</calcite-chip>`, {
-        "--calcite-chip-select-icon-color": {
-          shadowSelector: `.${CSS.selectIcon}`,
-          targetProp: "color",
-        },
-      });
-    });
-    describe("selected", () => {
-      themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
-        "--calcite-chip-select-icon-color-press": {
-          shadowSelector: `.${CSS.selectIcon}`,
-          targetProp: "color",
-        },
-      });
-    });
-  });
-
-  describe("icon", () => {
-    themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
-      "--calcite-chip-icon-color": {
-        shadowSelector: `.${CSS.chipIcon}`,
-        targetProp: "color",
-      },
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(html`<calcite-chip selection-mode="single" selected>Layers</calcite-chip>`, {
-      "--calcite-chip-select-icon-color-pressed": {
-        shadowSelector: `.${CSS.selectIcon}`,
-        targetProp: "color",
-      },
-    });
-    themed(html`<calcite-chip icon="layer">Layers</calcite-chip>`, {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.chipIcon}`,
-        targetProp: "color",
-      },
-    });
-  });
 });

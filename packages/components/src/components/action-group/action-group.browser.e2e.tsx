@@ -1,8 +1,8 @@
-import { JsxNode } from "@arcgis/lumina";
-import { h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   focusable,
@@ -12,7 +12,7 @@ import {
   renders,
   slots,
   t9n,
-  accessible,
+accessible, themed
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -259,4 +259,26 @@ it("should emit expanded/collapsed events when toggled", async () => {
 
   expect(expandEventHandler).toHaveBeenCalledTimes(1);
   expect(collapseEventHandler).toHaveBeenCalledTimes(1);
+});
+
+describe("theme", () => {
+  describe("border", () => {
+    themed(
+      () =>
+        mount(
+          <>
+            <calcite-action-menu open>
+              <calcite-action-group />
+              <calcite-action-group />
+            </calcite-action-menu>
+          </>,
+        ),
+      {
+        "--calcite-action-group-border-color": {
+          selector: "calcite-action-group",
+          targetProp: "borderBlockEndColor",
+        },
+      },
+    );
+  });
 });

@@ -9,6 +9,7 @@ import {
   renders,
   t9n,
   accessible,
+  themed
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -281,6 +282,58 @@ describe("l10n", () => {
           }
         });
       });
+    });
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-time-picker />), {
+      "--calcite-time-picker-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.timePicker}`,
+      },
+      "--calcite-time-picker-corner-radius": {
+        targetProp: "borderRadius",
+        shadowSelector: `.${CSS.timePicker}`,
+      },
+      "--calcite-time-picker-button-background-color-hover": {
+        targetProp: "backgroundColor",
+        state: "hover",
+        shadowSelector: `.${CSS.button}`,
+      },
+      "--calcite-time-picker-button-background-color-press": {
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+        shadowSelector: `.${CSS.button}`,
+      },
+      "--calcite-time-picker-color": {
+        targetProp: "color",
+        shadowSelector: `.${CSS.timePicker}`,
+      },
+      "--calcite-time-picker-icon-color": {
+        targetProp: "color",
+        shadowSelector: "calcite-icon",
+      },
+      "--calcite-time-picker-input-border-color-hover": {
+        targetProp: "boxShadow",
+        state: "hover",
+        shadowSelector: `.${CSS.input}`,
+      },
+      "--calcite-time-picker-border-color": {
+        targetProp: "borderColor",
+        shadowSelector: `.${CSS.timePicker}`,
+      },
+    });
+  });
+
+  describe("hour input focused", () => {
+    themed(() => mount(<calcite-time-picker />), {
+      "--calcite-time-picker-input-border-color-press": {
+        targetProp: "boxShadow",
+        shadowSelector: `.${CSS.hour}`,
+        state: "focus",
+      },
     });
   });
 });
