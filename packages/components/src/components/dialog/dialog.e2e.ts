@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -26,7 +25,7 @@ const dispatchDialogKeydown = async ({
 }): Promise<void> => {
   await page.$eval(
     `calcite-dialog >>> .${CSS.dialog}`,
-    (el: HTMLDivElement, key, shiftKey) => {
+    (el, key, shiftKey) => {
       el.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey, bubbles: true }));
     },
     key,
@@ -102,14 +101,14 @@ it("outsideCloseDisabled", async () => {
 
   const dialog = await page.find("calcite-dialog");
 
-  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await dialog.getProperty("open")).toBe(true);
 
   dialog.setProperty("outsideCloseDisabled", false);
   await page.waitForChanges();
 
-  await page.$eval("calcite-dialog", (el) => el.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-dialog", (el) => el.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await dialog.getProperty("open")).toBe(false);
 });
@@ -214,14 +213,14 @@ it("escapeDisabled", async () => {
   await page.waitForChanges();
 
   expect(eventSpy).toHaveReceivedEventTimes(1);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(true);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(true);
   expect(await dialog.getProperty("open")).toBe(true);
 
   await page.keyboard.down("Enter");
   await page.keyboard.up("Enter");
   await page.waitForChanges();
   expect(eventSpy).toHaveReceivedEventTimes(2);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(false);
 
   dialog.setProperty("escapeDisabled", false);
   await page.waitForChanges();
@@ -231,7 +230,7 @@ it("escapeDisabled", async () => {
   await page.waitForChanges();
 
   expect(eventSpy).toHaveReceivedEventTimes(3);
-  expect(eventSpy.lastEvent.defaultPrevented).toBe(false);
+  expect(eventSpy.lastEvent!.defaultPrevented).toBe(false);
   expect(await dialog.getProperty("open")).toBe(false);
 });
 
@@ -406,8 +405,8 @@ describe("accessibility checks", () => {
     await skipAnimations(page);
 
     const dialog = await page.find("calcite-dialog");
-    await page.$eval(initiallyFocusedIdSelector, (button: HTMLButtonElement) => {
-      button.focus();
+    await page.$eval(initiallyFocusedIdSelector, (button) => {
+      (button as HTMLButtonElement).focus();
     });
 
     dialog.setProperty("open", true);
@@ -469,7 +468,7 @@ describe("accessibility checks", () => {
     await page.waitForChanges();
 
     await page.evaluate(() => {
-      const btn = document.getElementById("openButton");
+      const btn = document.getElementById("openButton")!;
       btn.addEventListener("click", () => {
         const button = document.createElement("calcite-button");
         button.innerHTML = "focusable";
@@ -603,7 +602,7 @@ it("should close when the scrim is clicked", async () => {
   expect(dialog).toHaveAttribute("open");
 
   await page.evaluate((className) => {
-    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    const scrim = document.querySelector("calcite-dialog")!.shadowRoot!.querySelector(className);
     (scrim as HTMLElement).click();
   }, `.${CSS.scrim}`);
 
@@ -740,7 +739,7 @@ it("when dialog css override set, scrim should adhere to requested color", async
       `,
   });
   const scrimStyles = await page.evaluate((className) => {
-    const scrim = document.querySelector("calcite-dialog").shadowRoot.querySelector(className);
+    const scrim = document.querySelector("calcite-dialog")!.shadowRoot!.querySelector(className)!;
     return window.getComputedStyle(scrim).getPropertyValue("--calcite-scrim-background");
   }, `.${CSS.scrim}`);
   expect(scrimStyles).toEqual(overrideStyle);

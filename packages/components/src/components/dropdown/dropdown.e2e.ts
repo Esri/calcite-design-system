@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -430,7 +429,7 @@ it("should focus the first item on open when there is no selected item", async (
   expect(
     await page.evaluate(
       () =>
-        document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
           .ariaActiveDescendantElement?.id,
     ),
   ).toEqual("item-1");
@@ -457,7 +456,7 @@ it("should focus the first item on open when an item is selected", async () => {
   expect(
     await page.evaluate(
       () =>
-        document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
           .ariaActiveDescendantElement?.id,
     ),
   ).toEqual("item-1");
@@ -484,7 +483,7 @@ it("should focus the first item on open (multi) when items are selected", async 
   expect(
     await page.evaluate(
       () =>
-        document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+        document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
           .ariaActiveDescendantElement?.id,
     ),
   ).toEqual("item-1");
@@ -555,7 +554,7 @@ describe("scrolling", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toEqual("item-50");
@@ -914,7 +913,7 @@ describe("Focus order with Tab key", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -961,7 +960,7 @@ describe("Focus order with Tab key", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1042,7 +1041,7 @@ it("focus is returned to trigger after close", async () => {
   await item1.click();
   await page.waitForChanges();
   expect(await dropdownWrapper.isVisible()).toBe(false);
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual("trigger");
+  expect(await page.evaluate(() => document.activeElement!.id)).toEqual("trigger");
 });
 
 describe("accessible", () => {
@@ -1134,8 +1133,8 @@ it("item selection should work when placed inside shadow DOM (#992)", async () =
 
       document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
 
-      const wrapper = document.querySelector(wrapperName);
-      wrapper.shadowRoot.querySelector<DropdownItem["el"]>("#item-3").click();
+      const wrapper = document.querySelector(wrapperName)!;
+      wrapper.shadowRoot!.querySelector<DropdownItem["el"]>("#item-3")!.click();
     },
     wrappedDropdownTemplateHTML,
     wrapperName,
@@ -1144,11 +1143,11 @@ it("item selection should work when placed inside shadow DOM (#992)", async () =
   await page.waitForChanges();
 
   const finalSelectedItem = await page.evaluate(async (wrapperName: string): Promise<string> => {
-    const wrapper = document.querySelector(wrapperName);
-    return wrapper.shadowRoot.querySelector("calcite-dropdown-item[selected]").id;
+    const wrapper = document.querySelector(wrapperName)!;
+    return wrapper.shadowRoot!.querySelector("calcite-dropdown-item[selected]")!.id;
   }, wrapperName);
 
-  await expect(finalSelectedItem).toBe("item-3");
+  expect(finalSelectedItem).toBe("item-3");
 });
 
 it("dropdown should not overflow when wrapped inside a tab #3007", async () => {
@@ -1209,8 +1208,8 @@ describe("panel + empty filterable list", () => {
     const dropdownContentHeight = await (await page.find("calcite-dropdown >>> .wrapper")).getComputedStyle();
 
     await page.evaluate(() => {
-      const filter = document.querySelector(`calcite-list`).shadowRoot.querySelector("calcite-filter");
-      const filterInput = filter.shadowRoot.querySelector("calcite-input");
+      const filter = document.querySelector(`calcite-list`)!.shadowRoot!.querySelector("calcite-filter")!;
+      const filterInput = filter.shadowRoot!.querySelector("calcite-input")!;
       filterInput.value = "numbers";
     });
 
@@ -1245,7 +1244,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1256,7 +1255,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1267,7 +1266,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1278,7 +1277,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1289,7 +1288,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1300,7 +1299,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1311,7 +1310,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1322,7 +1321,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1357,7 +1356,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1368,7 +1367,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1379,7 +1378,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1390,7 +1389,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1401,7 +1400,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1412,7 +1411,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1445,7 +1444,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1455,7 +1454,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1465,7 +1464,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1498,7 +1497,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1508,7 +1507,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-1");
@@ -1518,7 +1517,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1551,7 +1550,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
@@ -1561,7 +1560,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-2");
@@ -1571,7 +1570,7 @@ describe("keyboard navigation", () => {
     expect(
       await page.evaluate(
         () =>
-          document.querySelector("calcite-dropdown").shadowRoot.querySelector("slot[name='trigger']")
+          document.querySelector("calcite-dropdown")!.shadowRoot!.querySelector("slot[name='trigger']")!
             .ariaActiveDescendantElement?.id,
       ),
     ).toBe("item-3");
