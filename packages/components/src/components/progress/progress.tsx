@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -26,14 +25,14 @@ export class Progress extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true` and type is `"indeterminate"`, reverses the animation direction. */
   @property({ reflect: true }) reversed = false;
 
   /** Text that displays under the component's indicator. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
    * Specifies the component type.

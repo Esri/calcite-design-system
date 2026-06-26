@@ -13,9 +13,9 @@ import {
 } from "./utils";
 
 describe(colorFromValue, () => {
-  it("returns null with clearable value + clearable=true", () => {
-    expect(colorFromValue(null, true, "hex")).toBeNull();
-    expect(colorFromValue("", true, "hex")).toBeNull();
+  it("returns undefined with clearable value + clearable=true", () => {
+    expect(colorFromValue(undefined, true, "hex")).toBeUndefined();
+    expect(colorFromValue("", true, "hex")).toBeUndefined();
   });
 
   it("returns Color instance for valid modes + clearable=false", () => {
@@ -40,7 +40,7 @@ describe(colorFromValue, () => {
   });
 
   it("returns default Color for clearable value + clearable=false", () => {
-    expect(colorFromValue(null, false, "hex")).not.toBeNull();
+    expect(colorFromValue(undefined, false, "hex")).toBeDefined();
   });
 });
 
@@ -53,7 +53,7 @@ it("can parse supported color modes", () => {
   expect(parseMode("rgba(34, 12, 64, 0.6)")).toBe("rgba-css");
   expect(parseMode("hsl(30, 100%, 50%)")).toBe("hsl-css");
   expect(parseMode("hsla(30, 100%, 50%, .3)")).toBe("hsla-css");
-  expect(parseMode("unknown")).toBeNull();
+  expect(parseMode("unknown")).toBeUndefined();
   expect(parseMode({ r: 255, g: 255, b: 255 })).toBe("rgb");
   expect(parseMode({ r: 255, g: 255, b: 255, a: 0.5 })).toBe("rgba");
   expect(parseMode({ h: 255, s: 255, l: 255 })).toBe("hsl");
@@ -61,8 +61,9 @@ it("can parse supported color modes", () => {
   expect(parseMode({ h: 255, s: 255, v: 255 })).toBe("hsv");
   expect(parseMode({ h: 255, s: 255, v: 255, a: 0.5 })).toBe("hsva");
 
-  const nonMatchingObject = {} as any;
-  expect(parseMode(nonMatchingObject)).toBeNull();
+  const nonMatchingObject = {};
+  // @ts-expect-error -- passing unsupported structure
+  expect(parseMode(nonMatchingObject)).toBeUndefined();
 });
 
 it("helps compare Color instances", () => {
@@ -73,11 +74,13 @@ it("helps compare Color instances", () => {
 it("can convert hex to RGB", () => {
   expect(hexToRGB("#0f0")).toMatchObject({ r: 0, g: 255, b: 0 });
   expect(hexToRGB("#00ff00")).toMatchObject({ r: 0, g: 255, b: 0 });
-  expect(hexToRGB("0f0")).toBeNull();
-  expect(hexToRGB("00ff00")).toBeNull();
+  expect(hexToRGB("#0f0f")).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
+  expect(hexToRGB("#00ff00ff")).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
 
-  expect(hexToRGB("#0f0f", true)).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
-  expect(hexToRGB("#00ff00ff", true)).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
+  expect(hexToRGB("0f0")).toMatchObject({ r: 0, g: 255, b: 0 });
+  expect(hexToRGB("00ff00")).toMatchObject({ r: 0, g: 255, b: 0 });
+  expect(hexToRGB("0f0f")).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
+  expect(hexToRGB("00ff00ff")).toMatchObject({ r: 0, g: 255, b: 0, a: 1 });
 });
 
 it("can convert RGB to hex", () => {

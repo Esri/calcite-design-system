@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Cancel",
   "clear": "Išvalyti reikšmę",
+  "confirmInlineEditingChanges": "Save",
+  "enableInlineEditing": "Edit",
   "loading": "Kraunama",
   "required": "Būtina"
 }

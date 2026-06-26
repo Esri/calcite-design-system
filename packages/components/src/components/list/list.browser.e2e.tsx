@@ -486,6 +486,41 @@ describe("group filtering", () => {
     expect(rerenderedFilterEl.value).toBe(typedValue);
     expect(el.filterText).toBe("");
   });
+
+  it("preserves filter input text while items are loading before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+      </calcite-list>,
+    );
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(el.filterText).toBe("");
+
+    for (let i = 0; i < 20; i++) {
+      const item = document.createElement("calcite-list-item");
+      item.label = `Loading item ${i}`;
+      item.value = `loading-item-${i}`;
+      el.append(item);
+
+      vi.advanceTimersByTime(DEBOUNCE.nextTick + 1);
+
+      const filterEl = page
+        .getBySelector("calcite-list calcite-filter")
+        .element() as HTMLElement & {
+        value: string;
+      };
+
+      expect(filterEl.value).toBe(typedValue);
+      expect(el.filterText).toBe("");
+    }
+
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    expect(el.filterText).toBe(typedValue);
+  });
 });
 
 describe("filter item data updates", () => {
@@ -629,7 +664,7 @@ describe("filter item data updates", () => {
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <Fragment>
+      <>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -718,7 +753,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </Fragment>,
+      </>,
     );
 
     await afterNextFrame();

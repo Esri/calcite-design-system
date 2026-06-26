@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
@@ -39,13 +38,13 @@ export class DropdownItem extends LitElement {
   private childLinkRef = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
-  private parentDropdownGroupEl: DropdownGroup["el"];
+  private parentDropdownGroupEl?: DropdownGroup["el"];
 
   /** requested group */
-  private requestedDropdownGroup: DropdownGroup["el"];
+  private requestedDropdownGroup?: DropdownGroup["el"];
 
   /** requested item */
-  private requestedDropdownItem: DropdownItem["el"];
+  private requestedDropdownItem?: DropdownItem["el"];
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -70,22 +69,22 @@ export class DropdownItem extends LitElement {
    *
    * Determines if the component will render as an anchor.
    */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -108,7 +107,7 @@ export class DropdownItem extends LitElement {
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
   /** Specifies the frame or window to open the linked resource. */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   //#endregion
 
@@ -186,7 +185,8 @@ export class DropdownItem extends LitElement {
   }
 
   private updateActiveItemOnChange(event: CustomEvent): void {
-    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+    const parentEmittedChange =
+      this.parentDropdownGroupEl && event.composedPath().includes(this.parentDropdownGroupEl);
 
     if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
@@ -197,7 +197,7 @@ export class DropdownItem extends LitElement {
   }
 
   private initialize(): void {
-    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
+    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group") ?? undefined;
     if (this.selectionMode === "none") {
       this.selected = false;
     }
@@ -229,7 +229,7 @@ export class DropdownItem extends LitElement {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl,
+      requestedDropdownGroup: this.parentDropdownGroupEl!,
     });
   }
 
@@ -300,7 +300,7 @@ export class DropdownItem extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? label : "";
+    this.el.ariaLabel = !href ? (label ?? null) : "";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

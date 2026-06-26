@@ -1,7 +1,5 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { ConditionalPick } from "type-fest";
 import { html } from "../../../support/formatting";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
@@ -200,9 +198,9 @@ describe("when the lang is set to Slovak calendar", () => {
     const text: string = await page.evaluate(
       () =>
         document
-          .querySelector("calcite-date-picker")
-          .shadowRoot.querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector(".week-header").textContent,
+          .querySelector("calcite-date-picker")!
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector(".week-header")!.textContent,
     );
 
     expect(text).toEqual("po");
@@ -223,7 +221,7 @@ describe("min & max", () => {
     await page.waitForChanges();
     const minDateString = "Mon Nov 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)";
     const minDateAsTime = await page.$eval("calcite-date-picker", (picker: DatePicker["el"]) =>
-      picker.minAsDate.getTime(),
+      picker.minAsDate?.getTime(),
     );
     expect(minDateAsTime).toEqual(new Date(minDateString).getTime());
   });
@@ -995,7 +993,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1089,7 +1087,7 @@ describe("selection", () => {
     const currentISODate = toDateOnlyIso(currentDate);
 
     await page.evaluate((currentISODate) => {
-      const datePicker = document.querySelector("calcite-date-picker");
+      const datePicker = document.querySelector("calcite-date-picker")!;
       datePicker.min = currentISODate;
     }, currentISODate);
 
@@ -1117,7 +1115,7 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
 
   async function getActiveMonthDate(): Promise<string> {
     return page.$eval("calcite-date-picker", (datePicker: DatePicker["el"]) =>
-      datePicker.shadowRoot.querySelector("calcite-date-picker-month").activeDate.toISOString(),
+      datePicker.shadowRoot!.querySelector("calcite-date-picker-month")!.activeDate.toISOString(),
     );
   }
 
@@ -1125,10 +1123,10 @@ it("updates the calendar immediately as a new year is typed but doesn't change t
     return page.$eval(
       "calcite-date-picker",
       (datePicker: DatePicker["el"]) =>
-        datePicker.shadowRoot
-          .querySelector("calcite-date-picker-month")
-          .shadowRoot.querySelector("calcite-date-picker-month-header")
-          .shadowRoot.querySelector<HTMLInputElement>(".year").value,
+        datePicker
+          .shadowRoot!.querySelector("calcite-date-picker-month")!
+          .shadowRoot!.querySelector("calcite-date-picker-month-header")!
+          .shadowRoot!.querySelector<HTMLInputElement>(".year")!.value,
     );
   }
 
@@ -1371,12 +1369,8 @@ async function setActiveDate(page: E2EPage, isoDate: string): Promise<void> {
   await page.waitForChanges();
 }
 
-async function getActiveDate(page: E2EPage): Promise<string> {
-  return getDateIsoStringFromProp(page, "activeDate");
-}
-
-async function getDateIsoStringFromProp(page: E2EPage, prop: keyof ConditionalPick<DatePicker, Date>): Promise<string> {
-  return page.$eval("calcite-date-picker", (datePicker, prop) => datePicker[prop]?.toISOString(), prop);
+async function getActiveDate(page: E2EPage): Promise<string | undefined> {
+  return page.$eval("calcite-date-picker", (datePicker) => datePicker["activeDate"]?.toISOString());
 }
 
 async function selectDayInMonthById(id: string, page: E2EPage): Promise<void> {
@@ -1412,7 +1406,7 @@ async function getDayById(page: E2EPage, id: string): Promise<E2EElement> {
     page,
     `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id="${id}"]`,
   );
-  return days.find((d) => !d.classList.contains("noncurrent"));
+  return days.find((d) => !d.classList.contains("noncurrent"))!;
 }
 
 async function getActiveMonth(page: E2EPage, position: Extract<"start" | "end", Position> = "start"): Promise<string> {

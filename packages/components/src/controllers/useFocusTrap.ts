@@ -59,7 +59,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: Options;
 }
 
-interface FocusTrapComponent extends LitElement {
+export interface FocusTrapComponent extends LitElement {
   /*
    * When `true` prevents focus trapping.
    */

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -68,10 +67,10 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
@@ -104,7 +103,7 @@ export class Chip extends LitElement {
    */
   @property() label: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */

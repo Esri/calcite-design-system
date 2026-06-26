@@ -6,6 +6,7 @@ import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   focusable,
+  focusTrap,
   reflects,
   hidden,
   renders,
@@ -139,6 +140,28 @@ describe("is focusable", () => {
     focusable(() => mount(renderDialog(true)), {
       focusTargetSelector,
     });
+  });
+});
+
+describe("focus-trap", () => {
+  describe("default", () => {
+    focusTrap(() => mount(<calcite-dialog heading="Title">Content</calcite-dialog>), {
+      toggleProp: "open",
+    });
+  });
+
+  describe("modal", () => {
+    focusTrap(
+      () =>
+        mount(
+          <calcite-dialog heading="Title" modal>
+            Content
+          </calcite-dialog>,
+        ),
+      {
+        toggleProp: "open",
+      },
+    );
   });
 });
 
@@ -284,8 +307,8 @@ describe("fullscreen disabled", () => {
 
       const computedStyle = window.getComputedStyle(dialog);
 
-      expect(parseInt(computedStyle.width)).toBeLessThan(width);
-      expect(parseInt(computedStyle.height)).toBeLessThan(height);
+      expect(parseInt(computedStyle.width, 10)).toBeLessThan(width);
+      expect(parseInt(computedStyle.height, 10)).toBeLessThan(height);
     },
   );
 
@@ -309,8 +332,10 @@ describe("fullscreen disabled", () => {
     await component.updateComplete;
 
     const resizedStyle = window.getComputedStyle(dialog);
-    expect(parseInt(resizedStyle.width)).toBeGreaterThanOrEqual(minimumDialogWidthForMediumScale);
-    expect(parseInt(resizedStyle.width)).toBeLessThan(viewportWidth);
+    expect(parseInt(resizedStyle.width, 10)).toBeGreaterThanOrEqual(
+      minimumDialogWidthForMediumScale,
+    );
+    expect(parseInt(resizedStyle.width, 10)).toBeLessThan(viewportWidth);
   });
 });
 

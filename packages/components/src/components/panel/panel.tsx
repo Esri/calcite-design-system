@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   hasVisibleContent,
@@ -64,7 +72,7 @@ export class Panel extends LitElement {
 
   private containerRef = createRef<HTMLElement>();
 
-  private panelScrollEl: HTMLElement;
+  private panelScrollEl?: HTMLElement;
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
@@ -118,12 +126,12 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** @copyDoc */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -144,20 +152,20 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -165,8 +173,8 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -174,25 +182,17 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -257,7 +257,7 @@ export class Panel extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.panelCloseHandler);
+    this.listen<ToEvents<Panel>["calcitePanelClose"]>("calcitePanelClose", this.panelCloseHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -405,7 +405,7 @@ export class Panel extends LitElement {
     this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
-  private setPanelScrollEl(el: HTMLElement): void {
+  private setPanelScrollEl(el?: HTMLElement): void {
     updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
   }

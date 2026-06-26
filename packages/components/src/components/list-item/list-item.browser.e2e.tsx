@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -11,6 +11,7 @@ import {
   slots,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
+import type { ListItem } from "./list-item";
 
 describe("defaults", () => {
   defaults(
@@ -144,4 +145,49 @@ describe("is focusable", () => {
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-list-item active label="test" />));
+});
+
+it("emits calciteInternalListItemChange only when metadata values change", async () => {
+  const { el, component } = await mount<ListItem>(<calcite-list-item />);
+  const eventSpy = vi.fn();
+
+  el.addEventListener("calciteInternalListItemChange", eventSpy);
+
+  el.metadata = { first: "same", second: "value" };
+  await component.updateComplete;
+
+  el.metadata = { second: "value", first: "same" };
+  await component.updateComplete;
+
+  el.metadata = { first: "different", second: "value" };
+  await component.updateComplete;
+
+  el.metadata = { keyword: "different", nested: { key: "same" } };
+  await component.updateComplete;
+
+  el.metadata = { keyword: "different", nested: { key: "same" } };
+  await component.updateComplete;
+
+  el.metadata = { keyword: "different", nested: { key: "changed" } };
+  await component.updateComplete;
+
+  el.metadata = {
+    tags: ["a", "b"],
+    when: "2024-01-01T00:00:00.000Z",
+  };
+  await component.updateComplete;
+
+  el.metadata = {
+    tags: ["a", "b"],
+    when: "2024-01-01T00:00:00.000Z",
+  };
+  await component.updateComplete;
+
+  el.metadata = {
+    tags: ["a", "b", "c"],
+    when: "2024-01-01T00:00:00.000Z",
+  };
+  await component.updateComplete;
+
+  expect(eventSpy).toHaveBeenCalledTimes(6);
 });

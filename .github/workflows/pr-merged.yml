@@ -20,7 +20,7 @@ jobs:
         uses: actions/github-script@v9
         env:
           MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
-          MONDAY_BOARD: ${{ secrets.MONDAY_BOARD_REFACTOR }}
+          MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
           GITHUB_REPO: ${{ github.event.repository.name }}
         with:
           script: |

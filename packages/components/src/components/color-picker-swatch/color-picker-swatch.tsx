@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, JsxNode } from "@arcgis/lumina";
@@ -26,7 +25,7 @@ export class ColorPickerSwatch extends LitElement {
 
   // #region Private Properties
 
-  private internalColor: ColorInstance;
+  private internalColor?: ColorInstance;
 
   // #endregion
 
@@ -43,7 +42,7 @@ export class ColorPickerSwatch extends LitElement {
    *
    * @see [MDN - Color CSS data type](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value).
    */
-  @property() color: string | null;
+  @property() color?: string;
 
   /** Specifies the size of the component. */
   @property({
@@ -69,8 +68,8 @@ export class ColorPickerSwatch extends LitElement {
 
   // #region Private Methods
 
-  private handleColorChange(color: string | null): void {
-    this.internalColor = color ? Color(color) : null;
+  private handleColorChange(color: string | undefined): void {
+    this.internalColor = color ? Color(color) : undefined;
   }
 
   // #endregion

@@ -36,28 +36,32 @@ function allScaleComboboxBuilder(
       }
     </style>
 
-    ${selectionModes.map(
-      (selectionMode) => html`
-        <div class="selection-mode-group">
-          ${scales.map(
-            (scale) => html`
-              <div class="combobox-container">
-                <h3>${selectionMode} selection mode + ${scale} scale</h3>
-                <calcite-combobox
-                  placeholder="select element"
-                  max-items="10"
-                  selection-mode="${selectionMode}"
-                  open
-                  scale="${scale}"
-                >
-                  ${items}
-                </calcite-combobox>
-              </div>
-            `,
-          )}
-        </div>
-      `,
-    )}
+    ${selectionModes
+      .map(
+        (selectionMode) => html`
+          <div class="selection-mode-group">
+            ${scales
+              .map(
+                (scale) => html`
+                  <div class="combobox-container">
+                    <h3>${selectionMode} selection mode + ${scale} scale</h3>
+                    <calcite-combobox
+                      placeholder="select element"
+                      max-items="10"
+                      selection-mode="${selectionMode}"
+                      open
+                      scale="${scale}"
+                    >
+                      ${items}
+                    </calcite-combobox>
+                  </div>
+                `,
+              )
+              .join("")}
+          </div>
+        `,
+      )
+      .join("")}
   `;
 }
 
@@ -205,7 +209,7 @@ export const multiple = (): string => html`
       </calcite-combobox>
     </calcite-label>
     <calcite-label>
-      All selected with multiple visible chips and overflow chip
+      All selected except disabled item
       <calcite-combobox
         label="test"
         placeholder="Select items"
@@ -225,27 +229,7 @@ export const multiple = (): string => html`
       </calcite-combobox>
     </calcite-label>
     <calcite-label>
-      Some selected as a condensed indicator chip
-      <calcite-combobox
-        label="test"
-        placeholder="Select any items you want"
-        max-items="10"
-        scale="m"
-        selection-display="fit"
-        placeholder-icon="car"
-        select-all-enabled
-      >
-        <calcite-combobox-item value="Trees" heading="Trees" selected>
-          <calcite-combobox-item selected value="Pine" selected heading="Pine">
-            <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-      </calcite-combobox>
-    </calcite-label>
-    <calcite-label>
-      All selected as a condensed indicator chip
+      All selected with disabled selected item
       <calcite-combobox
         label="test"
         placeholder="Select any items you want"

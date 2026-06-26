@@ -131,7 +131,7 @@ describe("scope interaction", () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      expect(el.value).toBeFalsy();
+      expect(el.value).toBeUndefined();
       await userEvent.keyboard("{ArrowDown}");
       expect(el.value).toBe("#ffffff");
       await userEvent.keyboard("{ArrowDown}");

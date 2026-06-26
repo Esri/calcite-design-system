@@ -17,7 +17,7 @@ describe("defaults", () => {
       { propertyName: "active", defaultValue: false },
       { propertyName: "description", defaultValue: undefined },
       { propertyName: "disabled", defaultValue: false },
-      { propertyName: "filterDisabled", defaultValue: undefined },
+      { propertyName: "filterDisabled", defaultValue: false },
       { propertyName: "heading", defaultValue: undefined },
       { propertyName: "icon", defaultValue: undefined },
       { propertyName: "iconFlipRtl", defaultValue: false },

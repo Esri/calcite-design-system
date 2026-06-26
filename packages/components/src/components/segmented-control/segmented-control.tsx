@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import {
   LitElement,
@@ -82,23 +81,19 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /**
@@ -129,7 +124,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)

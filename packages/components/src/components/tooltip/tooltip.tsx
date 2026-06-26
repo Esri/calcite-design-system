@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -47,11 +46,11 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   // #region Private Properties
 
-  private arrowEl: SVGSVGElement | null;
+  private arrowEl?: SVGSVGElement;
 
   private direction = useDirection();
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   referenceElementType: ReferenceElementType = "hover";
 
@@ -72,7 +71,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
-  @state() referenceEl: ReferenceElement;
+  @state() referenceEl?: ReferenceElement;
 
   // #endregion
 
@@ -86,7 +85,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -99,13 +98,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, the component is open. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
@@ -114,24 +107,14 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
-  @property() referenceElement: ReferenceElement | string | null;
+  /** @copyDoc */
+  @property() referenceElement!: ReferenceElement | string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -262,7 +245,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.floatingEl = el;
   }
 
-  private setArrowEl(el: SVGSVGElement | null): void {
+  private setArrowEl(el: SVGSVGElement | undefined): void {
     this.arrowEl = el;
     this.reposition(true);
   }
@@ -281,7 +264,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label;
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

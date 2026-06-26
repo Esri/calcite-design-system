@@ -250,7 +250,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Tooltip>(
           <>
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
             <div id="ref">referenceElement</div>

@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Cancel",
   "clear": "Xóa giá trị",
+  "confirmInlineEditingChanges": "Save",
+  "enableInlineEditing": "Edit",
   "loading": "Đang tải",
   "required": "Bắt buộc"
 }
