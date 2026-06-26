@@ -36,8 +36,6 @@ export class Chip extends LitElement {
 
   private closeButtonRef = createRef<Action["el"]>();
 
-  private labelElRef = createRef<HTMLSpanElement>();
-
   private containerRef = createRef<HTMLDivElement>();
 
   /**
@@ -296,10 +294,6 @@ export class Chip extends LitElement {
     }
   }
 
-  private getCloseButtonLabelledByElements(): Element[] | undefined {
-    return this.labelElRef.value ? [this.labelElRef.value] : undefined;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -335,11 +329,8 @@ export class Chip extends LitElement {
   }
 
   private renderCloseButton(): JsxNode {
-    const labelledByElements = this.getCloseButtonLabelledByElements();
-
     return (
       <calcite-action
-        aria={{ labelledByElements }}
         class={CSS.close}
         icon={ICONS.close}
         onClick={this.close}
