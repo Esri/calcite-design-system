@@ -61,9 +61,18 @@ export class ShellPanel extends LitElement {
 
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
-    getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+    getBounds: (): {
+      inline: { min: number | null; max: number | null };
+      block: { min: number | null; max: number | null };
+    } => ({
+      inline: {
+        min: this.resizeValues.minInlineSize ?? null,
+        max: this.resizeValues.maxInlineSize ?? null,
+      },
+      block: {
+        min: this.resizeValues.minBlockSize ?? null,
+        max: this.resizeValues.maxBlockSize ?? null,
+      },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
@@ -358,6 +367,10 @@ export class ShellPanel extends LitElement {
     }
 
     const rtl = this.direction === "rtl";
+    const minInlineSize = this.resizeValues.minInlineSize ?? 0;
+    const minBlockSize = this.resizeValues.minBlockSize ?? 0;
+    const maxInlineSize = this.resizeValues.maxInlineSize ?? window.innerWidth;
+    const maxBlockSize = this.resizeValues.maxBlockSize ?? window.innerHeight;
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -369,12 +382,12 @@ export class ShellPanel extends LitElement {
       modifiers: [
         interact.modifiers.restrictSize({
           min: {
-            width: this.resizeValues.minInlineSize,
-            height: this.resizeValues.minBlockSize,
+            width: minInlineSize,
+            height: minBlockSize,
           },
           max: {
-            width: this.resizeValues.maxInlineSize,
-            height: this.resizeValues.maxBlockSize,
+            width: maxInlineSize,
+            height: maxBlockSize,
           },
         }),
       ],
@@ -442,18 +455,18 @@ export class ShellPanel extends LitElement {
           ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
           ariaValueMax={ariaValueFromSize(
             isBlockPosition ? "block" : "inline",
-            resizeValues.maxBlockSize,
-            resizeValues.maxInlineSize,
+            resizeValues.maxBlockSize ?? null,
+            resizeValues.maxInlineSize ?? null,
           )}
           ariaValueMin={ariaValueFromSize(
             isBlockPosition ? "block" : "inline",
-            resizeValues.minBlockSize,
-            resizeValues.minInlineSize,
+            resizeValues.minBlockSize ?? null,
+            resizeValues.minInlineSize ?? null,
           )}
           ariaValueNow={ariaValueFromSize(
             isBlockPosition ? "block" : "inline",
-            resizeValues.blockSize,
-            resizeValues.inlineSize,
+            resizeValues.blockSize ?? null,
+            resizeValues.inlineSize ?? null,
           )}
           class={CSS.resizeHandle}
           key="resize-handle"
