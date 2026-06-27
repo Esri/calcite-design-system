@@ -44,6 +44,92 @@ describe("drag and drop", () => {
   it("works using a mouse", () => worksUsingMouse(page));
 
   it("works using a keyboard", () => worksUsingKeyboard(page));
+
+  it("skips Calcite reorder handling when calciteListBeforeOrderChange is canceled", async () => {
+    await page.evaluate(() => {
+      const list = document.querySelector("calcite-sortable-list") as HTMLElement;
+      const testWindow = window as typeof window & {
+        beforeCalledTimes: number;
+        orderCalledTimes: number;
+      };
+
+      testWindow.beforeCalledTimes = 0;
+      testWindow.orderCalledTimes = 0;
+
+      list.addEventListener("calciteListBeforeOrderChange", (event) => {
+        testWindow.beforeCalledTimes++;
+        event.preventDefault();
+      });
+
+      list.addEventListener("calciteListOrderChange", () => {
+        testWindow.orderCalledTimes++;
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: "#one",
+      handleElement: "#one calcite-handle",
+      destinationElement: "#two",
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as typeof window & {
+        beforeCalledTimes: number;
+        orderCalledTimes: number;
+      };
+
+      return {
+        beforeCalledTimes: testWindow.beforeCalledTimes,
+        orderCalledTimes: testWindow.orderCalledTimes,
+      };
+    });
+
+    expect(results.beforeCalledTimes).toBe(1);
+    expect(results.orderCalledTimes).toBe(0);
+  });
+
+  it("fires before and order-change around the reorder mutation", async () => {
+    await page.evaluate(() => {
+      const list = document.querySelector("calcite-sortable-list") as HTMLElement;
+      const testWindow = window as typeof window & {
+        callSequence: string[];
+        orderFirstId: string;
+      };
+
+      testWindow.callSequence = [];
+      testWindow.orderFirstId = "";
+
+      list.addEventListener("calciteListBeforeOrderChange", () => {
+        testWindow.callSequence.push("before");
+      });
+
+      list.addEventListener("calciteListOrderChange", () => {
+        testWindow.callSequence.push("order");
+        testWindow.orderFirstId = list.querySelector("div")?.id ?? "";
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: "#one",
+      handleElement: "#one calcite-handle",
+      destinationElement: "#two",
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as typeof window & {
+        callSequence: string[];
+        orderFirstId: string;
+      };
+
+      return {
+        callSequence: testWindow.callSequence,
+        orderFirstId: testWindow.orderFirstId,
+      };
+    });
+
+    expect(results.callSequence).toEqual(["before", "order"]);
+    expect(results.orderFirstId).toBe("two");
+  });
 });
 
 describe("drag and drop with dragSelector", () => {

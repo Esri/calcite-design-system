@@ -109,6 +109,9 @@ interface SortableComponent extends LitElement {
   /** Called when a component's dragging starts. */
   onDragStart: (detail: DragDetail) => void;
 
+  /** Called before list mutations caused by sorting. */
+  onDragBeforeSort: (detail: DragDetail) => Event | void;
+
   /** Called by any change to the list (add / update / remove). */
   onDragSort: (detail: DragDetail) => void;
 
@@ -215,7 +218,6 @@ function setSortableItems(component: SortableComponent, values: string[]): void 
     const item = itemsByKey.get(value);
 
     if (item) {
-      // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
       component.el.appendChild(item);
     }
   }
@@ -257,11 +259,10 @@ function applyClonePull<T>(dragEl: HTMLElement, initialParent: ParentRecord<T>):
   if (!existingItem) {
     return;
   }
-  // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
   existingItem.parentElement?.insertBefore(clone, existingItem);
 }
 
-function getSortableComponentFromParent(parent: ParentRecord<string>): SortableComponent {
+function getSortableComponentFromParent<T>(parent: ParentRecord<T>): SortableComponent {
   return parent.el as SortableComponent;
 }
 
@@ -350,10 +351,15 @@ function createSortable(component: SortableComponent): void {
         const dragEl = event.draggedNodes[0].el;
         const fromEl = event.parent.el;
         const toEl = event.parent.el;
+        const sortValues = event.values as string[];
+        const sortDetail = createDragDetail(fromEl, toEl, dragEl, event.previousPosition, event.position);
 
-        setSortableItems(component, event.values as string[]);
+        if (component.onDragBeforeSort(sortDetail)?.defaultPrevented) {
+          return;
+        }
 
-        component.onDragSort(createDragDetail(fromEl, toEl, dragEl, event.previousPosition, event.position));
+        setSortableItems(component, sortValues);
+        component.onDragSort(sortDetail);
       },
       onTransfer: <T>(event: TransferEventData<T>) => {
         const dragState = event.state;
@@ -372,8 +378,13 @@ function createSortable(component: SortableComponent): void {
         const dragKey = getSortableItemKey(dragEl);
         const normalizedTargetValues = targetValues.filter((value) => value !== dragKey);
         const boundedNewIndex = clampIndex(event.targetIndex, normalizedTargetValues.length);
+        const sortDetail = createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, boundedNewIndex);
 
         normalizedTargetValues.splice(boundedNewIndex, 0, dragKey);
+
+        if (component.onDragBeforeSort(sortDetail)?.defaultPrevented) {
+          return;
+        }
 
         if (isSourceComponent) {
           const sourceValues = getSortableNodeKeys(event.sourceParent.data.enabledNodes);
@@ -383,7 +394,6 @@ function createSortable(component: SortableComponent): void {
 
         if (isTargetComponent) {
           if (dragEl.parentElement !== component.el) {
-            // TODO: Ideally, canceling drag-related events would prevent this DOM mutation so VDOM can own item reordering.
             component.el.appendChild(dragEl);
           }
 
@@ -404,7 +414,7 @@ function createSortable(component: SortableComponent): void {
           }
         }
 
-        component.onDragSort(createDragDetail(fromEl, toEl, dragEl, dragState.initialIndex, boundedNewIndex));
+        component.onDragSort(sortDetail);
       },
       onDragend: <T>(event: DragendEventData<T>) => {
         const dragState = event.state;

@@ -169,6 +169,14 @@ export class BlockGroup extends LitElement {
    */
   calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
 
+  /**
+   * Fires before the component's item order changes.
+   *
+   * This event is cancelable. Calling `event.preventDefault()` skips Calcite reorder handling and order-change emission,
+   * allowing apps to control final item order (for example, via a VDOM library).
+   */
+  calciteBlockGroupBeforeOrderChange = createEvent<BlockDragDetail>({ cancelable: true });
+
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
@@ -350,10 +358,13 @@ export class BlockGroup extends LitElement {
     this.calciteBlockGroupDragStart.emit(detail);
   }
 
+  onDragBeforeSort(detail: BlockDragDetail): Event {
+    return this.calciteBlockGroupBeforeOrderChange.emit(detail);
+  }
+
   onDragSort(detail: BlockDragDetail): void {
     this.setParentBlockGroup();
     this.updateBlockItemsDebounced();
-
     this.calciteBlockGroupOrderChange.emit(detail);
   }
 

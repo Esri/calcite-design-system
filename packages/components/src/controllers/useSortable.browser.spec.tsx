@@ -54,6 +54,18 @@ class Test extends LitElement {
   onGlobalDragEnd(): void {}
   onDragEnd(): void {}
   onDragStart(): void {}
+  onDragBeforeSort(detail): Event {
+    const dragSortEvent = new CustomEvent("sortableTestDragBeforeSort", {
+      bubbles: true,
+      cancelable: true,
+      detail,
+    });
+
+    this.el.dispatchEvent(dragSortEvent);
+
+    return dragSortEvent;
+  }
+
   onDragSort(): void {}
 
   override render() {
@@ -403,4 +415,245 @@ it("keeps the clone-pull copy before the dragged item", async () => {
   expect(component.el.children).toHaveLength(4);
   expect(component.el.children[0]).not.toBe(first);
   expect(component.el.children[1]).toBe(first);
+});
+
+it("skips Calcite sort handling when sort event is canceled", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first, second, third] = Array.from(component.el.children) as HTMLElement[];
+  const appendChildSpy = vi.spyOn(component.el, "appendChild");
+  const onDragBeforeSortSpy = vi.spyOn(component, "onDragBeforeSort");
+  const onDragSortSpy = vi.spyOn(component, "onDragSort");
+
+  component.el.addEventListener("sortableTestDragBeforeSort", (event) => event.preventDefault(), {
+    once: true,
+  });
+
+  call.config.onSort({
+    draggedNodes: [{ el: first }],
+    parent: {
+      data: { enabledNodes: [{ el: first }, { el: second }, { el: third }] },
+      el: component.el,
+    },
+    position: 2,
+    previousPosition: 0,
+    values: ["two", "three", "one"],
+  });
+
+  expect(onDragBeforeSortSpy).toHaveBeenCalledTimes(1);
+  expect(onDragSortSpy).not.toHaveBeenCalled();
+  expect(appendChildSpy).not.toHaveBeenCalled();
+});
+
+it("skips Calcite transfer handling when transfer sort event is canceled", async () => {
+  const { component } = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="one"></div>
+      <div id="two"></div>
+      <div id="three"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const call = createSpy.mock.calls[0][0];
+  const [first, second, third] = Array.from(component.el.children) as HTMLElement[];
+  const detachedSource = document.createElement("div");
+  detachedSource.appendChild(first);
+  const appendChildSpy = vi.spyOn(component.el, "appendChild");
+
+  component.el.addEventListener("sortableTestDragBeforeSort", (event) => event.preventDefault(), {
+    once: true,
+  });
+
+  call.config.onTransfer({
+    draggedNodes: [{ el: first }],
+    initialParent: {
+      data: { enabledNodes: [{ el: first }] },
+      el: detachedSource,
+    },
+    sourceParent: {
+      data: { enabledNodes: [{ el: first }] },
+      el: detachedSource,
+    },
+    state: {
+      draggedNode: { el: first },
+      initialIndex: 0,
+      initialParent: {
+        data: { enabledNodes: [{ el: first }] },
+        el: detachedSource,
+      },
+      currentParent: {
+        data: { enabledNodes: [{ el: second }, { el: third }] },
+        el: component.el,
+      },
+    },
+    targetIndex: 0,
+    targetNodes: [{ el: second }],
+    targetParent: {
+      data: { enabledNodes: [{ el: second }, { el: third }] },
+      el: component.el,
+    },
+  });
+
+  expect(appendChildSpy).not.toHaveBeenCalled();
+});
+
+it("source cancellation does not prevent target transfer mutations", async () => {
+  const sourceResult = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="source-one"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+  const targetResult = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="target-one"></div>
+      <div id="target-two"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const sourceComponent = sourceResult.component;
+  const targetComponent = targetResult.component;
+  const sourceCall = createSpy.mock.calls[0][0];
+  const targetCall = createSpy.mock.calls[1][0];
+  const [dragEl] = Array.from(sourceComponent.el.children) as HTMLElement[];
+  const [targetFirst, targetSecond] = Array.from(targetComponent.el.children) as HTMLElement[];
+  const sourceAppendChildSpy = vi.spyOn(sourceComponent.el, "appendChild");
+  const targetAppendChildSpy = vi.spyOn(targetComponent.el, "appendChild");
+  const sharedDragState = {
+    draggedNode: { el: dragEl },
+    initialIndex: 0,
+    initialParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    currentParent: {
+      data: { enabledNodes: [{ el: targetFirst }, { el: targetSecond }] },
+      el: targetComponent.el,
+    },
+  };
+  const transferEvent = {
+    draggedNodes: [{ el: dragEl }],
+    initialParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    sourceParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    state: sharedDragState,
+    targetIndex: 0,
+    targetNodes: [{ el: targetFirst }],
+    targetParent: {
+      data: { enabledNodes: [{ el: targetFirst }, { el: targetSecond }] },
+      el: targetComponent.el,
+    },
+  };
+
+  sourceComponent.el.addEventListener(
+    "sortableTestDragBeforeSort",
+    (event) => event.preventDefault(),
+    {
+      once: true,
+    },
+  );
+
+  targetCall.config.onTransfer(transferEvent);
+  sourceCall.config.onTransfer(transferEvent);
+
+  expect(sourceAppendChildSpy).not.toHaveBeenCalled();
+  expect(targetAppendChildSpy).toHaveBeenCalled();
+});
+
+it("target cancellation does not prevent source transfer mutations", async () => {
+  const sourceResult = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="source-one"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+  const targetResult = await mount(
+    html`<sortable-test drag-enabled>
+      <div id="target-one"></div>
+      <div id="target-two"></div>
+    </sortable-test>`,
+    {
+      dynamicComponents: [Test],
+    },
+  );
+
+  const sourceComponent = sourceResult.component;
+  const targetComponent = targetResult.component;
+  const sourceCall = createSpy.mock.calls[0][0];
+  const targetCall = createSpy.mock.calls[1][0];
+  const [dragEl] = Array.from(sourceComponent.el.children) as HTMLElement[];
+  const [targetFirst, targetSecond] = Array.from(targetComponent.el.children) as HTMLElement[];
+  const sourceAppendChildSpy = vi.spyOn(sourceComponent.el, "appendChild");
+  const targetAppendChildSpy = vi.spyOn(targetComponent.el, "appendChild");
+  const sharedDragState = {
+    draggedNode: { el: dragEl },
+    initialIndex: 0,
+    initialParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    currentParent: {
+      data: { enabledNodes: [{ el: targetFirst }, { el: targetSecond }] },
+      el: targetComponent.el,
+    },
+  };
+  const transferEvent = {
+    draggedNodes: [{ el: dragEl }],
+    initialParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    sourceParent: {
+      data: { enabledNodes: [{ el: dragEl }] },
+      el: sourceComponent.el,
+    },
+    state: sharedDragState,
+    targetIndex: 0,
+    targetNodes: [{ el: targetFirst }],
+    targetParent: {
+      data: { enabledNodes: [{ el: targetFirst }, { el: targetSecond }] },
+      el: targetComponent.el,
+    },
+  };
+
+  vi.spyOn(sourceComponent, "canPull").mockReturnValue("clone" as never);
+  targetComponent.el.addEventListener(
+    "sortableTestDragBeforeSort",
+    (event) => event.preventDefault(),
+    {
+      once: true,
+    },
+  );
+
+  targetCall.config.onTransfer(transferEvent);
+  sourceCall.config.onTransfer(transferEvent);
+
+  expect(sourceAppendChildSpy).not.toHaveBeenCalled();
+  expect(sourceComponent.el.children).toHaveLength(2);
+  expect(targetAppendChildSpy).not.toHaveBeenCalled();
 });

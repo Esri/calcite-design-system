@@ -393,6 +393,14 @@ export class List extends LitElement {
    */
   calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
 
+  /**
+   * Fires before the component's item order changes.
+   *
+   * This event is cancelable. Calling `event.preventDefault()` skips Calcite reorder handling and order-change emission,
+   * allowing apps to control final item order (for example, via a VDOM library).
+   */
+  calciteListBeforeOrderChange = createEvent<ListDragDetail>({ cancelable: true });
+
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
@@ -772,10 +780,13 @@ export class List extends LitElement {
     this.calciteListDragStart.emit(detail);
   }
 
+  onDragBeforeSort(detail: ListDragDetail): Event {
+    return this.calciteListBeforeOrderChange.emit(detail);
+  }
+
   onDragSort(detail: ListDragDetail): void {
     this.setParentList();
     this.updateListItemsDebounced();
-
     this.calciteListOrderChange.emit(detail);
   }
 

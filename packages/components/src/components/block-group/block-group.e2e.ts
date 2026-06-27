@@ -99,8 +99,12 @@ describe("drag and drop", () => {
 
   type TestWindow = GlobalTestProps<{
     calledTimes: number;
+    beforeCalledTimes: number;
+    orderCalledTimes: number;
     component1CalledTimes: number;
     component2CalledTimes: number;
+    callSequence: string[];
+    orderFirstHeading: string;
     newIndex: number;
     oldIndex: number;
     fromEl: string;
@@ -185,6 +189,95 @@ describe("drag and drop", () => {
     expect(results.startOldIndex).toBe(0);
     expect(results.endNewIndex).toBe(1);
     expect(results.endOldIndex).toBe(0);
+  });
+
+  it("skips Calcite reorder handling when calciteBlockGroupBeforeOrderChange is canceled", async () => {
+    const page = await createSimpleBlockGroup();
+
+    await page.$eval("calcite-block-group", (blockGroup: BlockGroup["el"]) => {
+      const testWindow = window as TestWindow;
+      testWindow.beforeCalledTimes = 0;
+      testWindow.orderCalledTimes = 0;
+
+      blockGroup.addEventListener("calciteBlockGroupBeforeOrderChange", (event) => {
+        testWindow.beforeCalledTimes++;
+        event.preventDefault();
+      });
+
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", () => {
+        testWindow.orderCalledTimes++;
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-block[heading="one"]`,
+      },
+      handleElement: {
+        element: `calcite-block[heading="one"]`,
+        shadow: "calcite-sort-handle",
+      },
+      destinationElement: {
+        element: `calcite-block[heading="two"]`,
+      },
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+
+      return {
+        beforeCalledTimes: testWindow.beforeCalledTimes,
+        orderCalledTimes: testWindow.orderCalledTimes,
+      };
+    });
+
+    expect(results.beforeCalledTimes).toBe(1);
+    expect(results.orderCalledTimes).toBe(0);
+  });
+
+  it("fires before and order-change around the reorder mutation", async () => {
+    const page = await createSimpleBlockGroup();
+
+    await page.$eval("calcite-block-group", (blockGroup: BlockGroup["el"]) => {
+      const testWindow = window as TestWindow;
+      testWindow.callSequence = [];
+      testWindow.orderFirstHeading = "";
+
+      blockGroup.addEventListener("calciteBlockGroupBeforeOrderChange", () => {
+        testWindow.callSequence.push("before");
+      });
+
+      blockGroup.addEventListener("calciteBlockGroupOrderChange", () => {
+        testWindow.callSequence.push("order");
+        const firstBlock = blockGroup.querySelector("calcite-block");
+        testWindow.orderFirstHeading = firstBlock?.heading ?? "";
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-block[heading="one"]`,
+      },
+      handleElement: {
+        element: `calcite-block[heading="one"]`,
+        shadow: "calcite-sort-handle",
+      },
+      destinationElement: {
+        element: `calcite-block[heading="two"]`,
+      },
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+
+      return {
+        callSequence: testWindow.callSequence,
+        orderFirstHeading: testWindow.orderFirstHeading,
+      };
+    });
+
+    expect(results.callSequence).toEqual(["before", "order"]);
+    expect(results.orderFirstHeading).toBe("two");
   });
 
   it("supports dragging items between block groups", async () => {

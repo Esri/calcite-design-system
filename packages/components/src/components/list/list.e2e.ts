@@ -1488,8 +1488,12 @@ describe("drag and drop", () => {
 
   type TestWindow = GlobalTestProps<{
     calledTimes: number;
+    beforeCalledTimes: number;
+    orderCalledTimes: number;
     list1CalledTimes: number;
     list2CalledTimes: number;
+    callSequence: string[];
+    orderFirstValue: string;
     newIndex: number;
     oldIndex: number;
     fromEl: string;
@@ -1574,6 +1578,95 @@ describe("drag and drop", () => {
     expect(results.startOldIndex).toBe(0);
     expect(results.endNewIndex).toBe(1);
     expect(results.endOldIndex).toBe(0);
+  });
+
+  it("skips Calcite reorder handling when calciteListBeforeOrderChange is canceled", async () => {
+    const page = await createSimpleList();
+
+    await page.$eval("calcite-list", (list: List["el"]) => {
+      const testWindow = window as TestWindow;
+      testWindow.beforeCalledTimes = 0;
+      testWindow.orderCalledTimes = 0;
+
+      list.addEventListener("calciteListBeforeOrderChange", (event) => {
+        testWindow.beforeCalledTimes++;
+        event.preventDefault();
+      });
+
+      list.addEventListener("calciteListOrderChange", () => {
+        testWindow.orderCalledTimes++;
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="one"]`,
+      },
+      handleElement: {
+        element: `calcite-list-item[value="one"]`,
+        shadow: "calcite-sort-handle",
+      },
+      destinationElement: {
+        element: `calcite-list-item[value="two"]`,
+      },
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+
+      return {
+        beforeCalledTimes: testWindow.beforeCalledTimes,
+        orderCalledTimes: testWindow.orderCalledTimes,
+      };
+    });
+
+    expect(results.beforeCalledTimes).toBe(1);
+    expect(results.orderCalledTimes).toBe(0);
+  });
+
+  it("fires before and order-change around the reorder mutation", async () => {
+    const page = await createSimpleList();
+
+    await page.$eval("calcite-list", (list: List["el"]) => {
+      const testWindow = window as TestWindow;
+      testWindow.callSequence = [];
+      testWindow.orderFirstValue = "";
+
+      list.addEventListener("calciteListBeforeOrderChange", () => {
+        testWindow.callSequence.push("before");
+      });
+
+      list.addEventListener("calciteListOrderChange", () => {
+        testWindow.callSequence.push("order");
+        const firstItem = list.querySelector("calcite-list-item");
+        testWindow.orderFirstValue = firstItem?.value ?? "";
+      });
+    });
+
+    await dragAndDrop(page, {
+      originElement: {
+        element: `calcite-list-item[value="one"]`,
+      },
+      handleElement: {
+        element: `calcite-list-item[value="one"]`,
+        shadow: "calcite-sort-handle",
+      },
+      destinationElement: {
+        element: `calcite-list-item[value="two"]`,
+      },
+    });
+
+    const results = await page.evaluate(() => {
+      const testWindow = window as TestWindow;
+
+      return {
+        callSequence: testWindow.callSequence,
+        orderFirstValue: testWindow.orderFirstValue,
+      };
+    });
+
+    expect(results.callSequence).toEqual(["before", "order"]);
+    expect(results.orderFirstValue).toBe("two");
   });
 
   it("supports dragging items between lists", async () => {
