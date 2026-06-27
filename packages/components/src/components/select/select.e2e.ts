@@ -45,11 +45,11 @@ describe("flat options", () => {
     const select = await page.find("calcite-select");
     const spy = await select.spyOnEvent("calciteSelectChange");
 
-    const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+    const internalSelect = await page.evaluateHandle(
+      () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
     );
 
-    await internalSelect.asElement().select("dos");
+    await internalSelect.asElement()!.select("dos");
     await page.waitForChanges();
 
     let selected = await findAll(page, "calcite-option[selected]");
@@ -161,11 +161,11 @@ describe("grouped options", () => {
     const select = await page.find("calcite-select");
     const spy = await select.spyOnEvent("calciteSelectChange");
 
-    const internalSelect = await page.evaluateHandle(() =>
-      document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+    const internalSelect = await page.evaluateHandle(
+      () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
     );
 
-    await internalSelect.asElement().select("c");
+    await internalSelect.asElement()!.select("c");
     await page.waitForChanges();
 
     let selected = await findAll(page, "calcite-option[selected]");
@@ -299,18 +299,18 @@ it("item is selected before change event", async () => {
   type TestWindow = typeof window & { selectedOptionId: string };
 
   await page.evaluate(() => {
-    document.querySelector("calcite-select").addEventListener("calciteSelectChange", (event) => {
+    document.querySelector("calcite-select")!.addEventListener("calciteSelectChange", (event) => {
       (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
         "calcite-option[selected]",
-      ).id;
+      )!.id;
     });
   });
 
-  const internalSelect = await page.evaluateHandle(() =>
-    document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+  const internalSelect = await page.evaluateHandle(
+    () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
   );
 
-  await internalSelect.asElement().select("dos");
+  await internalSelect.asElement()!.select("dos");
   await page.waitForChanges();
 
   const selectedOptionId = await page.evaluate(() => (window as TestWindow).selectedOptionId);
@@ -333,15 +333,15 @@ it("honors empty value", async () => {
     select.addEventListener("calciteSelectChange", (event) => {
       (window as TestWindow).selectedOptionId = (event.target as HTMLElement).querySelector(
         "calcite-option[selected]",
-      ).id;
+      )!.id;
     }),
   );
 
-  const internalSelect = await page.evaluateHandle(() =>
-    document.querySelector("calcite-select").shadowRoot.querySelector("select"),
+  const internalSelect = await page.evaluateHandle(
+    () => document.querySelector("calcite-select")!.shadowRoot!.querySelector("select")!,
   );
 
-  await internalSelect.asElement().select("");
+  await internalSelect.asElement()!.select("");
   await page.waitForChanges();
 
   const selectedOptionId = await page.evaluate(() => (window as TestWindow).selectedOptionId);

@@ -258,7 +258,7 @@ describe("thumb focus for single value", () => {
     await page.waitForChanges();
 
     let isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
     );
 
     expect(isThumbFocused).toBe(true);
@@ -270,7 +270,7 @@ describe("thumb focus for single value", () => {
     await page.waitForChanges();
 
     isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
     );
 
     expect(isThumbFocused).toBe(true);
@@ -282,7 +282,7 @@ describe("thumb focus for single value", () => {
     await page.waitForChanges();
 
     isThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
     );
 
     expect(isThumbFocused).toBe(true);
@@ -314,7 +314,7 @@ describe("thumb focus in range", () => {
     await page.waitForChanges();
 
     const isMinThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--minValue"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--minValue"),
     );
 
     expect(await slider.getProperty("minValue")).toBe(0);
@@ -336,7 +336,7 @@ describe("thumb focus in range", () => {
     await page.waitForChanges();
 
     const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
     );
 
     expect(await slider.getProperty("minValue")).toBe(0);
@@ -358,7 +358,7 @@ describe("thumb focus in range", () => {
     await page.waitForChanges();
 
     const isMaxThumbFocused = await page.$eval("calcite-slider", (slider) =>
-      slider.shadowRoot.activeElement?.classList.contains("thumb--value"),
+      slider.shadowRoot!.activeElement!.classList.contains("thumb--value"),
     );
 
     expect(await slider.getProperty("minValue")).toBe(0);
@@ -585,7 +585,7 @@ describe("mouse interaction", () => {
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+    expect(await page.evaluate(() => window.getSelection()!.type)).toBe("None");
   });
 });
 

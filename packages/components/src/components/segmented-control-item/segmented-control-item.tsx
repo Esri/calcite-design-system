@@ -117,6 +117,7 @@ export class SegmentedControlItem extends LitElement {
   override render(): JsxNode {
     const { appearance, checked, layout, scale, value } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+
     this.el.ariaChecked = toAriaBoolean(checked);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = value;

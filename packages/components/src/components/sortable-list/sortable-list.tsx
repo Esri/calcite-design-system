@@ -1,13 +1,14 @@
-import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, JsxNode, ToEvents } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import { HandleNudge } from "../handle/interfaces";
-import { Layout } from "../interfaces";
+import type { HandleNudge } from "../handle/interfaces";
+import type { Layout } from "../interfaces";
 import { focusElement } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
-import { DragDetail, useSortable } from "../../controllers/useSortable";
+import { type DragDetail, useSortable } from "../../controllers/useSortable";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
+import type { Handle } from "../handle/handle";
 
 declare global {
   interface DeclareElements {
@@ -45,10 +46,10 @@ export class SortableList extends LitElement {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
-  @property() canPull: (detail: DragDetail) => boolean;
+  @property() canPull?: (detail: DragDetail) => boolean;
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
-  @property() canPut: (detail: DragDetail) => boolean;
+  @property() canPut?: (detail: DragDetail) => boolean;
 
   /** When `true`, disabled prevents interaction. This state shows items with lower opacity/grayed. */
   @property({ reflect: true }) disabled = false;
@@ -86,7 +87,10 @@ export class SortableList extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteHandleNudge", this.calciteHandleNudgeNextHandler);
+    this.listen<ToEvents<Handle>["calciteHandleNudge"]>(
+      "calciteHandleNudge",
+      this.calciteHandleNudgeNextHandler,
+    );
   }
 
   override connectedCallback(): void {
@@ -137,14 +141,14 @@ export class SortableList extends LitElement {
 
     const handle = event
       .composedPath()
-      .find((el: HTMLElement) => el.matches(this.handleSelector)) as HTMLElement;
+      .find((el): el is Handle["el"] => (el as HTMLElement).matches(this.handleSelector))!;
 
     const sortItem = this.items.find((item) => {
       return item.contains(handle) || event.composedPath().includes(item);
-    });
+    })!;
 
     const lastIndex = this.items.length - 1;
-    const startingIndex = this.items.indexOf(sortItem);
+    const startingIndex = sortItem ? this.items.indexOf(sortItem) : -1;
     let appendInstead = false;
     let buddyIndex: number;
 
@@ -167,9 +171,9 @@ export class SortableList extends LitElement {
     this.endObserving();
 
     if (appendInstead) {
-      sortItem.parentElement.appendChild(sortItem);
+      sortItem.parentElement!.appendChild(sortItem);
     } else {
-      sortItem.parentElement.insertBefore(sortItem, this.items[buddyIndex]);
+      sortItem.parentElement!.insertBefore(sortItem, this.items[buddyIndex!]);
     }
 
     this.items = Array.from(this.el.children);

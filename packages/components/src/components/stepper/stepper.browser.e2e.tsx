@@ -5,7 +5,6 @@ import { page } from "vitest/browser";
 import { LitElement } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
-import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Stepper } from "./stepper";
 
 describe("defaults", () => {
@@ -140,13 +139,13 @@ describe("inheritable props in shadow DOM", () => {
     let items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
 
-    items.elements().forEach((item: StepperItem) => {
-      expect(item.icon).toBe(false);
-      expect(item.numbered).toBe(false);
-      expect(item.layout).toBe("horizontal");
-      expect(item.scale).toBe("m");
-      expect(item.numberingSystem).toBeUndefined();
-    });
+    for (const item of items.elements()) {
+      expect(item).toHaveProperty("icon", false);
+      expect(item).toHaveProperty("numbered", false);
+      expect(item).toHaveProperty("layout", "horizontal");
+      expect(item).toHaveProperty("scale", "m");
+      expect(item).toHaveProperty("numberingSystem", undefined);
+    }
 
     const stepper = page.getBySelector("test-wrapper calcite-stepper").element() as Stepper["el"];
 
@@ -161,12 +160,12 @@ describe("inheritable props in shadow DOM", () => {
     items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
 
-    items.elements().forEach((item: StepperItem) => {
-      expect(item.icon).toBe(true);
-      expect(item.numbered).toBe(true);
-      expect(item.layout).toBe("vertical");
-      expect(item.scale).toBe("l");
-      expect(item.numberingSystem).toBe("arab");
-    });
+    for (const item of items.elements()) {
+      expect(item).toHaveProperty("icon", true);
+      expect(item).toHaveProperty("numbered", true);
+      expect(item).toHaveProperty("layout", "vertical");
+      expect(item).toHaveProperty("scale", "l");
+      expect(item).toHaveProperty("numberingSystem", "arab");
+    }
   });
 });
