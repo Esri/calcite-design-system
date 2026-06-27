@@ -33,7 +33,7 @@ export default {
     label: "Alert",
     numberingSystem: numberingSystem.defaultValue,
     open: true,
-    placement: menuPlacement.defaultValue,
+    placement: menuPlacement.values[4],
     scale: scale.defaultValue,
     queue: queue.defaultValue,
   },
