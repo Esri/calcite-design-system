@@ -62,8 +62,8 @@ describe("mouse support", () => {
     expect(await menuItemMenu.isVisible()).toBe(true);
     expect(await getFocusedElementProp(page, "id")).toBe("arcgis-online");
 
-    const menuElement = await page.$("calcite-menu");
-    const { x, y, width, height } = await menuElement!.boundingBox();
+    const menuElement = (await page.$("calcite-menu"))!;
+    const { x, y, width, height } = (await menuElement.boundingBox())!;
 
     await page.mouse.click(x + width + 150, y + height + 150);
     await page.waitForChanges();
