@@ -1434,6 +1434,7 @@ describe("filtering", () => {
     const text = "no-matching-text-here";
 
     await userEvent.keyboard(text);
+    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
 
     expect(el).toHaveProperty("open", false);
   });
