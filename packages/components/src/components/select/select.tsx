@@ -266,7 +266,7 @@ export class Select extends LitElement implements LabelableComponent {
     nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
-    nativeOptionOrGroup.label = optionOrGroup.label;
+    nativeOptionOrGroup.label = optionOrGroup.label!;
 
     if (isOption(optionOrGroup)) {
       const option = nativeOptionOrGroup as HTMLOptionElement;
@@ -275,7 +275,7 @@ export class Select extends LitElement implements LabelableComponent {
 
       // need to set innerText for mobile
       // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
-      option.innerText = optionOrGroup.label;
+      option.innerText = optionOrGroup.label!;
     }
   }
 

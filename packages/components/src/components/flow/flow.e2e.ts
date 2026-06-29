@@ -134,7 +134,10 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#last-item",
-      (elm: FlowItem["el"]) => (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
+      (elm) =>
+        ((elm as FlowItem["el"]).beforeBack = (
+          window as typeof window & Pick<FlowItem["el"], "beforeBack">
+        ).beforeBack),
     );
 
     const flow = await page.find("calcite-flow");
@@ -160,7 +163,10 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#two",
-      (elm: FlowItem["el"]) => (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
+      (elm) =>
+        ((elm as FlowItem["el"]).beforeBack = (
+          window as typeof window & Pick<FlowItem["el"], "beforeBack">
+        ).beforeBack),
     );
 
     const flow = await page.find("calcite-flow");
