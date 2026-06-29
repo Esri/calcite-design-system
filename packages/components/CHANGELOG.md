@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.8...@esri/calcite-components@5.2.0-next.9) (2026-06-29)
+
+### Bug Fixes
+
+- **rating:** fix block size to not encroach on neighboring elements ([#14709](https://github.com/Esri/calcite-design-system/issues/14709)), closes [#14708](https://github.com/Esri/calcite-design-system/issues/14708)
+
+## [5.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.7...@esri/calcite-components@5.2.0-next.8) (2026-06-29)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.6...@esri/calcite-components@5.2.0-next.7) (2026-06-25)
+
+### Features
+
+- **tabs:** Add `last-tab-closable` functionality ([#14446](https://github.com/Esri/calcite-design-system/issues/14446)), closes [#14346](https://github.com/Esri/calcite-design-system/issues/14346)
+
+## [5.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.5...@esri/calcite-components@5.2.0-next.6) (2026-06-24)
+
+### Features
+
+- **dropdown:** add max-height css token ([#14680](https://github.com/Esri/calcite-design-system/issues/14680)), closes [#12486](https://github.com/Esri/calcite-design-system/issues/12486)
+
 ## [5.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.4...@esri/calcite-components@5.2.0-next.5) (2026-06-23)
 
 ### Bug Fixes

@@ -84,7 +84,7 @@ async function promptForChoice(promptLabel: string, options: string[]): Promise<
     pageSize: 10,
   });
 
-  const index = Number.parseInt(value);
+  const index = Number.parseInt(value, 10);
   if (Number.isNaN(index) || index < 0 || index >= options.length) {
     console.error("Unexpected selection result");
     process.exit(1);
@@ -110,7 +110,7 @@ async function promptForMultipleChoices(promptLabel: string, options: string[]):
   });
 
   const indices = values
-    .map((value) => Number.parseInt(value))
+    .map((value) => Number.parseInt(value, 10))
     .filter((index) => !Number.isNaN(index) && index >= 0 && index < options.length);
 
   if (indices.length === 0) {

@@ -664,7 +664,7 @@ describe("filter item data updates", () => {
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <Fragment>
+      <>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -753,7 +753,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </Fragment>,
+      </>,
     );
 
     await afterNextFrame();
