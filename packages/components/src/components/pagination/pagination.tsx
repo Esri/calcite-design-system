@@ -80,7 +80,7 @@ export class Pagination extends LitElement {
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -309,7 +309,7 @@ export class Pagination extends LitElement {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value);
+    this.startItem = parseInt(target.value, 10);
     this.emitUpdate();
   }
 
@@ -319,9 +319,11 @@ export class Pagination extends LitElement {
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
-      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
-        &hellip;
-      </span>
+      <li ariaHidden="true" role="presentation">
+        <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
+          &hellip;
+        </span>
+      </li>
     );
   }
 

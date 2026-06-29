@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { DataSeries, Extent, Graph, Point, TranslateOptions, Translator } from "./interfaces";
 
 /**
@@ -15,8 +14,8 @@ function slope(p0: Point, p1: Point, p2: Point): number {
   const dx1 = p2[0] - p1[0];
   const dy = p1[1] - p0[1];
   const dy1 = p2[1] - p1[1];
-  const m = dy / (dx || (dx1 < 0 && 0));
-  const m1 = dy1 / (dx1 || (dx < 0 && 0));
+  const m = dy / Number(dx || (dx1 < 0 && 0));
+  const m1 = dy1 / Number(dx1 || (dx < 0 && 0));
   const p = (m * dx1 + m1 * dx) / (dx + dx1);
   return (Math.sign(m) + Math.sign(m1)) * Math.min(Math.abs(m), Math.abs(m1), 0.5 * Math.abs(p)) || 0;
 }
@@ -136,6 +135,6 @@ export function area({ data, min, max, t }: Graph): string {
 
   // close the path
   const last = data[data.length - 1];
-  const end = bezier(p1, last, m, slopeSingle(p1, last, m), t);
+  const end = bezier(p1!, last, m!, slopeSingle(p1!, last, m!), t);
   return `${commands} ${end} L ${maxX},${minY} Z`;
 }

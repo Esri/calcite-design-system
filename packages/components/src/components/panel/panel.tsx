@@ -128,10 +128,10 @@ export class Panel extends LitElement {
   /** Passes a function to run before the component closes. */
   @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** @copyDoc */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -152,16 +152,16 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a description for the component. */
+  /** @copyDoc */
   @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
+  /** @copyDoc */
   @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
@@ -173,7 +173,7 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
+  /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
@@ -182,25 +182,17 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */

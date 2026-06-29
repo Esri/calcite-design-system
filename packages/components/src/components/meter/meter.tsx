@@ -92,9 +92,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
+   * @copyDoc
    *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
@@ -123,7 +121,7 @@ export class Meter extends LitElement {
   @property({ reflect: true }) min = 0;
 
   /**
-   * Specifies the name of the component. Required to pass the component's `value` on form submission.
+   * @copyDoc
    *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */

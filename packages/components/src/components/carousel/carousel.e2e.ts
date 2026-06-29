@@ -538,7 +538,7 @@ describe("autoplay", () => {
     const carousel = await page.find("calcite-carousel");
     const playSpy = await page.spyOnEvent("calciteCarouselPlay");
     const stopSpy = await page.spyOnEvent("calciteCarouselStop");
-    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration")) + 250;
+    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration"), 10) + 250;
 
     let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
     expect(selectedItem.id).toEqual("two");

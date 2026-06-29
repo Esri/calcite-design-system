@@ -107,17 +107,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/patrickarlt">
-      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
-      <br />
-      <sub><b>Patrick Arlt</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/arowles">
       <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
       <br />
       <sub><b>Ashley Rowles</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/patrickarlt">
+      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
+      <br />
+      <sub><b>Patrick Arlt</b></sub>
     </a>
   </td>
   <td align="center">
@@ -223,17 +223,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/brendan-vincent-rice">
-      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
-      <br />
-      <sub><b>Brendan Rice</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/DintaMel">
       <img src="https://avatars.githubusercontent.com/u/18604328?v=4" width="100;" alt="DintaMel"/>
       <br />
       <sub><b>Mel Dintaman</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/brendan-vincent-rice">
+      <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
+      <br />
+      <sub><b>Brendan Rice</b></sub>
     </a>
   </td>
 </tr>

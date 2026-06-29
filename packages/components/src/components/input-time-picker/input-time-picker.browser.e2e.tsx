@@ -27,6 +27,7 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-input-time-picker"),
     [
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
@@ -46,6 +47,48 @@ describe("is focusable", () => {
     focusable(() => mount("calcite-input-time-picker"), {
       shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
     });
+  });
+
+  describe("should focus the first focusable element when placeholder text is set", () => {
+    focusable(() => mount(<calcite-input-time-picker placeholder="Fill me in" />), {
+      shadowFocusTargetSelector: `.${CSS.input}.${CSS.hour}`,
+    });
+  });
+
+  it("should focus the first input in reading order (hour) when mouse is pressed on any input and the placeholder text is visible", async () => {
+    await mount(
+      <calcite-input-time-picker hour-format="12" placeholder="Fill me in" step={0.001} />,
+    );
+    const firstInput = await page.getByRole("spinbutton", { name: "Hour" }).findElement();
+    const getActiveElement = () => document?.activeElement?.shadowRoot?.activeElement;
+
+    await page.getByRole("combobox").click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "AM/PM" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Fractional second" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Second" }).first().click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Minute" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
+
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+
+    await page.getByRole("spinbutton", { name: "Hour" }).click();
+    await expect(getActiveElement()).toBe(firstInput);
   });
 
   describe("In Arabic RTL should focus the meridiem when setFocus is called", () => {
@@ -114,12 +157,16 @@ describe("is form-associated", () => {
   });
 });
 
-function normalizeWhitespace(value: string): string {
+function normalizeWhitespace(value: string | null): string | null {
+  if (value === null) {
+    return null;
+  }
+
   const whitespaceRegexPattern = /[\s\u00A0\u202f]/g; // some locales like es and ca contain narrow and regular non-breaking space characters, so we remove them to make text assertions more uniform.
   return value.replaceAll(whitespaceRegexPattern, "");
 }
 
-async function assertDisplayedTime(value: string): Promise<void> {
+async function assertDisplayedTime(value: string | null): Promise<void> {
   const el = page.getBySelector("calcite-input-time-picker").element() as InputTimePicker["el"];
   await el.manager.component.updateComplete;
   const displayedValue = normalizeWhitespace(el.shadowRoot!.textContent);

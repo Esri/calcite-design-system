@@ -52,7 +52,7 @@ module.exports = async ({ github, context, core }) => {
 
           if (estimateLabelMatch?.length > 1) {
             outputJson[milestone.number][issue.state === "open" ? "remaining_estimate" : "completed_estimate"] +=
-              Number.parseInt(estimateLabelMatch[1]);
+              Number.parseInt(estimateLabelMatch[1], 10);
 
             break; // assumes an issue will only have one estimate label
           }

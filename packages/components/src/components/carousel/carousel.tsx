@@ -146,7 +146,7 @@ export class Carousel extends LitElement {
    */
   @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -437,7 +437,7 @@ export class Carousel extends LitElement {
 
   private handleItemSelection(event: MouseEvent): void {
     const item = event.currentTarget as HTMLElement;
-    const requestedPosition = parseInt(item.dataset.index!);
+    const requestedPosition = parseInt(item.dataset.index!, 10);
 
     if (requestedPosition === this.selectedIndex) {
       return;

@@ -16,7 +16,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { Dropdown } from "./dropdown";
+import type { Dropdown } from "./dropdown";
 
 mockConsole();
 
@@ -119,7 +119,7 @@ describe("focusable", () => {
 describe("owns a floating-ui", () => {
   floatingUIOwner(
     () =>
-      mount(
+      mount<Dropdown>(
         <calcite-dropdown>
           <calcite-button slot="trigger">Open</calcite-button>
           <calcite-dropdown-group selection-mode="single">

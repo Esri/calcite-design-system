@@ -16,6 +16,11 @@ import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
 
+/**
+ * This file hosts component tests that do not depend on dynamic time zone changes.
+ * Those tests reside in `input-time-zone.time-zone.browser.e2e.tsx`, which need to be run separate from the main test script
+ */
+
 describe("defaults", () => {
   defaults(
     () => mount("calcite-input-time-zone"),

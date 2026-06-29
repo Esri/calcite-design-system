@@ -78,7 +78,7 @@ export function getElementDir(el: HTMLElement): Direction {
  * @param el An element.
  * @returns The element's width.
  */
-export function getElementWidth(el: HTMLElement): number {
+export function getElementWidth(el: HTMLElement | undefined): number {
   if (!el) {
     return 0;
   }
@@ -114,7 +114,7 @@ export function getShadowRootNode(el: Element): ShadowRoot | null {
  * @param text The string of text to measure.
  * @param font The CSS font attribute's value, which should include size and face, e.g. "12px Arial".
  */
-export function getTextWidth(text: string, font: string): number {
+export function getTextWidth(text: string | undefined, font: string): number {
   if (!text) {
     return 0;
   }
@@ -242,7 +242,7 @@ export function isCalciteFocusable(el: FocusableElement): el is SetFocusable {
  * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
  */
 export async function focusElement(
-  el: FocusableElement,
+  el: FocusableElement | undefined,
   includeContainer = false,
   strategy: "focusable" | "tabbable" = "tabbable",
   context?: HTMLElement,
