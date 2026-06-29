@@ -3,7 +3,11 @@ import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { Alignment, Scale, SelectionMode } from "../interfaces";
-import { focusElementInGroup, FocusElementInGroupDestination } from "../../utils/dom";
+import {
+  focusElementInGroup,
+  FocusElementInGroupDestination,
+  getSlotAssignedElements,
+} from "../../utils/dom";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
@@ -331,12 +335,10 @@ export class TableRow extends LitElement {
         ? "center"
         : "start";
     const slottedCells = this.rowSlotRef.value
-      ? this.rowSlotRef.value
-          .assignedElements({ flatten: true })
-          .filter(
-            (element) =>
-              element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
-          )
+      ? getSlotAssignedElements<TableCell["el"] | TableHeader["el"]>(
+          this.rowSlotRef.value,
+          "calcite-table-cell, calcite-table-header",
+        )
       : [];
     const renderedCells = [
       this.numberedCellRef.value,
