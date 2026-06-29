@@ -31,13 +31,17 @@ export class TableRow extends LitElement {
 
   messages;
 
-  private numberedCell: TableCell["el"] | TableHeader["el"] | null = null;
+  private numberedCellRef = createRef<TableCell["el"]>();
+
+  private numberedHeaderRef = createRef<TableHeader["el"]>();
 
   private rowCells: (TableCell["el"] | TableHeader["el"])[] = [];
 
   private rowSlotRef = createRef<HTMLSlotElement>();
 
-  private selectionCell: TableCell["el"] | TableHeader["el"] | null = null;
+  private selectionCellRef = createRef<TableCell["el"]>();
+
+  private selectionHeaderRef = createRef<TableHeader["el"]>();
 
   private userTriggered = false;
 
@@ -54,14 +58,6 @@ export class TableRow extends LitElement {
       }
       this.handleRowSelection();
     }
-  };
-
-  private setNumberedCell = (el: TableCell["el"] | TableHeader["el"] | undefined): void => {
-    this.numberedCell = el ?? null;
-  };
-
-  private setSelectionCell = (el: TableCell["el"] | TableHeader["el"] | undefined): void => {
-    this.selectionCell = el ?? null;
   };
 
   private interactiveContainer = useInteractive(this);
@@ -342,9 +338,12 @@ export class TableRow extends LitElement {
               element.matches("calcite-table-cell") || element.matches("calcite-table-header"),
           )
       : [];
-    const renderedCells = [this.numberedCell, this.selectionCell].filter(
-      (cell): cell is TableCell["el"] | TableHeader["el"] => cell != null,
-    );
+    const renderedCells = [
+      this.numberedCellRef.value,
+      this.numberedHeaderRef.value,
+      this.selectionCellRef.value,
+      this.selectionHeaderRef.value,
+    ].filter((cell): cell is TableCell["el"] | TableHeader["el"] => cell != null);
     const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
@@ -410,7 +409,7 @@ export class TableRow extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
-        ref={this.setSelectionCell}
+        ref={this.selectionHeaderRef}
         selectedRowCount={this.selectedRowCount}
         selectedRowCountLocalized={this.selectedRowCountLocalized}
         selectionCell={true}
@@ -425,7 +424,7 @@ export class TableRow extends LitElement {
         parentRowAlignment={this.alignment}
         parentRowIsSelected={this.selected}
         parentRowPositionLocalized={this.positionSectionLocalized}
-        ref={this.setSelectionCell}
+        ref={this.selectionCellRef}
         selectionCell={true}
       >
         {this.renderSelectionIcon()}
@@ -435,7 +434,7 @@ export class TableRow extends LitElement {
         alignment="center"
         key="selection-foot"
         parentRowAlignment={this.alignment}
-        ref={this.setSelectionCell}
+        ref={this.selectionCellRef}
         selectionCell={true}
       />
     );
@@ -448,7 +447,7 @@ export class TableRow extends LitElement {
         key="numbered-head"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={this.setNumberedCell}
+        ref={this.numberedHeaderRef}
       />
     ) : this.rowType === "body" ? (
       <calcite-table-cell
@@ -456,7 +455,7 @@ export class TableRow extends LitElement {
         key="numbered-body"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={this.setNumberedCell}
+        ref={this.numberedCellRef}
       >
         {this.positionSectionLocalized}
       </calcite-table-cell>
@@ -466,7 +465,7 @@ export class TableRow extends LitElement {
         key="numbered-foot"
         numberCell={true}
         parentRowAlignment={this.alignment}
-        ref={this.setNumberedCell}
+        ref={this.numberedCellRef}
       />
     );
   }
