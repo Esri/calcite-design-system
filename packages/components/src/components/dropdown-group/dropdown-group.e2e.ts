@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -38,7 +37,7 @@ it("sets selectionMode on slotted dropdown item children", async () => {
   }
 
   await page.evaluate(() => {
-    const dropdownGroup = document.querySelector("calcite-dropdown-group");
+    const dropdownGroup = document.querySelector("calcite-dropdown-group")!;
     const newItem = document.createElement("calcite-dropdown-item");
     newItem.innerText = "Lake";
     dropdownGroup.appendChild(newItem);

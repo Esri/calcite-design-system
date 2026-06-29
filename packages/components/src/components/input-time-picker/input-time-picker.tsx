@@ -603,7 +603,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.hour}
                 aria-valuemax="23"
                 aria-valuemin="1"
-                aria-valuenow={(hourIsNumber && parseInt(hour!)) || "0"}
+                aria-valuenow={(hourIsNumber && parseInt(hour!, 10)) || "0"}
                 aria-valuetext={hour}
                 class={{
                   [CSS.empty]: !localizedHour,
@@ -624,7 +624,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.minute}
                 aria-valuemax="12"
                 aria-valuemin="1"
-                aria-valuenow={(minuteIsNumber && parseInt(minute!)) || "0"}
+                aria-valuenow={(minuteIsNumber && parseInt(minute!, 10)) || "0"}
                 aria-valuetext={minute}
                 class={{
                   [CSS.empty]: !localizedMinute,
@@ -646,7 +646,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   aria-label={this.messages.second}
                   aria-valuemax="59"
                   aria-valuemin="0"
-                  aria-valuenow={(secondIsNumber && parseInt(second!)) || "0"}
+                  aria-valuenow={(secondIsNumber && parseInt(second!, 10)) || "0"}
                   aria-valuetext={second}
                   class={{
                     [CSS.empty]: !localizedSecond,
@@ -671,7 +671,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   aria-label={this.messages.fractionalSecond}
                   aria-valuemax="999"
                   aria-valuemin="1"
-                  aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond!)) || "0"}
+                  aria-valuenow={
+                    (fractionalSecondIsNumber && parseInt(fractionalSecond!, 10)) || "0"
+                  }
                   aria-valuetext={localizedFractionalSecond}
                   class={{
                     [CSS.empty]: !localizedFractionalSecond,

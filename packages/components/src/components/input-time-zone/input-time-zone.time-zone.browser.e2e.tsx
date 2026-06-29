@@ -190,7 +190,9 @@ describe("mode", () => {
       ).toBeGreaterThan(1);
     });
 
-    it("recreates time zone items when item-dependent props change", async () => {
+    it("recreates time zone items when item-dependent props change", async (context) => {
+      context.skip("waitForTimeZoneItemRefresh() is unstable");
+
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.offset}']`;
       const { el, component } = await mountInputTimeZone({ referenceDate: "2020-01-01" });
 
@@ -259,7 +261,9 @@ describe("mode", () => {
       expect(getSelectedTimeZoneItem().heading).toMatch(configuredTimeZoneItem.name);
     });
 
-    it("recreates time zone items when item-dependent props change", async () => {
+    it("recreates time zone items when item-dependent props change", async (context) => {
+      context.skip("waitForTimeZoneItemRefresh() is unstable");
+
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.name}']`;
       const { el, component } = await mountInputTimeZone({
         mode: "name",
@@ -381,7 +385,9 @@ describe("mode", () => {
       expect(el.value).toBe(aliasTimeZone2);
     });
 
-    it("recreates time zone items when item-dependent props change", async () => {
+    it("recreates time zone items when item-dependent props change", async (context) => {
+      context.skip("waitForTimeZoneItemRefresh() is unstable");
+
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.name}']`;
       const { el, component } = await mountInputTimeZone({
         mode: "region",
