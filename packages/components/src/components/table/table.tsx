@@ -382,16 +382,10 @@ export class Table extends LitElement {
   private updateTableContainerOverflow(): void {
     const tableContainer = this.tableContainerRef.value;
 
-    if (!tableContainer) {
-      this.tableContainerHasOverflow = false;
-      return;
-    }
-
-    const hasOverflow =
-      tableContainer.scrollHeight > tableContainer.clientHeight ||
-      tableContainer.scrollWidth > tableContainer.clientWidth;
-
-    this.tableContainerHasOverflow = hasOverflow;
+    this.tableContainerHasOverflow =
+      !!tableContainer &&
+      (tableContainer.scrollHeight > tableContainer.clientHeight ||
+        tableContainer.scrollWidth > tableContainer.clientWidth);
   }
 
   private updateRows(): void {
