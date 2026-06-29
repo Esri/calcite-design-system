@@ -28,7 +28,7 @@ function throwSizeError(name: string, value: string, unitType: string) {
 }
 
 function isStaticPx(token: TransformedToken) {
-  return !token.path.some((path) => ["base", "border", "fixed", "px", "space"].includes(path));
+  return !token.path.some((path) => ["base", "border", "fixed", "px", "space", "spacing"].includes(path));
 }
 
 const filter: Filter["filter"] = (token) =>
