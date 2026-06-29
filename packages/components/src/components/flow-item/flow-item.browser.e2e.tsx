@@ -85,7 +85,7 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "focusTrapDisabled",
+        propertyName: "focusTrapEnabled",
         defaultValue: false,
       },
     ],
@@ -151,7 +151,7 @@ describe("reflects", () => {
         value: "fixed",
       },
       {
-        propertyName: "focusTrapDisabled",
+        propertyName: "focusTrapEnabled",
         value: true,
       },
     ],
@@ -225,41 +225,43 @@ describe("disabled", () => {
 });
 
 describe("focus trap", () => {
-  it("passes focusTrapDisabled to the internal panel", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable focusTrapDisabled heading="Flow heading" selected />,
-    );
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapDisabled = false;
-
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
-  });
-
-  it("inverts focusTrapDisabled through internal panel semantics", async () => {
+  it("passes focusTrapEnabled to the internal panel", async () => {
     const { component } = await mount<FlowItem>(
       <calcite-flow-item closable heading="Flow heading" selected />,
     );
 
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
 
-    component.el.focusTrapDisabled = true;
+    component.el.focusTrapEnabled = true;
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+  });
+
+  it("reflects focusTrapEnabled through internal panel semantics", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable heading="Flow heading" selected />,
+    );
 
     await expect
       .element(page.getByRole("dialog", { name: "Flow heading" }))
       .not.toBeInTheDocument();
 
-    component.el.focusTrapDisabled = false;
+    component.el.focusTrapEnabled = true;
 
     await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+
+    component.el.focusTrapEnabled = false;
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
   });
 
   it("supports focus trap behavior through keyboard interaction", async () => {
     const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected>
+      <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
         <button type="button">inside one</button>
         <button type="button">inside two</button>
       </calcite-flow-item>,
@@ -282,5 +284,28 @@ describe("focus trap", () => {
 
     await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
+  });
+
+  it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
+    const { component } = await mount<FlowItem>(
+      <>
+        <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-flow-item>
+        <button id="flow-item-outside-control" type="button">
+          outside control
+        </button>
+      </>,
+    );
+
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const outsideControlEl = component.el.ownerDocument.getElementById(
+      "flow-item-outside-control",
+    ) as HTMLButtonElement;
+
+    component.el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
+    await expect(outsideControl).toBeInTheDocument();
   });
 });

@@ -14,6 +14,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
+import { FocusTrapOptions } from "../../controllers/useFocusTrap";
 
 declare global {
   interface DeclareElements {
@@ -108,8 +109,23 @@ export class FlowItem extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`. */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  /**
+   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * @private
+   */
+  @property({ reflect: true }) focusTrapEnabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick"` allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active,
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @private
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -172,6 +188,19 @@ export class FlowItem extends LitElement {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.containerRef.value?.setFocus(options);
+  }
+
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   * @private
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.containerRef.value?.updateFocusTrapElements(extraContainers);
   }
 
   //#endregion
@@ -301,7 +330,8 @@ export class FlowItem extends LitElement {
       beforeClose,
       icon,
       iconFlipRtl,
-      focusTrapDisabled,
+      focusTrapEnabled,
+      focusTrapOptions,
     } = this;
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -314,7 +344,8 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
-          focusTrapEnabled={!focusTrapDisabled}
+          focusTrapEnabled={focusTrapEnabled}
+          focusTrapOptions={focusTrapOptions}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}

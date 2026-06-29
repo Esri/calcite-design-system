@@ -458,6 +458,29 @@ describe("focus trap", () => {
     await expect.element(outsideControl).toHaveFocus();
   });
 
+  it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
+    const { component } = await mount<Panel>(
+      <>
+        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-panel>
+        <button id="panel-outside-control" type="button">
+          outside control
+        </button>
+      </>,
+    );
+
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const outsideControlEl = component.el.ownerDocument.getElementById(
+      "panel-outside-control",
+    ) as HTMLButtonElement;
+
+    component.el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
+    await expect(outsideControl).toBeInTheDocument();
+  });
+
   it("closes on Escape through keyboard interaction when closable", async () => {
     const { component } = await mount<Panel>(
       <calcite-panel closable heading="Panel heading">
