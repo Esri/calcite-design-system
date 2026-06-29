@@ -105,18 +105,9 @@ export class Sheet extends LitElement {
 
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
-    getBounds: (): {
-      inline: { min: number | null; max: number | null };
-      block: { min: number | null; max: number | null };
-    } => ({
-      inline: {
-        min: this.resizeValues.minInlineSize ?? null,
-        max: this.resizeValues.maxInlineSize ?? null,
-      },
-      block: {
-        min: this.resizeValues.minBlockSize ?? null,
-        max: this.resizeValues.maxBlockSize ?? null,
-      },
+    getBounds: () => ({
+      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
+      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = { ...resizeValues };
@@ -496,10 +487,16 @@ export class Sheet extends LitElement {
     }
 
     const rtl = this.direction === "rtl";
-    const minInlineSize: number = this.resizeValues.minInlineSize ?? 0;
-    const minBlockSize: number = this.resizeValues.minBlockSize ?? 0;
-    const maxInlineSize: number = this.resizeValues.maxInlineSize ?? window.innerWidth;
-    const maxBlockSize: number = this.resizeValues.maxBlockSize ?? window.innerHeight;
+
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+
+    const restrictSizeMax =
+      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -508,18 +505,7 @@ export class Sheet extends LitElement {
         bottom: position === "block-start" ? resizeHandleEl : false,
         left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: minInlineSize,
-            height: minBlockSize,
-          },
-          max: {
-            width: maxInlineSize,
-            height: maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
       listeners: {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
@@ -614,18 +600,18 @@ export class Sheet extends LitElement {
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
               ariaValueMax={ariaValueFromSize(
                 isBlockPosition ? "block" : "inline",
-                resizeValues.maxBlockSize ?? null,
-                resizeValues.maxInlineSize ?? null,
+                resizeValues.maxBlockSize,
+                resizeValues.maxInlineSize,
               )}
               ariaValueMin={ariaValueFromSize(
                 isBlockPosition ? "block" : "inline",
-                resizeValues.minBlockSize ?? null,
-                resizeValues.minInlineSize ?? null,
+                resizeValues.minBlockSize,
+                resizeValues.minInlineSize,
               )}
               ariaValueNow={ariaValueFromSize(
                 isBlockPosition ? "block" : "inline",
-                resizeValues.blockSize ?? null,
-                resizeValues.inlineSize ?? null,
+                resizeValues.blockSize,
+                resizeValues.inlineSize,
               )}
               class={CSS.resizeHandle}
               key="resize-handle"
