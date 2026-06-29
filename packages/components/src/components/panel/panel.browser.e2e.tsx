@@ -422,6 +422,8 @@ describe("focus trap", () => {
       .not.toBeInTheDocument();
     await expect.element(page.getByRole("article")).toBeInTheDocument();
 
+    await expect(component.el.setFocus()).resolves.toBeUndefined();
+
     await userEvent.tab();
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
