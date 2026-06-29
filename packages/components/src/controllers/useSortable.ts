@@ -1,6 +1,7 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import Sortable from "sortablejs";
+import { BivariantHandler } from "../components/types";
 
 const sortableComponentSet = new Set<SortableComponent>();
 
@@ -46,7 +47,7 @@ function onGlobalDragEnd(): void {
 /**
  * Defines interface for components with sorting functionality.
  */
-interface SortableComponent extends LitElement {
+interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDetail = MoveDetail> extends LitElement {
   /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
 
@@ -63,10 +64,10 @@ interface SortableComponent extends LitElement {
   handleSelector: string;
 
   /** Whether the element can move from the list. */
-  canPull?: (detail: DragDetail) => boolean | "clone";
+  canPull?: BivariantHandler<D, boolean | "clone">;
 
   /** Whether the element can be added from another list. */
-  canPut?: (detail: DragDetail) => boolean;
+  canPut?: BivariantHandler<D, boolean>;
 
   /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
   onGlobalDragStart: () => void;
@@ -75,16 +76,16 @@ interface SortableComponent extends LitElement {
   onGlobalDragEnd: () => void;
 
   /** Called when a component's dragging ends. */
-  onDragEnd: (detail: DragDetail) => void;
+  onDragEnd: BivariantHandler<D, void>;
 
   /** Called when a component's dragging ends. */
-  onDragMove?: (detail: MoveDetail) => void;
+  onDragMove?: BivariantHandler<M, void>;
 
   /** Called when a component's dragging starts. */
-  onDragStart: (detail: DragDetail) => void;
+  onDragStart: BivariantHandler<D, void>;
 
   /** Called by any change to the list (add / update / remove). */
-  onDragSort: (detail: DragDetail) => void;
+  onDragSort: BivariantHandler<D, void>;
 }
 
 export interface SortableComponentItem {
