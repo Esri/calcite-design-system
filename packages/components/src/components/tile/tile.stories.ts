@@ -5,23 +5,11 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tile } from "./tile";
 
-const { alignment, horizontalVerticalLayout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
+const { alignment, scale } = ATTRIBUTES;
 
 interface TileStoryArgs extends Pick<
   Tile,
-  | "active"
-  | "alignment"
-  | "description"
-  | "disabled"
-  | "embed"
-  | "heading"
-  | "href"
-  | "icon"
-  | "layout"
-  | "scale"
-  | "selected"
-  | "selectionAppearance"
-  | "selectionMode"
+  "active" | "alignment" | "description" | "disabled" | "embed" | "heading" | "href" | "icon" | "scale" | "selected"
 > {
   hidden: boolean;
 }
@@ -39,11 +27,8 @@ export default {
     hidden: false,
     href: "#",
     icon: "layer",
-    layout: "vertical",
     scale: scale.defaultValue,
     selected: false,
-    selectionAppearance: "icon",
-    selectionMode: "none",
   },
   argTypes: {
     alignment: {
@@ -56,18 +41,6 @@ export default {
     },
     scale: {
       options: scale.values,
-      control: { type: "select" },
-    },
-    layout: {
-      options: horizontalVerticalLayout.values,
-      control: { type: "select" },
-    },
-    selectionMode: {
-      options: tileSelectionMode.values,
-      control: { type: "select" },
-    },
-    selectionAppearance: {
-      options: tileSelectionAppearance.values,
       control: { type: "select" },
     },
   },
@@ -84,11 +57,8 @@ export const simple = (args: TileStoryArgs): string => html`
     ${boolean("hidden", args.hidden)}
     href="${args.href}"
     ${optionalAttribute("icon", args.icon)}
-    layout="${args.layout}"
     scale="${args.scale}"
     ${boolean("selected", args.selected)}
-    selection-mode="${args.selectionMode}"
-    selection-appearance="${args.selectionAppearance}"
   >
   </calcite-tile>
 `;

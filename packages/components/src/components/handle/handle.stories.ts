@@ -2,20 +2,16 @@ import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import type { Handle } from "./handle";
 
-type HandleStoryArgs = Pick<Handle, "disabled" | "dragHandle" | "label" | "selected">;
+type HandleStoryArgs = Pick<Handle, "disabled" | "dragHandle" | "selected">;
 
 export default {
   title: "Components/Handle",
   args: {
     disabled: false,
     dragHandle: "Drag item",
-    label: "Item",
     selected: false,
   },
   argTypes: {
-    label: {
-      control: { type: "text" },
-    },
     dragHandle: {
       control: { type: "text" },
     },
@@ -26,7 +22,6 @@ export const simple = (args: HandleStoryArgs): string => html`
   <calcite-handle
     ${boolean("disabled", args.disabled)}
     ${boolean("selected", args.selected)}
-    label="${args.label}"
     drag-handle="${args.dragHandle}"
   ></calcite-handle>
 `;

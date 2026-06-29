@@ -50,7 +50,7 @@ export default {
   title: "Components/Tree",
   args: {
     lines: false,
-    scale: "m",
+    scale: scale.defaultValue,
     selectionMode: "single",
   },
   argTypes: {

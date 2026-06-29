@@ -1,11 +1,10 @@
-import { without } from "es-toolkit";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Action } from "./action";
 
-const { alignment, appearance, scale, selectionAppearance } = ATTRIBUTES;
+const { alignment, appearance, scale } = ATTRIBUTES;
 
 type ActionStoryArgs = Pick<
   Action,
@@ -21,7 +20,6 @@ type ActionStoryArgs = Pick<
   | "scale"
   | "text"
   | "textEnabled"
-  | "selectionAppearance"
 >;
 
 export default {
@@ -37,7 +35,6 @@ export default {
     loading: false,
     overflowDisabled: false,
     scale: scale.defaultValue,
-    selectionAppearance: selectionAppearance.values[2],
     text: "",
     textEnabled: true,
   },
@@ -58,10 +55,6 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
-    selectionAppearance: {
-      options: without(selectionAppearance.values, "icon", "border"),
-      control: { type: "select" },
-    },
   },
 };
 
@@ -78,7 +71,6 @@ export const simple = (args: ActionStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("overflow-disabled", args.overflowDisabled)}
       scale="${args.scale}"
-      selection-appearance="${args.selectionAppearance}"
       text="${args.text}"
       ${boolean("text-enabled style", args.textEnabled)}
     ></calcite-action>
