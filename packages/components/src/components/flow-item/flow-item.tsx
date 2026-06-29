@@ -314,7 +314,7 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
-          focusTrapDisabled={focusTrapDisabled}
+          focusTrapEnabled={!focusTrapDisabled}
           heading={heading}
           headingLevel={headingLevel}
           icon={icon}

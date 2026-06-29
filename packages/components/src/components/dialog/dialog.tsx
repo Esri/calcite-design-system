@@ -822,7 +822,6 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
               class={CSS.panel}
               closable={!this.closeDisabled}
               description={description}
-              focusTrapDisabled={true}
               heading={heading}
               headingLevel={this.headingLevel}
               hidden={!this.opened}

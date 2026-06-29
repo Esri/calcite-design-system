@@ -124,7 +124,7 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "focusTrapDisabled",
+        propertyName: "focusTrapEnabled",
         defaultValue: false,
       },
     ],
@@ -208,7 +208,7 @@ describe("reflects", () => {
         value: "true",
       },
       {
-        propertyName: "focusTrapDisabled",
+        propertyName: "focusTrapEnabled",
         value: true,
       },
     ],
@@ -360,15 +360,13 @@ describe("disabled", () => {
 
 describe("focus trap", () => {
   it("applies dialog semantics only when focus trap is enabled", async () => {
-    const { component } = await mount<Panel>(
-      <calcite-panel closable focusTrapDisabled heading="Panel heading" />,
-    );
+    const { component } = await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
 
     await expect
       .element(page.getByRole("dialog", { name: "Panel heading" }))
       .not.toBeInTheDocument();
 
-    component.el.focusTrapDisabled = false;
+    component.el.focusTrapEnabled = true;
 
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
   });
@@ -403,7 +401,7 @@ describe("focus trap", () => {
 
   it("cycles focus within the focus trap when activated", async () => {
     const { component } = await mount<Panel>(
-      <calcite-panel closable heading="Panel heading">
+      <calcite-panel closable focusTrapEnabled heading="Panel heading">
         <button type="button">inside one</button>
         <button type="button">inside two</button>
       </calcite-panel>,
@@ -426,6 +424,38 @@ describe("focus trap", () => {
 
     await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
+  });
+
+  it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
+    const { component } = await mount<Panel>(
+      <>
+        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-panel>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideTwo = page.getByText("inside two", { exact: true });
+    const outsideControl = page.getByText("outside control", { exact: true });
+
+    await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
+
+    component.el.focusTrapEnabled = false;
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Panel heading" }))
+      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("article")).toBeInTheDocument();
+
+    await expect(component.el.setFocus()).resolves.toBeUndefined();
+    await userEvent.tab();
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(outsideControl).toHaveFocus();
   });
 
   it("closes on Escape through keyboard interaction when closable", async () => {

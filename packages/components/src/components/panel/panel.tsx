@@ -188,8 +188,11 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, prevents focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`. */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  /**
+   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * @private
+   */
+  @property({ reflect: true }) focusTrapEnabled = false;
 
   /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
@@ -289,8 +292,8 @@ export class Panel extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("focusTrapDisabled") || changes.has("closable") || changes.has("closed")) {
-      if (!this.closed && this.closable && !this.focusTrapDisabled) {
+    if (changes.has("focusTrapEnabled") || changes.has("closable") || changes.has("closed")) {
+      if (!this.closed && this.closable && this.focusTrapEnabled) {
         this.focusTrapController.activate();
       } else {
         this.focusTrapController.deactivate();
@@ -306,10 +309,10 @@ export class Panel extends LitElement {
 
   //#region Private Methods
 
-/** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
-focusTrapDisabledOverride(): boolean {
-  return this.focusTrapDisabled || !this.closable || this.closed;
-}
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.focusTrapEnabled || !this.closable || this.closed;
+  }
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
@@ -758,8 +761,8 @@ focusTrapDisabledOverride(): boolean {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed, heading, description, focusTrapDisabled, closable } = this;
-    const hasDialogRole = !focusTrapDisabled && closable;
+    const { disabled, loading, closed, heading, description, focusTrapEnabled, closable } = this;
+    const hasDialogRole = focusTrapEnabled && closable;
 
     const panelNode = (
       <div

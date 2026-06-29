@@ -239,6 +239,24 @@ describe("focus trap", () => {
     await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
   });
 
+  it("inverts focusTrapDisabled through internal panel semantics", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable heading="Flow heading" selected />,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+
+    component.el.focusTrapDisabled = true;
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+
+    component.el.focusTrapDisabled = false;
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+  });
+
   it("supports focus trap behavior through keyboard interaction", async () => {
     const { component } = await mount<FlowItem>(
       <calcite-flow-item closable heading="Flow heading" selected>
