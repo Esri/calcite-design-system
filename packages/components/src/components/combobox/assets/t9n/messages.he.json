@@ -8,5 +8,6 @@
   "required": "נדרש",
   "selectAll": "בחר הכול",
   "selected": "נבחר",
-  "nonEditable": "{value} לקריאה בלבד"
+  "nonEditable": "{value} לקריאה בלבד",
+  "disabledSelectedCount": "+{count}"
 }

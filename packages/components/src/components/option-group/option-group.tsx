@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, Fragment, h, JsxNode } from "@arcgis/lumina";
 
@@ -22,7 +21,7 @@ export class OptionGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   //#endregion
 

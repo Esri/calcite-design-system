@@ -1,16 +1,6 @@
-import { DragDetail, MoveDetail } from "../../utils/sortableComponent";
+import { type DragDetail, type MoveDetail } from "../../controllers/useSortable";
 import type { Block } from "../block/block";
 import type { BlockGroup } from "./block-group";
 
-export interface BlockDragDetail extends DragDetail {
-  toEl: BlockGroup["el"];
-  fromEl: BlockGroup["el"];
-  dragEl: Block["el"];
-}
-
-export interface BlockMoveDetail extends MoveDetail {
-  toEl: BlockGroup["el"];
-  fromEl: BlockGroup["el"];
-  dragEl: Block["el"];
-  relatedEl: Block["el"];
-}
+export type BlockDragDetail = DragDetail<BlockGroup["el"], BlockGroup["el"], Block["el"]>;
+export type BlockMoveDetail = MoveDetail<BlockGroup["el"], BlockGroup["el"], Block["el"], Block["el"]>;

@@ -1,11 +1,32 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import type { Navigation } from "./navigation";
+const { scale } = ATTRIBUTES;
+
+type NavigationStoryArgs = Pick<Navigation, "label" | "navigationAction" | "scale">;
 
 export default {
   title: "Components/Navigation/Navigation",
+  args: {
+    label: "Label",
+    navigationAction: false,
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
-  <calcite-navigation navigation-action>
+export const simple = (args: NavigationStoryArgs): string => html`
+  <calcite-navigation
+    label="${args.label}"
+    ${boolean("navigation-action", args.navigationAction)}
+    scale="${args.scale}"
+  >
     <calcite-navigation-logo slot="logo" heading="Walt's Chips"></calcite-navigation-logo>
     <calcite-menu slot="content-end">
       <calcite-menu-item text="Support"></calcite-menu-item>

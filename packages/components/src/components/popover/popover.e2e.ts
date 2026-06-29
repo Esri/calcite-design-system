@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -25,13 +24,6 @@ describe("accessible with close button", () => {
   );
 });
 
-describe("openClose", () => {
-  openClose(html`
-    <calcite-popover placement="auto" reference-element="ref">content</calcite-popover>
-    <div id="ref">referenceElement</div>
-  `);
-});
-
 it("popover positions when referenceElement is set", async () => {
   const page = await newE2EPage();
   await page.setContent(
@@ -45,7 +37,7 @@ it("popover positions when referenceElement is set", async () => {
   expect(computedStyle.transform).toBe("none");
 
   await page.$eval("calcite-popover", (el: Popover["el"]): void => {
-    const referenceElement = document.getElementById("ref");
+    const referenceElement = document.getElementById("ref")!;
     el.referenceElement = referenceElement;
   });
   await page.waitForChanges();
@@ -326,9 +318,9 @@ it("should not close active popover if click starts within the popover but ends 
   expect(await popover.getProperty("open")).toBe(true);
 
   await page.evaluate(() => {
-    const content = document.getElementById("content");
+    const content = document.getElementById("content")!;
     content.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
-    const outsideNode = document.getElementById("outsideNode");
+    const outsideNode = document.getElementById("outsideNode")!;
     outsideNode.dispatchEvent(new MouseEvent("pointerup", { bubbles: true }));
   });
   await page.waitForChanges();
@@ -365,7 +357,7 @@ it("should not be visible if reference is hidden", async () => {
   expect(await positionContainer.isVisible()).toBe(true);
   expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
-  await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+  await page.$eval("#scrollEl", (scrollEl) => {
     scrollEl.scrollTo({ top: 300 });
   });
 
@@ -492,7 +484,7 @@ it("should not be visible if ui has escaped", async () => {
   expect(await positionContainer.isVisible()).toBe(true);
   expect((await positionContainer.getComputedStyle()).pointerEvents).toBe("auto");
 
-  await page.$eval("#scrollEl", async (scrollEl: HTMLDivElement) => {
+  await page.$eval("#scrollEl", (scrollEl) => {
     scrollEl.scrollTo({ top: 300 });
   });
 
@@ -562,7 +554,7 @@ it("should autoClose shadow popovers when clicked outside", async () => {
   await page.waitForChanges();
 
   await page.evaluate(() => {
-    const shadow = document.getElementById("host").attachShadow({ mode: "open" });
+    const shadow = document.getElementById("host")!.attachShadow({ mode: "open" });
 
     const shadowButton = document.createElement("calcite-button");
     shadowButton.id = "popover-button-close-shadow";
@@ -613,7 +605,7 @@ it("should still function when disconnected and reconnected", async () => {
   expect(await positionContainer.isVisible()).toBe(false);
 
   await page.$eval("calcite-popover", (popoverEl: Popover["el"]) => {
-    const transferEl = document.getElementById("transfer");
+    const transferEl = document.getElementById("transfer")!;
     transferEl.appendChild(popoverEl);
   });
   await page.waitForChanges();

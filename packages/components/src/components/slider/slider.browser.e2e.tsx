@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands, Locator, page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,
@@ -12,6 +13,7 @@ import {
   renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
 
@@ -70,6 +72,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -297,7 +303,7 @@ describe("number locale support", () => {
   };
 
   const formattedValuesPerLanguageObject = {
-    "de-CH": ["2’500", "500’000.5", "1’000", "1’000’000.5"],
+    "de-CH": ["2'500", "500'000.5", "1'000", "1'000'000.5"],
     en: ["2,500", "500,000.5", "1,000", "1,000,000.5"],
     es: ["2.500", "500.000,5", "1.000", "1.000.000,5"],
     fr: ["2 500", "500 000,5", "1 000", "1 000 000,5"],

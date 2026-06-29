@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { KebabCase } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
 import { Ref } from "lit/directives/ref.js";
@@ -17,7 +16,7 @@ interface OpenCloseComponentBase extends LitElement {
   openProp?: string;
 
   /** Specifies the name of CSS transition property. */
-  transitionProp?: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
+  transitionProp: KebabCase<Extract<keyof CSSStyleDeclaration, string>>;
 
   /** Defines method for `beforeOpen` event handler. */
   onBeforeOpen: () => void;
@@ -34,7 +33,7 @@ interface OpenCloseComponentBase extends LitElement {
 
 export interface OpenCloseComponentWithEl extends OpenCloseComponentBase {
   /** Specifies element that the transition is allowed to emit on. */
-  transitionEl: HTMLElement;
+  transitionEl: HTMLElement | undefined;
 }
 
 export interface OpenCloseComponentWithRef extends OpenCloseComponentBase {
@@ -42,7 +41,9 @@ export interface OpenCloseComponentWithRef extends OpenCloseComponentBase {
   transitionRef: Ref<HTMLElement>;
 }
 
-export type OpenCloseComponent = OpenCloseComponentWithEl | OpenCloseComponentWithRef;
+export type OpenCloseComponent =
+  | (OpenCloseComponentWithRef & { transitionEl?: never })
+  | (OpenCloseComponentWithEl & { transitionRef?: never });
 
 function isOpen(component: OpenCloseComponent): boolean {
   return component[component.openProp || "open"];
@@ -88,5 +89,5 @@ export async function toggleOpenClose(component: OpenCloseComponent): Promise<vo
 }
 
 function hasRef(component: OpenCloseComponent): component is OpenCloseComponentWithRef {
-  return !!(component as OpenCloseComponentWithRef).transitionRef;
+  return "transitionRef" in component;
 }

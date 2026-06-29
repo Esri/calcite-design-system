@@ -1,13 +1,32 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
+  defaults,
   disabled,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
+  renders,
   t9n,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("renders", () => {
+  renders(() => mount("calcite-checkbox"), { display: "inline-flex" });
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-checkbox"),
+    [
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+    ],
+  );
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-checkbox"));

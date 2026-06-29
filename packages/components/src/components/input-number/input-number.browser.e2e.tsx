@@ -1,7 +1,8 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   disabled,
@@ -15,6 +16,8 @@ import {
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
+import { CSS as ClearButtonCSS } from "../functional/ClearButton";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
 
@@ -49,6 +52,10 @@ describe("defaults", () => {
       {
         propertyName: "validationMessage",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
       },
     ],
   );
@@ -108,6 +115,129 @@ describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
 });
 
+describe("clearable", () => {
+  it("renders clear button", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toHaveAttribute("title", "Clear value");
+  });
+
+  it("does not render clear button when clearable is not requested", async () => {
+    await mount<InputNumber>(<calcite-input-number />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("does not render clear button when clearable is requested and value is not populated", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable value="" />);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+    await expect.element(clearButton).not.toBeInTheDocument();
+  });
+
+  it("clears value on clear button click", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(input);
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+  });
+
+  it("clears value on escape key press", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+  });
+
+  it("receives event when clear button is clicked", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("receives event when input is cleared via escape key", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.click(input);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("123");
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+  });
+
+  it("emits change event when value set directly and then cleared in 'de' locale", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number clearable lang="de" value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberChange", inputEventHandler);
+
+    el.value = "49.173126";
+
+    expect(el.value).toBe("49.173126");
+
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await userEvent.click(clearButton);
+
+    expect(el.value).toBe("");
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("disables clear button when input is disabled", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable disabled value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+
+  it("disables clear button when input is readOnly", async () => {
+    await mount<InputNumber>(<calcite-input-number clearable readOnly value="123" />);
+    const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
+
+    await expect.element(clearButton).toBeInTheDocument();
+    await expect.element(clearButton).toBeDisabled();
+  });
+});
+
 describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-number"), {
     testValue: "5",
@@ -117,7 +247,436 @@ describe("is form-associated", () => {
   });
 });
 
+it("renders number buttons in default vertical alignment", async () => {
+  await mount("calcite-input-number");
+
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
+it("renders number buttons in horizontal vertical alignment and number button type is horizontal", async () => {
+  await mount<InputNumber>(<calcite-input-number numberButtonType="horizontal" />);
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).toBeInTheDocument();
+});
+
+it("does not render number buttons in default vertical alignment and read-only", async () => {
+  await mount<InputNumber>(<calcite-input-number readOnly />);
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+});
+
+it("does not render number buttons in horizontal alignment, number button type is horizontal, and read-only", async () => {
+  await mount<InputNumber>(<calcite-input-number numberButtonType="horizontal" readOnly />);
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
+it("renders no buttons and number button type is none", async () => {
+  await mount<InputNumber>(<calcite-input-number numberButtonType="none" />);
+  const numberVerticalWrapper = page.getBySelector(
+    `calcite-input-number .${CSS.numberButtonWrapper}`,
+  );
+  const numberHorizontalItemDown = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.down}']`,
+  );
+  const numberHorizontalItemUp = page.getBySelector(
+    `calcite-input-number .${CSS.buttonItemHorizontal}[data-adjustment='${DIRECTION.up}']`,
+  );
+
+  await expect.element(numberVerticalWrapper).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemDown).not.toBeInTheDocument();
+  await expect.element(numberHorizontalItemUp).not.toBeInTheDocument();
+});
+
+describe("increment/decrement functionality", () => {
+  let upButton: Locator;
+  let downButton: Locator;
+
+  beforeEach(() => {
+    upButton = page.getByTestId("number-button-up");
+    downButton = page.getByTestId("number-button-down");
+  });
+
+  async function pressAndHold(target: Locator, ms: number): Promise<void> {
+    const rect = await target.element().getBoundingClientRect();
+    await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await commands.mouseDown();
+    await new Promise((resolve) => setTimeout(resolve, ms));
+    await commands.mouseUp();
+  }
+
+  it("correctly increments/decrements numbers greater than MAX_SAFE_INTEGER", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number
+        step={10}
+        value="100000000000000000000000000000000000000000000000000."
+      />,
+    );
+
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000000");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000010");
+
+    el.step = 0.1;
+    await userEvent.click(downButton, { clickCount: 10 });
+
+    expect(el.value).toBe("100000000000000000000000000000000000000000000000009");
+  });
+
+  it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
+    const { el } = await mount("calcite-input-number");
+    el.value = "1.23e-60";
+
+    expect(el.value).toBe("1.23e-60");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("1.00000000000000000000000000000000000000000000000000000000000123");
+
+    el.step = 0.1;
+    await userEvent.click(downButton, { clickCount: 5 });
+
+    expect(el.value).toBe("0.50000000000000000000000000000000000000000000000000000000000123");
+  });
+
+  it("correctly increments and decrements decimal value when step precision matches initial value precision", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.001} value="3.123" />);
+
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("3.122");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.124");
+
+    await userEvent.click(upButton, { clickCount: 10 });
+    expect(el.value).toBe("3.134");
+  });
+
+  it("correctly increments and decrements initial decimal value by 1 when step is default", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="3.123" />);
+
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("2.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("3.123");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("4.123");
+
+    await userEvent.click(upButton, { clickCount: 10 });
+    expect(el.value).toBe("14.123");
+  });
+
+  it("correctly increments and decrements value when step is an integer", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={10} value="15" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("15");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("25");
+  });
+
+  it("correctly increments and decrements on long hold on mousedown when step is decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.01} value="0" />);
+    const inputEventSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventSpy);
+
+    await pressAndHold(upButton, NUDGE_DELAY_IN_MS * 4);
+    const totalNudgesUp = inputEventSpy.mock.calls.length;
+    expect(el.value).toBe(`${totalNudgesUp * 0.01}`);
+
+    await pressAndHold(downButton, NUDGE_DELAY_IN_MS * 4);
+    const totalNudgesDown = inputEventSpy.mock.calls.length - totalNudgesUp;
+    const finalNudgedValue = totalNudgesUp - totalNudgesDown;
+    expect(el.value).toBe(`${finalNudgedValue * 0.01}`);
+  });
+
+  it("decrements to max when value is higher", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={10} value="20" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("9");
+  });
+
+  it("increments to min when value is lower", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number min={20} value="11" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("20");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("20");
+  });
+
+  it("correctly increments and decrements value by one when step is any", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step="any" value="5.5" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("4.5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("5.5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("6.5");
+  });
+
+  it("correctly increments and decrements value by one when step is undefined", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="5" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("4");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("5");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("6");
+  });
+
+  it("correctly stops decrementing value when min is set", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number min={10} value="11" />);
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(downButton);
+    expect(el.value).toBe("10");
+  });
+
+  it("correctly stops incrementing value when max is set", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={10} value="9" />);
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("10");
+
+    await userEvent.click(upButton);
+    expect(el.value).toBe("10");
+  });
+
+  it("should emit event when up or down clicked", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number max={0} value="-2" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(upButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(1);
+
+    await userEvent.click(downButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(2);
+
+    await userEvent.click(downButton);
+    expect(inputEventHandler).toHaveBeenCalledTimes(3);
+  });
+
+  it("should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    const keydownEvents: KeyboardEvent[] = [];
+    el.addEventListener("keydown", (event: KeyboardEvent) => keydownEvents.push(event));
+
+    await userEvent.keyboard("{Tab}");
+
+    await userEvent.keyboard("{ArrowUp>}");
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+    await userEvent.keyboard("{/ArrowUp}");
+
+    const totalNudgesUp = inputEventHandler.mock.calls.length;
+    expect(totalNudgesUp).toBeGreaterThan(0);
+    expect(el.value).toBe(`${totalNudgesUp}`);
+
+    await userEvent.keyboard("{ArrowDown>}");
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+    await userEvent.keyboard("{/ArrowDown}");
+
+    const totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
+    const finalNudgedValue = totalNudgesUp - totalNudgesDown;
+    expect(el.value).toBe(`${finalNudgedValue}`);
+
+    expect(keydownEvents.length).toBeGreaterThanOrEqual(2);
+    expect(keydownEvents.at(-1)?.defaultPrevented).toBe(true);
+  });
+
+  describe("mouse events on arrow buttons", () => {
+    it("data-adjustment='up': should emit an event regularly on mousedown", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+      await pressAndHold(upButton, NUDGE_DELAY_IN_MS * 2);
+
+      const totalNudgesUp = inputEventHandler.mock.calls.length;
+      expect(totalNudgesUp).toBeGreaterThan(0);
+      expect(el.value).toBe(`${totalNudgesUp}`);
+    });
+
+    it("data-adjustment='up': should stop emitting an event on mouseleave", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      const rect = await upButton.element().getBoundingClientRect();
+      await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      await commands.mouseDown();
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseMove(rect.x - 1, rect.y - 1);
+
+      const totalNudgesUp = inputEventHandler.mock.calls.length;
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseUp();
+
+      expect(el.value).toBe(`${totalNudgesUp}`);
+    });
+
+    it("data-adjustment='down': should emit an event regularly on mousedown", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      expect(inputEventHandler).toHaveBeenCalledTimes(0);
+
+      await pressAndHold(downButton, NUDGE_DELAY_IN_MS * 2);
+
+      const totalNudgesDown = inputEventHandler.mock.calls.length;
+      expect(totalNudgesDown).toBeGreaterThan(0);
+      expect(el.value).toBe(`-${totalNudgesDown}`);
+    });
+
+    it("data-adjustment='down': should stop emitting an event on mouseleave", async () => {
+      const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+      const inputEventHandler = vi.fn();
+      el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+      const rect = await downButton.element().getBoundingClientRect();
+      await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+      await commands.mouseDown();
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseMove(rect.x - 1, rect.y - 1);
+
+      const totalNudgesDown = inputEventHandler.mock.calls.length;
+      await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+      await commands.mouseUp();
+
+      expect(el.value).toBe(`-${totalNudgesDown}`);
+    });
+  });
+
+  it("when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+
+    await userEvent.keyboard("{Tab}");
+    await Promise.all([userEvent.keyboard("{ArrowUp}"), userEvent.keyboard("{ArrowDown}")]);
+    await new Promise((resolve) => setTimeout(resolve, NUDGE_DELAY_IN_MS * 2));
+
+    expect(el.value).toBe("0");
+  });
+
+  it("should emit event only twice when toggled fast between up/down arrows", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number value="0" />);
+    const inputEventHandler = vi.fn();
+    el.addEventListener("calciteInputNumberInput", inputEventHandler);
+
+    await userEvent.keyboard("{Tab}");
+    await Promise.all([
+      userEvent.keyboard("{ArrowUp>}{/ArrowUp}"),
+      userEvent.keyboard("{ArrowDown>}{/ArrowDown}"),
+    ]);
+
+    expect(inputEventHandler).toHaveBeenCalledTimes(2);
+  });
+
+  it("up/down arrow keys increments and decrements correctly when the step is a decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={0.1} />);
+
+    await userEvent.keyboard("{Tab}{ArrowUp}");
+    expect(el.value).toBe("0.1");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expect(el.value).toBe("0.2");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("0.1");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("0");
+  });
+
+  it("up/down arrow keys increments and decrements correctly when the step is an integer and the value is a decimal", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number step={5} value="1.008" />);
+
+    await userEvent.keyboard("{Tab}{ArrowUp}");
+    expect(el.value).toBe("6.008");
+
+    await userEvent.keyboard("{ArrowUp}");
+    expect(el.value).toBe("11.008");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("6.008");
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(el.value).toBe("1.008");
+  });
+});
+
 describe("nudging", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   function nudgeReadOnlyToggle(el: InputNumber["el"]): Promise<void> {
     return new Promise<void>((resolve) => {
       el.addEventListener(
@@ -152,6 +711,32 @@ describe("nudging", () => {
 
     expect(el).toHaveProperty("value", "0");
   });
+
+  it("should stop increasing the value when pointer is moved away from the increment button", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number />);
+    const nudgeUpButton = page.getByTestId("number-button-up");
+    const nudgeUpButtonRect = await nudgeUpButton.element().getBoundingClientRect();
+
+    vi.useFakeTimers();
+
+    expect(el.value).toBe("");
+
+    await userEvent.hover(nudgeUpButton);
+    await commands.mouseDown();
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 4);
+
+    expect(el.value).not.toBe("");
+
+    const value = el.value;
+    await commands.mouseMove(nudgeUpButtonRect.x - 1, nudgeUpButtonRect.y);
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 4);
+
+    expect(el.value).toBe(value);
+
+    await commands.mouseUp();
+    vi.advanceTimersByTime(NUDGE_DELAY_IN_MS * 2);
+    expect(el.value).toBe(value);
+  });
 });
 
 it("input event fires when number ends with a decimal", async () => {
@@ -175,7 +760,9 @@ describe("number locale support", () => {
         useGrouping: false,
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
-      const { el } = await mount(<calcite-input-number lang={locale} value={expectedValue} />);
+      const { el } = await mount<InputNumber>(
+        <calcite-input-number lang={locale} value={expectedValue} />,
+      );
       const input = page.getBySelector("calcite-input-number input");
 
       expect(el).toHaveProperty("value", expectedValue);
@@ -208,7 +795,7 @@ describe("number locale support", () => {
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
       const decimalSeparator = numberStringFormatter.decimal;
-      const { el } = await mount(<calcite-input-number lang={locale} />);
+      const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
       const input = page.getBySelector("calcite-input-number input");
 
       await userEvent.keyboard(`{Tab}`);
@@ -227,7 +814,7 @@ describe("number locale support", () => {
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
       const decimalSeparator = numberStringFormatter.decimal;
-      const { el } = await mount(<calcite-input-number lang={locale} />);
+      const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
       const input = page.getBySelector("calcite-input-number input");
 
       await userEvent.keyboard(`{Tab}1${decimalSeparator}5e-6`);
@@ -317,7 +904,7 @@ describe("number locale support", () => {
     });
 
     it(`should sanitize leading decimal zeros on initial render ${locale} locale`, async () => {
-      await mount(<calcite-input-number lang={locale} value="0.0000" />);
+      await mount<InputNumber>(<calcite-input-number lang={locale} value="0.0000" />);
       const input = page.getBySelector("calcite-input-number input");
 
       await expect.element(input).toHaveProperty("value", "0");
@@ -352,4 +939,60 @@ it("integer property prevents decimals and exponential notation", async () => {
 
   await userEvent.click(numberHorizontalItemUp);
   expect(el).toHaveProperty("value", "-986"); // test incrementing
+});
+
+it("emits events when value is modified", async () => {
+  const { el } = await mount("calcite-input-number");
+
+  const calciteInputNumberInput = vi.fn();
+  el.addEventListener("calciteInputNumberInput", calciteInputNumberInput);
+  const calciteInputNumberChange = vi.fn();
+  el.addEventListener("calciteInputNumberChange", calciteInputNumberChange);
+
+  const inputFirstPart = "12345";
+
+  await userEvent.keyboard("{Tab}");
+  await userEvent.keyboard(inputFirstPart);
+  expect(el.value).toBe(inputFirstPart);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(0);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(5);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  const textSecondPart = "67890";
+  await userEvent.keyboard("{Enter}");
+  await userEvent.keyboard(textSecondPart);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(1);
+
+  await userEvent.keyboard("{Enter}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+  expect(el.value).toBe(`${inputFirstPart}${textSecondPart}`);
+
+  await userEvent.keyboard("{Tab}");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+  expect(el.value).toBe(`${inputFirstPart}${textSecondPart}`);
+
+  const programmaticSetValue = "1337";
+  el.value = programmaticSetValue;
+
+  expect(el.value).toBe(programmaticSetValue);
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(10);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(2);
+
+  await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+  await userEvent.keyboard("{selectall}");
+  await userEvent.keyboard("{Backspace}{Tab}");
+
+  expect(el.value).toBe("");
+  expect(calciteInputNumberInput).toHaveBeenCalledTimes(11);
+  expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
 });

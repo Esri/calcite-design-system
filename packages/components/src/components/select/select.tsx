@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -23,7 +22,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -64,8 +63,6 @@ export class Select extends LitElement implements LabelableComponent {
 
   defaultValue: Select["value"];
 
-  formEl: HTMLFormElement;
-
   formSupport = useForm<this>({ inputType: "text" })(this);
 
   labelEl: Label["el"];
@@ -92,11 +89,7 @@ export class Select extends LitElement implements LabelableComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /**
@@ -106,10 +99,10 @@ export class Select extends LitElement implements LabelableComponent {
    */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /**
@@ -140,24 +133,12 @@ export class Select extends LitElement implements LabelableComponent {
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity: ValidityState;
 
   /** The component's `selectedOption` value. */
   @property() value: string = null;
@@ -165,7 +146,7 @@ export class Select extends LitElement implements LabelableComponent {
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -177,7 +158,7 @@ export class Select extends LitElement implements LabelableComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

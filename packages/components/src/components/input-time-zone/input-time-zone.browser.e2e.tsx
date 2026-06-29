@@ -4,14 +4,22 @@ import {
   defaults,
   disabled,
   focusable,
+  formAssociated,
   hidden,
   reflects,
   renders,
   t9n,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
+
+/**
+ * This file hosts component tests that do not depend on dynamic time zone changes.
+ * Those tests reside in `input-time-zone.time-zone.browser.e2e.tsx`, which need to be run separate from the main test script
+ */
 
 describe("defaults", () => {
   defaults(
@@ -27,6 +35,10 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
     ],
   );
 });
@@ -59,10 +71,21 @@ describe("focusable", () => {
   focusable(() => mount("calcite-input-time-zone"));
 });
 
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-input-time-zone"));
 });
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-zone"));
+});
+
+describe("is form-associated", () => {
+  formAssociated(() => mount("calcite-input-time-zone"), {
+    testValue: "-360",
+    clearable: false,
+  });
 });

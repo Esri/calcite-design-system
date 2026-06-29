@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -8,7 +7,6 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
 import { IconName } from "../icon/interfaces";
-import type { Accordion } from "../accordion/accordion";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
@@ -68,63 +66,56 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /**
-   * The containing `accordion` element.
-   *
-   * @private
-   */
-  @property() accordionParent: Accordion["el"];
-
-  /** Specifies a description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() appearance: Extract<"solid" | "transparent", Appearance>;
+  @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconPosition: Extract<"start" | "end", Position>;
+  @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
+  @property() iconType!: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -136,7 +127,7 @@ export class AccordionItem extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

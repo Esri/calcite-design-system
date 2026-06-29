@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, state, JsxNode, setAttribute } from "@arcgis/lumina";
@@ -41,11 +40,11 @@ export class TreeItem extends LitElement {
 
   private actionSlotWrapperRef = createRef<HTMLDivElement>();
 
-  private childTree: Tree["el"];
+  private childTree: Tree["el"] | null = null;
 
   private direction = useDirection();
 
-  private isSelectionMultiLike: boolean;
+  private isSelectionMultiLike: boolean = false;
 
   private parentTreeItem?: TreeItem["el"];
 
@@ -86,10 +85,10 @@ export class TreeItem extends LitElement {
   }
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -98,23 +97,23 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** @private */
-  @property({ reflect: true }) lines: boolean;
+  @property({ reflect: true }) lines: boolean = false;
 
   /** @private */
   @property() parentExpanded = false;
 
   /** @private */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
   /** @private */
-  @property({ reflect: true }) selectionMode: SelectionMode;
+  @property({ reflect: true }) selectionMode?: SelectionMode;
 
   //#endregion
 
@@ -143,7 +142,7 @@ export class TreeItem extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item");
+    this.parentTreeItem = this.el.parentElement?.closest("calcite-tree-item") ?? undefined;
   }
 
   load(): void {
@@ -295,7 +294,7 @@ export class TreeItem extends LitElement {
 
   private isActionEndEvent(event: Event): boolean {
     const composedPath = event.composedPath();
-    return composedPath.includes(this.actionSlotWrapperRef.value);
+    return composedPath.includes(this.actionSlotWrapperRef.value!);
   }
 
   /**
@@ -312,8 +311,12 @@ export class TreeItem extends LitElement {
 
     if (this.selected) {
       const parentTree = this.el.parentElement;
-      const siblings = Array.from(parentTree?.children);
-      const selectedSiblings = siblings.filter((child: TreeItem["el"]) => child.selected);
+      if (!parentTree) {
+        return;
+      }
+
+      const siblings = Array.from(parentTree.children);
+      const selectedSiblings = siblings.filter((child) => (child as TreeItem["el"]).selected);
 
       if (siblings.length === selectedSiblings.length) {
         parentItem.selected = true;
@@ -332,7 +335,7 @@ export class TreeItem extends LitElement {
       });
     } else if (this.indeterminate) {
       const parentItem = this.parentTreeItem;
-      parentItem.indeterminate = true;
+      parentItem!.indeterminate = true;
     }
   }
 
@@ -350,9 +353,9 @@ export class TreeItem extends LitElement {
     this.selectionMode = parentTree.selectionMode;
     this.scale = parentTree.scale || "m";
     this.lines = parentTree.lines;
-    let nextParentTree;
+    let nextParentTree: Tree["el"] | null;
     while (parentTree) {
-      nextParentTree = parentTree.parentElement?.closest("calcite-tree");
+      nextParentTree = parentTree.parentElement?.closest("calcite-tree") ?? null;
       if (nextParentTree === parentTree) {
         break;
       } else {
@@ -362,7 +365,7 @@ export class TreeItem extends LitElement {
     }
   }
 
-  private getSelectionIcon(): IconName {
+  private getSelectionIcon(): IconName | null {
     const { selectionMode, hasChildren } = this;
     if (
       selectionMode === "single" ||
@@ -455,9 +458,9 @@ export class TreeItem extends LitElement {
       this.selectionMode === "multichildren" ||
       this.selectionMode === "ancestors"
         ? toAriaBoolean(this.selected)
-        : undefined;
+        : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : undefined;
+    this.el.ariaExpanded = this.hasChildren ? toAriaBoolean(isExpanded) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -468,7 +471,7 @@ export class TreeItem extends LitElement {
       this.selectionMode === "children" ||
       this.selectionMode === "single-persist"
         ? toAriaBoolean(this.selected)
-        : undefined;
+        : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "treeitem";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

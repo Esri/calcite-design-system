@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -67,49 +66,49 @@ export class TableCell extends LitElement {
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** Specifies the number of columns the component should span. */
-  @property({ reflect: true }) colSpan: number;
+  @property({ reflect: true }) colSpan?: number;
 
   /** @private */
-  @property() disabled: boolean;
+  @property() disabled = false;
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastCell: boolean;
+  @property() lastCell = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() numberCell: boolean;
+  @property() numberCell = false;
 
   /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
-  @property() parentRowIsSelected: boolean;
+  @property() parentRowIsSelected = false;
 
   /** @private */
-  @property() parentRowPositionLocalized: string;
+  @property() parentRowPositionLocalized?: string;
 
   /** @private */
-  @property() parentRowType: RowType;
+  @property() parentRowType!: RowType;
 
   /** @private */
-  @property() positionInRow: number;
+  @property() positionInRow!: number;
 
   /** @private */
-  @property() readCellContentsToAT: boolean;
+  @property() readCellContentsToAT = false;
 
   /** Specifies the number of rows the component should span. */
-  @property({ reflect: true }) rowSpan: number;
+  @property({ reflect: true }) rowSpan?: number;
 
   /** @private */
   @property() scale: Scale = "m";
 
   /** @private */
-  @property() selectionCell: boolean;
+  @property() selectionCell = false;
 
   //#endregion
 
@@ -120,7 +119,7 @@ export class TableCell extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

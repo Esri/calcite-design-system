@@ -25,12 +25,12 @@ export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mo
 export type ModeName = "light" | "dark" | "auto";
 export type Position = "start" | "end" | "top" | "bottom";
 export interface ResizeValues {
-  inlineSize: number;
-  blockSize: number;
-  minInlineSize: number;
-  minBlockSize: number;
-  maxInlineSize: number;
-  maxBlockSize: number;
+  inlineSize: number | null;
+  blockSize: number | null;
+  minInlineSize: number | null;
+  minBlockSize: number | null;
+  maxInlineSize: number | null;
+  maxBlockSize: number | null;
 }
 export type SelectionAppearance = "icon" | "border" | "neutral" | "highlight";
 export type SelectionMode =

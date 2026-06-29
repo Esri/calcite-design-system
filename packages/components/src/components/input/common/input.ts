@@ -6,15 +6,15 @@ export interface DateTimeInputComponent {
 }
 
 export interface NumericInputComponent {
-  min: number;
-  max: number;
-  step: number | "any";
+  min?: number;
+  max?: number;
+  step?: number | "any";
 }
 
 export interface TextualInputComponent {
   pattern?: string;
-  minLength: number;
-  maxLength: number;
+  minLength?: number;
+  maxLength?: number;
 }
 
 /** Exported for testing purposes only */

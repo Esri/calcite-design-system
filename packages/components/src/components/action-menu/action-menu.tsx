@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -148,7 +147,7 @@ export class ActionMenu extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
+  /** @copyDoc */
   @property() flipPlacements: FlipPlacement[];
 
   /**
@@ -171,24 +170,16 @@ export class ActionMenu extends LitElement {
     }
   }
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * @copyDoc
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -204,7 +195,7 @@ export class ActionMenu extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -413,7 +404,7 @@ export class ActionMenu extends LitElement {
       })
       .reduce<Action["el"][]>((previousValue, currentValue) => {
         if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue as Action["el"]);
+          previousValue.push(currentValue);
           return previousValue;
         }
 

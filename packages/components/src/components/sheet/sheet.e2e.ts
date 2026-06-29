@@ -1,11 +1,9 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, openClose, themed } from "../../tests/commonTests";
+import { accessible, themed } from "../../tests/commonTests";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { focusTrap } from "../../tests/commonTests/focusTrap";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { CSS, IDS } from "./resources";
@@ -51,23 +49,7 @@ describe("accessible", () => {
   });
 });
 
-describe("openClose", () => {
-  openClose("calcite-sheet");
-  openClose.initial("calcite-sheet");
-});
-
-describe("focus-trap", () => {
-  focusTrap(
-    html` <calcite-sheet>
-      <!-- sheet has no default focusable parts -->
-      <input id="focusable-content" />
-    </calcite-sheet>`,
-    {
-      toggleProp: "open",
-      focusTargetSelector: "#focusable-content",
-    },
-  );
-});
+// focus-trap coverage is in sheet.browser.e2e.tsx.
 
 it("sets custom width correctly", async () => {
   const page = await newE2EPage();
@@ -80,7 +62,7 @@ it("sets custom width correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("width");
     },
     `.${CSS.content}`,
@@ -101,7 +83,7 @@ it("sets custom width and max correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("width");
     },
     `.${CSS.content}`,
@@ -122,7 +104,7 @@ it("sets custom height correctly", async () => {
   const style = await page.$eval(
     "calcite-sheet",
     (elm, selector: string) => {
-      const s = elm.shadowRoot.querySelector(selector);
+      const s = elm.shadowRoot!.querySelector(selector)!;
       return window.getComputedStyle(s).getPropertyValue("height");
     },
     `.${CSS.content}`,
@@ -303,7 +285,7 @@ it("should close when the scrim is clicked", async () => {
   sheet.setProperty("open", true);
   await page.waitForChanges();
   expect(sheet).toHaveAttribute("open");
-  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(false);
 });
@@ -315,7 +297,7 @@ it("should not close when the scrim is clicked", async () => {
   sheet.setProperty("open", true);
   await page.waitForChanges();
   expect(sheet).toHaveAttribute("open");
-  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot.querySelector("calcite-scrim").click());
+  await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(true);
 });
@@ -396,7 +378,7 @@ describe("keyboard resize", () => {
 
     let computedStyle = await container.getComputedStyle();
     const initialInlineSize = computedStyle.inlineSize;
-    const initialWidth = parseInt(initialInlineSize);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     const resizeHandle = await page.find(`calcite-sheet >>> .${CSS.resizeHandle}`);
     await resizeHandle.focus();
@@ -452,7 +434,7 @@ describe("keyboard resize", () => {
     await page.waitForChanges();
     computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
-    const initialHeight = parseInt(initialBlockSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
 
     await page.keyboard.down("ArrowDown");
     await page.keyboard.up("ArrowDown");

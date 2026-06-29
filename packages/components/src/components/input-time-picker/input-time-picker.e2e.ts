@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
@@ -7,7 +6,6 @@ import { formatTimePart, getMeridiemOrder } from "../../utils/time";
 import { accessible, labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
-import { openClose } from "../../tests/commonTests";
 import { CSS as PopoverCSS } from "../popover/resources";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { letterKeys } from "../../utils/key";
@@ -72,14 +70,6 @@ it("resets initial value to empty when it is not a valid time value", async () =
   expect(await inputTimePicker.getProperty("value")).toBe("");
 });
 
-describe("openClose", () => {
-  openClose("calcite-input-time-picker");
-
-  describe("initially open", () => {
-    openClose.initial("calcite-input-time-picker");
-  });
-});
-
 it("allows resetting after value is set programmatically, modified via the time-picker then reset", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-input-time-picker></calcite-input-time-picker>`);
@@ -124,7 +114,7 @@ it("resets to previous value when default event behavior is prevented", async ()
   const inputTimePicker = await page.find("calcite-input-time-picker");
 
   await page.evaluate(() => {
-    const inputTimePicker = document.querySelector("calcite-input-time-picker");
+    const inputTimePicker = document.querySelector("calcite-input-time-picker")!;
     inputTimePicker.addEventListener("calciteInputTimePickerChange", (event) => {
       event.preventDefault();
     });
@@ -163,7 +153,7 @@ it("when set to readOnly, element still focusable but won't display the controls
   await component.click();
   await page.waitForChanges();
 
-  expect(await page.evaluate(() => document.activeElement.id)).toBe("canReadOnly");
+  expect(await page.evaluate(() => document.activeElement!.id)).toBe("canReadOnly");
   expect(await popover.getProperty("open")).toBe(false);
 
   await component.click();

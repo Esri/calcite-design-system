@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -28,6 +27,7 @@ import {
 import { CSS_UTILITY } from "../../utils/resources";
 import { InputPlacement, NumberNudgeDirection, SetValueOrigin } from "../input/interfaces";
 import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
@@ -37,7 +37,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
-import { MutableValidityState, useForm } from "../../controllers/useForm";
+import { useForm } from "../../controllers/useForm";
 import { CSS, ICONS, IDS, SLOTS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./input-number.scss";
@@ -76,7 +76,7 @@ export class InputNumber
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
 
-  defaultValue: InputNumber["value"];
+  defaultValue?: InputNumber["value"];
 
   private direction = useDirection();
 
@@ -84,21 +84,21 @@ export class InputNumber
     inputType: "number",
   })(this);
 
-  private inlineEditableEl: InlineEditable["el"];
+  private inlineEditableEl?: InlineEditable["el"];
 
   private inputWrapperRef = createRef<HTMLDivElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private maxString?: string;
 
   private minString?: string;
 
-  private nudgeNumberValueIntervalId: number;
+  private nudgeNumberValueIntervalId?: number;
 
-  private previousEmittedNumberValue: string;
+  private previousEmittedNumberValue?: string;
 
-  private previousValue: string;
+  private previousValue!: string;
 
   private previousValueOrigin: SetValueOrigin = "initial";
 
@@ -128,7 +128,7 @@ export class InputNumber
 
   //#region State Properties
 
-  @state() displayedValue: string;
+  @state() displayedValue!: string;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -143,9 +143,9 @@ export class InputNumber
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
-   * @mdn [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
-  @property() autocomplete: AutoFill;
+  @property() autocomplete?: AutoFill;
 
   /** When `true` and the component has a `value`, a clear button is displayed. */
   @property({ reflect: true }) clearable = false;
@@ -153,19 +153,15 @@ export class InputNumber
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
    *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
   /** @private */
   @property({ reflect: true }) editingEnabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
@@ -175,7 +171,7 @@ export class InputNumber
    *
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -184,10 +180,10 @@ export class InputNumber
   @property() integer = false;
 
   /** Specifies an accessible label for the component's button or hyperlink. */
-  @property() label: string;
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** When `true`, displays a busy indicator. */
   @property({ reflect: true }) loading = false;
@@ -203,68 +199,66 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @property({ reflect: true }) max: number;
+  @property({ reflect: true }) max?: number;
 
   /**
    * When the component resides in a form,
    * specifies the maximum length of text for the component's `value`.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @property({ reflect: true }) min: number;
+  @property({ reflect: true }) min?: number;
 
   /**
    * When the component resides in a form,
    * specifies the minimum length of text for the component's `value`.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component.
+   * @copyDoc
    *
-   * Required to pass the component's `value` on form submission.
-   *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the placement of the buttons. */
   @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the component's placeholder text.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /** Specifies text to display at the start of the component. */
-  @property() prefixText: string;
+  @property() prefixText?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -283,40 +277,28 @@ export class InputNumber
   /**
    * Specifies the granularity that the component's `value` must adhere to.
    *
-   * @mdn [step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
+   * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @property({ reflect: true }) step: number | "any";
+  @property({ reflect: true }) step?: number | "any";
 
   /** Specifies text to display at the end of the component. */
-  @property() suffixText: string;
+  @property() suffixText?: string;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property()
@@ -352,7 +334,7 @@ export class InputNumber
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -386,7 +368,7 @@ export class InputNumber
   }
 
   override connectedCallback(): void {
-    this.inlineEditableEl = this.el.closest("calcite-inline-editable");
+    this.inlineEditableEl = this.el.closest("calcite-inline-editable") ?? undefined;
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
@@ -415,11 +397,11 @@ export class InputNumber
 
   override willUpdate(changes: PropertyValues<this>): void {
     if (changes.has("max")) {
-      this.maxString = this.max?.toString() || null;
+      this.maxString = this.max?.toString() || undefined;
     }
 
     if (changes.has("min")) {
-      this.minString = this.min?.toString() || null;
+      this.minString = this.min?.toString() || undefined;
     }
 
     if (changes.has("icon")) {
@@ -512,7 +494,7 @@ export class InputNumber
 
     const adjustment = direction === "up" ? 1 : -1;
     const stepHandleInteger =
-      this.integer && this.step !== "any" ? Math.round(this.step) : this.step;
+      this.integer && typeof this.step === "number" ? Math.round(this.step) : this.step;
     const inputStep = stepHandleInteger === "any" ? 1 : Math.abs(stepHandleInteger || 1);
     const inputVal = new BigDecimal(value !== "" ? value : "0");
     const nudgedValue = inputVal.add(`${inputStep * adjustment}`);
@@ -571,8 +553,8 @@ export class InputNumber
     const composedPath = event.composedPath();
 
     if (
-      !composedPath.includes(this.inputWrapperRef.value) ||
-      composedPath.includes(this.actionWrapperRef.value)
+      !composedPath.includes(this.inputWrapperRef.value!) ||
+      composedPath.includes(this.actionWrapperRef.value!)
     ) {
       return;
     }
@@ -612,7 +594,9 @@ export class InputNumber
         origin: "user",
         value: parseNumberString(delocalizedValue),
       });
-      this.childNumberRef.value.value = this.displayedValue;
+      if (this.childNumberRef.value) {
+        this.childNumberRef.value.value = this.displayedValue;
+      }
     } else {
       this.setNumberValue({
         nativeEvent,
@@ -674,30 +658,38 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
       if (
         this.value &&
-        this.childNumberRef.value.value.indexOf(numberStringFormatter.decimal) === -1
+        this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (this.value && !/[eE]/.test(this.childNumberRef.value.value)) {
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        !/[eE]/.test(this.childNumberRef.value.value)
+      ) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!this.value && !this.childNumberRef.value.value) {
+      if (!this.value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (this.value && this.childNumberRef.value.value.split("-").length <= 2) {
+      if (
+        this.value &&
+        this.childNumberRef.value &&
+        this.childNumberRef.value.value.split("-").length <= 2
+      ) {
         return;
       }
     }
@@ -748,7 +740,8 @@ export class InputNumber
     }
 
     event.preventDefault();
-    const direction = (event.target as HTMLDivElement).dataset.adjustment as NumberNudgeDirection;
+    const direction = (event.currentTarget as HTMLDivElement).dataset
+      .adjustment as NumberNudgeDirection;
     if (!this.disabled) {
       this.nudgeNumberValue(direction, event);
     }
@@ -907,31 +900,34 @@ export class InputNumber
       </div>
     );
 
-    const inputClearButton = (
-      <button
-        ariaLabel={this.messages.clear}
+    const clearButton = (
+      <div
         class={CSS.clearButton}
-        disabled={this.disabled || this.readOnly}
-        onClick={this.clearInputValue}
-        tabIndex={-1}
-        type="button"
+        onClick={this.disabled || this.readOnly ? undefined : this.clearInputValue}
       >
-        <calcite-icon icon={ICONS.clear} scale={getIconScale(this.scale)} />
-      </button>
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          disabled={this.disabled || this.readOnly}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
     );
+
     const iconEl = (
-      <calcite-icon
-        class={CSS.inputIcon}
-        flipRtl={this.iconFlipRtl}
-        icon={this.requestedIcon}
-        scale={getIconScale(this.scale)}
-      />
+      <div class={CSS.inputIcon}>
+        <calcite-icon
+          flipRtl={this.iconFlipRtl}
+          icon={this.requestedIcon}
+          scale={getIconScale(this.scale)}
+        />
+      </div>
     );
 
     const isHorizontalNumberButton = this.numberButtonType === "horizontal";
 
     const numberButtonsHorizontalUp = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
@@ -939,19 +935,22 @@ export class InputNumber
         }}
         data-adjustment={DIRECTION.up}
         data-testid="number-button-up"
-        disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
         onPointerUp={this.nudgeButtonPointerUpHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronUp} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronUp}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsHorizontalDown = (
-      <button
+      <div
         ariaHidden="true"
         class={{
           [CSS.numberButtonItem]: true,
@@ -959,15 +958,18 @@ export class InputNumber
         }}
         data-adjustment={DIRECTION.down}
         data-testid="number-button-down"
-        disabled={this.disabled || this.readOnly}
         onPointerDown={this.nudgeButtonPointerDownHandler}
         onPointerOut={this.nudgeButtonPointerOutHandler}
         onPointerUp={this.nudgeButtonPointerUpHandler}
-        tabIndex={-1}
-        type="button"
       >
-        <calcite-icon icon={ICONS.chevronDown} scale={getIconScale(this.scale)} />
-      </button>
+        <calcite-action
+          disabled={this.disabled || this.readOnly}
+          icon={ICONS.chevronDown}
+          scale={this.scale}
+          tabIndex={-1}
+          text=""
+        />
+      </div>
     );
 
     const numberButtonsVertical = (
@@ -978,7 +980,6 @@ export class InputNumber
     );
 
     const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-
     const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
 
     const childEl = (
@@ -997,12 +998,11 @@ export class InputNumber
         key="localized-input"
         maxLength={this.maxLength}
         minLength={this.minLength}
-        name={undefined}
         onBlur={this.inputNumberBlurHandler}
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}
         onKeyDown={this.inputNumberKeyDownHandler}
-        // eslint-disable-next-line react/forbid-dom-props -- intentional onKeyUp usage
+        // eslint-disable-next-line @eslint-react/kit/forbid-dom-props -- intentional onKeyUp usage
         onKeyUp={this.inputNumberKeyUpHandler}
         placeholder={this.placeholder || ""}
         readOnly={this.readOnly}
@@ -1033,24 +1033,24 @@ export class InputNumber
           }}
           ref={this.inputWrapperRef}
         >
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalDown
-            : null}
-          {this.prefixText ? prefixText : null}
           <div class={CSS.wrapper}>
-            {childEl}
-            {this.isClearable ? inputClearButton : null}
-            {this.requestedIcon ? iconEl : null}
             {this.loading ? loader : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalDown
+              : null}
+            {this.prefixText ? prefixText : null}
+            {this.requestedIcon ? iconEl : null}
+            {childEl}
+            {this.isClearable ? clearButton : null}
+            {this.suffixText ? suffixText : null}
+            {this.numberButtonType === "horizontal" && !this.readOnly
+              ? numberButtonsHorizontalUp
+              : null}
+            {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
           </div>
           <div class={CSS.actionWrapper} ref={this.actionWrapperRef}>
             <slot name={SLOTS.action} />
           </div>
-          {this.numberButtonType === "vertical" && !this.readOnly ? numberButtonsVertical : null}
-          {this.suffixText ? suffixText : null}
-          {this.numberButtonType === "horizontal" && !this.readOnly
-            ? numberButtonsHorizontalUp
-            : null}
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

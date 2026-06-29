@@ -36,28 +36,32 @@ function allScaleComboboxBuilder(
       }
     </style>
 
-    ${selectionModes.map(
-      (selectionMode) => html`
-        <div class="selection-mode-group">
-          ${scales.map(
-            (scale) => html`
-              <div class="combobox-container">
-                <h3>${selectionMode} selection mode + ${scale} scale</h3>
-                <calcite-combobox
-                  placeholder="select element"
-                  max-items="10"
-                  selection-mode="${selectionMode}"
-                  open
-                  scale="${scale}"
-                >
-                  ${items}
-                </calcite-combobox>
-              </div>
-            `,
-          )}
-        </div>
-      `,
-    )}
+    ${selectionModes
+      .map(
+        (selectionMode) => html`
+          <div class="selection-mode-group">
+            ${scales
+              .map(
+                (scale) => html`
+                  <div class="combobox-container">
+                    <h3>${selectionMode} selection mode + ${scale} scale</h3>
+                    <calcite-combobox
+                      placeholder="select element"
+                      max-items="10"
+                      selection-mode="${selectionMode}"
+                      open
+                      scale="${scale}"
+                    >
+                      ${items}
+                    </calcite-combobox>
+                  </div>
+                `,
+              )
+              .join("")}
+          </div>
+        `,
+      )
+      .join("")}
   `;
 }
 
@@ -126,24 +130,38 @@ export const multiple = (): string => html`
     <h2>selection-display="all" (default)</h2>
     <calcite-label>
       Some selected
-      <calcite-combobox label="test" placeholder="Select items" max-items="10" scale="m" placeholder-icon="car">
+      <calcite-combobox
+        label="test"
+        placeholder="Select items"
+        max-items="10"
+        scale="m"
+        placeholder-icon="car"
+        select-all-enabled
+      >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
     </calcite-label>
     <calcite-label>
       All selected
-      <calcite-combobox label="test" placeholder="Select items" max-items="10" scale="m" placeholder-icon="car">
+      <calcite-combobox
+        label="test"
+        placeholder="Select items"
+        max-items="10"
+        scale="m"
+        placeholder-icon="car"
+        select-all-enabled
+      >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -159,12 +177,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -178,18 +197,19 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
     </calcite-label>
     <calcite-label>
-      All selected with multiple visible chips and overflow chip
+      All selected except disabled item
       <calcite-combobox
         label="test"
         placeholder="Select items"
@@ -197,18 +217,19 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
     </calcite-label>
     <calcite-label>
-      Some selected as a condensed indicator chip
+      All selected with disabled selected item
       <calcite-combobox
         label="test"
         placeholder="Select any items you want"
@@ -216,31 +237,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
-          <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
-        </calcite-combobox-item>
-      </calcite-combobox>
-    </calcite-label>
-    <calcite-label>
-      All selected as a condensed indicator chip
-      <calcite-combobox
-        label="test"
-        placeholder="Select any items you want"
-        max-items="10"
-        scale="m"
-        selection-display="fit"
-        placeholder-icon="car"
-      >
-        <calcite-combobox-item value="Trees" heading="Trees" selected>
-          <calcite-combobox-item selected value="Pine" selected heading="Pine">
-            <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
-          </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -254,12 +257,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -273,12 +277,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="fit"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia" selected></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -294,12 +299,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="single"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -313,12 +319,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="single"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -332,12 +339,13 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="single"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
             <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
           </calcite-combobox-item>
-          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia"></calcite-combobox-item>
+          <calcite-combobox-item value="Sequoia" disabled heading="Sequoia" disabled></calcite-combobox-item>
           <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
         </calcite-combobox-item>
       </calcite-combobox>
@@ -351,6 +359,7 @@ export const multiple = (): string => html`
         scale="m"
         selection-display="single"
         placeholder-icon="car"
+        select-all-enabled
       >
         <calcite-combobox-item value="Trees" heading="Trees" selected>
           <calcite-combobox-item selected value="Pine" selected heading="Pine">
@@ -1148,3 +1157,88 @@ export const maxItems = (): string =>
       </calcite-combobox-item>
     </calcite-combobox-item-group>
   </calcite-combobox>`;
+
+export const disabledEnabled = (): string => html`
+  <style>
+    .disabled-enabled-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      align-items: start;
+    }
+
+    .disabled-enabled-grid > calcite-combobox {
+      margin-bottom: 120px;
+    }
+  </style>
+  <div class="disabled-enabled-grid">
+    <calcite-combobox
+      selection-display="all"
+      selection-mode="multiple"
+      placeholder="placeholder"
+      select-all-enabled
+      open
+    >
+      <calcite-combobox-item value="Trees" heading="Trees" selected>
+        <calcite-combobox-item value="Pine" heading="Pine" selected>
+          <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Cedar" heading="Cedar" disabled></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox>
+
+    <calcite-combobox selection-mode="multiple" select-all-enabled selection-display="fit" open>
+      <calcite-combobox-item value="Trees" heading="Trees">
+        <calcite-combobox-item value="Pine" heading="Pine">
+          <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+        <calcite-combobox-item value="Cedar" heading="Cedar" disabled></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox>
+
+    <calcite-combobox
+      style="margin-top:450px; margin-bottom:30px;"
+      selection-mode="multiple"
+      selection-display="single"
+      select-all-enabled
+      open
+    >
+      <calcite-combobox-item value="Trees" heading="Trees">
+        <calcite-combobox-item value="Pine" heading="Pine" selected>
+          <calcite-combobox-item value="Pine Nested" heading="Pine Nested"></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" heading="Flowers" selected>
+        <calcite-combobox-item value="Daffodil" heading="Daffodil"></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" heading="Nasturtium" disabled></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox>
+
+    <calcite-combobox
+      style="margin-top:450px; margin-bottom:30px;"
+      selection-display="all"
+      selection-mode="ancestors"
+      select-all-enabled
+      open
+    >
+      <calcite-combobox-item value="Trees" heading="Trees" selected>
+        <calcite-combobox-item value="Pine" heading="Pine" selected>
+          <calcite-combobox-item value="Pine Nested" heading="Pine Nested" selected></calcite-combobox-item>
+        </calcite-combobox-item>
+        <calcite-combobox-item value="Sequoia" heading="Sequoia" disabled selected></calcite-combobox-item>
+        <calcite-combobox-item value="Douglas Fir" heading="Douglas Fir"></calcite-combobox-item>
+        <calcite-combobox-item value="Cedar" heading="Cedar" disabled></calcite-combobox-item>
+      </calcite-combobox-item>
+      <calcite-combobox-item value="Flowers" heading="Flowers">
+        <calcite-combobox-item value="Daffodil" heading="Daffodil" selected></calcite-combobox-item>
+        <calcite-combobox-item value="Nasturtium" heading="Nasturtium" disabled></calcite-combobox-item>
+      </calcite-combobox-item>
+    </calcite-combobox>
+  </div>
+`;
