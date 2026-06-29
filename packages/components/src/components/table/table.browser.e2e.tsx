@@ -38,26 +38,16 @@ async function afterScrollUpdate(): Promise<void> {
   await afterNextFrame();
 }
 
-function getRequiredElement<T extends Element>(root: ParentNode, selector: string): T {
-  const element = root.querySelector<T>(selector);
-
-  if (!element) {
-    throw new Error(`Expected element matching selector "${selector}".`);
-  }
-
-  return element;
-}
-
 function getTableContainer(table: Table["el"]): HTMLElement {
-  return getRequiredElement(table.shadowRoot!, `.${TABLE_CSS.tableContainer}`);
+  return table.shadowRoot!.querySelector<HTMLElement>(`.${TABLE_CSS.tableContainer}`)!;
 }
 
 function getTableRowElement(row: Element): HTMLTableRowElement {
-  return getRequiredElement(row.shadowRoot!, "tr");
+  return row.shadowRoot!.querySelector<HTMLTableRowElement>("tr")!;
 }
 
 function getTableCellElement(cell: Element): HTMLTableCellElement {
-  return getRequiredElement(cell.shadowRoot!, "td, th");
+  return cell.shadowRoot!.querySelector<HTMLTableCellElement>("td, th")!;
 }
 
 function getFocusedElementId(): string | null {
@@ -172,8 +162,8 @@ describe("sticky header", () => {
     );
 
     const scrollContainer = getTableContainer(el);
-    const headerRow = getRequiredElement(el, `calcite-table-row[slot="${SLOTS.tableHeader}"]`);
-    const firstBodyRow = getRequiredElement(el, "#row-1");
+    const headerRow = el.querySelector(`calcite-table-row[slot="${SLOTS.tableHeader}"]`)!;
+    const firstBodyRow = el.querySelector("#row-1")!;
     const headerRowEl = getTableRowElement(headerRow);
     const bodyRowEl = getTableRowElement(firstBodyRow);
 
@@ -215,10 +205,8 @@ describe("sticky header", () => {
 
     const tableContainer = getTableContainer(el);
     const containerBorderColor = getComputedStyle(tableContainer).borderTopColor;
-    const firstCell = getTableCellElement(getRequiredElement(el, "#row-1 calcite-table-cell"));
-    const lastRowFirstCell = getTableCellElement(
-      getRequiredElement(el, "#row-3 calcite-table-cell"),
-    );
+    const firstCell = getTableCellElement(el.querySelector("#row-1 calcite-table-cell"));
+    const lastRowFirstCell = getTableCellElement(el.querySelector("#row-3 calcite-table-cell"));
 
     expect(getComputedStyle(firstCell).borderBottomColor).toBe(containerBorderColor);
     expect(getComputedStyle(firstCell).borderBottomWidth).toBe("1px");
@@ -251,10 +239,10 @@ describe("sticky header", () => {
 
     const getMetrics = () => {
       const firstHeaderCell = getTableCellElement(
-        getRequiredElement(firstHeaderRow, "calcite-table-header"),
+        firstHeaderRow.querySelector("calcite-table-header"),
       );
       const secondHeaderCell = getTableCellElement(
-        getRequiredElement(secondHeaderRow, "calcite-table-header"),
+        secondHeaderRow.querySelector("calcite-table-header"),
       );
 
       return {
@@ -302,7 +290,7 @@ describe("sticky header", () => {
     await afterScrollUpdate();
     expect(scrollContainer.scrollTop).toBeGreaterThan(0);
 
-    const firstHeader = getRequiredElement<TableHeader["el"]>(el, "#head-1a");
+    const firstHeader = el.querySelector<TableHeader["el"]>("#head-1a")!;
 
     await firstHeader.setFocus({ preventScroll: true });
     await afterNextFrame();
@@ -340,9 +328,9 @@ describe("sticky header", () => {
       </calcite-table>,
     );
 
-    const rowspanCell = getTableCellElement(getRequiredElement(el, "#rowspan-cell"));
+    const rowspanCell = getTableCellElement(el.querySelector("#rowspan-cell"));
     const lastRowCell = getTableCellElement(
-      getRequiredElement(el, "calcite-table-row:last-of-type calcite-table-cell"),
+      el.querySelector("calcite-table-row:last-of-type calcite-table-cell"),
     );
 
     expect(getComputedStyle(rowspanCell).borderBottomWidth).toBe("0px");
@@ -366,8 +354,8 @@ describe("sticky header", () => {
     );
 
     const scrollContainer = getTableContainer(el);
-    const headerRow = getRequiredElement(el, `calcite-table-row[slot="${SLOTS.tableHeader}"]`);
-    const firstBodyRow = getRequiredElement(el, "#row-1");
+    const headerRow = el.querySelector(`calcite-table-row[slot="${SLOTS.tableHeader}"]`)!;
+    const firstBodyRow = el.querySelector("#row-1")!;
     const headerRowEl = getTableRowElement(headerRow);
     const bodyRowEl = getTableRowElement(firstBodyRow);
 
@@ -390,10 +378,9 @@ describe("sticky header", () => {
     expect(Math.abs(after.headerTop - before.headerTop)).toBeLessThanOrEqual(1);
     expect(after.bodyTop).toBeLessThan(before.bodyTop);
 
-    const firstSelectionCell = getRequiredElement<TableCell["el"]>(
-      firstBodyRow.shadowRoot!,
+    const firstSelectionCell = firstBodyRow.shadowRoot!.querySelector<TableCell["el"]>(
       "calcite-table-cell:first-child",
-    );
+    )!;
 
     firstSelectionCell.click();
     await afterNextFrame();
@@ -471,7 +458,7 @@ describe("keyboard navigation", () => {
       </calcite-table>,
     );
 
-    const firstCell = getRequiredElement<TableCell["el"]>(el, "#cell-1a");
+    const firstCell = el.querySelector<TableCell["el"]>("#cell-1a")!;
 
     await firstCell.setFocus();
     await afterNextFrame();
