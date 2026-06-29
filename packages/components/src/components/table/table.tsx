@@ -346,7 +346,7 @@ export class Table extends LitElement {
       this.tableContainerResizeObserver?.observe(tableContainer);
     }
 
-    if (table instanceof HTMLElement) {
+    if (table) {
       this.tableContainerResizeObserver?.observe(table);
     }
   }
