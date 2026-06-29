@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
