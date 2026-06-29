@@ -1377,6 +1377,24 @@
     "bicycle-travel-mode-f": 61914,
     "publish": 61915,
     "velocity-server": 61916,
-    "layer-stream-setting": 61917
+    "layer-stream-setting": 61917,
+    "arcgis-survey123": 61918,
+    "arcgis-quickcapture": 61919,
+    "total-station": 61920,
+    "gps-receiver": 61921,
+    "buttons": 61922,
+    "review-map": 61923,
+    "return-to-default": 61924,
+    "oriented-imagery-scene-only": 61925,
+    "parquet-feature-layer": 61926,
+    "vegetation-index": 61927,
+    "soil-adjusted-vegetation-index": 61928,
+    "snow-index": 61929,
+    "geology-index": 61930,
+    "fire-index": 61931,
+    "building-index": 61932,
+    "smart-search": 61933,
+    "weather-radar": 61934,
+    "user-save": 61935
   }
 }

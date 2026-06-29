@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -117,106 +116,13 @@ it("emits events when value is modified", async () => {
   expect(calciteInputTextChange).toHaveReceivedEventTimes(3);
 });
 
-it("renders clear button when clearable is requested and value is populated at load", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
-  const clearButton = await page.find("calcite-input-text >>> .clear-button");
-  expect(clearButton).not.toBe(null);
-  expect(clearButton.getAttribute("aria-label")).toBe("Clear value");
-});
-
-it("does not render clear button when clearable is requested and value is not populated", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable></calcite-input-text>`);
-
-  const clearButton = await page.find("calcite-input-text >>> .clear-button");
-  expect(clearButton).toBe(null);
-});
-
-it("does not render clear button when clearable is not requested", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text></calcite-input-text>`);
-
-  const clearButton = await page.find("calcite-input-text >>> .clear-button");
-  expect(clearButton).toBe(null);
-});
-
-it("when clearable is requested, value is cleared on escape key press", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
-
-  const element = await page.find("calcite-input-text");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-});
-
-it("when clearable is requested, value is cleared on clear button click", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
-
-  const element = await page.find("calcite-input-text");
-  const clearButton = await page.find("calcite-input-text >>> .clear-button");
-  await clearButton.click();
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-});
-
-it("when clearable is requested and clear button is clicked, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
-
-  const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
-  const element = await page.find("calcite-input-text");
-  const clearButton = await page.find("calcite-input-text >>> .clear-button");
-
-  await clearButton.click();
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputTextInput).toHaveReceivedEventTimes(1);
-});
-
-it("when clearable is requested and input is cleared via escape key, event is received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text clearable value="John Doe"></calcite-input-text>`);
-
-  const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
-  const element = await page.find("calcite-input-text");
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  expect(calciteInputTextInput).toHaveReceivedEventTimes(0);
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("");
-  expect(calciteInputTextInput).toHaveReceivedEventTimes(1);
-});
-
-it("when clearable is not requested and input is cleared via escape key, event is not received", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-text value="John Doe"></calcite-input-text>`);
-
-  const calciteInputTextInput = await page.spyOnEvent("calciteInputTextInput");
-  const element = await page.find("calcite-input-text");
-
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  expect(calciteInputTextInput).not.toHaveReceivedEvent();
-  await page.keyboard.press("Escape");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("John Doe");
-  expect(calciteInputTextInput).not.toHaveReceivedEvent();
-});
-
 it("allows restricting input length", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-text min-length="2" max-length="3" value=""></calcite-input-text>`);
 
   const getInputValidity = async () =>
     page.$eval("calcite-input-text", (element: InputText["el"]) => {
-      const input = element.shadowRoot.querySelector("input");
+      const input = element.shadowRoot!.querySelector("input")!;
       return input.validity.valid;
     });
 
@@ -351,182 +257,185 @@ testWorkaroundForGlobalPropRemoval("calcite-input-text");
 
 describe("theme", () => {
   describe("default", () => {
-    const componentTokens: ComponentTestTokens = {
+    themed("calcite-input-text", {
       "--calcite-input-text-corner-radius": {
         shadowSelector: `input`,
         targetProp: "borderRadius",
       },
-    };
-    themed(html`<calcite-input-text></calcite-input-text>`, componentTokens);
+    });
   });
-});
 
-describe("with prefix & suffix", () => {
-  const componentTokens: ComponentTestTokens = {
-    "--calcite-input-text-icon-color": {
-      shadowSelector: `.${CSS.inputIcon}`,
-      targetProp: "color",
-    },
-    "--calcite-input-prefix-size-x": {
-      shadowSelector: `.${CSS.prefix}`,
-      targetProp: "inlineSize",
-    },
-    "--calcite-input-prefix-text-color": {
-      shadowSelector: `.${CSS.prefix}`,
-      targetProp: "color",
-    },
-    "--calcite-input-suffix-size-x": {
-      shadowSelector: `.${CSS.suffix}`,
-      targetProp: "inlineSize",
-    },
-    "--calcite-input-suffix-text-color": {
-      shadowSelector: `.${CSS.suffix}`,
-      targetProp: "color",
-    },
-    "--calcite-input-text-background-color": {
-      shadowSelector: `input`,
-      targetProp: "backgroundColor",
-    },
-    "--calcite-input-text-border-color": [
-      {
+  // placeholder styles not working in Puppeteer/Node environment, restore once migrated to browser mode -- https://github.com/Esri/calcite-design-system/issues/11268
+  describe.todo("with placeholder", () => {
+    themed(html`<calcite-input-text placeholder="placeholder"></calcite-input-text>`, {
+      "--calcite-input-text-placeholder-text-color": {
+        shadowSelector: `input::placeholder`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with prefix & suffix", () => {
+    const componentTokens: ComponentTestTokens = {
+      "--calcite-input-text-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "color",
+      },
+      "--calcite-input-prefix-size-x": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-prefix-text-color": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-suffix-size-x": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-suffix-text-color": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-text-background-color": {
         shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-text-border-color": [
+        {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "borderColor",
+        },
+      ],
+      "--calcite-input-text-corner-radius": [
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `input`,
+          targetProp: "borderStartStartRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `input`,
+          targetProp: "borderStartEndRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `input`,
+          targetProp: "borderEndStartRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `input`,
+          targetProp: "borderEndEndRadius",
+          expectedValue: "0px",
+        },
+      ],
+      "--calcite-input-text-text-color": {
+        shadowSelector: `input`,
+        targetProp: "color",
+      },
+      "--calcite-input-text-text-color-focus": {
+        shadowSelector: `input`,
+        targetProp: "color",
+        state: "focus",
+      },
+    };
+    themed(
+      html`
+        <calcite-input-text prefix-text="prefix" suffix-text="suffix" value="Value" icon="layers"></calcite-input-text>
+      `,
+      componentTokens,
+    );
+  });
+
+  describe("clearable", () => {
+    const componentTokens: ComponentTestTokens = {
+      "--calcite-input-action-background-color": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-action-background-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-input-action-background-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> .button` },
+      },
+      "--calcite-input-action-icon-color": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+      },
+      "--calcite-input-action-icon-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-action-icon-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> calcite-icon ` },
+      },
+      "--calcite-input-text-border-color": {
+        shadowSelector: `.${CSS.clearButton}`,
         targetProp: "borderColor",
       },
-      {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "borderColor",
-      },
-      {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "borderColor",
-      },
-    ],
-    "--calcite-input-text-corner-radius": [
-      {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "borderStartStartRadius",
-      },
-      {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "borderEndStartRadius",
-      },
-      {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "borderStartEndRadius",
-      },
-      {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "borderEndEndRadius",
-      },
-      {
-        shadowSelector: `input`,
-        targetProp: "borderStartStartRadius",
-        expectedValue: "0px",
-      },
-      {
-        shadowSelector: `input`,
-        targetProp: "borderStartEndRadius",
-        expectedValue: "0px",
-      },
-      {
-        shadowSelector: `input`,
-        targetProp: "borderEndStartRadius",
-        expectedValue: "0px",
-      },
-      {
-        shadowSelector: `input`,
-        targetProp: "borderEndEndRadius",
-        expectedValue: "0px",
-      },
-    ],
-    "--calcite-input-text-text-color": {
-      shadowSelector: `input`,
-      targetProp: "color",
-    },
-    "--calcite-input-text-text-color-focus": {
-      shadowSelector: `input`,
-      targetProp: "color",
-      state: "focus",
-    },
-  };
-  themed(
-    html`
-      <calcite-input-text
-        placeholder="Placeholder text"
-        prefix-text="prefix"
-        suffix-text="suffix"
-        value="Value"
-        icon="layers"
-      ></calcite-input-text>
-    `,
-    componentTokens,
-  );
-});
+    };
 
-describe("clearable", () => {
-  const componentTokens: ComponentTestTokens = {
-    "--calcite-input-action-background-color": {
-      shadowSelector: `.${CSS.clearButton}`,
-      targetProp: "backgroundColor",
-    },
-    "--calcite-input-action-background-color-hover": {
-      shadowSelector: `.${CSS.clearButton}`,
-      targetProp: "backgroundColor",
-      state: "hover",
-    },
-    "--calcite-input-action-background-color-press": {
-      shadowSelector: `.${CSS.clearButton}`,
-      targetProp: "backgroundColor",
-      state: { press: `calcite-input-text >>> .${CSS.clearButton}` },
-    },
-    "--calcite-input-action-icon-color": {
-      shadowSelector: `.${CSS.clearButton} calcite-icon`,
-      targetProp: "color",
-    },
-    "--calcite-input-action-icon-color-hover": {
-      shadowSelector: `.${CSS.clearButton} calcite-icon`,
-      targetProp: "color",
-      state: "hover",
-    },
-    "--calcite-input-action-icon-color-press": {
-      shadowSelector: `.${CSS.clearButton} calcite-icon`,
-      targetProp: "color",
-      state: { press: `calcite-input-text >>> .${CSS.clearButton} calcite-icon ` },
-    },
-    "--calcite-input-text-border-color": {
-      shadowSelector: `.${CSS.clearButton}`,
-      targetProp: "borderColor",
-    },
-  };
+    themed(html`<calcite-input-text clearable value="Value"></calcite-input-text>`, componentTokens);
+  });
 
-  themed(html`<calcite-input-text clearable value="Value"></calcite-input-text>`, componentTokens);
-});
+  describe("readOnly", () => {
+    const componentTokens: ComponentTestTokens = {
+      "--calcite-input-text-background-color": {
+        shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-text-text-color-focus": {
+        shadowSelector: `input`,
+        targetProp: "color",
+        state: "focus",
+      },
+    };
+    themed(`<calcite-input-text read-only value="Value"></calcite-input-text>`, componentTokens);
+  });
 
-describe("readOnly", () => {
-  const componentTokens: ComponentTestTokens = {
-    "--calcite-input-text-background-color": {
-      shadowSelector: `input`,
-      targetProp: "backgroundColor",
-    },
-    "--calcite-input-text-text-color-focus": {
-      shadowSelector: `input`,
-      targetProp: "color",
-      state: "focus",
-    },
-  };
-  themed(`<calcite-input-text read-only value="Value"></calcite-input-text>`, componentTokens);
-});
-
-describe("loading", () => {
-  const componentTokens: ComponentTestTokens = {
-    "--calcite-input-loading-background-color": {
-      shadowSelector: "calcite-progress",
-      targetProp: "--calcite-progress-background-color",
-    },
-    "--calcite-input-loading-fill-color": {
-      shadowSelector: "calcite-progress",
-      targetProp: "--calcite-progress-fill-color",
-    },
-  };
-  themed(html`<calcite-input-text loading></calcite-input-text>`, componentTokens);
+  describe("loading", () => {
+    const componentTokens: ComponentTestTokens = {
+      "--calcite-input-loading-background-color": {
+        shadowSelector: "calcite-progress",
+        targetProp: "--calcite-progress-background-color",
+      },
+      "--calcite-input-loading-fill-color": {
+        shadowSelector: "calcite-progress",
+        targetProp: "--calcite-progress-fill-color",
+      },
+    };
+    themed(html`<calcite-input-text loading></calcite-input-text>`, componentTokens);
+  });
 });

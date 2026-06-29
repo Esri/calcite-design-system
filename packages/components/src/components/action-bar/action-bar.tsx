@@ -1,10 +1,19 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  focusElementInGroup,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -22,7 +31,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { getOverflowCount } from "../../utils/overflow";
-import { focusElementInGroup } from "../../utils/dom";
+import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
 import { overflowActions, queryActions } from "./utils";
@@ -55,9 +64,9 @@ export class ActionBar extends LitElement {
 
   private direction = useDirection();
 
-  private expandToggleEl: Action["el"];
+  private expandToggleEl?: Action["el"];
 
-  private actionGroups: ActionGroup["el"][];
+  private actionGroups: ActionGroup["el"][] = [];
 
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
@@ -69,7 +78,8 @@ export class ActionBar extends LitElement {
     if (
       overflowActionsDisabled ||
       (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width)
+      (layout === "horizontal" && !width) ||
+      !this.containerRef.value
     ) {
       return;
     }
@@ -162,7 +172,7 @@ export class ActionBar extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -174,7 +184,7 @@ export class ActionBar extends LitElement {
 
   //#region State Properties
 
-  @state() expandTooltip: Tooltip["el"];
+  @state() expandTooltip?: Tooltip["el"];
 
   @state() hasActionsEnd = false;
 
@@ -185,10 +195,10 @@ export class ActionBar extends LitElement {
   //#region Public Properties
 
   /** Specifies an accessible name for the last `calcite-action-group`. */
-  @property() actionsEndGroupLabel: string;
+  @property() actionsEndGroupLabel?: string;
 
   /** Specifies an accessible name for the first `calcite-action-group`. */
-  @property() actionsStartGroupLabel: string;
+  @property() actionsStartGroupLabel?: string;
 
   /**
    * When `true`, the component is in a floating state.
@@ -211,19 +221,13 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -234,7 +238,7 @@ export class ActionBar extends LitElement {
    *
    * When `expanded` is `true`, the chevron direction is reversed.
    */
-  @property({ reflect: true }) position: Extract<"start" | "end", Position>;
+  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /** Specifies the size of the expand `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -264,7 +268,7 @@ export class ActionBar extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -290,7 +294,10 @@ export class ActionBar extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteActionMenuOpen", this.actionMenuOpenHandler);
+    this.listen<ToEvents<ActionMenu>["calciteActionMenuOpen"]>(
+      "calciteActionMenuOpen",
+      this.actionMenuOpenHandler,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
@@ -456,7 +463,7 @@ export class ActionBar extends LitElement {
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
 
-    if (!isAction(current)) {
+    if (!isAction(current) || !actions.includes(current)) {
       return;
     }
 
@@ -486,8 +493,15 @@ export class ActionBar extends LitElement {
   }
 
   private setActionTabIndexes(active: Action["el"]): void {
-    this.actions.forEach((action: Action["el"]) => {
-      action.tabIndex = !action.disabled && action === active ? 0 : -1;
+    this.actions.forEach((action) => {
+      const tabIndex = !action.disabled && action === active ? 0 : -1;
+
+      if (tabIndex === 0) {
+        // action's internal button is tabbable by default, so we remove the attribute to avoid an extra tabbable element
+        action.removeAttribute("tabindex");
+      } else {
+        action.tabIndex = tabIndex;
+      }
     });
   }
 
@@ -508,9 +522,9 @@ export class ActionBar extends LitElement {
         collapseText={messages.collapse}
         direction={this.direction}
         el={el}
+        expanded={expanded}
         expandLabel={messages.expandLabel}
         expandText={messages.expand}
-        expanded={expanded}
         position={position}
         ref={this.setExpandToggleEl}
         scale={scale}

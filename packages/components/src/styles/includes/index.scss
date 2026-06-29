@@ -1,3 +1,11 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-action-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
+
 @use "sass:list";
 @use "@esri/calcite-design-tokens/dist/scss";
 @use "@esri/calcite-design-tokens/dist/scss/core";
@@ -176,52 +184,66 @@
   /* stylelint-enable selector-attribute-name-disallowed-list */
 }
 
-@mixin x-button(
-  $size: "var(--calcite-internal-close-size, 1.5rem)",
-  $padding: "0",
-  $color: "var(--calcite-close-icon-color, var(--calcite-color-text-1))",
-  $background-color: "var(--calcite-close-background-color, var(--calcite-color-transparent))",
-  $background-color-hover: "var(--calcite-close-background-color-hover, var(--calcite-color-transparent-hover))",
-  $background-color-press: "var(--calcite-close-background-color-press, var(--calcite-color-transparent-press))"
+@mixin clear-button(
+  $background-color: "--calcite-clear-button-background-color",
+  $background-color-hover: "--calcite-clear-button-background-color-hover",
+  $background-color-press: "--calcite-clear-button-background-color-press",
+  $icon-color: "--calcite-clear-button-icon-color",
+  $icon-color-hover: "--calcite-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-clear-button-icon-color-press"
 ) {
-  .x-button {
-    @apply transition-default;
-    border-style: none;
-    cursor: pointer;
-    outline-color: transparent;
-    align-items: center;
-    margin: 0;
-    background-color: #{$background-color};
-    -webkit-appearance: none;
+  .clear-button--container {
     display: flex;
-    align-content: center;
-    justify-content: center;
-    color: #{$color};
-    block-size: #{$size};
-    inline-size: #{$size};
-    min-block-size: #{$size};
-    min-inline-size: #{$size};
-    padding: #{$padding};
+    cursor: pointer;
+    align-items: center;
 
-    &:hover,
-    &:focus {
-      background-color: #{$background-color-hover};
-    }
-    &:focus {
-      @apply focus-inset;
+    &:hover calcite-action {
+      --calcite-action-background-color: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+      --calcite-action-text-color: var(#{$icon-color-hover}, var(--calcite-color-text-1));
     }
 
-    &:active {
-      background-color: #{$background-color-press};
+    &:active calcite-action {
+      --calcite-action-background-color: var(#{$background-color-press}, var(--calcite-color-border-2));
+      --calcite-action-text-color: var(#{$icon-color-press}, var(--calcite-color-text-1));
     }
 
-    calcite-icon {
-      color: inherit;
+    calcite-action {
+      --calcite-internal-action-height: 100%;
+      --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
+      --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+
+      --calcite-action-background-color: var(#{$background-color}, var(--calcite-color-foreground-2));
+      --calcite-action-text-color: var(#{$icon-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(--calcite-color-foreground-3));
+        --calcite-action-text-color-press: var(#{$icon-color-hover});
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(--calcite-color-border-2));
+        --calcite-action-text-color-press: var(#{$icon-color-press});
+      }
     }
   }
 
-  .x-button--round {
-    border-radius: 9999px;
+  :host([scale="s"]) {
+    .clear-button--container {
+      padding: var(--calcite-spacing-xxs);
+    }
+  }
+
+  :host([scale="m"]) {
+    .clear-button--container {
+      padding: var(--calcite-spacing-xxs);
+      padding-inline-end: var(--calcite-space-sm);
+    }
+  }
+
+  :host([scale="l"]) {
+    .clear-button--container {
+      padding-inline-end: var(--calcite-spacing-sm-plus);
+    }
   }
 }
 
@@ -259,24 +281,9 @@ $common-animatable-props: "background-color, block-size, border-color, box-shado
   }
 }
 
-@mixin input-placeholder-styles {
-  @apply font-normal;
-  color: var(--calcite-input-placeholder-text-color, var(--calcite-color-text-3));
-}
-
-// Placeholder styles
-// Do not combine these style rules. The browser interprets the rule as one. When combined, properties like -ms can not be found in non-Microsoft browsers and thus the whole selector is invalidated and is ignored.
-@mixin input-placeholder-text {
-  :-ms-input-placeholder {
-    @include input-placeholder-styles;
-  }
-
-  ::-ms-input-placeholder {
-    @include input-placeholder-styles;
-  }
-
+@mixin input-placeholder-text($placeholder-text-color: "--calcite-input-placeholder-text-color") {
   ::placeholder {
-    @include input-placeholder-styles;
+    @apply font-normal;
+    color: var(#{$placeholder-text-color}, var(--calcite-color-text-3));
   }
 }
-// End Placeholder styles

@@ -1,6 +1,6 @@
 import { Writable } from "type-fest";
 import { LitElement } from "@arcgis/lumina";
-import { makeGenericController } from "@arcgis/lumina/controllers";
+import { bypassReadOnly, makeGenericController } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
 import { kebabToPascal, uncapitalize } from "@arcgis/toolkit/string";
 import type { IconName } from "../components/icon/interfaces";
@@ -40,7 +40,7 @@ export type MutableValidityState = Writable<ValidityState>;
  *
  * Allows calling submit/reset methods on the form.
  */
-interface FormOwner extends LitElement {
+export interface FormOwnerComponent extends LitElement {
   /**
    * The ID of the form to associate with the component.
    *
@@ -48,7 +48,7 @@ interface FormOwner extends LitElement {
    *
    * Note that this prop should use the `@property` decorator.
    */
-  form: string;
+  form?: string;
 }
 
 /**
@@ -58,7 +58,7 @@ interface FormOwner extends LitElement {
  */
 export interface FormComponent<T = any>
   extends
-    FormOwner,
+    FormOwnerComponent,
     LitElement,
     SetFocusable,
     // 👇 needed, otherwise types don't come through when using FormComponent | CheckableFormComponent
@@ -78,7 +78,7 @@ export interface FormComponent<T = any>
    *
    * Note that this prop should use the `@property` decorator.
    */
-  name: string;
+  name?: string;
 
   /**
    * This form component's value.
@@ -94,7 +94,14 @@ export interface FormComponent<T = any>
    *
    * Note: this property will be initialized in the first update cycle, so make sure that the component's value is set before then to ensure defaultValue is properly initialized.
    */
-  defaultValue: T;
+  defaultValue?: T;
+
+  /**
+   * Sets the component's form validity state.
+   *
+   * This is needed specifically for radio-type elements whose validity state is synced with other elements in the same group.
+   */
+  setValidity?: (validity: ValidityStateFlags, validationMessage: string) => void;
 
   /** The validation icon to display. */
   validationIcon?: IconName | boolean;
@@ -111,7 +118,7 @@ export interface FormComponent<T = any>
  *
  * Along with the interface, use the matching form utils to help set up the component behavior.
  */
-interface CheckableFormComponent<T = any> extends FormComponent<T> {
+export interface CheckableFormComponent<T = any> extends FormComponent<T> {
   /** For boolean-valued components, this property defines whether the associated value is submitted to the form or not. */
   checked: boolean;
 
@@ -134,11 +141,20 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+interface ValidationComponent {
+  status?: Status;
+  validationIcon?: IconName | boolean;
+  validationMessage?: string;
+}
+
 function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
   return "form" in el && "name" in el && isCalciteFocusable(el);
 }
 
-function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
+export function displayValidationMessage(
+  component: ValidationComponent,
+  { status, message, icon }: ValidationProps,
+): void {
   if ("status" in component) {
     component.status = status;
   }
@@ -152,10 +168,26 @@ function displayValidationMessage(component: FormComponent, { status, message, i
   }
 }
 
+export function clearValidationMessage(component: ValidationComponent, validationMessage?: string): void {
+  if ("status" in component) {
+    component.status = "idle";
+  }
+
+  // only clear icon if not set by user
+  if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
+    component.validationIcon = false;
+  }
+
+  if ("validationMessage" in component && component.validationMessage === validationMessage) {
+    component.validationMessage = "";
+  }
+}
+
 function syncInternalInput(component: FormComponent, input: HTMLInputElement): void {
-  const { disabled, required } = component;
+  const { disabled, name, required } = component;
 
   input.disabled = disabled;
+  input.name = name || "";
   input.required = !!required;
 
   if (isCheckable(component)) {
@@ -225,7 +257,7 @@ export interface UseFormOptions {
   /**
    * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
    *
-   * Note: this is mostly intended for components that need to map their value differently
+   * Note: this is mostly intended for components that need to map their value differently (e.g., file type input passing its `files` property instead of `value`)
    */
   getValue?: () => any;
 
@@ -299,35 +331,39 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
+      const validationMessage = customValidityMessage || inputDelegate?.validationMessage || "";
+
+      displayValidationMessage(component, {
+        message: validationMessage,
+        icon: true,
+        status: "invalid",
+      });
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
         new CustomEvent("calciteInvalid", { bubbles: true, composed: true }),
       );
 
-      displayValidationMessage(component, {
-        message: validationMsg,
-        icon: true,
-        status: "invalid",
-      });
-
       const clearValidationEvent = getClearValidationEventName(component.el.tagName.toLowerCase());
 
       component.listen(
         clearValidationEvent,
         () => {
-          if ("status" in component) {
-            component.status = "idle";
-          }
+          clearValidationMessage(component, validationMessage);
 
-          // only clear icon if not set by user
-          if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
-            component.validationIcon = false;
-          }
-
-          if ("validationMessage" in component && component.validationMessage === validationMsg) {
-            component.validationMessage = "";
+          if (inputDelegate?.type === "radio") {
+            let group = component.elementInternals.form?.elements[component.name!];
+            if (group?.length > 0) {
+              group = Array.from(group).filter(
+                (element) => (element as HTMLElement).tagName === component.el.tagName,
+              ) as FormComponent["el"][];
+              const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
+              if (others?.length > 0) {
+                others.forEach((other) => {
+                  clearValidationMessage(other);
+                });
+              }
+            }
           }
         },
         { once: true },
@@ -355,30 +391,38 @@ export const useForm = <T extends FormComponent>(
         component.elementInternals.setFormValue(getFormValue());
       }
 
-      updateValidity();
+      if (component.hasUpdated) {
+        updateValidity();
+      }
     });
 
+    controller.onLoaded(() => updateValidity());
+
     function updateValidity(): void {
-      const { elementInternals } = component;
+      const { disabled, elementInternals } = component;
 
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
 
-      if (inputDelegate) {
-        inputDelegate.type = effectiveInputType!;
-        syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate(inputDelegate, getComponentValue()));
-      }
+      if (!disabled) {
+        if (inputDelegate) {
+          inputDelegate.type = effectiveInputType!;
+          syncInternalInput(component, inputDelegate);
+          ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
+        }
 
-      if (customValidityMessage) {
-        validity = { ...validity, customError: true };
-        validationMessage = customValidityMessage;
+        if (customValidityMessage) {
+          validity = { ...validity, customError: true };
+          validationMessage = customValidityMessage;
+        }
       }
 
       elementInternals.setValidity(validity, validationMessage);
 
       if ("validity" in component) {
-        component.validity = elementInternals.validity;
+        bypassReadOnly(() => {
+          component.validity = elementInternals.validity;
+        });
       }
     }
 
@@ -393,9 +437,11 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       const value = getComponentValue();
 
-      if (Array.isArray(value)) {
+      if (Array.isArray(value) || value instanceof FileList) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name, value));
+        for (const item of value) {
+          formData.append(component.name!, item);
+        }
         return formData;
       }
 

@@ -540,3 +540,17 @@ export const offsetPlacement = (): string => html`
     </calcite-dropdown-group>
   </calcite-dropdown>
 `;
+
+export const referenceElement = (): string => html`
+  <calcite-button id="my-dropdown">My Dropdown</calcite-button>
+  <calcite-dropdown reference-element="my-dropdown" open>
+    <calcite-dropdown-group group-title="Natural places">
+      <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+      <calcite-dropdown-item>River</calcite-dropdown-item>
+      <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+      <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+      <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+      <calcite-dropdown-item>Desert</calcite-dropdown-item>
+    </calcite-dropdown-group>
+  </calcite-dropdown>
+`;

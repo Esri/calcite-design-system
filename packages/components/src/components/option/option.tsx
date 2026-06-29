@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { trim } from "es-toolkit";
@@ -37,7 +36,7 @@ export class Option extends LitElement {
   })
   disabled = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** When `true`, the component is selected. */

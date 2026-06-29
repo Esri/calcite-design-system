@@ -1,37 +1,48 @@
 // @ts-check
 const {
   labels: { bug, issueWorkflow, issueType, priority, devEstimate, designEstimate, planning, handoff, productColor },
-  milestone,
+  milestones,
   packages,
 } = require("./resources");
 const { includesLabel, notInLifecycle } = require("./utils");
+const REPO_CALCITE = "calcite-design-system";
+const REPO_DOCS = "calcite-documentation";
 
 /**
- * @param {NodeJS.ProcessEnv} env
- * @param {import('@actions/core')} core
- * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string }}
- */
-function assertMondayEnv(env, core) {
-  if (!env.MONDAY_KEY || !env.MONDAY_BOARD) {
-    core.setFailed("A Monday.com env variable is not set.");
-    process.exit(1);
-  }
-}
-
-/**
- * @param {import('@octokit/webhooks-types').Issue} issue - The GitHub issue object
+ * @param {import('@octokit/webhooks-types').Issue | import('@octokit/webhooks-types').PullRequestClosedEvent["pull_request"]} issue - The GitHub issue or pull request object
  * @param {import('@actions/core')} core - The core library for logging and reporting workflow status
  * @param {import('./utils').UpdateBodyCallback} updateIssueBody - A callback to update the Issue body with correct context
  */
 module.exports = function Monday(issue, core, updateIssueBody) {
-  assertMondayEnv(process.env, core);
-  const { MONDAY_KEY, MONDAY_BOARD } = process.env;
-  if (!issue) {
-    core.setFailed("No GitHub issue provided.");
+  /**
+   * Declare the workflow as failed and exit the process.
+   * @param {string} message - The failure message to report
+   */
+  function failWorkflow(message) {
+    core.setFailed(message);
     process.exit(1);
   }
 
+  /**
+   * @param {NodeJS.ProcessEnv} env
+   * @returns {asserts env is NodeJS.ProcessEnv & { MONDAY_KEY: string; MONDAY_BOARD: string; GITHUB_REPO: typeof REPO_CALCITE | typeof REPO_DOCS; }}
+   */
+  function assertMondayEnv(env) {
+    if (!env.MONDAY_KEY || !env.MONDAY_BOARD || (env.GITHUB_REPO !== REPO_CALCITE && env.GITHUB_REPO !== REPO_DOCS)) {
+      failWorkflow("A Monday.com env variable is not set.");
+    }
+  }
+
+  assertMondayEnv(process.env);
+  const { MONDAY_KEY, MONDAY_BOARD, GITHUB_REPO } = process.env;
+  if (!issue) {
+    failWorkflow("No GitHub issue provided.");
+  }
+
   const { title, body, number: issueNumber, milestone: issueMilestone, labels, assignee, assignees, html_url } = issue;
+
+  /** @type {Record<string, string> | null} - The username mapping for the Doc repo, if provided and parsed **/
+  let usernameMap = null;
 
   /** @type {boolean} - Whether to create new column values in Monday.com if they do not exist */
   let createLabelsIfMissing = false;
@@ -42,6 +53,62 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   /** @type {Record<string, ColumnValue>} */
   let columnUpdates = {};
+
+  /**
+   * Parse the USERNAME_MAP environment variable as JSON and validate its structure.
+   * Fails the workflow if JSON is missing or invalid.
+   * @returns {Record<string, string>} The parsed username map object
+   */
+  function parseUsernameJSON() {
+    let parsed;
+    try {
+      parsed = JSON.parse(process.env.USERNAME_MAP || "{}");
+    } catch (error) {
+      failWorkflow(`Invalid Username JSON Map: ${error instanceof Error ? error.message : String(error)}`);
+    }
+
+    if (typeof parsed !== "object" || parsed === null) {
+      failWorkflow(`Username Map must be a non-null object`);
+    }
+
+    for (const [key, value] of Object.entries(parsed)) {
+      if (typeof value !== "string") {
+        throw new Error(`Value for key "${key}" must be a string`);
+      }
+    }
+
+    return parsed;
+  }
+
+  /**
+   * Return the appropriate username based on repository context and username mapping values.
+   * @param {string} publicUsername - The public GitHub username to map
+   * @return {string}
+   */
+  function getUsername(publicUsername) {
+    if (GITHUB_REPO === REPO_CALCITE) {
+      return publicUsername;
+    }
+
+    if (!usernameMap) {
+      usernameMap = parseUsernameJSON();
+    }
+
+    return usernameMap[publicUsername] || publicUsername;
+  }
+
+  /**
+   * Return the appropriate Monday.com column ID based on repository context.
+   * @param {{ calcite: string; docs: string }} columnIds - An object containing the column IDs for each repository
+   * @return {string} - The appropriate column ID for the current repository
+   */
+  function getColumnId(columnIds) {
+    if (GITHUB_REPO === REPO_DOCS) {
+      return columnIds.docs;
+    }
+
+    return columnIds.calcite;
+  }
 
   /** @typedef {object} MondayColumn
    * @property {string} id - The Monday.com column ID
@@ -71,7 +138,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       type: "multiAppendable",
     },
     status: { id: "dup__of_overall_status__1", title: "Status" },
-    date: { id: "date6", title: "Milestone" },
+    milestoneTitle: {
+      id: getColumnId({
+        calcite: "text_mm4fjj0n",
+        docs: "text_mm4fbb1a",
+      }),
+      title: "Milestone",
+    },
+    milestoneDate: { id: "date6", title: "Milestone Date" },
     priority: { id: "priority", title: "Priority" },
     typeDropdown: {
       id: "dropdown_mkwhjde2",
@@ -82,8 +156,9 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     designEstimate: { id: "numeric_mkw8yzkt", title: "Design Estimate" },
     devEstimate: { id: "numeric_mkswahrw", title: "Dev Estimate" },
     designIssue: { id: "color_mkswbke0", title: "Design Issue" },
-    stalled: { id: "color_mkv79bbx", title: "Stalled" },
+    paused: { id: "color_mkv79bbx", title: "Paused" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
+    breaking: { id: "color_mm48xr8j", title: "Breaking" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
     figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
@@ -102,13 +177,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.status,
         value: "Needs Triage",
-      },
-    ],
-    [
-      issueWorkflow.needsMilestone,
-      {
-        column: mondayColumns.status,
-        value: "Needs Milestone",
       },
     ],
     [
@@ -132,6 +200,22 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.blocked,
         value: "Blocked",
+        clearable: true,
+      },
+    ],
+    [
+      planning.breakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Breaking Change",
+        clearable: true,
+      },
+    ],
+    [
+      planning.futureBreakingChange,
+      {
+        column: mondayColumns.breaking,
+        value: "Future Breaking Change",
         clearable: true,
       },
     ],
@@ -284,6 +368,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
+      issueType.themeUpdate,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "Theme Update",
+        clearable: true,
+      },
+    ],
+    [
       priority.low,
       {
         column: mondayColumns.priority,
@@ -316,6 +408,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 1,
+        clearable: true,
       },
     ],
     [
@@ -323,6 +416,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 2,
+        clearable: true,
       },
     ],
     [
@@ -330,6 +424,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 3,
+        clearable: true,
       },
     ],
     [
@@ -337,6 +432,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
@@ -344,6 +440,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 8,
+        clearable: true,
       },
     ],
     [
@@ -351,6 +448,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
@@ -358,6 +456,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -365,27 +464,39 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.devEstimate,
         value: 34,
+        clearable: true,
       },
     ],
     [
-      designEstimate.small,
+      designEstimate.two,
+      {
+        column: mondayColumns.designEstimate,
+        value: 2,
+        clearable: true,
+      },
+    ],
+    [
+      designEstimate.five,
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
       },
     ],
     [
-      designEstimate.medium,
+      designEstimate.thirteen,
       {
         column: mondayColumns.designEstimate,
         value: 13,
+        clearable: true,
       },
     ],
     [
-      designEstimate.large,
+      designEstimate.twentyOne,
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
       },
     ],
     [
@@ -397,11 +508,18 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
-      milestone.stalled,
+      planning.paused,
       {
-        column: mondayColumns.stalled,
-        value: "Stalled",
+        column: mondayColumns.paused,
+        value: "Paused",
         clearable: true,
+      },
+    ],
+    [
+      issueType.pull_request,
+      {
+        column: mondayColumns.typeDropdown,
+        value: "PR",
       },
     ],
   ]);
@@ -414,24 +532,25 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   /** @type {Map<string, MondayPerson>} */
   const peopleMap = new Map([
     /* eslint-disable @cspell/spellchecker -- GitHub usernames */
-    ["anveshmekala", { role: mondayColumns.developers, id: 48387134 }],
-    ["aPreciado88", { role: mondayColumns.developers, id: 60795249 }],
-    ["ashetland", { role: mondayColumns.designers, id: 45851619 }],
-    ["brendan-vincent-rice", { role: mondayColumns.developers, id: 96903694 }],
-    ["chezHarper", { role: mondayColumns.designers, id: 71157966 }],
-    ["DintaMel", { role: mondayColumns.productEngineers, id: 92955697 }],
-    ["DitwanP", { role: mondayColumns.productEngineers, id: 53683093 }],
-    ["driskull", { role: mondayColumns.developers, id: 45944985 }],
-    ["Elijbet", { role: mondayColumns.developers, id: 55852207 }],
-    ["eriklharper", { role: mondayColumns.developers, id: 49699973 }],
-    ["geospatialem", { role: mondayColumns.productEngineers, id: 45853373 }],
-    ["isaacbraun", { role: mondayColumns.productEngineers, id: 76547859 }],
-    ["jcfranco", { role: mondayColumns.developers, id: 45854945 }],
-    ["macandcheese", { role: mondayColumns.developers, id: 45854918 }],
-    ["matgalla", { role: mondayColumns.designers, id: 69473378 }],
-    ["rmstinson", { role: mondayColumns.designers, id: 47277636 }],
-    ["SkyeSeitz", { role: mondayColumns.designers, id: 45854937 }],
-    ["Amretasre002762670", { role: mondayColumns.developers, id: 77031889 }],
+    [getUsername("anveshmekala"), { role: mondayColumns.developers, id: 48387134 }],
+    [getUsername("aPreciado88"), { role: mondayColumns.developers, id: 60795249 }],
+    [getUsername("ashetland"), { role: mondayColumns.designers, id: 45851619 }],
+    [getUsername("benelan"), { role: mondayColumns.developers, id: 104096847 }],
+    [getUsername("brendan-vincent-rice"), { role: mondayColumns.developers, id: 96903694 }],
+    [getUsername("chezHarper"), { role: mondayColumns.designers, id: 71157966 }],
+    [getUsername("DintaMel"), { role: mondayColumns.productEngineers, id: 92955697 }],
+    [getUsername("DitwanP"), { role: mondayColumns.productEngineers, id: 53683093 }],
+    [getUsername("driskull"), { role: mondayColumns.developers, id: 45944985 }],
+    [getUsername("Elijbet"), { role: mondayColumns.developers, id: 55852207 }],
+    [getUsername("eriklharper"), { role: mondayColumns.developers, id: 49699973 }],
+    [getUsername("geospatialem"), { role: mondayColumns.productEngineers, id: 45853373 }],
+    [getUsername("isaacbraun"), { role: mondayColumns.productEngineers, id: 76547859 }],
+    [getUsername("jcfranco"), { role: mondayColumns.developers, id: 45854945 }],
+    [getUsername("macandcheese"), { role: mondayColumns.developers, id: 45854918 }],
+    [getUsername("matgalla"), { role: mondayColumns.designers, id: 69473378 }],
+    [getUsername("rmstinson"), { role: mondayColumns.designers, id: 47277636 }],
+    [getUsername("SkyeSeitz"), { role: mondayColumns.designers, id: 45854937 }],
+    [getUsername("Amretasre002762670"), { role: mondayColumns.developers, id: 77031889 }],
     /* eslint-enable @cspell/spellchecker */
   ]);
 
@@ -802,9 +921,17 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       handleMilestone();
     }
 
-    const { id: syncId } = await getId();
+    if ("merged" in issue || issue.pull_request?.merged_at) {
+      handleState("closed");
+      addLabel(issueType.pull_request);
+    }
+
+    const { id: syncId, source } = await getId();
     if (syncId) {
-      core.notice(`Sync ID "${syncId}" provided, updating existing item instead of creating new.`, logParams);
+      core.notice(
+        `Sync ID "${syncId}" provided from "${source}", updating existing item instead of creating new.`,
+        logParams,
+      );
       setColumnValue(mondayColumns.title, issue.title);
       handleState();
 
@@ -881,40 +1008,31 @@ module.exports = function Monday(issue, core, updateIssueBody) {
   }
 
   /**
-   * Update columnUpdates based on milestone title
+   * Update columnUpdates based on milestone values.
+   * If no milestone is present, the milestone columns are cleared.
    */
   function handleMilestone() {
     const logParams = { title: "Handle Milestone" };
     if (!issueMilestone) {
-      setColumnValue(mondayColumns.date, "", logParams);
-      clearLabel(milestone.stalled);
+      setColumnValue(mondayColumns.milestoneTitle, "", logParams);
+      setColumnValue(mondayColumns.milestoneDate, "", logParams);
       return;
     }
-    const milestoneTitle = issueMilestone.title;
-    const milestoneDateRegex = /\d{4}-\d{2}-\d{2}/;
-    const milestoneDate = milestoneTitle.match(milestoneDateRegex)?.[0];
 
-    if (milestoneDate) {
-      setColumnValue(mondayColumns.date, milestoneDate, logParams);
-      clearLabel(milestone.stalled);
-      const { needsTriage, needsMilestone, installed, readyForDev } = issueWorkflow;
-      setAssignedStatus({
-        assignedCondition: notInLifecycle({
-          labels,
-          skip: [needsTriage, needsMilestone],
-        }),
-        unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
-      });
-    } else {
-      setColumnValue(mondayColumns.date, "", logParams);
+    // The milestone date is returned in ISO format (e.g., "2026-06-30T00:00:00Z"),
+    // but Monday requires just the date portion.
+    const milestoneDate = issueMilestone.due_on ? issueMilestone.due_on.slice(0, 10) : "";
+    setColumnValue(mondayColumns.milestoneTitle, issueMilestone.title, logParams);
+    setColumnValue(mondayColumns.milestoneDate, milestoneDate, logParams);
 
-      if (milestoneTitle === milestone.stalled) {
-        addLabel(milestone.stalled);
-      } else if (inMilestoneStatus()) {
-        setColumnValue(mondayColumns.status, milestoneTitle, logParams);
-        clearLabel(milestone.stalled);
-      }
-    }
+    const { needsTriage, installed, readyForDev } = issueWorkflow;
+    setAssignedStatus({
+      assignedCondition: notInLifecycle({
+        labels,
+        skip: [needsTriage],
+      }),
+      unassignedCondition: !includesLabel(labels, installed) && !includesLabel(labels, readyForDev),
+    });
   }
 
   /**
@@ -936,7 +1054,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     setColumnValue(mondayColumns.open, stateMap[issue.state], logParams);
 
     if (action === "closed") {
-      if (issue.state_reason !== "completed") {
+      if ("state_reason" in issue && issue.state_reason !== "completed") {
         setColumnValue(mondayColumns.status, CLOSED, logParams);
       } else if (includesLabel(issue.labels, issueType.design)) {
         setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);
@@ -968,12 +1086,6 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    */
   function addLabel(label, color = "") {
     if (label === planning.monday) {
-      return;
-    }
-
-    const { needsMilestone, readyForDev } = issueWorkflow;
-    if (label === needsMilestone && includesLabel(labels, readyForDev)) {
-      core.notice(`Skipping '${needsMilestone}' label as '${readyForDev}' is already applied.`, { title: "Add Label" });
       return;
     }
 
@@ -1035,7 +1147,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
    * @returns {boolean} - True if in a status milestone, false otherwise
    */
   function inMilestoneStatus() {
-    return [milestone.backlog, milestone.freezer].includes(issueMilestone?.title || "");
+    return [milestones.backlog.name, milestones.freezer.name].includes(issueMilestone?.title || "");
   }
 
   /**

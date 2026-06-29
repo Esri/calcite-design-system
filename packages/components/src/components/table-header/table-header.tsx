@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -53,24 +52,24 @@ export class TableHeader extends LitElement {
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /** @private */
-  @property() bodyRowCount: number;
+  @property() bodyRowCount!: number;
 
   /** Specifies the number of columns the component should span. */
-  @property({ reflect: true }) colSpan: number;
+  @property({ reflect: true }) colSpan?: number;
 
-  /** Specifies a description for the component. Displays below the `heading`. */
-  @property({ reflect: true }) description: string;
+  /** @copyDoc */
+  @property({ reflect: true }) description?: string;
 
-  /** Specifies the component's heading text. Displays above the `description`. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
   /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
   /** @private */
-  @property() lastCell: boolean;
+  @property() lastCell = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
@@ -80,31 +79,31 @@ export class TableHeader extends LitElement {
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */
-  @property() parentRowIsSelected: boolean;
+  @property() parentRowIsSelected = false;
 
   /** @private */
-  @property() parentRowType: RowType;
+  @property() parentRowType!: RowType;
 
   /** @private */
-  @property() positionInRow: number;
+  @property() positionInRow!: number;
 
   /** Specifies the number of rows the component should span. */
-  @property({ reflect: true }) rowSpan: number;
+  @property({ reflect: true }) rowSpan?: number;
 
   /** @private */
-  @property() scale: Scale;
+  @property() scale!: Scale;
 
   /** @private */
-  @property() selectedRowCount: number;
+  @property() selectedRowCount!: number;
 
   /** @private */
-  @property() selectedRowCountLocalized: string;
+  @property() selectedRowCountLocalized!: string;
 
   /** @private */
   @property() selectionCell = false;
 
   /** @private */
-  @property() selectionMode: SelectionMode;
+  @property() selectionMode!: SelectionMode;
 
   //#endregion
 
@@ -115,7 +114,7 @@ export class TableHeader extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {

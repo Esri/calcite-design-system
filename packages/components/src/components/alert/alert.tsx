@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -54,13 +53,13 @@ export class Alert extends LitElement {
 
   //#region Private Properties
 
-  private autoCloseTimeoutId: number = null;
+  private autoCloseTimeoutId?: number;
 
-  private initialOpenTime: number;
+  private initialOpenTime = -1;
 
-  private isHovered: boolean;
+  private isHovered = false;
 
-  private lastMouseOverBegin: number;
+  private lastMouseOverBegin = -1;
 
   transitionProp = "opacity" as const;
 
@@ -124,7 +123,7 @@ export class Alert extends LitElement {
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -140,13 +139,13 @@ export class Alert extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -169,11 +168,9 @@ export class Alert extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * @copyDoc
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -186,7 +183,7 @@ export class Alert extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -337,7 +334,7 @@ export class Alert extends LitElement {
 
   private clearAutoCloseTimeout(): void {
     window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
+    this.autoCloseTimeoutId = undefined;
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
@@ -425,25 +422,29 @@ export class Alert extends LitElement {
           [CSS.containerEmbedded]: this.embedded,
           [CSS.focused]: this.isFocused,
         }}
-        onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-        onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
-        popover={!this.embedded ? "manual" : null}
+        onPointerEnter={
+          this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : undefined
+        }
+        onPointerLeave={this.autoClose ? this.handleMouseLeave : undefined}
+        popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
         <div
           class={CSS.textContainer}
-          onFocusIn={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
-          onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
+          onFocusIn={
+            this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : undefined
+          }
+          onFocusOut={this.autoClose ? this.handleKeyBoardBlur : undefined}
         >
           <slot name={SLOTS.title} />
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
         {this.renderActionsEnd()}
-        {hasQueuedAlerts ? this.renderQueueCount() : null}
+        {hasQueuedAlerts ? this.renderQueueCount() : undefined}
         {this.renderCloseButton()}
-        {open && active && autoClose ? <div class={CSS.dismissProgress} /> : null}
+        {open && active && autoClose ? <div class={CSS.dismissProgress} /> : undefined}
       </div>
     );
   }
@@ -455,8 +456,8 @@ export class Alert extends LitElement {
         icon="x"
         label={this.messages.close}
         onClick={this.closeAlert}
-        onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
-        onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
+        onFocusIn={this.autoClose ? this.handleKeyBoardFocus : undefined}
+        onFocusOut={this.autoClose ? this.handleKeyBoardBlur : undefined}
         scale={this.scale}
         text={this.messages.close}
       />

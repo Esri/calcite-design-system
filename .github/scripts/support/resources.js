@@ -17,14 +17,16 @@ const resources = {
       i18nL10n: "i18n-l10n",
       newComponent: "new component",
       perf: "perf",
+      // "pr" is not a GitHub label, rather a keyword used to sync the `PR` issue type to Monday.com
+      pull_request: "pr",
       refactor: "refactor",
       research: "research",
       test: "testing",
       tooling: "tooling",
+      themeUpdate: "Theme Update",
     },
     issueWorkflow: {
       needsTriage: "needs triage",
-      needsMilestone: "needs milestone",
       inDesign: "1 - in design",
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
@@ -37,7 +39,10 @@ const resources = {
       spikeComplete: "spike complete",
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
+      breakingChange: "breaking change",
+      futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
+      paused: "paused",
     },
     priority: {
       low: "p - low",
@@ -63,16 +68,16 @@ const resources = {
       thirtyFour: "estimate - 34",
     },
     designEstimate: {
-      small: "estimate - design - 5",
-      medium: "estimate - design - 13",
-      large: "estimate - design - 21",
+      two: "estimate - design - 2",
+      five: "estimate - design - 5",
+      thirteen: "estimate - design - 13",
+      twentyOne: "estimate - design - 21",
     },
     productColor: "006B75",
   },
-  milestone: {
-    backlog: "Dev Backlog",
-    stalled: "Stalled",
-    freezer: "Freezer",
+  milestones: {
+    backlog: { name: "Backlog", number: 154 },
+    freezer: { name: "Freezer", number: 28 },
   },
   teams: {
     admins: "calcite-design-system-admins",
@@ -82,6 +87,10 @@ const resources = {
   packages: {
     tokens: "calcite-design-tokens",
     icons: "calcite-ui-icons",
+  },
+  groups: {
+    designers: "@Esri/calcite-designers",
+    pes: "@Esri/calcite-pes",
   },
 };
 

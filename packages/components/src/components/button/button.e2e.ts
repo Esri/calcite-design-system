@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { accessible, labelable, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -28,7 +27,7 @@ it("renders child element as disabled", async () => {
   expect(elementAsButton).toBeNull();
   expect(elementAsLink).not.toBeNull();
 
-  expect(await elementAsLink.getProperty("disabled")).toBe(null);
+  expect(await elementAsLink.getProperty("disabled")).toBeUndefined();
 });
 
 it("renders as a button with default props", async () => {
@@ -42,7 +41,6 @@ it("renders as a button with default props", async () => {
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(element).toEqualAttribute("kind", "brand");
   expect(element).toEqualAttribute("appearance", "solid");
   expect(element).toEqualAttribute("scale", "m");
@@ -115,7 +113,6 @@ it("renders as a link with default props", async () => {
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(element).toEqualAttribute("kind", "brand");
   expect(element).toEqualAttribute("appearance", "solid");
   expect(element).toEqualAttribute("scale", "m");
@@ -172,7 +169,6 @@ it("renders as a button with requested props", async () => {
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(element).toEqualAttribute("kind", "danger");
   expect(element).toEqualAttribute("appearance", "outline");
   expect(element).toEqualAttribute("scale", "l");
@@ -196,7 +192,6 @@ it("renders as a link with requested props", async () => {
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
 
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(element).toEqualAttribute("kind", "danger");
   expect(element).toEqualAttribute("appearance", "outline");
   expect(element).toEqualAttribute("scale", "l");
@@ -213,13 +208,11 @@ it("passes attributes to rendered child link", async () => {
   await page.setContent(
     `<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`,
   );
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).not.toBeNull();
   expect(elementAsButton).toBeNull();
   expect(elementAsLink).toEqualAttribute("href", "google.com");
@@ -233,13 +226,11 @@ it("passes attributes to rendered child link", async () => {
 it("passes attributes to rendered child button", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button type="reset" name="my-name">Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(elementAsButton).toEqualAttribute("type", "reset");
@@ -252,13 +243,11 @@ it("passes attributes to rendered child button", async () => {
 it("renders with an icon-start", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button icon-start='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).not.toBeNull();
@@ -269,13 +258,11 @@ it("renders with an icon-start", async () => {
 it("renders with an icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button icon-end='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).toBeNull();
@@ -286,13 +273,11 @@ it("renders with an icon-end", async () => {
 it("renders with an icon-start and icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).not.toBeNull();
@@ -318,13 +303,11 @@ it("renders hidden icon when both icon and loader are requested, no text", async
 it("renders with a loader and an icon-start when both icon-start and loader are requested", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button loading icon-start='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).not.toBeNull();
@@ -335,13 +318,11 @@ it("renders with a loader and an icon-start when both icon-start and loader are 
 it("renders with a loader and an icon-end when both icon-end and loader are requested", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button loading icon-end='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).toBeNull();
@@ -352,13 +333,11 @@ it("renders with a loader and an icon-end when both icon-end and loader are requ
 it("renders with a loader and an icon-start and icon-end when all are requested", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
-  const element = await page.find("calcite-button");
   const elementAsButton = await page.find("calcite-button >>> button");
   const elementAsLink = await page.find("calcite-button >>> a");
   const iconStart = await page.find(`calcite-button >>> .${CSS.iconStart}`);
   const iconEnd = await page.find(`calcite-button >>> .${CSS.iconEnd}`);
   const loader = await page.find(`calcite-button >>> .${CSS.buttonLoader} calcite-loader`);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(elementAsLink).toBeNull();
   expect(elementAsButton).not.toBeNull();
   expect(iconStart).not.toBeNull();

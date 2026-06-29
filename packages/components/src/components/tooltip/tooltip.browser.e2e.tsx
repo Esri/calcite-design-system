@@ -9,8 +9,10 @@ import {
   renders,
   floatingUIOwner,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { css } from "../../../support/formatting";
 import {
   HOVER_OPEN_DELAY_MS,
   HOVER_CLOSE_DELAY_MS,
@@ -248,7 +250,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Tooltip>(
           <>
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
             <div id="ref">referenceElement</div>
@@ -257,6 +259,62 @@ describe("floating-ui", () => {
       "open",
       { shadowSelector: `.${CSS.positionContainer}` },
     );
+  });
+
+  describe("openClose", () => {
+    openClose((mountOptions) =>
+      mount(
+        <>
+          <calcite-tooltip placement="auto" reference-element="ref">
+            content
+          </calcite-tooltip>
+          <button id="ref">referenceElement</button>
+        </>,
+        mountOptions,
+      ),
+    );
+
+    describe("parent has display none", () => {
+      openClose(
+        (mountOptions) =>
+          mount(
+            <>
+              <div class="container">
+                <div class="template">
+                  <calcite-tooltip placement="auto" reference-element="ref">
+                    content
+                  </calcite-tooltip>
+                  <button id="ref">referenceElement</button>
+                </div>
+              </div>
+              <button class="hoverOutsideContainer">some other content</button>
+              <style
+                ref={(el) => {
+                  if (el) {
+                    el.innerHTML = css`
+                      .container {
+                        height: 100px;
+                        width: 100px;
+                        border: 1px solid red;
+                      }
+                      .container:hover .template {
+                        display: initial;
+                      }
+                      .template {
+                        display: none;
+                      }
+                    `;
+                  }
+                }}
+              />
+            </>,
+            mountOptions,
+          ),
+        {
+          willUseFallback: true,
+        },
+      );
+    });
   });
 });
 

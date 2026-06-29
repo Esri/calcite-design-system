@@ -1,12 +1,14 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, openClose } from "../../tests/commonTests";
+import { accessible } from "../../tests/commonTests";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
+import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, REORDER_VALUES, SUBSTITUTIONS } from "./resources";
 import type { AddEventDetail, MoveEventDetail } from "./interfaces";
 import type { ReorderEventDetail } from "./interfaces";
+
+mockConsole();
 
 async function openSortHandle(page): Promise<void> {
   const action = await page.find(`calcite-sort-handle >>> .${CSS.handle}`);
@@ -68,9 +70,9 @@ it("fires calciteSortHandleReorder event", async () => {
 
   await page.keyboard.press("Enter");
   await page.waitForChanges();
-  expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[0]);
+  expect(calciteSortHandleReorderSpy.lastEvent!.detail.reorder).toBe(REORDER_VALUES[0]);
   expect(calciteSortHandleReorderSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleReorderSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleReorderSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleMove event", async () => {
@@ -100,9 +102,9 @@ it("fires calciteSortHandleMove event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleMoveSpy.lastEvent.detail.moveTo.id).toBe(moveToItems[1].id);
+  expect(calciteSortHandleMoveSpy.lastEvent!.detail.moveTo.id).toBe(moveToItems[1].id);
   expect(calciteSortHandleMoveSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleMoveSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleMoveSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("fires calciteSortHandleAdd event", async () => {
@@ -132,9 +134,9 @@ it("fires calciteSortHandleAdd event", async () => {
 
   await page.keyboard.press(" ");
   await page.waitForChanges();
-  expect(calciteSortHandleAddSpy.lastEvent.detail.addTo.id).toBe(addToItems[1].id);
+  expect(calciteSortHandleAddSpy.lastEvent!.detail.addTo.id).toBe(addToItems[1].id);
   expect(calciteSortHandleAddSpy).toHaveReceivedEventTimes(1);
-  expect(calciteSortHandleAddSpy.lastEvent.cancelable).toBe(true);
+  expect(calciteSortHandleAddSpy.lastEvent!.cancelable).toBe(true);
 });
 
 it("is disabled when no items are available, sort is disabled, set info is invalid, or all reorder actions are disabled", async () => {
@@ -230,7 +232,7 @@ it("does not emit reorder from disabled boundary items and still allows enabled 
 
   await reorderItems[2].click();
   await page.waitForChanges();
-  expect(calciteSortHandleReorderSpy.lastEvent.detail.reorder).toBe(REORDER_VALUES[2]);
+  expect(calciteSortHandleReorderSpy.lastEvent!.detail.reorder).toBe(REORDER_VALUES[2]);
 });
 
 it("hides reorder group title when it is the only visible group", async () => {
@@ -312,8 +314,4 @@ it("doesn't render reorder group when sortDisabled is true", async () => {
   await page.waitForChanges();
 
   expect(await page.find(`calcite-sort-handle >>> #${IDS.reorder}`)).toBeNull();
-});
-
-describe("openClose", () => {
-  openClose(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
 });

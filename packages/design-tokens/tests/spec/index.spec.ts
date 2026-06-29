@@ -17,9 +17,7 @@ const platforms: {
   { name: "docs", files: ["core", "global", "semantic"], internal: true },
 ];
 
-describe("generated tokens", () => {
-  platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
-});
+platforms.forEach(({ name, files, internal }) => generateTests(name, files, internal));
 
 /**
  * Generate test cases for a given platform and files

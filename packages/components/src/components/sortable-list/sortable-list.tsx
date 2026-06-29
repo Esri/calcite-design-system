@@ -1,18 +1,11 @@
-// @ts-strict-ignore
-import Sortable from "sortablejs";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
 import { HandleNudge } from "../handle/interfaces";
 import { Layout } from "../interfaces";
-import {
-  DragDetail,
-  connectSortableComponent,
-  disconnectSortableComponent,
-  SortableComponent,
-} from "../../utils/sortableComponent";
 import { focusElement } from "../../utils/dom";
 import { logger } from "../../utils/logger";
 import { useInteractive } from "../../controllers/useInteractive";
+import { DragDetail, useSortable } from "../../controllers/useSortable";
 import { CSS } from "./resources";
 import { styles } from "./sortable-list.scss";
 
@@ -26,7 +19,7 @@ declare global {
  * @deprecated Use the `calcite-block-group` component instead.
  * @slot - A slot for adding sortable items.
  */
-export class SortableList extends LitElement implements SortableComponent {
+export class SortableList extends LitElement {
   //#region Static Members
 
   static override styles = styles;
@@ -43,7 +36,7 @@ export class SortableList extends LitElement implements SortableComponent {
     this.setUpSorting();
   });
 
-  sortable: Sortable;
+  private sortable = useSortable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -111,7 +104,6 @@ export class SortableList extends LitElement implements SortableComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectSortableComponent(this);
     this.endObserving();
   }
 
@@ -192,7 +184,7 @@ export class SortableList extends LitElement implements SortableComponent {
 
   private setUpSorting(): void {
     this.items = Array.from(this.el.children);
-    connectSortableComponent(this);
+    this.sortable.reset();
   }
 
   private beginObserving(): void {

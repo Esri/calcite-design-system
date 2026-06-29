@@ -1,4 +1,4 @@
-import type { UseFormOptions } from "../useForm";
+import type { CheckableFormComponent, FormComponent, UseFormOptions } from "../useForm";
 
 const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
 
@@ -6,8 +6,55 @@ type ValidationResult = { validity: ValidityStateFlags; validationMessage: strin
 
 const allValid = Object.freeze({ validity: {}, validationMessage: "" });
 
-export function validate(input: HTMLInputElement, value: any): ValidationResult {
+export function validate({
+  component,
+  input,
+  value,
+}: {
+  component?: FormComponent;
+  input: HTMLInputElement;
+  value: any;
+}): ValidationResult {
   if (!Array.isArray(value)) {
+    /*
+     * This logic handles syncing each radio component's validity in a group, which is different than other form components whose validity state only depends upon itself.
+     *
+     * It does this by:
+     * 1) Finding every element in the component's form whose name matches the component's name
+     * 2) Filtering that set of elements by the component's tagName (to ensure they're all of the same element type)
+     * 3) Checking if any element in the group has required set (if any or all or some have required, the whole group is required)
+     * 4) Checking if any element in the group is currently checked/selected
+     * 5) If #3 is true and #4 is false, it is invalid since a required radio group must have a selected value
+     * 6) The validity and validationMessage properties are captured from the native input element passed in based on #3 and #4
+     * 7) The properties in #6 are applied just to the other radio elements in the same group as the current component
+     */
+    if (component && input.type === "radio") {
+      let group = component.elementInternals.form?.elements[component.name!];
+      if (group?.length > 0) {
+        group = Array.from(group).filter(
+          (element) => (element as HTMLElement).tagName === component.el.tagName,
+        ) as FormComponent[];
+
+        const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
+        const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
+        const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
+        const valueMissing = isRequired && !isChecked;
+
+        input.required = !!valueMissing;
+
+        const validity = getValidityFlags(input.validity);
+        const validationMessage = input.validationMessage;
+
+        if (others?.length > 0) {
+          others.forEach((other) => {
+            if (valueMissing !== other.validity?.valueMissing && other.setValidity) {
+              other.setValidity(validity, validationMessage);
+            }
+          });
+        }
+      }
+    }
+
     if (validateValue(input, value)) {
       return allValid;
     }
@@ -51,9 +98,16 @@ export function validate(input: HTMLInputElement, value: any): ValidationResult 
 }
 
 function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): boolean {
-  inputDelegate.value =
+  if (inputDelegate.type === "file") {
     // file will throw if non-empty string is provided
-    inputDelegate.type === "file" || valueToValidate == null ? "" : String(valueToValidate);
+    inputDelegate.value = "";
+
+    const isMissingValue = !valueToValidate || (valueToValidate instanceof FileList && valueToValidate.length === 0);
+    // we override the delegate's validation as its value and files prop cannot be directly set for validation
+    return !inputDelegate.required || !isMissingValue;
+  }
+
+  inputDelegate.value = valueToValidate == null ? "" : String(valueToValidate);
 
   return inputDelegate.validity.valid;
 }

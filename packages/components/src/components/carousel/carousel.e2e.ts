@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { accessible, themed } from "../../tests/commonTests";
@@ -71,6 +70,42 @@ describe("first render", () => {
 
     expect(nextButton).toBeNull();
     expect(prevButton).toBeNull();
+  });
+
+  it("should focus top pagination controls before item content", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      `<button id="before">before</button>
+       <calcite-carousel id="carousel" label="Carousel example" arrow-type="none" pagination-position="top">
+         <calcite-carousel-item label="Carousel Item 1">
+           <button id="item-button">item button</button>
+         </calcite-carousel-item>
+         <calcite-carousel-item label="Carousel Item 2">
+           <button>item button 2</button>
+         </calcite-carousel-item>
+       </calcite-carousel>`,
+    );
+
+    await page.waitForChanges();
+
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("before");
+
+    await page.keyboard.press("Tab");
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+
+    await page.keyboard.press("Tab");
+
+    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+    expect(
+      await page.$eval(
+        "#carousel",
+        (element: HTMLElement, selectedClass: string) =>
+          element.shadowRoot.activeElement?.classList.contains(selectedClass),
+        CSS.paginationItemIndividual,
+      ),
+    ).toBe(true);
   });
 });
 
@@ -503,7 +538,7 @@ describe("autoplay", () => {
     const carousel = await page.find("calcite-carousel");
     const playSpy = await page.spyOnEvent("calciteCarouselPlay");
     const stopSpy = await page.spyOnEvent("calciteCarouselStop");
-    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration")) + 250;
+    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration"), 10) + 250;
 
     let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
     expect(selectedItem.id).toEqual("two");

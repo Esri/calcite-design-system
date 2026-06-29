@@ -2,6 +2,9 @@ import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import { focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
+
+mockConsole();
 
 describe("is focusable", () => {
   focusable(() => mount(`calcite-dropdown-item`));

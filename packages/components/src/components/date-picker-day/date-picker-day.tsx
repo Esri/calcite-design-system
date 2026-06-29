@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -35,7 +34,7 @@ export class DatePickerDay extends LitElement {
 
   //#region Private Properties
 
-  private parentDatePickerEl: DatePicker["el"];
+  private parentDatePickerEl?: DatePicker["el"];
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -56,14 +55,14 @@ export class DatePickerDay extends LitElement {
    *
    * @private
    */
-  @property() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /**
    * Day of the month to be shown.
    *
    * @required
    */
-  @property() day: number;
+  @property() day!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -77,18 +76,11 @@ export class DatePickerDay extends LitElement {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
-  /**
-   * When `true`, highlight styling for edge dates is applied.
-   *
-   * @private
-   */
-  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
   /** Date is being hovered and within the set range. */
   @property({ reflect: true }) rangeHover = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
@@ -97,7 +89,7 @@ export class DatePickerDay extends LitElement {
   @property({ reflect: true }) startOfRange = false;
 
   /** The component's value. */
-  @property() value: Date;
+  @property() value!: Date;
 
   //#endregion
 
@@ -108,7 +100,7 @@ export class DatePickerDay extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -145,7 +137,8 @@ export class DatePickerDay extends LitElement {
   }
 
   load(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
+    this.parentDatePickerEl =
+      closestElementCrossShadowBoundary(this.el, "calcite-date-picker") ?? undefined;
   }
 
   //#endregion
@@ -193,7 +186,7 @@ export class DatePickerDay extends LitElement {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dayLabel = this.dateTimeFormat.format(this.value);
+    const dayLabel = this.dateTimeFormat.format(this.value) ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = dayLabel;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */

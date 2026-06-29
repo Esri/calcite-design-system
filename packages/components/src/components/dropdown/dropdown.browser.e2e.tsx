@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -12,9 +12,13 @@ import {
   floatingUIOwner,
   disabled,
   topLayer,
+  openClose,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import { Dropdown } from "./dropdown";
+import type { Dropdown } from "./dropdown";
+
+mockConsole();
 
 describe("defaults", () => {
   defaults(() => mount("calcite-dropdown"), {
@@ -61,7 +65,7 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-dropdown"));
 });
 
-function createSimpleDropdownHTML(): JsxNode {
+function renderDropdown(): JsxNode {
   return (
     <calcite-dropdown>
       <calcite-button slot="trigger">Open dropdown</calcite-button>
@@ -76,12 +80,38 @@ function createSimpleDropdownHTML(): JsxNode {
   );
 }
 
+function renderReferenceElementDropdown(): JsxNode {
+  return (
+    <>
+      <calcite-dropdown reference-element="trigger">
+        <calcite-dropdown-group id="group-1">
+          <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          <calcite-dropdown-item id="item-2" selected>
+            Dropdown Item Content
+          </calcite-dropdown-item>
+          <calcite-dropdown-item id="item-3">Dropdown Item Content</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+      <calcite-button id="trigger">Open dropdown</calcite-button>
+    </>
+  );
+}
+
+async function waitForSettledUpdate(
+  component: Dropdown["manager"]["component"],
+  updateCompletePromise: Promise<unknown>,
+): Promise<void> {
+  if ((await updateCompletePromise) === false) {
+    await component.updateComplete;
+  }
+}
+
 describe("renders", () => {
-  renders(() => mount(createSimpleDropdownHTML), { display: "inline-block" });
+  renders(() => mount(renderDropdown), { display: "inline-block" });
 });
 
 describe("focusable", () => {
-  focusable(() => mount(createSimpleDropdownHTML), {
+  focusable(() => mount(renderDropdown), {
     focusTargetSelector: '[slot="trigger"]',
   });
 });
@@ -89,7 +119,7 @@ describe("focusable", () => {
 describe("owns a floating-ui", () => {
   floatingUIOwner(
     () =>
-      mount(
+      mount<Dropdown>(
         <calcite-dropdown>
           <calcite-button slot="trigger">Open</calcite-button>
           <calcite-dropdown-group selection-mode="single">
@@ -135,12 +165,20 @@ describe("disabled", () => {
   );
 });
 
+describe("openClose", () => {
+  openClose((mountOptions) => mount(renderDropdown, mountOptions));
+
+  describe("with reference element", () => {
+    openClose((mountOptions) => mount(renderReferenceElementDropdown, mountOptions));
+  });
+});
+
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-dropdown"));
 });
 
 describe("hover type", () => {
-  function createHoverDropdownHTML(): JsxNode {
+  function renderHoverDropdownHTML(): JsxNode {
     return (
       <calcite-dropdown type="hover">
         <calcite-action id="trigger" slot="trigger">
@@ -157,7 +195,7 @@ describe("hover type", () => {
   }
 
   it("opens on focusin", async () => {
-    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
 
     expect(el.open).toBe(false);
 
@@ -168,7 +206,7 @@ describe("hover type", () => {
   });
 
   it("does not toggle closed on click when type is hover", async () => {
-    const { el } = await mount<Dropdown>(createHoverDropdownHTML);
+    const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
     expect(el.open).toBe(false);
@@ -185,7 +223,7 @@ describe("hover type", () => {
   it("closes when focus leaves trigger with Tab", async () => {
     const { el } = await mount<Dropdown>(
       <div>
-        {createHoverDropdownHTML()}
+        {renderHoverDropdownHTML()}
         <button id="next-focus-target" type="button">
           Next
         </button>
@@ -206,12 +244,21 @@ describe("hover type", () => {
 });
 
 describe("ariaActiveDescendantElement", () => {
-  function getTriggerSlotLocator() {
-    return page.getBySelector("calcite-dropdown slot").first();
+  function getSlottedTriggerLocator(): ReturnType<typeof page.elementLocator> {
+    const internalButton = page.getByRole("button", { name: "Open dropdown" }).element();
+    const triggerHost = (internalButton?.getRootNode() as ShadowRoot | null)?.host;
+
+    expect(triggerHost).toBeTruthy();
+
+    return page.elementLocator(triggerHost!);
   }
 
-  function getSlottedTriggerLocator() {
-    return page.getBySelector("calcite-dropdown [slot=trigger]");
+  function getTriggerSlotLocator(): ReturnType<typeof page.elementLocator> {
+    const slot = (getSlottedTriggerLocator().element() as HTMLElement | null)?.assignedSlot;
+
+    expect(slot).toBeTruthy();
+
+    return page.elementLocator(slot!);
   }
 
   function getActiveDescendantId(): string | undefined {
@@ -220,7 +267,7 @@ describe("ariaActiveDescendantElement", () => {
   }
 
   it("sets ariaActiveDescendantElement on the trigger slot when opened", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -229,7 +276,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("updates ariaActiveDescendantElement on keyboard navigation", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -241,7 +288,7 @@ describe("ariaActiveDescendantElement", () => {
   });
 
   it("wraps ariaActiveDescendantElement on ArrowUp navigation", async () => {
-    await mount<Dropdown>(createSimpleDropdownHTML);
+    await mount<Dropdown>(renderDropdown);
     const trigger = page.getByText("Open dropdown");
 
     await userEvent.click(trigger);
@@ -258,5 +305,354 @@ describe("ariaActiveDescendantElement", () => {
     activeDescendantId = getActiveDescendantId();
 
     expect(activeDescendantId).toBe("item-2");
+  });
+});
+
+describe("referenceElement keydown", () => {
+  function renderReferenceElementDropdownHTML(): JsxNode {
+    return (
+      <>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown reference-element="external-trigger">
+          <calcite-dropdown-group selection-mode="single">
+            <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>
+    );
+  }
+
+  it("opens when Enter is pressed on referenceElement", async () => {
+    const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const dropdownElement = trigger.element()?.nextElementSibling;
+
+    expect(dropdownElement).toBeTruthy();
+
+    const dropdown = page.elementLocator(dropdownElement!).element() as Dropdown;
+    const component = dropdown.manager.component;
+
+    expect(el.open).toBe(false);
+
+    const updateComplete = component.updateComplete;
+
+    (trigger.element() as HTMLElement | null)?.focus();
+    await userEvent.keyboard("{Enter}");
+    await waitForSettledUpdate(component, updateComplete);
+
+    expect(el.open).toBe(true);
+  });
+});
+
+describe("virtual referenceElement", () => {
+  function renderVirtualReferenceElementDropdownHTML(): JsxNode {
+    return (
+      <>
+        <button id="context-menu-target" type="button">
+          Open context menu
+        </button>
+        <calcite-dropdown>
+          <calcite-dropdown-group group-title="Natural places">
+            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+            <calcite-dropdown-item>Desert</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </>
+    );
+  }
+
+  it("opens and positions on first contextmenu interaction", async () => {
+    const contextMenuX = 120;
+    const contextMenuY = 160;
+    const { el } = await mount<Dropdown>(renderVirtualReferenceElementDropdownHTML);
+    let expectedReferenceX: number | undefined;
+    let expectedReferenceY: number | undefined;
+
+    const createVirtualElement = ({
+      clientX,
+      clientY,
+    }: MouseEvent): Dropdown["referenceElement"] => ({
+      getBoundingClientRect: () => ({
+        width: 0,
+        height: 0,
+        x: clientX,
+        y: clientY,
+        top: clientY,
+        left: clientX,
+        right: clientX,
+        bottom: clientY,
+      }),
+    });
+
+    const onContextMenu = (event: MouseEvent): void => {
+      event.preventDefault();
+      expectedReferenceX = event.clientX;
+      expectedReferenceY = event.clientY;
+      el.referenceElement = createVirtualElement(event);
+      el.open = true;
+    };
+
+    document.addEventListener("contextmenu", onContextMenu);
+
+    try {
+      const contextMenuTarget = page.getByRole("button", { name: "Open context menu" });
+
+      await contextMenuTarget.click({
+        button: "right",
+        force: true,
+        position: {
+          x: contextMenuX,
+          y: contextMenuY,
+        },
+      });
+
+      const menu = page.getByRole("menu");
+
+      await expect.poll(() => el.open).toBe(true);
+      await expect.element(menu).toBeVisible();
+
+      await expect
+        .poll(() => {
+          const wrapper = menu.element().parentElement as HTMLElement;
+          const hasPlacementData = wrapper.hasAttribute("data-placement");
+          const hasTranslateTransform = wrapper.style.transform.includes("translate(");
+
+          return hasPlacementData || hasTranslateTransform;
+        })
+        .toBe(true);
+
+      expect(el.referenceElement).toBeDefined();
+      expect(typeof el.referenceElement).not.toBe("string");
+
+      const referenceElement = el.referenceElement as Exclude<Dropdown["referenceElement"], string>;
+      expect(referenceElement).toBeTruthy();
+
+      const referenceRect = referenceElement!.getBoundingClientRect();
+
+      expect(expectedReferenceX).toBeDefined();
+      expect(expectedReferenceY).toBeDefined();
+      expect(referenceRect.x).toBe(expectedReferenceX);
+      expect(referenceRect.y).toBe(expectedReferenceY);
+    } finally {
+      document.removeEventListener("contextmenu", onContextMenu);
+    }
+  });
+});
+
+describe("keyboard navigation", () => {
+  function renderReferenceElementKeyboardDropdownHTML(options?: {
+    selectedItemId?: "item-1" | "item-2";
+    includeDisabledAndHiddenItems?: boolean;
+  }): JsxNode {
+    const { selectedItemId, includeDisabledAndHiddenItems } = options || {};
+
+    return (
+      <div>
+        <button id="external-trigger" type="button">
+          Open dropdown
+        </button>
+        <calcite-dropdown reference-element="external-trigger">
+          {includeDisabledAndHiddenItems ? (
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item disabled id="item-1">
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item disabled id="item-1.5">
+                1.5
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected>
+                2
+              </calcite-dropdown-item>
+              <calcite-dropdown-item hidden id="item-2.5">
+                2.5
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+              <calcite-dropdown-item hidden id="item-4">
+                4
+              </calcite-dropdown-item>
+            </calcite-dropdown-group>
+          ) : (
+            <calcite-dropdown-group selection-mode="single">
+              <calcite-dropdown-item id="item-1" selected={selectedItemId === "item-1"}>
+                1
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-2" selected={selectedItemId === "item-2"}>
+                2
+              </calcite-dropdown-item>
+              <calcite-dropdown-item id="item-3">3</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          )}
+        </calcite-dropdown>
+      </div>
+    );
+  }
+
+  function getReferenceElementExpandedState(): string {
+    return (
+      (getReferenceElementTrigger().element() as HTMLElement)?.getAttribute("aria-expanded") ?? ""
+    );
+  }
+
+  function getReferenceElementTrigger(): ReturnType<typeof page.getByRole> {
+    return page.getByRole("button", { name: "Open dropdown" });
+  }
+
+  function getDropdownLocator(): ReturnType<typeof page.elementLocator> {
+    const dropdown = getReferenceElementTrigger().element()?.nextElementSibling;
+
+    expect(dropdown).toBeTruthy();
+
+    return page.elementLocator(dropdown!);
+  }
+
+  async function waitForDropdownUpdateComplete(): Promise<void> {
+    const dropdown = getDropdownLocator().element() as Dropdown;
+    const component = dropdown.manager.component;
+    const updateComplete = component.updateComplete;
+
+    await waitForSettledUpdate(component, updateComplete);
+  }
+
+  const defaultItemIds = ["item-1", "item-2", "item-3"];
+  const disabledAndHiddenItemIds = ["item-1", "item-1.5", "item-2", "item-2.5", "item-3", "item-4"];
+
+  const dropdownItemTextById: Record<string, string> = {
+    "item-1": "1",
+    "item-1.5": "1.5",
+    "item-2": "2",
+    "item-2.5": "2.5",
+    "item-3": "3",
+    "item-4": "4",
+  };
+
+  function getDropdownItemLocator(itemId: string): ReturnType<typeof page.elementLocator> {
+    const itemText = dropdownItemTextById[itemId];
+    const itemContent = getDropdownLocator().getByText(itemText, { exact: true }).element();
+    const item = itemContent?.closest("calcite-dropdown-item");
+
+    expect(item).toBeTruthy();
+
+    return page.elementLocator(item!);
+  }
+
+  function getActiveItemId(itemIds: string[]): string {
+    const activeItemId = itemIds.find((itemId) => {
+      const item = getDropdownItemLocator(itemId);
+
+      return (item.element() as HTMLElement & { activeDescendant?: boolean }).activeDescendant;
+    });
+
+    expect(activeItemId).toBeTruthy();
+
+    return activeItemId!;
+  }
+
+  async function pressReferenceElementKey(key: string): Promise<void> {
+    (getReferenceElementTrigger().element() as HTMLElement | null)?.focus();
+    await userEvent.keyboard(`{${key}}`);
+    await waitForDropdownUpdateComplete();
+  }
+
+  it("supports navigating through items with arrow keys", async () => {
+    await mount<Dropdown>(() =>
+      renderReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-1" }),
+    );
+
+    await pressReferenceElementKey("Enter");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+  });
+
+  it("skips disabled and hidden items when navigating with arrow keys", async () => {
+    await mount<Dropdown>(() =>
+      renderReferenceElementKeyboardDropdownHTML({
+        includeDisabledAndHiddenItems: true,
+      }),
+    );
+
+    await pressReferenceElementKey("Enter");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(disabledAndHiddenItemIds)).toBe("item-3");
+  });
+
+  it("should open the dropdown and focus the first item with ArrowDown", async () => {
+    await mount<Dropdown>(() => renderReferenceElementKeyboardDropdownHTML());
+    await pressReferenceElementKey("ArrowDown");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+  });
+
+  it("should open the dropdown and focus the last item with ArrowUp when no item is selected", async () => {
+    await mount<Dropdown>(() => renderReferenceElementKeyboardDropdownHTML());
+    await pressReferenceElementKey("ArrowUp");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-1");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+  });
+
+  it("should open the dropdown and focus the last item with ArrowUp", async () => {
+    await mount<Dropdown>(() =>
+      renderReferenceElementKeyboardDropdownHTML({ selectedItemId: "item-2" }),
+    );
+    await pressReferenceElementKey("ArrowUp");
+
+    expect(getReferenceElementExpandedState()).toBe("true");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
+
+    await pressReferenceElementKey("ArrowUp");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-2");
+
+    await pressReferenceElementKey("ArrowDown");
+    expect(getActiveItemId(defaultItemIds)).toBe("item-3");
   });
 });
