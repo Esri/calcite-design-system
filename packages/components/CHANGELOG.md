@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.8...@esri/calcite-components@5.2.0-next.9) (2026-06-29)
+
+### Bug Fixes
+
+- **rating:** fix block size to not encroach on neighboring elements ([#14709](https://github.com/Esri/calcite-design-system/issues/14709)), closes [#14708](https://github.com/Esri/calcite-design-system/issues/14708)
+
+## [5.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.7...@esri/calcite-components@5.2.0-next.8) (2026-06-29)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.6...@esri/calcite-components@5.2.0-next.7) (2026-06-25)
 
 ### Features
