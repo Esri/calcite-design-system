@@ -34,7 +34,7 @@ const logLevels = {
 } as const;
 
 function willLog(level: LogLevel): level is Exclude<LogLevel, "off"> {
-  return logLevels[level] >= logLevels[getConfig().logLevel];
+  return level !== "off" && logLevels[level] >= logLevels[getConfig().logLevel];
 }
 
 function forwardToConsole(level: LogLevel, ...data: any[]): void {

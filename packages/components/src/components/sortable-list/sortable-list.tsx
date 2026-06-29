@@ -141,10 +141,10 @@ export class SortableList extends LitElement {
 
     const handle = event
       .composedPath()
-      .find((el): el is Handle["el"] => (el as HTMLElement).matches(this.handleSelector))!;
+      .find((el): el is Handle["el"] => (el as HTMLElement).matches(this.handleSelector));
 
     const sortItem = this.items.find((item) => {
-      return item.contains(handle) || event.composedPath().includes(item);
+      return (handle && item.contains(handle)) || event.composedPath().includes(item);
     })!;
 
     const lastIndex = this.items.length - 1;
@@ -181,7 +181,7 @@ export class SortableList extends LitElement {
     this.beginObserving();
     requestAnimationFrame(() => focusElement(handle));
 
-    if ("selected" in handle) {
+    if (handle && "selected" in handle) {
       handle.selected = true;
     }
   }
