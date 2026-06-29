@@ -101,17 +101,17 @@ describe("drag and drop", () => {
     calledTimes: number;
     component1CalledTimes: number;
     component2CalledTimes: number;
-    newIndex: number;
-    oldIndex: number;
+    newIndex?: number;
+    oldIndex?: number;
     fromEl: string;
     toEl: string;
     el: string;
     startCalledTimes: number;
     endCalledTimes: number;
-    endNewIndex: number;
-    endOldIndex: number;
-    startNewIndex: number;
-    startOldIndex: number;
+    endNewIndex?: number;
+    endOldIndex?: number;
+    startNewIndex?: number;
+    startOldIndex?: number;
   }>;
 
   it("works using a mouse", async () => {
@@ -128,20 +128,20 @@ describe("drag and drop", () => {
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = detail.newIndex!;
-        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
       });
       blockGroup.addEventListener("calciteBlockGroupDragEnd", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.endCalledTimes++;
-        testWindow.endNewIndex = detail.newIndex!;
-        testWindow.endOldIndex = detail.oldIndex!;
+        testWindow.endNewIndex = detail.newIndex;
+        testWindow.endOldIndex = detail.oldIndex;
       });
       blockGroup.addEventListener("calciteBlockGroupDragStart", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.startCalledTimes++;
-        testWindow.startNewIndex = detail.newIndex!;
-        testWindow.startOldIndex = detail.oldIndex!;
+        testWindow.startNewIndex = detail.newIndex;
+        testWindow.startOldIndex = detail.oldIndex;
       });
     });
 
@@ -427,8 +427,8 @@ describe("drag and drop", () => {
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = detail.newIndex!;
-        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
         testWindow.fromEl = detail.fromEl.id;
         testWindow.toEl = detail.toEl.id;
         testWindow.el = detail.dragEl.id;
@@ -520,8 +520,8 @@ describe("drag and drop", () => {
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.component1CalledTimes++;
-        testWindow.newIndex = detail.newIndex!;
-        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
         testWindow.fromEl = detail.fromEl.id;
         testWindow.toEl = detail.toEl.id;
         testWindow.el = detail.dragEl.id;
@@ -535,8 +535,8 @@ describe("drag and drop", () => {
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
         const detail = (event as CustomEvent<BlockDragDetail>).detail;
         testWindow.component2CalledTimes++;
-        testWindow.newIndex = detail.newIndex!;
-        testWindow.oldIndex = detail.oldIndex!;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
         testWindow.fromEl = detail.fromEl.id;
         testWindow.toEl = detail.toEl.id;
         testWindow.el = detail.dragEl.id;
