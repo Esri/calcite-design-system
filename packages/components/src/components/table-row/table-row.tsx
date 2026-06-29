@@ -345,7 +345,7 @@ export class TableRow extends LitElement {
       this.numberedHeaderRef.value,
       this.selectionCellRef.value,
       this.selectionHeaderRef.value,
-    ].filter((cell): cell is TableCell["el"] | TableHeader["el"] => cell != null);
+    ].filter((cell) => cell != null);
     const cells = renderedCells.concat(slottedCells);
 
     if (cells.length > 0) {
