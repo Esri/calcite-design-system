@@ -4,9 +4,10 @@
 export type ValueUnion<T> = T[keyof T];
 
 /**
- * This type is used to create a bivariant function type, which allows for more flexible type inference in certain situations. It is often used in event handler types to allow for both covariant and contravariant behavior.
+ * Creates a bivariant function type using TypeScript's method bivariance behavior.
+ * Commonly used for callback and event handler types.
  */
 export type BivariantHandler<Arg, Return> = {
-  // eslint-disable-next-line @typescript-eslint/method-signature-style
+  // eslint-disable-next-line @typescript-eslint/method-signature-style -- needed for bivariance see https://www.typescriptlang.org/tsconfig/#strictFunctionTypes
   bivarianceHack(detail: Arg): Return;
 }["bivarianceHack"];
