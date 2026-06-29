@@ -59,7 +59,7 @@
 // --calcite-internal-table-cell-font-size
 // --calcite-internal-table-cell-font-size-secondary
 // --calcite-internal-table-cell-padding
-// --calcite-internal-table-head-border-block-end-width
+// --calcite-internal-table-header-border-block-end-width
 // --calcite-internal-table-selection-action-spacing
 // --calcite-internal-table-sticky-header-border-shadow
 
@@ -94,7 +94,7 @@
 
 :host([sticky-header]) {
   --calcite-internal-table-border-collapse: separate;
-  --calcite-internal-table-head-border-block-end-width: 0;
+  --calcite-internal-table-header-border-block-end-width: 0;
   --calcite-internal-table-sticky-header-border-shadow: inset 0 calc(-1 * var(--calcite-border-width-sm)) 0 0
     var(--calcite-table-header-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
 }
