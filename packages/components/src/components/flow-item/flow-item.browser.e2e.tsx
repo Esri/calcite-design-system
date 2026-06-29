@@ -287,7 +287,7 @@ describe("focus trap", () => {
   });
 
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
-    const { component } = await mount<FlowItem>(
+    const { el } = await mount<FlowItem>(
       <>
         <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
           <button type="button">inside one</button>
@@ -300,12 +300,12 @@ describe("focus trap", () => {
     );
 
     const outsideControl = page.getByText("outside control", { exact: true });
-    const outsideControlEl = component.el.ownerDocument.getElementById(
+    const outsideControlEl = el.ownerDocument.getElementById(
       "flow-item-outside-control",
     ) as HTMLButtonElement;
 
-    component.el.focusTrapOptions = { extraContainers: [outsideControlEl] };
-    await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
+    el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
     await expect(outsideControl).toBeInTheDocument();
   });
 });

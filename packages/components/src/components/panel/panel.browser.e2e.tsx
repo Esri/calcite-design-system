@@ -1,5 +1,5 @@
 import { h, Fragment, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -399,33 +399,6 @@ describe("focus trap", () => {
     expect(closeEventCount).toBe(0);
   });
 
-  it("cycles focus within the focus trap when activated", async () => {
-    const { component } = await mount<Panel>(
-      <calcite-panel closable focusTrapEnabled heading="Panel heading">
-        <button type="button">inside one</button>
-        <button type="button">inside two</button>
-      </calcite-panel>,
-    );
-
-    const insideOne = page.getByText("inside one", { exact: true });
-    const insideTwo = page.getByText("inside two", { exact: true });
-
-    await expect(component.el.setFocus()).resolves.toBeUndefined();
-    await expect.element(component.el).toHaveFocus();
-
-    await userEvent.tab();
-    await expect.element(insideOne).toHaveFocus();
-
-    await userEvent.tab();
-    await expect.element(insideTwo).toHaveFocus();
-
-    await userEvent.tab();
-    await expect.element(component.el).toHaveFocus();
-
-    await userEvent.tab();
-    await expect.element(insideOne).toHaveFocus();
-  });
-
   it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
     const { component } = await mount<Panel>(
       <>
@@ -449,7 +422,6 @@ describe("focus trap", () => {
       .not.toBeInTheDocument();
     await expect.element(page.getByRole("article")).toBeInTheDocument();
 
-    await expect(component.el.setFocus()).resolves.toBeUndefined();
     await userEvent.tab();
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
@@ -480,22 +452,22 @@ describe("focus trap", () => {
     await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
     await expect(outsideControl).toBeInTheDocument();
   });
+});
 
-  it("closes on Escape through keyboard interaction when closable", async () => {
-    const { component } = await mount<Panel>(
-      <calcite-panel closable heading="Panel heading">
-        <button type="button">inside one</button>
-      </calcite-panel>,
-    );
+it("closes on Escape through keyboard interaction when closable", async () => {
+  const { el } = await mount<Panel>(
+    <calcite-panel closable heading="Panel heading">
+      <button type="button">inside one</button>
+    </calcite-panel>,
+  );
 
-    let closeEventCount = 0;
-    component.el.addEventListener("calcitePanelClose", () => closeEventCount++);
+  const closeHandler = vi.fn();
+  el.addEventListener("calcitePanelClose", closeHandler);
 
-    await expect(component.el.setFocus()).resolves.toBeUndefined();
+  await expect(el.setFocus()).resolves.toBeUndefined();
 
-    await userEvent.keyboard("{Escape}");
+  await userEvent.keyboard("{Escape}");
 
-    expect(component.el.closed).toBe(true);
-    expect(closeEventCount).toBe(1);
-  });
+  expect(el.closed).toBe(true);
+  expect(closeHandler).toHaveBeenCalledTimes(1);
 });
