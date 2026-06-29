@@ -264,9 +264,9 @@ export class ColorPicker extends LitElement {
 
   @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
-  @state() colorFieldScopeLeft?: number;
+  @state() colorFieldScopeLeft: number = 0;
 
-  @state() colorFieldScopeTop?: number;
+  @state() colorFieldScopeTop: number = 0;
 
   @state() staticDimensions = STATIC_DIMENSIONS.m;
 
@@ -1683,7 +1683,9 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                (clearable && !channelValue) || channelValue === undefined
+                  ? channelValue
+                  : alphaToOpacity(channelValue);
             }
 
             /* the channel container is ltr, so we apply the host's direction */

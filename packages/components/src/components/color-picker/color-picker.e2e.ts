@@ -259,7 +259,7 @@ it("does not emit on initialization", async () => {
   const page = await newProgrammaticE2EPage();
 
   const emitted = await page.evaluate(() => {
-    const emitted = [];
+    const emitted: string[] = [];
     document.addEventListener("calciteColorPickerInput", () => emitted.push("input"));
     document.addEventListener("calciteColorPickerChange", () => emitted.push("change"));
 
@@ -732,7 +732,7 @@ it("does not allow text selection when color field/sliders are used", async () =
 describe("unsupported value handling", () => {
   let page: E2EPage;
 
-  async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
+  async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | undefined): Promise<void> {
     const picker = await page.find("calcite-color-picker");
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     const currentValue = await picker.getProperty("value");
