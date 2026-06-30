@@ -2,8 +2,35 @@ import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+} from "../../tests/commonTests/browser";
 import type { Link } from "./link";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-link>link</calcite-link>));
+  });
+
+  describe("with href", () => {
+    accessible(() => mount(<calcite-link href="/">link</calcite-link>));
+  });
+
+  describe("with icons", () => {
+    accessible(() =>
+      mount(
+        <calcite-link href="/" icon-end="plus" icon-start="plus">
+          Go
+        </calcite-link>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

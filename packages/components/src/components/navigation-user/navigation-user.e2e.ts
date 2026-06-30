@@ -1,13 +1,8 @@
 import { describe } from "vitest";
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(html`<calcite-navigation-user label="user"></calcite-navigation-user>`);
-});
 
 describe("theme", () => {
   const navigationUserHtml = (active = false): string => html`

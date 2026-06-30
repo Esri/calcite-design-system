@@ -16,7 +16,7 @@ declare global {
 }
 
 /**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
+ * @slot content-top - A slot for adding non-actionable elements above the component's content.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
  */
 export class Tile extends LitElement implements SelectableComponent {

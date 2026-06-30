@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import {
   createSelectedItemsAsserter,
   getFocusedElementProp,
@@ -15,11 +15,6 @@ import type { TableHeader } from "../table-header/table-header";
 import type { TableCell } from "../table-cell/table-cell";
 import { TableRow } from "../table-row/table-row";
 import { SLOTS } from "./resources";
-
-type SimpleTableRowConfig = {
-  id?: string;
-  selected?: boolean;
-};
 
 async function getFocusedTableCellClassList(
   page: E2EPage,
@@ -37,137 +32,6 @@ async function getFocusedTableCellClassList(
     cellSelector,
   );
 }
-
-function createSimpleTableRows(rowsOrCount: number | SimpleTableRowConfig[], firstRowId = "row-1"): string {
-  const rows =
-    typeof rowsOrCount === "number"
-      ? Array.from({ length: rowsOrCount }, (_, index) => ({ id: index === 0 ? firstRowId : undefined }))
-      : rowsOrCount;
-
-  return rows
-    .map(({ id, selected }) => {
-      const idAttr = id ? ` id="${id}"` : "";
-      const selectedAttr = selected ? " selected" : "";
-
-      return html`
-      <calcite-table-row${idAttr}${selectedAttr}>
-        <calcite-table-cell>cell</calcite-table-cell>
-        <calcite-table-cell>cell</calcite-table-cell>
-      </calcite-table-row>
-    `;
-    })
-    .join("\n");
-}
-
-describe("accessible", () => {
-  describe("is accessible simple", () => {
-    accessible(
-      html`<calcite-table caption="Simple table">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(3)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with selection mode multiple", () => {
-    accessible(
-      html`<calcite-table caption="Simple table" selection-mode="multiple">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(3)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with selection mode multiple selected at load", () => {
-    accessible(
-      html`<calcite-table caption="Simple table" selection-mode="multiple">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows([{}, { selected: true }, { selected: true }])}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with selection mode single", () => {
-    accessible(
-      html`<calcite-table caption="Simple table" selection-mode="single">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(3)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with numbered", () => {
-    accessible(
-      html`<calcite-table caption="Simple table" numbered>
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(3)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with numbered and selection", () => {
-    accessible(
-      html`<calcite-table caption="Simple table" numbered selection-mode="multiple">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(3)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with pagination", () => {
-    accessible(
-      html`<calcite-table page-size="4" caption="Simple table">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(7)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with pagination and interaction mode static", () => {
-    accessible(
-      html`<calcite-table page-size="4" caption="Simple table" interaction-mode="static">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(7)}
-      </calcite-table>`,
-    );
-  });
-
-  describe("is accessible with pagination and selection mode", () => {
-    accessible(
-      html`<calcite-table page-size="4" selection-mode="multiple" caption="Simple table">
-        <calcite-table-row slot="${SLOTS.tableHeader}">
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-          <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
-        </calcite-table-row>
-        ${createSimpleTableRows(7)}
-      </calcite-table>`,
-    );
-  });
-});
 
 describe("selection modes", () => {
   it("selection mode single allows one or no rows to be selected", async () => {

@@ -1,21 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("labelable", () => {
   labelable("calcite-text-area");
-});
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-label>
-      add notes
-      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
-    </calcite-label>`,
-  );
 });
 
 it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {

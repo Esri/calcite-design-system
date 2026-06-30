@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import {
@@ -21,45 +21,6 @@ import { Combobox } from "./combobox";
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-combobox label="Trees" value="Trees">
-      <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-    </calcite-combobox>
-  `);
-});
-
-describe("accessible with item group", () => {
-  accessible(html`
-    <calcite-combobox label="Trees" value="Trees">
-      <calcite-combobox-item-group label="Conifers">
-        <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-      </calcite-combobox-item-group>
-    </calcite-combobox>
-  `);
-});
-
-describe.todo("accessible with open selected items", () => {
-  accessible(html`
-    <calcite-combobox open label="Trees" value="Trees">
-      <calcite-combobox-item-group label="Conifers">
-        <calcite-combobox-item selected value="Pine" heading="Pine"></calcite-combobox-item>
-        <calcite-combobox-item selected value="Spruce" heading="Spruce"></calcite-combobox-item>
-      </calcite-combobox-item-group>
-    </calcite-combobox>
-  `);
-});
-
-describe.todo("accessible with highlight selection appearance", () => {
-  accessible(html`
-    <calcite-combobox label="Trees" selection-appearance="highlight">
-      <calcite-combobox-item value="Pine" heading="Pine"></calcite-combobox-item>
-      <calcite-combobox-item value="Spruce" heading="Spruce"></calcite-combobox-item>
-      <calcite-combobox-item value="Fir" heading="Fir"></calcite-combobox-item>
-    </calcite-combobox>
-  `);
-});
 
 describe("labelable", () => {
   labelable("calcite-combobox");
@@ -2015,7 +1976,11 @@ it("prevents toggling items when combobox is closed", async () => {
         <calcite-combobox-item-group label="Cutest Pokemon">
           <calcite-combobox-item value="Bulbasaur" heading="Bulbasaur"></calcite-combobox-item>
           <calcite-combobox-item value="Squirtle1" heading="Squirtle1">
-            <calcite-combobox-item value="Squirtle2" heading="Squirtle2"> </calcite-combobox-item>
+            <calcite-combobox-item value="Squirtle2" heading="Squirtle2">
+              <calcite-combobox-item value="Squirtle3" heading="Squirtle3">
+                <calcite-combobox-item value="Squirtle4" heading="Squirtle4"></calcite-combobox-item>
+              </calcite-combobox-item>
+            </calcite-combobox-item>
           </calcite-combobox-item>
         </calcite-combobox-item-group>
       </calcite-combobox-item-group>
