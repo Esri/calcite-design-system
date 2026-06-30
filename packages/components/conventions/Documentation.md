@@ -41,7 +41,7 @@ To add shared component documentation definitions, perform the following:
       },
     ...
   ```
-- Use the `@copyDoc` tag in the component file in place of the description. If a matching category and name exists in `copyDocDefinitions`, in this case `properties` and `checked`, then the documentation will use the associated description. In the example below, the description would read "When `true`, the component is checked."
+- Use the `@copyDoc` tag in the component file in place of the description. If a matching section and name exists in `copyDocDefinitions`, in this case `properties` and `checked`, then the documentation will use the associated description. In the example below, the description would read "When `true`, the component is checked."
 
   ```tsx
   /** @copyDoc */
