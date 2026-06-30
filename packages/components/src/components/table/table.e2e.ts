@@ -87,9 +87,9 @@ describe("selection modes", () => {
 
     await page.waitForChanges();
     expect(tableSelectSpy).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
-    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
     expect(await row1.getProperty("selected")).toBe(true);
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
@@ -202,9 +202,9 @@ describe("selection modes", () => {
 
     await page.waitForChanges();
     expect(tableSelectSpy).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
-    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
     expect(await row1.getProperty("selected")).toBe(true);
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
@@ -318,9 +318,9 @@ describe("selection modes", () => {
     await page.waitForChanges();
 
     expect(tableSelectSpy).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
-    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
     expect(await row1.getProperty("selected")).toBe(true);
     expect(await row2.getProperty("selected")).toBe(false);
     expect(await row3.getProperty("selected")).toBe(false);
@@ -428,9 +428,9 @@ describe("selection modes", () => {
     await page.keyboard.press("Enter");
     await page.waitForChanges();
     expect(tableSelectSpy).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy1).toHaveReceivedEventTimes(1);
-    expect(await rowSelectSpy2).toHaveReceivedEventTimes(0);
-    expect(await rowSelectSpy3).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy1).toHaveReceivedEventTimes(1);
+    expect(rowSelectSpy2).toHaveReceivedEventTimes(0);
+    expect(rowSelectSpy3).toHaveReceivedEventTimes(0);
     expect(await row1.getProperty("selected")).toBe(true);
     expect(await row2.getProperty("selected")).toBe(true);
     expect(await row3.getProperty("selected")).toBe(true);
