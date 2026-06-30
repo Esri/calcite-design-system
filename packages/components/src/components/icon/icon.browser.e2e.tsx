@@ -1,11 +1,15 @@
 import { h } from "@arcgis/lumina";
+import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import type { Icon } from "./icon";
 import { scaleToPx } from "./utils";
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-icon icon="a-z" text-label="sort options" />));
+});
 
 describe("defaults", () => {
   defaults(

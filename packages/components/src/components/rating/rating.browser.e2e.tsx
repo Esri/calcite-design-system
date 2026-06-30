@@ -11,8 +11,13 @@ import {
   renders,
   t9n,
   formAssociated,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-rating`));
+});
 
 describe("defaults", () => {
   defaults(

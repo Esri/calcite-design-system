@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { describe } from "vitest";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Graph } from "./graph";
 import { CSS } from "./resources";
@@ -26,20 +26,6 @@ async function createGraphWithData(): Promise<E2EPage> {
   await page.waitForChanges();
   return page;
 }
-
-describe("accessible", () => {
-  accessible("calcite-graph");
-});
-
-describe("accessible: with data", () => {
-  let page: E2EPage;
-
-  beforeEach(async () => {
-    page = await createGraphWithData();
-  });
-
-  accessible(() => ({ tag: "calcite-graph", page }));
-});
 
 describe("theme", () => {
   themed(

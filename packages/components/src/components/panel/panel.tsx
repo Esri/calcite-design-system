@@ -34,6 +34,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
@@ -70,7 +71,7 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
   private panelScrollEl?: HTMLElement;
 
@@ -86,6 +87,20 @@ export class Panel extends LitElement {
   private _closed = false;
 
   private focusSetter = useSetFocus<this>()(this);
+
+  private focusTrapController = useFocusTrap<this>({
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && this.closable) {
+          this.emitCloseEvent();
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -173,6 +188,24 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /**
+   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
+   * @private
+   */
+  @property({ reflect: true }) focusTrapEnabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component, where
+   *
+   * `"allowOutsideClick"` allows outside clicks,
+   * `"initialFocus"` enables initial focus,
+   * `"returnFocusOnDeactivate"` returns focus when not active,
+   * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
+   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @private
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
+
   /** @copyDoc */
   @property() menuFlipPlacements?: FlipPlacement[];
 
@@ -231,6 +264,20 @@ export class Panel extends LitElement {
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   * @private
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrapController.setExtraContainers(extraContainers);
+    this.focusTrapController.updateContainerElements();
+  }
+
   //#endregion
 
   //#region Events
@@ -270,6 +317,16 @@ export class Panel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("focusTrapEnabled") || changes.has("closable") || changes.has("closed")) {
+      if (!this.closed && this.closable && this.focusTrapEnabled) {
+        this.focusTrapController.activate();
+      } else {
+        this.focusTrapController.deactivate();
+      }
+    }
+  }
+
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -277,6 +334,11 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.focusTrapEnabled || !this.closable || this.closed;
+  }
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
@@ -320,10 +382,12 @@ export class Panel extends LitElement {
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      this.emitCloseEvent();
+    if (event.key !== "Escape" || event.defaultPrevented || this.closed || !this.closable) {
+      return;
     }
+
+    event.preventDefault();
+    this.emitCloseEvent();
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
@@ -723,16 +787,26 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed } = this;
+    const { disabled, loading, closed, heading, description, focusTrapEnabled, closable } = this;
+    const hasDialogRole = focusTrapEnabled && closable;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
+      <div
+        ariaBusy={loading}
+        ariaDescription={hasDialogRole && description ? description : undefined}
+        ariaLabel={hasDialogRole && heading ? heading : undefined}
+        ariaLive={hasDialogRole ? "polite" : undefined}
+        class={CSS.container}
+        hidden={closed}
+        ref={this.containerRef}
+        role={hasDialogRole ? "dialog" : "article"}
+      >
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
         <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-      </article>
+      </div>
     );
 
     return (

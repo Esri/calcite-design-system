@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
+import { accessible, defaults, reflects, hidden, renders } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
@@ -23,6 +23,27 @@ async function closeTitleById(
   await userEvent.click(closeButton);
   await component.updateComplete;
 }
+
+function createTabsContent(): JsxNode {
+  return (
+    <>
+      <calcite-tab-nav slot="title-group">
+        <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
+        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
+        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
+        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
+      </calcite-tab-nav>
+      <calcite-tab selected>Tab 1 Content</calcite-tab>
+      <calcite-tab>Tab 2 Content</calcite-tab>
+      <calcite-tab>Tab 3 Content</calcite-tab>
+      <calcite-tab>Tab 4 Content</calcite-tab>
+    </>
+  );
+}
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>));
+});
 
 describe("defaults", () => {
   defaults(
@@ -49,23 +70,6 @@ describe("reflects", () => {
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-tabs"));
 });
-
-function createTabsContent(): JsxNode {
-  return (
-    <>
-      <calcite-tab-nav slot="title-group">
-        <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 2 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 3 Title</calcite-tab-title>
-        <calcite-tab-title>Tab 4 Title</calcite-tab-title>
-      </calcite-tab-nav>
-      <calcite-tab selected>Tab 1 Content</calcite-tab>
-      <calcite-tab>Tab 2 Content</calcite-tab>
-      <calcite-tab>Tab 3 Content</calcite-tab>
-      <calcite-tab>Tab 4 Content</calcite-tab>
-    </>
-  );
-}
 
 describe("renders", () => {
   renders(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>), { display: "flex" });
