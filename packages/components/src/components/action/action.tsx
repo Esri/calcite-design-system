@@ -265,7 +265,7 @@ export class Action extends LitElement {
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
-        class={CSS.indicatorText}
+        class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"
       >
