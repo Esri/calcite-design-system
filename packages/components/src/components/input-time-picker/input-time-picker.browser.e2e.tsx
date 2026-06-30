@@ -13,6 +13,7 @@ import {
   t9n,
   openClose,
   formAssociated,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -22,6 +23,20 @@ import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-input-time-picker"));
+  });
+
+  describe("with label", () => {
+    accessible(() => mount(<calcite-input-time-picker label="Input Time Picker" />));
+  });
+
+  describe("using seconds", () => {
+    accessible(() => mount(<calcite-input-time-picker step={1} value="00:00:00" />));
+  });
+});
 
 describe("defaults", () => {
   defaults(

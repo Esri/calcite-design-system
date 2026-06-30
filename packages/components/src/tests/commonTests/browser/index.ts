@@ -1,3 +1,4 @@
+export { accessible } from "./accessible";
 export { cancelable } from "./cancelable";
 export { defaults } from "./defaults";
 export { disabled } from "./disabled";

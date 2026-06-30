@@ -14,11 +14,24 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(async () => {
+    const openEvent = waitForEvent(document, "calciteDialogOpen");
+    const renderResult = await mount(
+      <calcite-dialog description="My description" heading="My dialog" open={true} />,
+    );
+    await openEvent;
+    return renderResult;
+  });
+});
 
 describe("defaults", () => {
   defaults(

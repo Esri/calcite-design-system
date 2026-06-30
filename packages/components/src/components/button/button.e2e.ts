@@ -1,6 +1,6 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -50,26 +50,6 @@ it("renders as a button with default props", async () => {
   expect(iconStart).toBeNull();
   expect(iconEnd).toBeNull();
   expect(loader).toBeNull();
-});
-
-describe("accessible", () => {
-  accessible(`<calcite-button>Continue</calcite-button>`);
-});
-
-describe("accessible: href", () => {
-  accessible(`<calcite-button href="/">Continue</calcite-button>`);
-});
-
-describe("accessible: style props", () => {
-  accessible(`<calcite-button kind="danger" scale="l" width="half" appearance="outline">Continue</calcite-button>`);
-});
-
-describe("accessible: href and target", () => {
-  accessible(`<calcite-button rel="noopener noreferrer" target="_blank" href="google.com">Continue</calcite-button>`);
-});
-
-describe("accessible: icons and loading", () => {
-  accessible(`<calcite-button loading icon-start='plus' icon-end='plus'>Continue</calcite-button>`);
 });
 
 describe("labelable", () => {
