@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -8,11 +8,6 @@ import { CSS } from "./resources";
 const placeholderUrl = placeholderImage({
   width: 120,
   height: 120,
-});
-
-describe("accessible", () => {
-  accessible("calcite-avatar");
-  accessible(`<calcite-avatar thumbnail="${placeholderUrl}"></calcite-avatar>`);
 });
 
 it("renders thumbnail when provided", async () => {
@@ -33,8 +28,13 @@ it("computes a background fill color based on user id", async () => {
   const page = await newE2EPage();
   await page.setContent("<calcite-avatar user-id='25684463a00c449585dbb32a065f6b74'></calcite-avatar>");
   const style = await page.evaluate(() => {
-    const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
-    return background.getAttribute("style");
+    const avatar = document.querySelector("calcite-avatar");
+
+    if (!avatar?.shadowRoot) {
+      return null;
+    }
+
+    return avatar.shadowRoot.querySelector(".background")?.getAttribute("style") ?? null;
   });
   expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(206, 60%, 90%));");
 });
@@ -45,8 +45,13 @@ it("computes a background fill if id is not a valid hex", async () => {
   const initials = await page.find("calcite-avatar >>> .initials");
   expect(initials).toEqualText("TH");
   const style = await page.evaluate(() => {
-    const background = document.querySelector("calcite-avatar").shadowRoot.querySelector(".background");
-    return background.getAttribute("style");
+    const avatar = document.querySelector("calcite-avatar");
+
+    if (!avatar?.shadowRoot) {
+      return null;
+    }
+
+    return avatar.shadowRoot.querySelector(".background")?.getAttribute("style") ?? null;
   });
   expect(style).toEqual("background-color:var(--calcite-avatar-background-color, hsl(317, 60%, 90%));");
 });

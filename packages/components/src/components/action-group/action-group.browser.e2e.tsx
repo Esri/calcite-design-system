@@ -12,6 +12,7 @@ import {
   renders,
   slots,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -27,6 +28,17 @@ function renderActionGroup(): JsxNode {
     </calcite-action-group>
   );
 }
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-action-group scale="l">
+        <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      </calcite-action-group>,
+    ),
+  );
+});
 
 describe("defaults", () => {
   defaults(

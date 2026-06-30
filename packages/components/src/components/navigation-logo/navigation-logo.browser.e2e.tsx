@@ -2,8 +2,19 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  accessible,
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-navigation-logo"));
+});
 
 describe("defaults", () => {
   defaults(

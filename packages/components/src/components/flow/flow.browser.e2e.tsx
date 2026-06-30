@@ -1,10 +1,22 @@
-import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, focusable } from "../../tests/commonTests/browser";
+import { accessible, hidden, renders, focusable } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
+import { h } from "@arcgis/lumina";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-flow>
+        <calcite-flow-item />
+        <calcite-flow-item />
+        <calcite-flow-item />
+      </calcite-flow>,
+    ),
+  );
+});
 
 describe("is focusable", () => {
   describe("default", () => {

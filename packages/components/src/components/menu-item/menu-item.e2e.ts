@@ -1,15 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { ComponentTestTokens } from "../../tests/commonTests/themed";
 import { CSS, SLOTS } from "../../../src/components/menu-item/resources";
 import { Layout } from "./interfaces";
-
-describe("accessible", () => {
-  accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
-});
 
 it("should emit calciteMenuItemSelect event on user click", async () => {
   const page = await newE2EPage();

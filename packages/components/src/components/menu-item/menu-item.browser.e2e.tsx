@@ -1,6 +1,24 @@
 import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { focusable, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  focusable,
+  reflects,
+  hidden,
+  renders,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-menu>
+        <calcite-menu-item text="calcite" />
+      </calcite-menu>,
+    ),
+  );
+});
 
 describe("reflects", () => {
   reflects(

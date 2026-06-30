@@ -10,8 +10,26 @@ import {
   defaults,
   reflects,
   hidden,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-label>
+        <calcite-radio-button id="example" name="example" value="one" />
+        label
+      </calcite-label>,
+    ),
+  );
+});
+
+describe("accessible without calcite-label", () => {
+  accessible(() =>
+    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+  );
+});
 
 describe("defaults", () => {
   defaults(
