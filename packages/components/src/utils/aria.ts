@@ -22,5 +22,5 @@ export function ariaValueFromSize(
  * @returns The string conversion of a boolean value ("true" | "false").
  */
 export function toAriaBoolean(value: boolean): string {
-  return value.toString();
+  return Boolean(value).toString();
 }
