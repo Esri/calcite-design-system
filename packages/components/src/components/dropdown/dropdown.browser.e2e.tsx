@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { JsxNode } from "@arcgis/lumina";
 import {
+  accessible,
   defaults,
   focusable,
   reflects,
@@ -97,6 +98,37 @@ function renderReferenceElementDropdown(): JsxNode {
   );
 }
 
+function renderDropdownSelectionModeContent(): JsxNode {
+  return (
+    <calcite-dropdown>
+      <calcite-button id="trigger" slot="trigger">
+        Open dropdown
+      </calcite-button>
+      <calcite-dropdown-group id="group-1" selection-mode="multiple">
+        <calcite-dropdown-item id="item-1">Dropdown Item Content</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-2" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+        <calcite-dropdown-item id="item-3" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group id="group-2" selection-mode="single">
+        <calcite-dropdown-item id="item-4">Dropdown Item Content</calcite-dropdown-item>
+        <calcite-dropdown-item id="item-5" selected>
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+      <calcite-dropdown-group id="group-3" selection-mode="none">
+        <calcite-dropdown-item id="item-6">Dropdown Item Content</calcite-dropdown-item>
+        <calcite-dropdown-item href="google.com" id="item-7">
+          Dropdown Item Content
+        </calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  );
+}
+
 async function waitForSettledUpdate(
   component: Dropdown["manager"]["component"],
   updateCompletePromise: Promise<unknown>,
@@ -108,6 +140,14 @@ async function waitForSettledUpdate(
 
 describe("renders", () => {
   renders(() => mount(renderDropdown), { display: "inline-block" });
+});
+
+describe("accessible", () => {
+  accessible(() => mount(renderDropdownSelectionModeContent));
+});
+
+describe("accessible reference element", () => {
+  accessible(() => mount(renderReferenceElementDropdown));
 });
 
 describe("focusable", () => {

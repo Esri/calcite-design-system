@@ -9,11 +9,35 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    );
+  });
+
+  describe("with tooltip", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-tooltip slot={SLOTS.tooltip}>Bits and bobs.</calcite-tooltip>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

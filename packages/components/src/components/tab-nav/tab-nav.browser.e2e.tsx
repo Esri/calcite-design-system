@@ -1,6 +1,10 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import { accessible, defaults, hidden, renders, t9n } from "../../tests/commonTests/browser";
+
+describe("accessible: checked", () => {
+  accessible(() => mount("calcite-tab-nav"));
+});
 
 describe("defaults", () => {
   defaults(() => mount("calcite-tab-nav"), [{ propertyName: "scale", defaultValue: "m" }]);

@@ -3,7 +3,7 @@ import { describe, expect, it, beforeEach } from "vitest";
 import { SupportedLocale } from "@arcgis/toolkit/intl";
 import { KeyInput } from "puppeteer";
 import { formatTimePart, getMeridiemOrder } from "../../utils/time";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
 import { CSS as PopoverCSS } from "../popover/resources";
@@ -47,15 +47,6 @@ async function assertDisplayedTime(
 ): Promise<void> {
   expect(await getInputValue(page, locale, picker)).toBe(incomingValue.replaceAll(/\s/g, "")); // ignoring whitespace in the assertion since some locales don't space the meridiem away from the rest of the value.
 }
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-label>
-      Input Time Picker
-      <calcite-input-time-picker name="test"></calcite-input-time-picker>
-    </calcite-label>
-  `);
-});
 
 describe("labelable", () => {
   labelable("calcite-input-time-picker");
