@@ -88,7 +88,7 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -698,11 +698,8 @@ export class Carousel extends LitElement {
 
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
-        {messages
-          .paginationStatus!.replace(
-            "{current}",
-            numberStringFormatter.localize(`${selectedIndex + 1}`),
-          )
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );

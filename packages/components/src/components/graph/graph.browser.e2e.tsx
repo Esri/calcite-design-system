@@ -1,6 +1,23 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders } from "../../tests/commonTests/browser";
+import { h } from "@arcgis/lumina";
+import { accessible, defaults, hidden, renders } from "../../tests/commonTests/browser";
+import type { Graph } from "./graph";
+import type { Point } from "./interfaces";
+
+const data: Point[] = [
+  [0, 0],
+  [10, 80],
+  [20, 20],
+  [30, 30],
+  [40, 42],
+  [50, 50],
+  [60, 55],
+  [70, 48],
+  [80, 30],
+  [90, 10],
+  [100, 0],
+];
 
 describe("defaults", () => {
   defaults(
@@ -12,6 +29,14 @@ describe("defaults", () => {
       },
     ],
   );
+});
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-graph"));
+});
+
+describe("accessible: with data", () => {
+  accessible(() => mount<Graph>(<calcite-graph data={data} highlightMax={75} highlightMin={25} />));
 });
 
 describe("honors hidden attribute", () => {

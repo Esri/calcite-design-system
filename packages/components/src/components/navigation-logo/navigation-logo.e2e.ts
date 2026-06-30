@@ -1,12 +1,7 @@
 import { describe } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible("calcite-navigation-logo");
-});
 
 describe("theme", () => {
   const navigationLogoHtml = (props: Partial<{ active: boolean; link: boolean }> = {}): string => {

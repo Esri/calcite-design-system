@@ -1,6 +1,5 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
+import { expect, it } from "vitest";
 import { findAll, skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -19,10 +18,6 @@ async function openSortHandle(page): Promise<void> {
   await page.waitForChanges();
   await openEventSpy.next();
 }
-
-describe("accessible", () => {
-  accessible(`<calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>`);
-});
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();

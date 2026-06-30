@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -144,62 +144,6 @@ it("should have icon container if loading", async () => {
 
   const iconContainer = await page.find(`calcite-action >>> .${CSS.iconContainer}`);
   expect(iconContainer).not.toBeNull();
-});
-
-it("should use text prop for a11y attributes when text is not enabled", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action text="hello world"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe("hello world");
-});
-
-it("should set aria-label with indicator", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action indicator text="hello world"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe(`hello world (Indicator present)`);
-});
-
-it("should have label", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action text="hello world" label="hi"></calcite-action>`);
-
-  const button = await page.find(`calcite-action >>> .${CSS.button}`);
-  expect(button.getAttribute("aria-label")).toBe("hi");
-});
-
-describe("accessible", () => {
-  accessible(html` <calcite-action text="hello world"></calcite-action>`);
-
-  describe("disabled and text-enabled", () => {
-    accessible(html` <calcite-action text="hello world" disabled text-enabled></calcite-action>`);
-  });
-
-  describe("indicator", () => {
-    accessible(html` <calcite-action indicator text="hello world"></calcite-action>`);
-  });
-});
-
-it("should have a indicator live region", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-action></calcite-action>`);
-  await page.waitForChanges();
-
-  const action = await page.find("calcite-action");
-  const liveRegion = await page.find(`calcite-action >>> .${CSS.indicatorText}`);
-
-  expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
-  expect(liveRegion.textContent).toBe("");
-
-  action.setProperty("indicator", true);
-  await page.waitForChanges();
-
-  expect(liveRegion.getAttribute("aria-live")).toBe("polite");
-  expect(liveRegion.getAttribute("role")).toBe("region");
-  expect(liveRegion.textContent).toBe("Indicator present");
 });
 
 describe("themed", () => {

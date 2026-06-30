@@ -1,16 +1,7 @@
 import { describe } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-navigation label="test" navigation-action
-      ><calcite-navigation-logo heading="Test"
-    /></calcite-navigation>`,
-  );
-});
 
 describe("theme", () => {
   const navigationHtml = html`

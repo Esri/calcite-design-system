@@ -1,5 +1,6 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
+import { h } from "@arcgis/lumina";
 import {
   defaults,
   focusable,
@@ -7,7 +8,48 @@ import {
   t9n,
   disabled,
   renders,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-button>Continue</calcite-button>));
+  });
+
+  describe("href", () => {
+    accessible(() => mount(<calcite-button href="/">Continue</calcite-button>));
+  });
+
+  describe("style props", () => {
+    accessible(() =>
+      mount(
+        <calcite-button appearance="outline" kind="danger" scale="l" width="half">
+          Continue
+        </calcite-button>,
+      ),
+    );
+  });
+
+  describe("href and target", () => {
+    accessible(() =>
+      mount(
+        <calcite-button href="google.com" rel="noopener noreferrer" target="_blank">
+          Continue
+        </calcite-button>,
+      ),
+    );
+  });
+
+  describe("icons and loading", () => {
+    accessible(() =>
+      mount(
+        <calcite-button icon-end="plus" icon-start="plus" loading>
+          Continue
+        </calcite-button>,
+      ),
+    );
+  });
+});
 
 describe("renders", () => {
   renders(() => mount("calcite-button"), { display: "inline-block" });

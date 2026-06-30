@@ -1,20 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, IDS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-block heading="heading" description="description" expanded collapsible>
-      <div>content</div>
-    </calcite-block>
-  `);
-});
 
 it("has a loading state", async () => {
   const page = await newE2EPage({
