@@ -15,6 +15,7 @@ export const CSS = {
   contentEnd: "content-end",
   contentStart: "content-start",
   description: "description",
+  hasSlottedContent: "has-slotted-content",
   header: "header",
   headerContainer: "header-container",
   headerHasContent: "header--has-content",
@@ -38,6 +39,7 @@ export const SLOTS = {
   contentEnd: "content-end",
   contentStart: "content-start",
   headerMenuActions: "header-menu-actions",
+  section: "section",
 };
 
 export const ICONS: Record<string, IconName> = {

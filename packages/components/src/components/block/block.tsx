@@ -24,6 +24,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
+import { BlockToggleDisplay } from "./interface";
 
 declare global {
   interface DeclareElements {
@@ -37,6 +38,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after the component's header text.
  * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
+ * @slot section - A slot for adding `calcite-block` elements.
  */
 export class Block extends LitElement {
   //#region Static Members
@@ -77,6 +79,8 @@ export class Block extends LitElement {
   @state() hasEndActions = false;
 
   @state() hasMenuActions = false;
+
+  @state() hasContent = false;
 
   //#endregion
 
@@ -203,6 +207,15 @@ export class Block extends LitElement {
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
   @property({ reflect: true }) status?: Status;
+
+  /**
+   * Specifies how the component's toggle is displayed, where:
+   *
+   * `"button"` sets the toggle to a selectable header, and
+   *
+   * `"switch"` sets the toggle to a switch.
+   */
+  @property({ reflect: true }) toggleDisplay: BlockToggleDisplay = "button";
 
   /**
    * @copyDoc
@@ -395,6 +408,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
+    this.hasContent = slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -587,16 +601,26 @@ export class Block extends LitElement {
             id={IDS.toggle}
             onClick={this.onHeaderClick}
             title={toggleLabel}
+            type="button"
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {this.renderContentEnd()}
               {this.renderIcon("end")}
-              <calcite-icon
-                class={CSS.toggleIcon}
-                icon={collapseIcon}
-                scale={getIconScale(this.scale)}
-              />
+              {this.toggleDisplay === "switch" ? (
+                <calcite-switch
+                  checked={expanded}
+                  disabled={this.disabled}
+                  label={toggleLabel}
+                  scale={this.scale}
+                />
+              ) : (
+                <calcite-icon
+                  class={CSS.toggleIcon}
+                  icon={collapseIcon}
+                  scale={getIconScale(this.scale)}
+                />
+              )}
             </div>
           </button>
         ) : (
@@ -637,12 +661,16 @@ export class Block extends LitElement {
           {headerNode}
           <section
             aria-labelledby={IDS.toggle}
-            class={CSS.content}
+            class={{
+              [CSS.content]: true,
+              [CSS.hasSlottedContent]: this.hasContent,
+            }}
             hidden={!expanded}
             id={IDS.content}
           >
             {this.renderScrim()}
           </section>
+          <slot name={SLOTS.section} />
         </article>
       </this.interactiveContainer>
     );
