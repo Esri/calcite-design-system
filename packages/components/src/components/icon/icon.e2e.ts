@@ -1,9 +1,5 @@
 import { describe } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-
-describe("accessible", () => {
-  accessible(`<calcite-icon icon="a-z" text-label="sort options"></calcite-icon>`);
-});
+import { themed } from "../../tests/commonTests";
 
 describe("theme", () => {
   describe("default", () => {

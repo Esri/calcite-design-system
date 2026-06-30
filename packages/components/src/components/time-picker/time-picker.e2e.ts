@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { html } from "../../../support/formatting";
@@ -36,14 +36,6 @@ const letterKeys = [
 ] as const;
 
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-
-describe("accessible", () => {
-  accessible(`<calcite-time-picker></calcite-time-picker>`);
-});
-
-describe("accessible using seconds", () => {
-  accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
-});
 
 describe("focusing", () => {
   it("should focus input when corresponding nudge up button is clicked", async () => {

@@ -8,7 +8,62 @@ import {
   hidden,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          Label
+          <calcite-inline-editable>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>
+        </calcite-label>,
+      ),
+    );
+  });
+
+  describe("editing enabled", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          Label
+          <calcite-inline-editable editing-enabled>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>
+        </calcite-label>,
+      ),
+    );
+  });
+
+  describe("with controls", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          Label
+          <calcite-inline-editable controls>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>
+        </calcite-label>,
+      ),
+    );
+  });
+
+  describe("with controls + editing enabled", () => {
+    accessible(() =>
+      mount(
+        <calcite-label>
+          Label
+          <calcite-inline-editable controls editing-enabled>
+            <calcite-input value="John Doe" />
+          </calcite-inline-editable>
+        </calcite-label>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

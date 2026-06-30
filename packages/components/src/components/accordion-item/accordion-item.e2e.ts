@@ -1,12 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS, IDS } from "./resources";
-
-describe("accessible", () => {
-  accessible(`<calcite-accordion-item heading="My Heading"></calcite-accordion-item>`);
-});
 
 describe("theme", () => {
   describe("default", () => {
