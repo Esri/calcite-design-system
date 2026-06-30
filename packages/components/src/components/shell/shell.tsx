@@ -8,6 +8,8 @@ import { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
+type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+
 declare global {
   interface DeclareElements {
     "calcite-shell": Shell;
@@ -37,25 +39,13 @@ export class Shell extends LitElement {
 
   private readonly panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
 
-  private panelSlotElements: Record<
-    "panel-start" | "panel-end" | "panel-top" | "panel-bottom",
-    ShellPanel["el"][]
-  > = {
-    "panel-start": [],
-    "panel-end": [],
-    "panel-top": [],
-    "panel-bottom": [],
-  };
-
-  private resizableSlots: Record<
-    "panel-start" | "panel-end" | "panel-top" | "panel-bottom",
-    boolean
-  > = {
-    "panel-start": false,
-    "panel-end": false,
-    "panel-top": false,
-    "panel-bottom": false,
-  };
+  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
+    {
+      "panel-start": { elements: [], resizable: false },
+      "panel-end": { elements: [], resizable: false },
+      "panel-top": { elements: [], resizable: false },
+      "panel-bottom": { elements: [], resizable: false },
+    };
 
   //#endregion
 
@@ -132,8 +122,8 @@ export class Shell extends LitElement {
       | ShellPanel["el"]
       | undefined;
 
-    if (panel?.slot && this.panelSlots.includes(panel.slot as (typeof this.panelSlots)[number])) {
-      this.updateResizableSlotState(panel.slot as (typeof this.panelSlots)[number]);
+    if (panel?.slot && this.panelSlots.includes(panel.slot as PanelSlot)) {
+      this.updateResizableSlotState(panel.slot as PanelSlot);
     }
 
     event.stopPropagation();
@@ -190,7 +180,6 @@ export class Shell extends LitElement {
     );
 
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-    this.panelSlotElements["panel-top"] = panelElements;
     panelElements.forEach((el) => {
       el.layout = "horizontal";
       el.position = "start";
@@ -204,7 +193,6 @@ export class Shell extends LitElement {
     );
 
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-    this.panelSlotElements["panel-bottom"] = panelElements;
     panelElements.forEach((el) => {
       el.layout = "horizontal";
       el.position = "end";
@@ -217,7 +205,6 @@ export class Shell extends LitElement {
       (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
     );
 
-    this.panelSlotElements["panel-start"] = panelElements;
     panelElements.forEach((el) => {
       el.layout = "vertical";
       el.position = "start";
@@ -230,7 +217,6 @@ export class Shell extends LitElement {
       (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
     );
 
-    this.panelSlotElements["panel-end"] = panelElements;
     panelElements.forEach((el) => {
       el.layout = "vertical";
       el.position = "end";
@@ -248,20 +234,23 @@ export class Shell extends LitElement {
   }
 
   private updateResizableSlotState(
-    slot: (typeof this.panelSlots)[number],
-    panelElements = this.panelSlotElements[slot],
+    slot: PanelSlot,
+    panelElements = this.panelSlotState[slot].elements,
   ): void {
-    this.resizableSlots[slot] = panelElements.some((panel) => panel.resizable);
+    this.panelSlotState[slot] = {
+      elements: panelElements,
+      resizable: panelElements.some((panel) => panel.resizable),
+    };
     this.syncResizableAttribute();
   }
 
   private syncResizableAttribute(): void {
     // Keep existing precedence so top/bottom can control shell border styling.
     const nextResizableSlot =
-      (this.resizableSlots["panel-bottom"] && "panel-bottom") ||
-      (this.resizableSlots["panel-top"] && "panel-top") ||
-      (this.resizableSlots["panel-end"] && "panel-end") ||
-      (this.resizableSlots["panel-start"] && "panel-start");
+      (this.panelSlotState["panel-bottom"].resizable && "panel-bottom") ||
+      (this.panelSlotState["panel-top"].resizable && "panel-top") ||
+      (this.panelSlotState["panel-end"].resizable && "panel-end") ||
+      (this.panelSlotState["panel-start"].resizable && "panel-start");
 
     if (nextResizableSlot) {
       this.el.setAttribute("data-resizable", nextResizableSlot);
