@@ -13,7 +13,6 @@ import { breakpoints } from "../../utils/responsive";
 import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -564,7 +563,8 @@ export class Carousel extends LitElement {
         `button:not(.${CSS.paginationItemOutOfRange})`,
       ),
     );
-    const currentEl = event.target as Action["el"];
+    const currentEl = event.target as HTMLButtonElement;
+
     switch (event.key) {
       case "ArrowRight":
         focusElementInGroup(visiblePaginationEls, currentEl, "next");
