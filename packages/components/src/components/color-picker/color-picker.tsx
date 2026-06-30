@@ -58,6 +58,7 @@ declare global {
 }
 
 const throttleFor60FpsInMs = 16;
+const initialColorFieldScopePosition = SCOPE_SIZE / 2;
 
 export class ColorPicker extends LitElement {
   //#region Static Members
@@ -83,6 +84,8 @@ export class ColorPicker extends LitElement {
   private _color: InternalColor | undefined = DEFAULT_COLOR;
 
   private colorFieldRenderingContext!: CanvasRenderingContext2D;
+
+  private colorFieldScopeAnimationFrame?: number;
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
 
@@ -264,9 +267,9 @@ export class ColorPicker extends LitElement {
 
   @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
-  @state() colorFieldScopeLeft: number = 0;
+  @state() colorFieldScopeLeft = initialColorFieldScopePosition;
 
-  @state() colorFieldScopeTop: number = 0;
+  @state() colorFieldScopeTop = initialColorFieldScopePosition;
 
   @state() staticDimensions = STATIC_DIMENSIONS.m;
 
@@ -1133,9 +1136,14 @@ export class ColorPicker extends LitElement {
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
 
-    requestAnimationFrame(() => {
+    if (this.colorFieldScopeAnimationFrame != null) {
+      cancelAnimationFrame(this.colorFieldScopeAnimationFrame);
+    }
+
+    this.colorFieldScopeAnimationFrame = requestAnimationFrame(() => {
       this.colorFieldScopeLeft = x;
       this.colorFieldScopeTop = y;
+      this.colorFieldScopeAnimationFrame = undefined;
     });
 
     this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
@@ -1683,9 +1691,11 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                (clearable && !channelValue) || channelValue === undefined
+                clearable && !channelValue
                   ? channelValue
-                  : alphaToOpacity(channelValue);
+                  : channelValue != null
+                    ? alphaToOpacity(channelValue)
+                    : channelValue;
             }
 
             /* the channel container is ltr, so we apply the host's direction */
