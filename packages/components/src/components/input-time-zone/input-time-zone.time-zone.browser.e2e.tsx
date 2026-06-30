@@ -459,7 +459,7 @@ describe("clearable", () => {
   });
 
   describe("clearing by value", () => {
-    it("empty string", async () => {
+    it("supports empty string", async () => {
       const { el, component } = await mountInputTimeZone({
         clearable: true,
         value: `${alternateTimeZoneItem.offset}`,
@@ -471,7 +471,20 @@ describe("clearable", () => {
       expect(el.value).toBe("");
     });
 
-    it("undefined", async () => {
+    it("null", async () => {
+      const { el, component } = await mountInputTimeZone({
+        clearable: true,
+        value: `${alternateTimeZoneItem.offset}`,
+      });
+
+      // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
+      el.value = null;
+      await waitForUpdates(component);
+
+      expect(el.value).toBe("");
+    });
+
+    it("supports undefined", async () => {
       const { el, component } = await mountInputTimeZone({
         clearable: true,
         value: `${alternateTimeZoneItem.offset}`,

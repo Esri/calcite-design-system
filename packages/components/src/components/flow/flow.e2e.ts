@@ -75,7 +75,7 @@ describe("works with flow-items", () => {
     await page.$eval(
       "#two",
       (elm, backButtonCSS: string) => {
-        elm.shadowRoot!.querySelector<Action["el"]>(`.${backButtonCSS}`)?.click();
+        elm.shadowRoot!.querySelector<Action["el"]>(`.${backButtonCSS}`)!.click();
       },
       ITEM_CSS.backButton,
     );
@@ -107,7 +107,7 @@ describe("works with flow-items", () => {
 
       lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
 
-      lastFlowItem?.shadowRoot!.querySelector<HTMLElement>(backButtonSelector)?.click();
+      lastFlowItem?.shadowRoot!.querySelector<HTMLElement>(backButtonSelector)!.click();
     }, `.${ITEM_CSS.backButton}`);
     await page.waitForChanges();
 

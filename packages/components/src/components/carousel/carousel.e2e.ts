@@ -101,7 +101,7 @@ describe("first render", () => {
     expect(
       await page.$eval(
         "#carousel",
-        (element, selectedClass: string) => element.shadowRoot!.activeElement?.classList.contains(selectedClass),
+        (element, selectedClass: string) => element.shadowRoot!.activeElement!.classList.contains(selectedClass),
         CSS.paginationItemIndividual,
       ),
     ).toBe(true);
