@@ -413,15 +413,11 @@ describe("keyboard navigation", () => {
       expect(getFocusedElementId()).toBe(`cell-${rowIndex}a`);
 
       const scrollContainer = getTableContainer(el);
-      const activeCell = document.activeElement as HTMLElement & { shadowRoot: ShadowRoot | null };
-      const activeCellElement = activeCell?.shadowRoot?.querySelector(
-        "td, th",
-      ) as HTMLElement | null;
-
-      expect(activeCellElement).toBeTruthy();
+      const activeCell = document.activeElement as HTMLElement;
+      const activeCellElement = activeCell.shadowRoot!.querySelector<HTMLElement>("td, th")!;
 
       const scrollContainerRect = scrollContainer.getBoundingClientRect();
-      const activeCellRect = activeCellElement!.getBoundingClientRect();
+      const activeCellRect = activeCellElement.getBoundingClientRect();
       const visibleViewportTop = scrollContainerRect.top + scrollContainer.clientTop;
       const visibleViewportBottom = visibleViewportTop + scrollContainer.clientHeight;
 
