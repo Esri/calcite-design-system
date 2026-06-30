@@ -159,6 +159,7 @@ table {
     );
   }
 }
+
 .selection-actions {
   @apply flex flex-row;
   gap: var(--calcite-internal-table-selection-action-spacing);
