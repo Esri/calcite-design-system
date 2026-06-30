@@ -36,7 +36,6 @@ export const CSS_UTILITY = {
   calciteAnimateInRight: "calcite-animate__in-right",
   calciteAnimateInLeft: "calcite-animate__in-left",
   calciteAnimateInScale: "calcite-animate__in-scale",
-  screenReaderText: "screen-reader-text",
 };
 
 export const TEXT = {
