@@ -309,7 +309,7 @@ export class Pagination extends LitElement {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value);
+    this.startItem = parseInt(target.value, 10);
     this.emitUpdate();
   }
 

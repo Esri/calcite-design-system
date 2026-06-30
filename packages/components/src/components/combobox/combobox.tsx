@@ -1252,12 +1252,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap);
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap, 10);
     const chipContainerElWidth = getElementWidth(chipContainerEl);
     const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
     // Heuristic placeholder width multiplier for stable hidden chip calculations.
     const placeholderWidthMultiplier = 0.55;
-    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
     const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
     const placeholderWidth =
       measuredPlaceholderWidth > 0
@@ -1266,7 +1266,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
             inputMinWidth,
             Math.round(
               (placeholder?.length || 0) *
-                (parseFloat(fontSize) || parseInt(calciteSize48)) *
+                (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
                 placeholderWidthMultiplier,
             ),
           );
@@ -2036,12 +2036,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     let useFitCompactLabel = false;
 
     if (this.selectionDisplay === "fit" && this.textInputRef.value && this.chipContainerEl) {
-      const chipContainerElGap = parseInt(getComputedStyle(this.chipContainerEl).gap);
+      const chipContainerElGap = parseInt(getComputedStyle(this.chipContainerEl).gap, 10);
       const chipContainerElWidth = getElementWidth(this.chipContainerEl);
       const { fontSize, fontFamily, minInlineSize } = getComputedStyle(this.textInputRef.value);
       // Heuristic placeholder width multiplier for stable hidden chip calculations.
       const placeholderWidthMultiplier = 0.55;
-      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48);
+      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
       const measuredPlaceholderWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
       const placeholderWidth =
         measuredPlaceholderWidth > 0
@@ -2050,7 +2050,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               inputMinWidth,
               Math.round(
                 (this.placeholder?.length || 0) *
-                  (parseFloat(fontSize) || parseInt(calciteSize48)) *
+                  (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
                   placeholderWidthMultiplier,
               ),
             );

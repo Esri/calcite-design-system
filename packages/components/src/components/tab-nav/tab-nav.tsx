@@ -245,7 +245,10 @@ export class TabNav extends LitElement {
 
   private get scrollerButtonWidth(): number {
     const { scale } = this;
-    return parseInt(scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44);
+    return parseInt(
+      scale === "s" ? calciteSize24 : scale === "m" ? calciteSize32 : calciteSize44,
+      10,
+    );
   }
 
   get tabTitles(): TabTitle["el"][] {

@@ -340,7 +340,7 @@ describe("keyboard resize", () => {
 
     let computedStyle = await container.getComputedStyle();
     const initialInlineSize = computedStyle.inlineSize;
-    const initialWidth = parseInt(initialInlineSize);
+    const initialWidth = parseInt(initialInlineSize, 10);
 
     const resizeHandle = await page.find(`calcite-sheet >>> .${CSS.resizeHandle}`);
     await resizeHandle.focus();
@@ -396,7 +396,7 @@ describe("keyboard resize", () => {
     await page.waitForChanges();
     computedStyle = await container.getComputedStyle();
     const initialBlockSize = computedStyle.blockSize;
-    const initialHeight = parseInt(initialBlockSize);
+    const initialHeight = parseInt(initialBlockSize, 10);
 
     await page.keyboard.down("ArrowDown");
     await page.keyboard.up("ArrowDown");

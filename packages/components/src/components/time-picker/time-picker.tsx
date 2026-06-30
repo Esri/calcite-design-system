@@ -435,7 +435,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             ariaLabel={messages.hour}
             ariaValueMax="23"
             ariaValueMin="1"
-            ariaValueNow={(hourIsNumber && parseInt(hour!)) || "0"}
+            ariaValueNow={(hourIsNumber && parseInt(hour!, 10)) || "0"}
             ariaValueText={hour ?? undefined}
             class={{
               [CSS.input]: true,
@@ -481,7 +481,7 @@ export class TimePicker extends LitElement implements TimeComponent {
             ariaLabel={messages.minute}
             ariaValueMax="12"
             ariaValueMin="1"
-            ariaValueNow={(minuteIsNumber && parseInt(minute!)) || "0"}
+            ariaValueNow={(minuteIsNumber && parseInt(minute!, 10)) || "0"}
             ariaValueText={minute ?? undefined}
             class={{
               [CSS.input]: true,
@@ -531,7 +531,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               ariaLabel={messages.second}
               ariaValueMax="59"
               ariaValueMin="0"
-              ariaValueNow={(secondIsNumber && parseInt(second!)) || "0"}
+              ariaValueNow={(secondIsNumber && parseInt(second!, 10)) || "0"}
               ariaValueText={second ?? undefined}
               class={{
                 [CSS.input]: true,
@@ -582,7 +582,7 @@ export class TimePicker extends LitElement implements TimeComponent {
               ariaLabel={messages.fractionalSecond}
               ariaValueMax="999"
               ariaValueMin="1"
-              ariaValueNow={(fractionalSecondIsNumber && parseInt(fractionalSecond!)) || "0"}
+              ariaValueNow={(fractionalSecondIsNumber && parseInt(fractionalSecond!, 10)) || "0"}
               ariaValueText={localizedFractionalSecond ?? undefined}
               class={{
                 [CSS.input]: true,

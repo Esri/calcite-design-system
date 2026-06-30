@@ -437,7 +437,7 @@ export class Carousel extends LitElement {
 
   private handleItemSelection(event: MouseEvent): void {
     const item = event.currentTarget as HTMLElement;
-    const requestedPosition = parseInt(item.dataset.index!);
+    const requestedPosition = parseInt(item.dataset.index!, 10);
 
     if (requestedPosition === this.selectedIndex) {
       return;

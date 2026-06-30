@@ -64,7 +64,7 @@ export const OPACITY_LIMITS = {
 
 export const STATIC_DIMENSIONS = {
   s: {
-    gap: parseInt(calciteSpacingFixedSm),
+    gap: parseInt(calciteSpacingFixedSm, 10),
     slider: {
       height: 12,
     },
@@ -77,7 +77,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 200,
   },
   m: {
-    gap: parseInt(calciteSpacingFixedMd),
+    gap: parseInt(calciteSpacingFixedMd, 10),
     slider: {
       height: 12,
     },
@@ -90,7 +90,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 240,
   },
   l: {
-    gap: parseInt(calciteSpacingFixedXl),
+    gap: parseInt(calciteSpacingFixedXl, 10),
     slider: {
       height: 12,
     },

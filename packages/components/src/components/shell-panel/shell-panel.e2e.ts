@@ -398,7 +398,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize);
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize, 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
@@ -501,7 +501,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""));
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""), 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();

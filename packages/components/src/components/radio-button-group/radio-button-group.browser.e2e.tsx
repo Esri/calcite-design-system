@@ -62,7 +62,7 @@ describe("honors hidden attribute", () => {
 
   it("honors hidden attribute when navigating", async () => {
     const { container } = await mount<RadioButtonGroup>(
-      <Fragment>
+      <>
         <calcite-radio-button-group name="first">
           <calcite-label>
             1-1
@@ -105,7 +105,7 @@ describe("honors hidden attribute", () => {
             <calcite-radio-button value="third" />
           </calcite-label>
         </calcite-radio-button-group>
-      </Fragment>,
+      </>,
     );
 
     const firstElement = container.querySelector("calcite-radio-button")!;
