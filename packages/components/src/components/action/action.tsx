@@ -19,6 +19,8 @@ import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -34,7 +36,7 @@ export class Action extends LitElement {
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -62,6 +64,8 @@ export class Action extends LitElement {
   private interactiveContainer = useInteractive(this);
 
   formTrigger = useFormTrigger()(this);
+
+  private labelElRef = createRef<HTMLSpanElement>();
 
   //#endregion
 
@@ -217,6 +221,27 @@ export class Action extends LitElement {
 
   //#endregion
 
+  //#region Private Methods
+
+  private getAccessibleLabel(): string {
+    const labelFallback = this.label || this.text || "";
+
+    return this.indicator
+      ? this.messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
+  }
+
+  private getLabelledByElements(): Element[] | undefined {
+    const labelledByElements = [
+      ...(this.labelElRef.value ? [this.labelElRef.value] : []),
+      ...(this.aria?.labelledByElements ?? []),
+    ];
+
+    return labelledByElements.length ? labelledByElements : undefined;
+  }
+
+  //#endregion
+
   //#region Rendering
 
   private renderTextContainer(): JsxNode {
@@ -240,7 +265,7 @@ export class Action extends LitElement {
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
-        class={CSS.indicatorText}
+        class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"
       >
@@ -285,25 +310,20 @@ export class Action extends LitElement {
     ) : null;
   }
 
-  private renderButton(): JsxNode {
-    const {
-      compact,
-      disabled,
-      icon,
-      loading,
-      textEnabled,
-      label,
-      text,
-      indicator,
-      indicatorRef,
-      buttonId,
-      messages,
-    } = this;
-    const labelFallback = label || text || "";
+  private renderLabel(): JsxNode {
+    const ariaLabel = this.getAccessibleLabel();
 
-    const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+    return ariaLabel ? (
+      <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
+  }
+
+  private renderButton(): JsxNode {
+    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
+      this;
+    const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -316,6 +336,7 @@ export class Action extends LitElement {
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        {this.renderLabel()}
       </>
     );
 
@@ -335,8 +356,7 @@ export class Action extends LitElement {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
-          ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
@@ -358,8 +378,7 @@ export class Action extends LitElement {
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
-        ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
         class={buttonClasses}

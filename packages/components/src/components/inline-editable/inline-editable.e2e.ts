@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -122,26 +122,6 @@ describe("does not have controls", () => {
     input.triggerEvent("calciteInternalInputBlur");
     await page.waitForChanges();
     expect(element).not.toHaveAttribute("editing-enabled");
-  });
-
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
   });
 });
 
@@ -323,26 +303,6 @@ describe("has controls", () => {
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("John DoeMoe");
     expect(element).toHaveAttribute("editing-enabled");
-  });
-
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label controls>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label controls editing-enabled>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
   });
 
   describe("labelable", () => {

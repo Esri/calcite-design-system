@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.10...@esri/calcite-components@5.2.0-next.11) (2026-06-30)
+
+### Bug Fixes
+
+- **components:** harden sortable touch drag ghost lifecycle ([#14717](https://github.com/Esri/calcite-design-system/issues/14717)), closes [#14678](https://github.com/Esri/calcite-design-system/issues/14678)
+
+## [5.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.9...@esri/calcite-components@5.2.0-next.10) (2026-06-30)
+
+### Bug Fixes
+
+- **icon:** fix resolution of number-suffixed icons ([#14711](https://github.com/Esri/calcite-design-system/issues/14711))
+
 ## [5.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.8...@esri/calcite-components@5.2.0-next.9) (2026-06-29)
 
 ### Bug Fixes

@@ -16,6 +16,7 @@ import {
   renders,
   t9n,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
@@ -27,6 +28,56 @@ import { CSS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+        </calcite-combobox>,
+      ),
+    );
+  });
+
+  describe("with item group", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" value="Trees">
+          <calcite-combobox-item-group label="Conifers">
+            <calcite-combobox-item heading="Pine" value="Pine" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+      ),
+    );
+  });
+
+  // depends on https://github.com/dequelabs/axe-core/issues/4943 to properly resolve accessible labels
+  describe.skip("with open selected items", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" open value="Trees">
+          <calcite-combobox-item-group label="Conifers">
+            <calcite-combobox-item heading="Pine" selected value="Pine" />
+            <calcite-combobox-item heading="Spruce" selected value="Spruce" />
+          </calcite-combobox-item-group>
+        </calcite-combobox>,
+      ),
+    );
+  });
+
+  describe("with highlight selection appearance", () => {
+    accessible(() =>
+      mount(
+        <calcite-combobox label="Trees" selection-appearance="highlight">
+          <calcite-combobox-item heading="Pine" value="Pine" />
+          <calcite-combobox-item heading="Spruce" value="Spruce" />
+          <calcite-combobox-item heading="Fir" value="Fir" />
+        </calcite-combobox>,
+      ),
+    );
+  });
+});
 
 describe("cancelable", () => {
   cancelable("calcite-combobox");
@@ -1335,10 +1386,12 @@ describe("active item when opened", () => {
         </calcite-combobox>
       ));
       const firstSelectedItem = page.getByLabelText("Flowers").getByLabelText("Black Eyed Susan");
-      const secondSelectedItem = page.getByLabelText("Rocks").filter({ hasText: "Rocks" });
+      const secondSelectedItem = page
+        .getBySelector("calcite-combobox-item")
+        .filter({ hasText: "Rocks" });
 
-      await expect.element(firstSelectedItem.element()).toBeInViewport();
-      await expect.element(firstSelectedItem.element()).toHaveProperty("selected", true);
+      await expect.element(firstSelectedItem).toBeInViewport();
+      await expect.element(firstSelectedItem).toHaveProperty("selected", true);
 
       await expect.element(secondSelectedItem).not.toBeInViewport();
       await expect.element(secondSelectedItem).toHaveProperty("selected", true);

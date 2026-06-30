@@ -2,8 +2,31 @@ import { h } from "@arcgis/lumina";
 import { describe, it, expect, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  accessible,
+} from "../../tests/commonTests/browser";
 import type { Navigation } from "./navigation";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-navigation label="test" />));
+  });
+
+  describe("with navigation action and logo", () => {
+    accessible(() =>
+      mount(
+        <calcite-navigation label="test" navigation-action>
+          <calcite-navigation-logo heading="Test" />
+        </calcite-navigation>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

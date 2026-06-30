@@ -249,7 +249,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -1866,9 +1866,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private getDescriptionMessage(): string {
     const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
 
-    return this.readOnly
-      ? (this.messages.nonEditable?.replace("{value}", `${value}`) ?? `${value}`)
-      : value;
+    return this.readOnly ? this.messages.nonEditable.replace("{value}", `${value}`) : value;
   }
 
   private getChipLabel(item: HTMLCalciteComboboxItemElement["el"], isAncestors: boolean): string {
@@ -1920,7 +1918,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         id={!disabled && item.guid ? `${IDS.chip(item.guid)}` : undefined}
         key={item.guid || item.value || label}
         label={label}
-        messageOverrides={!disabled ? { dismissLabel: messages.removeTag } : undefined}
+        messageOverrides={
+          !disabled
+            ? { dismissLabel: messages.removeTag.replace("{value}", `${label}`) }
+            : undefined
+        }
         oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : undefined}
         onFocusIn={!disabled ? () => (this.activeChipIndex = index) : undefined}
         scale={scale}
@@ -1937,7 +1939,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private renderChipCount(count: number, scale: Scale): JsxNode {
     const label = this.fitUsingCompactCountLabel
       ? `${count}`
-      : (this.messages.disabledSelectedCount?.replace("{count}", `${count}`) ?? `+${count}`);
+      : (this.messages.disabledSelectedCount.replace("{count}", `${count}`) ?? `+${count}`);
 
     return (
       <calcite-chip
@@ -2270,7 +2272,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       [FloatingCSS.animationActive]: open,
     };
 
-    const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
+    const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>

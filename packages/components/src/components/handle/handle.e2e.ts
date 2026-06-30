@@ -1,13 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
-
-describe("accessible", () => {
-  accessible(`<calcite-handle></calcite-handle>`);
-});
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();
