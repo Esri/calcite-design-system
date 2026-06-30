@@ -207,7 +207,7 @@ calcite-time-picker {
 }
 
 calcite-popover {
-  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-round));
+  --calcite-popover-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius-sm));
 }
 
 @include includes.form-internal-label();
