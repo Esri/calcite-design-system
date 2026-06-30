@@ -22,7 +22,7 @@
 @use "../../styles/includes";
 
 :host {
-  --calcite-internal-menu-item-border: 1px solid
+  --calcite-internal-menu-item-border: var(--calcite-border-width-sm) solid
     var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
 
   @apply flex
@@ -212,7 +212,7 @@
   @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
   box-shadow: var(--calcite-shadow-md);
   border: var(--calcite-internal-menu-item-border);
-  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
+  border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius-sm));
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
