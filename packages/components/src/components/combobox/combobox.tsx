@@ -2257,7 +2257,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       [FloatingCSS.animationActive]: open,
     };
 
-    const label = (this.filterText && messages.add?.replace("{text}", `${this.filterText}`)) ?? "";
+    const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
       <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
