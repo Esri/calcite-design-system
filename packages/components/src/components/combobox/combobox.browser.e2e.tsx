@@ -22,7 +22,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
-import { DEBOUNCE } from "../../utils/resources";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
@@ -1296,6 +1295,34 @@ describe("keyboard interaction", () => {
 });
 
 describe("filtering", () => {
+  type FilterUpdate = {
+    type: "keyboard" | "property";
+
+    /**
+     * For `keyboard`, keys to type into the combobox input.
+     * For `property`, the value assigned to `combobox.filterText`.
+     */
+    value: string;
+  };
+
+  async function updateFilter(
+    combobox: Combobox["el"],
+    update: FilterUpdate,
+    waitForFilterChange = true,
+  ): Promise<void> {
+    if (update.type === "keyboard") {
+      await (update.value
+        ? userEvent.keyboard(update.value)
+        : userEvent.clear(page.elementLocator(combobox).getByRole("combobox")));
+    } else {
+      combobox.filterText = update.value;
+    }
+
+    if (waitForFilterChange) {
+      await waitForEvent(combobox, "calciteComboboxFilterChange");
+    }
+  }
+
   it("filters by visible, rendered props", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox>
@@ -1367,7 +1394,9 @@ describe("filtering", () => {
     await expect.element(items.nth(2)).not.toBeVisible();
     await expect.element(items.nth(3)).not.toBeVisible();
     await expect.element(el).toHaveProperty("filterText", "value-4");
-    expect(el).toHaveProperty("filteredItems", []);
+    await vi.waitFor(() => {
+      expect(el.filteredItems).toHaveLength(0);
+    });
     expect(filterEventSpy).toHaveBeenCalledTimes(4);
 
     await clearAndType(el, "-"); // common in all values
@@ -1383,16 +1412,13 @@ describe("filtering", () => {
     async function clearAndType(combobox: Combobox["el"], text: string): Promise<void> {
       await combobox.setFocus();
       await userEvent.keyboard("{Escape}{Escape}"); // clears input and closes list if open
-
-      const filterEventSpy = waitForEvent(combobox, "calciteComboboxFilterChange");
-      await userEvent.keyboard(text);
-      await filterEventSpy;
+      await updateFilter(combobox, { type: "keyboard", value: text });
     }
   });
 
   it("should toggle the combobox when typing within the input", async () => {
     const { el } = await mount<Combobox>(
-      <calcite-combobox id="myCombobox">
+      <calcite-combobox>
         <calcite-combobox-item heading="Raising Arizona" value="Raising Arizona" />
         <calcite-combobox-item heading="Miller's Crossing" value="Miller's Crossing" />
         <calcite-combobox-item heading="The Hudsucker Proxy" value="The Hudsucker Proxy" />
@@ -1405,16 +1431,18 @@ describe("filtering", () => {
 
     const text = "Arizona";
 
-    await userEvent.keyboard(text);
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    const openEvent = waitForEvent(el, "calciteComboboxOpen");
+    await updateFilter(el, { type: "keyboard", value: text });
+    await openEvent;
 
     expect(el).toHaveProperty("open", true);
 
-    for (let i = 0; i < text.length; i++) {
-      await userEvent.keyboard("{Backspace}");
-    }
-
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    const closeEvent = waitForEvent(el, "calciteComboboxClose");
+    await updateFilter(el, {
+      type: "keyboard",
+      value: "",
+    });
+    await closeEvent;
     expect(el).toHaveProperty("open", false);
   });
 
@@ -1433,8 +1461,7 @@ describe("filtering", () => {
 
     const text = "no-matching-text-here";
 
-    await userEvent.keyboard(text);
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: text }, false);
 
     expect(el).toHaveProperty("open", false);
   });
@@ -1450,8 +1477,7 @@ describe("filtering", () => {
     );
     const items = page.getBySelector("calcite-combobox-item");
     await userEvent.click(el);
-    await userEvent.keyboard("undefined");
-    await new Promise((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "undefined" });
 
     await expect.element(items.nth(0)).not.toBeVisible();
     await expect.element(items.nth(1)).not.toBeVisible();
@@ -1474,8 +1500,7 @@ describe("filtering", () => {
     );
 
     await userEvent.click(el);
-    await userEvent.keyboard("Algeria");
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "Algeria" });
 
     const item4 = page.getBySelector("#item-4");
     const bounds = item4.element().getBoundingClientRect();
@@ -1498,8 +1523,7 @@ describe("filtering", () => {
     const items = page.getBySelector("calcite-combobox-item");
 
     await userEvent.click(el);
-    await userEvent.keyboard("two");
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "two" });
 
     await expect.element(items.nth(0)).not.toBeVisible();
     await expect.element(items.nth(1)).toBeVisible();
@@ -1537,14 +1561,11 @@ describe("filtering", () => {
     await mount<Combobox>(
       <calcite-combobox filter-text="1.2">{renderNestedComboboxChildren()}</calcite-combobox>,
     );
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
 
     const visibleItemsAndGroups = page.getBySelector(
       "calcite-combobox-item:not([item-hidden]), calcite-combobox-item-group:not([item-hidden])",
     );
-    const visibleItemAndGroupIds = visibleItemsAndGroups.elements().map((item) => item.id);
-
-    expect(visibleItemAndGroupIds).toEqual([
+    const expectedVisibleItemAndGroupIds = [
       "group-1",
       "item-1-2",
       "subgroup-1-1",
@@ -1554,7 +1575,12 @@ describe("filtering", () => {
       "group-2",
       "item-2-1",
       "item-2-1-2",
-    ]);
+    ];
+
+    await vi.waitFor(() => {
+      const visibleItemAndGroupIds = visibleItemsAndGroups.elements().map((item) => item.id);
+      expect(visibleItemAndGroupIds).toEqual(expectedVisibleItemAndGroupIds);
+    });
   });
 
   it("should display all groups/items when filter is cleared", async () => {
@@ -1562,8 +1588,7 @@ describe("filtering", () => {
       <calcite-combobox>{renderNestedComboboxChildren()}</calcite-combobox>,
     );
 
-    el.filterText = "1.2";
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "property", value: "1.2" });
 
     const filteredItemsAndGroups = page.getBySelector(
       "calcite-combobox-item:not([item-hidden]), calcite-combobox-item-group:not([item-hidden])",
@@ -1582,8 +1607,7 @@ describe("filtering", () => {
       "item-2-1-2",
     ]);
 
-    el.filterText = "";
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "property", value: "" });
 
     const allVisibleItemAndGroups = page.getBySelector(
       "calcite-combobox-item:not([hidden]):not([item-hidden]), calcite-combobox-item-group:not([hidden]):not([item-hidden])",
@@ -1614,11 +1638,7 @@ describe("filtering", () => {
       </calcite-combobox>
     ));
 
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
-
-    el.filterText = "foo";
-
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "property", value: "foo" });
 
     const visibleItems = page.getBySelector("calcite-combobox-item:not([item-hidden])");
 
@@ -1643,8 +1663,7 @@ describe("filtering", () => {
     );
 
     await userEvent.click(el);
-    await userEvent.keyboard("group");
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "group" });
 
     const one = page.getBySelector("#value1");
     const two = page.getBySelector("#value2");
@@ -1664,8 +1683,7 @@ describe("filtering", () => {
     await expect.element(group1).toBeVisible();
     await expect.element(group2).toBeVisible();
 
-    await userEvent.keyboard("1");
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "1" });
 
     await expect.element(one).toBeVisible();
     await expect.element(two).toBeVisible();
@@ -1693,17 +1711,13 @@ describe("filtering", () => {
     const items = page.getBySelector("calcite-combobox-item");
     const input = page.getBySelector("calcite-combobox input");
     await userEvent.click(el);
-    await userEvent.keyboard("an");
-
-    // TODO: replace with calciteComboboxFilterChange waiting instead
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "an" });
 
     await expect.element(items.nth(0)).not.toBeVisible();
     await expect.element(items.nth(1)).not.toBeVisible();
     await expect.element(items.nth(2)).toBeVisible();
 
-    await userEvent.keyboard("m");
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
+    await updateFilter(el, { type: "keyboard", value: "m" });
 
     await expect.element(items.nth(0)).not.toBeVisible();
     await expect.element(items.nth(1)).not.toBeVisible();
@@ -1757,9 +1771,9 @@ describe("filtering", () => {
     );
 
     el.filterProps = ["description"];
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.filter));
-
-    expect(el.filteredItems).toHaveLength(1);
+    await vi.waitFor(() => {
+      expect(el.filteredItems).toHaveLength(1);
+    });
 
     const visibleItems = page.getBySelector(
       "calcite-combobox-item:not([hidden]):not([item-hidden])",
