@@ -26,7 +26,6 @@
 // --calcite-internal-shell-panel-action-bar-border-block-start
 // --calcite-internal-shell-panel-action-bar-border-inline-end
 // --calcite-internal-shell-panel-action-bar-border-inline-start
-// --calcite-internal-shell-panel-action-bar-thickness
 // --calcite-internal-shell-panel-border
 // --calcite-internal-shell-panel-c-panel-border-block-end
 // --calcite-internal-shell-panel-c-panel-border-block-start
@@ -93,7 +92,6 @@
         )
     ) /
     2;
-  --calcite-internal-shell-panel-action-bar-thickness: var(--calcite-internal-shell-panel-action-bar-width, 0);
 }
 
 .calcite--rtl.content--overlay {
@@ -358,11 +356,9 @@
   }
 
   &:host([action-bar-position="top"]) {
-    .container.has-action-bar {
-      --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
-        var(--calcite-internal-shell-panel-action-bar-height) * -1
-      );
-    }
+    --calcite-internal-shell-panel-resize-handle-inset-block-start: calc(
+      var(--calcite-internal-shell-panel-action-bar-height) * -1
+    );
 
     .resize-handle {
       block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-height));
@@ -370,10 +366,8 @@
   }
 
   &:host([action-bar-position="bottom"]) {
-    .container.has-action-bar {
-      .resize-handle {
-        block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-height));
-      }
+    .resize-handle {
+      block-size: calc(100% + var(--calcite-internal-shell-panel-action-bar-height));
     }
   }
 }

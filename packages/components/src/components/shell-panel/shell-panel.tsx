@@ -639,7 +639,6 @@ export class ShellPanel extends LitElement {
         class={{
           [CSS.container]: true,
           [CSS.floatAll]: displayMode === "float-all",
-          "has-action-bar": this.hasActionBar,
         }}
       >
         {mainNodes}
