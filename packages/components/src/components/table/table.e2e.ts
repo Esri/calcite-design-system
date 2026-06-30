@@ -148,7 +148,6 @@ describe("selection modes", () => {
     expect(await element.getProperty("selectedItems")).toEqual([]);
     await selectedItemAsserter([]);
   });
-
   it("selection mode multiple allows one, multiple, or no rows to be selected", async () => {
     const page = await newE2EPage();
     await page.setContent(
@@ -798,7 +797,7 @@ describe("selection modes", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-        button.click();
+        button?.click();
       },
       PAGINATION_CSS,
     );
@@ -928,7 +927,7 @@ describe("pagination event", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-        button.click();
+        button?.click();
       },
       PAGINATION_CSS,
     );
@@ -942,7 +941,7 @@ describe("pagination event", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-        button.click();
+        button?.click();
       },
       PAGINATION_CSS,
     );
@@ -956,7 +955,7 @@ describe("pagination event", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-        button.click();
+        button?.click();
       },
       PAGINATION_CSS,
     );
@@ -1194,7 +1193,7 @@ describe("keyboard navigation", () => {
 
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
-        button.click();
+        button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
@@ -1248,7 +1247,7 @@ describe("keyboard navigation", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[2];
 
-        button.click();
+        button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
@@ -1643,7 +1642,7 @@ describe("keyboard navigation", () => {
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
 
-        button.click();
+        button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
@@ -2187,7 +2186,7 @@ describe("keyboard navigation", () => {
 
         const pagination = table.shadowRoot!.querySelector("calcite-pagination")!;
         const button = pagination.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${PAGINATION_CSS.page}`)[1];
-        button.click();
+        button?.click();
         (headerCell as TableHeader["el"]).setFocus();
       },
       PAGINATION_CSS,
