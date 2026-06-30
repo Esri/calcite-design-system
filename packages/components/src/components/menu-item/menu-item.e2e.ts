@@ -102,6 +102,11 @@ describe("theme", () => {
 
   describe("slotted submenu", () => {
     const commonTokens: ComponentTestTokens = {
+      "--calcite-border-width-sm": {
+        selector: "calcite-menu-item",
+        shadowSelector: `.${CSS.dropdownMenuItems}`,
+        targetProp: "borderWidth",
+      },
       "--calcite-menu-background-color": [
         {
           selector: "calcite-menu-item",
