@@ -10,10 +10,15 @@ import {
   focusable,
   t9n,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount(`calcite-filter`));
+});
 
 describe("cancelable", () => {
   mockConsole();

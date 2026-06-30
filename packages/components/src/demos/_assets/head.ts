@@ -21,7 +21,7 @@
       type: "module",
     },
     {
-      src: "/src/demos/_assets/spacer.ts",
+      src: "/src/demos/_assets/demo-spacer.ts",
       type: "module",
     },
     {

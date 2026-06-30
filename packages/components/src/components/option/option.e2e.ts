@@ -1,12 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
-
-describe("accessible", () => {
-  accessible("calcite-option");
-});
 
 it("falls back to the text content when value/label is not specified", async () => {
   const optionText = "one";

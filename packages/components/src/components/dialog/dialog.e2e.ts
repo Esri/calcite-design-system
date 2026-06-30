@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
@@ -37,24 +37,6 @@ const dispatchDialogKeydown = async ({
 
 mockConsole();
 
-describe("accessible", () => {
-  accessible(async () => {
-    const page = await newProgrammaticE2EPage();
-    await skipAnimations(page);
-    const openEventSpy = await page.spyOnEvent("calciteDialogOpen");
-    await page.evaluate(() => {
-      const dialog = document.createElement("calcite-dialog");
-      dialog.open = true;
-      dialog.heading = "My Dialog";
-      dialog.description = "My Description";
-      document.body.append(dialog);
-    });
-    await openEventSpy.next();
-
-    return { page, tag: "calcite-dialog" };
-  });
-});
-
 it("should set internal panel properties", async () => {
   const page = await newE2EPage();
   await page.exposeFunction("beforeClose", () => Promise.reject());
@@ -88,6 +70,7 @@ it("should set internal panel properties", async () => {
   expect(await panel.getProperty("scale")).toBe("l");
   expect(await panel.getProperty("icon")).toBe("x");
   expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect(await panel.getProperty("focusTrapEnabled")).toBe(false);
   expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
 });
 

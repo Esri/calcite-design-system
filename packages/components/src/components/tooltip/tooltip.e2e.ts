@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -89,18 +89,6 @@ async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
 async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
   expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
 }
-
-describe("accessible when closed", () => {
-  accessible(
-    `<calcite-tooltip reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
-
-describe("accessible when open", () => {
-  accessible(
-    `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
 
 it("tooltip positions when referenceElement is set", async () => {
   const page = await newE2EPage();

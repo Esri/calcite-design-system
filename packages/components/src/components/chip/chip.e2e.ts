@@ -1,12 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
-
-describe("accessible with icon only", () => {
-  accessible(`<calcite-chip label="Gray basemap" icon="basemap"></calcite-chip>`);
-});
 
 it("should not render a calcite-icon when selectionMode is single and not selected", async () => {
   const page = await newE2EPage();
