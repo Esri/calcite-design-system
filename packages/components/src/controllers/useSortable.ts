@@ -254,6 +254,8 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     });
 
     controller.onDisconnected(() => {
+      sortableComponentSet.delete(component);
+
       // If unchoose/end is skipped due to abrupt teardown, clear active drag
       // state to avoid blocking sortable setup for other components.
       markDragInactive(component);

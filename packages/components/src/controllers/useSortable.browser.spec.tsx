@@ -124,6 +124,7 @@ it("does not leave global drag state active when component disconnects mid-drag"
 
   await mountDragEnabled();
 
+  expect(component.onGlobalDragEnd).not.toHaveBeenCalled();
   expect(destroySpy).toHaveBeenCalledTimes(1);
   expect(createSpy).toHaveBeenCalledTimes(2);
 });
