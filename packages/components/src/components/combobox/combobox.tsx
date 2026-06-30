@@ -1905,7 +1905,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         label={label}
         messageOverrides={
           !disabled
-            ? { dismissLabel: messages.removeTag.replace("{value}", `${this.value}`) }
+            ? { dismissLabel: messages.removeTag.replace("{value}", `${label}`) }
             : undefined
         }
         oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : undefined}
