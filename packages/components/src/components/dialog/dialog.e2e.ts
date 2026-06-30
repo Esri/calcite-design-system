@@ -70,6 +70,7 @@ it("should set internal panel properties", async () => {
   expect(await panel.getProperty("scale")).toBe("l");
   expect(await panel.getProperty("icon")).toBe("x");
   expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect(await panel.getProperty("focusTrapEnabled")).toBe(false);
   expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
 });
 

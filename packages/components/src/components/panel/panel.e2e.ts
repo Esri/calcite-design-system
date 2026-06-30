@@ -497,11 +497,15 @@ describe("closable", () => {
       expect(await container.isVisible()).toBe(true);
 
       await page.$eval("calcite-panel", (panel: Panel["el"]) => {
-        panel.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            event.preventDefault();
-          }
-        });
+        panel.ownerDocument.addEventListener(
+          "keydown",
+          (event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+            }
+          },
+          { capture: true },
+        );
       });
 
       await panel.press("Escape");
