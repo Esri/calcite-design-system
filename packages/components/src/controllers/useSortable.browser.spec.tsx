@@ -62,9 +62,7 @@ it("creates Sortable when dragEnabled is true", async () => {
 it("sets fallbackOnBody for stable fallback ghost placement", async () => {
   await mountDragEnabled();
 
-  const sortableOptions = createSpy.mock.calls[0]?.[1] as {
-    fallbackOnBody?: boolean;
-  };
+  const [, sortableOptions] = createSpy.mock.calls[0];
 
   expect(sortableOptions.fallbackOnBody).toBe(true);
 });
@@ -81,10 +79,7 @@ it("destroys Sortable when dragEnabled becomes false and reset runs", async () =
 
 it("does not teardown Sortable when reset runs during choose/start drag window", async () => {
   const { component } = await mountDragEnabled();
-  const sortableOptions = createSpy.mock.calls[0]?.[1] as {
-    onChoose?: () => void;
-    onUnchoose?: () => void;
-  };
+  const [, sortableOptions] = createSpy.mock.calls[0];
 
   sortableOptions.onChoose?.();
   component.sortable.reset();
@@ -101,24 +96,7 @@ it("does not teardown Sortable when reset runs during choose/start drag window",
 
 it("dedupes global drag notifications across choose/start and end/unchoose", async () => {
   const { component } = await mountDragEnabled();
-  const sortableOptions = createSpy.mock.calls[0]?.[1] as {
-    onChoose?: () => void;
-    onUnchoose?: () => void;
-    onStart?: (detail: {
-      from: HTMLElement;
-      item: HTMLElement;
-      to: HTMLElement;
-      newDraggableIndex: number;
-      oldDraggableIndex: number;
-    }) => void;
-    onEnd?: (detail: {
-      from: HTMLElement;
-      item: HTMLElement;
-      to: HTMLElement;
-      newDraggableIndex: number;
-      oldDraggableIndex: number;
-    }) => void;
-  };
+  const [, sortableOptions] = createSpy.mock.calls[0];
 
   const dragDetail = {
     from: component.el,
@@ -139,9 +117,7 @@ it("dedupes global drag notifications across choose/start and end/unchoose", asy
 
 it("does not leave global drag state active when component disconnects mid-drag", async () => {
   const { component } = await mountDragEnabled();
-  const sortableOptions = createSpy.mock.calls[0]?.[1] as {
-    onChoose?: () => void;
-  };
+  const [, sortableOptions] = createSpy.mock.calls[0];
 
   sortableOptions.onChoose?.();
   component.remove();
