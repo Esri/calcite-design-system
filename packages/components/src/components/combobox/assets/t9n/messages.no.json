@@ -4,7 +4,7 @@
   "allSelected": "Alle valgte",
   "clear": "Fjern verdi",
   "noMatches": "Ingen samsvar",
-  "removeTag": "Fjern tagg",
+  "removeTag": "Remove {value} tag",
   "required": "Obligatorisk",
   "selectAll": "Velg alle",
   "selected": "valgte",

@@ -131,6 +131,7 @@ describe("scope interaction", () => {
   beforeEach(() => {
     vi.mocked(esToolkit.throttle).mockImplementation((toThrottle) => {
       const fakeThrottled = (...args: any[]) => toThrottle(...args);
+      // eslint-disable-next-line no-restricted-properties -- test mock requires throttle-compatible cancel API
       fakeThrottled.cancel = vi.fn();
       fakeThrottled.flush = vi.fn();
       return fakeThrottled;
