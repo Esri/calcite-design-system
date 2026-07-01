@@ -27,7 +27,6 @@ const resources = {
     },
     issueWorkflow: {
       needsTriage: "needs triage",
-      bounceBack: "bounce back",
       inDesign: "1 - in design",
       readyForDev: "2 - ready for dev",
       inDevelopment: "3 - in development",
@@ -41,6 +40,7 @@ const resources = {
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
       breakingChange: "breaking change",
+      bounceBack: "bounce back",
       futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
       paused: "paused",

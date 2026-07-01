@@ -181,7 +181,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
-      issueWorkflow.bounceBack,
+      planning.bounceBack,
       {
         column: mondayColumns.bounceBack,
         value: "Bounce Back",
