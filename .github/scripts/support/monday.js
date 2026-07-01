@@ -185,6 +185,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.bounceBack,
         value: "Bounce Back",
+        clearable: true,
       },
     ],
     [
