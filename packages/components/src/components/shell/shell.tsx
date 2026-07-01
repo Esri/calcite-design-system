@@ -245,7 +245,6 @@ export class Shell extends LitElement {
   }
 
   private syncResizableAttribute(): void {
-    // Keep existing precedence so top/bottom can control shell border styling.
     const nextResizableSlot =
       (this.panelSlotState["panel-bottom"].resizable && "panel-bottom") ||
       (this.panelSlotState["panel-top"].resizable && "panel-top") ||
