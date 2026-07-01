@@ -83,8 +83,6 @@ export class ShellPanel extends LitElement {
 
   //#region State Properties
 
-  @state() private hasActionBar = false;
-
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
     blockSize: null,
@@ -241,12 +239,6 @@ export class ShellPanel extends LitElement {
     }
     if (changes.has("actionBarPosition") && this.hasUpdated) {
       this.setActionBarsLayout(this.actionBars);
-    }
-    if (
-      (changes.has("layout") || changes.has("position") || changes.has("resizable")) &&
-      this.hasUpdated
-    ) {
-      this.setupInteractions();
     }
     if (changes.has("resizable") && this.hasUpdated) {
       this.calciteInternalShellPanelResizableChange.emit();
@@ -471,7 +463,6 @@ export class ShellPanel extends LitElement {
     );
 
     this.actionBars = actionBars;
-    this.hasActionBar = actionBars.length > 0;
     this.setActionBarsLayout(actionBars);
 
     await this.updateComplete;
