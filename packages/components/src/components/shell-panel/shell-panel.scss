@@ -770,8 +770,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
 }
 
 :host([action-bar-position]) {
-  --calcite-shell-border-color: red; // TODO: testing only, remove this
-
   ::slotted(calcite-action-bar) {
     display: flex;
     flex: 1 1 0;
@@ -1050,7 +1048,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
           var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
       ) *
       -1
-  ); // TODO: variablize this?
+  );
 
   &:host([resizable]) {
     // padding
@@ -1125,7 +1123,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
           var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
       ) *
       -1
-  ); // TODO: variablize this?
+  );
 
   // flex-direction
   --calcite-internal-shell-panel-container-flex-direction: row;
@@ -1176,7 +1174,7 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
           var(--calcite-internal-shell-panel-resize-handle-bar-footprint-side-size)
       ) *
       -1
-  ); // TODO: variablize this?
+  );
 
   // padding
   --calcite-internal-shell-panel-content-padding-block-end: 0;

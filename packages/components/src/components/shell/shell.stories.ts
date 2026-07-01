@@ -3162,7 +3162,8 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         --calcite-shell-panel-min-height: 200px; 
         --calcite-shell-panel-max-height: 900px; 
         --calcite-shell-panel-min-width: 200px; 
-        --calcite-shell-panel-max-width: 900px;"
+        --calcite-shell-panel-max-width: 900px;
+        --calcite-shell-border-color: blue;"
     >
       <calcite-shell-panel
         id="shellPanel"
