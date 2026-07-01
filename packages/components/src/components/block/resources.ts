@@ -39,7 +39,7 @@ export const SLOTS = {
   contentEnd: "content-end",
   contentStart: "content-start",
   headerMenuActions: "header-menu-actions",
-  section: "section",
+  sections: "sections",
 };
 
 export const ICONS: Record<string, IconName> = {

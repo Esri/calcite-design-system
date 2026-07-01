@@ -38,7 +38,7 @@ declare global {
  * @slot content-end - A slot for adding non-actionable elements after the component's header text.
  * @slot content-start - A slot for adding non-actionable elements before the component's header text.
  * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
- * @slot section - A slot for adding `calcite-block` elements.
+ * @slot sections - A slot for adding `calcite-block` elements.
  */
 export class Block extends LitElement {
   //#region Static Members
@@ -670,7 +670,7 @@ export class Block extends LitElement {
           >
             {this.renderScrim()}
           </section>
-          <slot name={SLOTS.section} />
+          <slot name={SLOTS.sections} />
         </article>
       </this.interactiveContainer>
     );

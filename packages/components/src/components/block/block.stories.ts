@@ -391,3 +391,15 @@ export const emptyHeader = (): string => html`
     </calcite-label>
   </calcite-block>
 `;
+
+export const toggleDisplaySwitch = (): string => html`
+  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible expanded>
+  </calcite-block>
+`;
+
+export const slottedSections = (): string => html`
+  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible expanded>
+    <calcite-block heading="Sub Heading1" description="description1"></calcite-block>
+    <calcite-block heading="Sub Heading2" description="description2"></calcite-block>
+  </calcite-block>
+`;
