@@ -1,5 +1,5 @@
 import { describe } from "vitest";
-import { accessible, labelable } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxCSS } from "../combobox/resources";
