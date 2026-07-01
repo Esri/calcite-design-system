@@ -29,6 +29,7 @@ type ShellPanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom"
 type PanelWithActionBarPositionStoryArgs = {
   shellPanelSlot: ShellPanelSlot;
   actionBarPosition: Position;
+  applyShellBorderColor: boolean;
   includeActionBar: boolean;
   isResizable: boolean;
 };
@@ -3163,7 +3164,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         --calcite-shell-panel-max-height: 900px; 
         --calcite-shell-panel-min-width: 200px; 
         --calcite-shell-panel-max-width: 900px;
-        --calcite-shell-border-color: blue;"
+        ${args.applyShellBorderColor ? "--calcite-shell-border-color: red;" : ""}"
     >
       <calcite-shell-panel
         id="shellPanel"
@@ -3184,6 +3185,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
 shellPanelWithActionBarPositionProp.args = {
   shellPanelSlot: "panel-start",
   actionBarPosition: "start",
+  applyShellBorderColor: false,
   includeActionBar: true,
   isResizable: true,
 };
@@ -3198,6 +3200,9 @@ shellPanelWithActionBarPositionProp.argTypes = {
     control: { type: "inline-radio" },
   },
   includeActionBar: {
+    control: { type: "boolean" },
+  },
+  applyShellBorderColor: {
     control: { type: "boolean" },
   },
   isResizable: {
@@ -3225,7 +3230,7 @@ shellPanelWithActionBarPositionProp.parameters = {
     cropToViewport: true,
   },
   controls: {
-    include: ["shellPanelSlot", "actionBarPosition", "includeActionBar", "resizable"],
+    include: ["shellPanelSlot", "actionBarPosition", "applyShellBorderColor", "includeActionBar", "resizable"],
     sort: "none",
   },
 };
