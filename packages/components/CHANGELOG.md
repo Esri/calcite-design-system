@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.14...@esri/calcite-components@5.2.0-next.15) (2026-07-01)
+
+### Features
+
+- **table:** enable sticky header ([#13906](https://github.com/Esri/calcite-design-system/issues/13906)), closes [#9799](https://github.com/Esri/calcite-design-system/issues/9799)
+
+## [5.2.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.13...@esri/calcite-components@5.2.0-next.14) (2026-07-01)
+
+### Features
+
+- **combobox, input-time-zone, segmented-control:** add corner-radius tokens ([#14402](https://github.com/Esri/calcite-design-system/issues/14402)), closes [#14353](https://github.com/Esri/calcite-design-system/issues/14353)
+
+## [5.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.12...@esri/calcite-components@5.2.0-next.13) (2026-07-01)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.11...@esri/calcite-components@5.2.0-next.12) (2026-06-30)
 
 ### Features

@@ -106,6 +106,7 @@ import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
 import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
+import { inputTimeZone, inputTimeZoneTokens } from "./custom-theme/input-time-zone";
 import { colorPicker, colorPickerTokens } from "./custom-theme/color-picker";
 
 const globalTokens = {
@@ -187,8 +188,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
         ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
         ${inputNumberLoading} ${inputNumberWithPrefixAndSuffix} ${inputNumberReadOnly}
         ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText} ${inputTextClearable}
-        ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly} ${comboboxWithPlaceHolderIcon}
-        ${defaultCombobox}
+        ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly} ${inputTimePicker} ${inputTimeZone}
+        ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
         <div>${card}</div>
@@ -265,9 +266,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${colorPicker}</div>
     </div>
-    <div class="demo-row">
-      <div class="demo-column">${inputTimePicker}</div>
-    </div>
   </div>`;
 
 const componentTokens = {
@@ -342,6 +340,7 @@ const componentTokens = {
   ...swatchTokens,
   ...splitButtonTokens,
   ...inputTimePickerTokens,
+  ...inputTimeZoneTokens,
   ...colorPickerTokens,
 };
 

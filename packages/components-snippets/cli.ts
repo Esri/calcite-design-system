@@ -20,7 +20,10 @@ type ParsedBlocks = {
   unknownLanguages: Set<string>;
 };
 
-const SNIPPETS_DIR_REL = "../calcite-documentation/documentation/component-sample-snippets";
+const SNIPPETS_DIR = `${
+  process.env.CALCITE_DOCUMENTATION ? process.env.CALCITE_DOCUMENTATION : "../calcite-documentation"
+}/documentation/component-sample-snippets`;
+
 const INDEX_HTML_REL = "packages/components/index.html";
 
 type CliArgs = {
@@ -303,7 +306,7 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
 
 async function run(component?: string): Promise<void> {
   const repoRoot = await findRepoRoot(process.cwd());
-  const snippetsRoot = path.join(repoRoot, SNIPPETS_DIR_REL);
+  const snippetsRoot = process.env.CALCITE_DOCUMENTATION ? SNIPPETS_DIR : path.join(repoRoot, SNIPPETS_DIR);
   const indexHtmlPath = path.join(repoRoot, INDEX_HTML_REL);
 
   const componentsMap = await collectComponents(snippetsRoot);
