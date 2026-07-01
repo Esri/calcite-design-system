@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -25,6 +26,16 @@ mockConsole();
 
 afterEach(() => {
   vi.restoreAllMocks();
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker"));
+  });
+
+  describe("clearable + cleared", () => {
+    accessible(() => mount(<calcite-color-picker clearable value="" />));
+  });
 });
 
 describe("cancelable", () => {

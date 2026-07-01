@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.12...@esri/calcite-components@5.2.0-next.13) (2026-07-01)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [5.2.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.11...@esri/calcite-components@5.2.0-next.12) (2026-06-30)
+
+### Features
+
+- **panel, flow-item:** add dialog role and focus trap support when closable ([#14685](https://github.com/Esri/calcite-design-system/issues/14685)), closes [#6951](https://github.com/Esri/calcite-design-system/issues/6951)
+
+## [5.2.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.10...@esri/calcite-components@5.2.0-next.11) (2026-06-30)
+
+### Bug Fixes
+
+- **components:** harden sortable touch drag ghost lifecycle ([#14717](https://github.com/Esri/calcite-design-system/issues/14717)), closes [#14678](https://github.com/Esri/calcite-design-system/issues/14678)
+
 ## [5.2.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.9...@esri/calcite-components@5.2.0-next.10) (2026-06-30)
 
 ### Bug Fixes
