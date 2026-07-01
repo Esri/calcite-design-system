@@ -4,6 +4,7 @@ export const segmentedControlTokens = {
   calciteSegmentedControlColor: "",
   calciteSegmentedControlBackgroundColor: "",
   calciteSegmentedControlBorderColor: "",
+  calciteSegmentedControlCornerRadius: "",
   calciteSegmentedControlShadow: "",
   calciteSegmentedControlIconColor: "",
 };

@@ -2342,6 +2342,11 @@ describe("theme", () => {
         selector: "calcite-combobox",
         targetProp: "color",
       },
+      "--calcite-combobox-corner-radius": {
+        shadowSelector: `.${CSS.wrapper}`,
+        selector: "calcite-combobox",
+        targetProp: "borderRadius",
+      },
       "--calcite-combobox-icon-color": {
         shadowSelector: `.${CSS.icon}`,
         selector: "calcite-combobox",
