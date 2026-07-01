@@ -159,6 +159,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     paused: { id: "color_mkv79bbx", title: "Paused" },
     blocked: { id: "color_mkv7x1gw", title: "Blocked" },
     breaking: { id: "color_mm48xr8j", title: "Breaking" },
+    bounceBack: { id: getColumnId({ calcite: "color_mm4vksav", docs: "color_mm4vh9j8" }), title: "Bounce Back" },
     spike: { id: "color_mkrt20dy", title: "Spike" },
     figmaChanges: { id: "color_mkrvmhg7", title: "Figma Changes" },
     open: { id: "color_mknkrb2n", title: "Open/Closed" },
@@ -177,6 +178,13 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.status,
         value: "Needs Triage",
+      },
+    ],
+    [
+      issueWorkflow.bounceBack,
+      {
+        column: mondayColumns.bounceBack,
+        value: "Bounce Back",
       },
     ],
     [
