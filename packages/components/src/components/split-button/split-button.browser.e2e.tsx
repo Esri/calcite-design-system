@@ -8,10 +8,78 @@ import {
   hidden,
   renders,
   disabled,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
+
+  describe("accessible when disabled", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button disabled dropdown-label="Show options" primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
+
+  describe("accessible when loading", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" loading primary-text="Button Text">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
+
+  describe("accessible with icons and no text", () => {
+    accessible(() =>
+      mount(
+        <calcite-split-button
+          dropdown-label="Show options"
+          icon-end="plus"
+          icon-start="plus"
+          primary-label="Button label"
+        >
+          <calcite-dropdown-group>
+            <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
+            <calcite-dropdown-item id="item-2" selected>
+              Item2
+            </calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-split-button>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

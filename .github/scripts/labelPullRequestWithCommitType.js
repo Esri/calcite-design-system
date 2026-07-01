@@ -54,7 +54,7 @@ function getLabelName(type) {
     case "docs":
       return issueType.docs;
     case "test":
-      return issueType.testing;
+      return issueType.test;
     case "refactor":
       return issueType.refactor;
     case "tooling":

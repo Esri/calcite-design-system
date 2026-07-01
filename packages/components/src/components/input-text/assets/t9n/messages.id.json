@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Cancel",
   "clear": "Hapus nilai",
+  "confirmInlineEditingChanges": "Save",
+  "enableInlineEditing": "Edit",
   "loading": "Memuat",
   "required": "Wajib"
 }

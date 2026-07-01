@@ -88,7 +88,7 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -146,7 +146,7 @@ export class Carousel extends LitElement {
    */
   @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -437,7 +437,7 @@ export class Carousel extends LitElement {
 
   private handleItemSelection(event: MouseEvent): void {
     const item = event.currentTarget as HTMLElement;
-    const requestedPosition = parseInt(item.dataset.index!);
+    const requestedPosition = parseInt(item.dataset.index!, 10);
 
     if (requestedPosition === this.selectedIndex) {
       return;
@@ -698,11 +698,8 @@ export class Carousel extends LitElement {
 
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
-        {messages
-          .paginationStatus!.replace(
-            "{current}",
-            numberStringFormatter.localize(`${selectedIndex + 1}`),
-          )
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );

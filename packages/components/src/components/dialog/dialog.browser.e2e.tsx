@@ -14,11 +14,24 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(async () => {
+    const openEvent = waitForEvent(document, "calciteDialogOpen");
+    const renderResult = await mount(
+      <calcite-dialog description="My description" heading="My dialog" open={true} />,
+    );
+    await openEvent;
+    return renderResult;
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -307,8 +320,8 @@ describe("fullscreen disabled", () => {
 
       const computedStyle = window.getComputedStyle(dialog);
 
-      expect(parseInt(computedStyle.width)).toBeLessThan(width);
-      expect(parseInt(computedStyle.height)).toBeLessThan(height);
+      expect(parseInt(computedStyle.width, 10)).toBeLessThan(width);
+      expect(parseInt(computedStyle.height, 10)).toBeLessThan(height);
     },
   );
 
@@ -332,8 +345,10 @@ describe("fullscreen disabled", () => {
     await component.updateComplete;
 
     const resizedStyle = window.getComputedStyle(dialog);
-    expect(parseInt(resizedStyle.width)).toBeGreaterThanOrEqual(minimumDialogWidthForMediumScale);
-    expect(parseInt(resizedStyle.width)).toBeLessThan(viewportWidth);
+    expect(parseInt(resizedStyle.width, 10)).toBeGreaterThanOrEqual(
+      minimumDialogWidthForMediumScale,
+    );
+    expect(parseInt(resizedStyle.width, 10)).toBeLessThan(viewportWidth);
   });
 });
 

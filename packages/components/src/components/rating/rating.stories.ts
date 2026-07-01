@@ -92,8 +92,8 @@ export const validationMessageAllScales = (): string => html`
     .container {
       display: flex;
       flex-direction: column;
-      width: 400px;
-      height: 200px;
+      min-inline-size: 400px;
+      min-block-size: 200px;
       gap: 40px;
     }
   </style>

@@ -89,11 +89,7 @@ export class Select extends LitElement implements LabelableComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form: string;
 
   /**
@@ -103,10 +99,10 @@ export class Select extends LitElement implements LabelableComponent {
    */
   @property() label: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name: string;
 
   /**
@@ -137,7 +133,7 @@ export class Select extends LitElement implements LabelableComponent {
   @property() validationMessage: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -150,7 +146,7 @@ export class Select extends LitElement implements LabelableComponent {
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

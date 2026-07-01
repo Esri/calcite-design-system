@@ -84,7 +84,7 @@ export class Notice extends LitElement {
   @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
     "outline-fill";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
@@ -99,7 +99,7 @@ export class Notice extends LitElement {
     Kind
   > = "brand";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */

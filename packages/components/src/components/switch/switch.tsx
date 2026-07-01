@@ -48,20 +48,16 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /** Specifies the component's end label text. */
@@ -70,7 +66,7 @@ export class Switch extends LitElement implements LabelableComponent {
   /** Specifies the component's start label text.*/
   @property() labelTextStart?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
+  /** @copyDoc */
   @property({ reflect: true }) name?: string;
 
   /** Specifies the component's size. */

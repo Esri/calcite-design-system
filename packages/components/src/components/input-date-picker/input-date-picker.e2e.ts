@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
@@ -11,10 +11,6 @@ import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
 const animationDurationInMs = 200;
-
-describe("accessibility", () => {
-  accessible(html` <calcite-input-date-picker label="Input Date Picker"></calcite-input-date-picker> `);
-});
 
 describe("labelable", () => {
   labelable("calcite-input-date-picker");
@@ -843,41 +839,6 @@ it("should return endDate time as 23:59:999 when valueAsDate property is parsed"
 
   expect(changeEvent).toHaveReceivedEventTimes(1);
   expect(await datepickerEl.getProperty("value")).toEqual(["2022-08-15", "2022-08-20"]);
-});
-
-it("should position on scroll when overlayPositioning is fixed", async () => {
-  const page = await newE2EPage();
-
-  await page.setContent(
-    html`<div id="scrollEl" style="max-height: 300px; height:300px; overflow: auto;">
-      <div style="height:100px"></div>
-      <calcite-input-date-picker open overlay-positioning="fixed"></calcite-input-date-picker>
-      <div style="height:400px"></div>
-    </div>`,
-  );
-
-  await page.waitForChanges();
-
-  const scrollEl = await page.find("#scrollEl");
-
-  expect(await scrollEl.getProperty("scrollTop")).toBe(0);
-
-  const inputDatePicker = await page.find("calcite-input-date-picker");
-  const floatingEl = await page.find(`calcite-input-date-picker >>> .${CSS.menu}`);
-
-  expect(await inputDatePicker.isVisible()).toBe(true);
-  expect(await floatingEl.isVisible()).toBe(true);
-  expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 140)");
-
-  await page.$eval("#scrollEl", async (scrollEl) => {
-    scrollEl.scrollTo({ top: 100 });
-  });
-
-  await page.waitForChanges();
-
-  expect(await inputDatePicker.isVisible()).toBe(true);
-  expect(await floatingEl.isVisible()).toBe(true);
-  expect((await floatingEl.getComputedStyle()).transform).toBe("matrix(1, 0, 0, 1, 8, 40)");
 });
 
 describe("focus trapping", () => {

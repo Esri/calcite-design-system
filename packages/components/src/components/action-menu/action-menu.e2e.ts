@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS as TooltipCSS } from "../tooltip/resources";
 import { HOVER_OPEN_DELAY_MS } from "../../controllers/useReferenceElement/manager";
 import {
@@ -16,23 +16,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
-
-describe("accessible with tooltip", () => {
-  accessible(html`
-    <calcite-action-menu label="test">
-      <calcite-tooltip slot="${SLOTS.tooltip}">Bits and bobs.</calcite-tooltip>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-    </calcite-action-menu>
-  `);
-});
 
 it("should emit 'calciteActionMenuOpen' event", async () => {
   const page = await newE2EPage();

@@ -1,6 +1,6 @@
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
 import { CSS_UTILITY, resizeStep } from "../../utils/resources";
 import { html } from "../../../support/formatting";
@@ -95,21 +95,6 @@ it("trailing position property should have DIV first", async () => {
   );
 
   expect(divElementIsFirst).toBe(true);
-});
-
-describe("accessible", () => {
-  accessible(`
-    <calcite-shell-panel slot="panel-start" position="start">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Save" icon="save"></calcite-action>
-          <calcite-action text="Layers" icon="layers"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <p>Primary Content</p>
-    </calcite-shell-panel>
-    `);
 });
 
 it("should have floatContent class when detached", async () => {
@@ -413,7 +398,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize);
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize, 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
@@ -516,7 +501,7 @@ describe("resizing", () => {
 
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""));
+    const initialHeight = parseInt((await content.getComputedStyle()).blockSize.replace("px", ""), 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();

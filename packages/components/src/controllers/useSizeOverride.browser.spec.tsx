@@ -45,6 +45,42 @@ it("applies clamped size within min/max", () => {
   });
 });
 
+it("applies inline axis without changing block axis", () => {
+  component.sizeOverride.resize({ inline: 200, block: 250 });
+
+  const size = component.sizeOverride.resize({ inline: 300 });
+  expect(component.ref.value!.style.inlineSize).toBe("300px");
+  expect(component.ref.value!.style.blockSize).toBe("250px");
+  expect(size.inline).toBe(300);
+  expect(size.block).toBeNull();
+  expect(onResizeSpy).toHaveBeenLastCalledWith({
+    inlineSize: 300,
+    blockSize: null,
+    minInlineSize: 100,
+    maxInlineSize: 500,
+    minBlockSize: 60,
+    maxBlockSize: 400,
+  });
+});
+
+it("applies block axis without changing inline axis", () => {
+  component.sizeOverride.resize({ inline: 200, block: 250 });
+
+  const size = component.sizeOverride.resize({ block: 300 });
+  expect(component.ref.value!.style.inlineSize).toBe("200px");
+  expect(component.ref.value!.style.blockSize).toBe("300px");
+  expect(size.inline).toBeNull();
+  expect(size.block).toBe(300);
+  expect(onResizeSpy).toHaveBeenLastCalledWith({
+    inlineSize: null,
+    blockSize: 300,
+    minInlineSize: 100,
+    maxInlineSize: 500,
+    minBlockSize: 60,
+    maxBlockSize: 400,
+  });
+});
+
 it("clamps size below min", () => {
   const size = component.sizeOverride.resize({ inline: 50, block: 50 });
   expect(component.ref.value!.style.inlineSize).toBe("100px");

@@ -119,11 +119,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /**
@@ -135,10 +131,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
-  /** Specifies the component's label text. */
+  /** @copyDoc */
   @property() labelText?: string;
 
   /**
@@ -149,7 +145,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property({ reflect: true }) max?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
@@ -160,7 +156,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    */
   @property({ reflect: true }) min?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
+  /** @copyDoc */
   @property() name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
@@ -169,13 +165,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the component's placeholder text. */
@@ -215,7 +205,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
@@ -613,7 +603,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.hour}
                 aria-valuemax="23"
                 aria-valuemin="1"
-                aria-valuenow={(hourIsNumber && parseInt(hour!)) || "0"}
+                aria-valuenow={(hourIsNumber && parseInt(hour!, 10)) || "0"}
                 aria-valuetext={hour}
                 class={{
                   [CSS.empty]: !localizedHour,
@@ -634,7 +624,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                 aria-label={this.messages.minute}
                 aria-valuemax="12"
                 aria-valuemin="1"
-                aria-valuenow={(minuteIsNumber && parseInt(minute!)) || "0"}
+                aria-valuenow={(minuteIsNumber && parseInt(minute!, 10)) || "0"}
                 aria-valuetext={minute}
                 class={{
                   [CSS.empty]: !localizedMinute,
@@ -656,7 +646,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   aria-label={this.messages.second}
                   aria-valuemax="59"
                   aria-valuemin="0"
-                  aria-valuenow={(secondIsNumber && parseInt(second!)) || "0"}
+                  aria-valuenow={(secondIsNumber && parseInt(second!, 10)) || "0"}
                   aria-valuetext={second}
                   class={{
                     [CSS.empty]: !localizedSecond,
@@ -681,7 +671,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
                   aria-label={this.messages.fractionalSecond}
                   aria-valuemax="999"
                   aria-valuemin="1"
-                  aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond!)) || "0"}
+                  aria-valuenow={
+                    (fractionalSecondIsNumber && parseInt(fractionalSecond!, 10)) || "0"
+                  }
                   aria-valuetext={localizedFractionalSecond}
                   class={{
                     [CSS.empty]: !localizedFractionalSecond,

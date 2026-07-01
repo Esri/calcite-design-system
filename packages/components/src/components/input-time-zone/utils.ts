@@ -106,8 +106,8 @@ export async function createTimeZoneItems(
             const offsetStringA = timeZoneA.substring(gmtTimeZoneString.length);
             const offsetStringB = timeZoneB.substring(gmtTimeZoneString.length);
 
-            const offsetA = offsetStringA === "" ? 0 : parseInt(offsetStringA);
-            const offsetB = offsetStringB === "" ? 0 : parseInt(offsetStringB);
+            const offsetA = offsetStringA === "" ? 0 : parseInt(offsetStringA, 10);
+            const offsetB = offsetStringB === "" ? 0 : parseInt(offsetStringB, 10);
 
             return offsetB - offsetA;
           }
