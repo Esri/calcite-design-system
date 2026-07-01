@@ -179,6 +179,9 @@ export class ShellPanel extends LitElement {
   //#region Events
 
   /** @private */
+  calciteInternalShellPanelActionBarPositionChange = createEvent({ cancelable: false });
+
+  /** @private */
   calciteInternalShellPanelResizableChange = createEvent({ cancelable: false });
 
   /** @private */
@@ -249,6 +252,12 @@ export class ShellPanel extends LitElement {
       } else {
         this.calciteShellPanelExpand.emit();
       }
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("actionBarPosition")) {
+      this.calciteInternalShellPanelActionBarPositionChange.emit();
     }
   }
 

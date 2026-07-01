@@ -89,6 +89,10 @@ export class Shell extends LitElement {
       this.handleCalciteInternalShellPanelResizableChange,
     );
     this.listen(
+      "calciteInternalShellPanelActionBarPositionChange",
+      this.handleCalciteInternalShellPanelActionBarPositionChange,
+    );
+    this.listen(
       "calciteInternalShellPanelResizeStart",
       this.handleCalciteInternalShellPanelResizeStart,
     );
@@ -116,6 +120,20 @@ export class Shell extends LitElement {
   //#region Private Methods
 
   private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
+    const panel = event
+      .composedPath()
+      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
+      | ShellPanel["el"]
+      | undefined;
+
+    if (panel?.slot && this.panelSlots.includes(panel.slot as PanelSlot)) {
+      this.updateResizableSlotState(panel.slot as PanelSlot);
+    }
+
+    event.stopPropagation();
+  }
+
+  private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
     const panel = event
       .composedPath()
       .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
@@ -242,6 +260,17 @@ export class Shell extends LitElement {
       resizable: panelElements.some((panel) => panel.resizable),
     };
     this.syncResizableAttribute();
+    this.syncActionBarPositionPanelAttribute();
+  }
+
+  private syncActionBarPositionPanelAttribute(): void {
+    const hasActionBarPositionPanel = this.panelSlots.some((slot) =>
+      this.panelSlotState[slot].elements.some(
+        (panel) => !!panel.actionBarPosition || panel.hasAttribute("action-bar-position"),
+      ),
+    );
+
+    this.el.toggleAttribute("data-has-action-bar-position-panel", hasActionBarPositionPanel);
   }
 
   private syncResizableAttribute(): void {

@@ -55,6 +55,40 @@ it("should set 'layout' and 'position' on slotted panels", async () => {
   expect(await topPanel.getProperty("layout")).toBe("horizontal");
 });
 
+describe("action bar position panel", () => {
+  mockConsole();
+
+  it("should reflect when a slotted shell panel has an action bar position", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent(
+      html`<calcite-shell>
+        <calcite-panel heading="Content"></calcite-panel>
+        <calcite-shell-panel action-bar-position="bottom" slot="${SLOTS.panelBottom}">
+          <p>Bottom Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>`,
+    );
+
+    await page.waitForChanges();
+
+    const shell = await page.find("calcite-shell");
+    const shellPanel = await page.find("calcite-shell-panel");
+
+    expect(shell).toHaveAttribute("data-has-action-bar-position-panel");
+
+    await shellPanel.setProperty("actionBarPosition", undefined);
+    await page.waitForChanges();
+
+    expect(shell).not.toHaveAttribute("data-has-action-bar-position-panel");
+
+    await shellPanel.setProperty("actionBarPosition", "top");
+    await page.waitForChanges();
+
+    expect(shell).toHaveAttribute("data-has-action-bar-position-panel");
+  });
+});
+
 it("should place content behind", async () => {
   const page = await newE2EPage();
 
