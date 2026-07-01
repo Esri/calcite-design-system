@@ -41,6 +41,10 @@ describe("defaults", () => {
         defaultValue: "absolute",
       },
       {
+        propertyName: "placeholder",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "status",
         defaultValue: "idle",
       },
