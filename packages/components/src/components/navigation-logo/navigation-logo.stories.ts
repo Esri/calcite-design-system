@@ -14,6 +14,7 @@ export default {
     active: false,
     description: "City of AcmeCo",
     heading: "ArcGIS Online",
+    icon: "",
   },
   argTypes: {
     icon: {

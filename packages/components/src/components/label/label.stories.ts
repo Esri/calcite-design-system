@@ -5,13 +5,12 @@ import type { Label } from "./label";
 
 const { alignment, labelLayout, scale } = ATTRIBUTES;
 
-type LabelStoryArgs = Pick<Label, "alignment" | "for" | "layout" | "scale">;
+type LabelStoryArgs = Pick<Label, "alignment" | "layout" | "scale">;
 
 export default {
   title: "Components/Label",
   args: {
     alignment: alignment.defaultValue,
-    for: "label-controls-input",
     layout: "default",
     scale: scale.defaultValue,
   },
@@ -33,7 +32,7 @@ export default {
 
 export const simple = (args: LabelStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
-    <calcite-label alignment="${args.alignment}" for="${args.for}" layout="${args.layout}" scale="${args.scale}">
+    <calcite-label alignment="${args.alignment}" layout="${args.layout}" scale="${args.scale}">
       Controlled label
       <calcite-input-text id="label-controls-input" placeholder="Adjust label controls"></calcite-input-text>
     </calcite-label>

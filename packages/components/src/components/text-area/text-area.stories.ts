@@ -40,7 +40,7 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
-    limitText: "",
+    limitText: false,
     loading: false,
     maxLength: undefined,
     name: "",
