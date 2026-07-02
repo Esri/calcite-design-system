@@ -1469,12 +1469,6 @@ export class ColorPicker extends LitElement {
       opacityTop,
     );
 
-    console.log(
-      colorFieldScopeLeft,
-      colorFieldScopeTop,
-      adjustedColorFieldScopeTop,
-      adjustedColorFieldScopeLeft,
-    );
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
