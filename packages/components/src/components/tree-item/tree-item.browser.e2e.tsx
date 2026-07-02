@@ -9,10 +9,9 @@ import {
   renders,
   slots,
   accessible,
-themed
+  themed,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {

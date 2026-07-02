@@ -12,8 +12,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-accordion-item heading="My Heading" />));

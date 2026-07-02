@@ -2,7 +2,6 @@ import { Fragment, h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-
 import {
   defaults,
   reflects,
@@ -12,11 +11,11 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 

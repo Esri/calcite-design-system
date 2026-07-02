@@ -14,8 +14,7 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("accessible with icon only", () => {
   accessible(() => mount(<calcite-chip icon="basemap" label="Gray basemap" />));
