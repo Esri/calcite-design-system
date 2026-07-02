@@ -162,7 +162,7 @@ export class Table extends LitElement {
   /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
 
-  /** When `true`, displays the table header as sticky while the table remains in view. */
+  /** When `true`, displays the component's `table-header` slot as sticky while the component remains in view. */
   @property({ reflect: true }) stickyHeader = false;
 
   //#endregion

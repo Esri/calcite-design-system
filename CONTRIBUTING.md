@@ -102,7 +102,12 @@ Certain labels indicate that an issue is not ready for development:
 
 #### Blocked issues process
 
-When an issue blocks or is blocked by other GitHub issues, they should be linked using GitHub’s issue relationships. To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
+When an issue blocks or is blocked by other GitHub issues:
+
+- Link the issues using GitHub's issue relationships.
+- Apply the `blocked` label to support Monday syncing.
+
+To track when an issue becomes unblocked, an automation performs the following actions when a blocking issue is closed:
 
 - Retrieves the list of issues that were blocked by the closed issue
 - Checks each issue for any remaining open blocking issues
