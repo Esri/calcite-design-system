@@ -1,5 +1,6 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
   accessible,
   defaults,
@@ -92,5 +93,20 @@ describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-time-zone"), {
     testValue: "-360",
     clearable: false,
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-input-time-zone"), {
+    "--calcite-input-time-zone-corner-radius": [
+      {
+        shadowSelector: "calcite-combobox",
+        targetProp: "--calcite-combobox-corner-radius",
+      },
+      {
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+    ],
   });
 });
