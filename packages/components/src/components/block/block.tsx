@@ -558,7 +558,7 @@ export class Block extends LitElement {
         class={{
           [CSS.header]: true,
           [CSS.headerHasContent]: headerHasContent,
-          [CSS.headerDraggable]: this.dragHandle,
+          [CSS.headerDraggable]: this.dragHandle && !this.dragDisabled,
         }}
         id={IDS.header}
       >
@@ -573,7 +573,7 @@ export class Block extends LitElement {
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? (
+        {this.dragHandle && !this.dragDisabled ? (
           <calcite-sort-handle
             addToItems={addToItems}
             disabled={dragDisabled}
@@ -670,7 +670,7 @@ export class Block extends LitElement {
           >
             {this.renderScrim()}
           </section>
-          <slot name={SLOTS.sections} />
+          <slot hidden={!expanded} name={SLOTS.sections} />
         </article>
       </this.interactiveContainer>
     );

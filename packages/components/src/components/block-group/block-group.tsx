@@ -23,7 +23,7 @@ import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
-import { Scale } from "../interfaces";
+import { Scale, SelectionMode } from "../interfaces";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS } from "./resources";
@@ -118,6 +118,20 @@ export class BlockGroup extends LitElement {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * Specifies the selection mode of the component, where:
+   *
+   * `"multiple"` allows any number of selections,
+   *
+   * `"single"` allows only one selection, and
+   *
+   * `"single-persist"` allows one selection and prevents de-selection.
+   */
+  @property({ reflect: true }) selectionMode: Extract<
+    "single" | "single-persist" | "multiple",
+    SelectionMode
+  > = "multiple";
 
   /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
