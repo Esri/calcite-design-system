@@ -11,7 +11,6 @@ type InputTimeZoneStoryArgs = Pick<
   | "clearable"
   | "disabled"
   | "mode"
-  | "name"
   | "offsetStyle"
   | "open"
   | "readOnly"
@@ -30,7 +29,6 @@ export default {
     clearable: false,
     disabled: false,
     mode: mode.defaultValue,
-    name: "",
     offsetStyle: "user",
     open: false,
     readOnly: false,
@@ -77,7 +75,6 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
     ${boolean("clearable", args.clearable)}
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
-    name="${args.name}"
     offset-style="${args.offsetStyle}"
     ${boolean("open", args.open)}
     ${boolean("read-only", args.readOnly)}

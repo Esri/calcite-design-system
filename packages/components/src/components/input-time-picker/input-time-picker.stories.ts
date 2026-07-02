@@ -12,7 +12,6 @@ interface InputTimePickerStoryArgs extends Pick<
   | "hourFormat"
   | "max"
   | "min"
-  | "name"
   | "open"
   | "placeholder"
   | "placement"
@@ -36,7 +35,6 @@ export default {
     hourFormat: undefined,
     max: "",
     min: "",
-    name: "simple",
     open: false,
     placement: menuPlacement.defaultValue,
     readOnly: false,
@@ -79,7 +77,6 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     hour-format="${args.hourFormat}"
     max="${args.max}"
     min="${args.min}"
-    name="${args.name}"
     placeholder="${args.placeholder}"
     placement="${args.placement}"
     ${boolean("read-only", args.readOnly)}

@@ -10,7 +10,6 @@ interface TimePickerStoryArgs extends Pick<TimePicker, "hourFormat" | "numbering
   disabled: boolean;
   hidden: boolean;
   lang: string;
-  name: string;
   placement: string;
 }
 
@@ -21,7 +20,6 @@ export default {
     hidden: false,
     lang: defaultLocale,
     hourFormat: hourFormat.defaultValue,
-    name: "simple",
     numberingSystem: numberingSystem.defaultValue,
     placement: menuPlacement.defaultValue,
     scale: scale.defaultValue,
@@ -58,7 +56,6 @@ export const simple = (args: TimePickerStoryArgs): string => html`
     ${boolean("hidden", args.hidden)}
     lang="${args.lang}"
     hour-format="${args.hourFormat}"
-    name="${args.name}"
     numbering-system="${args.numberingSystem}"
     placement="${args.placement}"
     scale="${args.scale}"

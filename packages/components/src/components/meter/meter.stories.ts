@@ -16,7 +16,6 @@ type MeterStoryArgs = Pick<
   | "appearance"
   | "disabled"
   | "label"
-  | "name"
   | "rangeLabelType"
   | "scale"
   | "valueLabelType"
@@ -38,7 +37,6 @@ export default {
     appearance: appearance.values[2],
     disabled: false,
     label: "Meter example",
-    name: "",
     rangeLabelType: labelType.defaultValue,
     scale: scale.defaultValue,
     valueLabelType: labelType.defaultValue,
@@ -81,7 +79,6 @@ export const simple = (args: MeterStoryArgs): string =>
     high="${args.high}"
     value="${args.value}"
     fill-type="${args.fillType}"
-    name="${args.name}"
     appearance="${args.appearance}"
     range-label-type="${args.rangeLabelType}"
     scale="${args.scale}"
