@@ -1,7 +1,7 @@
-import { Fragment, h, JsxNode } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { h, Fragment, JsxNode } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -13,11 +13,13 @@ import {
   focusable,
   t9n,
   disabled,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
+import type { Panel } from "./panel";
 import { CSS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
@@ -145,6 +147,10 @@ describe("defaults", () => {
         propertyName: "iconFlipRtl",
         defaultValue: false,
       },
+      {
+        propertyName: "focusTrapEnabled",
+        defaultValue: false,
+      },
     ],
   );
 });
@@ -224,6 +230,10 @@ describe("reflects", () => {
       {
         propertyName: "iconFlipRtl",
         value: "true",
+      },
+      {
+        propertyName: "focusTrapEnabled",
+        value: true,
       },
     ],
   );
@@ -563,4 +573,120 @@ describe("deprecated", () => {
       },
     },
   );
+});
+
+describe("focus trap", () => {
+  it("applies dialog semantics only when focus trap is enabled", async () => {
+    const { component } = await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Panel heading" }))
+      .not.toBeInTheDocument();
+
+    component.el.focusTrapEnabled = true;
+
+    await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
+  });
+
+  it("does not apply dialog semantics when not closable", async () => {
+    await mount<Panel>(<calcite-panel heading="Panel heading" />);
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Panel heading" }))
+      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("article")).toBeInTheDocument();
+  });
+
+  it("does not close or emit close on Escape when not closable", async () => {
+    const { component } = await mount<Panel>(
+      <calcite-panel heading="Panel heading">
+        <button type="button">inside one</button>
+      </calcite-panel>,
+    );
+
+    let closeEventCount = 0;
+    component.el.addEventListener("calcitePanelClose", () => closeEventCount++);
+
+    await expect(component.el.setFocus()).resolves.toBeUndefined();
+    await expect.element(page.getByRole("article")).toBeInTheDocument();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(component.el.closed).toBe(false);
+    expect(closeEventCount).toBe(0);
+  });
+
+  it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
+    const { component } = await mount<Panel>(
+      <>
+        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-panel>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideTwo = page.getByText("inside two", { exact: true });
+    const outsideControl = page.getByText("outside control", { exact: true });
+
+    await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
+
+    component.el.focusTrapEnabled = false;
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Panel heading" }))
+      .not.toBeInTheDocument();
+    await expect.element(page.getByRole("article")).toBeInTheDocument();
+
+    await expect(component.el.setFocus()).resolves.toBeUndefined();
+
+    await userEvent.tab();
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(outsideControl).toHaveFocus();
+  });
+
+  it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
+    const { component } = await mount<Panel>(
+      <>
+        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-panel>
+        <button id="panel-outside-control" type="button">
+          outside control
+        </button>
+      </>,
+    );
+
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const outsideControlEl = component.el.ownerDocument.getElementById(
+      "panel-outside-control",
+    ) as HTMLButtonElement;
+
+    component.el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
+    await expect(outsideControl).toBeInTheDocument();
+  });
+});
+
+it("closes on Escape through keyboard interaction when closable", async () => {
+  const { el } = await mount<Panel>(
+    <calcite-panel closable heading="Panel heading">
+      <button type="button">inside one</button>
+    </calcite-panel>,
+  );
+
+  const closeHandler = vi.fn();
+  el.addEventListener("calcitePanelClose", closeHandler);
+
+  await expect(el.setFocus()).resolves.toBeUndefined();
+
+  await userEvent.keyboard("{Escape}");
+
+  expect(el.closed).toBe(true);
+  expect(closeHandler).toHaveBeenCalledTimes(1);
 });

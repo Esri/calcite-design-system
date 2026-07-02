@@ -4,7 +4,7 @@
   "allSelected": "Toate selectate",
   "clear": "Golire valoare",
   "noMatches": "Nu au fost găsite concordanțe",
-  "removeTag": "Eliminare etichetă",
+  "removeTag": "Remove {value} tag",
   "required": "Obligatoriu",
   "selectAll": "Selectare globală",
   "selected": "selectat",

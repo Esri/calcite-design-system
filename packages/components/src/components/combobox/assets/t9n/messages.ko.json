@@ -4,7 +4,7 @@
   "allSelected": "모두 선택됨",
   "clear": "값 지우기",
   "noMatches": "일치 항목 없음",
-  "removeTag": "태그 제거",
+  "removeTag": "Remove {value} tag",
   "required": "필수",
   "selectAll": "모두 선택",
   "selected": "선택함",

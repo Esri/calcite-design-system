@@ -1589,7 +1589,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const ancestors = getItemAncestors(item);
     const children = getItemChildren(item);
     if (item.selected) {
-      [...children, ...ancestors].forEach((el) => {
+      ancestors.forEach((el) => {
         if (el.disabled) {
           return;
         }
