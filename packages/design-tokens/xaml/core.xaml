@@ -2,7 +2,8 @@
 <!--
   Calcite Design System
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <SolidColorBrush
     x:Key="calcite-color-neutral-blk-000"
     Color="#FFFFFFFF"
@@ -631,7 +632,8 @@
     x:Key="calcite-color-low-saturation-violet-l-vv-100"
     Color="#FF13111A"
   />
-  <!-- Deprecated in v3.2.0, removal target v5.0.0 - Use `calcite-color-low-saturation-violet-l-vv-100` instead. -->
+  <!-- Deprecated in v3.2.0, removal target v5.0.0 - Use
+  `calcite-color-low-saturation-violet-l-vv-100` instead. -->
   <SolidColorBrush
     x:Key="calcite-color-low-saturation-violet-l-vv-1000"
     Color="#FF13111A"
@@ -1889,29 +1891,42 @@
   <x:String x:Key="calcite-font-family-avenir-next">'Avenir Next'</x:String> <!-- Primary font family -->
   <x:String x:Key="calcite-font-family-avenir">Avenir</x:String> <!-- Fallback for Avenir Next -->
   <x:String x:Key="calcite-font-family-consolas">Consolas</x:String> <!-- Fallback for Monaco -->
-  <x:String x:Key="calcite-font-family-helvetica-neue">'Helvetica Neue'</x:String> <!-- Fallback for Avenir Next -->
-  <x:String x:Key="calcite-font-family-lucida-console">'Lucida Console'</x:String> <!-- Fallback for Monaco -->
+  <x:String x:Key="calcite-font-family-helvetica-neue">'Helvetica Neue'</x:String> <!-- Fallback for
+  Avenir Next -->
+  <x:String x:Key="calcite-font-family-lucida-console">'Lucida Console'</x:String> <!-- Fallback for
+  Monaco -->
   <x:String x:Key="calcite-font-family-monaco">Monaco</x:String> <!-- Fallback for Monaco -->
   <x:String x:Key="calcite-font-family-monospace">monospace</x:String>
-  <x:String x:Key="calcite-font-family-sans-serif">sans-serif</x:String> <!-- Fallback for Avenir Next -->
+  <x:String x:Key="calcite-font-family-sans-serif">sans-serif</x:String> <!-- Fallback for Avenir
+  Next -->
   <x:String x:Key="calcite-font-style-italic">italic</x:String> <!-- used in ratings -->
-  <x:String x:Key="calcite-font-weight-ultralight">200</x:String> <!-- only for Avenir Next World (secondary font family) -->
+  <x:String x:Key="calcite-font-weight-ultralight">200</x:String> <!-- only for Avenir Next World
+  (secondary font family) -->
   <x:String x:Key="calcite-font-weight-thin">100</x:String>
-  <x:String x:Key="calcite-font-weight-light">300</x:String> <!-- only for Avenir Next World (secondary font family) -->
+  <x:String x:Key="calcite-font-weight-light">300</x:String> <!-- only for Avenir Next World
+  (secondary font family) -->
   <x:String x:Key="calcite-font-weight-regular">400</x:String>
   <x:String x:Key="calcite-font-weight-medium">500</x:String>
   <x:String x:Key="calcite-font-weight-medium-italic">"Medium Italic"</x:String>
   <x:String x:Key="calcite-font-weight-demi">600</x:String>
   <x:String x:Key="calcite-font-weight-bold">700</x:String>
-  <x:String x:Key="calcite-font-weight-extrabold">800</x:String> <!-- only for Avenir Next World (secondary font family) -->
-  <x:String x:Key="calcite-font-weight-black">900</x:String> <!-- only for Avenir Next World (secondary font family) -->
+  <x:String x:Key="calcite-font-weight-extrabold">800</x:String> <!-- only for Avenir Next World
+  (secondary font family) -->
+  <x:String x:Key="calcite-font-weight-black">900</x:String> <!-- only for Avenir Next World
+  (secondary font family) -->
   <x:String x:Key="calcite-font-weight-heavy">900</x:String>
-  <x:String x:Key="calcite-font-text-decoration-none">none</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
-  <x:String x:Key="calcite-font-text-decoration-underline">underline</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
-  <x:String x:Key="calcite-font-text-case-none">none</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
-  <x:String x:Key="calcite-font-text-case-uppercase">uppercase</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
-  <x:String x:Key="calcite-font-text-case-lowercase">lowercase</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
-  <x:String x:Key="calcite-font-text-case-capitalize">capitalize</x:String> <!-- Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-decoration-none">none</x:String> <!-- Deprecated in v3.0.0,
+  removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-decoration-underline">underline</x:String> <!-- Deprecated in
+  v3.0.0, removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-none">none</x:String> <!-- Deprecated in v3.0.0, removal
+  target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-uppercase">uppercase</x:String> <!-- Deprecated in v3.0.0,
+  removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-lowercase">lowercase</x:String> <!-- Deprecated in v3.0.0,
+  removal target v5.0.0 - No longer needed. -->
+  <x:String x:Key="calcite-font-text-case-capitalize">capitalize</x:String> <!-- Deprecated in
+  v3.0.0, removal target v5.0.0 - No longer needed. -->
   <x:String x:Key="calcite-opacity-0">0</x:String>
   <x:String x:Key="calcite-opacity-4">0.04</x:String>
   <x:String x:Key="calcite-opacity-8">0.08</x:String>

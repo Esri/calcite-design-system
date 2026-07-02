@@ -2,18 +2,20 @@
 <!--
   Calcite Design System
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:String x:Key="calcite-border-width-lg">4px</x:String>
   <x:String x:Key="calcite-border-width-md">2px</x:String>
   <x:String x:Key="calcite-border-width-none">0</x:String>
   <x:String x:Key="calcite-border-width-sm">1px</x:String>
   <x:String x:Key="calcite-corner-radius">0</x:String>
   <x:String x:Key="calcite-corner-radius-none">0</x:String>
-  <x:String x:Key="calcite-corner-radius-pill">9999px</x:String>
   <x:String x:Key="calcite-corner-radius-sm">4px</x:String>
   <x:String x:Key="calcite-corner-radius-xs">2px</x:String>
+  <x:String x:Key="calcite-corner-radius-pill">9999px</x:String>
   <x:String x:Key="calcite-font-family">'Avenir Next', Avenir, 'Helvetica Neue', sans-serif</x:String>
-  <x:String x:Key="calcite-font-family-code">Monaco, Consolas, 'Andale Mono', 'Lucida Console', monospace</x:String>
+  <x:String x:Key="calcite-font-family-code">Monaco, Consolas, 'Andale Mono', 'Lucida Console',
+    monospace</x:String>
   <x:String x:Key="calcite-font-line-height-2xl">2rem</x:String>
   <x:String x:Key="calcite-font-line-height-3xl">2.5rem</x:String>
   <x:String x:Key="calcite-font-line-height-4xl">3rem</x:String>
@@ -46,18 +48,20 @@
   <x:String x:Key="calcite-font-size-2xl">24px</x:String>
   <x:String x:Key="calcite-font-size-lg">18px</x:String>
   <x:String x:Key="calcite-font-size-md">16px</x:String>
+
+  <x:String x:Key="calcite-font-size-relative-xs">0.625rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-sm">0.75rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-base">0.875rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-md">1rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-lg">1.125rem</x:String>
+  <x:String x:Key="calcite-font-size-relative-xl">1.25rem</x:String>
   <x:String x:Key="calcite-font-size-relative-2xl">1.625rem</x:String>
   <x:String x:Key="calcite-font-size-relative-3xl">2rem</x:String>
   <x:String x:Key="calcite-font-size-relative-4xl">2.5rem</x:String>
   <x:String x:Key="calcite-font-size-relative-5xl">3rem</x:String>
   <x:String x:Key="calcite-font-size-relative-6xl">3.5rem</x:String>
   <x:String x:Key="calcite-font-size-relative-7xl">4rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-base">0.875rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-lg">1.125rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-md">1rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-sm">0.75rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-xl">1.25rem</x:String>
-  <x:String x:Key="calcite-font-size-relative-xs">0.625rem</x:String>
+
   <x:String x:Key="calcite-font-size-sm">12px</x:String>
   <x:String x:Key="calcite-font-size-xl">20px</x:String>
   <x:String x:Key="calcite-font-size-xs">10px</x:String>
@@ -72,9 +76,11 @@
   <x:String x:Key="calcite-opacity-full">1</x:String>
   <x:String x:Key="calcite-opacity-half">0.5</x:String>
   <x:String x:Key="calcite-opacity-light">0.4</x:String>
-  <x:String x:Key="calcite-shadow-md">0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08)</x:String>
+  <x:String x:Key="calcite-shadow-md">0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0,
+    0, 0.08)</x:String>
   <x:String x:Key="calcite-shadow-none">0 0 0 0 rgba(0, 0, 0, 0)</x:String>
-  <x:String x:Key="calcite-shadow-sm">0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04)</x:String>
+  <x:String x:Key="calcite-shadow-sm">0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0,
+    0.04)</x:String>
   <x:String x:Key="calcite-size-2xl">4rem</x:String>
   <x:String x:Key="calcite-size-2xs">0.875rem</x:String>
   <x:String x:Key="calcite-size-3xl">6rem</x:String>
@@ -86,20 +92,22 @@
   <x:String x:Key="calcite-size-sm">1.5rem</x:String>
   <x:String x:Key="calcite-size-xl">3rem</x:String>
   <x:String x:Key="calcite-size-xs">1rem</x:String>
-  <x:String x:Key="calcite-space-2xl">1.5rem</x:String>
-  <x:String x:Key="calcite-space-2xs">0.25rem</x:String>
-  <x:String x:Key="calcite-space-3xl">2rem</x:String>
-  <x:String x:Key="calcite-space-4xl">2.75rem</x:String>
-  <x:String x:Key="calcite-space-base">2px</x:String>
-  <x:String x:Key="calcite-space-lg">1rem</x:String>
-  <x:String x:Key="calcite-space-md">0.75rem</x:String>
-  <x:String x:Key="calcite-space-md-plus">0.875rem</x:String>
+
   <x:String x:Key="calcite-space-none">0</x:String>
   <x:String x:Key="calcite-space-px">1px</x:String>
+  <x:String x:Key="calcite-space-base">2px</x:String>
+  <x:String x:Key="calcite-space-2xs">0.25rem</x:String>
+  <x:String x:Key="calcite-space-xs">0.375rem</x:String>
   <x:String x:Key="calcite-space-sm">0.5rem</x:String>
   <x:String x:Key="calcite-space-sm-plus">0.625rem</x:String>
+  <x:String x:Key="calcite-space-md">0.75rem</x:String>
+  <x:String x:Key="calcite-space-md-plus">0.875rem</x:String>
+  <x:String x:Key="calcite-space-lg">1rem</x:String>
   <x:String x:Key="calcite-space-xl">1.25rem</x:String>
-  <x:String x:Key="calcite-space-xs">0.375rem</x:String>
+  <x:String x:Key="calcite-space-2xl">1.5rem</x:String>
+  <x:String x:Key="calcite-space-3xl">2rem</x:String>
+  <x:String x:Key="calcite-space-4xl">2.75rem</x:String>
+
   <x:String x:Key="calcite-z-index">1</x:String>
   <x:String x:Key="calcite-z-index-deep">-999999</x:String>
   <x:String x:Key="calcite-z-index-dropdown">600</x:String>

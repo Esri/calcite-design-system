@@ -2,18 +2,21 @@
 <!--
   Calcite Design System
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:String x:Key="calcite-container-size-content-fixed">1440px</x:String>
   <x:String x:Key="calcite-container-size-content-fluid">100%</x:String>
   <x:String x:Key="calcite-container-size-gutter">16px</x:String>
   <x:String x:Key="calcite-container-size-margin">24px</x:String>
   <!-- Small handheld devices and mini-windows -->
   <x:String x:Key="calcite-container-size-height-2xs-min">0</x:String>
-  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max` instead. -->
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max`
+  instead. -->
   <x:String x:Key="calcite-container-size-width-xxs-min">0</x:String>
   <!-- Small handheld devices and mini-windows -->
   <x:String x:Key="calcite-container-size-width-2xs-min">0</x:String>
-  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max` instead. -->
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max`
+  instead. -->
   <x:String x:Key="calcite-container-size-height-xxs-max">154px</x:String>
   <!-- Small handheld devices and mini-windows -->
   <x:String x:Key="calcite-container-size-height-2xs-max">154px</x:String>
@@ -56,8 +59,10 @@
   <!-- Projectors and televisions -->
   <x:String x:Key="calcite-container-size-width-xl-min">1441px</x:String>
 
-  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max` instead. -->
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-height-2xs-min|max`
+  instead. -->
   <x:String x:Key="calcite-container-size-height-xxs-min">0</x:String>
-  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max` instead. -->
+  <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-container-size-width-2xs-min|max`
+  instead. -->
   <x:String x:Key="calcite-container-size-width-xxs-max">320px</x:String>
 </ResourceDictionary>

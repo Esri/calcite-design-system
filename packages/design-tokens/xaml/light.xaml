@@ -2,27 +2,23 @@
 <!--
   Calcite Design System
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <SolidColorBrush
     x:Key="calcite-color-surface-1"
-    Color="#FFF7F7F7"
-  />
+    Color="#FFF7F7F7" />
   <SolidColorBrush
     x:Key="calcite-color-surface-2"
-    Color="#FFFFFFFF"
-  />
+    Color="#FFFFFFFF" />
   <SolidColorBrush
     x:Key="calcite-color-surface-3"
-    Color="#FFF2F2F2"
-  />
+    Color="#FFF2F2F2" />
   <SolidColorBrush
     x:Key="calcite-color-surface-4"
-    Color="#FFEBEBEB"
-  />
+    Color="#FFEBEBEB" />
   <SolidColorBrush
     x:Key="calcite-color-surface-highlight"
-    Color="#FFD6EFFF"
-  />
+    Color="#FFD6EFFF" />
   <!-- Deprecated in v4.0.0, removal target v5.0.0 - Use `calcite-color-surface-1` instead. -->
   <SolidColorBrush
     x:Key="calcite-color-background"
