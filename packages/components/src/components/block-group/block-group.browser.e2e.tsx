@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
 import {
+  accessible,
   cancelable,
   defaults,
   reflects,
@@ -13,6 +14,18 @@ import {
 } from "../../tests/commonTests/browser";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-block-group>
+        <calcite-block collapsible description="description" heading="heading" open>
+          <div>content</div>
+        </calcite-block>
+      </calcite-block-group>,
+    ),
+  );
+});
 
 describe("cancelable", () => {
   cancelable("calcite-block-group");

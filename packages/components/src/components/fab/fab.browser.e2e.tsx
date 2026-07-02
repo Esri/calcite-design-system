@@ -1,6 +1,26 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import { h } from "@arcgis/lumina";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+} from "../../tests/commonTests/browser";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-fab label="hello world" text="hello world" />));
+  });
+
+  describe("disabled text-enabled", () => {
+    accessible(() =>
+      mount(<calcite-fab disabled label="hello world" text="hello world" text-enabled />),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

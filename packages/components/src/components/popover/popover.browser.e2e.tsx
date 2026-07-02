@@ -12,12 +12,48 @@ import {
   t9n,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 import { Popover } from "./popover";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("with close button", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-popover closable label="test" open referenceElement="ref" />
+          <div id="ref">😄</div>
+        </>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(

@@ -1,6 +1,8 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -11,6 +13,22 @@ import {
   t9n,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-label>
+        <calcite-checkbox id="example" name="example" value="one" /> label
+      </calcite-label>,
+    ),
+  );
+});
+
+describe("accessible without calcite-label", () => {
+  accessible(() =>
+    mount(<calcite-checkbox id="example" label="label" name="example" value="one" />),
+  );
+});
 
 describe("renders", () => {
   renders(() => mount("calcite-checkbox"), { display: "inline-flex" });
