@@ -4,7 +4,7 @@ import type { LogLevel } from "./logger";
 import type { GlobalThis } from "type-fest";
 
 type CalciteGlobalThis = GlobalThis & {
-  calciteConfig: CalciteConfig;
+  calciteConfig?: Partial<CalciteConfig>;
 };
 
 export interface CalciteConfig {
