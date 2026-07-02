@@ -481,8 +481,8 @@ describe("sticky header", () => {
 
     const tableContainer = getTableContainer(el);
     const containerBorderColor = getComputedStyle(tableContainer).borderTopColor;
-    const firstCell = getTableCellElement(el.querySelector("#row-1 calcite-table-cell"));
-    const lastRowFirstCell = getTableCellElement(el.querySelector("#row-3 calcite-table-cell"));
+    const firstCell = getTableCellElement(el.querySelector("#row-1 calcite-table-cell")!);
+    const lastRowFirstCell = getTableCellElement(el.querySelector("#row-3 calcite-table-cell")!);
 
     expect(getComputedStyle(firstCell).borderBottomColor).toBe(containerBorderColor);
     expect(getComputedStyle(firstCell).borderBottomWidth).toBe("1px");
@@ -515,10 +515,10 @@ describe("sticky header", () => {
 
     const getMetrics = () => {
       const firstHeaderCell = getTableCellElement(
-        firstHeaderRow.querySelector("calcite-table-header"),
+        firstHeaderRow.querySelector("calcite-table-header")!,
       );
       const secondHeaderCell = getTableCellElement(
-        secondHeaderRow.querySelector("calcite-table-header"),
+        secondHeaderRow.querySelector("calcite-table-header")!,
       );
 
       return {
@@ -604,9 +604,9 @@ describe("sticky header", () => {
       </calcite-table>,
     );
 
-    const rowspanCell = getTableCellElement(el.querySelector("#rowspan-cell"));
+    const rowspanCell = getTableCellElement(el.querySelector("#rowspan-cell")!);
     const lastRowCell = getTableCellElement(
-      el.querySelector("calcite-table-row:last-of-type calcite-table-cell"),
+      el.querySelector("calcite-table-row:last-of-type calcite-table-cell")!,
     );
 
     expect(getComputedStyle(rowspanCell).borderBottomWidth).toBe("0px");
