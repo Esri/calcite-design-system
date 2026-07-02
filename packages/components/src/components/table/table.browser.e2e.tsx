@@ -22,10 +22,11 @@ function createSimpleTableRows(
     typeof rowsOrCount === "number"
       ? Array.from({ length: rowsOrCount }, (_, index) => ({
           id: index === 0 ? firstRowId : undefined,
+          selected: false,
         }))
       : rowsOrCount;
 
-  return rows.map(({ id, selected }) => (
+  return rows.map(({ id, selected = false }) => (
     <calcite-table-row id={id} selected={selected}>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
