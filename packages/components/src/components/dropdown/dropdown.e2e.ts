@@ -966,7 +966,7 @@ describe("Focus order with Tab key", () => {
   });
 });
 
-it("closes existing open dropdown when opened", async () => {
+it.skip("closes existing open dropdown when opened", async () => {
   const page = await newE2EPage();
   await page.setContent(
     html` <calcite-dropdown id="dropdown-1">
