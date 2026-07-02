@@ -58,7 +58,6 @@ declare global {
 }
 
 const throttleFor60FpsInMs = 16;
-const initialColorFieldScopePosition = SCOPE_SIZE / 2;
 
 export class ColorPicker extends LitElement {
   //#region Static Members
@@ -84,8 +83,6 @@ export class ColorPicker extends LitElement {
   private _color: InternalColor | undefined = DEFAULT_COLOR;
 
   private colorFieldRenderingContext!: CanvasRenderingContext2D;
-
-  private colorFieldScopeAnimationFrame?: number;
 
   private colorFieldScopeRef = createRef<HTMLDivElement>();
 
@@ -267,9 +264,9 @@ export class ColorPicker extends LitElement {
 
   @state() channels: Channels = this.toChannels(DEFAULT_COLOR);
 
-  @state() colorFieldScopeLeft = initialColorFieldScopePosition;
+  @state() colorFieldScopeLeft?: number;
 
-  @state() colorFieldScopeTop = initialColorFieldScopePosition;
+  @state() colorFieldScopeTop?: number;
 
   @state() staticDimensions = STATIC_DIMENSIONS.m;
 
@@ -1136,14 +1133,9 @@ export class ColorPicker extends LitElement {
     const x = hsvColor.saturationv() / (HSV_LIMITS.s / width);
     const y = height - hsvColor.value() / (HSV_LIMITS.v / height);
 
-    if (this.colorFieldScopeAnimationFrame != null) {
-      cancelAnimationFrame(this.colorFieldScopeAnimationFrame);
-    }
-
-    this.colorFieldScopeAnimationFrame = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
       this.colorFieldScopeLeft = x;
       this.colorFieldScopeTop = y;
-      this.colorFieldScopeAnimationFrame = undefined;
     });
 
     this.drawThumb(this.colorFieldRenderingContext, radius, x, y, hsvColor, false);
@@ -1421,8 +1413,11 @@ export class ColorPicker extends LitElement {
     return channels as Channels;
   }
 
-  private getAdjustedScopePosition(left: number, top: number): [number, number] {
-    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
+  private getAdjustedScopePosition(
+    left: number | undefined,
+    top: number | undefined,
+  ): [number, number] {
+    return [left ? left - SCOPE_SIZE / 2 : NaN, top ? top - SCOPE_SIZE / 2 : NaN];
   }
 
   //#endregion
@@ -1460,6 +1455,7 @@ export class ColorPicker extends LitElement {
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
+
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop,
@@ -1473,6 +1469,12 @@ export class ColorPicker extends LitElement {
       opacityTop,
     );
 
+    console.log(
+      colorFieldScopeLeft,
+      colorFieldScopeTop,
+      adjustedColorFieldScopeTop,
+      adjustedColorFieldScopeLeft,
+    );
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
@@ -1691,11 +1693,8 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                clearable && !channelValue
-                  ? channelValue
-                  : channelValue != null
-                    ? alphaToOpacity(channelValue)
-                    : channelValue;
+                // channels can only be undefined when clearable
+                !channelValue && clearable ? channelValue : alphaToOpacity(channelValue!);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
