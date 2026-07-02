@@ -10,6 +10,7 @@ import {
   floatingUIOwner,
   topLayer,
   openClose,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { css } from "../../../support/formatting";
@@ -21,6 +22,34 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("when closed", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-tooltip label="hello world" referenceElement="ref">
+            Hello World!
+          </calcite-tooltip>
+          <div id="ref">Tooltip Reference</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-tooltip label="hello world" open referenceElement="ref">
+            Hello World!
+          </calcite-tooltip>
+          <div id="ref">Tooltip Reference</div>
+        </>,
+      ),
+    );
+  });
+});
 
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {
@@ -250,7 +279,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Tooltip>(
           <>
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
             <div id="ref">referenceElement</div>

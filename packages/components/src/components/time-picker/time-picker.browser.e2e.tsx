@@ -2,13 +2,30 @@ import { h } from "@arcgis/lumina";
 import { it, expect, describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+  accessible,
+} from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { formatTimePart, getLocaleHourFormat, localizeTimeString } from "../../utils/time";
 import { CSS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-time-picker"));
+  });
+
+  describe("using seconds", () => {
+    accessible(() => mount(<calcite-time-picker step={1} value="00:00:00" />));
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -63,17 +80,7 @@ describe("l10n", () => {
             <calcite-time-picker lang={locale} step={step} value={initialDelocalizedValue} />,
           );
 
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-            meridiem: expectedLocalizedMeridiem,
-          } = localizeTimeString({
+          const localized = localizeTimeString({
             value: initialDelocalizedValue,
             locale,
             parts: true,
@@ -94,17 +101,13 @@ describe("l10n", () => {
           const secondSuffixEl = page.getBySelector(`calcite-time-picker .${CSS.secondSuffix}`);
           const meridiemEl = page.getBySelector(`calcite-time-picker .${CSS.meridiem}`);
 
-          await expect.element(hourEl).toHaveTextContent(expectedLocalizedHour);
-          await expect.element(hourSuffixEl).toHaveTextContent(expectedLocalizedHourSuffix);
-          await expect.element(minuteEl).toHaveTextContent(expectedLocalizedMinute);
-          await expect.element(minuteSuffixEl).toHaveTextContent(expectedLocalizedMinuteSuffix);
-          await expect.element(secondEl).toHaveTextContent(expectedLocalizedSecond);
-          await expect
-            .element(decimalSeparatorEl)
-            .toHaveTextContent(expectedLocalizedDecimalSeparator);
-          await expect
-            .element(fractionalSecondEl)
-            .toHaveTextContent(expectedLocalizedFractionalSecond);
+          await expect.element(hourEl).toHaveTextContent(localized!.hour!);
+          await expect.element(hourSuffixEl).toHaveTextContent(localized!.hourSuffix!);
+          await expect.element(minuteEl).toHaveTextContent(localized!.minute!);
+          await expect.element(minuteSuffixEl).toHaveTextContent(localized!.minuteSuffix!);
+          await expect.element(secondEl).toHaveTextContent(localized!.second!);
+          await expect.element(decimalSeparatorEl).toHaveTextContent(localized!.decimalSeparator);
+          await expect.element(fractionalSecondEl).toHaveTextContent(localized!.fractionalSecond!);
 
           if (secondSuffixEl.length !== 0) {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
@@ -113,12 +116,12 @@ describe("l10n", () => {
             // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             await expect
               .element(secondSuffixEl)
-              .toHaveTextContent(expectedLocalizedSecondSuffix, { normalizeWhitespace: false });
+              .toHaveTextContent(localized!.secondSuffix!, { normalizeWhitespace: false });
           }
 
           await (localeHourFormat === "12"
             ? // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
-              expect.element(meridiemEl).toHaveTextContent(expectedLocalizedMeridiem)
+              expect.element(meridiemEl).toHaveTextContent(localized!.meridiem!)
             : // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
               expect.element(meridiemEl).not.toBeInTheDocument());
         });
@@ -136,17 +139,7 @@ describe("l10n", () => {
             />,
           );
 
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-            meridiem: expectedLocalizedMeridiem,
-          } = localizeTimeString({
+          const localized = localizeTimeString({
             hour12: true,
             value: initialDelocalizedValue,
             locale,
@@ -168,17 +161,13 @@ describe("l10n", () => {
           const secondSuffixEl = page.getBySelector(`calcite-time-picker .${CSS.secondSuffix}`);
           const meridiemEl = page.getBySelector(`calcite-time-picker .${CSS.meridiem}`);
 
-          await expect.element(hourEl).toHaveTextContent(expectedLocalizedHour);
-          await expect.element(hourSuffixEl).toHaveTextContent(expectedLocalizedHourSuffix);
-          await expect.element(minuteEl).toHaveTextContent(expectedLocalizedMinute);
-          await expect.element(minuteSuffixEl).toHaveTextContent(expectedLocalizedMinuteSuffix);
-          await expect.element(secondEl).toHaveTextContent(expectedLocalizedSecond);
-          await expect
-            .element(decimalSeparatorEl)
-            .toHaveTextContent(expectedLocalizedDecimalSeparator);
-          await expect
-            .element(fractionalSecondEl)
-            .toHaveTextContent(expectedLocalizedFractionalSecond);
+          await expect.element(hourEl).toHaveTextContent(localized!.hour!);
+          await expect.element(hourSuffixEl).toHaveTextContent(localized!.hourSuffix!);
+          await expect.element(minuteEl).toHaveTextContent(localized!.minute!);
+          await expect.element(minuteSuffixEl).toHaveTextContent(localized!.minuteSuffix!);
+          await expect.element(secondEl).toHaveTextContent(localized!.second!);
+          await expect.element(decimalSeparatorEl).toHaveTextContent(localized!.decimalSeparator);
+          await expect.element(fractionalSecondEl).toHaveTextContent(localized!.fractionalSecond!);
 
           if (secondSuffixEl.length !== 0) {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
@@ -187,10 +176,10 @@ describe("l10n", () => {
             // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
             await expect
               .element(secondSuffixEl)
-              .toHaveTextContent(expectedLocalizedSecondSuffix, { normalizeWhitespace: false });
+              .toHaveTextContent(localized!.secondSuffix!, { normalizeWhitespace: false });
           }
 
-          await expect.element(meridiemEl).toHaveTextContent(expectedLocalizedMeridiem);
+          await expect.element(meridiemEl).toHaveTextContent(localized!.meridiem!);
         });
 
         it("always displays hour in 12 hour format when nudging and no value is set", async () => {
@@ -204,7 +193,7 @@ describe("l10n", () => {
 
             await expect
               .element(hour)
-              .toHaveTextContent(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
+              .toHaveTextContent(i > 12 ? formatTimePart(i - 12)! : formatTimePart(i)!);
           }
 
           await userEvent.keyboard("{Delete}{ArrowDown}");
@@ -214,7 +203,7 @@ describe("l10n", () => {
 
             await expect
               .element(hour)
-              .toHaveTextContent(i > 12 ? formatTimePart(i - 12) : formatTimePart(i));
+              .toHaveTextContent(i > 12 ? formatTimePart(i - 12)! : formatTimePart(i)!);
           }
         });
       });
@@ -231,16 +220,7 @@ describe("l10n", () => {
             />,
           );
 
-          const {
-            hour: expectedLocalizedHour,
-            hourSuffix: expectedLocalizedHourSuffix,
-            minute: expectedLocalizedMinute,
-            minuteSuffix: expectedLocalizedMinuteSuffix,
-            second: expectedLocalizedSecond,
-            secondSuffix: expectedLocalizedSecondSuffix,
-            decimalSeparator: expectedLocalizedDecimalSeparator,
-            fractionalSecond: expectedLocalizedFractionalSecond,
-          } = localizeTimeString({
+          const localized = localizeTimeString({
             hour12: false,
             value: initialDelocalizedValue,
             locale,
@@ -262,24 +242,20 @@ describe("l10n", () => {
           const secondSuffixEl = page.getBySelector(`calcite-time-picker .${CSS.secondSuffix}`);
           const meridiemEl = page.getBySelector(`calcite-time-picker .${CSS.meridiem}`);
 
-          await expect.element(hourEl).toHaveTextContent(expectedLocalizedHour);
-          await expect.element(hourSuffixEl).toHaveTextContent(expectedLocalizedHourSuffix);
-          await expect.element(minuteEl).toHaveTextContent(expectedLocalizedMinute);
-          await expect.element(minuteSuffixEl).toHaveTextContent(expectedLocalizedMinuteSuffix);
-          await expect.element(secondEl).toHaveTextContent(expectedLocalizedSecond);
-          await expect
-            .element(decimalSeparatorEl)
-            .toHaveTextContent(expectedLocalizedDecimalSeparator);
-          await expect
-            .element(fractionalSecondEl)
-            .toHaveTextContent(expectedLocalizedFractionalSecond);
+          await expect.element(hourEl).toHaveTextContent(localized!.hour!);
+          await expect.element(hourSuffixEl).toHaveTextContent(localized!.hourSuffix!);
+          await expect.element(minuteEl).toHaveTextContent(localized!.minute!);
+          await expect.element(minuteSuffixEl).toHaveTextContent(localized!.minuteSuffix!);
+          await expect.element(secondEl).toHaveTextContent(localized!.second!);
+          await expect.element(decimalSeparatorEl).toHaveTextContent(localized!.decimalSeparator);
+          await expect.element(fractionalSecondEl).toHaveTextContent(localized!.fractionalSecond!);
 
           if (secondSuffixEl.length !== 0) {
             // Bulgarian is the only locale Calcite supports that has a known suffix after the seconds.
             // Esri i18n prefers this character be removed for short time formats, which is the only format currently that time-picker supports.
             // We're leaving this conditional check here in case a new locale is added in the future that might need to test the second suffix.
             // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
-            await expect.element(secondSuffixEl).toHaveTextContent(expectedLocalizedSecondSuffix);
+            await expect.element(secondSuffixEl).toHaveTextContent(localized!.secondSuffix!);
           }
 
           await expect.element(meridiemEl).not.toBeInTheDocument();
@@ -293,7 +269,7 @@ describe("l10n", () => {
           for (let i = 1; i < 24; i++) {
             await userEvent.keyboard("{ArrowUp}");
 
-            await expect.element(hour).toHaveTextContent(formatTimePart(i));
+            await expect.element(hour).toHaveTextContent(formatTimePart(i)!);
           }
 
           await userEvent.keyboard("{Delete}{ArrowDown}");
@@ -301,7 +277,7 @@ describe("l10n", () => {
           for (let i = 23; i > 0; i--) {
             await userEvent.keyboard("{ArrowDown}");
 
-            await expect.element(hour).toHaveTextContent(formatTimePart(i));
+            await expect.element(hour).toHaveTextContent(formatTimePart(i)!);
           }
         });
       });

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, JsxNode, LuminaJsx } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
@@ -50,12 +49,12 @@ export class Menu extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: Layout = "horizontal";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

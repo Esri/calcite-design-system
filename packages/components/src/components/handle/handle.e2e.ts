@@ -1,14 +1,9 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { CSS, SUBSTITUTIONS } from "./resources";
 import type { HandleNudge } from "./interfaces";
 import type { Handle } from "./handle";
-
-describe("accessible", () => {
-  accessible(`<calcite-handle></calcite-handle>`);
-});
 
 it("sets handle tooltip", async () => {
   const page = await newE2EPage();
@@ -107,13 +102,13 @@ it("fires calciteHandleNudge event when focused and up or down key is pressed", 
   await page.waitForChanges();
   await nudgeEventSpy.next();
 
-  expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("up");
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("up");
 
   await page.keyboard.press("ArrowDown");
   await page.waitForChanges();
   await nudgeEventSpy.next();
 
-  expect(calciteHandleNudgeSpy.lastEvent.detail.direction).toBe("down");
+  expect(calciteHandleNudgeSpy.lastEvent!.detail.direction).toBe("down");
   expect(calciteHandleNudgeSpy).toHaveReceivedEventTimes(2);
 });
 

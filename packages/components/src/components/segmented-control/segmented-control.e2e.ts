@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
@@ -351,6 +350,10 @@ it("inheritable props: `appearance`, `layout`, and `scale` modified on the paren
 
 describe("theme", () => {
   themed("calcite-segmented-control", {
+    "--calcite-segmented-control-corner-radius": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "borderRadius",
+    },
     "--calcite-segmented-control-border-color": {
       shadowSelector: `.${CSS.itemWrapper}`,
       targetProp: "outlineColor",

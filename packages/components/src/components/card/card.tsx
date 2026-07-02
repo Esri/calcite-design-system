@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
@@ -82,13 +81,13 @@ export class Card extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -134,7 +133,7 @@ export class Card extends LitElement {
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(
-      () => ({ target: this.containerRef.value, includeContainer: true }),
+      () => ({ target: this.containerRef.value!, includeContainer: true }),
       options,
     );
   }

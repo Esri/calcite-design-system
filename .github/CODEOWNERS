@@ -1,11 +1,11 @@
 # The files matching the globs will be assigned to the @usernames that follow
 *                                            # no catch-all code owner to reduce notifications
-.*                                           @jcfranco
-*.json                                       @jcfranco
-CHANGELOG.md                                 @isaacbraun @jcfranco @geospatialem
-.github/                                     @isaacbraun @jcfranco @geospatialem
-support/                                     @jcfranco
-/packages/components-react                   @jcfranco
+.*                                           @jcfranco @benelan
+*.json                                       @jcfranco @benelan
+CHANGELOG.md                                 @jcfranco @isaacbraun @geospatialem
+.github/                                     @jcfranco @isaacbraun @geospatialem @benelan
+support/                                     @jcfranco @benelan
+/packages/components-react                   @jcfranco @benelan
 /packages/eslint-plugin-components           @jcfranco
 /packages/design-tokens                      @matgalla
 /packages/components/src/components/*/*.scss @Esri/calcite-pes

@@ -1,6 +1,5 @@
-// @ts-strict-ignore
-import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
+import { TemplateResult } from "lit";
 import { queryActions } from "../action-bar/utils";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { Position, Scale } from "../interfaces";
@@ -21,7 +20,7 @@ interface ExpandToggleProps {
   position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
-  ref?: (el: Action["el"]) => void;
+  ref?: (el?: Action["el"]) => void;
   scale?: Scale;
 }
 
@@ -44,9 +43,9 @@ export function toggleChildActionText({
   queryActions(el)
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
-  el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
-    (el: ActionMenu["el"] | ActionGroup["el"]) => (el.expanded = expanded),
-  );
+  el.querySelectorAll<ActionMenu["el"] | ActionGroup["el"]>(
+    "calcite-action-group, calcite-action-menu",
+  ).forEach((el) => (el.expanded = expanded));
 }
 
 const setTooltipReference = ({
@@ -55,11 +54,11 @@ const setTooltipReference = ({
   expanded,
   ref,
 }: {
-  tooltip: Tooltip["el"];
-  referenceElement: Action["el"];
+  tooltip?: Tooltip["el"];
+  referenceElement?: Action["el"];
   expanded: boolean;
-  ref?: (el: Action["el"]) => void;
-}): Action["el"] => {
+  ref?: (el?: Action["el"]) => void;
+}): Action["el"] | undefined => {
   if (tooltip) {
     tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
   }
@@ -106,13 +105,13 @@ export const ExpandToggle = ({
       id="expand-toggle"
       label={label}
       onClick={toggle}
-      ref={(referenceElement): Action["el"] =>
+      ref={(referenceElement): Action["el"] | undefined =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       scale={scale}
       text={text}
       textEnabled={expanded}
-      title={!expanded && !tooltip ? text : null}
+      title={!expanded && !tooltip ? text : undefined}
     />
   );
 

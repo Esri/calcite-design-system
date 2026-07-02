@@ -141,11 +141,20 @@ export interface ValidationProps {
   icon: IconName | boolean;
 }
 
+interface ValidationComponent {
+  status?: Status;
+  validationIcon?: IconName | boolean;
+  validationMessage?: string;
+}
+
 function isFormComponentEl(el: HTMLElement): el is FormComponent["el"] {
   return "form" in el && "name" in el && isCalciteFocusable(el);
 }
 
-function displayValidationMessage(component: FormComponent, { status, message, icon }: ValidationProps): void {
+export function displayValidationMessage(
+  component: ValidationComponent,
+  { status, message, icon }: ValidationProps,
+): void {
   if ("status" in component) {
     component.status = status;
   }
@@ -156,6 +165,21 @@ function displayValidationMessage(component: FormComponent, { status, message, i
 
   if ("validationMessage" in component && !component.validationMessage) {
     component.validationMessage = message;
+  }
+}
+
+export function clearValidationMessage(component: ValidationComponent, validationMessage?: string): void {
+  if ("status" in component) {
+    component.status = "idle";
+  }
+
+  // only clear icon if not set by user
+  if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
+    component.validationIcon = false;
+  }
+
+  if ("validationMessage" in component && component.validationMessage === validationMessage) {
+    component.validationMessage = "";
   }
 }
 
@@ -233,7 +257,7 @@ export interface UseFormOptions {
   /**
    * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
    *
-   * Note: this is mostly intended for components that need to map their value differently
+   * Note: this is mostly intended for components that need to map their value differently (e.g., file type input passing its `files` property instead of `value`)
    */
   getValue?: () => any;
 
@@ -307,35 +331,39 @@ export const useForm = <T extends FormComponent>(
     });
 
     function handleInvalidInput(): void {
-      const validationMsg = customValidityMessage || inputDelegate?.validationMessage || "";
+      const validationMessage = customValidityMessage || inputDelegate?.validationMessage || "";
+
+      displayValidationMessage(component, {
+        message: validationMessage,
+        icon: true,
+        status: "invalid",
+      });
 
       component.el.dispatchEvent(
         // allows users to set custom validation messages
         new CustomEvent("calciteInvalid", { bubbles: true, composed: true }),
       );
 
-      displayValidationMessage(component, {
-        message: validationMsg,
-        icon: true,
-        status: "invalid",
-      });
-
       const clearValidationEvent = getClearValidationEventName(component.el.tagName.toLowerCase());
 
       component.listen(
         clearValidationEvent,
         () => {
-          if ("status" in component) {
-            component.status = "idle";
-          }
+          clearValidationMessage(component, validationMessage);
 
-          // only clear icon if not set by user
-          if ("validationIcon" in component && (!component.validationIcon || component.validationIcon === true)) {
-            component.validationIcon = false;
-          }
-
-          if ("validationMessage" in component && component.validationMessage === validationMsg) {
-            component.validationMessage = "";
+          if (inputDelegate?.type === "radio") {
+            let group = component.elementInternals.form?.elements[component.name!];
+            if (group?.length > 0) {
+              group = Array.from(group).filter(
+                (element) => (element as HTMLElement).tagName === component.el.tagName,
+              ) as FormComponent["el"][];
+              const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
+              if (others?.length > 0) {
+                others.forEach((other) => {
+                  clearValidationMessage(other);
+                });
+              }
+            }
           }
         },
         { once: true },
@@ -373,22 +401,20 @@ export const useForm = <T extends FormComponent>(
     function updateValidity(): void {
       const { disabled, elementInternals } = component;
 
-      if (disabled) {
-        return;
-      }
-
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
 
-      if (inputDelegate) {
-        inputDelegate.type = effectiveInputType!;
-        syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
-      }
+      if (!disabled) {
+        if (inputDelegate) {
+          inputDelegate.type = effectiveInputType!;
+          syncInternalInput(component, inputDelegate);
+          ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
+        }
 
-      if (customValidityMessage) {
-        validity = { ...validity, customError: true };
-        validationMessage = customValidityMessage;
+        if (customValidityMessage) {
+          validity = { ...validity, customError: true };
+          validationMessage = customValidityMessage;
+        }
       }
 
       elementInternals.setValidity(validity, validationMessage);
@@ -411,9 +437,11 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       const value = getComponentValue();
 
-      if (Array.isArray(value)) {
+      if (Array.isArray(value) || value instanceof FileList) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name!, value));
+        for (const item of value) {
+          formData.append(component.name!, item);
+        }
         return formData;
       }
 

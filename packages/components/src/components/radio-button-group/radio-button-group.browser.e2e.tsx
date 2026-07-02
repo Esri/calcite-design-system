@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
 import {
+  accessible,
   defaults,
   focusable,
   hidden,
@@ -13,6 +14,19 @@ import {
 } from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-radio-button-group>
+        <calcite-label>
+          <calcite-radio-button />
+          Label
+        </calcite-label>
+      </calcite-radio-button-group>,
+    ),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -48,7 +62,7 @@ describe("honors hidden attribute", () => {
 
   it("honors hidden attribute when navigating", async () => {
     const { container } = await mount<RadioButtonGroup>(
-      <Fragment>
+      <>
         <calcite-radio-button-group name="first">
           <calcite-label>
             1-1
@@ -91,7 +105,7 @@ describe("honors hidden attribute", () => {
             <calcite-radio-button value="third" />
           </calcite-label>
         </calcite-radio-button-group>
-      </Fragment>,
+      </>,
     );
 
     const firstElement = container.querySelector("calcite-radio-button")!;

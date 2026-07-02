@@ -78,6 +78,19 @@ calcite-time-picker {
   }
 }
 
+.content-container {
+  display: grid;
+  flex-grow: 1;
+  .input-container,
+  .placeholder {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .input-container--hidden {
+    opacity: 0;
+  }
+}
+
 .clock-icon {
   --calcite-icon-color: var(
     --calcite-input-time-picker-icon-color,
@@ -89,6 +102,13 @@ calcite-time-picker {
 .minute-suffix,
 .second-suffix {
   white-space: pre;
+}
+
+.placeholder {
+  color: var(--calcite-color-text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .input-container {
@@ -135,7 +155,8 @@ calcite-time-picker {
     padding-inline-start: var(--calcite-spacing-sm);
     padding-inline-end: var(--calcite-spacing-xxs);
   }
-  .input-container {
+  .input-container,
+  .placeholder {
     line-height: 1rem;
   }
 }
@@ -148,7 +169,8 @@ calcite-time-picker {
     padding-inline-start: var(--calcite-spacing-md);
     padding-inline-end: var(--calcite-spacing-sm);
   }
-  .input-container {
+  .input-container,
+  .placeholder {
     line-height: 1.5rem;
   }
 }
@@ -160,7 +182,8 @@ calcite-time-picker {
     gap: var(--calcite-spacing-lg);
     padding-inline: var(--calcite-spacing-lg);
   }
-  .input-container {
+  .input-container,
+  .placeholder {
     line-height: 2.25rem;
   }
 }

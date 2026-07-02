@@ -13,7 +13,15 @@
       type: "module",
     },
     {
+      src: "/src/demos/_assets/demo-form.ts",
+      type: "module",
+    },
+    {
       src: "/src/demos/_assets/demo-options.ts",
+      type: "module",
+    },
+    {
+      src: "/src/demos/_assets/demo-spacer.ts",
       type: "module",
     },
     {

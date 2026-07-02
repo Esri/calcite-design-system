@@ -1,22 +1,11 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { Direction } from "../../utils/dom";
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-checkbox id="example" name="example" value="one"></calcite-checkbox> label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-checkbox label="label" id="example" name="example" value="one"></calcite-checkbox>`);
-});
 
 describe("labelable", () => {
   labelable("calcite-checkbox", { propertyToToggle: "checked", shadowFocusTargetSelector: ".toggle" });
@@ -28,7 +17,6 @@ it("renders with correct default attributes", async () => {
 
   const calciteCheckbox = await page.find("calcite-checkbox");
 
-  expect(calciteCheckbox).toHaveAttribute(HYDRATED_ATTR);
   expect(calciteCheckbox).not.toHaveAttribute("checked");
   expect(calciteCheckbox).not.toHaveAttribute("indeterminate");
 });

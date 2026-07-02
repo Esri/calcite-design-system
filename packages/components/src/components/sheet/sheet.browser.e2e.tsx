@@ -1,23 +1,69 @@
 import { describe, expect, it } from "vitest";
 import { h } from "@arcgis/lumina";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
 import {
   defaults,
   focusable,
+  focusTrap,
   hidden,
   openClose,
   reflects,
   renders,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";
 import { CSS } from "./resources";
 import { Sheet } from "./sheet";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document.body, "calciteSheetOpen");
+      const renderResult = await mount(
+        <calcite-sheet label="hello world" open>
+          Hello everyone!
+        </calcite-sheet>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
+
+  describe("with content", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const renderResult = await mount(
+        <calcite-sheet label="hello world" open>
+          <calcite-panel closable heading="Ultrices neque">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+              dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
+            <calcite-button appearance="outline" slot="footer" width="half">
+              tincidunt lobortis
+            </calcite-button>
+            <calcite-button appearance="outline" slot="footer" width="half">
+              amet porttitor
+            </calcite-button>
+          </calcite-panel>
+        </calcite-sheet>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -87,6 +133,21 @@ describe("is focusable", () => {
       },
     );
   });
+});
+
+describe("focus-trap", () => {
+  focusTrap(
+    () =>
+      mount(
+        <calcite-sheet>
+          <input id="focusable-content" />
+        </calcite-sheet>,
+      ),
+    {
+      toggleProp: "open",
+      focusTarget: () => page.getBySelector("#focusable-content"),
+    },
+  );
 });
 
 describe("reflects", () => {

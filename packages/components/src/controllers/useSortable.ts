@@ -24,8 +24,8 @@ export interface DragDetail<
   toEl: To;
   fromEl: From;
   dragEl: Drag;
-  newIndex: number;
-  oldIndex: number;
+  newIndex: number | undefined;
+  oldIndex: number | undefined;
 }
 
 export const CSS = {
@@ -63,10 +63,10 @@ interface SortableComponent extends LitElement {
   handleSelector: string;
 
   /** Whether the element can move from the list. */
-  canPull: (detail: DragDetail) => boolean | "clone";
+  canPull?: (detail: DragDetail) => boolean | "clone";
 
   /** Whether the element can be added from another list. */
-  canPut: (detail: DragDetail) => boolean;
+  canPut?: (detail: DragDetail) => boolean;
 
   /** Called when any sortable component drag starts. For internal use only. Any public drag events should emit within `onDragStart()`. */
   onGlobalDragStart: () => void;
@@ -110,6 +110,34 @@ interface UseSortable {
 }
 
 const globalDragState: { active: boolean } = { active: false };
+const activeSortableComponentSet = new Set<SortableComponent>();
+
+function syncGlobalDragState(): void {
+  const active = activeSortableComponentSet.size > 0;
+
+  if (globalDragState.active === active) {
+    return;
+  }
+
+  globalDragState.active = active;
+
+  if (active) {
+    onGlobalDragStart();
+    return;
+  }
+
+  onGlobalDragEnd();
+}
+
+function markDragActive(component: SortableComponent): void {
+  activeSortableComponentSet.add(component);
+  syncGlobalDragState();
+}
+
+function markDragInactive(component: SortableComponent): void {
+  activeSortableComponentSet.delete(component);
+  syncGlobalDragState();
+}
 
 function createSortable(component: SortableComponent): ReturnType<(typeof Sortable)["create"]> {
   const dataIdAttr = "id";
@@ -118,6 +146,9 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
   return Sortable.create(el, {
     dataIdAttr,
     swapThreshold: 0.5,
+    // Keep the fallback ghost out of nested list DOM updates during touch drag startup.
+    // Applied globally so all sortable hosts use the same stable fallback behavior.
+    fallbackOnBody: true,
     ...CSS,
     ...(!!draggable && { draggable }),
     ...(!!group && {
@@ -126,7 +157,7 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
         name: group,
         ...(!!component.canPull && {
           pull: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPull({
+            return component.canPull!({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
@@ -137,7 +168,7 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
         }),
         ...(!!component.canPut && {
           put: (to, from, dragEl, { newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-            return component.canPut({
+            return component.canPut!({
               toEl: to.el,
               fromEl: from.el,
               dragEl,
@@ -157,14 +188,20 @@ function createSortable(component: SortableComponent): ReturnType<(typeof Sortab
     },
     handle,
     filter: `${handle}[disabled]`,
+    onChoose: () => {
+      // Touch fallback starts before `onStart`, so mark drag active earlier
+      // to avoid teardown/reset while Sortable appends the ghost element.
+      markDragActive(component);
+    },
+    onUnchoose: () => {
+      markDragInactive(component);
+    },
     onStart: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      globalDragState.active = true;
-      onGlobalDragStart();
+      markDragActive(component);
       component.onDragStart({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onEnd: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
-      globalDragState.active = false;
-      onGlobalDragEnd();
+      markDragInactive(component);
       component.onDragEnd({ fromEl, dragEl, toEl, newIndex, oldIndex });
     },
     onSort: ({ from: fromEl, item: dragEl, to: toEl, newDraggableIndex: newIndex, oldDraggableIndex: oldIndex }) => {
@@ -217,6 +254,11 @@ export const useSortable = <T extends SortableComponent>(): ReturnType<
     });
 
     controller.onDisconnected(() => {
+      sortableComponentSet.delete(component);
+
+      // If unchoose/end is skipped due to abrupt teardown, clear active drag
+      // state to avoid blocking sortable setup for other components.
+      markDragInactive(component);
       tearDownSortable(component);
     });
 

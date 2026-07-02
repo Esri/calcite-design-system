@@ -1,7 +1,5 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { dragAndDrop, findAll } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
@@ -13,15 +11,7 @@ import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { BlockDragDetail } from "./interfaces";
 import type { BlockGroup } from "./block-group";
 
-const blockHTML = html`<calcite-block heading="heading" description="description" open collapsible>
-  <div>content</div>
-</calcite-block>`;
-
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`<calcite-block-group> ${blockHTML} </calcite-block-group>`);
-});
 
 it("should set the dragHandle property on items", async () => {
   const page = await newE2EPage();

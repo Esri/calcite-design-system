@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
@@ -29,15 +28,15 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Private Properties
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
-  defaultValue: Switch["checked"];
+  defaultValue?: Switch["checked"];
 
   formSupport = useForm<this>({
     inputType: "checkbox",
   })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private switchRef = createRef<HTMLDivElement>();
 
@@ -49,30 +48,26 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** Specifies the component's end label text. */
-  @property() labelTextEnd: string;
+  @property() labelTextEnd?: string;
 
   /** Specifies the component's start label text.*/
-  @property() labelTextStart: string;
+  @property() labelTextStart?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";

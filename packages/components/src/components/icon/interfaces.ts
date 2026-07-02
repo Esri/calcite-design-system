@@ -10,6 +10,6 @@ type ExtractBaseIcon<T> = T extends `${infer Base}${"16" | "24" | "32"}F`
       : never;
 
 type CamelCaseIcons = ExtractBaseIcon<keyof typeof icons>;
-type KebabCaseIcons = KebabCase<CamelCaseIcons>;
+type KebabCaseIcons = KebabCase<CamelCaseIcons, { splitOnNumbers: true }>;
 
 export type IconName = KebabCaseIcons | CamelCaseIcons;

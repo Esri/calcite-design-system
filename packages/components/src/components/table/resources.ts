@@ -7,6 +7,7 @@ export const CSS = {
   paginationArea: "pagination-area",
   container: "container",
   tableContainer: "table-container",
+  tableContainerOverflow: "table-container--overflow",
   tableFixed: "table--fixed",
   assistiveText: "assistive-text",
   selectionActions: "selection-actions",

@@ -17,14 +17,48 @@ import {
   formAssociated,
   openClose,
   topLayer,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
-import { Autocomplete } from "./autocomplete";
+import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-autocomplete id="myAutocomplete" label="Item list">
+          <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+          <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+          <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+          <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+          <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+        </calcite-autocomplete>,
+      ),
+    );
+  });
+
+  describe("grouped items", () => {
+    accessible(() =>
+      mount(
+        <calcite-autocomplete label="Pets">
+          <calcite-autocomplete-item-group heading="Dogs">
+            <calcite-autocomplete-item heading="Rover" label="Rover" value="rover" />
+            <calcite-autocomplete-item heading="Fido" label="Fido" value="one" />
+          </calcite-autocomplete-item-group>
+          <calcite-autocomplete-item-group heading="Cats">
+            <calcite-autocomplete-item heading="Felix" label="Felix" value="felix" />
+            <calcite-autocomplete-item heading="Garfield" label="Garfield" value="garfield" />
+          </calcite-autocomplete-item-group>
+        </calcite-autocomplete>,
+      ),
+    );
+  });
+});
 
 describe("cancelable", () => {
   cancelable("calcite-autocomplete");
@@ -261,7 +295,7 @@ function renderAutocomplete(): JsxNode {
 
 describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
-    floatingUIOwner(() => mount(renderAutocomplete), "open", {
+    floatingUIOwner(() => mount<Autocomplete>(renderAutocomplete), "open", {
       shadowSelector: `.${CSS.floatingUIContainer}`,
     });
   });

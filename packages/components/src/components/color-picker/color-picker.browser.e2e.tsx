@@ -4,6 +4,7 @@ import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -25,6 +26,16 @@ mockConsole();
 
 afterEach(() => {
   vi.restoreAllMocks();
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker"));
+  });
+
+  describe("clearable + cleared", () => {
+    accessible(() => mount(<calcite-color-picker clearable value="" />));
+  });
 });
 
 describe("cancelable", () => {
@@ -120,6 +131,7 @@ describe("scope interaction", () => {
   beforeEach(() => {
     vi.mocked(esToolkit.throttle).mockImplementation((toThrottle) => {
       const fakeThrottled = (...args: any[]) => toThrottle(...args);
+      // eslint-disable-next-line no-restricted-properties -- test mock requires throttle-compatible cancel API
       fakeThrottled.cancel = vi.fn();
       fakeThrottled.flush = vi.fn();
       return fakeThrottled;
@@ -131,7 +143,7 @@ describe("scope interaction", () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      expect(el.value).toBeFalsy();
+      expect(el.value).toBeUndefined();
       await userEvent.keyboard("{ArrowDown}");
       expect(el.value).toBe("#ffffff");
       await userEvent.keyboard("{ArrowDown}");

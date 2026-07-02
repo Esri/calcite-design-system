@@ -12019,5 +12019,89 @@
     "alias": ["5.0.0", "symbols", "settings", "reset", "layout", "start"],
     "category": "Symbols",
     "release": "5.0.0"
+  },
+  "oriented-imagery-half-superimpose": {
+    "alias": ["5.0.0", "gis", "link", "2d map", "3d map", "data", "layers"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-scene-only": {
+    "alias": ["5.0.0", "gis", "visualize", "map", "non-vertical", "metaadata", "interaction"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "oriented-imagery-full-superimpose": {
+    "alias": ["5.0.0", "gis", "metadata", "digital elevation", "pixels", "display"],
+    "category": "GIS",
+    "release": "5.0.0"
+  },
+  "parquet-feature-layer": {
+    "alias": ["5.0.0", "layers", "vector data", "attributes", "storage", "format", "cloud"],
+    "category": "Layers",
+    "release": "5.0.0"
+  },
+  "soil-adjusted-vegetation-index": {
+    "alias": ["5.0.0", "raster", "remote sensing", "metric", "estimate", "satellite", "measurement", "calculate"],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "vegetation-index": {
+    "alias": [
+      "5.0.0",
+      "raster",
+      "formula",
+      "multispectral satellite",
+      "drone imagery",
+      "quantify",
+      "density",
+      "photosynthetic"
+    ],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "building-index": {
+    "alias": ["5.0.0", "raster", "density", "evaluate", "remote sensing", "composite metrics", "spatial", "mapping"],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "geology-index": {
+    "alias": [
+      "5.0.0",
+      "raster",
+      "collect",
+      "integrate",
+      "analyze",
+      "spatial data",
+      "satellite images",
+      "topography",
+      "interactive map"
+    ],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "snow-index": {
+    "alias": ["5.0.0", "raster", "geospatial data", "mapping", "remote sensing", "analyze"],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "fire-index": {
+    "alias": ["5.0.0", "raster", "data", "wildfire", "hazard", "risk", "danger", "satellite"],
+    "category": "Raster",
+    "release": "5.0.0"
+  },
+  "smart-search": {
+    "alias": ["5.0.0", "symbols", "filter", "tool", "identify", "datasets", "variables", "match"],
+    "category": "Symbols",
+    "release": "5.0.0"
+  },
+  "weather-radar": {
+    "alias": ["5.0.0", "weather", "data", "web", "map", "tracking", "imagery"],
+    "category": "Weather",
+    "release": "5.0.0"
+  },
+  "user-save": {
+    "alias": ["5.0.0", "people", "progress", "browser", "web", "maintain", "safeguard"],
+    "category": "People",
+    "release": "5.0.0"
   }
 }

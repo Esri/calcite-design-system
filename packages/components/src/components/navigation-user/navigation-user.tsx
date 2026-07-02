@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Scale } from "../interfaces";
@@ -34,7 +33,7 @@ export class NavigationUser extends LitElement {
   /** Specifies the full name of the user. */
   @property() fullName: string;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */

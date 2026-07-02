@@ -1,27 +1,10 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 describe("toggle-display = 'switch'", () => {
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-block-section text="text" toggle-display="switch" expanded>
-        <div>some content</div>
-      </calcite-block-section>
-    `);
-  });
-
-  describe("accessible: when collapsed", () => {
-    accessible(html`
-      <calcite-block-section text="text" toggle-display="switch">
-        <div>some content</div>
-      </calcite-block-section>
-    `);
-  });
-
   it("can display/hide content", async () => {
     const page = await newE2EPage({
       html: `<calcite-block-section toggle-display="switch"><div>some content</div></calcite-block-section>`,
@@ -45,16 +28,6 @@ describe("toggle-display = 'switch'", () => {
 });
 
 describe("toggle-display = 'button' (default)", () => {
-  describe("accessible", () => {
-    describe("accessible: when expanded", () => {
-      accessible(html`<calcite-block-section text="text" expanded><div>some content</div></calcite-block-section>`);
-    });
-
-    describe("accessible: when collapsed", () => {
-      accessible(html`<calcite-block-section text="text"><div>some content</div></calcite-block-section>`);
-    });
-  });
-
   it("can display/hide content", async () => {
     const page = await newE2EPage({ html: "<calcite-block-section><div>some content</div></calcite-block-section>" });
     await assertContentIsDisplayedAndHidden(page);

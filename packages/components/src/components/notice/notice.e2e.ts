@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 import { Notice } from "./notice";
@@ -10,22 +10,6 @@ const noticeContent = html`
   <div slot="message">Message Text</div>
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
-
-describe("accessible", () => {
-  accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon", () => {
-  accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon with close button", () => {
-  accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon and close button", () => {
-  accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
-});
 
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();

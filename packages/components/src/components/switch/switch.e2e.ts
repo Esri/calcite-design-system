@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, HYDRATED_ATTR, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Switch } from "./switch";
 import { CSS } from "./resources";
@@ -11,16 +11,7 @@ it("renders with correct default attributes", async () => {
 
   const calciteSwitch = await page.find("calcite-switch");
 
-  expect(calciteSwitch).toHaveAttribute(HYDRATED_ATTR);
   expect(calciteSwitch).toHaveAttribute("checked");
-});
-
-describe("accessible", () => {
-  accessible(`<calcite-switch label="test-label"></calcite-switch>`);
-});
-
-describe("accessible: checked", () => {
-  accessible(`<calcite-switch label="test-label" checked></calcite-switch>`);
 });
 
 describe("labelable", () => {

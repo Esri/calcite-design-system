@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -26,7 +25,7 @@ type CanceledEscapeKeyPressTestWindow = GlobalTestProps<{
 async function dispatchPointerEvent(page: E2EPage, selector: string): Promise<void> {
   await page.$eval(
     selector,
-    (el: HTMLElement, eventOptions) => {
+    (el, eventOptions) => {
       el.dispatchEvent(new PointerEvent("pointermove", eventOptions));
     },
     eventOptions,
@@ -37,7 +36,7 @@ async function dispatchPointerEvent(page: E2EPage, selector: string): Promise<vo
 async function dispatchClickEvent(page: E2EPage, selector: string): Promise<void> {
   await page.$eval(
     selector,
-    (el: HTMLElement, eventOptions) => {
+    (el, eventOptions) => {
       el.dispatchEvent(new MouseEvent("click", eventOptions));
     },
     eventOptions,
@@ -59,7 +58,7 @@ async function dispatchDocumentKeydownEvent(page: E2EPage, key: string): Promise
 async function dispatchKeydownEvent(page: E2EPage, selector: string, key: string): Promise<void> {
   await page.$eval(
     selector,
-    (el: HTMLElement, eventOptions, key) => {
+    (el, eventOptions, key) => {
       el.dispatchEvent(new KeyboardEvent("keydown", { key, ...eventOptions }));
     },
     eventOptions,
@@ -90,18 +89,6 @@ async function setUpEscapeKeyCancelListener(page: E2EPage): Promise<void> {
 async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promise<void> {
   expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
 }
-
-describe("accessible when closed", () => {
-  accessible(
-    `<calcite-tooltip reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
-
-describe("accessible when open", () => {
-  accessible(
-    `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
 
 it("tooltip positions when referenceElement is set", async () => {
   const page = await newE2EPage();
@@ -749,7 +736,7 @@ it("should still function when disconnected and reconnected", async () => {
   expect(await positionContainer.isVisible()).toBe(false);
 
   await page.$eval("calcite-tooltip", (tooltipEl: Tooltip["el"]) => {
-    const transferEl = document.getElementById("transfer");
+    const transferEl = document.getElementById("transfer")!;
     transferEl.appendChild(tooltipEl);
   });
   await page.waitForChanges();
@@ -976,9 +963,9 @@ describe("within shadowRoot", () => {
   function isTooltipOpen(page: E2EPage, componentId = "one"): Promise<boolean> {
     return page.evaluate((componentId): boolean => {
       return document
-        .querySelector(`#${componentId}`)
-        .shadowRoot.querySelector("shadow-component-a")
-        .shadowRoot.querySelector("calcite-tooltip").open;
+        .querySelector(`#${componentId}`)!
+        .shadowRoot!.querySelector("shadow-component-a")!
+        .shadowRoot!.querySelector("calcite-tooltip")!.open;
     }, componentId);
   }
 
@@ -1189,7 +1176,7 @@ it("closes tooltip when pointer leaves document (simulates iframe use case)", as
 
   expect(await tooltip.getProperty("open")).toBe(true);
 
-  const viewport = page.viewport();
+  const viewport = page.viewport()!;
   await page.mouse.move(viewport.width + 100, viewport.height + 100);
   await page.waitForChanges();
 

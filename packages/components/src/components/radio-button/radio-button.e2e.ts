@@ -1,22 +1,11 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-});
 
 describe("labelable", () => {
   mockConsole();
@@ -259,7 +248,7 @@ it("programmatically checking a radio button updates the group's state correctly
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]")!;
     second.checked = true;
   });
   await page.waitForChanges();
@@ -279,7 +268,7 @@ it("programmatically un-checking a radio button updates the group's state correc
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]")!;
     second.checked = false;
   });
   await page.waitForChanges();

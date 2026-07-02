@@ -1,13 +1,7 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible } from "../../tests/commonTests";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
-
-describe("accessible", () => {
-  accessible(html`<calcite-menu><calcite-menu-item text="calcite"></calcite-menu-item></calcite-menu>`);
-});
 
 describe("mouse support", () => {
   it("should open the submenu on click", async () => {
@@ -64,7 +58,7 @@ describe("mouse support", () => {
     expect(await getFocusedElementProp(page, "id")).toBe("arcgis-online");
 
     const menuElement = await page.$("calcite-menu");
-    const { x, y, width, height } = await menuElement.boundingBox();
+    const { x, y, width, height } = await menuElement!.boundingBox();
 
     await page.mouse.click(x + width + 150, y + height + 150);
     await page.waitForChanges();

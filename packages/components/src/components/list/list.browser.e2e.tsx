@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
@@ -19,8 +20,55 @@ import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
 import { CSS as listCSS } from "./resources";
+import { placeholderImage } from "../../../.storybook/placeholder-image";
 
 const scrollTopValue = 120;
+
+const placeholder = placeholderImage({
+  width: 350,
+  height: 150,
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-list>
+          <calcite-list-item description="kingdom" label="candy">
+            <calcite-action icon="banana" label="finn" slot="actions-start" />
+            <calcite-icon icon="banana" slot="content-start" />
+            <img alt="Test image" slot="content-start" src={placeholder} />
+            <calcite-icon icon="banana" slot="content-end" />
+            <calcite-action icon="banana" label="jake" slot="actions-end" />
+          </calcite-list-item>
+          <calcite-list-item description="hello world" label="test" non-interactive />
+          <calcite-list-item description="hello world" label="test" />
+        </calcite-list>,
+      ),
+    );
+  });
+
+  describe("with filter + selection", () => {
+    accessible(() =>
+      mount(
+        <calcite-list
+          filter-enabled
+          filter-text="Bananas"
+          selection-appearance="border"
+          selection-mode="single"
+        >
+          <calcite-list-item label="Apples" value="apples" />
+          <calcite-list-item label="Oranges" value="oranges" />
+          <calcite-list-item label="Pears" value="pears" />
+          <calcite-notice icon kind="warning" open scale="s" slot="filter-no-results">
+            <div slot="title">No fruits found</div>
+            <div slot="message">Try a different fruit?</div>
+          </calcite-notice>
+        </calcite-list>,
+      ),
+    );
+  });
+});
 
 describe("cancelable", () => {
   cancelable("calcite-list");
@@ -281,6 +329,50 @@ describe("sticky group heading with filter", () => {
 
     expect(filterZIndex).toBeGreaterThan(stickyGroupZIndex);
   });
+
+  it("removes sticky heading offset when filter is disabled", async () => {
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled style="height: 160px; overflow-y: auto;">
+        <calcite-list-item-group heading="Group A">
+          <calcite-list-item label="A1" value="a1" />
+          <calcite-list-item label="A2" value="a2" />
+          <calcite-list-item label="A3" value="a3" />
+          <calcite-list-item label="A4" value="a4" />
+          <calcite-list-item label="A5" value="a5" />
+          <calcite-list-item label="A6" value="a6" />
+          <calcite-list-item label="A7" value="a7" />
+          <calcite-list-item label="A8" value="a8" />
+        </calcite-list-item-group>
+        <calcite-list-item-group heading="Group B">
+          <calcite-list-item label="B1" value="b1" />
+          <calcite-list-item label="B2" value="b2" />
+          <calcite-list-item label="B3" value="b3" />
+          <calcite-list-item label="B4" value="b4" />
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const list = el as HTMLElement;
+    const stickyContainer = page
+      .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
+      .first()
+      .element();
+
+    list.scrollTop = scrollTopValue;
+    await afterNextFrame();
+    expect(list.scrollTop).toBeGreaterThan(0);
+
+    const filterInput = page.getBySelector("calcite-list calcite-filter").element();
+    const filterHeight = filterInput.getBoundingClientRect().height;
+    const topWithFilter = stickyContainer.getBoundingClientRect().top;
+
+    el.filterEnabled = false;
+    await afterNextTask();
+    await afterNextFrame();
+
+    const topWithoutFilter = stickyContainer.getBoundingClientRect().top;
+    expect(topWithFilter - topWithoutFilter).toBeGreaterThanOrEqual(filterHeight - 2);
+  });
 });
 
 describe("group filtering", () => {
@@ -442,6 +534,41 @@ describe("group filtering", () => {
     expect(rerenderedFilterEl.value).toBe(typedValue);
     expect(el.filterText).toBe("");
   });
+
+  it("preserves filter input text while items are loading before debounced filterText updates", async () => {
+    const typedValue = "Bui";
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item label="Buildings" value="buildings" />
+      </calcite-list>,
+    );
+
+    await el.setFocus();
+    await userEvent.keyboard(typedValue);
+
+    expect(el.filterText).toBe("");
+
+    for (let i = 0; i < 20; i++) {
+      const item = document.createElement("calcite-list-item");
+      item.label = `Loading item ${i}`;
+      item.value = `loading-item-${i}`;
+      el.append(item);
+
+      vi.advanceTimersByTime(DEBOUNCE.nextTick + 1);
+
+      const filterEl = page
+        .getBySelector("calcite-list calcite-filter")
+        .element() as HTMLElement & {
+        value: string;
+      };
+
+      expect(filterEl.value).toBe(typedValue);
+      expect(el.filterText).toBe("");
+    }
+
+    vi.advanceTimersByTime(DEBOUNCE.filter + 1);
+    expect(el.filterText).toBe(typedValue);
+  });
 });
 
 describe("filter item data updates", () => {
@@ -577,7 +704,7 @@ describe("filter item data updates", () => {
     await waitForFilteredLength(el, 1);
     await waitForFilterItemsMatch(
       filterEl,
-      (item) => item.el === listItem && item.heading?.includes(headingToken),
+      (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
   });
 });
@@ -585,7 +712,7 @@ describe("filter item data updates", () => {
 describe("nested selection modes", () => {
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
-      <Fragment>
+      <>
         <calcite-list
           data-testid="root-list-one"
           display-mode="nested"
@@ -674,7 +801,7 @@ describe("nested selection modes", () => {
             </calcite-list>
           </calcite-list-item>
         </calcite-list>
-      </Fragment>,
+      </>,
     );
 
     await afterNextFrame();

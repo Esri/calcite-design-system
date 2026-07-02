@@ -1,8 +1,19 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, focusable, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  accessible,
+  defaults,
+  focusable,
+  hidden,
+  renders,
+  t9n,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-pagination page-size="10" start-item="50" total-items="100" />));
+});
 
 describe("defaults", () => {
   defaults(
