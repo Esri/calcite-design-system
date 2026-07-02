@@ -11,6 +11,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
   openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
