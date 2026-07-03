@@ -1,18 +1,21 @@
+import { describe, it, expect, vi } from "vitest";
+import { page } from "vitest/browser";
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   accessible,
   defaults,
   focusable,
-  reflects,
   hidden,
+  reflects,
   renders,
   slots,
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
+import messages from "./assets/t9n/messages.json";
+import type { AccordionItem } from "./accordion-item";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-accordion-item heading="My Heading" />));
@@ -242,4 +245,47 @@ describe("theme", () => {
       );
     });
   });
+});
+
+it("properly uses ARIA and types", async () => {
+  // this test covers a11y relationships not reported by axe-core/accessible test helper
+  const { el } = await mount("calcite-accordion-item");
+
+  const headerContent = page.getByRole("button");
+
+  await expect.element(headerContent).toHaveAttribute("aria-expanded", "false");
+  await expect.element(headerContent).toHaveAttribute("aria-controls", IDS.section);
+  await expect.element(headerContent).toHaveAttribute("type", "button");
+
+  const content = page.getBySelector(`calcite-accordion-item .${CSS.content}`);
+
+  await expect.element(content).toHaveAttribute("aria-labelledby", IDS.sectionToggle);
+  await expect.element(content).toHaveProperty("id", IDS.section);
+
+  el.expanded = true;
+
+  await expect.element(headerContent).toHaveAttribute("aria-expanded", "true");
+});
+
+it("should emit expanded/collapsed events when toggled", async () => {
+  const { el, reRender } = await mount<AccordionItem>(<calcite-accordion-item heading="Test" />);
+
+  const expandIcon = page.getBySelector(`calcite-accordion-item .${CSS.expandIcon}`);
+
+  const expandHandler = vi.fn();
+  const collapseHandler = vi.fn();
+  el.addEventListener("calciteAccordionItemExpand", expandHandler);
+  el.addEventListener("calciteAccordionItemCollapse", collapseHandler);
+
+  el.expanded = true;
+  await reRender();
+  expect(expandHandler).toHaveBeenCalledTimes(1);
+  expect(collapseHandler).toHaveBeenCalledTimes(0);
+  await expect.element(expandIcon).toHaveAttribute("title", messages.collapse);
+
+  el.expanded = false;
+  await reRender();
+  expect(expandHandler).toHaveBeenCalledTimes(1);
+  expect(collapseHandler).toHaveBeenCalledTimes(1);
+  await expect.element(expandIcon).toHaveAttribute("title", messages.expand);
 });
