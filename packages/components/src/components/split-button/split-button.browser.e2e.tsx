@@ -185,7 +185,7 @@ describe("disabled", () => {
   disabled(() => mount("calcite-split-button"));
 });
 
-describe("theming", () => {
+describe("theme", () => {
   themed(
     () =>
       mount(

@@ -782,7 +782,7 @@ describe("l10n", () => {
   });
 });
 
-describe("theming", () => {
+describe("theme", () => {
   themed(() => mount(<calcite-input-time-picker open />), {
     "--calcite-input-time-picker-background-color": {
       shadowSelector: "calcite-time-picker",
