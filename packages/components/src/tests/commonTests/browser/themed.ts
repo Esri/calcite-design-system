@@ -426,8 +426,7 @@ function getInteractionTarget(
 }
 
 function isLocator(value: InteractionSelector): value is Locator {
-  // FIXME
-  return Boolean(value) && typeof value === "object" && "element" in value;
+  return typeof value === "object" && "element" in value;
 }
 
 function getComputedStylePropertyValue(element: HTMLElement, property: string, pseudoElement?: string): string {
