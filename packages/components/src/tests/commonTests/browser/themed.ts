@@ -10,7 +10,6 @@ const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
 const clickPreventerAttribute = "data-calcite-themed-click-preventer";
-const animationDisablerAttribute = "data-calcite-themed-disable-animations";
 const iconLoadErrorPattern = /^calcite .* icon failed to load$/;
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
@@ -64,7 +63,6 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
 
     try {
       preventClicks();
-      disableAnimations();
 
       const styleTargets = new Map<HTMLElement, Map<string, string>>();
       const testTargets: TestTarget[] = [];
@@ -235,24 +233,6 @@ function preventClicks(): void {
     },
     true,
   );
-}
-
-function disableAnimations(): void {
-  if (document.head.querySelector(`[${animationDisablerAttribute}]`)) {
-    return;
-  }
-
-  const style = document.createElement("style");
-  style.setAttribute(animationDisablerAttribute, "");
-  style.textContent = `
-    *,
-    *::before,
-    *::after {
-      animation: none !important;
-      transition: none !important;
-    }
-  `;
-  document.head.append(style);
 }
 
 function suppressExpectedIconLoadMessages(): () => void {
