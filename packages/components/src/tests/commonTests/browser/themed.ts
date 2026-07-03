@@ -54,6 +54,52 @@ type TestTarget = {
   token: CalciteCSSCustomProp;
 };
 
+/**
+ * Helper to test custom theming of a component's associated tokens.
+ *
+ * @example
+ * describe("theme", () => {
+ *   themed(`calcite-action-bar`, {
+ *     "--calcite-action-menu-border-color": [
+ *       {
+ *         targetProp: "borderLeftColor",
+ *       },
+ *       {
+ *         shadowSelector: "calcite-action",
+ *         targetProp: "--calcite-action-border-color",
+ *       },
+ *       {
+ *         // added to demonstrate pseudo-element support
+ *         shadowSelector: "calcite-action::after",
+ *         targetProp: "borderColor",
+ *       },
+ *     ],
+ *     "--calcite-action-menu-background-color": {
+ *          targetProp: "backgroundColor",
+ *          shadowSelector: ".container",
+ *     },
+ *     "--calcite-action-menu-trigger-background-color-active": {
+ *       shadowSelector: "calcite-action",
+ *       targetProp: "--calcite-action-background-color",
+ *       state: { press: `calcite-action-menu >>> .${CSS.defaultTrigger}`,
+ *     },
+ *     "--calcite-action-menu-trigger-background-color-focus": {
+ *       shadowSelector: "calcite-action",
+ *       targetProp: "--calcite-action-background-color",
+ *       state: "focus",
+ *     },
+ *     "--calcite-action-menu-trigger-background-color-hover": {
+ *       shadowSelector: "calcite-action",
+ *       targetProp: "--calcite-action-background-color",
+ *       state: "hover",
+ *     },
+ *     "--calcite-action-menu-trigger-background-color": {
+ *       shadowSelector: "calcite-action",
+ *       targetProp: "--calcite-action-background-color",
+ *     },
+ *   });
+ * });
+ */
 export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
     const restoreConsoleMessages = suppressExpectedIconLoadMessages();
