@@ -13,7 +13,8 @@ import {
   reflects,
   renders,
   topLayer,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";

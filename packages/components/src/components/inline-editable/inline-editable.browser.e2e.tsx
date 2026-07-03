@@ -10,7 +10,8 @@ import {
   hidden,
   renders,
   t9n,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {

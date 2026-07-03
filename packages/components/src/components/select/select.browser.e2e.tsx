@@ -13,7 +13,8 @@ import {
   reflects,
   renders,
   t9n,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Select } from "./select";

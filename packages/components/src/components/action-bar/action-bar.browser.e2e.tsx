@@ -13,7 +13,8 @@ import {
   slots,
   t9n,
   delegatesToFloatingUiOwningComponent,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";

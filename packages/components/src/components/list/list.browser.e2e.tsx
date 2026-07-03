@@ -11,7 +11,8 @@ import {
   reflects,
   renders,
   t9n,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";

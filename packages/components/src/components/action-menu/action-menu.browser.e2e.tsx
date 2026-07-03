@@ -9,7 +9,8 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";

@@ -9,7 +9,8 @@ import {
   hidden,
   renders,
   disabled,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";

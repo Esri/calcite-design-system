@@ -11,7 +11,8 @@ import {
   t9n,
   topLayer,
   openClose,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";

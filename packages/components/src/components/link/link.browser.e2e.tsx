@@ -8,7 +8,8 @@ import {
   focusable,
   hidden,
   renders,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import type { Link } from "./link";
 

@@ -11,7 +11,8 @@ import {
   reflects,
   renders,
   slots,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 

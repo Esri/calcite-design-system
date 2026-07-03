@@ -10,7 +10,8 @@ import {
   renders,
   slots,
   t9n,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";

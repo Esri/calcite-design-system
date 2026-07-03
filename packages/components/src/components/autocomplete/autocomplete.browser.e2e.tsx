@@ -17,7 +17,8 @@ import {
   formAssociated,
   openClose,
   topLayer,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";

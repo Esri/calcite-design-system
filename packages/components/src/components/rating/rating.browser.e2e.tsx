@@ -12,7 +12,8 @@ import {
   renders,
   t9n,
   formAssociated,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";

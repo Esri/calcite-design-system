@@ -14,7 +14,8 @@ import {
   t9n,
   disabled,
   openClose,
-accessible, themed
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
