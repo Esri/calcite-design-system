@@ -121,7 +121,7 @@ describe("theme", () => {
             <calcite-card label="example-label" selectable>
               <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
               <span slot="description">
-                A great example of a study description that might wrap to a line or two), but isn't
+                A great example of a study description that might wrap to a line or two, but isn't
                 overly verbose.
               </span>
             </calcite-card>,

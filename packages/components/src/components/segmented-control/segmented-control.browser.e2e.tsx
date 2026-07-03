@@ -217,6 +217,10 @@ describe("disabled", () => {
 
 describe("theme", () => {
   themed(() => mount("calcite-segmented-control"), {
+    "--calcite-segmented-control-corner-radius": {
+      shadowSelector: `.${CSS.itemWrapper}`,
+      targetProp: "borderRadius",
+    },
     "--calcite-segmented-control-border-color": {
       shadowSelector: `.${CSS.itemWrapper}`,
       targetProp: "outlineColor",
