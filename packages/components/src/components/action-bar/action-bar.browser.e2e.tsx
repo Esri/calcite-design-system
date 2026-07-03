@@ -563,6 +563,27 @@ describe("overflow-disabled actions", () => {
   });
 });
 
+it("should emit expanded/collapsed events when toggled", async () => {
+  const { el, reRender } = await mount<ActionBar>(<calcite-action-bar />);
+  const expandSpy = vi.fn();
+  const collapseSpy = vi.fn();
+
+  el.addEventListener("calciteActionBarExpand", expandSpy);
+  el.addEventListener("calciteActionBarCollapse", collapseSpy);
+
+  el.expanded = true;
+  await reRender();
+  expect(el.expanded).toBe(true);
+  expect(expandSpy).toHaveBeenCalledTimes(1);
+  expect(collapseSpy).toHaveBeenCalledTimes(0);
+
+  el.expanded = false;
+  await reRender();
+  expect(el.expanded).toBe(false);
+  expect(expandSpy).toHaveBeenCalledTimes(1);
+  expect(collapseSpy).toHaveBeenCalledTimes(1);
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(
@@ -633,26 +654,5 @@ describe("theme", () => {
         },
       },
     );
-  });
-
-  it("should emit expanded/collapsed events when toggled", async () => {
-    const { el, reRender } = await mount<ActionBar>(<calcite-action-bar />);
-    const expandSpy = vi.fn();
-    const collapseSpy = vi.fn();
-
-    el.addEventListener("calciteActionBarExpand", expandSpy);
-    el.addEventListener("calciteActionBarCollapse", collapseSpy);
-
-    el.expanded = true;
-    await reRender();
-    expect(el.expanded).toBe(true);
-    expect(expandSpy).toHaveBeenCalledTimes(1);
-    expect(collapseSpy).toHaveBeenCalledTimes(0);
-
-    el.expanded = false;
-    await reRender();
-    expect(el.expanded).toBe(false);
-    expect(expandSpy).toHaveBeenCalledTimes(1);
-    expect(collapseSpy).toHaveBeenCalledTimes(1);
   });
 });
