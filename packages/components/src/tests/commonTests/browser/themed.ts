@@ -1,5 +1,5 @@
 import { expect, it, vi } from "vitest";
-import { type Locator, page } from "vitest/browser";
+import { type Locator, page, userEvent } from "vitest/browser";
 import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../../browser/commands";
 import { getTokenValue } from "../../utils/cssTokenValues";
@@ -60,6 +60,7 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
     const restoreConsoleMessages = suppressExpectedIconLoadMessages();
     const { el } = await setup();
     const elLocator = page.elementLocator(el);
+    await userEvent.unhover(el);
 
     try {
       preventClicks();
