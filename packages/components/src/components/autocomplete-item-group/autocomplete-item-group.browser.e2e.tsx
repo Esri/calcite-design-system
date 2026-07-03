@@ -1,4 +1,4 @@
-import { Fragment, h } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, renders, themed } from "../../tests/commonTests/browser";
@@ -40,20 +40,18 @@ describe("theme", () => {
     themed(
       () =>
         mount(
-          <>
-            <calcite-autocomplete>
-              <calcite-autocomplete-item-group heading="Group 1">
-                <calcite-autocomplete-item heading="Item 1" value="1" />
-              </calcite-autocomplete-item-group>
-              <calcite-autocomplete-item-group heading="Group 2" position={1}>
-                <calcite-autocomplete-item heading="Item 2" value="2" />
-              </calcite-autocomplete-item-group>
-            </calcite-autocomplete>
-          </>,
+          <calcite-autocomplete>
+            <calcite-autocomplete-item-group heading="Group 1">
+              <calcite-autocomplete-item heading="Item 1" value="1" />
+            </calcite-autocomplete-item-group>
+            <calcite-autocomplete-item-group heading="Group 2" position={1}>
+              <calcite-autocomplete-item heading="Item 2" value="2" />
+            </calcite-autocomplete-item-group>
+          </calcite-autocomplete>,
         ),
       {
         "--calcite-autocomplete-border-color": {
-          selector: "calcite-autocomplete-item-group[position='1']",
+          selector: "calcite-autocomplete-item-group:nth-child(2)",
           shadowSelector: `.${CSS.separator}`,
           targetProp: "backgroundColor",
         },

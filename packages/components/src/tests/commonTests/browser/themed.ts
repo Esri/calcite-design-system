@@ -94,7 +94,8 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
             );
           }
 
-          const selectorLocator = selector === elLocator ? elLocator : getScopedLocator(elLocator, el, selector);
+          const selectorLocator =
+            selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
           const selectorElement = getRequiredElement(
             selectorLocator,
             `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
@@ -178,8 +179,8 @@ function getScopedLocator(rootLocator: Locator, rootElement: HTMLElement, select
   }
 
   const scopedLocator = normalizedSelector.startsWith(rootPrefixedSelector)
-    ? rootLocator.getBySelector(normalizedSelector.slice(rootPrefixedSelector.length)).nth(0)
-    : rootLocator.getBySelector(normalizedSelector).nth(0);
+    ? rootLocator.getBySelector(normalizedSelector.slice(rootPrefixedSelector.length)).first()
+    : rootLocator.getBySelector(normalizedSelector).first();
   const scopedElement = scopedLocator.element() as HTMLElement | null;
 
   if (scopedElement && isElementVisible(scopedElement)) {

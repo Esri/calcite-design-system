@@ -222,7 +222,7 @@ describe("a11y attributes", () => {
 
 describe("themed", () => {
   describe("background color", () => {
-    themed(() => mount(<calcite-action />), {
+    themed(() => mount("calcite-action"), {
       "--calcite-action-background-color": {
         shadowSelector: `.${CSS.button}`,
         targetProp: "backgroundColor",
@@ -290,19 +290,19 @@ describe("themed", () => {
       () =>
         mount(
           <>
-            <calcite-action class="one" indicator text="hello world" />
-            <calcite-action class="two" icon="hamburger" indicator />
+            <calcite-action id="with-text" indicator text="hello world" />
+            <calcite-action icon="hamburger" id="with-icon" indicator />
           </>,
         ),
       {
         "--calcite-action-indicator-color": [
           {
-            selector: ".one",
+            selector: "#with-text",
             shadowSelector: `.${CSS.indicatorWithoutIcon}::after`,
             targetProp: "backgroundColor",
           },
           {
-            selector: ".two",
+            selector: "#with-icon",
             shadowSelector: `.${CSS.indicatorWithIcon}::after`,
             targetProp: "backgroundColor",
           },

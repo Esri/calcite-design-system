@@ -15,6 +15,7 @@ import {
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TableCell } from "../table-cell/table-cell";
 import type { TableHeader } from "../table-header/table-header";
+import type { TableRow } from "../table-row/table-row";
 import type { Table } from "./table";
 import { CSS, SLOTS } from "./resources";
 
@@ -1054,7 +1055,7 @@ describe("sticky header", () => {
 
     const scrollContainer = getTableContainer(el);
     const headerRow = el.querySelector(`calcite-table-row[slot="${SLOTS.tableHeader}"]`)!;
-    const firstBodyRow = el.querySelector("#row-1")!;
+    const firstBodyRow = el.querySelector<TableRow["el"]>("#row-1")!;
     const headerRowEl = getTableRowElement(headerRow);
     const bodyRowEl = getTableRowElement(firstBodyRow);
 
@@ -1083,7 +1084,7 @@ describe("sticky header", () => {
 
     firstSelectionCell.click();
     await afterNextFrame();
-    expect((firstBodyRow as HTMLElement & { selected: boolean }).selected).toBe(true);
+    expect(firstBodyRow.selected).toBe(true);
   });
 });
 

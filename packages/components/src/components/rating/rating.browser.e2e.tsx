@@ -119,7 +119,7 @@ describe("theme", () => {
     themed(() => mount(<calcite-rating average={3.65} count={240} show-chip />), {
       "--calcite-rating-average-color": [
         {
-          shadowSelector: `.${CSS.average}`,
+          shadowSelector: `.${CSS.average}`, // label
           targetProp: "color",
         },
         {

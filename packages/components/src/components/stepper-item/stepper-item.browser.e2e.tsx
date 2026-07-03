@@ -30,7 +30,7 @@ describe("theme", () => {
     themed(() => mount(<calcite-stepper-item description="description" heading="Item" />), {
       "--calcite-stepper-bar-gap": {
         selector: `calcite-stepper-item`,
-        targetProp: "marginBlockEnd",
+        targetProp: "marginBlockEnd", // here
       },
       "--calcite-stepper-item-background-color-press": [
         {
