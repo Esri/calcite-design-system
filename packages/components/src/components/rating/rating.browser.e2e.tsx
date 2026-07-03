@@ -90,7 +90,7 @@ describe("is form-associated", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-rating />), {
+    themed(() => mount("calcite-rating"), {
       "--calcite-rating-spacing": {
         shadowSelector: `.${CSS.fieldSet}`,
         targetProp: "gap",
@@ -106,6 +106,7 @@ describe("theme", () => {
       },
     });
   });
+
   describe("selected", () => {
     themed(() => mount(<calcite-rating value={2} />), {
       "--calcite-rating-color-hover": {
@@ -115,11 +116,12 @@ describe("theme", () => {
       },
     });
   });
+
   describe("average", () => {
     themed(() => mount(<calcite-rating average={3.65} count={240} show-chip />), {
       "--calcite-rating-average-color": [
         {
-          shadowSelector: `.${CSS.average}`, // label
+          shadowSelector: `.${CSS.average}`,
           targetProp: "color",
         },
         {
