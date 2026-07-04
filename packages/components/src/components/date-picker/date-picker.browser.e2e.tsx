@@ -218,12 +218,8 @@ describe("theme", () => {
 
   describe("range", () => {
     themed(
-      async () => {
-        const render = await mount<DatePicker>(<calcite-date-picker range />);
-        render.el.value = ["2025-01-01", "2025-02-20"];
-        await render.component.updateComplete;
-        return render;
-      },
+      async () =>
+        mount<DatePicker>(<calcite-date-picker range value={["2025-01-01", "2025-02-20"]} />),
       {
         "--calcite-date-picker-range-calendar-divider-color": {
           selector: "calcite-date-picker",
