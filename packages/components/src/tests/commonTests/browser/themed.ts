@@ -234,9 +234,11 @@ function getScopedLocator(rootLocator: Locator, rootElement: HTMLElement, select
 }
 
 function getRequiredElement(locator: Locator, errorMessage: string): HTMLElement {
-  const element = locator.element() as HTMLElement | null;
+  let element: HTMLElement;
 
-  if (!element) {
+  try {
+    element = locator.element() as HTMLElement;
+  } catch {
     throw new Error(errorMessage);
   }
 
