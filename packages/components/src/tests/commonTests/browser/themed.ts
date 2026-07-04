@@ -122,11 +122,14 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
       }
 
       for (const selectorConfig of selectors) {
-        const selector = selectorConfig.selector ?? elLocator;
+        const selector =
+          typeof selectorConfig.selector === "string"
+            ? page.getBySelector(selectorConfig.selector)
+            : (selectorConfig.selector ?? elLocator);
         const shadowSelector = selectorConfig.shadowSelector;
         const targetProp = selectorConfig.targetProp;
 
-        if (typeof selector === "string" && selector.includes(">>>")) {
+        if (typeof selectorConfig.selector === "string" && selectorConfig.selector.includes(">>>")) {
           throw new Error("Deep piercing via `selector` is not supported, use `shadowSelector` instead");
         }
 
