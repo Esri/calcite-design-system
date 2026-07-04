@@ -1417,7 +1417,10 @@ export class ColorPicker extends LitElement {
     left: number | undefined,
     top: number | undefined,
   ): [number, number] {
-    return [left ? left - SCOPE_SIZE / 2 : NaN, top ? top - SCOPE_SIZE / 2 : NaN];
+    return [
+      left === undefined ? NaN : left - SCOPE_SIZE / 2,
+      top === undefined ? NaN : top - SCOPE_SIZE / 2,
+    ];
   }
 
   //#endregion
