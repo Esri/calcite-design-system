@@ -1,4 +1,4 @@
-import { expect, it, onTestFinished } from "vitest";
+import { expect, it, vi } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
 import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../../browser/commands";
@@ -8,6 +8,9 @@ import { TestSetup } from "./interfaces";
 
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
+
+const clickPreventerAttribute = "data-calcite-themed-click-preventer";
+const iconLoadErrorPattern = /^calcite .* icon failed to load$/;
 
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 type State = "press" | "hover" | "focus";
@@ -99,97 +102,105 @@ type TestTarget = {
  */
 export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
-    const { el, container } = await setup();
+    const restoreConsoleMessages = suppressExpectedIconLoadMessages();
+    const { el } = await setup();
     const elLocator = page.elementLocator(el);
+    await userEvent.unhover(el);
 
-    preventClicks(container);
+    try {
+      preventClicks();
 
-    const styleTargets = new Map<HTMLElement, Map<string, string>>();
-    const testTargets: TestTarget[] = [];
-    const setTokens = new Map<CalciteCSSCustomProp, string>();
+      const styleTargets = new Map<HTMLElement, Map<string, string>>();
+      const testTargets: TestTarget[] = [];
+      const setTokens = new Map<CalciteCSSCustomProp, string>();
 
-    for (const [token, tokenConfig] of Object.entries(tokens) as [
-      CalciteCSSCustomProp,
-      TestSelectToken | TestSelectToken[],
-    ][]) {
-      const selectors = Array.isArray(tokenConfig) ? tokenConfig : [tokenConfig];
+      for (const [token, tokenConfig] of Object.entries(tokens) as [
+        CalciteCSSCustomProp,
+        TestSelectToken | TestSelectToken[],
+      ][]) {
+        const selectors = Array.isArray(tokenConfig) ? tokenConfig : [tokenConfig];
 
-      if (!setTokens.has(token)) {
-        setTokens.set(token, getTokenValue(token));
-      }
-
-      for (const selectorConfig of selectors) {
-        const selector = selectorConfig.selector ?? elLocator;
-        const shadowSelector = selectorConfig.shadowSelector;
-        const targetProp = selectorConfig.targetProp;
-
-        if (typeof selector === "string" && selector.includes(">>>")) {
-          throw new Error("Deep piercing via `selector` is not supported, use `shadowSelector` instead");
+        if (!setTokens.has(token)) {
+          setTokens.set(token, getTokenValue(token));
         }
 
-        if (token === targetProp) {
-          throw new Error(
-            `"${token}" cannot be used as its own targetProp, please use a different property or mapped sub-component token.`,
+        for (const selectorConfig of selectors) {
+          const selector = selectorConfig.selector ?? elLocator;
+          const shadowSelector = selectorConfig.shadowSelector;
+          const targetProp = selectorConfig.targetProp;
+
+          if (typeof selector === "string" && selector.includes(">>>")) {
+            throw new Error("Deep piercing via `selector` is not supported, use `shadowSelector` instead");
+          }
+
+          if (token === targetProp) {
+            throw new Error(
+              `"${token}" cannot be used as its own targetProp, please use a different property or mapped sub-component token.`,
+            );
+          }
+
+          const selectorLocator =
+            selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
+          const selectorElement = getRequiredElement(
+            selectorLocator,
+            `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
           );
+          const targetLocator = shadowSelector ? getNestedLocator(selectorLocator, shadowSelector) : selectorLocator;
+
+          getRequiredElement(
+            targetLocator,
+            `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
+          );
+
+          if (!styleTargets.has(selectorElement)) {
+            styleTargets.set(selectorElement, new Map());
+          }
+
+          styleTargets.get(selectorElement)!.set(token, setTokens.get(token)!);
+
+          let interactionSelector: InteractionSelector | undefined;
+          let stateName: State | undefined;
+
+          if (selectorConfig.state) {
+            stateName = (
+              typeof selectorConfig.state === "string" ? selectorConfig.state : Object.keys(selectorConfig.state)[0]
+            ) as State;
+          }
+
+          if (selectorConfig.state && typeof selectorConfig.state !== "string") {
+            interactionSelector = Object.values(selectorConfig.state)[0] as InteractionSelector;
+          }
+
+          testTargets.push({
+            target: {
+              locator: targetLocator,
+              selector,
+              shadowSelector,
+              selectorText: typeof selector === "string" ? selector : el.tagName,
+              shadowSelectorText: typeof shadowSelector === "string" ? shadowSelector : undefined,
+            },
+            interactionSelector,
+            targetProp,
+            state: stateName,
+            expectedValue: selectorConfig.expectedValue ?? setTokens.get(token)!,
+            token,
+          });
         }
-
-        const selectorLocator =
-          selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
-        const selectorElement = getRequiredElement(
-          selectorLocator,
-          `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
-        );
-        const targetLocator = shadowSelector ? getNestedLocator(selectorLocator, shadowSelector) : selectorLocator;
-
-        getRequiredElement(
-          targetLocator,
-          `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`,
-        );
-
-        if (!styleTargets.has(selectorElement)) {
-          styleTargets.set(selectorElement, new Map());
-        }
-
-        styleTargets.get(selectorElement)!.set(token, setTokens.get(token)!);
-
-        let interactionSelector: InteractionSelector | undefined;
-        let stateName: State | undefined;
-
-        if (selectorConfig.state) {
-          stateName = (
-            typeof selectorConfig.state === "string" ? selectorConfig.state : Object.keys(selectorConfig.state)[0]
-          ) as State;
-        }
-
-        if (selectorConfig.state && typeof selectorConfig.state !== "string") {
-          interactionSelector = Object.values(selectorConfig.state)[0] as InteractionSelector;
-        }
-
-        testTargets.push({
-          target: {
-            locator: targetLocator,
-            selector,
-            shadowSelector,
-            selectorText: typeof selector === "string" ? selector : el.tagName,
-            shadowSelectorText: typeof shadowSelector === "string" ? shadowSelector : undefined,
-          },
-          interactionSelector,
-          targetProp,
-          state: stateName,
-          expectedValue: selectorConfig.expectedValue ?? setTokens.get(token)!,
-          token,
-        });
       }
-    }
 
-    for (const [styleTarget, cssVars] of styleTargets) {
-      for (const [token, value] of cssVars) {
-        styleTarget.style.setProperty(token, value);
+      for (const [styleTarget, cssVars] of styleTargets) {
+        for (const [token, value] of cssVars) {
+          styleTarget.style.setProperty(token, value);
+        }
       }
-    }
 
-    for (const testTarget of testTargets) {
-      await assertThemedProps(el, elLocator, testTarget);
+      await waitForStyleUpdates();
+
+      for (const testTarget of testTargets) {
+        await assertThemedProps(el, elLocator, testTarget);
+      }
+    } finally {
+      restoreConsoleMessages();
     }
   });
 }
@@ -229,11 +240,9 @@ function getScopedLocator(rootLocator: Locator, rootElement: HTMLElement, select
 }
 
 function getRequiredElement(locator: Locator, errorMessage: string): HTMLElement {
-  let element: HTMLElement;
+  const element = locator.element() as HTMLElement | null;
 
-  try {
-    element = locator.element() as HTMLElement;
-  } catch {
+  if (!element) {
     throw new Error(errorMessage);
   }
 
@@ -256,19 +265,72 @@ function describeTarget(selector: Selector, shadowSelector?: Selector): string {
   return `${selectorText}${shadowSelectorText}`;
 }
 
-function preventClicks(target: HTMLElement): void {
-  target.addEventListener("click", clickBlocker, true);
-
-  function clickBlocker(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
+function preventClicks(): void {
+  if (document.documentElement.hasAttribute(clickPreventerAttribute)) {
+    return;
   }
 
-  onTestFinished(() => target.removeEventListener("click", clickBlocker, true));
+  document.documentElement.setAttribute(clickPreventerAttribute, "");
+  document.addEventListener(
+    "click",
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    true,
+  );
+}
+
+function suppressExpectedIconLoadMessages(): () => void {
+  const consoleWarn = vi.spyOn(console, "warn").mockImplementation((...args) => {
+    const [message] = args;
+
+    if (typeof message === "string" && iconLoadErrorPattern.test(message)) {
+      return;
+    }
+  });
+  const consoleError = vi.spyOn(console, "error").mockImplementation((...args) => {
+    const [message] = args;
+
+    if (typeof message === "string" && iconLoadErrorPattern.test(message)) {
+      return;
+    }
+  });
+
+  return () => {
+    consoleWarn.mockRestore();
+    consoleError.mockRestore();
+  };
+}
+
+async function waitForStyleUpdates(): Promise<void> {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+}
+
+function blurActiveElement(): void {
+  let elementToBlur: Element | null = document.activeElement;
+
+  while (elementToBlur) {
+    if (elementToBlur.shadowRoot?.activeElement) {
+      elementToBlur = elementToBlur.shadowRoot.activeElement;
+      continue;
+    }
+
+    (elementToBlur as HTMLElement).blur?.();
+    break;
+  }
 }
 
 async function resetInteractionState(): Promise<void> {
-  await userEvent.hover(document.body, { position: { x: -1, y: -1 } });
+  blurActiveElement();
+  await commands.mouseMove(window.innerWidth - 1, window.innerHeight - 1);
+  await commands.mouseUp();
+  await waitForStyleUpdates();
+}
+
+async function hoverElement(element: HTMLElement): Promise<void> {
+  const rect = element.getBoundingClientRect();
+  await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
 }
 
 async function assertThemedProps(host: HTMLElement, hostLocator: Locator, options: TestTarget): Promise<void> {
@@ -282,43 +344,51 @@ async function assertThemedProps(host: HTMLElement, hostLocator: Locator, option
 
   await resetInteractionState();
 
-  if (interactionSelector) {
-    const interactionTarget = getInteractionTarget(host, hostLocator, targetElement, interactionSelector, token);
-    await userEvent.hover(interactionTarget.element, { force: true });
+  try {
+    if (interactionSelector) {
+      const interactionTarget = getInteractionTarget(host, hostLocator, targetElement, interactionSelector, token);
+      await hoverElement(interactionTarget.element);
 
-    if (state === "press") {
+      if (state === "press") {
+        await commands.mouseDown();
+      } else if (state === "focus") {
+        interactionTarget.element.focus();
+      }
+    } else if (state === "hover") {
+      await hoverElement(targetElement);
+    } else if (state === "press") {
+      await hoverElement(targetElement);
       await commands.mouseDown();
     } else if (state === "focus") {
-      interactionTarget.element.focus();
+      targetElement.focus();
     }
-  } else if (state === "hover") {
-    await userEvent.hover(targetElement, { force: true });
-  } else if (state === "press") {
-    await userEvent.hover(targetElement, { force: true });
-    await commands.mouseDown();
-  } else if (state === "focus") {
-    targetElement.focus();
+
+    await waitForStyleUpdates();
+
+    if (targetProp.startsWith("--calcite-")) {
+      const customPropValue = getComputedStylePropertyValue(targetElement, targetProp, pseudoElement);
+      expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
+      return;
+    }
+
+    const styles = getComputedStyle(targetElement, pseudoElement);
+    const actualValue = styles[targetProp];
+    const isFakeBorderColorToken =
+      token.includes("-color") &&
+      (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
+    const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
+
+    if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
+      expect(getStyleString(token, targetProp, actualValue)).toMatch(expectedValue);
+      return;
+    }
+
+    expect(getStyleString(token, targetProp, actualValue)).toBe(getStyleString(token, targetProp, expectedValue));
+  } finally {
+    if (state === "press") {
+      await commands.mouseUp();
+    }
   }
-
-  if (targetProp.startsWith("--calcite-")) {
-    const customPropValue = getComputedStylePropertyValue(targetElement, targetProp, pseudoElement);
-    expect(getStyleString(token, targetProp, customPropValue)).toBe(getStyleString(token, targetProp, expectedValue));
-    return;
-  }
-
-  const styles = getComputedStyle(targetElement, pseudoElement);
-  const actualValue = styles[targetProp];
-  const isFakeBorderColorToken =
-    token.includes("-color") &&
-    (targetProp === "boxShadow" || targetProp === "outline" || targetProp === "outlineColor");
-  const isLinearGradientUnderlineToken = token.includes("link-underline-color") && targetProp === "backgroundImage";
-
-  if (isFakeBorderColorToken || isLinearGradientUnderlineToken) {
-    expect(getStyleString(token, targetProp, actualValue)).toMatch(expectedValue);
-    return;
-  }
-
-  expect(getStyleString(token, targetProp, actualValue)).toBe(getStyleString(token, targetProp, expectedValue));
 }
 
 function getInteractionTarget(
