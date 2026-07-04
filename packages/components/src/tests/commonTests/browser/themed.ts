@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, it, onTestFinished } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
 import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../../browser/commands";
@@ -102,11 +102,11 @@ type TestTarget = {
  */
 export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
   it("is themeable", async () => {
-    const { el } = await setup();
+    const { el, container } = await setup();
     const elLocator = page.elementLocator(el);
     await userEvent.unhover(el);
 
-    preventClicks();
+    preventClicks(container);
 
     const styleTargets = new Map<HTMLElement, Map<string, string>>();
     const testTargets: TestTarget[] = [];
@@ -265,20 +265,17 @@ function describeTarget(selector: Selector, shadowSelector?: Selector): string {
   return `${selectorText}${shadowSelectorText}`;
 }
 
-function preventClicks(): void {
-  if (document.documentElement.hasAttribute(clickPreventerAttribute)) {
-    return;
+function preventClicks(root: HTMLElement): void {
+  root.addEventListener("click", clickBlocker, { capture: true });
+
+  function clickBlocker(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
-  document.documentElement.setAttribute(clickPreventerAttribute, "");
-  document.addEventListener(
-    "click",
-    (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    true,
-  );
+  onTestFinished(() => {
+    root.removeEventListener(clickPreventerAttribute, clickBlocker, { capture: true });
+  });
 }
 
 async function waitForStyleUpdates(): Promise<void> {
