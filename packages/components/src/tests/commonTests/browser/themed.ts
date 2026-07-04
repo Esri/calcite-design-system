@@ -10,8 +10,6 @@ import { focusElement } from "../../../utils/dom";
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
 
-const clickPreventerAttribute = "data-calcite-themed-click-preventer";
-
 type CSSProp = Extract<keyof CSSStyleDeclaration, string>;
 type State = "press" | "hover" | "focus";
 type CalciteCSSCustomProp = `--calcite-${string}`;
@@ -274,7 +272,7 @@ function preventClicks(root: HTMLElement): void {
   }
 
   onTestFinished(() => {
-    root.removeEventListener(clickPreventerAttribute, clickBlocker, { capture: true });
+    root.removeEventListener("click", clickBlocker, { capture: true });
   });
 }
 
