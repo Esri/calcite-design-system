@@ -11,6 +11,7 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("defaults", () => {
   defaults(
@@ -159,6 +160,8 @@ describe("theme", () => {
   });
 
   describe("selected", () => {
+    mockConsole();
+
     const selectedComboboxItemHTML = (
       <calcite-combobox-item
         description="Pokemon's mascot"
