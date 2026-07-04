@@ -5,6 +5,7 @@ import { commands } from "../../browser/commands";
 import { getTokenValue } from "../../utils/cssTokenValues";
 import "./utils";
 import { TestSetup } from "./interfaces";
+import { focusElement } from "../../../utils/dom";
 
 const pseudoElementPattern =
   /:{1,2}(before|after|first-letter|first-line|selection|backdrop|placeholder|marker|spelling-error|grammar-error|slotted|file-selector-button|cue|cue-region|part|shadow|content|footnote-call|footnote-marker)/;
@@ -311,7 +312,7 @@ async function assertThemedProps(host: HTMLElement, hostLocator: Locator, option
       if (state === "press") {
         await commands.mouseDown();
       } else if (state === "focus") {
-        interactionTarget.element.focus();
+        await focusElement(interactionTarget.element);
       }
     } else if (state === "hover") {
       await hoverElement(targetElement);
@@ -319,7 +320,7 @@ async function assertThemedProps(host: HTMLElement, hostLocator: Locator, option
       await hoverElement(targetElement);
       await commands.mouseDown();
     } else if (state === "focus") {
-      targetElement.focus();
+      await focusElement(targetElement);
     }
 
     await waitForStyleUpdates();
