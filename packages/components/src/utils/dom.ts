@@ -362,6 +362,7 @@ export function setRequestedIcon(
   } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
+  return;
 }
 
 /**

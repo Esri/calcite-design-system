@@ -152,6 +152,7 @@ export class Chip extends LitElement {
       } else if (this.closable) {
         return this.closeButtonRef.value;
       }
+      return;
     }, options);
   }
 
