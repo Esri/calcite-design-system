@@ -8,7 +8,7 @@ import {
   hidden,
   renders,
   accessible,
-themed
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
