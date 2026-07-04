@@ -223,7 +223,6 @@ describe("theme", () => {
       },
       "--calcite-tab-border-color": [
         {
-          // here
           targetProp: "boxShadow",
         },
         {
@@ -236,7 +235,6 @@ describe("theme", () => {
     describe("bottom position", () => {
       themed(() => mount(<calcite-tabs bordered position="bottom" />), {
         "--calcite-tab-border-color": {
-          // here
           targetProp: "boxShadow",
         },
       });

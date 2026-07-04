@@ -56,7 +56,7 @@ type TestTarget = {
  *
  * @example
  * describe("theme", () => {
- *   themed(`calcite-action-bar`, {
+ *   themed(() => mount("calcite-action-bar"), {
  *     "--calcite-action-menu-border-color": [
  *       {
  *         targetProp: "borderLeftColor",

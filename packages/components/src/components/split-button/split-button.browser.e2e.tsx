@@ -214,7 +214,7 @@ describe("theme", () => {
       },
       "--calcite-split-button-background-color-press": {
         shadowSelector: "calcite-button",
-        targetProp: "--calcite-button-background-color", // these refs
+        targetProp: "--calcite-button-background-color",
         state: { press: { attribute: "type", value: "button" } },
       },
       "--calcite-split-button-text-color": [
