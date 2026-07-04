@@ -307,30 +307,12 @@ async function waitForStyleUpdates(): Promise<void> {
   await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 }
 
-function blurActiveElement(): void {
-  let elementToBlur: Element | null = document.activeElement;
-
-  while (elementToBlur) {
-    if (elementToBlur.shadowRoot?.activeElement) {
-      elementToBlur = elementToBlur.shadowRoot.activeElement;
-      continue;
-    }
-
-    (elementToBlur as HTMLElement).blur?.();
-    break;
-  }
-}
-
 async function resetInteractionState(): Promise<void> {
-  blurActiveElement();
-  await commands.mouseMove(window.innerWidth - 1, window.innerHeight - 1);
-  await commands.mouseUp();
-  await waitForStyleUpdates();
+  await userEvent.unhover(document.body);
 }
 
 async function hoverElement(element: HTMLElement): Promise<void> {
-  const rect = element.getBoundingClientRect();
-  await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+  await userEvent.hover(element, { force: true });
 }
 
 async function assertThemedProps(host: HTMLElement, hostLocator: Locator, options: TestTarget): Promise<void> {
