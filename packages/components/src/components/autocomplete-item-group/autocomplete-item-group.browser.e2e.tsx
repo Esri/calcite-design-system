@@ -44,14 +44,14 @@ describe("theme", () => {
             <calcite-autocomplete-item-group heading="Group 1">
               <calcite-autocomplete-item heading="Item 1" value="1" />
             </calcite-autocomplete-item-group>
-            <calcite-autocomplete-item-group heading="Group 2" position={1}>
+            <calcite-autocomplete-item-group heading="Group 2" id="bottom-group" position={1}>
               <calcite-autocomplete-item heading="Item 2" value="2" />
             </calcite-autocomplete-item-group>
           </calcite-autocomplete>,
         ),
       {
         "--calcite-autocomplete-border-color": {
-          selector: "calcite-autocomplete-item-group:nth-child(2)",
+          selector: "#bottom-group",
           shadowSelector: `.${CSS.separator}`,
           targetProp: "backgroundColor",
         },
