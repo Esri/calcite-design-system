@@ -94,7 +94,7 @@ export class ColorPicker extends LitElement {
 
   private internalColorUpdateContext?: "internal" | "initial" | "user-interaction";
 
-  private isActiveChannelInputEmpty: boolean = false;
+  private isActiveChannelInputEmpty = false;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
@@ -1691,7 +1691,7 @@ export class ColorPicker extends LitElement {
             if (isAlphaChannel) {
               channelValue =
                 // channels can only be undefined when clearable
-                !channelValue && clearable ? channelValue : alphaToOpacity(channelValue!);
+                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue!);
             }
 
             /* the channel container is ltr, so we apply the host's direction */
