@@ -1,7 +1,7 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import Sortable from "sortablejs";
-import { BivariantHandler } from "../components/types";
+import type { BivariantHandler } from "../components/types";
 
 const sortableComponentSet = new Set<SortableComponent>();
 

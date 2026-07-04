@@ -141,7 +141,7 @@ export class SortableList extends LitElement {
 
     const handle = event
       .composedPath()
-      .find((el): el is Handle["el"] => (el as HTMLElement).matches(this.handleSelector));
+      .find((el): el is Handle["el"] => (el as Handle["el"]).matches(this.handleSelector));
 
     const sortItem = this.items.find((item) => {
       return (handle && item.contains(handle)) || event.composedPath().includes(item);

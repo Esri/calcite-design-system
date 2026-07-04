@@ -7,6 +7,7 @@
     "module": "es2022",
     "moduleResolution": "Bundler",
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "resolveJsonModule": true,
