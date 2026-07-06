@@ -689,6 +689,32 @@ describe("item selection", () => {
     expect(chips).toHaveLength(1);
   });
 
+  it("should not select children when parent is selected in ancestor selection mode", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox selection-mode="ancestors">
+        <calcite-combobox-item heading="parent" value="parent">
+          <calcite-combobox-item heading="child1" value="child1" />
+          <calcite-combobox-item heading="child2" value="child2" />
+        </calcite-combobox-item>
+      </calcite-combobox>,
+    );
+
+    const parent = page.getBySelector("calcite-combobox-item[value=parent]");
+    const child1 = page.getBySelector("calcite-combobox-item[value=child1]");
+    const child2 = page.getBySelector("calcite-combobox-item[value=child2]");
+
+    const openEvent = waitForEvent(el, "calciteComboboxOpen");
+    await userEvent.click(el);
+    await openEvent;
+    await userEvent.click(parent.getByText("parent"));
+
+    const chips = page.getBySelector("calcite-chip");
+    expect(chips).toHaveLength(1);
+    await expect.element(parent).toHaveProperty("selected", true);
+    await expect.element(child1).toHaveProperty("selected", false);
+    await expect.element(child2).toHaveProperty("selected", false);
+  });
+
   it("should clear children in ancestor selection mode", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox selection-mode="ancestors">

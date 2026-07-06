@@ -1,6 +1,7 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { mount, RenderResult } from "@arcgis/lumina-compiler/testing";
 import { IntrinsicElementsWithProp } from "../../utils/interfaces";
+import { LitElement } from "@arcgis/lumina";
 
 type TagName = keyof DeclareElements;
 
@@ -36,10 +37,9 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
     return component.messages;
   }
 
-  const findSubComponentElement = (host: Element, tagName: TagName): Element | null => {
-    const root = host.shadowRoot ?? host;
-    return root.querySelector(tagName);
-  };
+  function findSubComponentElement<T extends LitElement["el"] = LitElement["el"]>(host: T, tagName: TagName): T {
+    return host.shadowRoot!.querySelector<T>(tagName)!;
+  }
 
   async function assertDefaultMessages(): Promise<void> {
     const { component } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
@@ -49,7 +49,9 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
   async function assertOverrides(subComponents?: TagName[]): Promise<void> {
     const { el, component, reRender } = (await setup()) as RenderResult<ComponentWithMessageOverrides>;
     const messages = await getCurrentMessages(component);
-    const firstMessageProp = Object.keys(messages).find((key) => !key.startsWith("_"));
+    const firstMessageProp = Object.keys(messages).find(
+      (key) => !(key as Extract<keyof ComponentWithMessageOverrides["messages"], string>).startsWith("_"),
+    )!;
     const overrideValue = "override test";
     const messageOverride = { [firstMessageProp]: overrideValue };
     el.messageOverrides = messageOverride;
@@ -68,12 +70,11 @@ export async function t9n(setup: () => ReturnType<typeof mount>, subComponents?:
       el.messageOverrides = messageOverride;
       await reRender();
 
-      for (const subComponent of subComponents) {
-        const subComponentEl = findSubComponentElement(el, subComponent) as DeclareElements[TagName];
+      for (const subComponentTag of subComponents) {
+        const subComponentEl = findSubComponentElement(el, subComponentTag);
         expect(subComponentEl).not.toBeNull();
-        const subComponentManager = subComponentEl.manager.component as ComponentWithMessageOverrides;
-        // Assert whether parent component passed the override value to the sub-component.
-        expect(subComponentManager.messageOverrides[firstMessageProp]).toBe(overrideValue);
+        // Assert whether parent component passed the override value to the sub-component
+        expect(subComponentEl.messageOverrides![firstMessageProp]).toBe(overrideValue);
       }
     }
 
