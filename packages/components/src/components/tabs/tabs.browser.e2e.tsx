@@ -68,6 +68,7 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-tabs"),
     [
+      { propertyName: "bordered", value: true },
       { propertyName: "layout", value: "inline" },
       { propertyName: "position", value: "top" },
       { propertyName: "scale", value: "m" },
