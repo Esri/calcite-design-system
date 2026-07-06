@@ -3,6 +3,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
+
 import {
   defaults,
   disabled,
@@ -12,6 +13,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import type { Slider } from "./slider";
@@ -413,5 +415,134 @@ describe("number locale support", () => {
         .element(valueDisplayEls.tickMax)
         .toHaveTextContent(formattedValuesPerLanguageObject[lang][3]);
     }
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-slider value={30} />), {
+      "--calcite-slider-track-color": {
+        shadowSelector: `.${CSS.track}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-track-fill-color": {
+        shadowSelector: `.${CSS.trackRange}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-slider-handle-fill-color": {
+        shadowSelector: `.${CSS.handle}`,
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("text color", () => {
+    describe("should apply handle label", () => {
+      themed(
+        () => mount(<calcite-slider label-handles max-label="100" min-label="0" value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.handleLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+    describe("should apply tick labels", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-text-color": {
+            shadowSelector: `.${CSS.tickLabel}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
+  });
+
+  describe("handle extension", () => {
+    describe("should apply handle extension", () => {
+      themed(() => mount(<calcite-slider precise value={30} />), {
+        "--calcite-slider-handle-extension-color": {
+          shadowSelector: `.${CSS.handleExtension}`,
+          targetProp: "backgroundColor",
+        },
+      });
+    });
+  });
+
+  describe("ticks", () => {
+    describe("should apply ticks", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-color": {
+            shadowSelector: `.${CSS.tick}:not(.${CSS.tickActive})`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks border", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-border-color": {
+            shadowSelector: `.${CSS.tick}`,
+            targetProp: "borderColor",
+          },
+        },
+      );
+    });
+    describe("should apply ticks in selected range", () => {
+      themed(
+        () =>
+          mount(<calcite-slider label-ticks max-label="100" min-label="0" ticks={20} value={30} />),
+        {
+          "--calcite-slider-tick-selected-color": {
+            shadowSelector: `.${CSS.tickActive}`,
+            targetProp: "backgroundColor",
+          },
+        },
+      );
+    });
+  });
+
+  describe("--calcite-slider-graph-color", () => {
+    describe("should apply graph", () => {
+      themed(
+        () =>
+          mount(
+            <calcite-slider
+              histogram={[
+                [0, 0],
+                [20, 12],
+                [40, 35],
+                [60, 65],
+                [80, 25],
+                [90, 10],
+                [100, 0],
+              ]}
+              id="basicHistogram"
+              label-handles
+              max={100}
+              min={0}
+              scale="m"
+              step={1}
+              value={60}
+            />,
+          ),
+        {
+          "--calcite-slider-graph-color": {
+            shadowSelector: `.${CSS.graph}`,
+            targetProp: "color",
+          },
+        },
+      );
+    });
   });
 });

@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots, accessible } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, accessible, themed } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
@@ -29,4 +30,36 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-shell"), SLOTS);
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    mockConsole();
+
+    themed(
+      () =>
+        mount(
+          <calcite-shell>
+            <calcite-panel heading="Example" slot="panel-start">
+              Hello world
+            </calcite-panel>
+            <calcite-flow slot="panel-end">
+              <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
+            </calcite-flow>
+          </calcite-shell>,
+        ),
+      {
+        "--calcite-shell-border-color": [
+          {
+            targetProp: "borderColor",
+            selector: "calcite-panel",
+          },
+          {
+            targetProp: "borderColor",
+            selector: "calcite-flow",
+          },
+        ],
+      },
+    );
+  });
 });

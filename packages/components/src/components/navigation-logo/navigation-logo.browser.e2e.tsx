@@ -9,8 +9,12 @@ import {
   hidden,
   renders,
   focusable,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
+import { mockConsole } from "../../tests/utils/logging";
+
+mockConsole("error");
 
 describe("accessible", () => {
   accessible(() => mount("calcite-navigation-logo"));
@@ -105,5 +109,138 @@ describe("heading", () => {
     await expect.element(heading).toBeInTheDocument();
     await expect.element(standaloneHeading).toBeInTheDocument();
     await expect.element(description).not.toBeInTheDocument();
+  });
+});
+
+describe("theme", () => {
+  const navigationLogo = (props: Partial<{ active: boolean; link: boolean }> = {}) => {
+    const { active = false, link = false } = props;
+
+    return (
+      <calcite-navigation-logo
+        active={active}
+        description="Eastern Potato Chip Company"
+        heading="Walt's Chips"
+        href={link ? "https://github.com/Esri/calcite-design-system" : undefined}
+        icon="layers"
+      />
+    );
+  };
+
+  describe("default", () => {
+    themed(() => mount(navigationLogo()), {
+      "--calcite-navigation-background-color": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-navigation-logo-text-color": [
+        {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      ],
+      "--calcite-navigation-logo-heading-text-color": {
+        shadowSelector: `.${CSS.heading}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("default + active", () => {
+    themed(
+      () =>
+        mount(
+          navigationLogo({
+            active: true,
+          }),
+        ),
+      {
+        "--calcite-navigation-accent-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-text-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
+
+  describe("with link", () => {
+    themed(() => mount(navigationLogo({ link: true })), {
+      "--calcite-navigation-background-color": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: { press: { attribute: "class", value: CSS.container } },
+        },
+      ],
+      "--calcite-navigation-logo-text-color": [
+        {
+          shadowSelector: `.${CSS.description}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+          state: { press: `calcite-navigation-logo >>> .${CSS.container}` },
+        },
+      ],
+      "--calcite-navigation-logo-heading-text-color": {
+        shadowSelector: `.${CSS.heading}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(() => mount(navigationLogo()), {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `calcite-icon`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with link + active", () => {
+    themed(
+      () =>
+        mount(
+          navigationLogo({
+            active: true,
+            link: true,
+          }),
+        ),
+      {
+        "--calcite-navigation-accent-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBlockEndColor",
+        },
+        "--calcite-navigation-logo-text-color": {
+          shadowSelector: `calcite-icon`,
+          targetProp: "color",
+        },
+      },
+    );
   });
 });

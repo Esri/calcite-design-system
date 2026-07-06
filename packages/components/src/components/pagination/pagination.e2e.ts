@@ -1,7 +1,7 @@
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { findAll } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -354,94 +354,5 @@ describe("chevrons", () => {
     );
     const hiddenChevrons = await findAll(page, `calcite-pagination >>> .${CSS.hiddenItem}`, { allowEmpty: true });
     expect(hiddenChevrons.length).toBe(0);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-      "--calcite-pagination-color": [
-        {
-          shadowSelector: `.${CSS.chevron}`,
-          targetProp: "color",
-        },
-        {
-          shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
-          targetProp: "color",
-        },
-        {
-          shadowSelector: `.${CSS.ellipsis}`,
-          targetProp: "color",
-        },
-      ],
-    });
-  });
-  describe("hover", () => {
-    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-      "--calcite-pagination-color-hover": [
-        {
-          shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
-          targetProp: "color",
-          state: "hover",
-        },
-        {
-          shadowSelector: `.${CSS.page}`,
-          targetProp: "color",
-          state: "hover",
-        },
-      ],
-      "--calcite-pagination-color-border-hover": {
-        shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
-        targetProp: "borderBlockEndColor",
-        state: "hover",
-      },
-      "--calcite-pagination-icon-color-background-hover": {
-        shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-    });
-  });
-  describe("active", () => {
-    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-      "--calcite-pagination-color-hover": [
-        {
-          shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: `${CSS.chevron}` } },
-        },
-        {
-          shadowSelector: `.${CSS.page}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: `${CSS.page}` } },
-        },
-      ],
-      "--calcite-pagination-background-color": [
-        {
-          shadowSelector: `.${CSS.page}:not(.${CSS.selected})`,
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: `${CSS.page}` } },
-        },
-        {
-          shadowSelector: `.${CSS.chevron}:not(.${CSS.disabled})`,
-          targetProp: "backgroundColor",
-          state: { press: { attribute: "class", value: `${CSS.chevron}` } },
-        },
-      ],
-    });
-  });
-  describe("selected", () => {
-    themed(html`<calcite-pagination total-items="1200" page-size="100" start-item="1"></calcite-pagination>`, {
-      "--calcite-pagination-color-hover": {
-        shadowSelector: `.${CSS.page}`,
-        targetProp: "color",
-        state: "focus",
-      },
-      "--calcite-pagination-color-border-active": {
-        shadowSelector: `.${CSS.page}`,
-        targetProp: "borderBlockEndColor",
-        state: "focus",
-      },
-    });
   });
 });

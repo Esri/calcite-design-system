@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { createSelectedItemsAsserter } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
@@ -401,23 +401,4 @@ it("selectedItems property is correctly populated at load when property is set o
 
   expect(await element.getProperty("selectedItems")).toHaveLength(2);
   await selectedItemAsserter([card4.id, card5.id]);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-card-group", {
-      "--calcite-card-group-space": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
-      },
-    });
-  });
-  describe("deprecated", () => {
-    themed("calcite-card-group", {
-      "--calcite-card-group-gap": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
-      },
-    });
-  });
 });
