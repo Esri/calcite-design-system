@@ -51,7 +51,7 @@ export class ShellPanel extends LitElement {
 
   private actionBars: ActionBar["el"][] = [];
 
-  private actionBarContainerEl: HTMLDivElement;
+  private actionBarContainerEl?: HTMLDivElement;
 
   private actionBarContainerResizeObserver = createObserver("resize", () =>
     this.updateActionBarSize(),
