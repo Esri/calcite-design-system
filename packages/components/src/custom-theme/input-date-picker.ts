@@ -35,6 +35,12 @@ export const inputDatePickerTokens = {
   calciteInputDatePickerPlaceholderTextColor: "",
   calciteInputDatePickerShadow: "",
   calciteInputDatePickerTextColor: "",
+  calciteInputDatePickerClearButtonBackgroundColor: "",
+  calciteInputDatePickerClearButtonBackgroundColorHover: "",
+  calciteInputDatePickerClearButtonBackgroundColorPress: "",
+  calciteInputDatePickerClearButtonIconColor: "",
+  calciteInputDatePickerClearButtonIconColorHover: "",
+  calciteInputDatePickerClearButtonIconColorPress: "",
 };
 
 export const inputDatePicker = html`<calcite-input-date-picker open></calcite-input-date-picker>`;

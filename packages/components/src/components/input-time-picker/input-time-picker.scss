@@ -23,6 +23,13 @@
 
  * @prop --calcite-input-time-picker-action-background-color-hover: Specifies the background color of the component's actions when hovered.
  * @prop --calcite-input-time-picker-action-background-color-press: Specifies the background color of the component's actions when active.
+ *
+ * @prop --calcite-input-time-picker-clear-button-background-color: Specifies the background color of the component's clear button.
+ * @prop --calcite-input-time-picker-clear-button-background-color-hover: Specifies the background color of the component's clear button when hovered.
+ * @prop --calcite-input-time-picker-clear-button-background-color-press: Specifies the background color of the component's clear button when pressed.
+ * @prop --calcite-input-time-picker-clear-button-icon-color: Specifies the icon color of the component's clear button.
+ * @prop --calcite-input-time-picker-clear-button-icon-color-hover: Specifies the icon color of the component's clear button when hovered.
+ * @prop --calcite-input-time-picker-clear-button-icon-color-press: Specifies the icon color of the component's clear button when pressed.
  */
 
 @use "../../styles/includes";
@@ -134,6 +141,10 @@ calcite-time-picker {
   }
 }
 
+.clear-button {
+  display: flex;
+}
+
 .toggle-icon {
   --calcite-icon-color: var(--calcite-input-time-picker-icon-color, var(--calcite-color-text-3));
   align-items: center;
@@ -173,6 +184,9 @@ calcite-time-picker {
   .placeholder {
     line-height: 1.5rem;
   }
+  .clear-button {
+    block-size: var(--calcite-space-3xl);
+  }
 }
 
 :host([scale="l"]) {
@@ -185,6 +199,9 @@ calcite-time-picker {
   .input-container,
   .placeholder {
     line-height: 2.25rem;
+  }
+  .clear-button {
+    block-size: var(--calcite-space-4xl);
   }
 }
 
@@ -213,3 +230,19 @@ calcite-popover {
 @include includes.form-internal-label();
 @include includes.form-validation-message();
 @include includes.base-component();
+@include includes.clear-button(
+  $background-color: "--calcite-input-time-picker-clear-button-background-color",
+  $background-color-hover: "--calcite-input-time-picker-clear-button-background-color-hover",
+  $background-color-press: "--calcite-input-time-picker-clear-button-background-color-press",
+  $icon-color: "--calcite-input-time-picker-clear-button-icon-color",
+  $icon-color-hover: "--calcite-input-time-picker-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-input-time-picker-clear-button-icon-color-press",
+  $padding-inline-end-s: 0,
+  $padding-inline-end-m: 0,
+  $padding-inline-end-l: 0
+);
+
+// Keep .container icon token support for deprecated tests without leaking it into clear-button icon color.
+.clear-button--container calcite-action {
+  --calcite-icon-color: currentColor;
+}

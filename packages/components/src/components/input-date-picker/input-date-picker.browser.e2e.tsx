@@ -1,5 +1,5 @@
 import { h, JsxNode, LitElement } from "@arcgis/lumina";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
@@ -17,6 +17,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { afterNextTask } from "../../tests/utils/timing";
+import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import type { InputDatePicker } from "./input-date-picker";
 
 describe("defaults", () => {
@@ -30,6 +31,10 @@ describe("defaults", () => {
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "clearable",
+        defaultValue: false,
       },
       {
         propertyName: "overlayPositioning",
@@ -210,6 +215,150 @@ it("should update calendar in range while typing in input", async () => {
 
   await expect.element(yearInput).toHaveProperty("value", "2020");
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
+describe("clearable", () => {
+  const clearButtonSelector = `calcite-input-date-picker .${CLEAR_BUTTON_CSS.container}`;
+  const getClearButtons = (): Element[] => page.getBySelector(clearButtonSelector).elements();
+
+  it("does not render clear button when single value is empty", async () => {
+    await mount<InputDatePicker>(<calcite-input-date-picker clearable value="" />);
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("renders clear button when single value is set", async () => {
+    await mount<InputDatePicker>(<calcite-input-date-picker clearable value="2024-05-05" />);
+
+    expect(getClearButtons()).toHaveLength(1);
+  });
+
+  it("does not render clear button when readOnly is true", async () => {
+    await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable readOnly value="2024-05-05" />,
+    );
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("clears single value when clear button is clicked", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("emits change when single value is cleared via clear button", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("clears single value when Escape is pressed", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getByRole("combobox"));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("clears value and closes popover when Escape is pressed while open", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getByRole("combobox"));
+    await expect.element(el).toHaveProperty("open", true);
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(el).toHaveProperty("open", false);
+  });
+
+  it("renders one shared clear button in horizontal range and clears both values", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        layout="horizontal"
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("renders one shared clear button in vertical range and clears both values", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        layout="vertical"
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("clears range values when Escape is pressed", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
+    );
+
+    await userEvent.click(page.getByRole("combobox").first());
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("emits change when range values are cleared via Escape", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getByRole("combobox").first());
+    await userEvent.keyboard("{Escape}");
+
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("renders one shared clear button in range when only one date is present", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", ""]} />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
 });
 
 function getYearInput(): Locator {

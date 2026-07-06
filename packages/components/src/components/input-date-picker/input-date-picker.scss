@@ -38,6 +38,13 @@
  * @prop --calcite-input-date-picker-placeholder-text-color: Specifies the component's input placeholder text color.
  * @prop --calcite-input-date-picker-shadow: Specifies the component's input shadow.
  * @prop --calcite-input-date-picker-text-color: Specifies the component's input text color.
+ *
+ * @prop --calcite-input-date-picker-clear-button-background-color: Specifies the component's clear button background color.
+ * @prop --calcite-input-date-picker-clear-button-background-color-hover: Specifies the component's clear button background color when hovered.
+ * @prop --calcite-input-date-picker-clear-button-background-color-press: Specifies the component's clear button background color when pressed.
+ * @prop --calcite-input-date-picker-clear-button-icon-color: Specifies the component's clear button icon color.
+ * @prop --calcite-input-date-picker-clear-button-icon-color-hover: Specifies the component's clear button icon color when hovered.
+ * @prop --calcite-input-date-picker-clear-button-icon-color-press: Specifies the component's clear button icon color when pressed.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -45,6 +52,7 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-date-picker-toggle-spacing
+// --calcite-internal-input-text-focus-outline-color
 // --calcite-internal-input-text-icon-border-block-end-width
 // --calcite-internal-input-text-icon-border-block-start-width
 // --calcite-internal-input-text-icon-border-inline-start-width
@@ -78,11 +86,19 @@
 :host([scale="s"]) {
   --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-sm);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-lg))};
+
+  .clear-button {
+    block-size: var(--calcite-space-2xl);
+  }
 }
 
 :host([scale="m"]) {
   --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-md);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-xxl))};
+
+  .clear-button {
+    block-size: var(--calcite-space-3xl);
+  }
 }
 
 :host([scale="l"]) {
@@ -90,6 +106,10 @@
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
       var(--calcite-spacing-xxxl)
     )};
+
+  .clear-button {
+    block-size: var(--calcite-space-4xl);
+  }
 }
 
 @include includes.disabled();
@@ -118,10 +138,50 @@
   }
 }
 
+.horizontal-actions-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  inset-inline-end: var(--calcite-space-none);
+  inset-block: var(--calcite-space-none);
+
+  .toggle-icon {
+    position: relative;
+    inset: unset;
+  }
+}
+
+.vertical-actions-container {
+  display: flex;
+  align-items: center;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-surface-2));
+  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
+  padding-inline: var(--calcite-space-md);
+  border-inline-start-width: var(--calcite-border-width-none);
+
+  .toggle-icon {
+    position: relative;
+    inset: unset;
+  }
+}
+
+.vertical-actions-container .chevron-icon {
+  color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
+}
+
+.clear-button {
+  display: flex;
+}
+
 .toggle-icon {
-  @apply absolute flex cursor-pointer items-center;
-  inset-inline-end: 0;
-  inset-block: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  inset-inline-end: var(--calcite-space-none);
+  inset-block: var(--calcite-space-none);
   padding-inline: var(--calcite-internal-date-picker-toggle-spacing);
 }
 
@@ -180,6 +240,11 @@
   .input-container {
     @apply flex-col items-start;
   }
+
+  .vertical-actions-container .toggle-icon {
+    cursor: default;
+    pointer-events: none;
+  }
 }
 
 .menu-container {
@@ -193,44 +258,26 @@
   @apply mt-0;
 }
 
-.vertical-chevron-container {
-  @apply flex items-center border border-solid;
-  padding-inline: var(--calcite-spacing-md);
-  background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-foreground-1));
-  border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
-  border-inline-start-width: 0;
-  calcite-icon {
-    color: var(--calcite-input-date-picker-actions-icon-color, var(--calcite-color-text-3));
-
-    &:hover {
-      color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
-    }
-  }
-}
-
 :host([range][layout="vertical"][scale="s"]) {
-  .vertical-chevron-container,
+  .vertical-actions-container,
   .divider-container {
-    padding-inline: var(--calcite-spacing-sm);
+    padding-inline: var(--calcite-space-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
-  .vertical-chevron-container,
+  .vertical-actions-container,
   .divider-container {
-    padding-inline: var(--calcite-spacing-lg);
+    padding-inline: var(--calcite-space-lg);
   }
 }
 
-.container {
-  &:focus-within,
-  &:active,
-  &:hover {
-    .vertical-chevron-container {
-      calcite-icon {
-        color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
-      }
-    }
+:host([range][layout="vertical"])
+  .input-container:has(.input-wrapper:focus-within, .input-wrapper:hover)
+  + .vertical-actions-container,
+:host([range][layout="vertical"]) .vertical-actions-container:hover {
+  .chevron-icon {
+    color: var(--calcite-input-date-picker-actions-icon-color-hover, var(--calcite-color-text-1));
   }
 }
 
@@ -255,6 +302,27 @@
 
 :host([layout="horizontal"]) .input--end {
   --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
+}
+
+:host([range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="end"] {
+  --calcite-input-date-picker-border-color: var(--calcite-color-brand);
+  @apply focus-inset;
+}
+
+:host([range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="start"]
+  .input--start {
+  --calcite-internal-input-text-focus-outline-color: transparent;
+}
+
+:host([status="invalid"][range][layout="horizontal"])
+  .container:has(.input-wrapper[data-position="end"]:focus-within)
+  .input-wrapper[data-position="end"] {
+  --calcite-input-date-picker-border-color: var(--calcite-color-status-danger);
+  @apply focus-inset-danger;
 }
 
 :host([layout="vertical"]) .input--end {
@@ -319,3 +387,14 @@ calcite-date-picker {
 @include includes.hidden-form-input();
 @include includes.form-internal-label();
 @include includes.base-component();
+@include includes.clear-button(
+  $background-color: "--calcite-input-date-picker-clear-button-background-color",
+  $background-color-hover: "--calcite-input-date-picker-clear-button-background-color-hover",
+  $background-color-press: "--calcite-input-date-picker-clear-button-background-color-press",
+  $icon-color: "--calcite-input-date-picker-clear-button-icon-color",
+  $icon-color-hover: "--calcite-input-date-picker-clear-button-icon-color-hover",
+  $icon-color-press: "--calcite-input-date-picker-clear-button-icon-color-press",
+  $padding-inline-end-s: 0,
+  $padding-inline-end-m: 0,
+  $padding-inline-end-l: 0
+);

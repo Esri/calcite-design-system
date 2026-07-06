@@ -5,6 +5,7 @@ import { FloatingCSS } from "../../utils/floating-ui";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
+import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS, POSITION } from "./resources";
@@ -2079,6 +2080,41 @@ describe("theme", () => {
     });
   });
 
+  describe("clearable", () => {
+    const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
+
+    themed(html`<calcite-input-date-picker clearable value="2024-01-31"></calcite-input-date-picker>`, {
+      "--calcite-input-date-picker-clear-button-background-color": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-input-date-picker-clear-button-background-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-background-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-clear-button-background-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-background-color-press",
+        state: { press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action` },
+      },
+      "--calcite-input-date-picker-clear-button-icon-color": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-input-date-picker-clear-button-icon-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-clear-button-icon-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} > calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: { press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action` },
+      },
+    });
+  });
+
   describe("calcite-date-picker when open", () => {
     themed(html`<calcite-input-date-picker open></calcite-input-date-picker>`, {
       "--calcite-input-date-picker-calendar-border-color": {
@@ -2234,11 +2270,11 @@ describe("theme", () => {
   describe("range with vertical layout", () => {
     themed(html`<calcite-input-date-picker range layout="vertical"></calcite-input-date-picker>`, {
       "--calcite-input-date-picker-background-color": {
-        shadowSelector: `.${CSS.verticalChevronContainer}`,
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
         targetProp: "backgroundColor",
       },
       "--calcite-input-date-picker-border-color": {
-        shadowSelector: `.${CSS.verticalChevronContainer}`,
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
         targetProp: "borderColor",
       },
     });

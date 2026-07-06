@@ -18,6 +18,12 @@ export const inputTimePickerTokens = {
   calciteInputTimePickerDigitBorderColorHover: "",
   calciteInputTimePickerActionBackgroundColorHover: "",
   calciteInputTimePickerActionBackgroundColorPress: "",
+  calciteInputTimePickerClearButtonBackgroundColor: "",
+  calciteInputTimePickerClearButtonBackgroundColorHover: "",
+  calciteInputTimePickerClearButtonBackgroundColorPress: "",
+  calciteInputTimePickerClearButtonIconColor: "",
+  calciteInputTimePickerClearButtonIconColorHover: "",
+  calciteInputTimePickerClearButtonIconColorPress: "",
 };
 
 export const inputTimePicker = html`<calcite-input-time-picker open></calcite-input-time-picker>`;

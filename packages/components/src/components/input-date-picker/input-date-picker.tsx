@@ -51,6 +51,7 @@ import {
   applyLocaleOverride,
   getMinMaxSource,
 } from "../date-picker/utils";
+import { ClearButton } from "../functional/ClearButton";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
@@ -197,6 +198,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
+
+  /** When `true`, displays a clear button when the component has a value. */
+  @property({ reflect: true }) clearable = false;
 
   /** @copyDoc */
   @property() flipPlacements?: FlipPlacement[];
@@ -614,22 +618,51 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private onInputWrapperClick(event: MouseEvent) {
-    const { range, endInputRef, startInputRef, currentOpenInput } = this;
+    const { range, currentOpenInput } = this;
     const currentTarget = event.currentTarget as HTMLDivElement;
     const position = currentTarget.getAttribute("data-position") as "start" | "end";
-    const path = event.composedPath();
-    const wasToggleClicked = path.find((el) =>
-      (el as HTMLElement).classList?.contains(CSS.toggleIcon),
-    );
-
-    if (wasToggleClicked) {
-      const targetInput = position === "start" ? startInputRef : endInputRef;
-      targetInput.value?.setFocus();
-    }
 
     if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
+  }
+
+  private toggleSingleOpenClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.startInputRef.value?.setFocus();
+    this.open = !this.open;
+  }
+
+  private toggleRangeOpenClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.focusInput();
+    this.open = !this.open;
+  }
+
+  private clearSingleValueClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.clearValue();
+  }
+
+  private clearRangeValueClickHandler(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.clearValue();
+  }
+
+  private clearValue(): void {
+    if (this.range) {
+      this.setRangeValue([undefined, undefined]);
+    } else {
+      this.setValue(undefined);
+    }
+
+    this.localizeInputValues();
   }
 
   private setFilteredPlacements(): void {
@@ -765,10 +798,25 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (this.open && key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus(true);
+    } else if (key === "Escape") {
+      const hadOpen = this.open;
+      const hasValue = this.range
+        ? Array.isArray(this.value) && (!!this.value[0] || !!this.value[1])
+        : !!this.value;
+      const shouldClear = this.clearable && hasValue;
+
+      if (shouldClear) {
+        this.clearValue();
+      }
+
+      if (hadOpen) {
+        this.open = false;
+        this.restoreInputFocus(true);
+      }
+
+      if (hadOpen || shouldClear) {
+        event.preventDefault();
+      }
     }
   }
 
@@ -1066,6 +1114,23 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       useGrouping: false,
     };
 
+    const hasStartValue = this.range ? Array.isArray(this.value) && !!this.value[0] : !!this.value;
+    const hasEndValue = this.range && Array.isArray(this.value) && !!this.value[1];
+    const isInteractive = !disabled && !readOnly;
+    const isClearableRange =
+      this.range && this.clearable && isInteractive && (hasStartValue || hasEndValue);
+    const isClearableSingle = !this.range && this.clearable && isInteractive && hasStartValue;
+    const rangeClearButton = (
+      <div class={CSS.clearButton} onClick={this.clearRangeValueClickHandler}>
+        <ClearButton
+          ariaLabel="Clear value"
+          onClick={this.clearRangeValueClickHandler}
+          scale={this.scale}
+          title="Clear value"
+        />
+      </div>
+    );
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
@@ -1115,12 +1180,27 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 scale={this.scale}
                 status={this.status}
               />
-              {!this.readOnly &&
-                !this.range &&
-                this.renderToggleIcon(this.open && this.focusedInput === "start")}
               <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
                 {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
+              {!this.range && this.layout === "horizontal" && !this.readOnly ? (
+                <div class={CSS.horizontalActionsContainer}>
+                  {isClearableSingle ? (
+                    <div class={CSS.clearButton} onClick={this.clearSingleValueClickHandler}>
+                      <ClearButton
+                        ariaLabel="Clear value"
+                        onClick={this.clearSingleValueClickHandler}
+                        scale={this.scale}
+                        title="Clear value"
+                      />
+                    </div>
+                  ) : null}
+                  {this.renderToggleIcon(
+                    this.open && this.focusedInput === "start",
+                    this.toggleSingleOpenClickHandler,
+                  )}
+                </div>
+              ) : null}
             </div>
             <div
               ariaHidden={!this.open}
@@ -1200,18 +1280,21 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   scale={this.scale}
                   status={this.status}
                 />
-                {!this.readOnly && this.layout === "horizontal" && this.renderToggleIcon(this.open)}
+                {this.layout === "horizontal" && !this.readOnly ? (
+                  <div class={CSS.horizontalActionsContainer}>
+                    {isClearableRange ? rangeClearButton : null}
+                    {this.renderToggleIcon(this.open, this.toggleRangeOpenClickHandler)}
+                  </div>
+                ) : null}
               </div>
             )}
           </div>
-          {this.range && this.layout === "vertical" && (
-            <div class={CSS.verticalChevronContainer}>
-              <calcite-icon
-                icon={this.open ? ICONS.chevronUp : ICONS.chevronDown}
-                scale={getIconScale(this.scale)}
-              />
+          {this.range && this.layout === "vertical" ? (
+            <div class={CSS.verticalActionsContainer}>
+              {isClearableRange ? rangeClearButton : null}
+              {this.renderToggleIcon(this.open)}
             </div>
-          )}
+          ) : null}
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -1226,10 +1309,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     );
   }
 
-  private renderToggleIcon(open: boolean): JsxNode {
+  private renderToggleIcon(open: boolean, onClick?: (event: MouseEvent) => void): JsxNode {
     return (
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
-      <span class={CSS.toggleIcon} tabIndex={-1}>
+      <span class={CSS.toggleIcon} onClick={onClick} tabIndex={-1}>
         <calcite-icon
           class={CSS.chevronIcon}
           icon={open ? ICONS.chevronUp : ICONS.chevronDown}

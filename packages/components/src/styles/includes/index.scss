@@ -19,7 +19,7 @@
 }
 
 @mixin word-break() {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: break-word;
 }
 
@@ -190,7 +190,10 @@
   $background-color-press: "--calcite-clear-button-background-color-press",
   $icon-color: "--calcite-clear-button-icon-color",
   $icon-color-hover: "--calcite-clear-button-icon-color-hover",
-  $icon-color-press: "--calcite-clear-button-icon-color-press"
+  $icon-color-press: "--calcite-clear-button-icon-color-press",
+  $padding-inline-end-s: var(--calcite-spacing-xxs),
+  $padding-inline-end-m: var(--calcite-space-sm),
+  $padding-inline-end-l: var(--calcite-space-sm-plus)
 ) {
   .clear-button--container {
     display: flex;
@@ -230,19 +233,20 @@
   :host([scale="s"]) {
     .clear-button--container {
       padding: var(--calcite-spacing-xxs);
+      padding-inline-end: $padding-inline-end-s;
     }
   }
 
   :host([scale="m"]) {
     .clear-button--container {
       padding: var(--calcite-spacing-xxs);
-      padding-inline-end: var(--calcite-space-sm);
+      padding-inline-end: $padding-inline-end-m;
     }
   }
 
   :host([scale="l"]) {
     .clear-button--container {
-      padding-inline-end: var(--calcite-spacing-sm-plus);
+      padding-inline-end: $padding-inline-end-l;
     }
   }
 }
