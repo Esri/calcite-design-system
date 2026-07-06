@@ -275,10 +275,12 @@ describe("resetting value", () => {
     const { el } = await mount("calcite-slider");
     const initialValue = el.value;
 
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
     expect(el.value).toBe(initialValue);
 
     el.value = 0;
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
     expect(el.value).toBe(initialValue);
   });
@@ -287,10 +289,12 @@ describe("resetting value", () => {
     const { el } = await mount<Slider>(<calcite-slider maxValue={100} minValue={0} />);
     const initialValue = el.value;
 
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
     expect(el.value).toEqual(initialValue);
 
     el.value = [20, 80];
+    // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
     expect(el.value).toEqual(initialValue);
   });

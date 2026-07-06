@@ -417,6 +417,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
         currentIndex = index;
         return true;
       }
+
+      return false;
     });
 
     switch (adjustedKey) {

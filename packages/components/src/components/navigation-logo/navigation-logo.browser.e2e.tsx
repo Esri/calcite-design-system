@@ -9,7 +9,7 @@ import {
   hidden,
   renders,
   focusable,
-    themed
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
@@ -26,7 +26,7 @@ describe("defaults", () => {
     [
       {
         propertyName: "active",
-        defaultValue: undefined,
+        defaultValue: false,
       },
       {
         propertyName: "href",

@@ -86,10 +86,10 @@ export class BlockGroup extends LitElement {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the component. */
-  @property() canPull: (detail: BlockDragDetail) => boolean | "clone";
+  @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another component. */
-  @property() canPut: (detail: BlockDragDetail) => boolean;
+  @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;

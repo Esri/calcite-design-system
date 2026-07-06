@@ -96,9 +96,9 @@ it("allows items to be selected", async () => {
 
   // We use the browser context to assert the value at the time of event emit.
   // Puppeteer APIs likely don't allow this due to async timing between calls.
-  await page.evaluate(() => {
+  await element.handle.evaluate((el) => {
     (window as TestWindow).eventTimeValues = [];
-    document.body.addEventListener("calciteSegmentedControlChange", (event: CustomEvent) => {
+    (el as SegmentedControl["el"]).addEventListener("calciteSegmentedControlChange", (event) => {
       (window as TestWindow).eventTimeValues.push((event.target as SegmentedControl["el"]).value);
     });
   });
@@ -158,7 +158,7 @@ it("does not emit extraneous events (edge case from #3210)", async () => {
   const timesCalled = await page.evaluate(async () => {
     let calls = 0;
 
-    const segmentedControl = document.querySelector("calcite-segmented-control");
+    const segmentedControl = document.querySelector("calcite-segmented-control")!;
 
     const waitForFrame = async () => await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 

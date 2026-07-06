@@ -29,14 +29,17 @@ export function validate({
      * 7) The properties in #6 are applied just to the other radio elements in the same group as the current component
      */
     if (component && input.type === "radio") {
-      let group = component.elementInternals.form?.elements[component.name!];
-      if (group?.length > 0) {
-        group = Array.from(group).filter(
-          (element) => (element as HTMLElement).tagName === component.el.tagName,
-        ) as FormComponent[];
+      const item = component.elementInternals.form?.elements.namedItem(component.name!);
 
-        const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
-        const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
+      if (item) {
+        const elements = "length" in item ? Array.from(item) : [item];
+        const group = elements.filter(
+          (element): element is CheckableFormComponent["el"] =>
+            (element as HTMLElement).tagName === component.el.tagName,
+        );
+
+        const isRequired = group.some((radioTypeElement) => radioTypeElement.required);
+        const isChecked = group.some((radioTypeElement) => radioTypeElement.checked);
         const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
         const valueMissing = isRequired && !isChecked;
 

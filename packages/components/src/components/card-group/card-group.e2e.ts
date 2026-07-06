@@ -251,21 +251,21 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
     await selectedItemAsserter([]);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card2.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card3.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card3.id);
 
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card5.id);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
@@ -275,7 +275,7 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card4.id);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -291,15 +291,15 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card5.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
   });
   it("navigation with keyboard works as expected when selection mode none (default)", async () => {
     const page = await newE2EPage();
@@ -329,21 +329,21 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
     expect(await element.getProperty("selectedItems")).toHaveLength(0);
     await selectedItemAsserter([]);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card2.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card2.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card3.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card3.id);
 
     await page.keyboard.press("End");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card5.id);
 
     await page.keyboard.press("Space");
     await page.waitForChanges();
@@ -353,7 +353,7 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card4.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card4.id);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -369,15 +369,15 @@ describe("focus and interaction function as intended", () => {
 
     await page.keyboard.press("Home");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
 
     await page.keyboard.press("ArrowLeft");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card5.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card5.id);
 
     await page.keyboard.press("ArrowRight");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(card1.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(card1.id);
   });
 });
 

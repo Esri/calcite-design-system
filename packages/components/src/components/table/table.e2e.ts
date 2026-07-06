@@ -2341,8 +2341,8 @@ describe("keyboard navigation", () => {
     );
 
     async function selectRow(rowSelector: string): Promise<void> {
-      await page.$eval(rowSelector + " >>> calcite-table-cell:first-child", (el: TableCell["el"]) => {
-        el.click();
+      await page.$eval(rowSelector + " >>> calcite-table-cell:first-child", (el) => {
+        (el as HTMLElement).click();
       });
       await page.waitForChanges();
     }
