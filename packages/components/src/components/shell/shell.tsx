@@ -1,10 +1,10 @@
-import { PropertyValues } from "lit";
-import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
+import { type PropertyValues } from "lit";
+import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
 import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
-import { ShellPanel } from "../shell-panel/shell-panel";
+import type { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
@@ -43,8 +43,6 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
-  @state() hasModals = false;
-
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
@@ -68,11 +66,11 @@ export class Shell extends LitElement {
 
   constructor() {
     super();
-    this.listen(
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeStart"]>(
       "calciteInternalShellPanelResizeStart",
       this.handleCalciteInternalShellPanelResizeStart,
     );
-    this.listen(
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
     );
@@ -127,15 +125,6 @@ export class Shell extends LitElement {
     slotChangeGetAssignedElements(event)
       .filter((el): el is Sheet["el"] => el?.matches("calcite-sheet"))
       .forEach((el) => {
-        el.embedded = true;
-      });
-  }
-
-  private handleModalsSlotChange(event: Event): void {
-    this.hasModals = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      ?.filter((el) => el?.matches("calcite-modal"))
-      .forEach((el: Dialog /* casting as dialog until slot is removed */) => {
         el.embedded = true;
       });
   }
@@ -223,14 +212,6 @@ export class Shell extends LitElement {
     );
   }
 
-  private renderModals(): JsxNode {
-    return (
-      <div hidden={!this.hasModals}>
-        <slot key="modals" name={SLOTS.modals} onSlotChange={this.handleModalsSlotChange} />
-      </div>
-    );
-  }
-
   private renderDialogs(): JsxNode {
     return (
       <div hidden={!this.hasDialogs}>
@@ -309,7 +290,6 @@ export class Shell extends LitElement {
     return (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
-        {this.renderModals()}
         {this.renderDialogs()}
         {this.renderSheets()}
       </div>

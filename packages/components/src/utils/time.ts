@@ -113,6 +113,7 @@ export function formatTimePart(number: number | null | undefined, minLength?: nu
   if (number >= 10) {
     return numberAsString;
   }
+  return;
 }
 
 function fractionalSecondPartToMilliseconds(fractionalSecondPart: string): number {

@@ -253,6 +253,7 @@ export class DatePicker extends LitElement {
 
   private valueHandler(value: string | string[] | undefined): void {
     if (Array.isArray(value)) {
+      // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
       this.valueAsDate = getValueAsDateRange(value);
       if (!this.rangeValueChangedByUser) {
         this.resetActiveDates();
@@ -443,6 +444,7 @@ export class DatePicker extends LitElement {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [startDate, date];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
@@ -457,6 +459,7 @@ export class DatePicker extends LitElement {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [date, endDate];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();

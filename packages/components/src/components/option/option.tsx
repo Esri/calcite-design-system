@@ -17,11 +17,11 @@ export class Option extends LitElement {
 
   // #region Private Properties
 
-  private internallySetLabel: string;
+  private internallySetLabel?: string;
 
   private internallySetValue: any;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () => {
+  private mutationObserver = createObserver("mutation", () => {
     this.ensureTextContentDependentProps();
     this.calciteInternalOptionChange.emit();
   });
@@ -37,13 +37,13 @@ export class Option extends LitElement {
   disabled = false;
 
   /** @copyDoc */
-  @property() label: string;
+  @property() label?: string;
 
   /** When `true`, the component is selected. */
   @property({
     reflect: true,
   })
-  selected: boolean;
+  selected = false;
 
   /** The component's value. */
   @property() value: any;

@@ -22,7 +22,7 @@ describe("defaults", () => {
     [
       {
         propertyName: "active",
-        defaultValue: undefined,
+        defaultValue: false,
       },
       {
         propertyName: "href",

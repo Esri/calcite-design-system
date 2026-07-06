@@ -19,6 +19,5 @@ export const SLOTS = {
   footer: "footer",
   alerts: "alerts",
   sheets: "sheets",
-  modals: "modals",
   dialogs: "dialogs",
 };
