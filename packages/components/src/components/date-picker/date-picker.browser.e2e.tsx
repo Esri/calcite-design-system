@@ -6,6 +6,7 @@ import { defaults, focusable, hidden, renders, t9n, themed } from "../../tests/c
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
+import { mockConsole } from "../../tests/utils/logging";
 
 describe("defaults", () => {
   defaults(
@@ -99,7 +100,9 @@ describe("activeDate", () => {
   }
 });
 
-describe.skip("theme", () => {
+describe("theme", () => {
+  mockConsole();
+
   describe("default", () => {
     themed(() => mount("calcite-date-picker"), {
       "--calcite-date-picker-border-color": {
