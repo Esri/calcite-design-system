@@ -5,7 +5,7 @@ import { DateLocaleData } from "../date-picker/utils";
 import { Action } from "../action/action";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
 
-const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader) => {
+const setupDatePickerMonthHeader = async (el: DatePickerMonthHeader["el"]) => {
   const messages = await import("../date-picker/assets/t9n/messages.json");
   const localeDataFixture: DateLocaleData = {
     "default-calendar": "gregorian",
