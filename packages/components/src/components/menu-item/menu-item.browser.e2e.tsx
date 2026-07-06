@@ -9,7 +9,7 @@ import {
   renders,
   t9n,
   accessible,
-  themed
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS, SLOTS } from "./resources";
 import type { Layout } from "./interfaces";
@@ -164,9 +164,7 @@ describe("theme", () => {
   describe("active", () => {
     const activeMenuItem = (layout: Layout) => (
       <calcite-menu layout={layout}>
-        <calcite-menu-item active text="Ideas">
-          {" "}
-        </calcite-menu-item>
+        <calcite-menu-item active text="Ideas" />
       </calcite-menu>
     );
     const tokens = (layout: Layout): ComponentTestTokens => {

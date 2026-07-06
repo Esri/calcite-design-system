@@ -492,7 +492,7 @@ describe("theme", () => {
               </calcite-table-cell>
               <calcite-table-cell alignment="center">
                 <calcite-chip scale="s">Another thing</calcite-chip>
-              </calcite-table-cell>{" "}
+              </calcite-table-cell>
             </calcite-table-row>
             <calcite-table-row id="row-3">
               <calcite-table-cell>cell</calcite-table-cell>

@@ -177,15 +177,9 @@ describe("theme", () => {
       () =>
         mount(
           <calcite-stepper layout="horizontal-single" scale="m">
-            <calcite-stepper-item heading="Item 1" selected>
-              {" "}
-            </calcite-stepper-item>
-            <calcite-stepper-item complete heading="Item 2">
-              {" "}
-            </calcite-stepper-item>
-            <calcite-stepper-item error heading="Item 3">
-              {" "}
-            </calcite-stepper-item>
+            <calcite-stepper-item heading="Item 1" selected />
+            <calcite-stepper-item complete heading="Item 2" />
+            <calcite-stepper-item error heading="Item 3" />
           </calcite-stepper>,
         ),
       {

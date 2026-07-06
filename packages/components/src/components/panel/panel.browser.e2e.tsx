@@ -559,20 +559,12 @@ describe("theme", () => {
 });
 
 describe("deprecated", () => {
-  themed(
-    () =>
-      mount(
-        <calcite-panel heading="Hello World" icon="smile">
-          {" "}
-        </calcite-panel>,
-      ),
-    {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "--calcite-icon-color",
-      },
+  themed(() => mount(<calcite-panel heading="Hello World" icon="smile" />), {
+    "--calcite-ui-icon-color": {
+      shadowSelector: `.${CSS.icon}`,
+      targetProp: "--calcite-icon-color",
     },
-  );
+  });
 });
 
 describe("focus trap", () => {
