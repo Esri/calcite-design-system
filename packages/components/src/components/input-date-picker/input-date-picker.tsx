@@ -634,13 +634,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.open = !this.open;
   }
 
-  private toggleRangeOpenClickHandler(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.focusInput();
-    this.open = !this.open;
-  }
-
   private clearSingleValueClickHandler(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
