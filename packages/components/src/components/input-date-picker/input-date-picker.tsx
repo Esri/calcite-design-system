@@ -1283,7 +1283,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 {this.layout === "horizontal" && !this.readOnly ? (
                   <div class={CSS.horizontalActionsContainer}>
                     {isClearableRange ? rangeClearButton : null}
-                    {this.renderToggleIcon(this.open, this.toggleRangeOpenClickHandler)}
+                    {this.renderToggleIcon(this.open)}
                   </div>
                 ) : null}
               </div>
