@@ -1,9 +1,10 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { ModeName } from "../components/interfaces";
-import { html } from "../../support/formatting";
-import { afterNextFrame } from "../tests/utils/timing";
+import { Fragment, h, JsxNode, LitElement, method } from "@arcgis/lumina";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import { html } from "lit";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { ModeName } from "../components/interfaces";
 import { createControlledPromise } from "../tests/utils/promises";
-import { IconName } from "../components/icon/interfaces";
+import type { IconName } from "../components/icon/interfaces";
 import { guidPattern } from "./guid.browser.spec";
 import {
   ensureId,
@@ -32,31 +33,101 @@ import {
   whenAnimationDone,
   whenTransitionDone,
 } from "./dom";
+import { page } from "vitest/browser";
+import { afterNextFrame } from "../tests/utils/timing";
 
-/**
- * Registers a test element with a unique tag name.
- * This is useful for testing custom elements without conflicts.
- *
- * @param elementClass
- */
-function registerTestElement(elementClass: typeof HTMLElement): string {
-  // ensure unique tag name per test to avoid "custom element already defined" error
-  const tagName =
-    "test-element-" +
-    expect
-      .getState()
-      .currentTestName!.split(">")
-      .map((part) => part.trim())
-      .join(" ")
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-") // replace non-alphanumeric with dashes
-      .replace(/^-+|-+$/g, "") // trim leading/trailing dashes
-      .replace(/--+/g, "-");
+const myButtonId = "my.id";
+const myButtonClass = "my-class";
+const insideHost = "Inside Host";
+const outsideHost = "Outside Host";
+const insideShadow = "Inside Shadow";
 
-  customElements.define(tagName, elementClass);
+describe("queries", () => {
+  class TestComponent extends LitElement {
+    static tagName = "test-component";
 
-  return tagName;
-}
+    override render(): JsxNode {
+      return (
+        <div data-testid="container">
+          <button id={myButtonId} type="button">
+            {insideShadow}
+            <slot />
+          </button>
+        </div>
+      );
+    }
+  }
+
+  it("queryElementRoots: should query from inside host element", async () => {
+    const { el } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = el.shadowRoot.querySelector("div")!;
+
+    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, {
+      selector: `button.${myButtonClass}`,
+    })!;
+
+    await expect.element(resultEl).toHaveTextContent(insideHost);
+  });
+
+  it("queryElementRoots: should query id from inside shadow element", async () => {
+    const { el } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = el.shadowRoot.querySelector("div")!;
+
+    const resultEl = queryElementRoots<HTMLDivElement>(queryEl, {
+      id: myButtonId,
+    })!;
+
+    await expect.element(resultEl).toHaveTextContent(insideShadow);
+  });
+
+  it("queryElementRoots: should query from outside host element", async () => {
+    const { container } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = container.querySelector("span")!;
+
+    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, { selector: "button" })!;
+
+    await expect.element(resultEl).toHaveTextContent(outsideHost);
+  });
+
+  it("queryElementRoots: should query id from outside host element", async () => {
+    const { container } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = container.querySelector("span")!;
+
+    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, { id: myButtonId })!;
+
+    await expect.element(resultEl).toHaveTextContent(outsideHost);
+  });
+});
+
+////////
 
 async function setUpSlotChange({
   assignedElements = [],
@@ -88,7 +159,9 @@ describe(setRequestedIcon, () => {
   const matchedValue = "exampleValue";
 
   it("returns the custom icon name if custom value is passed", () =>
-    expect(setRequestedIcon(iconObject, "myCustomValue" as IconName, matchedValue)).toBe("myCustomValue"));
+    expect(setRequestedIcon(iconObject, "myCustomValue" as IconName, matchedValue)).toBe(
+      "myCustomValue",
+    ));
 
   it("returns the pre-defined icon name if custom value is true", () =>
     expect(setRequestedIcon(iconObject, true, matchedValue)).toBe(iconObject[matchedValue]));
@@ -121,85 +194,85 @@ describe(ensureId, () => {
 });
 
 describe(getModeName, () => {
-  interface ModeElement extends HTMLElement {
-    foundModeName: ModeName;
-  }
+  class ModeElement extends LitElement {
+    static tagName = "mode-element";
 
-  function getTestComponentMode(): string {
-    return document.body.querySelector<ModeElement>("mode-element")!.foundModeName;
-  }
+    foundModeName!: ModeName;
 
-  function defineTestComponents(): void {
-    class ModeElement extends HTMLElement {
-      constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-      }
-
-      foundModeName!: ModeName;
-
-      connectedCallback(): void {
-        this.foundModeName = getModeName(this);
-      }
+    connectedCallback(): void {
+      this.foundModeName = getModeName(this);
     }
-
-    customElements.define("mode-element", ModeElement);
   }
 
-  beforeAll(() => {
-    defineTestComponents();
-  });
-
-  it("finds the closest mode if set (light)", () => {
-    document.body.innerHTML = html`
-      <div class="calcite-mode-dark">
+  it("finds the closest mode if set (light)", async () => {
+    const { component } = await mount(
+      html` <div class="calcite-mode-dark">
         <div class="calcite-mode-light">
           <mode-element></mode-element>
         </div>
-      </div>
-    `;
-    expect(getTestComponentMode()).toBe("light");
+      </div>`,
+      {
+        dynamicComponents: [ModeElement],
+      },
+    );
+
+    expect(component.foundModeName).toBe("light");
   });
 
-  it("finds the closest mode if set (dark)", () => {
-    document.body.innerHTML = html`
-      <div class="calcite-mode-light">
-        <div class="calcite-mode-dark">
-          <mode-element></mode-element>
+  it("finds the closest mode if set (dark)", async () => {
+    const { component } = await mount(
+      html`
+        <div class="calcite-mode-light">
+          <div class="calcite-mode-dark">
+            <mode-element></mode-element>
+          </div>
         </div>
-      </div>
-    `;
-    expect(getTestComponentMode()).toBe("dark");
+      `,
+      {
+        dynamicComponents: [ModeElement],
+      },
+    );
+
+    expect(component.foundModeName).toBe("dark");
   });
 
-  it("sets to default (light) if no mode is set", () => {
-    document.body.innerHTML = html`
-      <div>
+  it("sets to default (light) if no mode is set", async () => {
+    const { component } = await mount(
+      html`
         <div>
-          <mode-element></mode-element>
+          <div>
+            <mode-element></mode-element>
+          </div>
         </div>
-      </div>
-    `;
-    expect(getTestComponentMode()).toBe("light");
+      `,
+      {
+        dynamicComponents: [ModeElement],
+      },
+    );
+
+    expect(component.foundModeName).toBe("light");
   });
 
-  it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", () => {
-    window.matchMedia = vi.fn().mockImplementation((query) => ({
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("returns 'dark' if the closest element has 'calcite-mode-auto' class and prefers-color-scheme is dark", async () => {
+    vi.stubGlobal("matchMedia", (query) => ({
       matches: query === "(prefers-color-scheme: dark)",
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
     }));
 
-    document.body.innerHTML = html`
-      <div class="calcite-mode-auto">
-        <div>
-          <mode-element></mode-element>
+    const { component } = await mount(
+      html`
+        <div class="calcite-mode-auto">
+          <div>
+            <mode-element></mode-element>
+          </div>
         </div>
-      </div>
-    `;
-    expect(getTestComponentMode()).toBe("dark");
+      `,
+      {
+        dynamicComponents: [ModeElement],
+      },
+    );
+    expect(component.foundModeName).toBe("dark");
   });
 });
 
@@ -213,22 +286,8 @@ describe(isPrimaryPointerButton, () => {
 });
 
 describe("slot utils", () => {
-  function defineTestElement(slotHandler: (slotEl: HTMLSlotElement) => void, slotHtml = "<slot><slot>"): string {
-    class TestElement extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = slotHtml;
-        shadow.querySelectorAll("slot").forEach(slotHandler);
-      }
-    }
-
-    return registerTestElement(TestElement);
-  }
-
   function appendChildren(parent: HTMLElement, children: Node[]): void {
     parent.append(...children);
-    document.body.append(parent);
   }
 
   function createEl<K extends keyof HTMLElementTagNameMap>(
@@ -249,7 +308,10 @@ describe("slot utils", () => {
   describe(getSlotAssignedElements, () => {
     it("returns slotted elements with no selector", () => {
       const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [document.createElement("div"), document.createElement("div")];
+      slotEl.assignedElements = () => [
+        document.createElement("div"),
+        document.createElement("div"),
+      ];
       expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
     });
     it("returns no slotted elements", () => {
@@ -273,7 +335,12 @@ describe("slot utils", () => {
       spanEl.className = "my-span";
       const divEl = document.createElement("div");
       divEl.className = "my-div";
-      slotEl.assignedElements = () => [document.createElement("span"), spanEl, document.createElement("div"), divEl];
+      slotEl.assignedElements = () => [
+        document.createElement("span"),
+        spanEl,
+        document.createElement("div"),
+        divEl,
+      ];
       expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
       expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
     });
@@ -282,46 +349,60 @@ describe("slot utils", () => {
   describe(slotChangeGetAssignedElements, () => {
     it("handles slotted elements", async () => {
       let assigned: Element[] | undefined;
-      const testElName = defineTestElement((slotEl) => {
-        slotEl.addEventListener("slotchange", (event) => {
-          assigned = slotChangeGetAssignedElements(event);
-        });
+
+      class TestComponent extends LitElement {
+        // static tagName = "test-slot";
+        override render(): JsxNode {
+          return <slot />;
+        }
+      }
+
+      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const slot = page.getBySelector("slot");
+      slot.element().addEventListener("slotchange", (event) => {
+        assigned = slotChangeGetAssignedElements(event);
       });
-      const testEl = createEl(testElName);
-      const slottedEls = [createEl("div"), createEl("div")];
 
-      appendChildren(testEl, slottedEls);
-      await afterNextFrame();
+      const items = [document.createElement("div"), document.createElement("div")];
+      el.append(...items);
+      await reRender();
 
-      expect(assigned).toEqual(slottedEls);
+      expect(assigned).toEqual(items);
 
       assigned = undefined;
-      slottedEls.forEach((el) => el.remove());
-      await afterNextFrame();
+      items.forEach((el) => el.remove());
+      await reRender();
 
       expect(assigned).toEqual([]);
     });
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Element[]> = {};
-      const slotHtml = html`
-        <slot></slot>
-        <!-- using comments between slots to avoid introducing whitespace-->
-        <slot name="foo"
-          ><!--
-          --><slot name="bar"></slot
-          ><!--
-          --><slot name="baz"></slot
-          ><!--
-        --></slot
-        >
-      `;
-      const testElName = defineTestElement((slotEl) => {
-        slotEl.addEventListener("slotchange", (event) => {
-          slotToAssigned[slotEl.name] = slotChangeGetAssignedElements(event);
+
+      class TestComponent extends LitElement {
+        // static tagName = "test-slot";
+        override render(): JsxNode {
+          return (
+            <>
+              <slot />
+              <slot name="foo">
+                <slot name="bar" />
+                <slot name="baz" />
+              </slot>
+            </>
+          );
+        }
+      }
+
+      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const slots = page.getBySelector("slot");
+      slots.elements().forEach((el) => {
+        el.addEventListener("slotchange", (event) => {
+          slotToAssigned[(event.currentTarget as HTMLSlotElement).name] =
+            slotChangeGetAssignedElements(event);
         });
-      }, slotHtml);
-      const testEl = createEl(testElName);
+      });
+
       const nodes = [
         document.createTextNode("hello"),
         createEl("div"),
@@ -333,8 +414,8 @@ describe("slot utils", () => {
         createEl("div", { slot: "baz" }),
       ];
 
-      appendChildren(testEl, nodes);
-      await afterNextFrame();
+      appendChildren(el, nodes);
+      await reRender();
 
       expect(slotToAssigned).toEqual({
         "": [nodes[1]],
@@ -345,7 +426,7 @@ describe("slot utils", () => {
 
       Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
       nodes.forEach((el) => el.remove());
-      await afterNextFrame();
+      await reRender();
 
       expect(slotToAssigned).toEqual({
         "": [],
@@ -385,46 +466,63 @@ describe("slot utils", () => {
   describe(slotChangeGetAssignedNodes, () => {
     it("returns assigned nodes on slotchange", async () => {
       let assigned: Node[] | undefined;
-      const testElName = defineTestElement((slotEl) => {
-        slotEl.addEventListener("slotchange", (event) => {
-          assigned = slotChangeGetAssignedNodes(event);
-        });
-      });
-      const testEl = createEl(testElName);
-      const nodes = [document.createTextNode("hello"), createEl("div"), document.createTextNode("world")];
+      class TestComponent extends LitElement {
+        // static tagName = "test-slot";
+        override render(): JsxNode {
+          return <slot />;
+        }
+      }
 
-      appendChildren(testEl, nodes);
-      await afterNextFrame();
+      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const slot = page.getBySelector("slot");
+      slot.element().addEventListener("slotchange", (event) => {
+        assigned = slotChangeGetAssignedNodes(event);
+      });
+
+      const nodes = [
+        document.createTextNode("hello"),
+        createEl("div"),
+        document.createTextNode("world"),
+      ];
+
+      appendChildren(el, nodes);
+      await reRender();
 
       expect(assigned!).toEqual(nodes);
 
       assigned = undefined;
       nodes.forEach((el) => el.remove());
-      await afterNextFrame();
+      await reRender();
 
       expect(assigned).toEqual([]);
     });
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Node[]> = {};
-      const slotHtml = html`
-        <slot></slot>
-        <!-- using comments between slots to avoid introducing whitespace-->
-        <slot name="foo"
-          ><!--
-          --><slot name="bar"></slot
-          ><!--
-          --><slot name="baz"></slot
-          ><!--
-        --></slot
-        >
-      `;
-      const testElName = defineTestElement((slotEl) => {
-        slotEl.addEventListener("slotchange", (event) => {
-          slotToAssigned[slotEl.name] = slotChangeGetAssignedNodes(event);
+      class TestComponent extends LitElement {
+        // static tagName = "test-slot";
+        override render(): JsxNode {
+          return (
+            <>
+              <slot />
+              <slot name="foo">
+                <slot name="bar" />
+                <slot name="baz" />
+              </slot>
+            </>
+          );
+        }
+      }
+
+      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const slots = page.getBySelector("slot");
+      slots.elements().forEach((el) => {
+        el.addEventListener("slotchange", (event) => {
+          slotToAssigned[(event.currentTarget as HTMLSlotElement).name] =
+            slotChangeGetAssignedNodes(event);
         });
-      }, slotHtml);
-      const testEl = createEl(testElName);
+      });
+
       const nodes = [
         document.createTextNode("hello"),
         createEl("div"),
@@ -436,8 +534,8 @@ describe("slot utils", () => {
         createEl("div", { slot: "baz" }),
       ];
 
-      appendChildren(testEl, nodes);
-      await afterNextFrame();
+      appendChildren(el, nodes);
+      await reRender();
 
       expect(slotToAssigned).toEqual({
         "": [nodes[0], nodes[1]],
@@ -448,7 +546,7 @@ describe("slot utils", () => {
 
       Object.keys(slotToAssigned).forEach((key) => delete slotToAssigned[key]);
       nodes.forEach((node) => node.remove());
-      await afterNextFrame();
+      await reRender();
 
       expect(slotToAssigned).toEqual({
         "": [],
@@ -525,7 +623,11 @@ describe("slot utils", () => {
 });
 
 describe(focusElement, () => {
-  function create(tag: string, props?: Partial<HTMLElement>, appendTo: HTMLElement = document.body): HTMLElement {
+  function create(
+    tag: string,
+    props?: Partial<HTMLElement>,
+    appendTo: HTMLElement = document.body,
+  ): HTMLElement {
     const el = document.createElement(tag);
 
     if (props) {
@@ -593,13 +695,8 @@ describe(focusElement, () => {
     let useContext = true;
     let setFocusCalls = 0;
 
-    class Test extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = `<div tabindex="0"></div>`;
-      }
-
+    class Test extends LitElement {
+      @method()
       async setFocus(options?: FocusOptions): Promise<void> {
         if (setFocusCalls++ > 10) {
           // simulates infinite loop without having to trigger a real one in test environment
@@ -608,12 +705,14 @@ describe(focusElement, () => {
 
         return focusElement(this, false, "tabbable", useContext ? this : undefined, options);
       }
+
+      override render(): JsxNode {
+        return <div tabIndex={0} />;
+      }
     }
 
-    const testElTag = registerTestElement(Test);
+    const { el } = await mount(Test, { dynamicComponents: [Test] });
 
-    const el = document.createElement(testElTag) as Test;
-    document.body.append(el);
     vi.spyOn(el, "focus");
     vi.spyOn(el, "setFocus");
 
@@ -645,20 +744,20 @@ describe(focusElement, () => {
       expect(focusSpy).toHaveBeenCalledTimes(1);
     });
 
-    it("supports focus options on setFocus elements", () => {
-      class Test extends HTMLElement {
-        constructor() {
-          super();
-          const shadow = this.attachShadow({ mode: "open" });
-          shadow.innerHTML = `<div tabindex="0"></div>`;
-        }
+    it("supports focus options on setFocus elements", async () => {
+      class Test extends LitElement {
+        @method()
         async setFocus(options?: FocusOptions): Promise<void> {
           return focusElement(this, false, "tabbable", this, options);
         }
+
+        override render(): JsxNode {
+          return <div tabIndex={0} />;
+        }
       }
-      const testElTag = registerTestElement(Test);
-      const el = document.createElement(testElTag) as Test;
-      document.body.append(el);
+
+      const { el } = await mount(Test, { dynamicComponents: [Test] });
+
       vi.spyOn(el, "setFocus");
 
       const focusOptions = { preventScroll: true };
@@ -798,29 +897,33 @@ describe(focusElementInGroup, () => {
     });
   });
 
-  it("allows specifying target as focus context", () => {
-    class Test extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = `<div tabindex="0" id="inner"></div>`;
-      }
+  it("allows specifying target as focus context", async () => {
+    class Test extends LitElement {
+      static tagName = "test-focus-context";
 
+      @method()
       async setFocus(options?: FocusOptions): Promise<void> {
         // simulate setFocus workflow
         this.focus(options);
       }
+
+      override render(): JsxNode {
+        return <div id="inner" tabIndex={0} />;
+      }
     }
 
-    const testTag = registerTestElement(Test);
+    const { container } = await mount(
+      html`
+        <test-focus-context id="item-1" tabindex="0"></test-focus-context>
+        <test-focus-context id="item-2" tabindex="0"></test-focus-context>
+        <test-focus-context id="item-3" tabindex="0"></test-focus-context>
+      `,
+      {
+        dynamicComponents: [Test],
+      },
+    );
 
-    const elements = Array.from({ length: 3 }, (_, index) => {
-      const el = document.createElement(testTag) as Test;
-      el.id = `item-${index}`;
-      el.tabIndex = 0;
-      document.body.append(el);
-      return el;
-    });
+    const elements = Array.from(container.querySelectorAll<HTMLElement>("test-focus-context"));
 
     // assertions only cover the focus context portion, the rest is covered by the previous tests
 
@@ -830,39 +933,29 @@ describe(focusElementInGroup, () => {
 
     expect(focusElementInGroup(elements, elements[0], "next", true, false, true)).toBe(elements[1]);
     expect(document.activeElement).toBe(elements[1]);
-    expect(document.activeElement!.shadowRoot!.activeElement).toBe(elements[1].shadowRoot!.querySelector("#inner"));
+    expect(document.activeElement!.shadowRoot!.activeElement).toBe(
+      elements[1].shadowRoot!.querySelector("#inner"),
+    );
   });
 });
 
 describe(getShadowRootNode, () => {
-  function defineTestComponents(): void {
-    class ShadowElement extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = `<button>Hello</button>`;
-      }
+  class ShadowElement extends LitElement {
+    override render(): JsxNode {
+      return <button>Hello</button>;
     }
-
-    customElements.define("shadow-element", ShadowElement);
   }
 
-  beforeAll(() => {
-    defineTestComponents();
-  });
-
-  it("should return shadowRoot for shadowed element", () => {
-    document.body.innerHTML = html` <shadow-element></shadow-element> `;
-    const shadowElement = document.body.querySelector("shadow-element")!;
-    const shadowRoot = shadowElement.shadowRoot!;
-    const button = shadowRoot.querySelector("button")!;
+  it("should return shadowRoot for shadowed element", async () => {
+    const { el } = await mount(ShadowElement, { dynamicComponents: [ShadowElement] });
+    const button = page.getByRole("button");
     expect(button).toBeDefined();
-    expect(getShadowRootNode(button)).toEqual(shadowRoot);
+    expect(getShadowRootNode(button.element())).toEqual(el.shadowRoot);
   });
 
-  it("should return null for non shadowed element", () => {
-    document.body.innerHTML = html` <div></div> `;
-    expect(getShadowRootNode(document.body.querySelector("div")!)).toBe(null);
+  it("should return null for non shadowed element", async () => {
+    const { el } = await mount(html`<div></div>`);
+    expect(getShadowRootNode(el)).toBe(null);
   });
 });
 
@@ -924,7 +1017,8 @@ describe("transition/animation helpers", () => {
 
   helpers.forEach((helper) => {
     const type = helper === whenTransitionDone ? "transition" : "animation";
-    const animationPropName = helper === whenTransitionDone ? "transitionProperty" : "animationName";
+    const animationPropName =
+      helper === whenTransitionDone ? "transitionProperty" : "animationName";
     const testTransitionOrAnimationName = helper === whenTransitionDone ? "opacity" : "fade";
 
     describe(`${helper.name}`, () => {
@@ -1032,60 +1126,83 @@ describe(getStylePixelValue, () => {
 });
 
 describe(queryElementRoots, () => {
-  const myButtonId = "my.id";
-  const myButtonClass = "my-class";
-  const insideHost = "Inside Host";
-  const outsideHost = "Outside Host";
-  const insideShadow = "Inside Shadow";
-  const insideHostHTML = `<button class="${myButtonClass}">${insideHost}</button>`;
-  const insideShadowHTML = `<div><button id="${myButtonId}">${insideShadow}</button></div>`;
-  const outsideHostHTML = `<span>Test</span><button id="${myButtonId}">${outsideHost}</button>`;
-  let componentTag: string;
+  class TestComponent extends LitElement {
+    static tagName = "test-component";
 
-  beforeEach(async () => {
-    document.body.innerHTML = outsideHostHTML;
-    class TestComponent extends HTMLElement {
-      constructor() {
-        super();
-        const shadow = this.attachShadow({ mode: "open" });
-        shadow.innerHTML = insideShadowHTML;
-      }
+    override render(): JsxNode {
+      return (
+        <div data-testid="container">
+          <button id={myButtonId} type="button">
+            {insideShadow}
+            <slot />
+          </button>
+        </div>
+      );
     }
-
-    componentTag = `test-component-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    customElements.define(componentTag, TestComponent);
-
-    const testComponent = document.createElement(componentTag);
-    testComponent.innerHTML = insideHostHTML;
-    document.body.append(testComponent);
-  });
+  }
 
   it("should query from inside host element", async () => {
-    const testComponent = document.querySelector(componentTag)!;
-    const queryEl = testComponent.shadowRoot!.querySelector("div")!;
-    const resultEl: HTMLElement = queryElementRoots(queryEl, { selector: `button.${myButtonClass}` })!;
+    const { el } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = el.shadowRoot.querySelector("div")!;
+
+    const resultEl: HTMLElement = queryElementRoots(queryEl, {
+      selector: `button.${myButtonClass}`,
+    })!;
 
     expect(resultEl.textContent).toBe(insideHost);
   });
 
   it("should query id from inside shadow element", async () => {
-    const testComponent = document.querySelector(componentTag)!;
-    const queryEl = testComponent.shadowRoot!.querySelector("div")!;
+    const { el } = await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+    const queryEl = el.shadowRoot.querySelector("div")!;
+
     const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
 
     expect(resultEl.textContent).toBe(insideShadow);
   });
 
   it("should query from outside host element", async () => {
-    const queryEl = document.body.querySelector("span")!;
-    const resultEl: HTMLElement = queryElementRoots(queryEl, { selector: "button" })!;
+    await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+
+    const source = page.getBySelector("span");
+    const resultEl: HTMLElement = queryElementRoots(source.element(), { selector: "button" })!;
 
     expect(resultEl.textContent).toBe(outsideHost);
   });
 
   it("should query id from outside host element", async () => {
-    const queryEl = document.body.querySelector("span")!;
-    const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
+    await mount(
+      html`
+        <span>Test</span>
+        <button id="${myButtonId}">${outsideHost}</button>
+        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
+      `,
+      { dynamicComponents: [TestComponent] },
+    );
+
+    const source = page.getBySelector("span");
+    const resultEl: HTMLElement = queryElementRoots(source.element(), { id: myButtonId })!;
 
     expect(resultEl.textContent).toBe(outsideHost);
   });
