@@ -57,7 +57,13 @@ export class ShellPanel extends LitElement {
     this.updateActionBarSize(),
   );
 
-  private actionBarObserver: MutationObserver;
+  private actionBarObserver = createObserver("mutation", () => {
+    const actionBar = this.actionBars[0];
+
+    if (actionBar) {
+      this.updateContentMaxWidthFromActionBar(actionBar);
+    }
+  });
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -510,11 +516,7 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    this.actionBarObserver = new MutationObserver(() => {
-      this.updateContentMaxWidthFromActionBar(actionBar);
-    });
-
-    this.actionBarObserver.observe(actionBar, {
+    this.actionBarObserver?.observe(actionBar, {
       attributes: true,
       attributeFilter: ["expanded"],
     });
