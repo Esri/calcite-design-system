@@ -56,13 +56,13 @@ export class Handle extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Value for the button title attribute. */
-  @property({ reflect: true }) dragHandle: string;
+  @property({ reflect: true }) dragHandle?: string;
 
   /**
    *
    * @private
    */
-  @property() label: string;
+  @property() label?: string;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -74,13 +74,13 @@ export class Handle extends LitElement {
    *
    * @private
    */
-  @property() setPosition: number;
+  @property() setPosition?: number;
 
   /**
    *
    * @private
    */
-  @property() setSize: number;
+  @property() setSize?: number;
 
   //#endregion
 
@@ -172,11 +172,11 @@ export class Handle extends LitElement {
     return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
   }
 
-  private getAriaText(type: "label" | "live"): string {
+  private getAriaText(type: "label" | "live"): string | undefined {
     const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
-      return null;
+      return undefined;
     }
 
     const text =
@@ -241,16 +241,16 @@ export class Handle extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <span
           // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-          ariaChecked={this.disabled ? null : this.selected}
-          ariaDisabled={this.disabled ? this.disabled : null}
-          ariaLabel={this.disabled ? null : this.getAriaText("label")}
+          ariaChecked={this.disabled ? undefined : this.selected}
+          ariaDisabled={this.disabled ? this.disabled : undefined}
+          ariaLabel={this.disabled ? undefined : this.getAriaText("label")}
           class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
           ref={this.handleButtonRef}
           // role of radio is being applied to allow space key to select in screen readers
           role="radio"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
           title={this.getTooltip()}
         >
           <calcite-icon icon={ICONS.drag} scale="s" />

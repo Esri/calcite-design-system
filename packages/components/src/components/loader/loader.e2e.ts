@@ -46,7 +46,7 @@ it("sets a default id when none is provided", async () => {
   await page.setContent(`<calcite-loader></calcite-loader>`);
   const loader = await page.find("calcite-loader");
   expect(loader).toHaveAttribute("id");
-  expect(loader.getAttribute("id").length).toEqual(36);
+  expect(loader.getAttribute("id")).toHaveLength(36);
 });
 
 describe("themed", () => {

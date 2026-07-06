@@ -103,7 +103,7 @@ it("tooltip positions when referenceElement is set", async () => {
   expect(computedStyle.transform).toBe("none");
 
   await page.$eval("calcite-tooltip", (el: Tooltip["el"]): void => {
-    const referenceElement = document.getElementById("ref");
+    const referenceElement = document.getElementById("ref")!;
     el.referenceElement = referenceElement;
   });
   await page.waitForChanges();

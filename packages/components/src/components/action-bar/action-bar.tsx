@@ -176,7 +176,7 @@ export class ActionBar extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  private setExpandToggleEl = (el: Action["el"]): void => {
+  private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;
   };
 
