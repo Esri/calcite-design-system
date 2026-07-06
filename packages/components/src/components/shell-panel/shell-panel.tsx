@@ -267,6 +267,7 @@ export class ShellPanel extends LitElement {
 
   override disconnectedCallback(): void {
     this.cleanUpInteractions();
+    this.actionBarObserver?.disconnect();
   }
 
   //#endregion
@@ -503,8 +504,6 @@ export class ShellPanel extends LitElement {
   }
 
   private setUpActionBarObserver(): void {
-    this.actionBarObserver?.disconnect();
-
     const actionBar = this.actionBars[0];
 
     if (!actionBar || !this.contentRef.value) {
