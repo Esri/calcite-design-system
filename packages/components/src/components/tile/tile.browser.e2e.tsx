@@ -18,7 +18,7 @@ import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
-    accessible(() => mount(<calcite-tile />));
+    accessible(() => mount("calcite-tile"));
   });
 
   describe("with label only", () => {

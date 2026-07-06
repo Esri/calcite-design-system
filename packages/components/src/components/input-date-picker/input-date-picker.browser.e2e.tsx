@@ -233,7 +233,7 @@ function getMonthSelectMenu(): Locator {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-input-date-picker />), {
+    themed(() => mount("calcite-input-date-picker"), {
       "--calcite-input-date-picker-actions-icon-color": {
         shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
         targetProp: "color",

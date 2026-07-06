@@ -10,7 +10,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount(<calcite-loader />), { display: "flex", visible: true });
+  renders(() => mount("calcite-loader"), { display: "flex", visible: true });
 
   describe("inline", () => {
     renders(() => mount(<calcite-loader inline />), { display: "flex", visible: true });
@@ -19,7 +19,7 @@ describe("renders", () => {
 
 describe("themed", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-loader />), {
+    themed(() => mount("calcite-loader"), {
       "--calcite-loader-track-color": {
         shadowSelector: `.${CSS.trackRing}`,
         targetProp: "stroke",

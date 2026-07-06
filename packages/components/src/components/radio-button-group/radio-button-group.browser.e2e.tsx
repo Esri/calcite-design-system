@@ -167,7 +167,7 @@ describe("translation support", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-radio-button-group />), {
+    themed(() => mount("calcite-radio-button-group"), {
       "--calcite-radio-button-group-gap": {
         targetProp: "columnGap",
         shadowSelector: `.${CSS.itemWrapper}`,

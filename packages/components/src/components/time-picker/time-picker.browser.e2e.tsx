@@ -9,7 +9,7 @@ import {
   renders,
   t9n,
   accessible,
-  themed
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -288,7 +288,7 @@ describe("l10n", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-time-picker />), {
+    themed(() => mount("calcite-time-picker"), {
       "--calcite-time-picker-background-color": {
         targetProp: "backgroundColor",
         shadowSelector: `.${CSS.timePicker}`,
@@ -328,7 +328,7 @@ describe("theme", () => {
   });
 
   describe("hour input focused", () => {
-    themed(() => mount(<calcite-time-picker />), {
+    themed(() => mount("calcite-time-picker"), {
       "--calcite-time-picker-input-border-color-press": {
         targetProp: "boxShadow",
         shadowSelector: `.${CSS.hour}`,

@@ -101,8 +101,7 @@ describe("activeDate", () => {
 
 describe.skip("theme", () => {
   describe("default", () => {
-    const datePicker = <calcite-date-picker />;
-    themed(() => mount(datePicker), {
+    themed(() => mount("calcite-date-picker"), {
       "--calcite-date-picker-border-color": {
         selector: "calcite-date-picker",
         targetProp: "borderColor",
@@ -201,8 +200,7 @@ describe.skip("theme", () => {
   });
 
   describe("selected", () => {
-    const datePicker = <calcite-date-picker value="2024-01-31" />;
-    themed(() => mount(datePicker), {
+    themed(() => mount(<calcite-date-picker value="2024-01-31" />), {
       "--calcite-date-picker-day-background-color-selected": {
         selector: "calcite-date-picker",
         shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,

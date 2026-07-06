@@ -73,7 +73,7 @@ describe("internal label", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount(<calcite-rating />), { display: "flex" });
+  renders(() => mount("calcite-rating"), { display: "flex" });
 });
 
 describe("translation support", () => {

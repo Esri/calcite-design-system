@@ -33,7 +33,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount(<calcite-scrim />), { display: "flex" });
+  renders(() => mount("calcite-scrim"), { display: "flex" });
 });
 
 describe("translation support", () => {

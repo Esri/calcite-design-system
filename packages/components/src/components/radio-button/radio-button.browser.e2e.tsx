@@ -133,7 +133,7 @@ describe("disabled", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-radio-button />), {
+    themed(() => mount("calcite-radio-button"), {
       "--calcite-radio-button-background-color": {
         targetProp: "backgroundColor",
         shadowSelector: `.${CSS.radio}`,

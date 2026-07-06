@@ -840,7 +840,7 @@ describe("theme", () => {
 });
 
 describe("deprecated", () => {
-  themed(() => mount(<calcite-input-time-picker />), {
+  themed(() => mount("calcite-input-time-picker"), {
     "--calcite-ui-icon-color": {
       shadowSelector: `.${CSS.container}`,
       targetProp: "--calcite-icon-color",

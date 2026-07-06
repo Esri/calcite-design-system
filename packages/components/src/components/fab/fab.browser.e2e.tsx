@@ -58,7 +58,7 @@ describe("disabled", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-fab />), {
+    themed(() => mount("calcite-fab"), {
       "--calcite-fab-background-color": {
         targetProp: "--calcite-button-background-color",
         shadowSelector: `.${CSS.button}`,

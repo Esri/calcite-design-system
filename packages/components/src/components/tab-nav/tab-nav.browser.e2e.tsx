@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { accessible, defaults, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
+import {
+  accessible,
+  defaults,
+  hidden,
+  renders,
+  t9n,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 describe("accessible: checked", () => {
@@ -26,7 +33,7 @@ describe("translation support", () => {
 
 describe("theme", () => {
   describe("default", () => {
-    themed(() => mount(<calcite-tab-nav />), {
+    themed(() => mount("calcite-tab-nav"), {
       "--calcite-tab-border-color": {
         shadowSelector: `.${CSS.scrollBackwardButton}::before`,
         targetProp: "backgroundColor",
