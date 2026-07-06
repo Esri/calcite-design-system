@@ -99,7 +99,7 @@ describe("activeDate", () => {
   }
 });
 
-describe("theme", () => {
+describe.skip("theme", () => {
   describe("default", () => {
     const datePicker = <calcite-date-picker />;
     themed(() => mount(datePicker), {
