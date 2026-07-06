@@ -262,7 +262,7 @@ export class ShellPanel extends LitElement {
   }
 
   override firstUpdated(): void {
-    this.setupActionBarObserver();
+    this.setUpActionBarObserver();
   }
 
   override disconnectedCallback(): void {
@@ -502,7 +502,7 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  private setupActionBarObserver(): void {
+  private setUpActionBarObserver(): void {
     this.actionBarObserver?.disconnect();
 
     const actionBar = this.actionBars[0];
