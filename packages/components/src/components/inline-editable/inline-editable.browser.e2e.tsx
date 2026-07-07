@@ -1,6 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+
+import { CSS } from "./resources";
 import {
   defaults,
   disabled,
@@ -9,6 +11,7 @@ import {
   renders,
   t9n,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 
 describe("accessible", () => {
@@ -120,5 +123,61 @@ describe("disabled", () => {
         </calcite-inline-editable>,
       ),
     { focusTarget: { tab: "calcite-inline-editable", click: "calcite-input" } },
+  );
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-inline-editable"), {
+    "--calcite-inline-editable-background-color-hover": {
+      shadowSelector: `.${CSS.wrapper}`,
+      state: "hover",
+      targetProp: "backgroundColor",
+    },
+    "--calcite-inline-editable-background-color": {
+      shadowSelector: `.${CSS.wrapper}`,
+      targetProp: "backgroundColor",
+    },
+  });
+  themed(
+    () =>
+      mount(
+        <calcite-inline-editable controls editing-enabled>
+          <calcite-input />
+        </calcite-inline-editable>,
+      ),
+    {
+      "--calcite-inline-editable-button-corner-radius": [
+        {
+          shadowSelector: `.${CSS.enableEditingButton}`,
+          targetProp: "--calcite-button-corner-radius",
+        },
+        {
+          shadowSelector: `.${CSS.cancelEditingButton}`,
+          targetProp: "--calcite-button-corner-radius",
+        },
+        {
+          shadowSelector: `.${CSS.confirmChangesButton}`,
+          targetProp: "--calcite-button-corner-radius",
+        },
+      ],
+      "--calcite-inline-editable-button-loader-color": {
+        shadowSelector: `.${CSS.confirmChangesButton}`,
+        targetProp: "--calcite-button-loader-color",
+      },
+      "--calcite-inline-editable-button-text-color": [
+        {
+          shadowSelector: `.${CSS.enableEditingButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+        {
+          shadowSelector: `.${CSS.cancelEditingButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+        {
+          shadowSelector: `.${CSS.confirmChangesButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+      ],
+    },
   );
 });

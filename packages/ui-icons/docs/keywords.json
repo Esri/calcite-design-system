@@ -12103,5 +12103,10 @@
     "alias": ["5.0.0", "people", "progress", "browser", "web", "maintain", "safeguard"],
     "category": "People",
     "release": "5.0.0"
+  },
+  "arcgis-enterprise": {
+    "alias": ["5.0.0", "brand", "logo", "product"],
+    "category": "Brand",
+    "release": "5.0.0"
   }
 }

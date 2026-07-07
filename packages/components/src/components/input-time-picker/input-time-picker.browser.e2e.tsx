@@ -1,7 +1,8 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   disabled,
@@ -14,6 +15,7 @@ import {
   openClose,
   formAssociated,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
@@ -777,5 +779,71 @@ describe("l10n", () => {
         });
       });
     });
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-input-time-picker open />), {
+    "--calcite-input-time-picker-background-color": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-background-color",
+    },
+    "--calcite-input-time-picker-digit-text-color": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-color",
+    },
+    "--calcite-input-time-picker-digit-icon-color": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-icon-color",
+    },
+    "--calcite-input-time-picker-action-background-color-hover": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-button-background-color-hover",
+    },
+    "--calcite-input-time-picker-action-background-color-press": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-button-background-color-press",
+    },
+    "--calcite-input-time-picker-digit-border-color-hover": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-input-border-color-hover",
+    },
+    "--calcite-input-time-picker-digit-border-color-press": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-input-border-color-press",
+    },
+    "--calcite-input-time-picker-input-background-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-input-time-picker-input-border-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "borderColor",
+    },
+    "--calcite-input-time-picker-input-corner-radius": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-input-time-picker-input-shadow": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "boxShadow",
+    },
+    "--calcite-input-time-picker-input-text-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "color",
+    },
+    "--calcite-input-time-picker-border-color": {
+      shadowSelector: "calcite-time-picker",
+      targetProp: "--calcite-time-picker-border-color",
+    },
+  });
+});
+
+describe("deprecated", () => {
+  themed(() => mount("calcite-input-time-picker"), {
+    "--calcite-ui-icon-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "--calcite-icon-color",
+    },
   });
 });

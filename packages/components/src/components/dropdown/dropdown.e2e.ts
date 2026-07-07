@@ -9,7 +9,6 @@ import {
 } from "../../tests/utils/puppeteer";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { Button } from "../button/button";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DROPDOWN_ITEM_CSS } from "../dropdown-item/resources";
 import { CSS } from "./resources";
@@ -1555,22 +1554,4 @@ describe("keyboard navigation", () => {
       ),
     ).toBe("item-3");
   });
-});
-
-describe("theme", () => {
-  const tokens: ComponentTestTokens = {
-    "--calcite-dropdown-width": {
-      targetProp: "inlineSize",
-      shadowSelector: `.${CSS.content}`,
-    },
-    "--calcite-dropdown-background-color": {
-      targetProp: "backgroundColor",
-      shadowSelector: `.${CSS.content}`,
-    },
-    "--calcite-dropdown-max-height": {
-      targetProp: "maxHeight",
-      shadowSelector: `.${CSS.content}`,
-    },
-  };
-  themed(`<calcite-dropdown open></calcite-dropdown>`, tokens);
 });

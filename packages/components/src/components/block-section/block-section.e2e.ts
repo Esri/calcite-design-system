@@ -1,6 +1,6 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -145,11 +145,11 @@ async function assertToggleBehavior(page: E2EPage): Promise<void> {
             // keyboard event needs to be dispatched from the action's button for it to trigger a click
             // deep shadow piercing is based on https://github.com/puppeteer/puppeteer/issues/858#issuecomment-438540596
             return document
-              .querySelector("calcite-block-section")
-              .shadowRoot.querySelector("section > calcite-action")
-              .shadowRoot.querySelector("button");
+              .querySelector("calcite-block-section")!
+              .shadowRoot!.querySelector("section > calcite-action")!
+              .shadowRoot!.querySelector("button");
           })
-        ).asElement()
+        ).asElement()!
       : toggle;
 
   await keyboardToggleEmitter.press(" ");
@@ -186,51 +186,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`
-        <calcite-block-section text="Planes" expanded icon-end="pen" icon-start="pen" text="a block-section">
-          <p>Block section content</p>
-        </calcite-block-section>
-      `,
-      {
-        "--calcite-block-section-border-color": {
-          targetProp: "borderBlockEndColor",
-        },
-        "--calcite-block-section-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-block-section-header-text-color": [
-          {
-            targetProp: "color",
-          },
-        ],
-        "--calcite-block-section-text-color": [
-          { shadowSelector: `.${CSS.chevronIcon}`, targetProp: "color" },
-          { shadowSelector: `.${CSS.iconStart}`, targetProp: "color" },
-          { shadowSelector: `.${CSS.iconEnd}`, targetProp: "color" },
-        ],
-        "--calcite-block-section-text-color-hover": [
-          {
-            shadowSelector: `.${CSS.toggle}`,
-            targetProp: "color",
-            state: "hover",
-          },
-          {
-            shadowSelector: `.${CSS.chevronIcon}`,
-            targetProp: "color",
-            state: "hover",
-          },
-        ],
-        "--calcite-block-section-content-space": {
-          shadowSelector: `.${CSS.content}`,
-          targetProp: "paddingBlock",
-        },
-      },
-    );
-  });
 });
