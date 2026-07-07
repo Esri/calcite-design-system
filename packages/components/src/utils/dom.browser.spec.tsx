@@ -1,4 +1,4 @@
-import { Fragment, h, JsxNode, LitElement, method } from "@arcgis/lumina";
+import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -82,7 +82,7 @@ describe(ensureId, () => {
 });
 
 describe(getModeName, () => {
-  class ModeElement extends LitElement {
+  class ModeComponent extends LitElement {
     static tagName = "mode-element";
 
     foundModeName!: ModeName;
@@ -100,7 +100,7 @@ describe(getModeName, () => {
         </div>
       </div>`,
       {
-        dynamicComponents: [ModeElement],
+        dynamicComponents: [ModeComponent],
       },
     );
 
@@ -117,7 +117,7 @@ describe(getModeName, () => {
         </div>
       `,
       {
-        dynamicComponents: [ModeElement],
+        dynamicComponents: [ModeComponent],
       },
     );
 
@@ -134,7 +134,7 @@ describe(getModeName, () => {
         </div>
       `,
       {
-        dynamicComponents: [ModeElement],
+        dynamicComponents: [ModeComponent],
       },
     );
 
@@ -157,7 +157,7 @@ describe(getModeName, () => {
         </div>
       `,
       {
-        dynamicComponents: [ModeElement],
+        dynamicComponents: [ModeComponent],
       },
     );
     expect(component.foundModeName).toBe("dark");
@@ -174,35 +174,6 @@ describe(isPrimaryPointerButton, () => {
 });
 
 describe("slot utils", () => {
-  async function setUpSlotChange({
-    assignedElements = [],
-    assignedNodes = [],
-    onSlotChange = () => {},
-  }: {
-    assignedElements?: Element[];
-    assignedNodes?: Node[];
-    onSlotChange?: (event: Event) => void;
-  }): Promise<void> {
-    return new Promise<void>((resolve) => {
-      const target = document.createElement("slot");
-      target.assignedElements = () => assignedElements;
-      target.assignedNodes = () => assignedNodes;
-      target.addEventListener(
-        "slotchange",
-        (event: Event) => {
-          onSlotChange(event);
-          resolve();
-        },
-        { once: true },
-      );
-      target.dispatchEvent(new Event("slotchange"));
-    });
-  }
-
-  function appendChildren(parent: HTMLElement, children: Node[]): void {
-    parent.append(...children);
-  }
-
   function createEl<K extends keyof HTMLElementTagNameMap>(
     tag: string,
     props?: Partial<HTMLElementTagNameMap[K]>,
@@ -259,17 +230,32 @@ describe("slot utils", () => {
     });
   });
 
+  class SimpleSlotComponent extends LitElement {
+    override render(): JsxNode {
+      return <slot />;
+    }
+  }
+
+  class ComplexSlotComponent extends LitElement {
+    override render(): JsxNode {
+      return (
+        <>
+          <slot />
+          <slot name="foo">
+            <slot name="bar" />
+            <slot name="baz" />
+          </slot>
+        </>
+      );
+    }
+  }
+
   describe(slotChangeGetAssignedElements, () => {
     it("handles slotted elements", async () => {
       let assigned: Element[] | undefined;
-
-      class TestComponent extends LitElement {
-        override render(): JsxNode {
-          return <slot />;
-        }
-      }
-
-      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const { el, reRender } = await mount(SimpleSlotComponent, {
+        dynamicComponents: [SimpleSlotComponent],
+      });
       const slot = page.getBySelector("slot");
       slot.element().addEventListener("slotchange", (event) => {
         assigned = slotChangeGetAssignedElements(event);
@@ -290,22 +276,9 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Element[]> = {};
-
-      class TestComponent extends LitElement {
-        override render(): JsxNode {
-          return (
-            <>
-              <slot />
-              <slot name="foo">
-                <slot name="bar" />
-                <slot name="baz" />
-              </slot>
-            </>
-          );
-        }
-      }
-
-      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const { el, reRender } = await mount(ComplexSlotComponent, {
+        dynamicComponents: [ComplexSlotComponent],
+      });
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
         el.addEventListener("slotchange", (event) => {
@@ -325,7 +298,7 @@ describe("slot utils", () => {
         createEl("div", { slot: "baz" }),
       ];
 
-      appendChildren(el, nodes);
+      el.append(...nodes);
       await reRender();
 
       expect(slotToAssigned).toEqual({
@@ -377,13 +350,10 @@ describe("slot utils", () => {
   describe(slotChangeGetAssignedNodes, () => {
     it("returns assigned nodes on slotchange", async () => {
       let assigned: Node[] | undefined;
-      class TestComponent extends LitElement {
-        override render(): JsxNode {
-          return <slot />;
-        }
-      }
 
-      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const { el, reRender } = await mount(SimpleSlotComponent, {
+        dynamicComponents: [SimpleSlotComponent],
+      });
       const slot = page.getBySelector("slot");
       slot.element().addEventListener("slotchange", (event) => {
         assigned = slotChangeGetAssignedNodes(event);
@@ -395,7 +365,7 @@ describe("slot utils", () => {
         document.createTextNode("world"),
       ];
 
-      appendChildren(el, nodes);
+      el.append(...nodes);
       await reRender();
 
       expect(assigned!).toEqual(nodes);
@@ -409,21 +379,9 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Node[]> = {};
-      class TestComponent extends LitElement {
-        override render(): JsxNode {
-          return (
-            <>
-              <slot />
-              <slot name="foo">
-                <slot name="bar" />
-                <slot name="baz" />
-              </slot>
-            </>
-          );
-        }
-      }
-
-      const { el, reRender } = await mount(TestComponent, { dynamicComponents: [TestComponent] });
+      const { el, reRender } = await mount(ComplexSlotComponent, {
+        dynamicComponents: [ComplexSlotComponent],
+      });
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
         el.addEventListener("slotchange", (event) => {
@@ -443,7 +401,7 @@ describe("slot utils", () => {
         createEl("div", { slot: "baz" }),
       ];
 
-      appendChildren(el, nodes);
+      el.append(...nodes);
       await reRender();
 
       expect(slotToAssigned).toEqual({
@@ -604,7 +562,7 @@ describe(focusElement, () => {
     let useContext = true;
     let setFocusCalls = 0;
 
-    class Test extends LitElement {
+    class SetFocusEdgeCaseComponent extends LitElement {
       @method()
       async setFocus(options?: FocusOptions): Promise<void> {
         if (setFocusCalls++ > 10) {
@@ -620,7 +578,9 @@ describe(focusElement, () => {
       }
     }
 
-    const { el } = await mount(Test, { dynamicComponents: [Test] });
+    const { el } = await mount(SetFocusEdgeCaseComponent, {
+      dynamicComponents: [SetFocusEdgeCaseComponent],
+    });
 
     vi.spyOn(el, "focus");
     vi.spyOn(el, "setFocus");
@@ -654,7 +614,7 @@ describe(focusElement, () => {
     });
 
     it("supports focus options on setFocus elements", async () => {
-      class Test extends LitElement {
+      class SetFocusCallingFocusElementComponent extends LitElement {
         @method()
         async setFocus(options?: FocusOptions): Promise<void> {
           return focusElement(this, false, "tabbable", this, options);
@@ -665,7 +625,9 @@ describe(focusElement, () => {
         }
       }
 
-      const { el } = await mount(Test, { dynamicComponents: [Test] });
+      const { el } = await mount(SetFocusCallingFocusElementComponent, {
+        dynamicComponents: [SetFocusCallingFocusElementComponent],
+      });
 
       vi.spyOn(el, "setFocus");
 
@@ -807,7 +769,7 @@ describe(focusElementInGroup, () => {
   });
 
   it("allows specifying target as focus context", async () => {
-    class Test extends LitElement {
+    class SetFocusCallingFocusComponent extends LitElement {
       static tagName = "test-focus-context";
 
       @method()
@@ -828,7 +790,7 @@ describe(focusElementInGroup, () => {
         <test-focus-context id="item-3" tabindex="0"></test-focus-context>
       `,
       {
-        dynamicComponents: [Test],
+        dynamicComponents: [SetFocusCallingFocusComponent],
       },
     );
 
@@ -849,14 +811,14 @@ describe(focusElementInGroup, () => {
 });
 
 describe(getShadowRootNode, () => {
-  class ShadowElement extends LitElement {
+  class SimpleComponent extends LitElement {
     override render(): JsxNode {
       return <button>Hello</button>;
     }
   }
 
   it("should return shadowRoot for shadowed element", async () => {
-    const { el } = await mount(ShadowElement, { dynamicComponents: [ShadowElement] });
+    const { el } = await mount(SimpleComponent, { dynamicComponents: [SimpleComponent] });
     const button = page.getByRole("button");
     expect(button).toBeDefined();
     expect(getShadowRootNode(button.element())).toEqual(el.shadowRoot);
@@ -1035,7 +997,7 @@ describe(getStylePixelValue, () => {
 });
 
 describe(queryElementRoots, () => {
-  class TestComponent extends LitElement {
+  class QueryElementRootsComponent extends LitElement {
     static tagName = "test-component";
 
     override render(): JsxNode {
@@ -1057,7 +1019,7 @@ describe(queryElementRoots, () => {
         <button id="${myButtonId}">${outsideHost}</button>
         <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
       `,
-      { dynamicComponents: [TestComponent] },
+      { dynamicComponents: [QueryElementRootsComponent] },
     );
     const queryEl = el.shadowRoot.querySelector("div")!;
 
@@ -1075,7 +1037,7 @@ describe(queryElementRoots, () => {
         <button id="${myButtonId}">${outsideHost}</button>
         <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
       `,
-      { dynamicComponents: [TestComponent] },
+      { dynamicComponents: [QueryElementRootsComponent] },
     );
     const queryEl = el.shadowRoot.querySelector("div")!;
 
@@ -1091,7 +1053,7 @@ describe(queryElementRoots, () => {
         <button id="${myButtonId}">${outsideHost}</button>
         <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
       `,
-      { dynamicComponents: [TestComponent] },
+      { dynamicComponents: [QueryElementRootsComponent] },
     );
 
     const source = page.getBySelector("span");
@@ -1107,7 +1069,7 @@ describe(queryElementRoots, () => {
         <button id="${myButtonId}">${outsideHost}</button>
         <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
       `,
-      { dynamicComponents: [TestComponent] },
+      { dynamicComponents: [QueryElementRootsComponent] },
     );
 
     const source = page.getBySelector("span");
