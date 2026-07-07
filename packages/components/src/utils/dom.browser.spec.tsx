@@ -236,7 +236,7 @@ describe("slot utils", () => {
     }
   }
 
-  class ComplexSlotComponent extends LitElement {
+  class NestedSlotsComponent extends LitElement {
     override render(): JsxNode {
       return (
         <>
@@ -250,14 +250,28 @@ describe("slot utils", () => {
     }
   }
 
+  async function setUpSimpleSlotTest(): Promise<{
+    el: SimpleSlotComponent["el"];
+    reRender: () => Promise<boolean>;
+    slotEl: HTMLSlotElement;
+  }> {
+    const { el, reRender } = await mount(SimpleSlotComponent, {
+      dynamicComponents: [SimpleSlotComponent],
+    });
+
+    return {
+      el,
+      reRender,
+      slotEl: page.getBySelector("slot").element() as HTMLSlotElement,
+    };
+  }
+
   describe(slotChangeGetAssignedElements, () => {
     it("handles slotted elements", async () => {
       let assigned: Element[] | undefined;
-      const { el, reRender } = await mount(SimpleSlotComponent, {
-        dynamicComponents: [SimpleSlotComponent],
-      });
-      const slot = page.getBySelector("slot");
-      slot.element().addEventListener("slotchange", (event) => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+
+      slotEl.addEventListener("slotchange", (event) => {
         assigned = slotChangeGetAssignedElements(event);
       });
 
@@ -276,8 +290,8 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Element[]> = {};
-      const { el, reRender } = await mount(ComplexSlotComponent, {
-        dynamicComponents: [ComplexSlotComponent],
+      const { el, reRender } = await mount(NestedSlotsComponent, {
+        dynamicComponents: [NestedSlotsComponent],
       });
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
@@ -322,40 +336,76 @@ describe("slot utils", () => {
   });
 
   describe(slotChangeHasAssignedElement, () => {
-    it("handles slotted elements", async () =>
-      await setUpSlotChange({
-        assignedElements: [document.createElement("div"), document.createElement("div")],
-        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(true),
-      }));
+    it("handles slotted elements", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasAssignedElement(event)).toBe(true);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
 
-    it("handles no slotted elements", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasAssignedElement(event)).toBe(false),
-      }));
+      const items = [document.createElement("div"), document.createElement("div")];
+      el.append(...items);
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles no slotted elements", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasAssignedElement(event)).toBe(false);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      nodes.forEach((el) => el.remove());
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe(slotChangeHasAssignedNode, () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(true),
-      }));
+    it("handles slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasAssignedNode(event)).toBe(true);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasAssignedNode(event)).toBe(false),
-      }));
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles no slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasAssignedNode(event)).toBe(false);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      nodes.forEach((el) => el.remove());
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe(slotChangeGetAssignedNodes, () => {
     it("returns assigned nodes on slotchange", async () => {
       let assigned: Node[] | undefined;
 
-      const { el, reRender } = await mount(SimpleSlotComponent, {
-        dynamicComponents: [SimpleSlotComponent],
-      });
-      const slot = page.getBySelector("slot");
-      slot.element().addEventListener("slotchange", (event) => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+
+      slotEl.addEventListener("slotchange", (event) => {
         assigned = slotChangeGetAssignedNodes(event);
       });
 
@@ -379,8 +429,8 @@ describe("slot utils", () => {
 
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Node[]> = {};
-      const { el, reRender } = await mount(ComplexSlotComponent, {
-        dynamicComponents: [ComplexSlotComponent],
+      const { el, reRender } = await mount(NestedSlotsComponent, {
+        dynamicComponents: [NestedSlotsComponent],
       });
       const slots = page.getBySelector("slot");
       slots.elements().forEach((el) => {
@@ -426,48 +476,113 @@ describe("slot utils", () => {
 
   describe(slotChangeGetTextContent, () => {
     it("handles slotted nodes", async () => {
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual("helloworld"),
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeGetTextContent(event)).toEqual("helloworld");
       });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
     });
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeGetTextContent(event)).toEqual(""),
-      }));
+    it("handles no slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeGetTextContent(event)).toEqual("");
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      nodes.forEach((el) => el.remove());
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe(slotChangeHasContent, () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
-      }));
+    it("handles slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasContent(event)).toEqual(true);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
 
-    it("handles slotted elements", async () =>
-      await setUpSlotChange({
-        assignedElements: [document.createElement("div")],
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(true),
-      }));
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
 
-    it("handles no slotted nodes or elements", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasContent(event)).toEqual(false),
-      }));
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles slotted elements", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasContent(event)).toEqual(true);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      el.append(document.createElement("div"));
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles no slotted nodes or elements", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasContent(event)).toEqual(false);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      nodes.forEach((el) => el.remove());
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe(slotChangeHasTextContent, () => {
-    it("handles slotted nodes", async () =>
-      await setUpSlotChange({
-        assignedNodes: [document.createTextNode("hello"), document.createTextNode("world")],
-        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(true),
-      }));
+    it("handles slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasTextContent(event)).toEqual(true);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
 
-    it("handles no slotted nodes", async () =>
-      await setUpSlotChange({
-        onSlotChange: (event) => expect(slotChangeHasTextContent(event)).toEqual(false),
-      }));
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles no slotted nodes", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+
+      const slotChangeHandler = vi.fn((event: Event) => {
+        expect(slotChangeHasTextContent(event)).toEqual(false);
+      });
+      slotEl.addEventListener("slotchange", slotChangeHandler);
+
+      nodes.forEach((el) => el.remove());
+      await reRender();
+
+      expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe(hasVisibleContent, () => {
