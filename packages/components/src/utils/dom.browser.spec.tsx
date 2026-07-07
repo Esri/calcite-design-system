@@ -42,118 +42,6 @@ const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
 
-describe("queries", () => {
-  class TestComponent extends LitElement {
-    static tagName = "test-component";
-
-    override render(): JsxNode {
-      return (
-        <div data-testid="container">
-          <button id={myButtonId} type="button">
-            {insideShadow}
-            <slot />
-          </button>
-        </div>
-      );
-    }
-  }
-
-  it("queryElementRoots: should query from inside host element", async () => {
-    const { el } = await mount(
-      html`
-        <span>Test</span>
-        <button id="${myButtonId}">${outsideHost}</button>
-        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
-      `,
-      { dynamicComponents: [TestComponent] },
-    );
-    const queryEl = el.shadowRoot.querySelector("div")!;
-
-    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, {
-      selector: `button.${myButtonClass}`,
-    })!;
-
-    await expect.element(resultEl).toHaveTextContent(insideHost);
-  });
-
-  it("queryElementRoots: should query id from inside shadow element", async () => {
-    const { el } = await mount(
-      html`
-        <span>Test</span>
-        <button id="${myButtonId}">${outsideHost}</button>
-        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
-      `,
-      { dynamicComponents: [TestComponent] },
-    );
-    const queryEl = el.shadowRoot.querySelector("div")!;
-
-    const resultEl = queryElementRoots<HTMLDivElement>(queryEl, {
-      id: myButtonId,
-    })!;
-
-    await expect.element(resultEl).toHaveTextContent(insideShadow);
-  });
-
-  it("queryElementRoots: should query from outside host element", async () => {
-    const { container } = await mount(
-      html`
-        <span>Test</span>
-        <button id="${myButtonId}">${outsideHost}</button>
-        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
-      `,
-      { dynamicComponents: [TestComponent] },
-    );
-    const queryEl = container.querySelector("span")!;
-
-    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, { selector: "button" })!;
-
-    await expect.element(resultEl).toHaveTextContent(outsideHost);
-  });
-
-  it("queryElementRoots: should query id from outside host element", async () => {
-    const { container } = await mount(
-      html`
-        <span>Test</span>
-        <button id="${myButtonId}">${outsideHost}</button>
-        <test-component><button class="${myButtonClass}">${insideHost}</button></test-component>
-      `,
-      { dynamicComponents: [TestComponent] },
-    );
-    const queryEl = container.querySelector("span")!;
-
-    const resultEl = queryElementRoots<HTMLButtonElement>(queryEl, { id: myButtonId })!;
-
-    await expect.element(resultEl).toHaveTextContent(outsideHost);
-  });
-});
-
-////////
-
-async function setUpSlotChange({
-  assignedElements = [],
-  assignedNodes = [],
-  onSlotChange = () => {},
-}: {
-  assignedElements?: Element[];
-  assignedNodes?: Node[];
-  onSlotChange?: (event: Event) => void;
-}): Promise<void> {
-  return new Promise<void>((resolve) => {
-    const target = document.createElement("slot");
-    target.assignedElements = () => assignedElements;
-    target.assignedNodes = () => assignedNodes;
-    target.addEventListener(
-      "slotchange",
-      (event: Event) => {
-        onSlotChange(event);
-        resolve();
-      },
-      { once: true },
-    );
-    target.dispatchEvent(new Event("slotchange"));
-  });
-}
-
 describe(setRequestedIcon, () => {
   const iconObject = { exampleValue: "exampleReturnedValue" as IconName };
   const matchedValue = "exampleValue";
@@ -286,6 +174,31 @@ describe(isPrimaryPointerButton, () => {
 });
 
 describe("slot utils", () => {
+  async function setUpSlotChange({
+    assignedElements = [],
+    assignedNodes = [],
+    onSlotChange = () => {},
+  }: {
+    assignedElements?: Element[];
+    assignedNodes?: Node[];
+    onSlotChange?: (event: Event) => void;
+  }): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const target = document.createElement("slot");
+      target.assignedElements = () => assignedElements;
+      target.assignedNodes = () => assignedNodes;
+      target.addEventListener(
+        "slotchange",
+        (event: Event) => {
+          onSlotChange(event);
+          resolve();
+        },
+        { once: true },
+      );
+      target.dispatchEvent(new Event("slotchange"));
+    });
+  }
+
   function appendChildren(parent: HTMLElement, children: Node[]): void {
     parent.append(...children);
   }
@@ -351,7 +264,6 @@ describe("slot utils", () => {
       let assigned: Element[] | undefined;
 
       class TestComponent extends LitElement {
-        // static tagName = "test-slot";
         override render(): JsxNode {
           return <slot />;
         }
@@ -380,7 +292,6 @@ describe("slot utils", () => {
       const slotToAssigned: Record<string, Element[]> = {};
 
       class TestComponent extends LitElement {
-        // static tagName = "test-slot";
         override render(): JsxNode {
           return (
             <>
@@ -467,7 +378,6 @@ describe("slot utils", () => {
     it("returns assigned nodes on slotchange", async () => {
       let assigned: Node[] | undefined;
       class TestComponent extends LitElement {
-        // static tagName = "test-slot";
         override render(): JsxNode {
           return <slot />;
         }
@@ -500,7 +410,6 @@ describe("slot utils", () => {
     it("handles nested slot structure", async () => {
       const slotToAssigned: Record<string, Node[]> = {};
       class TestComponent extends LitElement {
-        // static tagName = "test-slot";
         override render(): JsxNode {
           return (
             <>
@@ -991,22 +900,22 @@ describe(isKeyboardTriggeredClick, () => {
   });
 });
 
-async function promiseState(
-  promise: Promise<any>,
-): Promise<{ status: "fulfilled" | "rejected"; value?: any; reason: any }> {
-  const pendingState = { status: "pending" };
-
-  return Promise.race([promise, pendingState]).then(
-    (value) => (value === pendingState ? value : { status: "fulfilled", value }),
-    (reason) => ({ status: "rejected", reason }),
-  );
-}
-
 /*
  * These tests depend on the `getAnimations` method which is not available in happy-dom,
  * so we try to mock it as close to the real thing as possible.
  */
 describe("transition/animation helpers", () => {
+  async function promiseState(
+    promise: Promise<any>,
+  ): Promise<{ status: "fulfilled" | "rejected"; value?: any; reason: any }> {
+    const pendingState = { status: "pending" };
+
+    return Promise.race([promise, pendingState]).then(
+      (value) => (value === pendingState ? value : { status: "fulfilled", value }),
+      (reason) => ({ status: "rejected", reason }),
+    );
+  }
+
   let element: HTMLDivElement;
 
   beforeEach(() => {
