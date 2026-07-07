@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+
 import {
   focusable,
   formAssociated,
@@ -10,8 +11,28 @@ import {
   defaults,
   reflects,
   hidden,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-label>
+        <calcite-radio-button id="example" name="example" value="one" />
+        label
+      </calcite-label>,
+    ),
+  );
+});
+
+describe("accessible without calcite-label", () => {
+  accessible(() =>
+    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -107,5 +128,34 @@ describe("disabled", () => {
         method: "body",
       },
     },
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-radio-button"), {
+      "--calcite-radio-button-background-color": {
+        targetProp: "backgroundColor",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-border-color": {
+        targetProp: "boxShadow",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-corner-radius": {
+        targetProp: "borderRadius",
+        shadowSelector: `.${CSS.radio}`,
+      },
+      "--calcite-radio-button-size": [
+        {
+          targetProp: "blockSize",
+          shadowSelector: `.${CSS.radio}`,
+        },
+        {
+          targetProp: "inlineSize",
+          shadowSelector: `.${CSS.radio}`,
+        },
+      ],
+    });
   });
 });

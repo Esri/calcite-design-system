@@ -1,10 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
 
 mockConsole();
 
@@ -65,23 +63,4 @@ it("does not throw if removed right after append", async () => {
   }
 
   await expect(runTest()).resolves.toBeUndefined();
-});
-
-describe("theme", () => {
-  const tokens: ComponentTestTokens = {
-    "--calcite-dropdown-group-border-color": {
-      targetProp: "backgroundColor",
-      shadowSelector: `.${CSS.separator}`,
-      selector: `calcite-dropdown-group.two`,
-    },
-    "--calcite-dropdown-group-title-text-color": {
-      targetProp: "color",
-      shadowSelector: `.${CSS.title}`,
-      selector: `calcite-dropdown-group`,
-    },
-  };
-  themed(
-    `<calcite-dropdown open><calcite-dropdown-group group-title="one"><calcite-dropdown-item>A</calcite-dropdown-item></calcite-dropdown-group><calcite-dropdown-group group-title="two" class="two"><calcite-dropdown-item>A</calcite-dropdown-item></calcite-dropdown-group></calcite-dropdown>`,
-    tokens,
-  );
 });

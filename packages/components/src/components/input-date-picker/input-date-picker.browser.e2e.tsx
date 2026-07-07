@@ -1,24 +1,36 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
-import { describe, it, expect, vi } from "vitest";
+import { JsxNode, LitElement } from "@arcgis/lumina";
+import { describe, expect, it, vi } from "vitest";
+
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { h } from "@arcgis/lumina";
 import {
   defaults,
+  floatingUIOwner,
   focusable,
+  formAssociated,
   hidden,
   internalLabel,
-  renders,
-  floatingUIOwner,
-  t9n,
-  topLayer,
   openClose,
-  formAssociated,
+  accessible,
+  renders,
+  t9n,
+  themed,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { afterNextTask } from "../../tests/utils/timing";
 import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
+import { CSS as MONTH_CSS } from "../date-picker-month/resources";
+import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
+import { CSS } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-input-date-picker label="Input Date Picker" />));
+});
 
 describe("defaults", () => {
   defaults(
@@ -368,3 +380,246 @@ function getYearInput(): Locator {
 function getMonthSelectMenu(): Locator {
   return page.getByRole("combobox", { name: "Month menu" }).first();
 }
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-input-date-picker"), {
+      "--calcite-input-date-picker-actions-icon-color": {
+        shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
+        targetProp: "color",
+      },
+      "--calcite-input-date-picker-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.inputWrapper} .${CSS.chevronIcon}`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-shadow": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-shadow",
+      },
+      "--calcite-input-date-picker-background-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-background-color",
+      },
+      "--calcite-input-date-picker-border-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-border-color",
+      },
+      "--calcite-input-date-picker-corner-radius": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-corner-radius",
+      },
+      "--calcite-input-date-picker-icon-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-icon-color",
+      },
+      "--calcite-input-date-picker-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-text-color",
+      },
+      "--calcite-input-date-picker-placeholder-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-text-placeholder-text-color",
+      },
+    });
+  });
+
+  describe("calcite-date-picker when open", () => {
+    themed(() => mount(<calcite-input-date-picker open />), {
+      "--calcite-input-date-picker-calendar-border-color": {
+        shadowSelector: "calcite-date-picker",
+        targetProp: "--calcite-date-picker-border-color",
+      },
+      "--calcite-input-date-picker-calendar-corner-radius": {
+        shadowSelector: "calcite-date-picker",
+        targetProp: "--calcite-date-picker-corner-radius",
+      },
+      "--calcite-input-date-picker-calendar-shadow": {
+        shadowSelector: `.${FloatingCSS.animation}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-input-date-picker-calendar-text-color": [
+        {
+          shadowSelector: `calcite-date-picker >>> .${MONTH_CSS.weekHeader}`,
+          targetProp: "--calcite-date-picker-week-header-text-color",
+        },
+        {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> input`,
+          targetProp: "--calcite-date-picker-year-text-color",
+        },
+      ],
+      "--calcite-input-date-picker-calendar-actions-background-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} >>> calcite-action`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-input-date-picker-calendar-actions-background-color-hover": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
+        targetProp: "--calcite-action-background-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-calendar-actions-background-color-press": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
+        targetProp: "--calcite-action-background-color-press",
+        state: { press: { attribute: "class", value: `${MONTH_HEADER_CSS.chevron}` } },
+      },
+      "--calcite-input-date-picker-calendar-actions-text-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-input-date-picker-calendar-actions-text-color-press": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> .${MONTH_HEADER_CSS.chevronContainer} > calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: { press: { attribute: "class", value: `${MONTH_HEADER_CSS.chevron}` } },
+      },
+      "--calcite-input-date-picker-calendar-month-select-text-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
+        targetProp: "--calcite-select-text-color",
+      },
+      "--calcite-input-date-picker-calendar-icon-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
+        targetProp: "--calcite-select-icon-color",
+      },
+      "--calcite-input-date-picker-calendar-icon-color-hover": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-month-header >>> calcite-select`,
+        targetProp: "--calcite-select-icon-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-calendar-day-background-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day`,
+        targetProp: "--calcite-date-picker-day-background-color",
+      },
+      "--calcite-input-date-picker-calendar-day-background-color-hover": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day`,
+        targetProp: "--calcite-date-picker-day-background-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-calendar-day-text-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day`,
+        targetProp: "--calcite-date-picker-day-text-color",
+      },
+      "--calcite-input-date-picker-calendar-day-text-color-hover": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day`,
+        targetProp: "--calcite-date-picker-day-text-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-calendar-current-day-text-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
+        targetProp: "--calcite-date-picker-current-day-text-color",
+      },
+      "--calcite-input-date-picker-calendar-day-current-text-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
+        targetProp: "--calcite-date-picker-current-day-text-color",
+      },
+    });
+  });
+
+  describe("selected", () => {
+    themed(() => mount(<calcite-input-date-picker open value="2024-01-31" />), {
+      "--calcite-input-date-picker-calendar-selected-background-color": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]`,
+        targetProp: "--calcite-date-picker-day-background-color-selected",
+      },
+      "--calcite-input-date-picker-calendar-day-text-color-selected": {
+        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[selected]`,
+        targetProp: "--calcite-date-picker-day-text-color-selected",
+      },
+    });
+  });
+
+  describe("clearable", () => {
+    const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
+
+    themed(() => mount(<calcite-input-date-picker clearable value="2024-01-31" />), {
+      "--calcite-input-date-picker-clear-button-background-color": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-input-date-picker-clear-button-background-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-clear-button-background-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color-press",
+        state: {
+          press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action`,
+        },
+      },
+      "--calcite-input-date-picker-clear-button-icon-color": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-input-date-picker-clear-button-icon-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-clear-button-icon-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: {
+          press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action`,
+        },
+      },
+    });
+  });
+
+  describe("range", () => {
+    themed(
+      async () =>
+        mount<InputDatePicker>(
+          <calcite-input-date-picker open range value={["2025-01-01", "2025-02-20"]} />,
+        ),
+      {
+        "--calcite-input-date-picker-border-color": {
+          shadowSelector: `.${CSS.dividerContainer}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-input-date-picker-background-color": {
+          shadowSelector: `.${CSS.dividerContainer}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-input-date-picker-calendar-range-divider-color": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month`,
+          targetProp: "--calcite-date-picker-range-calendar-divider-color",
+        },
+        "--calcite-input-date-picker-calendar-day-range-text-color": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[highlighted]`,
+          targetProp: "--calcite-date-picker-day-range-text-color",
+        },
+        "--calcite-input-date-picker-calendar-day-outside-range-background-color-hover": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250105']`,
+          targetProp: "--calcite-date-picker-day-outside-range-background-color-hover",
+          state: {
+            hover: `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106']`,
+          },
+        },
+        "--calcite-input-date-picker-calendar-day-outside-range-text-color-hover": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250105']`,
+          targetProp: "--calcite-date-picker-day-outside-range-text-color-hover",
+          state: {
+            hover: `calcite-input-date-picker >>> calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106']`,
+          },
+        },
+        "--calcite-input-date-picker-calendar-day-range-background-color": {
+          shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[highlighted]`,
+          targetProp: "--calcite-date-picker-day-range-background-color",
+        },
+      },
+    );
+  });
+
+  describe("range with vertical layout", () => {
+    themed(() => mount(<calcite-input-date-picker layout="vertical" range />), {
+      "--calcite-input-date-picker-background-color": {
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-date-picker-border-color": {
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
+        targetProp: "borderColor",
+      },
+    });
+  });
+});

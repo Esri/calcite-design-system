@@ -1,14 +1,13 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { findAll } from "../../tests/utils/puppeteer";
 import { Scale } from "../interfaces";
 import { CSS as TabTitleCSS } from "../tab-title/resources";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { TabNav } from "../tab-nav/tab-nav";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { CSS } from "./resources";
 import { TabPosition } from "./interfaces";
 import type { Tabs } from "./tabs";
 
@@ -24,10 +23,6 @@ const tabsContent = html`
   <calcite-tab>Tab 3 Content</calcite-tab>
   <calcite-tab>Tab 4 Content</calcite-tab>
 `;
-
-describe("accessible: checked", () => {
-  accessible(`<calcite-tabs>${tabsContent}</calcite-tabs>`);
-});
 
 it("sets up basic aria attributes", async () => {
   const page = await newE2EPage();
@@ -445,44 +440,5 @@ describe("closing tabs", () => {
     }
 
     expect(await allTabTitles.at(-1)!.getProperty("selected")).toBe(true);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-tabs", {
-      "--calcite-tab-border-color": {
-        shadowSelector: `.${CSS.section}`,
-        targetProp: "borderBlockStartColor",
-      },
-      "--calcite-tab-background-color": {
-        targetProp: "backgroundColor",
-      },
-    });
-  });
-
-  describe("bordered", () => {
-    themed(html` <calcite-tabs bordered></calcite-tabs>`, {
-      "--calcite-tab-background-color": {
-        targetProp: "backgroundColor",
-      },
-      "--calcite-tab-border-color": [
-        {
-          targetProp: "boxShadow",
-        },
-        {
-          shadowSelector: `.${CSS.section}`,
-          targetProp: "borderColor",
-        },
-      ],
-    });
-
-    describe("bottom position", () => {
-      themed(html` <calcite-tabs bordered position="bottom"></calcite-tabs>`, {
-        "--calcite-tab-border-color": {
-          targetProp: "boxShadow",
-        },
-      });
-    });
   });
 });

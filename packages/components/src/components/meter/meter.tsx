@@ -217,14 +217,14 @@ export class Meter extends LitElement {
 
   private calculateValues(): void {
     const { min, max, low, high, value } = this;
-    const lowPercent = (100 * (low - min)) / (max - min);
-    const highPercent = (100 * (high - min)) / (max - min);
-    const currentPercent = (100 * (value - min)) / (max - min);
+    const lowPercent = low === undefined ? NaN : (100 * (low - min)) / (max - min);
+    const highPercent = high === undefined ? NaN : (100 * (high - min)) / (max - min);
+    const currentPercent = value === undefined ? NaN : (100 * (value - min)) / (max - min);
 
-    if (!low || low < min || low > high || low > max) {
+    if (!low || low < min || (high !== undefined && low > high) || low > max) {
       this.low = min;
     }
-    if (!high || high > max || high < low || high < min) {
+    if (!high || high > max || (low !== undefined && high < low) || high < min) {
       this.high = max;
     }
     if (!value) {
@@ -264,10 +264,10 @@ export class Meter extends LitElement {
     const { low, high, min, max, value } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
-    const aboveLowest = value >= lowest;
-    const belowLowest = value < lowest;
-    const aboveHighest = value >= highest;
-    const belowHighest = value < highest;
+    const aboveLowest = value !== undefined && value >= lowest;
+    const belowLowest = value !== undefined && value < lowest;
+    const aboveHighest = value !== undefined && value >= highest;
+    const belowHighest = value !== undefined && value < highest;
 
     if (!value || (!low && belowHighest) || belowLowest) {
       return CSS.success;
