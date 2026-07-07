@@ -21,17 +21,16 @@ type InputNumberStoryArgs = Pick<
   | "clearable"
   | "disabled"
   | "groupSeparator"
+  | "icon"
   | "iconFlipRtl"
   | "integer"
   | "readOnly"
   | "required"
   | "value"
   | "placeholder"
+  | "validationIcon"
   | "validationMessage"
-> & {
-  icon: string;
-  validationIcon: string;
-};
+>;
 
 export default {
   title: "Components/Controls/Input Number",

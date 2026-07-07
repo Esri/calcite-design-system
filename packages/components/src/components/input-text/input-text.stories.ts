@@ -16,15 +16,15 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
   | "iconFlipRtl"
   | "readOnly"
   | "required"
   | "value"
   | "placeholder"
+  | "validationIcon"
   | "validationMessage"
 > & {
-  icon: string;
-  validationIcon: string;
   maxLength?: number;
   minLength?: number;
 };

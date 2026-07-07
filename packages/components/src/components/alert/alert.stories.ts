@@ -10,6 +10,7 @@ type AlertStoryArgs = Pick<
   Alert,
   | "autoClose"
   | "autoCloseDuration"
+  | "icon"
   | "iconFlipRtl"
   | "kind"
   | "label"
@@ -18,9 +19,7 @@ type AlertStoryArgs = Pick<
   | "placement"
   | "scale"
   | "queue"
-> & {
-  icon: string;
-};
+>;
 
 export default {
   title: "Components/Alert",

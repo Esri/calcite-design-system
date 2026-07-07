@@ -19,6 +19,7 @@ type InputStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
   | "iconFlipRtl"
   | "value"
   | "readOnly"
@@ -26,11 +27,9 @@ type InputStoryArgs = Pick<
   | "scale"
   | "status"
   | "placeholder"
+  | "validationIcon"
   | "validationMessage"
-> & {
-  icon: string;
-  validationIcon: string;
-};
+>;
 
 export default {
   title: "Components/Controls/Input",

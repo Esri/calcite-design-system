@@ -8,10 +8,9 @@ const { layout, scale, status } = ATTRIBUTES;
 
 interface RadioButtonGroupStoryArgs extends Pick<
   RadioButtonGroup,
-  "disabled" | "layout" | "scale" | "status" | "validationMessage"
+  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
 > {
   hidden: boolean;
-  validationIcon: string;
 }
 
 export default {

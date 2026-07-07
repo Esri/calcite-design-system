@@ -20,11 +20,11 @@ interface InputTimePickerStoryArgs extends Pick<
   | "scale"
   | "status"
   | "step"
+  | "validationIcon"
   | "validationMessage"
   | "value"
 > {
   hidden: boolean;
-  validationIcon: string;
 }
 
 export default {

@@ -20,11 +20,11 @@ interface InputDatePickerStoryArgs extends Pick<
   | "readOnly"
   | "scale"
   | "status"
+  | "validationIcon"
   | "validationMessage"
   | "value"
 > {
   lang: string;
-  validationIcon: string;
 }
 
 export default {

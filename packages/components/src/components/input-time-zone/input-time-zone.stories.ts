@@ -17,11 +17,10 @@ type InputTimeZoneStoryArgs = Pick<
   | "required"
   | "scale"
   | "status"
+  | "validationIcon"
   | "validationMessage"
   | "value"
-> & {
-  validationIcon: string;
-};
+>;
 
 export default {
   title: "Components/Controls/InputTimeZone",

@@ -9,10 +9,9 @@ const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs
   extends
-    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage">,
+    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationIcon" | "validationMessage">,
     Pick<Option, "label" | "selected" | "value"> {
   optionDisabled: Option["disabled"];
-  validationIcon: string;
 }
 
 export default {

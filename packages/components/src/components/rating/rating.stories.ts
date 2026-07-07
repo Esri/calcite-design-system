@@ -8,10 +8,17 @@ const { scale, status } = ATTRIBUTES;
 
 type RatingStoryArgs = Pick<
   Rating,
-  "scale" | "value" | "showChip" | "average" | "count" | "readOnly" | "disabled" | "status" | "validationMessage"
-> & {
-  validationIcon: string;
-};
+  | "scale"
+  | "value"
+  | "showChip"
+  | "average"
+  | "count"
+  | "readOnly"
+  | "disabled"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+>;
 
 export default {
   title: "Components/Controls/Rating",

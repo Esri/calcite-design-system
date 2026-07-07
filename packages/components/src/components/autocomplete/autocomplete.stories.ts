@@ -10,6 +10,7 @@ type AutocompleteStoryArgs = Pick<
   Autocomplete,
   | "alignment"
   | "disabled"
+  | "icon"
   | "inputValue"
   | "iconFlipRtl"
   | "label"
@@ -26,12 +27,10 @@ type AutocompleteStoryArgs = Pick<
   | "scale"
   | "status"
   | "suffixText"
+  | "validationIcon"
   | "validationMessage"
   | "value"
-> & {
-  icon: string;
-  validationIcon: string;
-};
+>;
 
 export default {
   title: "Components/Controls/Autocomplete",

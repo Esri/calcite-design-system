@@ -6,8 +6,7 @@ import { InputMessage } from "./input-message";
 
 const { scale, status: statusAttribute } = ATTRIBUTES;
 
-type InputMessageStoryArgs = Pick<InputMessage, "iconFlipRtl" | "scale" | "status"> & {
-  icon: string;
+type InputMessageStoryArgs = Pick<InputMessage, "icon" | "iconFlipRtl" | "scale" | "status"> & {
   message: string;
 };
 

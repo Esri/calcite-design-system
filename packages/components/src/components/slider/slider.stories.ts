@@ -25,10 +25,10 @@ interface SliderStoryArgs extends Pick<
   | "snap"
   | "scale"
   | "status"
+  | "validationIcon"
   | "validationMessage"
 > {
   temperature: string;
-  validationIcon: string;
 }
 
 export default {

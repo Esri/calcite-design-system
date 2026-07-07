@@ -6,11 +6,10 @@ import { Notice } from "./notice";
 
 const { appearance, scale, width, kind } = ATTRIBUTES;
 
-interface NoticeStoryArgs extends Pick<Notice, "appearance" | "closable" | "kind" | "open" | "width"> {
+interface NoticeStoryArgs extends Pick<Notice, "appearance" | "closable" | "icon" | "kind" | "open" | "width"> {
   showIcon: boolean;
   noticeScale: string;
   actionScale: string;
-  icon: string;
 }
 
 export default {

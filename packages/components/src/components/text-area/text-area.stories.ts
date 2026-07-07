@@ -21,12 +21,11 @@ type TextAreaStoryArgs = Pick<
   | "maxLength"
   | "readOnly"
   | "required"
+  | "validationIcon"
   | "validationMessage"
   | "value"
   | "wrap"
-> & {
-  validationIcon: string;
-};
+>;
 
 export default {
   title: "Components/TextArea",
