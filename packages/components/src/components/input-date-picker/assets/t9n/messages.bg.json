@@ -1,5 +1,6 @@
 {
   "chooseDate": "Избор на дата",
+  "clear": "Clear value",
   "date": "Дата",
   "dateFormat": "Формат на дата: {format}",
   "endDate": "Крайна дата",
