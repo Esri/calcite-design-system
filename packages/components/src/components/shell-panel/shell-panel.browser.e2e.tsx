@@ -332,6 +332,45 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
+  it("resizes on mobile touch devices", async () => {
+    const { panel, content, handle, shell, computedSizeProp, sizeCssProp, baselineContentSize } =
+      await setUpShellPanel({ dir: "ltr", slot: "panel-start", position: "start" });
+
+    panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
+    await shell.manager.component.updateComplete;
+
+    const handleRect = handle.getBoundingClientRect();
+    const clientX = handleRect.left + handleRect.width / 2;
+    const clientY = handleRect.top + handleRect.height / 2;
+    const eventOptions: PointerEventInit = {
+      bubbles: true,
+      cancelable: true,
+      clientX,
+      clientY,
+      composed: true,
+      isPrimary: true,
+      pointerId: 1,
+      pointerType: "touch",
+    };
+
+    handle.dispatchEvent(
+      new PointerEvent("pointerdown", { ...eventOptions, button: 0, buttons: 1 }),
+    );
+    handle.dispatchEvent(new PointerEvent("pointermove", { ...eventOptions, buttons: 1 }));
+    document.dispatchEvent(
+      new PointerEvent("pointermove", {
+        ...eventOptions,
+        buttons: 1,
+        clientX: clientX + 10,
+      }),
+    );
+    document.dispatchEvent(new PointerEvent("pointerup", eventOptions));
+    await shell.manager.component.updateComplete;
+
+    const afterUserResize = parseFloat(getComputedStyle(content)[computedSizeProp]);
+    expect(afterUserResize).toBeGreaterThan(baselineContentSize);
+  });
+
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
     const layout = layoutFromPanelSlot(slot);
     const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
