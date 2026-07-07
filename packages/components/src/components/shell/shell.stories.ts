@@ -2922,86 +2922,66 @@ export const floatAllHeights = (): string => html`
 `;
 
 export const cornerRadiusAndBoxShadow = (): string => html`
-  <calcite-shell
-    style="--calcite-shell-border-radius: var(--calcite-size-xs); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    ${headerHTML}
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-    ${footerHTML}
-  </calcite-shell>
-  <calcite-shell
-    style="--calcite-shell-border-radius: var(--calcite-size-xs); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-  </calcite-shell>
-  <calcite-shell
-    style="--calcite-shell-box-shadow: var(--calcite-shadow-md); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    ${headerHTML}
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-    ${footerHTML}
-  </calcite-shell>
-  <calcite-shell
-    style="--calcite-shell-box-shadow: var(--calcite-shadow-md); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-  </calcite-shell>
-  <calcite-shell
-    style="--calcite-shell-border-radius: var(--calcite-size-xs); 
-    --calcite-shell-box-shadow: var(--calcite-shadow-md); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    ${headerHTML}
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-    ${footerHTML}
-  </calcite-shell>
-  <calcite-shell
-    style="--calcite-shell-border-radius: var(--calcite-size-xs); 
-    --calcite-shell-box-shadow: var(--calcite-shadow-md); 
-    position: relative; 
-    margin: 2rem; 
-    inline-size: auto; 
-    block-size: auto;"
-  >
-    <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
-    ${contentHTML}
-    <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
-  </calcite-shell>
+  <style>
+    .corner-radius-and-box-shadow {
+      display: grid;
+      gap: var(--calcite-space-3xl);
+      padding: var(--calcite-space-3xl);
+    }
+    .corner-radius-and-box-shadow > calcite-shell {
+      position: relative;
+      inline-size: auto;
+      block-size: auto;
+    }
+  </style>
+  <div class="corner-radius-and-box-shadow">
+    <calcite-shell style="--calcite-shell-border-radius: var(--calcite-size-xs);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-border-radius: var(--calcite-size-xs);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-box-shadow: var(--calcite-shadow-md);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-box-shadow: var(--calcite-shadow-md);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-border-radius: var(--calcite-size-xs); --calcite-shell-box-shadow: var(--calcite-shadow-md);"
+    >
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-border-radius: var(--calcite-size-xs); --calcite-shell-box-shadow: var(--calcite-shadow-md);"
+    >
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+  </div>
 `;
 
 embeddedSlotsInteractive.args = {
