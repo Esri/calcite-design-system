@@ -367,7 +367,13 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     } else if (this.open && key === "Escape") {
       this.open = false;
       event.preventDefault();
-    } else if (this.clearable && this.value && key === "Escape") {
+    } else if (
+      !this.disabled &&
+      !this.readOnly &&
+      this.clearable &&
+      this.value &&
+      key === "Escape"
+    ) {
       this.clearValue();
       event.preventDefault();
     } else {
@@ -719,10 +725,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
           {isClearable && (
             <div class={CSS.clearButton} onClick={this.clearClickHandler}>
               <ClearButton
-                ariaLabel="Clear value"
+                ariaLabel={this.messages.clear}
                 onClick={this.clearClickHandler}
                 scale={this.scale}
-                title="Clear value"
+                title={this.messages.clear}
               />
             </div>
           )}

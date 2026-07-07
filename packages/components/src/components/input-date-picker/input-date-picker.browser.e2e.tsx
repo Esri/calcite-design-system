@@ -276,6 +276,20 @@ describe("clearable", () => {
     await expect.element(el).toHaveProperty("value", "");
   });
 
+  it("renders clear button for required value and clearing sets validity.valueMissing", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable required value="2024-05-05" />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+    expect(el.validity.valueMissing).toBe(false);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+    await expect.element(el).toHaveProperty("value", "");
+
+    expect(el.validity.valueMissing).toBe(true);
+  });
+
   it("clears single value when Escape is pressed", async () => {
     const { el } = await mount<InputDatePicker>(
       <calcite-input-date-picker clearable value="2024-05-05" />,

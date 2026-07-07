@@ -797,7 +797,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       const hasValue = this.range
         ? Array.isArray(this.value) && (!!this.value[0] || !!this.value[1])
         : !!this.value;
-      const shouldClear = this.clearable && hasValue;
+      const shouldClear = !this.disabled && !this.readOnly && this.clearable && hasValue;
 
       if (shouldClear) {
         this.clearValue();
@@ -1118,10 +1118,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const rangeClearButton = (
       <div class={CSS.clearButton} onClick={this.clearRangeValueClickHandler}>
         <ClearButton
-          ariaLabel="Clear value"
+          ariaLabel={this.messages.clear}
           onClick={this.clearRangeValueClickHandler}
           scale={this.scale}
-          title="Clear value"
+          title={this.messages.clear}
         />
       </div>
     );
@@ -1183,10 +1183,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   {isClearableSingle ? (
                     <div class={CSS.clearButton} onClick={this.clearSingleValueClickHandler}>
                       <ClearButton
-                        ariaLabel="Clear value"
+                        ariaLabel={this.messages.clear}
                         onClick={this.clearSingleValueClickHandler}
                         scale={this.scale}
-                        title="Clear value"
+                        title={this.messages.clear}
                       />
                     </div>
                   ) : null}
