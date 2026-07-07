@@ -1,6 +1,6 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
   accessible,
   defaults,
@@ -11,8 +11,10 @@ import {
   internalLabel,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   accessible(() =>
@@ -80,5 +82,54 @@ describe("disabled", () => {
         method: "body",
       },
     },
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-checkbox name="s-unchecked" scale="s" />), {
+      "--calcite-checkbox-size": [
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "inlineSize",
+        },
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "blockSize",
+        },
+      ],
+      "--calcite-checkbox-icon-color": {
+        shadowSelector: `.${CSS.check}`,
+        targetProp: "color",
+      },
+    });
+  });
+  describe("checked", () => {
+    themed(() => mount(<calcite-checkbox checked name="s-checked" scale="s" />), {
+      "--calcite-checkbox-border-color-hover": [
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+          state: "hover",
+        },
+      ],
+      "--calcite-checkbox-border-color-press": [
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "backgroundColor",
+          state: { press: `calcite-checkbox >>> .${CSS.check}` },
+        },
+        {
+          shadowSelector: `.${CSS.check}`,
+          targetProp: "boxShadow",
+          state: { press: `calcite-checkbox >>> .${CSS.check}` },
+        },
+      ],
+    });
   });
 });
