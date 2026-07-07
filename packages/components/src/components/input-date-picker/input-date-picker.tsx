@@ -260,7 +260,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
-  @property() placeholder?: string | undefined;
+  @property() placeholder?: string;
 
   /**
    * Determines the `calcite-date-picker`'s placement relative to the input.

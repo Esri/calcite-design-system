@@ -25,6 +25,7 @@ export default {
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
+    placeholder: "Enter a date",
     placement: defaultMenuPlacement,
     validationMessage: "",
     validationIcon: "",
