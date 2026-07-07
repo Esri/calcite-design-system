@@ -4,7 +4,7 @@
  * These properties can be overridden using the component's tag as selector.
  *
  * @prop --calcite-shell-border-color: Specifies the component's border color.
- * @prop --calcite-shell-border-radius: Specifies the component's corner radius.
+ * @prop --calcite-shell-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-shell-box-shadow: Specifies the component's box shadow.
  */
 
@@ -19,7 +19,7 @@
     w-full
     flex-col
     overflow-hidden;
-  border-radius: var(--calcite-shell-border-radius);
+  border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-box-shadow);
 }
 
