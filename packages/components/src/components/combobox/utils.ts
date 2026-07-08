@@ -5,6 +5,8 @@ import { ComboboxChildElement } from "./interfaces";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
 import { Combobox } from "./combobox";
 
+const placeholderWidthMultiplier = 0.55;
+
 export function getAncestors(element: HTMLElement): ComboboxChildElement[] {
   const parent = element.parentElement?.closest<ComboboxChildElement>(AllComboboxChildrenSelector);
   const grandparent = parent?.parentElement?.closest<ComboboxChildElement>(AllComboboxChildrenSelector);
@@ -19,9 +21,48 @@ export function getItemChildren(item: ComboboxItem["el"]): ComboboxItem["el"][] 
   return nodeListToArray(item.querySelectorAll("calcite-combobox-item"));
 }
 
+export function getSelectedItems(
+  items: ComboboxItem["el"][],
+  selectionMode: Combobox["selectionMode"],
+): ComboboxItem["el"][] {
+  if (isSingleLike(selectionMode)) {
+    const match = items.find(({ selected }) => selected);
+    return match ? [match] : [];
+  }
+
+  return items.filter((item) => item.selected && (selectionMode !== "ancestors" || !hasActiveChildren(item)));
+}
+
 export function hasActiveChildren(node: ComboboxItem["el"]): boolean {
   const items = nodeListToArray(node.querySelectorAll("calcite-combobox-item"));
   return items.filter((item) => item.selected).length > 0;
+}
+
+export function syncAncestorSelection(item: ComboboxItem["el"], value: boolean): void {
+  const ancestors = getItemAncestors(item);
+  const children = getItemChildren(item);
+
+  if (value) {
+    ancestors.forEach((ancestor) => {
+      if (!ancestor.disabled) {
+        ancestor.selected = true;
+      }
+    });
+
+    return;
+  }
+
+  children.forEach((child) => {
+    if (!child.disabled) {
+      child.selected = false;
+    }
+  });
+
+  ancestors.forEach((ancestor) => {
+    if (!hasActiveChildren(ancestor)) {
+      ancestor.selected = false;
+    }
+  });
 }
 
 export function getDepth(element: ComboboxChildElement): number {
@@ -128,4 +169,101 @@ export function orderValuesByPrevious(selectedValues: string[], previousValues: 
   });
 
   return orderedSelectedValues;
+}
+
+export function getPlaceholderWidth({
+  fontSize,
+  inputMinWidth,
+  measuredPlaceholderWidth,
+  placeholder,
+}: {
+  fontSize: string;
+  inputMinWidth: number;
+  measuredPlaceholderWidth: number;
+  placeholder?: string;
+}): number {
+  return measuredPlaceholderWidth > 0
+    ? measuredPlaceholderWidth
+    : Math.max(
+        inputMinWidth,
+        Math.round((placeholder?.length || 0) * (parseFloat(fontSize) || inputMinWidth) * placeholderWidthMultiplier),
+      );
+}
+
+export function shouldUseFitCompactDisplay({
+  chipContainerElGap,
+  chipContainerElWidth,
+  hiddenChipIndicatorWidth,
+  inputMinWidth,
+  placeholderWidth,
+  reservedPlaceholderInputWidth,
+}: {
+  chipContainerElGap: number;
+  chipContainerElWidth: number;
+  hiddenChipIndicatorWidth: number;
+  inputMinWidth: number;
+  placeholderWidth: number;
+  reservedPlaceholderInputWidth: number;
+}): boolean {
+  const availableHorizontalChipElSpaceWithPlaceholder = Math.round(
+    chipContainerElWidth -
+      (hiddenChipIndicatorWidth + chipContainerElGap + reservedPlaceholderInputWidth + chipContainerElGap),
+  );
+  const placeholderIsReallyLong = placeholderWidth > inputMinWidth * 2;
+
+  return placeholderIsReallyLong && availableHorizontalChipElSpaceWithPlaceholder <= 0;
+}
+
+export function getFitCompactDisplayState({
+  chipContainerElGap,
+  chipContainerElWidth,
+  deferFitChipCountRender,
+  inputMinWidth,
+  placeholderWidth,
+  selectedChipCountWidth,
+  selectedHiddenChipsCount,
+  selectedIndicatorChipWidth,
+}: {
+  chipContainerElGap: number;
+  chipContainerElWidth: number;
+  deferFitChipCountRender: boolean;
+  inputMinWidth: number;
+  placeholderWidth: number;
+  selectedChipCountWidth: number;
+  selectedHiddenChipsCount: number;
+  selectedIndicatorChipWidth: number;
+}): {
+  hiddenChipIndicatorWidth: number;
+  hideSelectedChips: boolean;
+  reservedPlaceholderInputWidth: number;
+} {
+  const hiddenChipIndicatorWidth =
+    deferFitChipCountRender || selectedHiddenChipsCount <= 0 ? 0 : selectedChipCountWidth || selectedIndicatorChipWidth;
+  const reservedPlaceholderInputWidth = Math.max(inputMinWidth, placeholderWidth);
+  const hideSelectedChips = shouldUseFitCompactDisplay({
+    chipContainerElGap,
+    chipContainerElWidth,
+    hiddenChipIndicatorWidth,
+    inputMinWidth,
+    placeholderWidth,
+    reservedPlaceholderInputWidth,
+  });
+
+  return {
+    hiddenChipIndicatorWidth,
+    hideSelectedChips,
+    reservedPlaceholderInputWidth,
+  };
+}
+
+export function getCompactSelectionDisplayBreakpoint({
+  chipContainerElGap,
+  inputWidth,
+  largestSelectedIndicatorChipWidth,
+}: {
+  chipContainerElGap: number;
+  inputWidth: number;
+  largestSelectedIndicatorChipWidth: number;
+}): number {
+  return Math.round(largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth);
 }
