@@ -65,15 +65,17 @@ describe(setRequestedIcon, () => {
 });
 
 describe(ensureId, () => {
-  it("generates unique ID on an element", () => {
-    const input = document.createElement("input");
-    expect(ensureId(input)).toMatch(new RegExp(`input-${guidPattern.source}`));
+  it("generates unique ID on an element", async () => {
+    const { el } = await mount(html`<input />`);
+
+    expect(ensureId(el)).toMatch(new RegExp(`input-${guidPattern.source}`));
   });
 
-  it("returns the element's ID if it exists", () => {
-    const input = document.createElement("input");
-    input.id = "test";
-    expect(ensureId(input)).toBe("test");
+  it("returns the element's ID if it exists", async () => {
+    const { el } = await mount(html`<input />`);
+
+    el.id = "test";
+    expect(ensureId(el)).toBe("test");
   });
 
   it("returns empty string if invoked without element", () => {
@@ -94,7 +96,7 @@ describe(getModeName, () => {
 
   it("finds the closest mode if set (light)", async () => {
     const { component } = await mount(
-      html` <div class="calcite-mode-dark">
+      html`<div class="calcite-mode-dark">
         <div class="calcite-mode-light">
           <mode-element></mode-element>
         </div>
@@ -166,10 +168,15 @@ describe(getModeName, () => {
 
 describe(isPrimaryPointerButton, () => {
   it("handles pointer events", () => {
-    expect(isPrimaryPointerButton({ button: 0, isPrimary: true } as PointerEvent)).toBe(true);
-    expect(isPrimaryPointerButton({ button: 1, isPrimary: true } as PointerEvent)).toBe(false);
-    expect(isPrimaryPointerButton({ button: 0, isPrimary: false } as PointerEvent)).toBe(false);
-    expect(isPrimaryPointerButton({} as PointerEvent)).toBe(false);
+    expect(
+      isPrimaryPointerButton(new PointerEvent("pointerdown", { button: 0, isPrimary: true })),
+    ).toBe(true);
+    expect(
+      isPrimaryPointerButton(new PointerEvent("pointerdown", { button: 1, isPrimary: true })),
+    ).toBe(false);
+    expect(
+      isPrimaryPointerButton(new PointerEvent("pointerdown", { button: 0, isPrimary: false })),
+    ).toBe(false);
   });
 });
 
@@ -190,47 +197,72 @@ describe("slot utils", () => {
   }
 
   describe(getSlotAssignedElements, () => {
-    it("returns slotted elements with no selector", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [
-        document.createElement("div"),
-        document.createElement("div"),
-      ];
+    it("returns slotted elements with no selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <div></div>
+            <div></div>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
       expect(getSlotAssignedElements(slotEl)).toHaveLength(2);
     });
-    it("returns no slotted elements", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [];
+    it("returns no slotted elements", async () => {
+      await mount(SimpleSlotComponent, {
+        dynamicComponents: [SimpleSlotComponent],
+      });
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
       expect(getSlotAssignedElements(slotEl)).toHaveLength(0);
     });
-    it("returns slotted elements with direct element selector", () => {
-      const slotEl = document.createElement("slot");
-      slotEl.assignedElements = () => [
-        document.createElement("span"),
-        document.createElement("div"),
-        document.createElement("span"),
-      ];
+    it("returns slotted elements with direct element selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <span></span>
+            <div></div>
+            <span></span>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
       expect(getSlotAssignedElements(slotEl, "div")).toHaveLength(1);
       expect(getSlotAssignedElements(slotEl, "span")).toHaveLength(2);
     });
-    it("returns slotted elements with class selector", () => {
-      const slotEl = document.createElement("slot");
-      const spanEl = document.createElement("span");
-      spanEl.className = "my-span";
-      const divEl = document.createElement("div");
-      divEl.className = "my-div";
-      slotEl.assignedElements = () => [
-        document.createElement("span"),
-        spanEl,
-        document.createElement("div"),
-        divEl,
-      ];
+    it("returns slotted elements with class selector", async () => {
+      await mount(
+        html`
+          <simple-slot-component>
+            <span></span>
+            <span class="my-span"></span>
+            <div></div>
+            <div class="my-div"></div>
+          </simple-slot-component>
+        `,
+        {
+          dynamicComponents: [SimpleSlotComponent],
+        },
+      );
+      const slotEl = page.getBySelector("slot").element() as HTMLSlotElement;
+
       expect(getSlotAssignedElements(slotEl, ".my-div")).toHaveLength(1);
       expect(getSlotAssignedElements(slotEl, ".my-span")).toHaveLength(1);
     });
   });
 
   class SimpleSlotComponent extends LitElement {
+    static tagName = "simple-slot-component";
+
     override render(): JsxNode {
       return <slot />;
     }
@@ -301,6 +333,7 @@ describe("slot utils", () => {
         });
       });
 
+      // simplify createEl?
       const nodes = [
         document.createTextNode("hello"),
         createEl("div"),
@@ -402,13 +435,10 @@ describe("slot utils", () => {
   describe(slotChangeGetAssignedNodes, () => {
     it("returns assigned nodes on slotchange", async () => {
       let assigned: Node[] | undefined;
-
       const { el, reRender, slotEl } = await setUpSimpleSlotTest();
-
       slotEl.addEventListener("slotchange", (event) => {
         assigned = slotChangeGetAssignedNodes(event);
       });
-
       const nodes = [
         document.createTextNode("hello"),
         createEl("div"),
@@ -568,11 +598,9 @@ describe("slot utils", () => {
 
     it("handles no slotted nodes", async () => {
       const { el, reRender, slotEl } = await setUpSimpleSlotTest();
-
       const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
       el.append(...nodes);
       await reRender();
-
       const slotChangeHandler = vi.fn((event: Event) => {
         expect(slotChangeHasTextContent(event)).toEqual(false);
       });
@@ -585,92 +613,79 @@ describe("slot utils", () => {
     });
   });
 
-  describe(hasVisibleContent, () => {
-    it("should return true if element has visible content", () => {
-      const element = document.createElement("div");
-      element.innerHTML = "<p>hello</p>";
-      document.body.append(element);
-      expect(hasVisibleContent(element)).toBe(true);
+  describer(hasVisibleContent, () => {
+    it("should return true if element has visible content", async () => {
+      const { el } = await mount(html`<div><p>hello</p></div>`);
+      expect(hasVisibleContent(el)).toBe(true);
     });
 
-    it("should return false if element has no visible content", () => {
-      const element = document.createElement("div");
-      document.body.append(element);
-      expect(hasVisibleContent(element)).toBe(false);
+    it("should return false if element has no visible content", async () => {
+      console.log(document.body.outerHTML, "before");
+      const { el } = await mount(html`<div></div>`);
+      console.log(el, "should be div");
+      expect(hasVisibleContent(el)).toBe(false);
 
-      element.innerHTML = "\n<!-- some comment -->\n";
-      expect(hasVisibleContent(element)).toBe(false);
+      el.innerHTML = "\n<!-- some comment -->\n";
+      expect(hasVisibleContent(el)).toBe(false);
     });
   });
 });
 
 describe(focusElement, () => {
-  function create(
-    tag: string,
-    props?: Partial<HTMLElement>,
-    appendTo: HTMLElement = document.body,
-  ): HTMLElement {
-    const el = document.createElement(tag);
+  // afterEach(() => {
+  //   document.body.innerHTML = "";
+  // });
 
-    if (props) {
-      Object.entries(props).forEach(([key, value]) => {
-        el[key] = value;
-      });
-    }
-
-    appendTo.append(el);
-
-    return el;
-  }
-
-  afterEach(() => {
-    document.body.innerHTML = "";
+  it("focuses the element if it is focusable", async () => {
+    const { el } = await mount(html`<div tabindex="0"></div>`);
+    console.log(el, "should be div");
+    await focusElement(el);
+    await expect.element(el).toHaveFocus();
   });
 
-  it("focuses the element if it is focusable", () => {
-    const el = create("div", { tabIndex: 0 });
-    focusElement(el);
-    expect(document.activeElement).toBe(el);
+  it("does not focus the element if it is not focusable", async () => {
+    const { el } = await mount(html`<div></div>`);
+    await focusElement(el);
+    await expect.element(el).not.toHaveFocus();
   });
 
-  it("does not focus the element if it is not focusable", () => {
-    const el = create("div");
-    focusElement(el);
-    expect(document.activeElement).not.toBe(el);
+  it("focuses first focusable child if includeContainer = false", async () => {
+    const { el } = await mount(
+      html`<div tabindex="-1"><div data-testid="child" tabindex="0"></div></div>`,
+    );
+    await focusElement(el, false);
+    await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
-  it("focuses first focusable child if includeContainer = false", () => {
-    const el = create("div", { tabIndex: -1 });
-    const child = create("div", { tabIndex: 0 }, el);
-    focusElement(el, false);
-    expect(document.activeElement).toBe(child);
+  it("focuses element if focusable and includeContainer = true (default)", async () => {
+    const { el } = await mount(
+      html`<div tabindex="0"><div data-testid="child" tabindex="0"></div></div>`,
+    );
+    await focusElement(el, true);
+    await expect.element(el).toHaveFocus();
   });
 
-  it("focuses element if focusable and includeContainer = true (default)", () => {
-    const el = create("div", { tabIndex: 0 });
-    create("div", { tabIndex: 0 }, el);
-    focusElement(el, true);
-    expect(document.activeElement).toBe(el);
+  it("does not focus if element has no focusable child and includeContainer = false", async () => {
+    const { el } = await mount(html`<div></div>`);
+    await focusElement(el, false);
+    await expect.element(el).not.toHaveFocus();
   });
 
-  it("does not focus if element has no focusable child and includeContainer = false", () => {
-    const el = create("div");
-    focusElement(el, false);
-    expect(document.activeElement).not.toBe(el);
+  it("focuses first focusable when strategy='focusable'", async () => {
+    const { el } = await mount(
+      html`<div tabindex="0"><div data-testid="child" tabindex="-1"></div></div>`,
+    );
+    await focusElement(el, false, "focusable");
+    await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
-  it("focuses first focusable when strategy='focusable'", () => {
-    const el = create("div");
-    const child = create("div", { tabIndex: -1 }, el);
-    focusElement(el, false, "focusable");
-    expect(document.activeElement).toBe(child);
-  });
-
-  it("focuses first tabbable when strategy='tabbable'", () => {
-    const el = create("div", { tabIndex: -1 });
-    const child = create("div", { tabIndex: 0 }, el);
-    focusElement(el, true, "tabbable");
-    expect(document.activeElement).toBe(child);
+  it("focuses first tabbable when strategy='tabbable'", async () => {
+    const { el } = await mount(
+      html`<div tabindex="-1"><div data-testid="child" tabindex="0"></div></div>`,
+    );
+    console.log(el);
+    await focusElement(el, true, "tabbable");
+    await expect.element(page.getByTestId("child")).toHaveFocus();
   });
 
   it("avoids infinite loop on setFocus components by using context", async () => {
@@ -716,14 +731,14 @@ describe(focusElement, () => {
   });
 
   describe("focus options", () => {
-    it("supports focus options", () => {
-      const el = create("div", { tabIndex: 0 });
+    it("supports focus options", async () => {
+      const { el } = await mount(html`<div tabindex="0"></div>`);
       const focusOptions = { preventScroll: true };
       const focusSpy = vi.spyOn(el, "focus");
 
-      focusElement(el, true, "tabbable", undefined, focusOptions);
+      await focusElement(el, true, "tabbable", undefined, focusOptions);
 
-      expect(document.activeElement).toBe(el);
+      await expect.element(el).toHaveFocus();
       expect(focusSpy).toHaveBeenCalledWith(focusOptions);
       expect(focusSpy).toHaveBeenCalledTimes(1);
     });
@@ -747,9 +762,9 @@ describe(focusElement, () => {
       vi.spyOn(el, "setFocus");
 
       const focusOptions = { preventScroll: true };
-      focusElement(el, false, "tabbable", undefined, focusOptions);
+      await focusElement(el, false, "tabbable", undefined, focusOptions);
 
-      expect(document.activeElement).toBe(el);
+      await expect.element(el).toHaveFocus();
       expect(el.setFocus).toHaveBeenCalledWith(focusOptions);
       expect(el.setFocus).toHaveBeenCalledTimes(1);
     });
@@ -757,71 +772,75 @@ describe(focusElement, () => {
 });
 
 describe(focusFirstTabbable, () => {
-  afterEach(() => {
-    document.body.innerHTML = "";
-  });
+  // afterEach(() => {
+  //   document.body.innerHTML = "";
+  // });
 
-  it("focuses the first tabbable element", () => {
-    const el1 = document.createElement("div");
-    const el2 = document.createElement("div");
-    el2.tabIndex = 0;
-    const el3 = document.createElement("div");
-    document.body.append(el1, el2, el3);
-
-    focusFirstTabbable(document.body);
-
-    expect(document.activeElement).toBe(el2);
-  });
-
-  it("does not focus if no tabbable elements are found", () => {
-    const el1 = document.createElement("div");
-    const el2 = document.createElement("div");
-    const el3 = document.createElement("div");
-    document.body.append(el1, el2, el3);
-
-    focusFirstTabbable(document.body);
-
-    expect(document.activeElement).toBe(document.body);
-  });
-
-  it("supports including parent in focus search", () => {
-    const el1 = document.createElement("div");
-    const el2 = document.createElement("div");
-    const el3 = document.createElement("div");
-    const container = document.createElement("div");
-    el2.tabIndex = 0;
-    container.tabIndex = 0;
-    container.append(el1, el2, el3);
-    document.body.append(container);
+  it("focuses the first tabbable element", async () => {
+    const { container } = await mount(html`
+      <div></div>
+      <div data-testid="target" tabindex="0"></div>
+      <div></div>
+    `);
 
     focusFirstTabbable(container);
 
-    expect(document.activeElement).toBe(el2);
-
-    focusFirstTabbable(container, true);
-
-    expect(document.activeElement).toBe(container);
+    await expect.element(page.getByTestId("target")).toHaveFocus();
   });
 
-  it("supports passing focus options", () => {
-    const el1 = document.createElement("div");
-    const el2 = document.createElement("div");
-    el2.tabIndex = 0;
-    const el3 = document.createElement("div");
-    document.body.append(el1, el2, el3);
+  it("does not focus if no tabbable elements are found", async () => {
+    const { container } = await mount(html`
+      <div></div>
+      <div></div>
+      <div></div>
+    `);
 
-    const focusSpy = vi.spyOn(el2, "focus");
+    focusFirstTabbable(container);
+
+    await expect.element(document.body).toHaveFocus();
+  });
+
+  it("supports including parent in focus search", async () => {
+    await mount(html`
+      <div data-testid="root" tabindex="0">
+        <div></div>
+        <div data-testid="target" tabindex="0"></div>
+        <div></div>
+      </div>
+    `);
+    const root = page.getByTestId("root").element() as HTMLElement;
+
+    focusFirstTabbable(root);
+
+    await expect.element(page.getByTestId("target")).toHaveFocus();
+
+    focusFirstTabbable(root, true);
+
+    await expect.element(root).toHaveFocus();
+  });
+
+  it("supports passing focus options", async () => {
+    const { container } = await mount(html`
+      <div></div>
+      <div data-testid="target" tabindex="0"></div>
+      <div></div>
+    `);
+    const target = page.getByTestId("target").element() as HTMLElement;
+
+    const focusSpy = vi.spyOn(target, "focus");
     const focusOptions = { preventScroll: true };
 
-    focusFirstTabbable(document.body, false, focusOptions);
+    focusFirstTabbable(container, false, focusOptions);
 
-    expect(document.activeElement).toBe(el2);
+    await expect.element(target).toHaveFocus();
     expect(focusSpy).toHaveBeenCalledWith(focusOptions);
     expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 });
 
 describe(focusElementInGroup, () => {
+  // TODO: pending
+
   function createElements(withFocusableChild = false): HTMLElement[] {
     const totalItems = 3;
 
@@ -909,7 +928,9 @@ describe(focusElementInGroup, () => {
       },
     );
 
-    const elements = Array.from(container.querySelectorAll<HTMLElement>("test-focus-context"));
+    const elements = Array.from(
+      container.querySelectorAll<SetFocusCallingFocusComponent["el"]>("test-focus-context"),
+    );
 
     // assertions only cover the focus context portion, the rest is covered by the previous tests
 
@@ -928,7 +949,7 @@ describe(focusElementInGroup, () => {
 describe(getShadowRootNode, () => {
   class SimpleComponent extends LitElement {
     override render(): JsxNode {
-      return <button>Hello</button>;
+      return <button type="button">Hello</button>;
     }
   }
 
@@ -946,22 +967,25 @@ describe(getShadowRootNode, () => {
 });
 
 describe(isBefore, () => {
-  let div1: HTMLDivElement;
-  let div2: HTMLDivElement;
+  it("should return true if element A is before element B", async () => {
+    await mount(html`
+      <div class="element"></div>
+      <div class="element"></div>
+    `);
+    const [el1, el2] = page.getBySelector(".element").elements() as HTMLElement[];
 
-  beforeEach(() => {
-    div1 = document.createElement("div");
-    div2 = document.createElement("div");
+    console.log(el1, el2);
+
+    expect(isBefore(el1, el2)).toBe(true);
   });
 
-  it("should return true if element A is before element B", () => {
-    document.body.append(div1, div2);
-    expect(isBefore(div1, div2)).toBe(true);
-  });
-
-  it("should return false if element A is after element B", () => {
-    document.body.append(div2, div1);
-    expect(isBefore(div1, div2)).toBe(false);
+  it("should return false if element A is after element B", async () => {
+    await mount(html`
+      <div class="element"></div>
+      <div class="element"></div>
+    `);
+    const [el1, el2] = page.getBySelector(".element").elements() as HTMLElement[];
+    expect(isBefore(el2, el1)).toBe(false);
   });
 });
 
@@ -981,6 +1005,7 @@ describe(isKeyboardTriggeredClick, () => {
  * These tests depend on the `getAnimations` method which is not available in happy-dom,
  * so we try to mock it as close to the real thing as possible.
  */
+// TODO: pending
 describe("transition/animation helpers", () => {
   async function promiseState(
     promise: Promise<any>,
@@ -1172,7 +1197,9 @@ describe(queryElementRoots, () => {
     );
 
     const source = page.getBySelector("span");
-    const resultEl: HTMLElement = queryElementRoots(source.element(), { selector: "button" })!;
+    const resultEl = queryElementRoots<HTMLButtonElement>(source.element(), {
+      selector: "button",
+    })!;
 
     expect(resultEl.textContent).toBe(outsideHost);
   });
