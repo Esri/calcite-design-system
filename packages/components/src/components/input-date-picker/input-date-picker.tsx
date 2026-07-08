@@ -260,6 +260,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
+  /**
    * Determines the `calcite-date-picker`'s placement relative to the input.
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
@@ -1178,7 +1185,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                 oncalciteInternalInputTextFocus={this.startInputFocus}
-                placeholder={this.localeData?.placeholder}
+                placeholder={this.placeholder || this.localeData?.placeholder}
                 readOnly={readOnly}
                 ref={this.startInputRef}
                 role="combobox"
@@ -1186,7 +1193,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 status={this.status}
               />
               <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
+                {this.placeholder ||
+                  messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
               {!this.range && this.layout === "horizontal" && !this.readOnly ? (
                 <div class={CSS.horizontalActionsContainer}>
@@ -1277,7 +1285,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.endInputFocus}
-                  placeholder={this.localeData?.placeholder}
+                  placeholder={this.placeholder || this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.endInputRef}
                   role="combobox"
