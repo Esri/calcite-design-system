@@ -73,6 +73,7 @@ const resources = {
       two: "estimate - design - 2",
       three: "estimate - design - 3",
       five: "estimate - design - 5",
+      eight: "estimate - design - 8",
       thirteen: "estimate - design - 13",
       twentyOne: "estimate - design - 21",
       thirtyFour: "estimate - design - 34",
