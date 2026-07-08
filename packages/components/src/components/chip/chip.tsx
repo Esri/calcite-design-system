@@ -152,6 +152,7 @@ export class Chip extends LitElement {
       } else if (this.closable) {
         return this.closeButtonRef.value;
       }
+      return;
     }, options);
   }
 
@@ -284,7 +285,7 @@ export class Chip extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedChips.emit();
     }
-    const selectedInParent = this.parentChipGroup!.selectedItems.includes(this.el);
+    const selectedInParent = this.parentChipGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalChipSelect.emit();

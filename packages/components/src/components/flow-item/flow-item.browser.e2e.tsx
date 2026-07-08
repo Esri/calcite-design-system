@@ -13,6 +13,7 @@ import {
   t9n,
   disabled,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
@@ -254,6 +255,89 @@ describe("disabled", () => {
         },
       },
     );
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-flow-item icon="banana" show-back-button />), {
+    "--calcite-flow-corner-radius": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-corner-radius",
+    },
+    "--calcite-flow-heading-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-heading-text-color",
+    },
+    "--calcite-flow-icon-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-icon-color",
+    },
+    "--calcite-flow-description-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-description-text-color",
+    },
+    "--calcite-flow-border-color": [
+      {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-border-color",
+      },
+    ],
+    "--calcite-flow-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-background-color",
+    },
+    "--calcite-flow-header-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-background-color",
+    },
+    "--calcite-flow-footer-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-background-color",
+    },
+    "--calcite-flow-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-space",
+    },
+    "--calcite-flow-header-content-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-content-space",
+    },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
+    },
+    "--calcite-flow-footer-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-space",
+    },
+    "--calcite-flow-header-action-background-color-hover": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-hover",
+    },
+    "--calcite-flow-header-action-background-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-press",
+    },
+    "--calcite-flow-header-action-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color",
+    },
+    "--calcite-flow-header-action-indicator-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-indicator-color",
+    },
+    "--calcite-flow-header-action-text-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color-press",
+    },
+    "--calcite-flow-header-action-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color",
+    },
   });
 });
 

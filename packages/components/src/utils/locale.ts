@@ -121,7 +121,7 @@ export class NumberStringFormat {
     return this._digits;
   }
 
-  private _getDigitIndex;
+  private _getDigitIndex?: (digit: string, ...args: any[]) => string;
 
   private _numberFormatter!: Intl.NumberFormat;
 
@@ -179,7 +179,7 @@ export class NumberStringFormat {
     this._decimal =
       options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal")!.value;
     this._minusSign = parts.find((d) => d.type === "minusSign")!.value;
-    this._getDigitIndex = (d: string) => index.get(d);
+    this._getDigitIndex = (d: string) => `${index.get(d) ?? ""}`;
   }
 
   delocalize = (numberString: string): string => {
@@ -210,7 +210,7 @@ export class NumberStringFormat {
   #normalizeDigitsAndSign(value: string): string {
     return value
       .replace(new RegExp(`[${this._minusSign}]`, "g"), "-")
-      .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex);
+      .replace(new RegExp(`[${this._digits.join("")}]`, "g"), this._getDigitIndex!);
   }
 
   #normalizeSeparators(value: string): string {

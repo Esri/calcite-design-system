@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { h, Fragment } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -12,6 +12,7 @@ import {
   renders,
   t9n,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS as listItemGroupCSS } from "../list-item-group/resources";
 import type { ListItem } from "../list-item/list-item";
@@ -19,7 +20,7 @@ import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import { List } from "./list";
-import { CSS as listCSS } from "./resources";
+import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
 const scrollTopValue = 120;
@@ -317,7 +318,7 @@ describe("sticky group heading with filter", () => {
       </calcite-list>,
     );
 
-    const filterContainer = page.getBySelector(`calcite-list .${listCSS.sticky}`).element();
+    const filterContainer = page.getBySelector(`calcite-list .${CSS.sticky}`).element();
 
     const stickyGroupContainer = page
       .getBySelector(`calcite-list-item-group .${listItemGroupCSS.container}`)
@@ -921,5 +922,16 @@ describe("nested selection modes", () => {
 
     await waitForNestedPropertiesToSettle();
     assertAllNestedProperties();
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-list"), {
+      "--calcite-list-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+    });
   });
 });

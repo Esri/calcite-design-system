@@ -91,16 +91,16 @@ export class InputMessage extends LitElement {
   }
 
   private renderIcon(iconName: IconName | undefined): JsxNode {
-    if (iconName) {
-      return (
-        <calcite-icon
-          class={CSS.inputMessageIcon}
-          flipRtl={this.iconFlipRtl}
-          icon={iconName}
-          scale="s"
-        />
-      );
-    }
+    return iconName ? (
+      <calcite-icon
+        class={CSS.inputMessageIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={iconName}
+        scale="s"
+      />
+    ) : (
+      iconName
+    );
   }
 
   //#endregion

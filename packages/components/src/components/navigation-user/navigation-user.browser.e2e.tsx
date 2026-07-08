@@ -9,6 +9,7 @@ import {
   renders,
   focusable,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
@@ -77,5 +78,45 @@ describe("fullName", () => {
     await expect.element(fullName).toBeInTheDocument();
     await expect.element(standaloneFullName).toBeInTheDocument();
     await expect.element(username).not.toBeInTheDocument();
+  });
+});
+
+describe("theme", () => {
+  const navigationUser = (active = false) => (
+    <calcite-navigation-user active={active} full-name="Walt McChipson" username="waltChip" />
+  );
+
+  describe("default", () => {
+    themed(() => mount(navigationUser()), {
+      "--calcite-navigation-user-avatar-corner-radius": {
+        shadowSelector: `calcite-avatar`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-navigation-user-avatar-color": {
+        shadowSelector: `calcite-avatar`,
+        targetProp: "color",
+      },
+      "--calcite-navigation-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-navigation-user-full-name-text-color": {
+        shadowSelector: `.${CSS.fullName}`,
+        targetProp: "color",
+      },
+      "--calcite-navigation-user-name-text-color": {
+        shadowSelector: `.${CSS.username}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("active", () => {
+    themed(() => mount(navigationUser(true)), {
+      "--calcite-navigation-accent-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "borderBlockEndColor",
+      },
+    });
   });
 });
