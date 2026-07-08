@@ -2,8 +2,79 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import type { CardGroup } from "./card-group";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  describe("is accessible in selection mode none (default)", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode single", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="single">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode single-persist", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="single-persist">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+
+  describe("is accessible in selection mode multiple", () => {
+    accessible(() =>
+      mount(
+        <calcite-card-group label="test-label-group" selection-mode="multiple">
+          <calcite-card label="test-label">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+          <calcite-card label="test-label-2">
+            <span slot="heading">Heading</span>
+          </calcite-card>
+        </calcite-card-group>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -100,5 +171,24 @@ describe("scale propagation", () => {
 
     await expect.element(card1).toHaveProperty("scale", "l");
     await expect.element(card2).toHaveProperty("scale", "l");
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-card-group"), {
+      "--calcite-card-group-space": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
+  });
+  describe("deprecated", () => {
+    themed(() => mount("calcite-card-group"), {
+      "--calcite-card-group-gap": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
   });
 });

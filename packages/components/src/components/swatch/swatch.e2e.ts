@@ -1,17 +1,7 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
-import { CSS, IDS } from "./resources";
 
-describe("accessible", () => {
-  accessible("calcite-swatch");
-  accessible(`<calcite-swatch label="swatch" value="123" selected></calcite-swatch>`);
-  accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
-  accessible(`<calcite-swatch label="swatch" value="123" color='#c0ffee'></calcite-swatch>`);
-  accessible(`<calcite-swatch label="swatch" value="123" selected color='#c0ffee'></calcite-swatch>`);
-});
+import { CSS, IDS } from "./resources";
 
 it("should not emit event after the swatch is clicked if interactive if not set", async () => {
   const page = await newE2EPage();
@@ -46,7 +36,7 @@ it.skip("should receive focus when clicked", async () => {
   const swatch1 = await page.find("#swatch-1");
   await swatch1.click();
   await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement.id)).toEqual(swatch1.id);
+  expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
 });
 
 it("renders default props when none are provided", async () => {
@@ -125,26 +115,6 @@ describe("accepts CSS color strings", () => {
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgba(255, 130, 0, 0.5)");
-    });
-  });
-});
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-swatch`, {
-      "--calcite-swatch-corner-radius": [
-        { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
-        { shadowSelector: `#${IDS.swatchRect}`, targetProp: "rx" },
-      ],
-    });
-  });
-  describe("solid", () => {
-    themed(html`<calcite-swatch color="#ff8200"></calcite-swatch>`, {
-      "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" }],
-    });
-  });
-  describe("transparent", () => {
-    themed(html`<calcite-swatch color="rgba(255, 255, 255, 0.5)"></calcite-swatch>`, {
-      "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" }],
     });
   });
 });

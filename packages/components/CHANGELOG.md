@@ -3,17 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.1.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.1...@esri/calcite-components@5.1.2-next.2) (2026-06-12)
+## [5.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.16...@esri/calcite-components@5.2.0-next.17) (2026-07-07)
 
 **Note:** Version bump only for package @esri/calcite-components
 
-## [5.1.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.0...@esri/calcite-components@5.1.2-next.1) (2026-06-10)
+## [5.1.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1...@esri/calcite-components@5.1.2) (2026-07-02)
 
-**Note:** Version bump only for package @esri/calcite-components
+### Bug Fixes
 
-## [5.1.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.3...@esri/calcite-components@5.1.2-next.0) (2026-06-10)
-
-**Note:** Version bump only for package @esri/calcite-components
+- **combobox:** Prevent parent selection from selecting children in ancestors mode ([#14750](https://github.com/Esri/calcite-design-system/issues/14750)) ([d321054](https://github.com/Esri/calcite-design-system/commit/d32105468980b85d852b303747a775a95f9278c7))
 
 ## [5.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0...@esri/calcite-components@5.1.1) (2026-06-10)
 

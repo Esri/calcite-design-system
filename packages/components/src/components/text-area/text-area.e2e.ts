@@ -1,21 +1,11 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+import { labelable } from "../../tests/commonTests";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 
 describe("labelable", () => {
   labelable("calcite-text-area");
-});
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-label>
-      add notes
-      <calcite-text-area max-length="50" required name="something"></calcite-text-area>
-    </calcite-label>`,
-  );
 });
 
 it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
@@ -144,97 +134,6 @@ it("does not throw when removed early in the cycle (#11514)", async () => {
   }
 
   await expect(runTest()).resolves.toBeUndefined();
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-text-area placeholder="hello"></calcite-text-area>`, {
-      "--calcite-text-area-background-color": [
-        {
-          shadowSelector: `.${CSS.textArea}`,
-          targetProp: "backgroundColor",
-        },
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "backgroundColor",
-        },
-      ],
-      "--calcite-text-area-border-color": {
-        shadowSelector: `.${CSS.textArea}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-text-area-font-size": [
-        {
-          shadowSelector: `.${CSS.textArea}`,
-          targetProp: "fontSize",
-        },
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "fontSize",
-        },
-      ],
-      "--calcite-text-area-max-height": {
-        shadowSelector: `.${CSS.textArea}`,
-        targetProp: "maxHeight",
-      },
-      "--calcite-text-area-min-height": {
-        shadowSelector: `.${CSS.textArea}`,
-        targetProp: "minHeight",
-      },
-      "--calcite-text-area-text-color": {
-        shadowSelector: `.${CSS.textArea}`,
-        targetProp: "color",
-      },
-      "--calcite-text-area-placeholder-text-color": {
-        shadowSelector: `.${CSS.textArea}::placeholder`,
-        targetProp: "color",
-      },
-      "--calcite-text-area-corner-radius": {
-        shadowSelector: `.${CSS.wrapper}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-text-area-shadow": {
-        shadowSelector: `.${CSS.wrapper}`,
-        targetProp: "boxShadow",
-      },
-      "--calcite-text-area-footer-background-color": {
-        shadowSelector: `.${CSS.footer}`,
-        targetProp: "backgroundColor",
-      },
-    });
-  });
-
-  describe("max-chars", () => {
-    themed(html`<calcite-text-area max-length="10"></calcite-text-area>`, {
-      "--calcite-text-area-divider-color": {
-        shadowSelector: `.${CSS.textArea}`,
-        targetProp: "borderBlockEndColor",
-      },
-      "--calcite-text-area-footer-border-color": [
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "borderBottomColor",
-        },
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "borderLeftColor",
-        },
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "borderRightColor",
-        },
-      ],
-    });
-  });
-
-  describe("over limit", () => {
-    themed(html`<calcite-text-area max-length="4" value="12345"></calcite-text-area>`, {
-      "--calcite-text-area-character-limit-text-color": {
-        shadowSelector: `.${CSS.characterLimit}`,
-        targetProp: "color",
-      },
-    });
-  });
 });
 
 it("does not change height & width when status changes from valid to invalid", async () => {

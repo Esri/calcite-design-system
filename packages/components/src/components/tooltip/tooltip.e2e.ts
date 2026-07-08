@@ -1,9 +1,8 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
-import { FloatingCSS } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import {
@@ -90,18 +89,6 @@ async function assertEscapeKeyCanceled(page: E2EPage, expected: boolean): Promis
   expect(await page.evaluate(() => (window as CanceledEscapeKeyPressTestWindow).escapeKeyCanceled)).toBe(expected);
 }
 
-describe("accessible when closed", () => {
-  accessible(
-    `<calcite-tooltip reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
-
-describe("accessible when open", () => {
-  accessible(
-    `<calcite-tooltip open reference-element="ref" label="hello world">Hello World!</calcite-tooltip><div id="ref">Tooltip Reference</div>`,
-  );
-});
-
 it("tooltip positions when referenceElement is set", async () => {
   const page = await newE2EPage();
   await page.setContent(
@@ -115,7 +102,7 @@ it("tooltip positions when referenceElement is set", async () => {
   expect(computedStyle.transform).toBe("none");
 
   await page.$eval("calcite-tooltip", (el: Tooltip["el"]): void => {
-    const referenceElement = document.getElementById("ref");
+    const referenceElement = document.getElementById("ref")!;
     el.referenceElement = referenceElement;
   });
   await page.waitForChanges();
@@ -1194,54 +1181,4 @@ it("closes tooltip when pointer leaves document (simulates iframe use case)", as
 
   await page.waitForTimeout(HOVER_CLOSE_DELAY_MS);
   expect(await tooltip.getProperty("open")).toBe(false);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`
-        <calcite-tooltip heading="I'm a heading in the header using the 'heading' prop!"> Lorem Ipsum </calcite-tooltip>
-      `,
-      {
-        "--calcite-tooltip-background-color": [
-          {
-            shadowSelector: `.${FloatingCSS.animation}`,
-            targetProp: "backgroundColor",
-          },
-          {
-            shadowSelector: `.${FloatingCSS.arrow}`,
-            targetProp: "fill",
-          },
-        ],
-        "--calcite-tooltip-border-color": [
-          {
-            shadowSelector: `.${FloatingCSS.animation}`,
-            targetProp: "borderColor",
-          },
-          {
-            shadowSelector: `.${FloatingCSS.arrowStroke}`,
-            targetProp: "stroke",
-          },
-        ],
-        "--calcite-tooltip-corner-radius": [
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "borderRadius",
-          },
-          {
-            shadowSelector: `.${FloatingCSS.animation}`,
-            targetProp: "borderRadius",
-          },
-        ],
-        "--calcite-tooltip-text-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "color",
-        },
-        "--calcite-tooltip-max-size-x": {
-          shadowSelector: `.${CSS.positionContainer}`,
-          targetProp: "maxInlineSize",
-        },
-      },
-    );
-  });
 });

@@ -16,7 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@esri/calcite-components": "5.1.1",
+    "@esri/calcite-components": "5.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

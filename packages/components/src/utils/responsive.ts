@@ -28,5 +28,5 @@ export const breakpoints: Breakpoints = {
 };
 
 function cssLengthToNumber(length: string): number {
-  return parseInt(length);
+  return parseInt(length, 10);
 }

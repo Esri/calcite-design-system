@@ -1,13 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
-import type { Option } from "./option";
-
-describe("accessible", () => {
-  accessible("calcite-option");
-});
 
 it("falls back to the text content when value/label is not specified", async () => {
   const optionText = "one";
@@ -57,7 +51,7 @@ it("falls back to the text content when value/label is not specified", async () 
   const charDataUpdateLabel = "tres";
   await page.evaluate((updatedText: string): void => {
     // Ember and possibly other frameworks use Text node APIs to update contents
-    const option = document.querySelector<Option["el"]>("calcite-option");
+    const option = document.querySelector("calcite-option")!;
     const textNode = option.childNodes[0] as Text;
     textNode.replaceData(0, textNode.length, updatedText);
   }, charDataUpdateLabel);
