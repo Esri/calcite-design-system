@@ -24,11 +24,11 @@ Descriptions that are shared across components should use the `@copyDoc` tag to 
 
 #### Support
 
-- @copyDoc support includes:
-  - Sections: properties, methods, and events
-  - Fields: deprecated, description, docTags, readonly, and return
-- Unsupported in @copyDoc:
-  - Sections: slots
+- `@copyDoc` support includes:
+  - Sections: `properties`, `methods`, and `events`
+  - Fields: `deprecated`, `description`, `docTags`, `readonly`, and `return`
+- Unsupported in `@copyDoc`:
+  - Sections: `slots`
 
 #### Usage
 
