@@ -11,7 +11,7 @@ const { scale, status } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
-  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  "scale" | "status" | "value" | "min" | "max" | "placeholder" | "placement" | "validationMessage" | "validationIcon"
 > {
   lang: string;
 }
@@ -25,6 +25,7 @@ export default {
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
+    placeholder: "Enter a date",
     placement: defaultMenuPlacement,
     validationMessage: "",
     validationIcon: "",
@@ -68,6 +69,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       lang="${args.lang}"
       min="${args.min}"
       max="${args.max}"
+      placeholder="${args.placeholder}"
       placement="${args.placement}"
       validation-message="${args.validationMessage}"
       validation-icon="${args.validationIcon}"
