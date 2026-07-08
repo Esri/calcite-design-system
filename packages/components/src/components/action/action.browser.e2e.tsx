@@ -264,6 +264,14 @@ describe("themed", () => {
       },
     );
   });
+  describe("loader", () => {
+    themed(() => mount(<calcite-action loading />), {
+      "--calcite-action-loader-color": {
+        shadowSelector: "calcite-loader",
+        targetProp: "--calcite-loader-progress-color-inline",
+      },
+    });
+  });
   describe("active", () => {
     themed(
       () =>
