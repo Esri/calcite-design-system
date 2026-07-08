@@ -28,7 +28,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { mockConsole } from "../../tests/utils/logging";
-import type { ColorValue } from "./interfaces";
+import type { ColorValue, HSV } from "./interfaces";
 import {
   CSS,
   DEFAULT_COLOR,
@@ -726,25 +726,21 @@ function assertUnsupportedValueMessage(value: string | object | undefined, forma
 
 describe("color format", () => {
   describe("when set initially", () => {
-    let spy: ReturnType<typeof vi.fn>;
+    let changeHandler: ReturnType<typeof vi.fn<() => void>>;
 
     beforeEach(async () => {
-      spy = vi.fn();
-      document.addEventListener("calciteColorPickerChange", spy);
-    });
-
-    afterEach(() => {
-      document.removeEventListener("calciteColorPickerChange", spy);
+      changeHandler = vi.fn();
     });
 
     function assertNoChangeEvents(): void {
-      expect(spy).toHaveBeenCalledTimes(0);
+      expect(changeHandler).toHaveBeenCalledTimes(0);
     }
 
     // this suite uses a subset of supported formats as other tests cover the rest
 
     it("changes the default value to the format", async () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker format="rgb" />);
+      el.addEventListener("calciteColorPickerChange", changeHandler);
 
       expect(el.value).toEqual(DEFAULT_COLOR.rgb().round().object());
       assertNoChangeEvents();
@@ -755,6 +751,7 @@ describe("color format", () => {
       const { el } = await mount<ColorPicker>(
         <calcite-color-picker format="rgb-css" value={initialValue} />,
       );
+      el.addEventListener("calciteColorPickerChange", changeHandler);
 
       const initialValueIsRendered =
         // color prop is used to render the active color
@@ -769,6 +766,7 @@ describe("color format", () => {
       const { el } = await mount<ColorPicker>(
         <calcite-color-picker format="hsl-css" value="#f00f00" />,
       );
+      el.addEventListener("calciteColorPickerChange", changeHandler);
 
       expect(el.value).toEqual(DEFAULT_COLOR.hsl().round().string());
       assertNoChangeEvents();
@@ -1063,13 +1061,13 @@ it(`mouse movement tracking is not offset by the component's padding (mimics iss
   await commands.mouseDown();
   await commands.mouseUp();
 
-  const beforeDragHsv = el.value;
+  const beforeDragHsv = el.value as HSV;
 
   await commands.mouseDown();
   await commands.mouseMove(colorFieldScopeX + 10, colorFieldScopeY);
   await commands.mouseUp();
 
-  const afterDragHsv = el.value;
+  const afterDragHsv = el.value as HSV;
 
   expect(afterDragHsv.h).toBe(beforeDragHsv.h);
   expect(afterDragHsv.s).toBeGreaterThan(beforeDragHsv.s);
@@ -1432,12 +1430,12 @@ describe("color inputs", () => {
         });
 
         describe("allows nudging values", () => {
-          let changeEventSpy: ReturnType<typeof vi.fn>;
+          let changeHandler: ReturnType<typeof vi.fn<() => void>>;
 
           beforeEach(async () => {
             const { el } = await mount<ColorPicker>(<calcite-color-picker value="#408048" />);
-            changeEventSpy = vi.fn();
-            el.addEventListener("calciteColorPickerChange", changeEventSpy);
+            changeHandler = vi.fn();
+            el.addEventListener("calciteColorPickerChange", changeHandler);
           });
 
           it("allows nudging RGB values", async () => {
@@ -1453,7 +1451,7 @@ describe("color inputs", () => {
             await assertChannelValueNudge(bInput);
             await assertChannelValueNudge(gInput);
 
-            expect(changeEventSpy).toHaveBeenCalledTimes(12);
+            expect(changeHandler).toHaveBeenCalledTimes(12);
           });
 
           it("allows nudging HSV values", async () => {
@@ -1471,7 +1469,7 @@ describe("color inputs", () => {
             await assertChannelValueNudge(hInput);
             await assertChannelValueNudge(sInput);
 
-            expect(changeEventSpy).toHaveBeenCalledTimes(12);
+            expect(changeHandler).toHaveBeenCalledTimes(12);
           });
 
           const assertChannelValueNudge = async (
@@ -1989,16 +1987,14 @@ describe("color inputs", () => {
         });
 
         describe("allows nudging values", () => {
-          let changeEventSpy: ReturnType<typeof vi.fn>;
+          let changeHandler: ReturnType<typeof vi.fn<() => void>>;
 
           beforeEach(async () => {
-            await mount<ColorPicker>(<calcite-color-picker alpha-channel value="#40804880" />);
-            changeEventSpy = vi.fn();
-            document.addEventListener("calciteColorPickerChange", changeEventSpy);
-          });
-
-          afterEach(() => {
-            document.removeEventListener("calciteColorPickerChange", changeEventSpy);
+            const { el } = await mount<ColorPicker>(
+              <calcite-color-picker alpha-channel value="#40804880" />,
+            );
+            changeHandler = vi.fn();
+            el.addEventListener("calciteColorPickerChange", changeHandler);
           });
 
           it("allows nudging RGBA values", async () => {
@@ -2015,7 +2011,7 @@ describe("color inputs", () => {
             await assertChannelValueNudge(bInput);
             await assertChannelValueNudge(rgbAInput);
 
-            expect(changeEventSpy).toHaveBeenCalledTimes(16);
+            expect(changeHandler).toHaveBeenCalledTimes(16);
           });
 
           it("allows nudging HSVA values", async () => {
@@ -2033,7 +2029,7 @@ describe("color inputs", () => {
             await assertChannelValueNudge(sInput);
             await assertChannelValueNudge(hsvAInput);
 
-            expect(changeEventSpy).toHaveBeenCalledTimes(16);
+            expect(changeHandler).toHaveBeenCalledTimes(16);
           });
         });
 
