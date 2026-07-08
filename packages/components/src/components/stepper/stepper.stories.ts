@@ -4,9 +4,9 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Stepper } from "./stepper";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, numberingSystem, scale } = ATTRIBUTES;
 
-type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
+type StepperArgs = Pick<Stepper, "icon" | "layout" | "numbered" | "numberingSystem" | "scale">;
 
 type StepperItemArgs1 = {
   heading1: StepperItem["heading"];
@@ -37,6 +37,7 @@ export default {
     scale: scale.defaultValue,
     numbered: true,
     icon: true,
+    numberingSystem: numberingSystem.defaultValue,
     heading1: "Choose method",
     description1: "Add members without sending invitations",
     heading2: "Compile member list",
@@ -63,6 +64,10 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    numberingSystem: {
+      options: numberingSystem.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -76,6 +81,7 @@ export const simple = (args: StepperStoryArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
+    numbering-system="${args.numberingSystem}"
     ${boolean("numbered", args.numbered)}
     ${boolean("icon", args.icon)}
   >
@@ -96,6 +102,7 @@ export const simple = (args: StepperStoryArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
+    numbering-system="${args.numberingSystem}"
     ${boolean("numbered", args.numbered)}
     ${boolean("icon", args.icon)}
   >
