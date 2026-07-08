@@ -57,6 +57,8 @@ export class Block extends LitElement {
 
   private sortHandleEl?: SortHandle["el"];
 
+  private blockChildren: Block["el"][] = [];
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -287,6 +289,14 @@ export class Block extends LitElement {
    */
   calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
+  /**
+   *
+   * @private
+   */
+  calciteInternalBlockChange = createEvent<{ el: HTMLElement }>({
+    cancelable: false,
+  });
+
   //#endregion
 
   //#region Lifecycle
@@ -386,8 +396,9 @@ export class Block extends LitElement {
   }
 
   private onHeaderClick(): void {
-    this.expanded = !this.expanded;
+    // this.expanded = !this.expanded;
     this.calciteBlockToggle.emit();
+    this.calciteInternalBlockChange.emit({ el: this.el });
   }
 
   private menuActionsSlotChangeHandler(event: Event): void {
@@ -416,6 +427,10 @@ export class Block extends LitElement {
     this.blockSectionChildren.forEach((el: BlockSection["el"]) => {
       el.scale = this.scale;
     });
+  }
+
+  private handleSectionsSlotChange(event: Event): void {
+    this.blockChildren = slotChangeGetAssignedElements(event, "calcite-block");
   }
 
   //#endregion
@@ -670,7 +685,11 @@ export class Block extends LitElement {
           >
             {this.renderScrim()}
           </section>
-          <slot hidden={!expanded} name={SLOTS.sections} />
+          <slot
+            hidden={!expanded}
+            name={SLOTS.sections}
+            onSlotChange={this.handleSectionsSlotChange}
+          />
         </article>
       </this.interactiveContainer>
     );

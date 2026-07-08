@@ -73,6 +73,38 @@ export class BlockGroup extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
+  private updateBlockItemSelection = (event: CustomEvent<{ el: Block["el"] }>): void => {
+    const blockChildren: Block["el"][] = this.blockAndGroups.filter((item): item is Block["el"] =>
+      isBlock(item),
+    );
+
+    const { el } = event.detail;
+
+    switch (this.selectionMode) {
+      case "multiple":
+        el.expanded = !el.expanded;
+        break;
+      case "single":
+        el.expanded = !el.expanded;
+        blockChildren.forEach((item) => {
+          if (item !== el) {
+            item.expanded = false;
+          }
+        });
+        break;
+      case "single-persist":
+        if (!el.expanded) {
+          el.expanded = true;
+          blockChildren.forEach((item) => {
+            if (item !== el && !item.contains(el)) {
+              item.expanded = false;
+            }
+          });
+        }
+        break;
+    }
+  };
+
   //#endregion
 
   //#region State Properties
@@ -206,6 +238,7 @@ export class BlockGroup extends LitElement {
       "calciteSortHandleAdd",
       this.handleSortAdd,
     );
+    this.listen("calciteInternalBlockChange", this.updateBlockItemSelection);
   }
 
   override connectedCallback(): void {
