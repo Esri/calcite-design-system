@@ -362,6 +362,7 @@ export function setRequestedIcon(
   } else if (iconValue === "" || iconValue === true) {
     return iconObject[matchedValue];
   }
+  return;
 }
 
 /**
@@ -555,9 +556,9 @@ export type FocusElementInGroupDestination = "first" | "last" | "next" | "previo
  * @param targetAsContext
  * @returns The focused element
  */
-export const focusElementInGroup = <T extends Element = Element>(
-  elements: Element[],
-  currentElement: Element,
+export const focusElementInGroup = <T extends HTMLElement = HTMLElement>(
+  elements: T[],
+  currentElement: T,
   destination: FocusElementInGroupDestination,
   cycle = true,
   includeContainer = true,
@@ -583,6 +584,7 @@ export const focusElementInGroup = <T extends Element = Element>(
   }
 
   focusElement(focusTarget, includeContainer, "tabbable", targetAsContext ? focusTarget : undefined);
+
   return focusTarget;
 };
 
@@ -623,17 +625,20 @@ export async function whenTransitionDone(targetEl: HTMLElement, transitionProp: 
 }
 
 type TransitionOrAnimation = "transition" | "animation";
-type TransitionOrAnimationInstance = CSSTransition | Animation;
+type TransitionOrAnimationInstance = CSSTransition | CSSAnimation;
 
 function findAnimation(
   targetEl: HTMLElement,
   type: TransitionOrAnimation,
   transitionPropOrAnimationName: string,
 ): TransitionOrAnimationInstance | undefined {
-  const targetProp = type === "transition" ? "transitionProperty" : "animationName";
   return targetEl
     .getAnimations()
-    .find((anim: Animation | CSSTransition) => anim[targetProp] === transitionPropOrAnimationName);
+    .find((anim): anim is TransitionOrAnimationInstance =>
+      type === "transition"
+        ? "transitionProperty" in anim && anim.transitionProperty === transitionPropOrAnimationName
+        : "animationName" in anim && anim.animationName === transitionPropOrAnimationName,
+    );
 }
 
 /**

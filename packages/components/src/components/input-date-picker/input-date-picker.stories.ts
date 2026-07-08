@@ -15,6 +15,7 @@ interface InputDatePickerStoryArgs extends Pick<
   | "max"
   | "min"
   | "open"
+  | "placeholder"
   | "placement"
   | "range"
   | "readOnly"
@@ -40,6 +41,7 @@ export default {
     max: "2023-12-18",
     lang: defaultLocale,
     open: true,
+    placeholder: "Enter a date",
     placement: menuPlacement.defaultValue,
     range: false,
     readOnly: false,
@@ -97,6 +99,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       min="${args.min}"
       max="${args.max}"
       ${boolean("open", args.open)}
+      placeholder="${args.placeholder}"
       placement="${args.placement}"
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}

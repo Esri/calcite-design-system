@@ -1,6 +1,6 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
   cancelable,
   accessible,
@@ -13,8 +13,10 @@ import {
   renders,
   t9n,
   formAssociated,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS } from "./resources";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -129,5 +131,96 @@ describe("is form associated", () => {
     expectedSubmitValue: "zion national park",
     submitsOnEnter: false,
     validation: true,
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-text-area placeholder="hello" />), {
+      "--calcite-text-area-background-color": [
+        {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-text-area-border-color": {
+        shadowSelector: `.${CSS.textArea}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-text-area-font-size": [
+        {
+          shadowSelector: `.${CSS.textArea}`,
+          targetProp: "fontSize",
+        },
+        {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "fontSize",
+        },
+      ],
+      "--calcite-text-area-max-height": {
+        shadowSelector: `.${CSS.textArea}`,
+        targetProp: "maxHeight",
+      },
+      "--calcite-text-area-min-height": {
+        shadowSelector: `.${CSS.textArea}`,
+        targetProp: "minHeight",
+      },
+      "--calcite-text-area-text-color": {
+        shadowSelector: `.${CSS.textArea}`,
+        targetProp: "color",
+      },
+      "--calcite-text-area-placeholder-text-color": {
+        shadowSelector: `.${CSS.textArea}::placeholder`,
+        targetProp: "color",
+      },
+      "--calcite-text-area-corner-radius": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-text-area-shadow": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-text-area-footer-background-color": {
+        shadowSelector: `.${CSS.footer}`,
+        targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("max-chars", () => {
+    themed(() => mount(<calcite-text-area max-length="10" />), {
+      "--calcite-text-area-divider-color": {
+        shadowSelector: `.${CSS.textArea}`,
+        targetProp: "borderBlockEndColor",
+      },
+      "--calcite-text-area-footer-border-color": [
+        {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "borderBottomColor",
+        },
+        {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "borderLeftColor",
+        },
+        {
+          shadowSelector: `.${CSS.footer}`,
+          targetProp: "borderRightColor",
+        },
+      ],
+    });
+  });
+
+  describe("over limit", () => {
+    themed(() => mount(<calcite-text-area max-length="4" value="12345" />), {
+      "--calcite-text-area-character-limit-text-color": {
+        shadowSelector: `.${CSS.characterLimit}`,
+        targetProp: "color",
+      },
+    });
   });
 });

@@ -352,11 +352,14 @@ export const useForm = <T extends FormComponent>(
           clearValidationMessage(component, validationMessage);
 
           if (inputDelegate?.type === "radio") {
-            let group = component.elementInternals.form?.elements[component.name!];
-            if (group?.length > 0) {
-              group = Array.from(group).filter(
-                (element) => (element as HTMLElement).tagName === component.el.tagName,
-              ) as FormComponent["el"][];
+            const item = component.elementInternals.form?.elements.namedItem(component.name!);
+
+            if (item) {
+              const elements = "length" in item ? Array.from(item) : [item];
+              const group = elements.filter(
+                (element): element is CheckableFormComponent["el"] =>
+                  (element as HTMLElement).tagName === component.el.tagName,
+              );
               const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
               if (others?.length > 0) {
                 others.forEach((other) => {
