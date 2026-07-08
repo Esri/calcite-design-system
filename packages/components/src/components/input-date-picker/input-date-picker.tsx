@@ -614,39 +614,35 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     requestAnimationFrame(() => connectFloatingUI(this));
   }
 
-  private onInputWrapperPointerDown(): void {
-    this.currentOpenInput = this.focusedInput;
+  private onInputWrapperPointerDown(event: PointerEvent): void {
+    const currentTarget = event.currentTarget as HTMLDivElement;
+    this.currentOpenInput = currentTarget.getAttribute("data-position") as "start" | "end";
   }
 
-  private onInputWrapperClick(event: MouseEvent) {
+  private toggleInputOpen(position: "start" | "end"): void {
     const { range, currentOpenInput } = this;
-    const currentTarget = event.currentTarget as HTMLDivElement;
-    const position = currentTarget.getAttribute("data-position") as "start" | "end";
 
     if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
   }
 
-  private toggleSingleOpenClickHandler(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
+  private startInputClickHandler(): void {
+    this.toggleInputOpen("start");
+  }
+
+  private endInputClickHandler(): void {
+    this.toggleInputOpen("end");
+  }
+
+  private toggleSingleOpenClickHandler(): void {
     this.startInputRef.value?.setFocus();
     this.open = !this.open;
   }
 
-  private clearSingleValueClickHandler(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.clearValue();
-  }
-
-  private clearRangeValueClickHandler(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.clearValue();
+  private toggleRangeOpenClickHandler(): void {
+    this.focusInput();
+    this.open = !this.open;
   }
 
   private clearValue(): void {
@@ -1116,10 +1112,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.range && this.clearable && isInteractive && (hasStartValue || hasEndValue);
     const isClearableSingle = !this.range && this.clearable && isInteractive && hasStartValue;
     const rangeClearButton = (
-      <div class={CSS.clearButton} onClick={this.clearRangeValueClickHandler}>
+      <div class={CSS.clearButton} onClick={this.clearValue}>
         <ClearButton
           ariaLabel={this.messages.clear}
-          onClick={this.clearRangeValueClickHandler}
           scale={this.scale}
           title={this.messages.clear}
         />
@@ -1146,7 +1141,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
             <div
               class={CSS.inputWrapper}
               data-position={POSITION.start}
-              onClick={this.onInputWrapperClick}
               onPointerDown={this.onInputWrapperPointerDown}
               ref={this.setStartWrapper}
             >
@@ -1168,6 +1162,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                 oncalciteInternalInputTextFocus={this.startInputFocus}
+                onClick={this.startInputClickHandler}
                 placeholder={this.localeData?.placeholder}
                 readOnly={readOnly}
                 ref={this.startInputRef}
@@ -1181,10 +1176,9 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
               {!this.range && this.layout === "horizontal" && !this.readOnly ? (
                 <div class={CSS.horizontalActionsContainer}>
                   {isClearableSingle ? (
-                    <div class={CSS.clearButton} onClick={this.clearSingleValueClickHandler}>
+                    <div class={CSS.clearButton} onClick={this.clearValue}>
                       <ClearButton
                         ariaLabel={this.messages.clear}
-                        onClick={this.clearSingleValueClickHandler}
                         scale={this.scale}
                         title={this.messages.clear}
                       />
@@ -1249,7 +1243,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
               <div
                 class={CSS.inputWrapper}
                 data-position={POSITION.end}
-                onClick={this.onInputWrapperClick}
                 onPointerDown={this.onInputWrapperPointerDown}
                 ref={this.setEndWrapper}
               >
@@ -1268,6 +1261,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.endInputFocus}
+                  onClick={this.endInputClickHandler}
                   placeholder={this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.endInputRef}
@@ -1278,7 +1272,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 {this.layout === "horizontal" && !this.readOnly ? (
                   <div class={CSS.horizontalActionsContainer}>
                     {isClearableRange ? rangeClearButton : null}
-                    {this.renderToggleIcon(this.open)}
+                    {this.renderToggleIcon(this.open, this.toggleRangeOpenClickHandler)}
                   </div>
                 ) : null}
               </div>
@@ -1287,7 +1281,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
           {this.range && this.layout === "vertical" ? (
             <div class={CSS.verticalActionsContainer}>
               {isClearableRange ? rangeClearButton : null}
-              {this.renderToggleIcon(this.open)}
+              {this.renderToggleIcon(this.open, this.toggleRangeOpenClickHandler)}
             </div>
           ) : null}
         </div>
