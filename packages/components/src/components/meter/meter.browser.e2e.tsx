@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
-import { defaults, hidden, reflects, renders } from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, accessible, themed } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-meter label="A great meter" />));
+});
 
 describe("defaults", () => {
   defaults(
@@ -149,4 +154,66 @@ describe("correctly sets range and value properties", () => {
     await expect.element(el).toHaveProperty("high", 25);
     await expect.element(el).toHaveProperty("value", 210);
   });
+});
+
+describe("theme", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-meter
+          group-separator
+          high={7600}
+          low={4600}
+          max={12400}
+          min={0}
+          range-labels
+          unit-label="GB"
+          value={-2200}
+          value-label
+          value-label-type="units"
+        />,
+      ),
+    {
+      "--calcite-meter-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-meter-fill-color": {
+        shadowSelector: `.${CSS.fill}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-meter-range-text-color": {
+        shadowSelector: `.${CSS.labelValue}`,
+        targetProp: "color",
+      },
+      "--calcite-meter-value-text-color": {
+        shadowSelector: `.${CSS.labelValue}`,
+        targetProp: "color",
+      },
+      "--calcite-meter-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-meter-border-color": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.stepLine}`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-meter-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${CSS.fill}`,
+          targetProp: "borderRadius",
+        },
+      ],
+    },
+  );
 });

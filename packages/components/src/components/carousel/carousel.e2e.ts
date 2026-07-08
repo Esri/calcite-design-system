@@ -1,56 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { breakpoints } from "../../utils/responsive";
 import { findAll } from "../../tests/utils/puppeteer";
 import { centerItemsByBreakpoint, CSS } from "./resources";
 
 const customDuration = 1000;
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-carousel label="Carousel example"
-      ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-      ><calcite-carousel-item label="Carousel Item 2"
-        ><p>carousel item content</p></calcite-carousel-item
-      ></calcite-carousel
-    >`,
-  );
-});
-
-describe("accessible with autoplay paused", () => {
-  accessible(
-    html`<calcite-carousel autoplay="paused" label="Carousel example" autoplay-duration="${customDuration}"
-      ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-      ><calcite-carousel-item label="Carousel Item 2"
-        ><p>carousel item content</p></calcite-carousel-item
-      ></calcite-carousel
-    >`,
-  );
-});
-
-describe("accessible with autoplay when autoplay", () => {
-  accessible(
-    html`<calcite-carousel autoplay label="Carousel example" autoplay-duration="${customDuration}"
-      ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-      ><calcite-carousel-item label="Carousel Item 2"
-        ><p>carousel item content</p></calcite-carousel-item
-      ></calcite-carousel
-    >`,
-  );
-});
-
-describe("accessible with pagination disabled", () => {
-  accessible(
-    html`<calcite-carousel label="Carousel example" pagination-disabled
-      ><calcite-carousel-item label="Carousel Item 1"><p>carousel item content</p></calcite-carousel-item
-      ><calcite-carousel-item label="Carousel Item 2"
-        ><p>carousel item content</p></calcite-carousel-item
-      ></calcite-carousel
-    >`,
-  );
-});
 
 describe("first render", () => {
   it("should not render arrow items when requested", async () => {
@@ -90,19 +46,18 @@ describe("first render", () => {
     await page.waitForChanges();
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("before");
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual("before");
 
     await page.keyboard.press("Tab");
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual("carousel");
 
     await page.keyboard.press("Tab");
 
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual("carousel");
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual("carousel");
     expect(
       await page.$eval(
         "#carousel",
-        (element: HTMLElement, selectedClass: string) =>
-          element.shadowRoot.activeElement?.classList.contains(selectedClass),
+        (element, selectedClass: string) => element.shadowRoot!.activeElement!.classList.contains(selectedClass),
         CSS.paginationItemIndividual,
       ),
     ).toBe(true);
@@ -165,7 +120,7 @@ describe("events", () => {
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
     expect(changeSpy).not.toHaveReceivedEvent();
     let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
     expect(selectedItem.id).toEqual("two");
@@ -538,7 +493,7 @@ describe("autoplay", () => {
     const carousel = await page.find("calcite-carousel");
     const playSpy = await page.spyOnEvent("calciteCarouselPlay");
     const stopSpy = await page.spyOnEvent("calciteCarouselStop");
-    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration")) + 250;
+    const defaultSlideDurationWaitTimer = parseInt(await carousel.getProperty("autoplayDuration"), 10) + 250;
 
     let selectedItem = await carousel.find(`calcite-carousel-item[selected]`);
     expect(selectedItem.id).toEqual("two");
@@ -643,7 +598,7 @@ describe("autoplay", () => {
     expect(stopSpy).not.toHaveReceivedEvent();
     expect(pauseSpy).not.toHaveReceivedEvent();
     expect(resumeSpy).not.toHaveReceivedEvent();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
 
     await page.waitForTimeout(customDuration);
     await page.waitForChanges();
@@ -749,7 +704,7 @@ describe("autoplay", () => {
     expect(stopSpy).not.toHaveReceivedEvent();
     expect(pauseSpy).not.toHaveReceivedEvent();
     expect(resumeSpy).not.toHaveReceivedEvent();
-    expect(await page.evaluate(() => document.activeElement.id)).toEqual(carousel.id);
+    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(carousel.id);
 
     await page.waitForTimeout(customDuration);
     await page.waitForChanges();
@@ -868,8 +823,8 @@ describe("handling dom updates after initial render", () => {
     const carousel = await page.find("calcite-carousel");
     const newItemId = "newItem";
     await page.evaluate((newId) => {
-      const carousel = document.querySelector("calcite-carousel");
-      const newItem = carousel.querySelector("calcite-carousel-item:last-child").cloneNode(true);
+      const carousel = document.querySelector("calcite-carousel")!;
+      const newItem = carousel.querySelector("calcite-carousel-item:last-child")!.cloneNode(true);
       (newItem as HTMLElement).id = newId;
       carousel.appendChild(newItem);
     }, newItemId);
@@ -897,7 +852,7 @@ describe("handling dom updates after initial render", () => {
     const carousel = await page.find("calcite-carousel");
 
     await page.evaluate(() => {
-      document.querySelector("calcite-carousel-item:first-child").remove();
+      document.querySelector("calcite-carousel-item:first-child")!.remove();
     });
     await page.waitForChanges();
 
@@ -1317,161 +1272,5 @@ describe("renders the expected number of pagination items when overflowing", () 
 
     const previousButton = await page.find(`calcite-carousel >>> .${CSS.pagePrevious}`);
     expect(previousButton).toBeNull();
-  });
-
-  describe("themed", () => {
-    describe("default", () => {
-      themed(
-        html` <calcite-carousel autoplay>
-          <calcite-carousel-item label="Carousel Item 1">
-            <calcite-card>
-              <span slot="heading">Some kind of carousel item content</span>
-              <span slot="description">In this case, in a card</span>
-              <calcite-icon scale="s" slot="footer-start" icon="number-circle-1"></calcite-icon>
-            </calcite-card>
-          </calcite-carousel-item>
-          <calcite-carousel-item label="Carousel Item 2">
-            <calcite-card>
-              <span slot="heading">Some kind of carousel item content</span>
-              <span slot="description">In this case, in a card</span>
-              <calcite-icon scale="s" slot="footer-start" icon="number-circle-2"></calcite-icon>
-            </calcite-card>
-          </calcite-carousel-item>
-          <calcite-carousel-item label="Carousel Item 3">
-            <calcite-card>
-              <span slot="heading">Some kind of carousel item content</span>
-              <span slot="description">In this case, in a card</span>
-              <calcite-icon scale="s" slot="footer-start" icon="number-circle-3"></calcite-icon>
-            </calcite-card>
-          </calcite-carousel-item>
-          <calcite-carousel-item label="Carousel Item 4">
-            <calcite-card>
-              <span slot="heading">Some kind of carousel item content</span>
-              <span slot="description">In this case, in a card</span>
-              <calcite-icon scale="s" slot="footer-start" icon="number-circle-4"></calcite-icon>
-            </calcite-card>
-          </calcite-carousel-item>
-          <calcite-carousel-item label="Carousel Item 5">
-            <calcite-card>
-              <span slot="heading">Some kind of carousel item content</span>
-              <span slot="description">In this case, in a card</span>
-              <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
-            </calcite-card>
-          </calcite-carousel-item>
-        </calcite-carousel>`,
-        {
-          "--calcite-carousel-pagination-background-color": [
-            {
-              shadowSelector: `.${CSS.paginationItem}`,
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.pageNext}`,
-              targetProp: "backgroundColor",
-            },
-            {
-              shadowSelector: `.${CSS.pagePrevious}`,
-              targetProp: "backgroundColor",
-            },
-          ],
-          "--calcite-carousel-pagination-background-color-hover": [
-            {
-              shadowSelector: `.${CSS.paginationItem}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.pageNext}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.pagePrevious}`,
-              targetProp: "backgroundColor",
-              state: "hover",
-            },
-          ],
-          "--calcite-carousel-pagination-background-color-press": [
-            {
-              shadowSelector: `.${CSS.paginationItem}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.autoplayControl}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.pageNext}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-            {
-              shadowSelector: `.${CSS.pagePrevious}`,
-              targetProp: "backgroundColor",
-              state: "focus",
-            },
-          ],
-          "--calcite-carousel-pagination-background-color-selected": {
-            shadowSelector: `.${CSS.paginationItemSelected}`,
-            targetProp: "backgroundColor",
-          },
-          "--calcite-carousel-pagination-icon-color": {
-            shadowSelector: `.${CSS.paginationItem}`,
-            targetProp: "color",
-          },
-          "--calcite-carousel-pagination-icon-color-hover": {
-            shadowSelector: `.${CSS.paginationItem}`,
-            targetProp: "color",
-            state: "hover",
-          },
-          "--calcite-carousel-pagination-icon-color-selected": {
-            shadowSelector: `.${CSS.paginationItemSelected}`,
-            targetProp: "color",
-            state: "hover",
-          },
-          "--calcite-carousel-control-icon-color": [
-            {
-              shadowSelector: `.${CSS.autoplayControl}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.pageNext}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.pagePrevious}`,
-              targetProp: "color",
-            },
-          ],
-          "--calcite-carousel-control-icon-color-hover": [
-            {
-              shadowSelector: `.${CSS.autoplayControl}`,
-              targetProp: "color",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.pageNext}`,
-              targetProp: "color",
-              state: "hover",
-            },
-            {
-              shadowSelector: `.${CSS.pagePrevious}`,
-              targetProp: "color",
-              state: "hover",
-            },
-          ],
-          "--calcite-carousel-autoplay-progress-background-color": {
-            shadowSelector: `.${CSS.autoplayProgress}`,
-            targetProp: "--calcite-progress-background-color",
-          },
-          "--calcite-carousel-autoplay-progress-fill-color": {
-            shadowSelector: `.${CSS.autoplayProgress}`,
-            targetProp: "--calcite-progress-fill-color",
-          },
-        },
-      );
-    });
   });
 });

@@ -12093,5 +12093,20 @@
     "alias": ["5.0.0", "symbols", "filter", "tool", "identify", "datasets", "variables", "match"],
     "category": "Symbols",
     "release": "5.0.0"
+  },
+  "weather-radar": {
+    "alias": ["5.0.0", "weather", "data", "web", "map", "tracking", "imagery"],
+    "category": "Weather",
+    "release": "5.0.0"
+  },
+  "user-save": {
+    "alias": ["5.0.0", "people", "progress", "browser", "web", "maintain", "safeguard"],
+    "category": "People",
+    "release": "5.0.0"
+  },
+  "arcgis-enterprise": {
+    "alias": ["5.0.0", "brand", "logo", "product"],
+    "category": "Brand",
+    "release": "5.0.0"
   }
 }

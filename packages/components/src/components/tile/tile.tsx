@@ -16,7 +16,7 @@ declare global {
 }
 
 /**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
+ * @slot content-top - A slot for adding non-actionable elements above the component's content.
  * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
  */
 export class Tile extends LitElement implements SelectableComponent {
@@ -56,7 +56,7 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** Specifies a description for the component. Displays below the `heading`. */
+  /** @copyDoc */
   @property({ reflect: true }) description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -71,10 +71,10 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** Specifies the component's heading text. displays between the `icon` and `description`. */
+  /** @copyDoc */
   @property({ reflect: true }) heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
+  /** @copyDoc */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** When embed is `false`, specifies the URL for the component. */
@@ -94,7 +94,7 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label?: string;
 
   /**

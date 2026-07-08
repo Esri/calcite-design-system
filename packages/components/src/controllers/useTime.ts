@@ -66,6 +66,10 @@ type TimeProperties = {
    */
   fractionalSecond: string;
   /**
+   * Returns true if any portion of the time value is truthy.
+   */
+  hasValue: boolean;
+  /**
    * The hour portion of the time value (in ISO 24-hour format).
    */
   hour?: string;
@@ -143,6 +147,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   fractionalSecond?: string | null;
 
+  get hasValue(): boolean {
+    return Boolean(this?.hour || this?.minute || this?.second || this?.fractionalSecond || this?.meridiem);
+  }
+
   hour?: string | null;
 
   hourFormat?: EffectiveHourFormat | null;
@@ -180,7 +188,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
+      const keyAsNumber = parseInt(key, 10);
       let newHour;
       if (isValidNumber(this.hour)) {
         switch (this.hourFormat) {
@@ -227,10 +235,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   handleMinuteKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
+      const keyAsNumber = parseInt(key, 10);
       let newMinute;
       if (typeof this.minute === "string" && isValidNumber(this.minute) && this.minute.startsWith("0")) {
-        const minuteAsNumber = parseInt(this.minute);
+        const minuteAsNumber = parseInt(this.minute, 10);
         newMinute = minuteAsNumber > maxTenthForMinuteAndSecond ? keyAsNumber : `${minuteAsNumber}${keyAsNumber}`;
       } else {
         newMinute = keyAsNumber;
@@ -262,10 +270,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   handleSecondKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
-      const keyAsNumber = parseInt(key);
+      const keyAsNumber = parseInt(key, 10);
       let newSecond;
       if (typeof this.second === "string" && isValidNumber(this.second) && this.second.startsWith("0")) {
-        const secondAsNumber = parseInt(this.second);
+        const secondAsNumber = parseInt(this.second, 10);
         newSecond = secondAsNumber > maxTenthForMinuteAndSecond ? keyAsNumber : `${secondAsNumber}${keyAsNumber}`;
       } else {
         newSecond = keyAsNumber;
@@ -298,7 +306,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     const { key } = event;
     if (numberKeys.includes(key)) {
       const stepPrecision = decimalPlaces(this.component.step);
-      const fractionalSecondAsInteger = parseInt(this.fractionalSecond!);
+      const fractionalSecondAsInteger = parseInt(this.fractionalSecond!, 10);
       const fractionalSecondAsIntegerLength = fractionalSecondAsInteger.toString().length;
 
       let newFractionalSecondAsIntegerString;
@@ -371,7 +379,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#region Public Methods
 
   decrementHour(): void {
-    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour) - 1;
+    const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour, 10) - 1;
     this.setValuePart("hour", newHour);
   }
 
@@ -388,7 +396,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
       typeof this.hour === "string" && isValidNumber(this.hour)
         ? this.hour === "23"
           ? 0
-          : parseInt(this.hour) + 1
+          : parseInt(this.hour, 10) + 1
         : 1;
     this.setValuePart("hour", newHour);
   }
@@ -404,7 +412,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.component.step);
     const stepPrecision = decimalPlaces(this.component.step);
-    const fractionalSecondAsInteger = parseInt(this.fractionalSecond!);
+    const fractionalSecondAsInteger = parseInt(this.fractionalSecond!, 10);
     const fractionalSecondAsFloat = parseFloat(`0.${this.fractionalSecond}`);
     let nudgedValue;
     let nudgedValueRounded;
@@ -496,7 +504,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   private decrementMinuteOrSecond(key: MinuteOrSecond): void {
     let newValue;
     if (isValidNumber(this[key])) {
-      const valueAsNumber = parseInt(this[key]!);
+      const valueAsNumber = parseInt(this[key]!, 10);
       newValue = valueAsNumber === 0 ? 59 : valueAsNumber - 1;
     } else {
       newValue = 59;
@@ -505,7 +513,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   }
 
   private incrementMinuteOrSecond(key: MinuteOrSecond): void {
-    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]!) + 1) : 0;
+    const newValue = isValidNumber(this[key]) ? (this[key] === "59" ? 0 : parseInt(this[key]!, 10) + 1) : 0;
     this.setValuePart(key, newValue);
   }
 
@@ -610,7 +618,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
         value: this.meridiem,
       });
       if (isValidNumber(this.hour)) {
-        const hourAsNumber = parseInt(this.hour!);
+        const hourAsNumber = parseInt(this.hour!, 10);
         switch (value) {
           case "AM":
             if (hourAsNumber >= 12) {

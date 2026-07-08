@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
+
 import {
   defaults,
   disabled,
@@ -13,6 +14,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
@@ -856,14 +858,22 @@ describe("input type number increment/decrement functionality", () => {
     const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
     el.addEventListener("calciteInputInput", inputEventHandler);
+    const input = page.getBySelector("calcite-input input").element();
 
-    await el.setFocus();
-    await Promise.all([
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowDown}"),
-      userEvent.keyboard("{ArrowDown}"),
-    ]);
+    // dispatching synthetic events best emulates the original use case from https://github.com/Esri/calcite-design-system/pull/3908
+    // otherwise, `userEvent.keyboard` emits 2 additional events due to async nature
+    function dispatchKeyboardEvent(type: "keydown" | "keyup", key: "ArrowUp" | "ArrowDown"): void {
+      input.dispatchEvent(
+        new KeyboardEvent(type, { key, bubbles: true, cancelable: true, composed: true }),
+      );
+    }
+
+    await userEvent.keyboard("{Tab}");
+    dispatchKeyboardEvent("keydown", "ArrowUp");
+    dispatchKeyboardEvent("keydown", "ArrowDown");
+    dispatchKeyboardEvent("keyup", "ArrowUp");
+    dispatchKeyboardEvent("keyup", "ArrowDown");
+    vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
     expect(inputEventHandler).toHaveBeenCalledTimes(2);
   });
@@ -1384,5 +1394,137 @@ describe("number locale support", () => {
     await userEvent.keyboard(`{Tab}${value}{Tab}`);
 
     expect(el).toHaveProperty("value", "-1.0001");
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-input"), {
+      "--calcite-input-background-color": {
+        shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-border-color": {
+        shadowSelector: `input`,
+        targetProp: "borderColor",
+      },
+      "--calcite-input-shadow": {
+        shadowSelector: `.${CSS.inputWrapper}`,
+        targetProp: "boxShadow",
+      },
+    });
+  });
+
+  describe("with prefix and suffix", () => {
+    themed(() => mount(<calcite-input prefix-text="prefix" suffix-text="suffix" />), {
+      "--calcite-input-prefix-size": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-suffix-size": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-prefix-text-color": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-suffix-text-color": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with placeholder", () => {
+    themed(() => mount(<calcite-input placeholder="placeholder" />), {
+      "--calcite-input-placeholder-text-color": {
+        shadowSelector: `input::placeholder`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with icon and value", () => {
+    themed(() => mount(<calcite-input icon="layer" value="Forty two" />), {
+      "--calcite-input-corner-radius": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-input-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "color",
+      },
+      "--calcite-input-text-color": {
+        shadowSelector: `input`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with icon, value and clearable", () => {
+    themed(() => mount(<calcite-input clearable icon="layer" value="Forty two" />), {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-background-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-input-actions-background-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: { press: `calcite-input >>> .${CSS.clearButton} >>> .button` },
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+      },
+      "--calcite-input-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-actions-icon-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-icon` },
+      },
+    });
+  });
+
+  describe("with icon value and number type", () => {
+    themed(() => mount(<calcite-input icon="layer" type="number" value="42" />), {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-background-color-hover": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-input-actions-background-color-press": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .button` },
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+      },
+      "--calcite-input-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-actions-icon-color-press": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-icon` },
+      },
+    });
   });
 });

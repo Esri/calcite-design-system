@@ -1,18 +1,13 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
-import { NumberStringFormatOptions } from "../../utils/locale";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
-import type { StepperItem } from "../stepper-item/stepper-item";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
 import type { Stepper } from "./stepper";
-import { CSS } from "./resources";
 
 // we use browser-context function to click on items to workaround `E2EElement#click` error
-async function itemClicker(item: StepperItem["el"]) {
-  item.click();
+async function itemClicker(item: Element): Promise<void> {
+  (item as HTMLElement).click();
 }
 
 it("root container display is set to grid in horizontal layout", async () => {
@@ -428,10 +423,12 @@ describe("navigation", () => {
           }
 
           connectedCallback(): void {
-            this.attachShadow({ mode: "open" }).innerHTML = templateHTML;
-            const stepper = this.shadowRoot.getElementById("stepper") as Stepper["el"];
-            this.shadowRoot.getElementById("next").addEventListener("click", () => stepper.nextStep());
-            this.shadowRoot.getElementById("prev").addEventListener("click", () => stepper.prevStep());
+            const shadow = this.attachShadow({ mode: "open" });
+
+            shadow.innerHTML = templateHTML;
+            const stepper = shadow.getElementById("stepper") as Stepper["el"];
+            shadow.getElementById("next")!.addEventListener("click", () => stepper.nextStep());
+            shadow.getElementById("prev")!.addEventListener("click", () => stepper.prevStep());
           }
         },
       );
@@ -439,17 +436,17 @@ describe("navigation", () => {
       document.body.innerHTML = `<${wrapperName}></${wrapperName}>`;
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-      const wrapper = document.querySelector(wrapperName);
+      const wrapper = document.querySelector(wrapperName)!;
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-      const item2 = wrapper.shadowRoot.querySelector<HTMLElement>("#item-2");
+      const item2 = wrapper.shadowRoot!.querySelector<HTMLElement>("#item-2")!;
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       item2.click();
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-      wrapper.shadowRoot.querySelector<HTMLElement>("#next").click();
+      wrapper.shadowRoot!.querySelector<HTMLElement>("#next")!.click();
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-      return wrapper.shadowRoot.querySelector("calcite-stepper-item[selected]").id;
+      return wrapper.shadowRoot!.querySelector("calcite-stepper-item[selected]")!.id;
     }, templateHTML);
     await page.waitForChanges();
 
@@ -527,8 +524,8 @@ describe("should emit calciteStepperChange on user interaction", () => {
     expect(await getSelectedItemId()).toBe("step-2");
 
     if (hasContent) {
-      await page.$eval("#step-1", (item: StepperItem["el"]) =>
-        item.shadowRoot.querySelector<HTMLElement>(".stepper-item-content").click(),
+      await page.$eval("#step-1", (item) =>
+        item.shadowRoot!.querySelector<HTMLElement>(".stepper-item-content")!.click(),
       );
 
       if (layout === "vertical") {
@@ -685,7 +682,7 @@ it("should render correct numbering-system with multiple stepper component", asy
 
   const arabextNumeral1 = new Intl.NumberFormat("ar", {
     numberingSystem: "arabext",
-  } as NumberStringFormatOptions).format(1);
+  }).format(1);
 
   expect(stepper2Number.textContent).toBe(`${arabextNumeral1}.`);
 });
@@ -896,39 +893,5 @@ describe("horizontal-single layout", () => {
 
     const displayedItems = await findAll(page, "calcite-stepper-item:not([hidden]):not([item-hidden])");
     expect(displayedItems.length).toBe(1);
-  });
-});
-
-describe("theme", () => {
-  describe("horizontal-single", () => {
-    themed(
-      html`<calcite-stepper layout="horizontal-single" scale="m"
-        ><calcite-stepper-item heading="Item 1" active> </calcite-stepper-item
-        ><calcite-stepper-item heading="Item 2" complete> </calcite-stepper-item
-        ><calcite-stepper-item heading="Item 3" error> </calcite-stepper-item>
-      </calcite-stepper>`,
-      {
-        "--calcite-stepper-bar-gap": {
-          shadowSelector: `.${CSS.stepBarContainer}`,
-          targetProp: "gap",
-        },
-        "--calcite-stepper-bar-inactive-fill-color": {
-          shadowSelector: `.${CSS.stepBarInactive}`,
-          targetProp: "fill",
-        },
-        "--calcite-stepper-bar-active-fill-color": {
-          shadowSelector: `.${CSS.stepBarActive}`,
-          targetProp: "fill",
-        },
-        "--calcite-stepper-bar-complete-fill-color": {
-          shadowSelector: `.${CSS.stepBarComplete}`,
-          targetProp: "fill",
-        },
-        "--calcite-stepper-bar-error-fill-color": {
-          shadowSelector: `.${CSS.stepBarError}`,
-          targetProp: "fill",
-        },
-      },
-    );
   });
 });

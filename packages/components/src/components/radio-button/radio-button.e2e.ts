@@ -1,21 +1,10 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
-import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-});
 
 describe("labelable", () => {
   mockConsole();
@@ -473,33 +462,4 @@ it("works correctly inside a shadowRoot", async () => {
 
   expect(await radios[1].getProperty("checked")).toBe(true);
   expect(radios[1].getAttribute("checked")).toBe("");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-radio-button></calcite-radio-button>`, {
-      "--calcite-radio-button-background-color": {
-        targetProp: "backgroundColor",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-border-color": {
-        targetProp: "boxShadow",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-corner-radius": {
-        targetProp: "borderRadius",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-size": [
-        {
-          targetProp: "blockSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-        {
-          targetProp: "inlineSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-      ],
-    });
-  });
 });
