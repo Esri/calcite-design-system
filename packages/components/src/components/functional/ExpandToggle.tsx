@@ -60,7 +60,7 @@ const setTooltipReference = ({
   ref?: (el?: Action["el"]) => void;
 }): Action["el"] | undefined => {
   if (tooltip) {
-    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
+    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : undefined;
   }
 
   if (ref) {

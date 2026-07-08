@@ -84,6 +84,9 @@ export class TableCell extends LitElement {
   @property() numberCell = false;
 
   /** @private */
+  @property({ reflect: true }) reachesBodyEnd = false;
+
+  /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
   /** @private */

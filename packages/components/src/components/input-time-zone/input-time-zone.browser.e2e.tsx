@@ -1,6 +1,8 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -9,12 +11,17 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
   openClose,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-input-time-zone"));
+});
 
 /**
  * This file hosts component tests that do not depend on dynamic time zone changes.
@@ -87,5 +94,20 @@ describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-time-zone"), {
     testValue: "-360",
     clearable: false,
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-input-time-zone"), {
+    "--calcite-input-time-zone-corner-radius": [
+      {
+        shadowSelector: "calcite-combobox",
+        targetProp: "--calcite-combobox-corner-radius",
+      },
+      {
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+    ],
   });
 });

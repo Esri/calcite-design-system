@@ -17,6 +17,8 @@ import {
   formAssociated,
   openClose,
   topLayer,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
@@ -25,6 +27,39 @@ import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-autocomplete id="myAutocomplete" label="Item list">
+          <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+          <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+          <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
+          <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
+          <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+        </calcite-autocomplete>,
+      ),
+    );
+  });
+
+  describe("grouped items", () => {
+    accessible(() =>
+      mount(
+        <calcite-autocomplete label="Pets">
+          <calcite-autocomplete-item-group heading="Dogs">
+            <calcite-autocomplete-item heading="Rover" label="Rover" value="rover" />
+            <calcite-autocomplete-item heading="Fido" label="Fido" value="one" />
+          </calcite-autocomplete-item-group>
+          <calcite-autocomplete-item-group heading="Cats">
+            <calcite-autocomplete-item heading="Felix" label="Felix" value="felix" />
+            <calcite-autocomplete-item heading="Garfield" label="Garfield" value="garfield" />
+          </calcite-autocomplete-item-group>
+        </calcite-autocomplete>,
+      ),
+    );
+  });
+});
 
 describe("cancelable", () => {
   cancelable("calcite-autocomplete");
@@ -324,5 +359,102 @@ describe("keyboard selection", () => {
 
     expect(firstItem.selected).toBe(false);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-autocomplete open />), {
+    "--calcite-autocomplete-background-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-autocomplete-corner-radius": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "borderRadius",
+    },
+    "--calcite-autocomplete-text-color": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "color",
+    },
+    "--calcite-autocomplete-menu-max-size-y": {
+      shadowSelector: `.${CSS.contentAnimation}`,
+      targetProp: "maxBlockSize",
+    },
+    "--calcite-autocomplete-input-prefix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-size",
+    },
+    "--calcite-autocomplete-input-suffix-size": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-size",
+    },
+    "--calcite-autocomplete-input-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-background-color",
+    },
+    "--calcite-autocomplete-input-border-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-border-color",
+    },
+    "--calcite-autocomplete-input-corner-radius": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-corner-radius",
+    },
+    "--calcite-autocomplete-input-shadow": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-shadow",
+    },
+    "--calcite-autocomplete-input-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-icon-color",
+    },
+    "--calcite-autocomplete-input-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-text-color",
+    },
+    "--calcite-autocomplete-input-placeholder-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-placeholder-text-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color",
+    },
+    "--calcite-autocomplete-input-actions-background-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-background-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-background-color-press",
+    },
+    "--calcite-autocomplete-input-actions-icon-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-hover": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-hover",
+    },
+    "--calcite-autocomplete-input-actions-icon-color-press": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-actions-icon-color-press",
+    },
+    "--calcite-autocomplete-input-loading-background-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-background-color",
+    },
+    "--calcite-autocomplete-input-loading-fill-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-loading-fill-color",
+    },
+    "--calcite-autocomplete-input-prefix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-prefix-text-color",
+    },
+    "--calcite-autocomplete-input-suffix-text-color": {
+      shadowSelector: `.${CSS.input}`,
+      targetProp: "--calcite-input-suffix-text-color",
+    },
   });
 });

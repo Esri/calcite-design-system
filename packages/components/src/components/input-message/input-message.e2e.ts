@@ -1,17 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+
 import { StatusIconDefaults } from "./interfaces";
 import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(`<calcite-input-message>Text</calcite-input-message>`);
-});
-
-describe("accessible with icon", () => {
-  accessible(`<calcite-input-message icon>Text</calcite-input-message>`);
-});
 
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();
@@ -130,47 +121,6 @@ describe("when icon prop is provided", () => {
         requestedIcon = await iconEl.getAttribute("icon");
         expect(requestedIcon).toEqual("view-hide");
       });
-    });
-  });
-});
-
-describe("theme", () => {
-  describe("status", () => {
-    describe("invalid", () => {
-      themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
-        "--calcite-input-message-icon-color": {
-          shadowSelector: `.${CSS.inputMessageIcon}`,
-          targetProp: "color",
-        },
-      });
-    });
-    describe("valid", () => {
-      themed(html`<calcite-input-message icon status="valid">Message</calcite-input-message>`, {
-        "--calcite-input-message-icon-color": {
-          shadowSelector: `.${CSS.inputMessageIcon}`,
-          targetProp: "color",
-        },
-      });
-    });
-    describe("idle", () => {
-      themed(html`<calcite-input-message icon status="idle">Message</calcite-input-message>`, {
-        "--calcite-input-message-icon-color": {
-          shadowSelector: `.${CSS.inputMessageIcon}`,
-          targetProp: "color",
-        },
-      });
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(html`<calcite-input-message icon status="invalid">Message</calcite-input-message>`, {
-      "--calcite-input-message-spacing-value": {
-        targetProp: "marginBlockStart",
-      },
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.inputMessageIcon}`,
-        targetProp: "color",
-      },
     });
   });
 });

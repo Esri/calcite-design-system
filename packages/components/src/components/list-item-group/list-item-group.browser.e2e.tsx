@@ -1,6 +1,8 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { defaults, hidden, renders, disabled } from "../../tests/commonTests/browser";
+import { defaults, hidden, renders, disabled, themed } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -36,4 +38,19 @@ describe("renders", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-list-item-group"), { focusTarget: "none" });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-list-item-group heading="Buildings" />), {
+      "--calcite-list-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-list-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+    });
+  });
 });

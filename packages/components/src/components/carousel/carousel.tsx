@@ -13,7 +13,6 @@ import { breakpoints } from "../../utils/responsive";
 import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -88,7 +87,7 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -560,9 +559,12 @@ export class Carousel extends LitElement {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabListRef.value!.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value!.querySelectorAll<HTMLButtonElement>(
+        `button:not(.${CSS.paginationItemOutOfRange})`,
+      ),
     );
-    const currentEl = event.target as Action["el"];
+    const currentEl = event.target as HTMLButtonElement;
+
     switch (event.key) {
       case "ArrowRight":
         focusElementInGroup(visiblePaginationEls, currentEl, "next");
@@ -698,11 +700,8 @@ export class Carousel extends LitElement {
 
     return (
       <div ariaLive="off" class={CSS.paginationAriaLive} role="status">
-        {messages
-          .paginationStatus!.replace(
-            "{current}",
-            numberStringFormatter.localize(`${selectedIndex + 1}`),
-          )
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
           .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
       </div>
     );

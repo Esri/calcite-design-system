@@ -1,7 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
@@ -266,46 +266,6 @@ it("should set embedded on slotted alerts", async () => {
   expect(await alert.getProperty("embedded")).toBe(true);
 });
 
-describe("accessible", () => {
-  accessible(html`
-    <calcite-panel>
-      <calcite-action-bar slot="${SLOTS.actionBar}">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"></calcite-action>
-          <calcite-action text="Save" icon="save"></calcite-action>
-          <calcite-action text="Layers" icon="layers"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <div slot="${SLOTS.headerActionsStart}">test start</div>
-      <div slot="${SLOTS.headerContent}">test content</div>
-      <div slot="${SLOTS.headerActionsEnd}">test end</div>
-      <p>Content</p>
-      <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-      <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-    </calcite-panel>
-  `);
-
-  describe("collapsible and closable", () => {
-    accessible(html`
-      <calcite-panel collapsible closable>
-        <calcite-action-bar slot="${SLOTS.actionBar}">
-          <calcite-action-group>
-            <calcite-action text="Add" icon="plus"></calcite-action>
-            <calcite-action text="Save" icon="save"></calcite-action>
-            <calcite-action text="Layers" icon="layers"></calcite-action>
-          </calcite-action-group>
-        </calcite-action-bar>
-        <div slot="${SLOTS.headerActionsStart}">test start</div>
-        <div slot="${SLOTS.headerContent}">test content</div>
-        <div slot="${SLOTS.headerActionsEnd}">test end</div>
-        <p>Content</p>
-        <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-        <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-      </calcite-panel>
-    `);
-  });
-});
-
 it("honors calcitePanelScroll event", async () => {
   const page = await newE2EPage({
     html: "<calcite-panel>test</calcite-panel>",
@@ -537,11 +497,15 @@ describe("closable", () => {
       expect(await container.isVisible()).toBe(true);
 
       await page.$eval("calcite-panel", (panel: Panel["el"]) => {
-        panel.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            event.preventDefault();
-          }
-        });
+        panel.ownerDocument.addEventListener(
+          "keydown",
+          (event) => {
+            if (event.key === "Escape") {
+              event.preventDefault();
+            }
+          },
+          { capture: true },
+        );
       });
 
       await panel.press("Escape");
@@ -595,169 +559,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("collapsed")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  themed(
-    html`<calcite-panel
-      icon="banana"
-      heading="Terms and conditions"
-      description="Something great about this"
-      closable
-      collapsible
-    >
-      <calcite-action text="banana" text-enabled icon="banana" slot="header-menu-actions"></calcite-action>
-      <calcite-action text="measure" text-enabled icon="measure" slot="header-menu-actions"></calcite-action>
-      <calcite-action text="Layers" icon="question" slot="header-actions-end"></calcite-action>
-      <div slot="content-top">To continue, you must agree to the terms</div>
-      <calcite-label slot="content-bottom" layout="inline-space-between" style="--calcite-label-margin-bottom: 0">
-        <calcite-checkbox></calcite-checkbox>I agree to the terms
-      </calcite-label>
-      <p>
-        Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam fringilla
-        viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros. Aenean sodales
-        sollicitudin dui in fermentum. Fusce egestas erat nec eros sodales ornare. Ut malesuada est tortor, vitae semper
-        turpis rutrum at. Donec suscipit, nulla in euismod luctus, nulla sapien interdum tortor, a iaculis elit mi sed
-        lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor, porttitor est sed, vestibulum risus.
-        Integer non erat libero.
-      </p>
-      <p>
-        Cras sagittis vel neque sed efficitur. Vestibulum mattis diam eget urna condimentum tempus. Donec malesuada
-        velit sit amet metus faucibus pharetra. Sed sit amet massa facilisis, porttitor nunc vitae, sollicitudin mauris.
-        Nullam nec rhoncus augue. Praesent rhoncus varius sapien, sit amet porttitor nisl varius eu. Pellentesque at
-        eros eget metus dignissim lacinia. Sed sed justo eget sapien ultrices commodo. Donec eget pretium urna.
-        Vestibulum ut tortor ut quam viverra dictum. Morbi ut turpis velit. Phasellus maximus lacus nunc, ac consequat
-        est varius in. Nullam facilisis, purus ut aliquet condimentum, est tortor accumsan justo, at sagittis urna dolor
-        eget lacus. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-      </p>
-      <p>
-        Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam fringilla
-        viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros. Aenean sodales
-        sollicitudin dui in fermentum. Fusce egestas erat nec eros sodales ornare. Ut malesuada est tortor, vitae semper
-        turpis rutrum at. Donec suscipit, nulla in euismod luctus, nulla sapien interdum tortor, a iaculis elit mi sed
-        lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor, porttitor est sed, vestibulum risus.
-        Integer non erat libero.
-      </p>
-      <calcite-button slot="footer-end"> I'm done </calcite-button>
-    </calcite-panel>`,
-    {
-      "--calcite-panel-corner-radius": {
-        targetProp: "borderRadius",
-      },
-      "--calcite-panel-heading-text-color": {
-        shadowSelector: `.${CSS.heading}`,
-        targetProp: "color",
-      },
-      "--calcite-panel-description-text-color": {
-        shadowSelector: `.${CSS.description}`,
-        targetProp: "color",
-      },
-      "--calcite-panel-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "--calcite-icon-color",
-      },
-      "--calcite-panel-background-color": {
-        shadowSelector: `.${CSS.contentWrapper}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-panel-header-action-background-color": {
-        shadowSelector: `.${CSS.menuAction}`,
-        targetProp: "--calcite-action-background-color",
-      },
-      "--calcite-panel-header-action-background-color-hover": {
-        shadowSelector: `.${CSS.menuAction}`,
-        targetProp: "--calcite-action-background-color-hover",
-        state: "hover",
-      },
-      "--calcite-panel-header-action-background-color-press": {
-        shadowSelector: `.${CSS.menuAction}`,
-        targetProp: "--calcite-action-background-color-press",
-        state: { press: `calcite-panel >>> .${CSS.menuAction}` },
-      },
-      "--calcite-panel-header-action-text-color": {
-        shadowSelector: `.${CSS.menuAction}`,
-        targetProp: "--calcite-action-text-color",
-      },
-      "--calcite-panel-header-action-text-color-press": {
-        shadowSelector: `.${CSS.menuAction}`,
-        targetProp: "--calcite-action-text-color-press",
-        state: { press: `calcite-panel >>> .${CSS.menuAction}` },
-      },
-      "--calcite-panel-header-background-color": {
-        shadowSelector: `.${CSS.header}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-panel-footer-background-color": {
-        shadowSelector: `.${CSS.footer}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-panel-border-color": [
-        {
-          shadowSelector: `.${CSS.header}`,
-          targetProp: "borderBlockEndColor",
-        },
-        {
-          shadowSelector: `.${CSS.contentTop}`,
-          targetProp: "borderBlockStartColor",
-        },
-        {
-          shadowSelector: `.${CSS.contentBottom}`,
-          targetProp: "borderBlockStartColor",
-        },
-        {
-          shadowSelector: `.${CSS.footer}`,
-          targetProp: "borderBlockStartColor",
-        },
-      ],
-      "--calcite-panel-space": {
-        shadowSelector: `.${CSS.contentWrapper}`,
-        targetProp: "padding",
-      },
-      "--calcite-panel-footer-space": {
-        shadowSelector: `.${CSS.footer}`,
-        targetProp: "padding",
-      },
-      "--calcite-panel-content-space": {
-        shadowSelector: `.${CSS.contentWrapper}`,
-        targetProp: "padding",
-      },
-      "--calcite-panel-content-top-space": {
-        shadowSelector: `.${CSS.contentTop}`,
-        targetProp: "padding",
-      },
-      "--calcite-panel-content-bottom-space": {
-        shadowSelector: `.${CSS.contentBottom}`,
-        targetProp: "padding",
-      },
-    },
-  );
-  themed(
-    html`<calcite-panel heading="Terms and conditions" description="Something great about this" closable collapsible>
-      <div slot="header-content">Custom header content</div>
-      <p>
-        Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo vitae quam fringilla
-        viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus ante, eu dignissim eros. Aenean sodales
-        sollicitudin dui in fermentum. Fusce egestas erat nec eros sodales ornare. Ut malesuada est tortor, vitae semper
-        turpis rutrum at. Donec suscipit, nulla in euismod luctus, nulla sapien interdum tortor, a iaculis elit mi sed
-        lectus. Morbi in congue metus, non imperdiet ex. Nunc et neque tempor, porttitor est sed, vestibulum risus.
-        Integer non erat libero.
-      </p>
-      <calcite-button slot="footer-end"> I'm done </calcite-button>
-    </calcite-panel>`,
-    {
-      "--calcite-panel-header-content-space": {
-        shadowSelector: `.${CSS.headerSlottedContent}`,
-        targetProp: "padding",
-      },
-    },
-  );
-});
-
-describe("deprecated", () => {
-  themed(html`<calcite-panel heading="Hello World" icon="smile"> </calcite-panel>`, {
-    "--calcite-ui-icon-color": {
-      shadowSelector: `.${CSS.icon}`,
-      targetProp: "--calcite-icon-color",
-    },
-  });
 });
