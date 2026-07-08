@@ -20,13 +20,15 @@ Follow these conventions when adding or editing API reference:
 
 ### Shared definitions using `@copyDoc`
 
-Descriptions that are shared across components should use the @copyDoc tag to improve consistency and reduce repetition in the repository.
+Descriptions that are shared across components should use the `@copyDoc` tag to improve consistency and reduce repetition in the repository.
 
 #### Support
 
-- Supported sections: `properties`, `methods`, and `events`
-- Unsupported sections: `slots`
-- Supported fields: `deprecated`, `description`, `docsTags`, `readonly`, and `return`
+- @copyDoc support includes:
+  - Sections: properties, methods, and events
+  - Fields: deprecated, description, docTags, readonly, and return
+- Unsupported in @copyDoc:
+  - Sections: slots
 
 #### Usage
 
