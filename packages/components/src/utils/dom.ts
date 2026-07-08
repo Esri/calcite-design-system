@@ -711,3 +711,17 @@ export function viewportUnitToPixel(value: number, viewportSize: number): number
   // intentionally dividing last to avoid rounding errors
   return (value * viewportSize) / 100;
 }
+
+/**
+ * Helper to determine if an element is within the viewport.
+ */
+export function inViewport(el: HTMLElement): boolean {
+  const bounds = el.getBoundingClientRect();
+
+  return (
+    bounds.top >= 0 &&
+    bounds.left >= 0 &&
+    bounds.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+    bounds.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+  );
+}

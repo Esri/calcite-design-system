@@ -16,7 +16,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
-import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
+import { focusElement, getElementWidth, getTextWidth, inViewport } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -58,7 +58,7 @@ import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, ICONS, IDS } from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -903,16 +903,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     return this.isMulti() ? orderByPrevious(selectedItems, this.selectedItems) : selectedItems;
   }
 
-  private comboboxInViewport(): boolean {
-    const bounding = this.el.getBoundingClientRect();
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-      bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-    );
-  }
-
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
 
@@ -980,7 +970,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           }
           this.scrollToActiveOrSelectedItem();
 
-          if (!this.comboboxInViewport()) {
+          if (!inViewport(this.el)) {
             this.el.scrollIntoView();
           }
         }
@@ -997,7 +987,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           }
           this.scrollToActiveOrSelectedItem();
 
-          if (!this.comboboxInViewport()) {
+          if (!inViewport(this.el)) {
             this.el.scrollIntoView();
           }
         }
@@ -1018,7 +1008,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         event.preventDefault();
         this.updateActiveItemIndex(0);
         this.scrollToActiveOrSelectedItem();
-        if (!this.comboboxInViewport()) {
+        if (!inViewport(this.el)) {
           this.el.scrollIntoView();
         }
         break;
@@ -1029,7 +1019,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
         this.scrollToActiveOrSelectedItem();
-        if (!this.comboboxInViewport()) {
+        if (!inViewport(this.el)) {
           this.el.scrollIntoView();
         }
         break;
