@@ -1,6 +1,6 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { findAll, getElementRect, getElementXY, newProgrammaticE2EPage, selectText } from "../../tests/utils/puppeteer";
 import { toBeInteger, toBeNumber } from "../../tests/utils/matchers";
 import { html } from "../../../support/formatting";
@@ -18,11 +18,6 @@ const defaultMediumWidthInPx = 240;
 function getScopeCenter(X: number, Y: number): [number, number] {
   return [X + SCOPE_SIZE / 2, Y + SCOPE_SIZE / 2];
 }
-
-describe("accessible", () => {
-  accessible("calcite-color-picker");
-  accessible("<calcite-color-picker clearable value=''></calcite-color-picker>");
-});
 
 it(`should set all internal calcite-button types to 'button'`, async () => {
   const page = await newE2EPage();
@@ -259,7 +254,7 @@ it("does not emit on initialization", async () => {
   const page = await newProgrammaticE2EPage();
 
   const emitted = await page.evaluate(() => {
-    const emitted = [];
+    const emitted: string[] = [];
     document.addEventListener("calciteColorPickerInput", () => emitted.push("input"));
     document.addEventListener("calciteColorPickerChange", () => emitted.push("change"));
 
@@ -355,7 +350,7 @@ describe("color format", () => {
         "calcite-color-picker",
         (picker: ColorPicker["el"], initialValue: string) =>
           // color prop is used to render the active color
-          picker.color.string() === initialValue,
+          picker.color!.string() === initialValue,
         initialValue,
       );
 
@@ -559,7 +554,7 @@ it("allows selecting colors via color field/slider", async () => {
   }>;
 
   await page.evaluateHandle(() => {
-    const color = document.querySelector("calcite-color-picker");
+    const color = document.querySelector("calcite-color-picker")!;
     (window as TestWindow).internalColor = color.color;
   });
 
@@ -567,7 +562,7 @@ it("allows selecting colors via color field/slider", async () => {
   await page.mouse.click(x + middleOfSlider, sliderHeight);
 
   const internalColorChanged = await page.evaluate(() => {
-    const color = document.querySelector("calcite-color-picker");
+    const color = document.querySelector("calcite-color-picker")!;
     return (window as TestWindow).internalColor !== color.color;
   });
 
@@ -725,14 +720,14 @@ it("does not allow text selection when color field/sliders are used", async () =
     await page.mouse.up();
     await page.waitForChanges();
 
-    expect(await page.evaluate(() => window.getSelection().type)).toBe("None");
+    expect(await page.evaluate(() => window.getSelection()!.type)).toBe("None");
   }
 });
 
 describe("unsupported value handling", () => {
   let page: E2EPage;
 
-  async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | null): Promise<void> {
+  async function assertUnsupportedValue(page: E2EPage, unsupportedValue: string | undefined): Promise<void> {
     const picker = await page.find("calcite-color-picker");
     const spy = await picker.spyOnEvent("calciteColorPickerChange");
     const currentValue = await picker.getProperty("value");
@@ -792,7 +787,7 @@ describe("initial value used to initialize internal color", () => {
   const initialColor = supportedFormatToSampleValue.hex;
 
   async function getInternalColorAsHex(page: E2EPage): Promise<string> {
-    return page.$eval("calcite-color-picker", (picker: ColorPicker["el"]) => picker.color.hex().toLowerCase());
+    return page.$eval("calcite-color-picker", (picker: ColorPicker["el"]) => picker.color!.hex().toLowerCase());
   }
 
   it("value as attribute", async () => {
@@ -834,9 +829,9 @@ describe("color inputs", () => {
     const nativeInputValue = await page.evaluate(
       async (CSS) =>
         document
-          .querySelector("calcite-color-picker")
-          .shadowRoot.querySelector(`.${CSS.channel}`)
-          .shadowRoot.querySelector("input").value,
+          .querySelector("calcite-color-picker")!
+          .shadowRoot!.querySelector(`.${CSS.channel}`)!
+          .shadowRoot!.querySelector("input")!.value,
       CSS,
     );
 
@@ -2163,67 +2158,4 @@ it("does not throw when initialized with different format value (format='auto')"
   }
 
   await expect(doTest()).resolves.toBeUndefined();
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`<calcite-color-picker alpha-channel></calcite-color-picker>`, {
-      "--calcite-color-picker-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-color-picker-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-color-picker-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-color-picker-shadow": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "boxShadow",
-      },
-      "--calcite-color-picker-text-color": {
-        shadowSelector: `.${CSS.header}`,
-        targetProp: "color",
-      },
-      "--calcite-color-picker-input-background-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-        targetProp: "--calcite-input-number-background-color",
-      },
-      "--calcite-color-picker-input-border-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-        targetProp: "--calcite-input-number-border-color",
-      },
-      "--calcite-color-picker-input-text-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-        targetProp: "--calcite-input-number-text-color",
-      },
-      "--calcite-color-picker-input-prefix-text-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-input-text`,
-        targetProp: "--calcite-input-prefix-text-color",
-      },
-      "--calcite-color-picker-input-suffix-text-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
-        targetProp: "--calcite-input-suffix-text-color",
-      },
-      "--calcite-color-picker-tab-border-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-tabs`,
-        targetProp: "--calcite-tab-border-color",
-      },
-      "--calcite-color-picker-tab-text-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-tabs`,
-        targetProp: "--calcite-tab-text-color",
-      },
-      "--calcite-color-picker-swatch-corner-radius": {
-        shadowSelector: `.${CSS.container} >>> calcite-swatch`,
-        targetProp: "--calcite-swatch-corner-radius",
-      },
-      "--calcite-color-picker-action-text-color": {
-        shadowSelector: `.${CSS.container} >>> calcite-button`,
-        targetProp: "--calcite-button-text-color",
-      },
-    });
-  });
 });

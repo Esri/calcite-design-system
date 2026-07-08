@@ -186,10 +186,10 @@ export class List extends LitElement {
   //#region Public Properties
 
   /** When provided, the method will be called to determine whether the element can move from the list. */
-  @property() canPull: (detail: ListDragDetail) => boolean | "clone";
+  @property() canPull?: (detail: ListDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another list. */
-  @property() canPut: (detail: ListDragDetail) => boolean;
+  @property() canPut?: (detail: ListDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -267,7 +267,7 @@ export class List extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**

@@ -1393,6 +1393,9 @@
     "geology-index": 61930,
     "fire-index": 61931,
     "building-index": 61932,
-    "smart-search": 61933
+    "smart-search": 61933,
+    "weather-radar": 61934,
+    "user-save": 61935,
+    "arcgis-enterprise": 61936
   }
 }

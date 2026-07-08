@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
@@ -38,7 +37,7 @@ export class SortHandle extends LitElement {
 
   //#region Private Properties
 
-  private dropdownEl: Dropdown["el"];
+  private dropdownEl?: Dropdown["el"];
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -48,7 +47,7 @@ export class SortHandle extends LitElement {
 
   get hasValidSetInfo(): boolean {
     return this.hasSetInfo
-      ? this.setPosition > 0 && this.setPosition <= this.setSize && this.setSize > 0
+      ? this.setPosition! > 0 && this.setPosition! <= this.setSize! && this.setSize! > 0
       : true;
   }
 
@@ -102,13 +101,13 @@ export class SortHandle extends LitElement {
   }
 
   get isDownReorderDisabled(): boolean {
-    return this.setPosition === this.setSize;
+    return this.hasSetInfo && this.setPosition === this.setSize;
   }
 
   get isBottomReorderDisabled(): boolean {
     const { setPosition, setSize } = this;
 
-    return setPosition === setSize || setPosition === setSize - 1;
+    return this.hasSetInfo && (setPosition === setSize || setPosition === setSize! - 1);
   }
 
   private interactiveContainer = useInteractive(this);
@@ -120,13 +119,13 @@ export class SortHandle extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -145,13 +144,7 @@ export class SortHandle extends LitElement {
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -163,25 +156,23 @@ export class SortHandle extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the handle's current position. */
-  @property() setPosition: number;
+  @property() setPosition?: number;
 
   /** Specifies the total number of sortable items. */
-  @property() setSize: number;
+  @property() setSize?: number;
 
   /** When `true`, prevents sorting of items. */
   @property({ reflect: true }) sortDisabled = false;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the width of the component. */
-  @property({ reflect: true }) widthScale: Scale;
+  @property({ reflect: true }) widthScale?: Scale;
 
   //#endregion
 
@@ -311,13 +302,13 @@ export class SortHandle extends LitElement {
 
   private handleMoveTo(event: Event): void {
     const id = (event.target as HTMLElement).dataset.id;
-    const moveTo = this.moveToItems.find((item) => item.id === id);
+    const moveTo = this.moveToItems.find((item) => item.id === id)!;
     this.calciteSortHandleMove.emit({ moveTo });
   }
 
   private handleAddTo(event: Event): void {
     const id = (event.target as HTMLElement).dataset.id;
-    const addTo = this.addToItems.find((item) => item.id === id);
+    const addTo = this.addToItems.find((item) => item.id === id)!;
     this.calciteSortHandleAdd.emit({ addTo });
   }
 

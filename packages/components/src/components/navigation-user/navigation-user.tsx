@@ -28,13 +28,13 @@ export class NavigationUser extends LitElement {
   // #region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active = false;
 
   /** Specifies the full name of the user. */
-  @property() fullName: string;
+  @property() fullName?: string;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */
   @property({ reflect: true }) textDisabled = false;
@@ -47,13 +47,13 @@ export class NavigationUser extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
-  @property() thumbnail: string;
+  @property() thumbnail?: string;
 
   /** Specifies the unique id of the user. */
-  @property() userId: string;
+  @property() userId?: string;
 
   /** Specifies the username of the user. */
-  @property() username: string;
+  @property() username?: string;
 
   // #endregion
 

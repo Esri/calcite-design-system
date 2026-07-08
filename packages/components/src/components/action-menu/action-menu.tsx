@@ -49,7 +49,7 @@ export class ActionMenu extends LitElement {
 
   private actionElements: Action["el"][] = [];
 
-  private defaultMenuButtonEl: Action["el"];
+  private defaultMenuButtonEl?: Action["el"];
 
   private menuButtonClick = (): void => {
     this.toggleOpen();
@@ -99,11 +99,11 @@ export class ActionMenu extends LitElement {
 
   private _open = false;
 
-  private popoverEl: Popover["el"];
+  private popoverEl?: Popover["el"];
 
-  private slottedMenuButtonEl: Action["el"];
+  private slottedMenuButtonEl?: Action["el"];
 
-  private tooltipEl: Tooltip["el"];
+  private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
@@ -122,7 +122,7 @@ export class ActionMenu extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   private mouseDownHandler = (event: MouseEvent): void => {
-    if (!event.composedPath().some(isAction)) {
+    if (!(event.composedPath() as Element[]).some(isAction)) {
       return;
     }
 
@@ -135,7 +135,7 @@ export class ActionMenu extends LitElement {
 
   @state() activeMenuItemIndex = -1;
 
-  @state() menuButtonEl: Action["el"];
+  @state() menuButtonEl?: Action["el"];
 
   //#endregion
 
@@ -147,15 +147,15 @@ export class ActionMenu extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, the component is open. */
   @property({ reflect: true })
@@ -170,22 +170,14 @@ export class ActionMenu extends LitElement {
     }
   }
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -348,7 +340,7 @@ export class ActionMenu extends LitElement {
       this.menuButtonKeyDown,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
-    this.menuButtonEl = null;
+    this.menuButtonEl = undefined;
   }
 
   private setMenuButtonEl(event: Event): void {
@@ -397,7 +389,7 @@ export class ActionMenu extends LitElement {
     const { tooltipEl, expanded, menuButtonEl, open } = this;
 
     if (tooltipEl) {
-      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : undefined;
     }
   }
 
@@ -412,7 +404,7 @@ export class ActionMenu extends LitElement {
       })
       .reduce<Action["el"][]>((previousValue, currentValue) => {
         if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue as Action["el"]);
+          previousValue.push(currentValue);
           return previousValue;
         }
 
@@ -545,7 +537,7 @@ export class ActionMenu extends LitElement {
         triggerDisabled={true}
       >
         <div
-          aria-activedescendant={activeDescendantId}
+          aria-activedescendant={activeDescendantId ?? undefined}
           aria-labelledby={menuButtonEl?.id}
           class={CSS.menu}
           id={menuId}

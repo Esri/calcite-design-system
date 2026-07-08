@@ -77,11 +77,14 @@ export class TableCell extends LitElement {
   /** @private */
   @property() lastCell = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
   @property() numberCell = false;
+
+  /** @private */
+  @property({ reflect: true }) reachesBodyEnd = false;
 
   /** @private */
   @property() parentRowAlignment: Alignment = "start";

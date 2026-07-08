@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
 import {
   createEvent,
@@ -68,37 +67,37 @@ export class DatePicker extends LitElement {
   //#region State Properties
 
   /** Active end date. */
-  @state() activeEndDate: Date;
+  @state() activeEndDate?: Date;
 
   /** Active start date. */
-  @state() activeStartDate: Date;
+  @state() activeStartDate?: Date;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
    *
    * @private
    */
-  @state() dateTimeFormat: Intl.DateTimeFormat;
+  @state() dateTimeFormat!: Intl.DateTimeFormat;
 
-  @state() private hoverRange: HoverRange;
+  @state() private hoverRange?: HoverRange;
 
-  @state() private localeData: DateLocaleData;
+  @state() private localeData!: DateLocaleData;
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies the component's active date. */
-  @property() activeDate: Date;
+  @property() activeDate?: Date;
 
   /** When `range` is `true`, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
-  @property({ reflect: true }) activeRange: "start" | "end";
+  @property({ reflect: true }) activeRange?: "start" | "end";
 
   /** When `range` is `true`, specifies the number of calendars displayed. */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -107,28 +106,28 @@ export class DatePicker extends LitElement {
    * When the component resides in a form,
    * specifies the latest allowed date (`"yyyy-mm-dd"`).
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
   /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @property() maxAsDate: Date;
+  @property() maxAsDate?: Date;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the earliest allowed date (`"yyyy-mm-dd"`).
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
   /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
-  @property() minAsDate: Date;
+  @property() minAsDate?: Date;
 
   /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
   @property({ reflect: true }) proximitySelectionDisabled = false;
@@ -140,10 +139,10 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). */
-  @property() value: string | string[];
+  @property() value?: string | string[];
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
-  @property() valueAsDate: Date | Date[];
+  @property() valueAsDate?: Date | Date[];
 
   //#endregion
 
@@ -208,13 +207,13 @@ export class DatePicker extends LitElement {
     const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
-      this.minAsDate = dateFromISO(this.min);
+      this.minAsDate = this.min ? dateFromISO(this.min) : undefined;
     } else if (minSource === "minAsDate") {
       this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
     }
 
     if (maxSource === "max") {
-      this.maxAsDate = dateFromISO(this.max);
+      this.maxAsDate = this.max ? dateFromISO(this.max) : undefined;
     } else if (maxSource === "maxAsDate") {
       this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
     }
@@ -240,7 +239,7 @@ export class DatePicker extends LitElement {
 
   //#region Private Methods
 
-  private activeDateWatcher(newValue: Date): void {
+  private activeDateWatcher(newValue: Date | undefined): void {
     if (!this.range) {
       return;
     }
@@ -252,8 +251,9 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private valueHandler(value: string | string[]): void {
+  private valueHandler(value: string | string[] | undefined): void {
     if (Array.isArray(value)) {
+      // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
       this.valueAsDate = getValueAsDateRange(value);
       if (!this.rangeValueChangedByUser) {
         this.resetActiveDates();
@@ -263,7 +263,7 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private valueAsDateWatcher(newValueAsDate: Date | Date[]): void {
+  private valueAsDateWatcher(newValueAsDate?: Date | (Date | undefined)[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
     } else if (!this.range && newValueAsDate && newValueAsDate !== this.activeDate) {
@@ -318,8 +318,9 @@ export class DatePicker extends LitElement {
     } else {
       const month = date.getMonth();
       const isDateOutOfCurrentRange =
-        month !== this.activeStartDate.getMonth() &&
-        (this.calendars === 1 || month !== nextMonth(this.activeStartDate).getMonth());
+        month !== this.activeStartDate?.getMonth() &&
+        (this.calendars === 1 ||
+          (this.activeStartDate ? month !== nextMonth(this.activeStartDate).getMonth() : false));
 
       if (this.activeRange === "end") {
         if (!this.activeEndDate || (this.activeStartDate && isDateOutOfCurrentRange)) {
@@ -342,8 +343,8 @@ export class DatePicker extends LitElement {
       return;
     }
     const { valueAsDate } = this;
-    const start = Array.isArray(valueAsDate) && valueAsDate[0];
-    const end = Array.isArray(valueAsDate) && valueAsDate[1];
+    const start = Array.isArray(valueAsDate) ? valueAsDate[0] : undefined;
+    const end = Array.isArray(valueAsDate) ? valueAsDate[1] : undefined;
 
     const date = new Date(event.detail);
     this.hoverRange = {
@@ -353,10 +354,10 @@ export class DatePicker extends LitElement {
     };
 
     if (this.proximitySelectionDisabled) {
-      if ((end && start) || (!end && date >= start)) {
+      if ((end && start) || (!end && start && date >= start)) {
         this.hoverRange.focused = "end";
         this.hoverRange.end = date;
-      } else if (!end && date < start) {
+      } else if (!end && start && date < start) {
         this.hoverRange = {
           focused: "start",
           start: date,
@@ -366,7 +367,7 @@ export class DatePicker extends LitElement {
         this.hoverRange = undefined;
       }
     } else {
-      if (this.activeRange) {
+      if (this.activeRange && this.hoverRange) {
         if (this.activeRange === "end") {
           this.hoverRange.end = date;
           this.hoverRange.focused = "end";
@@ -435,28 +436,30 @@ export class DatePicker extends LitElement {
     this.hoverRange = undefined;
   }
 
-  private getEndDate(): Date {
+  private getEndDate(): Date | undefined {
     return (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined;
   }
 
-  private setEndDate(date: Date, emit = true): void {
+  private setEndDate(date?: Date, emit = true): void {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [startDate, date];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
     }
   }
 
-  private getStartDate(): Date {
-    return Array.isArray(this.valueAsDate) && this.valueAsDate[0];
+  private getStartDate(): Date | undefined {
+    return (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined;
   }
 
   private setStartDate(date: Date, emit = true): void {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [date, endDate];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
@@ -478,8 +481,8 @@ export class DatePicker extends LitElement {
 
     if (!this.range) {
       this.value = isoDate || "";
-      this.valueAsDate = date || null;
-      this.activeDate = date || null;
+      this.valueAsDate = date || undefined;
+      this.activeDate = date || undefined;
       this.calciteDatePickerChange.emit();
       return;
     }
@@ -501,7 +504,7 @@ export class DatePicker extends LitElement {
     } else {
       if (this.proximitySelectionDisabled) {
         this.setStartDate(date, false);
-        this.setEndDate(null, false);
+        this.setEndDate(undefined, false);
         this.calciteDatePickerRangeChange.emit();
       } else {
         if (this.activeRange) {
@@ -510,8 +513,8 @@ export class DatePicker extends LitElement {
           } else {
             //allows start end to go beyond end date and set the end date to empty while editing
             if (date > end) {
-              this.setEndDate(null, false);
-              this.activeEndDate = null;
+              this.setEndDate(undefined, false);
+              this.activeEndDate = undefined;
             }
             this.setStartDate(date);
           }
@@ -541,7 +544,7 @@ export class DatePicker extends LitElement {
    * @param min
    * @param max
    */
-  private getActiveDate(value: Date | null, min: Date | null, max: Date | null): Date {
+  private getActiveDate(value?: Date, min?: Date, max?: Date): Date | undefined {
     const activeDate = dateFromRange(new Date(), min, max);
 
     return (
@@ -553,7 +556,7 @@ export class DatePicker extends LitElement {
     );
   }
 
-  private getActiveEndDate(value: Date | null, min: Date | null, max: Date | null): Date {
+  private getActiveEndDate(value?: Date, min?: Date, max?: Date): Date | undefined {
     return (
       dateFromRange(this.activeEndDate, min, max) ||
       value ||
@@ -570,7 +573,7 @@ export class DatePicker extends LitElement {
       );
 
       const endDate = dateFromRange(
-        Array.isArray(this.valueAsDate) ? this.valueAsDate[1] : null,
+        Array.isArray(this.valueAsDate) ? this.valueAsDate[1] : undefined,
         this.minAsDate,
         this.maxAsDate,
       );
@@ -580,11 +583,11 @@ export class DatePicker extends LitElement {
 
       if (sameDate(this.activeStartDate, this.activeEndDate)) {
         const previousMonthActiveDate = getFirstValidDateInMonth(
-          prevMonth(this.activeEndDate),
+          this.activeEndDate ? prevMonth(this.activeEndDate) : undefined,
           this.minAsDate,
           this.maxAsDate,
         );
-        const nextMonthActiveDate = nextMonth(this.activeEndDate);
+        const nextMonthActiveDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
         if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
           this.activeStartDate = previousMonthActiveDate;
         } else if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
@@ -608,7 +611,7 @@ export class DatePicker extends LitElement {
     const endDate =
       this.range && Array.isArray(this.valueAsDate)
         ? dateFromRange(this.valueAsDate[1], this.minAsDate, this.maxAsDate)
-        : null;
+        : undefined;
 
     const minDate =
       this.range && this.activeRange
@@ -638,11 +641,11 @@ export class DatePicker extends LitElement {
    * @param endDate
    */
   private renderMonth(
-    activeDate: Date,
-    maxDate: Date,
-    minDate: Date,
-    date: Date,
-    endDate: Date,
+    activeDate?: Date,
+    maxDate?: Date,
+    minDate?: Date,
+    date?: Date,
+    endDate?: Date,
   ): JsxNode {
     return (
       <calcite-date-picker-month
