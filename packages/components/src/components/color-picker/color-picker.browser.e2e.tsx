@@ -2334,32 +2334,32 @@ describe("color storage", () => {
     });
 
     it("allows removing stored colors", async () => {
-      const { el } = await mount<ColorPicker>(<calcite-color-picker storage-id={storageId} />);
-
+      const { el, reRender } = await mount<ColorPicker>(
+        <calcite-color-picker storage-id={storageId} />,
+      );
       const saveColor = page.getBySelector(`calcite-color-picker .${CSS.saveColor}`);
+      const saved = page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`);
+      const removeColor = page.getBySelector(`calcite-color-picker .${CSS.deleteColor}`);
+      let expectedSaved = 3;
+
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
-
-      const saved = page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`);
-      let expectedSaved = 3;
-
-      const removeColor = page.getBySelector(`calcite-color-picker .${CSS.deleteColor}`);
 
       for (const swatch of saved.elements()) {
         await userEvent.click(swatch);
         await userEvent.click(removeColor);
 
         expect(
-          await (page
-            .getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`)
-            .elements() as HTMLElement[]),
+          page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`),
         ).toHaveLength(--expectedSaved);
       }
     });
@@ -2426,14 +2426,18 @@ describe("color storage", () => {
     });
 
     it("allows removing stored colors", async () => {
-      const { el } = await mount<ColorPicker>(
+      const { el, reRender } = await mount<ColorPicker>(
         <calcite-color-picker alpha-channel storage-id={storageId} />,
       );
-
       const saveColor = page.getBySelector(`calcite-color-picker .${CSS.saveColor}`);
+      const saved = page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`);
+      let expectedSaved = 3;
+      const removeColor = page.getBySelector(`calcite-color-picker .${CSS.deleteColor}`);
+
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
@@ -2441,16 +2445,11 @@ describe("color storage", () => {
 
       await userEvent.click(saveColor);
 
-      const saved = page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`);
-      let expectedSaved = 3;
-
-      const removeColor = page.getBySelector(`calcite-color-picker .${CSS.deleteColor}`);
-
       for (const swatch of saved.elements()) {
         await userEvent.click(swatch);
         await userEvent.click(removeColor);
 
-        expect(saved.elements()).toHaveLength(--expectedSaved);
+        expect(saved).toHaveLength(--expectedSaved);
       }
     });
 
