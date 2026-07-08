@@ -16,6 +16,7 @@ import {
   t9n,
   themed,
   topLayer,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
@@ -113,7 +114,9 @@ describe("translation support", () => {
   t9n(() => mount("calcite-input-date-picker"));
 });
 
-describe.todo("disabled");
+describe("disabled", () => {
+  disabled(() => mount("calcite-input-date-picker"));
+});
 
 describe("is form-associated", () => {
   mockConsole();
