@@ -19,6 +19,7 @@ type TextAreaStoryArgs = Pick<
   | "limitText"
   | "loading"
   | "maxLength"
+  | "minLength"
   | "readOnly"
   | "required"
   | "validationIcon"
@@ -41,6 +42,7 @@ export default {
     limitText: false,
     loading: false,
     maxLength: undefined,
+    minLength: undefined,
     readOnly: false,
     required: false,
     validationMessage: "",
@@ -81,7 +83,8 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
-    ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
+    ${optionalAttribute("max-length", args.maxLength)}
+    ${optionalAttribute("min-length", args.minLength)}
     limit-text="${args.limitText}"
     value="${args.value}"
     wrap="${args.wrap}"

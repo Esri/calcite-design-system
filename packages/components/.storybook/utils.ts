@@ -87,12 +87,9 @@ export const boolean = (prop: string, value: boolean): string => {
 
 /**
  * Returns an HTML attribute when the value is defined, non-empty, and not a boolean.
- *
- * @param prop name of attribute
- * @param value value of attribute
  */
-export const optionalAttribute = (prop: string, value: string | number | boolean | null | undefined): string => {
+export const optionalAttribute = (attribute: string, value: string | number | boolean | null | undefined): string => {
   return value === undefined || value === null || value === "" || typeof value === "boolean"
     ? ""
-    : `${prop}="${value}"`;
+    : `${attribute}="${value}"`;
 };

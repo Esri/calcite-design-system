@@ -41,6 +41,8 @@ export default {
     iconFlipRtl: false,
     inputValue: "",
     loading: false,
+    maxLength: undefined,
+    minLength: undefined,
     open: true,
     overlayPositioning: overlayPositioning.defaultValue,
     placeholder: "Placeholder text",
@@ -106,8 +108,8 @@ export const simple = (args: AutocompleteStoryArgs): string => html`
         ${optionalAttribute("icon", args.icon)}
         input-value="${args.inputValue}"
         label="${args.label}"
-        max-length="${args.maxLength}"
-        min-length="${args.minLength}"
+        ${optionalAttribute("max-length", args.maxLength)}
+        ${optionalAttribute("min-length", args.minLength)}
         overlay-positioning="${args.overlayPositioning}"
         placeholder="${args.placeholder}"
         placement="${args.placement}"

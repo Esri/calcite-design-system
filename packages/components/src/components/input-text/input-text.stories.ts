@@ -18,16 +18,15 @@ type InputTextStoryArgs = Pick<
   | "disabled"
   | "icon"
   | "iconFlipRtl"
+  | "maxLength"
+  | "minLength"
   | "readOnly"
   | "required"
   | "value"
   | "placeholder"
   | "validationIcon"
   | "validationMessage"
-> & {
-  maxLength?: number;
-  minLength?: number;
-};
+>;
 
 export default {
   title: "Components/Controls/Input Text",
@@ -42,6 +41,8 @@ export default {
     disabled: false,
     icon: "",
     iconFlipRtl: false,
+    maxLength: undefined,
+    minLength: undefined,
     readOnly: false,
     required: false,
     value: "",
@@ -86,8 +87,8 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("disabled", args.disabled)}
       ${optionalAttribute("icon", args.icon)}
       ${boolean("icon-flip-rtl", args.iconFlipRtl)}
-      ${typeof args.maxLength === "number" ? `max-length="${args.maxLength}"` : ""}
-      ${typeof args.minLength === "number" ? `min-length="${args.minLength}"` : ""}
+      ${optionalAttribute("max-length", args.maxLength)}
+      ${optionalAttribute("min-length", args.minLength)}
       ${boolean("read-only", args.readOnly)}
       ${boolean("required", args.required)}
       value="${args.value}"
