@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
@@ -20,10 +20,16 @@ type InputNumberStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "groupSeparator"
+  | "icon"
+  | "iconFlipRtl"
+  | "integer"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,6 +47,12 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    groupSeparator: false,
+    icon: "",
+    iconFlipRtl: false,
+    integer: false,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
@@ -75,6 +87,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -93,10 +109,16 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("group-separator", args.groupSeparator)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("integer", args.integer)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
   </div>

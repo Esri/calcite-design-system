@@ -17,7 +17,6 @@ const childProcesses = testTimeZones.map(({ name }) => {
       ...process.env,
       BROWSER_TIME_ZONE: name,
     },
-    shell: true,
     stdio: "inherit",
   });
 });

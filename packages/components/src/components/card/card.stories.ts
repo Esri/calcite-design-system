@@ -6,13 +6,14 @@ import { Card } from "./card";
 
 const { scale, logicalFlowPosition } = ATTRIBUTES;
 
-type CardStoryArgs = Pick<Card, "loading" | "scale" | "selected" | "thumbnailPosition">;
+type CardStoryArgs = Pick<Card, "loading" | "scale" | "selectable" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
   args: {
     loading: false,
     scale: scale.defaultValue,
+    selectable: false,
     selected: false,
     thumbnailPosition: logicalFlowPosition.defaultValue,
   },
@@ -68,6 +69,7 @@ export const simple = (args: CardStoryArgs): string => html`
     <calcite-card
       ${boolean("loading", args.loading)}
       scale="${args.scale}"
+      ${boolean("selectable", args.selectable)}
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >

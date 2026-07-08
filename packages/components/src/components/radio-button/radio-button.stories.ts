@@ -3,9 +3,12 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButton } from "./radio-button";
 
-const { scale } = ATTRIBUTES;
+const { scale, status } = ATTRIBUTES;
 
-interface RadioButtonStoryArgs extends Pick<RadioButton, "checked" | "disabled" | "focused" | "scale" | "label"> {
+interface RadioButtonStoryArgs extends Pick<
+  RadioButton,
+  "checked" | "disabled" | "focused" | "label" | "scale" | "status" | "validationMessage"
+> {
   hidden: boolean;
 }
 
@@ -18,10 +21,16 @@ export default {
     focused: false,
     scale: scale.defaultValue,
     label: "Radio Button",
+    status: status.defaultValue,
+    validationMessage: "",
   },
   argTypes: {
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    status: {
+      options: status.values,
       control: { type: "select" },
     },
   },
@@ -36,6 +45,8 @@ export const simple = (args: RadioButtonStoryArgs): string => html`
       ${boolean("focused", args.focused)}
       name="simple"
       scale="${args.scale}"
+      status="${args.status}"
+      validation-message="${args.validationMessage}"
       value="value"
     ></calcite-radio-button>
     ${args.label}
