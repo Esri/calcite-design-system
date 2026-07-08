@@ -142,7 +142,7 @@ export class Input
 
   @state() displayedValue!: string;
 
-  @state() slottedActionElDisabledInternally = false;
+  @state() slottedActionElDisabledInternally: boolean = false;
 
   //#endregion
 
