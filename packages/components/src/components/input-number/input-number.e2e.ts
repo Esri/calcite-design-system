@@ -2,14 +2,14 @@ import { KeyInput } from "puppeteer";
 import { E2EPage, newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
 import type { InputMessage } from "../input-message/input-message";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS, DIRECTION } from "./resources";
+import { DIRECTION } from "./resources";
 import type { InputNumber } from "./input-number";
 
 const delayFor2UpdatesInMs = 200;
@@ -126,6 +126,27 @@ describe("direct changes to the value", () => {
     expect(await input.getProperty("value")).toBe("");
   });
 
+  it("Setting the value to -Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const input = await page.find("calcite-input-number");
+
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+
+    input.setProperty("value", "-Infinity");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-Infinity");
+
+    await typeNumberValue(page, "123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-Infinity");
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("");
+  });
+
   it("setting the value with a typeof number", async () => {
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
     const element = await page.find("calcite-input-number");
@@ -136,6 +157,32 @@ describe("direct changes to the value", () => {
 
     expect(await element.getProperty("value")).toBe("2");
     expect(await input.getProperty("value")).toBe("2");
+  });
+
+  it("value stays in sync when value property is controlled with javascript", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const calciteInput = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
+
+    await page.evaluate(() => {
+      document.querySelector("calcite-input-number")!.addEventListener("calciteInputNumberInput", (event): void => {
+        (event.target as HTMLInputElement).value = "5";
+      });
+    });
+
+    await calciteInput.click();
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
   });
 });
 
@@ -209,103 +256,6 @@ describe("emits events when value is modified", () => {
   }
 
   it("emits events", () => assertChangeEvents());
-});
-
-it("value stays in sync when value property is controlled with javascript", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-  const calciteInput = await page.find("calcite-input-number");
-  const input = await page.find("calcite-input-number >>> input");
-
-  await page.evaluate(() => {
-    document
-      .querySelector("calcite-input-number")
-      .addEventListener("calciteInputNumberInput", (event: InputEvent): void => {
-        const target = event.target as HTMLInputElement;
-        target.value = "5";
-      });
-  });
-
-  await calciteInput.click();
-  await typeNumberValue(page, "1");
-  await page.waitForChanges();
-
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
-
-  await typeNumberValue(page, "2");
-  await page.waitForChanges();
-
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
-});
-
-describe("direct changes to the value", () => {
-  let page: E2EPage;
-  beforeEach(async () => {
-    page = await newE2EPage();
-  });
-
-  it("incrementing correctly updates the value after focus and blur events", async () => {
-    await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
-    const element = await page.find("calcite-input-number");
-    await element.click();
-    await page.waitForChanges();
-    await element.callMethod("blur");
-    await page.waitForChanges();
-    element.setProperty("value", "2");
-    await page.waitForChanges();
-    expect(await element.getProperty("value")).toBe("2");
-    const input = await page.find("calcite-input-number >>> input");
-    expect(await input.getProperty("value")).toBe("2");
-  });
-
-  it("Setting the value to -Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-    const input = await page.find("calcite-input-number");
-
-    await input.callMethod("setFocus");
-    await page.waitForChanges();
-
-    input.setProperty("value", "-Infinity");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("-Infinity");
-
-    await typeNumberValue(page, "123");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("-Infinity");
-
-    await page.keyboard.press("Backspace");
-    await page.waitForChanges();
-    expect(await input.getProperty("value")).toBe("");
-  });
-});
-
-it("value stays in sync when value property is controlled with javascript", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-  const calciteInput = await page.find("calcite-input-number");
-  const input = await page.find("calcite-input-number >>> input");
-
-  await page.evaluate(() => {
-    document.querySelector("calcite-input-number")!.addEventListener("calciteInputNumberInput", (event): void => {
-      (event.target as HTMLInputElement).value = "5";
-    });
-  });
-
-  await calciteInput.click();
-  await typeNumberValue(page, "1");
-  await page.waitForChanges();
-
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
-
-  await typeNumberValue(page, "2");
-  await page.waitForChanges();
-
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
 });
 
 it("doesn't round numbers larger than double-precision floating-point", async () => {
@@ -1294,257 +1244,4 @@ it("should have decimal as initial inputmode", async () => {
   await page.waitForChanges();
 
   expect(internalInput.getAttribute("inputmode")).toBe("decimal");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-input-number", {
-      "--calcite-input-number-background-color": {
-        shadowSelector: `input`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-input-number-border-color": [
-        {
-          shadowSelector: `input`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.numberButtonItem}`,
-          targetProp: "borderColor",
-        },
-      ],
-      "--calcite-input-number-corner-radius": [
-        {
-          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
-          targetProp: "borderEndEndRadius",
-        },
-      ],
-      "--calcite-input-number-height": [
-        {
-          shadowSelector: `input`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.numberButtonWrapper}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-input-number-text-color": {
-        shadowSelector: `input`,
-        targetProp: "color",
-      },
-      "--calcite-input-number-text-color-focus": {
-        shadowSelector: `input`,
-        targetProp: "color",
-        state: "focus",
-      },
-    });
-  });
-
-  describe("with prefix and suffix", () => {
-    themed(html` <calcite-input-number prefix-text="prefix" suffix-text="suffix"></calcite-input-number> `, {
-      "--calcite-input-number-border-color": [
-        {
-          shadowSelector: `input`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.suffix}`,
-          targetProp: "borderColor",
-        },
-        {
-          shadowSelector: `.${CSS.numberButtonItem}`,
-          targetProp: "borderColor",
-        },
-      ],
-      "--calcite-input-number-corner-radius": [
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderStartStartRadius",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "borderEndStartRadius",
-        },
-        {
-          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
-          targetProp: "borderStartEndRadius",
-        },
-        {
-          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
-          targetProp: "borderEndEndRadius",
-        },
-      ],
-      "--calcite-input-number-height": [
-        {
-          shadowSelector: `input`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.prefix}`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.suffix}`,
-          targetProp: "blockSize",
-        },
-        {
-          shadowSelector: `.${CSS.numberButtonWrapper}`,
-          targetProp: "blockSize",
-        },
-      ],
-      "--calcite-input-prefix-size": {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-input-prefix-text-color": {
-        shadowSelector: `.${CSS.prefix}`,
-        targetProp: "color",
-      },
-      "--calcite-input-suffix-text-color": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "color",
-      },
-      "--calcite-input-suffix-size": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "inlineSize",
-      },
-    });
-  });
-
-  describe("loading", () => {
-    themed(html` <calcite-input-number loading></calcite-input-number> `, {
-      "--calcite-input-loading-background-color": {
-        shadowSelector: `calcite-progress`,
-        targetProp: "--calcite-progress-background-color",
-      },
-      "--calcite-input-loading-fill-color": {
-        shadowSelector: `calcite-progress`,
-        targetProp: "--calcite-progress-fill-color",
-      },
-    });
-  });
-
-  describe("clearable", () => {
-    themed(html` <calcite-input-number value="2" clearable></calcite-input-number> `, {
-      "--calcite-input-actions-background-color": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
-          targetProp: "backgroundColor",
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
-          targetProp: "backgroundColor",
-        },
-      ],
-      "--calcite-input-actions-background-color-hover": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-      ],
-      "--calcite-input-actions-background-color-press": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> .button` },
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> .button` },
-        },
-      ],
-      "--calcite-input-actions-icon-color": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
-          targetProp: "color",
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
-          targetProp: "color",
-        },
-      ],
-      "--calcite-input-actions-icon-color-hover": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
-          targetProp: "color",
-          state: "hover",
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
-          targetProp: "color",
-          state: "hover",
-        },
-      ],
-      "--calcite-input-actions-icon-color-press": [
-        {
-          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
-          targetProp: "color",
-          state: { press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> calcite-icon` },
-        },
-        {
-          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
-          targetProp: "color",
-          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> calcite-icon` },
-        },
-      ],
-    });
-  });
-
-  describe("with icon", () => {
-    themed(html` <calcite-input-number icon="layers"></calcite-input-number> `, {
-      "--calcite-input-number-icon-color": {
-        shadowSelector: `.${CSS.inputIcon}`,
-        targetProp: "--calcite-icon-color",
-      },
-    });
-  });
-
-  // placeholder styles not working in Puppeteer/Node environment, restore once migrated to browser mode -- https://github.com/Esri/calcite-design-system/issues/11268
-  describe.todo("with placeholder", () => {
-    themed(html`<calcite-input-number placeholder="placeholder"></calcite-input-number>`, {
-      "--calcite-input-number-placeholder-text-color": {
-        shadowSelector: `input::placeholder`,
-        targetProp: "color",
-      },
-    });
-  });
-
-  describe("readOnly", () => {
-    themed(html` <calcite-input-number read-only></calcite-input-number> `, {
-      "--calcite-input-number-background-color": {
-        shadowSelector: `input`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-input-number-text-color-focus": {
-        shadowSelector: `input`,
-        targetProp: "color",
-        state: "focus",
-      },
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(html`<calcite-input-number value="42" icon="layers"></calcite-input-number>`, {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.inputIcon}`,
-        targetProp: "--calcite-icon-color",
-      },
-    });
-  });
 });

@@ -2,6 +2,7 @@ import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
+
 import {
   accessible,
   defaults,
@@ -11,9 +12,11 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { RadioButton } from "../radio-button/radio-button";
 import { RadioButtonGroup } from "./radio-button-group";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   accessible(() =>
@@ -160,4 +163,23 @@ describe("is focusable", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-radio-button-group"));
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-radio-button-group"), {
+      "--calcite-radio-button-group-gap": {
+        targetProp: "columnGap",
+        shadowSelector: `.${CSS.itemWrapper}`,
+      },
+    });
+  });
+  describe("validation", () => {
+    themed(() => mount(<calcite-radio-button-group status="invalid" validation-message="help" />), {
+      "--calcite-radio-button-input-message-spacing": {
+        targetProp: "--calcite-input-message-spacing",
+        shadowSelector: "calcite-input-message",
+      },
+    });
+  });
 });

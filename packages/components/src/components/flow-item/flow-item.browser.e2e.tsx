@@ -1,6 +1,7 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, Fragment } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -12,9 +13,11 @@ import {
   t9n,
   disabled,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/browser/utils/content";
+import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
 mockConsole();
@@ -115,6 +118,10 @@ describe("defaults", () => {
         propertyName: "showBackButton",
         defaultValue: false,
       },
+      {
+        propertyName: "focusTrapEnabled",
+        defaultValue: false,
+      },
     ],
   );
 });
@@ -176,6 +183,10 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+      },
+      {
+        propertyName: "focusTrapEnabled",
+        value: true,
       },
     ],
   );
@@ -244,5 +255,174 @@ describe("disabled", () => {
         },
       },
     );
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-flow-item icon="banana" show-back-button />), {
+    "--calcite-flow-corner-radius": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-corner-radius",
+    },
+    "--calcite-flow-heading-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-heading-text-color",
+    },
+    "--calcite-flow-icon-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-icon-color",
+    },
+    "--calcite-flow-description-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-description-text-color",
+    },
+    "--calcite-flow-border-color": [
+      {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-border-color",
+      },
+    ],
+    "--calcite-flow-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-background-color",
+    },
+    "--calcite-flow-header-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-background-color",
+    },
+    "--calcite-flow-footer-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-background-color",
+    },
+    "--calcite-flow-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-space",
+    },
+    "--calcite-flow-header-content-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-content-space",
+    },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
+    },
+    "--calcite-flow-footer-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-space",
+    },
+    "--calcite-flow-header-action-background-color-hover": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-hover",
+    },
+    "--calcite-flow-header-action-background-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-press",
+    },
+    "--calcite-flow-header-action-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color",
+    },
+    "--calcite-flow-header-action-indicator-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-indicator-color",
+    },
+    "--calcite-flow-header-action-text-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color-press",
+    },
+    "--calcite-flow-header-action-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color",
+    },
+  });
+});
+
+describe("focus trap", () => {
+  it("passes focusTrapEnabled to the internal panel", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable heading="Flow heading" selected />,
+    );
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+
+    component.el.focusTrapEnabled = true;
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+  });
+
+  it("reflects focusTrapEnabled through internal panel semantics", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable heading="Flow heading" selected />,
+    );
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+
+    component.el.focusTrapEnabled = true;
+
+    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
+
+    component.el.focusTrapEnabled = false;
+
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+  });
+
+  it("supports focus trap behavior through keyboard interaction", async () => {
+    const { component } = await mount<FlowItem>(
+      <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+        <button type="button">inside one</button>
+        <button type="button">inside two</button>
+      </calcite-flow-item>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+
+    await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
+    await expect.element(component.el).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(component.el).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+  });
+
+  it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
+    const { el } = await mount<FlowItem>(
+      <>
+        <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-flow-item>
+        <button id="flow-item-outside-control" type="button">
+          outside control
+        </button>
+      </>,
+    );
+
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const outsideControlEl = el.ownerDocument.getElementById(
+      "flow-item-outside-control",
+    ) as HTMLButtonElement;
+
+    el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
+    await expect(outsideControl).toBeInTheDocument();
   });
 });

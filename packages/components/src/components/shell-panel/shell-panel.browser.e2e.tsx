@@ -11,6 +11,7 @@ import {
   slots,
   t9n,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../interfaces";
@@ -442,6 +443,138 @@ describe("shell-panel updateSize public method", () => {
         panel,
         computedSizeProp,
       });
+    });
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(
+      () => mount(<calcite-shell-panel display-mode="float-all" resizable slot="panel-start" />),
+      {
+        "--calcite-shell-panel-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-panel-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-shell-panel-background-color": {
+          shadowSelector: `.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-shell-panel-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-shell-panel-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
+
+  describe("border configurations", () => {
+    themed(
+      () =>
+        mount(<calcite-shell-panel display-mode="float-all" position="end" slot="panel-start" />),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineEndColor",
+        },
+      },
+    );
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel display-mode="float-all" layout="horizontal" slot="panel-top" />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+      },
+    );
+    themed(() => mount(<calcite-shell-panel display-mode="float-all" slot="panel-top" />), {
+      "--calcite-shell-panel-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderInlineStartColor",
+      },
+    });
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel
+            display-mode="float-all"
+            layout="horizontal"
+            position="end"
+            slot="panel-bottom"
+          />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineColor",
+        },
+      },
+    );
+    themed(
+      () =>
+        mount(
+          <calcite-shell-panel display-mode="float-all" layout="vertical" slot="panel-bottom" />,
+        ),
+      {
+        "--calcite-shell-panel-border-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderInlineStartColor",
+        },
+      },
+    );
+  });
+
+  describe("height", () => {
+    themed(() => mount(<calcite-shell-panel layout="horizontal" />), {
+      "--calcite-shell-panel-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "blockSize",
+      },
+      "--calcite-shell-panel-max-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "maxBlockSize",
+      },
+      "--calcite-shell-panel-min-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "minBlockSize",
+      },
+    });
+  });
+
+  describe("width", () => {
+    themed(() => mount(<calcite-shell-panel layout="vertical" />), {
+      "--calcite-shell-panel-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-shell-panel-max-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "maxInlineSize",
+      },
+      "--calcite-shell-panel-min-width": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "minInlineSize",
+      },
     });
   });
 });
