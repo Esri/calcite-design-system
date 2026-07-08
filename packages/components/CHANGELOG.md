@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.17...@esri/calcite-components@5.2.0-next.18) (2026-07-08)
+
+### Features
+
+- **input-date-picker:** add placeholder property ([#14748](https://github.com/Esri/calcite-design-system/issues/14748)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
+
 ## [5.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.16...@esri/calcite-components@5.2.0-next.17) (2026-07-07)
 
 **Note:** Version bump only for package @esri/calcite-components
