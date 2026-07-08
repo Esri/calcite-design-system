@@ -2,8 +2,36 @@ import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
-import { defaults, disabled, focusable, hidden, renders } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  disabled,
+  focusable,
+  hidden,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import type { Link } from "./link";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-link>link</calcite-link>));
+  });
+
+  describe("with href", () => {
+    accessible(() => mount(<calcite-link href="/">link</calcite-link>));
+  });
+
+  describe("with icons", () => {
+    accessible(() =>
+      mount(
+        <calcite-link href="/" icon-end="plus" icon-start="plus">
+          Go
+        </calcite-link>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -122,5 +150,24 @@ describe("link interactivity", () => {
       expect(navigateHandler.mock.lastCall![0].destination.url).toBe(targetUrl);
       expect(clickEvent).toHaveBeenCalledTimes(1);
     });
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-link href="#" icon-end="information" icon-start="banana">
+            link
+          </calcite-link>,
+        ),
+      {
+        "--calcite-link-text-color": {
+          shadowSelector: "a",
+          targetProp: "color",
+        },
+      },
+    );
   });
 });

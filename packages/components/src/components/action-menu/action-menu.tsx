@@ -49,7 +49,7 @@ export class ActionMenu extends LitElement {
 
   private actionElements: Action["el"][] = [];
 
-  private defaultMenuButtonEl: Action["el"];
+  private defaultMenuButtonEl?: Action["el"];
 
   private menuButtonClick = (): void => {
     this.toggleOpen();
@@ -99,11 +99,11 @@ export class ActionMenu extends LitElement {
 
   private _open = false;
 
-  private popoverEl: Popover["el"];
+  private popoverEl?: Popover["el"];
 
-  private slottedMenuButtonEl: Action["el"];
+  private slottedMenuButtonEl?: Action["el"];
 
-  private tooltipEl: Tooltip["el"];
+  private tooltipEl?: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
     const { guid, activeMenuItemIndex } = this;
@@ -122,7 +122,7 @@ export class ActionMenu extends LitElement {
   private focusSetter = useSetFocus<this>()(this);
 
   private mouseDownHandler = (event: MouseEvent): void => {
-    if (!event.composedPath().some(isAction)) {
+    if (!(event.composedPath() as Element[]).some(isAction)) {
       return;
     }
 
@@ -135,7 +135,7 @@ export class ActionMenu extends LitElement {
 
   @state() activeMenuItemIndex = -1;
 
-  @state() menuButtonEl: Action["el"];
+  @state() menuButtonEl?: Action["el"];
 
   //#endregion
 
@@ -148,14 +148,14 @@ export class ActionMenu extends LitElement {
   @property({ reflect: true }) expanded = false;
 
   /** @copyDoc */
-  @property() flipPlacements: FlipPlacement[];
+  @property() flipPlacements?: FlipPlacement[];
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, the component is open. */
   @property({ reflect: true })
@@ -340,7 +340,7 @@ export class ActionMenu extends LitElement {
       this.menuButtonKeyDown,
     ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
 
-    this.menuButtonEl = null;
+    this.menuButtonEl = undefined;
   }
 
   private setMenuButtonEl(event: Event): void {
@@ -389,7 +389,7 @@ export class ActionMenu extends LitElement {
     const { tooltipEl, expanded, menuButtonEl, open } = this;
 
     if (tooltipEl) {
-      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : null;
+      tooltipEl.referenceElement = !expanded && !open ? menuButtonEl : undefined;
     }
   }
 
@@ -537,7 +537,7 @@ export class ActionMenu extends LitElement {
         triggerDisabled={true}
       >
         <div
-          aria-activedescendant={activeDescendantId}
+          aria-activedescendant={activeDescendantId ?? undefined}
           aria-labelledby={menuButtonEl?.id}
           class={CSS.menu}
           id={menuId}

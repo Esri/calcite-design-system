@@ -1,13 +1,13 @@
-import { h, JsxNode, LitElement, property } from "@arcgis/lumina";
+import { h, type JsxNode, LitElement, property } from "@arcgis/lumina";
 import { beforeEach, afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { html, PropertyValues } from "lit";
+import { html, type PropertyValues } from "lit";
 import * as focusTrap from "focus-trap";
-import { Locator, page, userEvent } from "vitest/browser";
+import { type Locator, page, userEvent } from "vitest/browser";
 import { createRef } from "lit/directives/ref.js";
-import { GlobalTestProps } from "../tests/utils/interfaces";
-import { CalciteConfig, clearConfig } from "../utils/config";
-import { FocusTrap, useFocusTrap } from "./useFocusTrap";
+import { type GlobalTestProps } from "../tests/utils/interfaces";
+import { type CalciteConfig, clearConfig } from "../utils/config";
+import { type FocusTrap, useFocusTrap, type UseFocusTrapOptions } from "./useFocusTrap";
 import { afterFocusShiftDelay } from "../tests/utils/focus-trap";
 
 vi.mock("focus-trap", { spy: true });
@@ -383,9 +383,7 @@ describe("focusTrapOptions", () => {
   let previousFocusedLocator: Locator;
   let nextFocusedLocator: Locator;
 
-  function createFocusTrapOptionsTestComponent(
-    options: Pick<Parameters<typeof useFocusTrap>[0], "focusTrapOptions">,
-  ) {
+  function createFocusTrapOptionsTestComponent(options: Omit<UseFocusTrapOptions, "triggerProp">) {
     return class Test extends LitElement {
       open? = false;
 

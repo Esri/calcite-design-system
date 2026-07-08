@@ -1,55 +1,12 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
-import { CSS } from "./resources";
 
 mockConsole();
-
-const content = `
-  <calcite-dropdown-group>
-    <calcite-dropdown-item id="item-1">Item</calcite-dropdown-item>
-    <calcite-dropdown-item id="item-2" active>Item2</calcite-dropdown-item>
-  </calcite-dropdown-group>`;
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-split-button primary-text="Button Text" dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`,
-  );
-});
-
-describe("accessible when disabled", () => {
-  accessible(`<calcite-split-button
-    disabled
-    primary-text="Button Text"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-});
-
-describe("accessible when loading", () => {
-  accessible(`<calcite-split-button
-    loading
-    primary-text="Button Text"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-});
-
-describe("accessible with icons and no text", () => {
-  accessible(`<calcite-split-button
-    icon-end="plus"
-    icon-start="plus"
-    primary-label="Button label"
-    dropdown-label="Show options">
-      ${content}
-    </calcite-split-button>`);
-});
 
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();
@@ -244,89 +201,4 @@ it("sets download attribute", async () => {
 
   expect(await elementAsButton.getProperty("download")).toBe(false);
   expect(elementAsButton).not.toHaveAttribute("download");
-});
-
-describe("theming", () => {
-  themed(
-    html`<calcite-split-button primary-text="Button" loading primary-icon-start="layer">
-      <calcite-dropdown-group selection-mode="none">
-        <calcite-dropdown-item>Option 2</calcite-dropdown-item>
-        <calcite-dropdown-item>Option 3</calcite-dropdown-item>
-        <calcite-dropdown-item>Option 4</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-split-button>`,
-    {
-      "--calcite-split-button-background-color": {
-        shadowSelector: "calcite-button",
-        targetProp: "--calcite-button-background-color",
-      },
-      "--calcite-split-button-background-color-hover": {
-        shadowSelector: "calcite-button",
-        targetProp: "--calcite-button-background-color",
-        state: "hover",
-      },
-      "--calcite-split-button-background-color-focus": {
-        shadowSelector: "calcite-button",
-        targetProp: "--calcite-button-background-color",
-        state: { focus: { attribute: "type", value: "button" } },
-      },
-      "--calcite-split-button-background-color-press": {
-        shadowSelector: "calcite-button",
-        targetProp: "--calcite-button-background-color",
-        state: { press: { attribute: "type", value: "button" } },
-      },
-      "--calcite-split-button-text-color": [
-        {
-          shadowSelector: "calcite-button[split-child='primary']",
-          targetProp: "--calcite-button-text-color",
-        },
-        {
-          shadowSelector: "calcite-button[split-child='secondary']",
-          targetProp: "--calcite-button-text-color",
-        },
-      ],
-      "--calcite-split-button-icon-color": [
-        {
-          shadowSelector: "calcite-button[split-child='primary']",
-          targetProp: "--calcite-button-icon-color",
-        },
-      ],
-      "--calcite-split-button-border-color": [
-        {
-          shadowSelector: "calcite-button[split-child='secondary']",
-          targetProp: "--calcite-button-border-color",
-        },
-        {
-          shadowSelector: "calcite-button[split-child='primary']",
-          targetProp: "--calcite-button-border-color",
-        },
-      ],
-      "--calcite-split-button-shadow": [
-        {
-          shadowSelector: "calcite-button[split-child='primary']",
-          targetProp: "--calcite-button-shadow",
-        },
-        {
-          shadowSelector: "calcite-button[split-child='secondary']",
-          targetProp: "--calcite-button-shadow",
-        },
-      ],
-      "--calcite-split-button-divider-color": {
-        shadowSelector: `.${CSS.dividerContainer}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-split-button-divider-border-color": {
-        shadowSelector: `.${CSS.divider}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-split-button-dropdown-background-color": {
-        shadowSelector: `calcite-dropdown`,
-        targetProp: "--calcite-dropdown-background-color",
-      },
-      "--calcite-split-button-dropdown-width": {
-        shadowSelector: `calcite-dropdown`,
-        targetProp: "--calcite-dropdown-width",
-      },
-    },
-  );
 });

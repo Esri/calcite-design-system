@@ -1,9 +1,34 @@
 import { h } from "@arcgis/lumina";
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { defaults, reflects, hidden, renders, focusable } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  focusable,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import type { Navigation } from "./navigation";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount(<calcite-navigation label="test" />));
+  });
+
+  describe("with navigation action and logo", () => {
+    accessible(() =>
+      mount(
+        <calcite-navigation label="test" navigation-action>
+          <calcite-navigation-logo heading="Test" />
+        </calcite-navigation>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -148,4 +173,55 @@ it("should emit calciteNavigationActionSelect event when user interacts with nav
 
   await userEvent.click(hamburgerMenu);
   expect(actionSelectHandler).toHaveBeenCalledTimes(3);
+});
+
+describe("theme", () => {
+  const navigationHtml = (
+    <calcite-navigation>
+      <calcite-navigation-logo
+        description="Eastern Potato Chip Company"
+        heading="Walt's Chips"
+        icon="layers"
+        slot="logo"
+      />
+      <calcite-navigation-user full-name="Walt McChipson" slot="user" username="waltChip" />
+      <calcite-navigation slot="navigation-secondary">
+        <calcite-menu slot="content-start">
+          <calcite-menu-item breadcrumb icon-start="book" text="All Routes" text-enabled />
+        </calcite-menu>
+      </calcite-navigation>
+      <calcite-navigation slot="navigation-tertiary">
+        <calcite-menu slot="content-end">
+          <calcite-menu-item breadcrumb icon-start="book" text="All Routes" text-enabled />
+        </calcite-menu>
+      </calcite-navigation>
+    </calcite-navigation>
+  );
+
+  describe("default", () => {
+    themed(() => mount(navigationHtml), {
+      "--calcite-navigation-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-navigation-width": {
+        shadowSelector: `.${CSS.containerContent}`,
+        targetProp: "width",
+      },
+      "--calcite-navigation-border-color": [
+        {
+          shadowSelector: `.${CSS.primary}`,
+          targetProp: "borderBlockEndColor",
+        },
+        {
+          shadowSelector: `.${CSS.secondary}`,
+          targetProp: "borderBlockEndColor",
+        },
+        {
+          shadowSelector: `.${CSS.tertiary}`,
+          targetProp: "borderBlockEndColor",
+        },
+      ],
+    });
+  });
 });

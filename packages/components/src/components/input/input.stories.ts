@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Input } from "./input";
@@ -19,12 +19,16 @@ type InputStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
   | "value"
+  | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,7 +45,11 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
     value: "",
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     placeholder: "Placeholder text",
@@ -81,6 +89,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -99,12 +111,16 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
       value="${args.value}"
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       scale="${args.scale}"
       status="${args.status}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input>
   </div>
 `;

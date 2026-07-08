@@ -3,55 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [5.2.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.8...@esri/calcite-components@5.2.0-next.9) (2026-06-29)
-
-### Bug Fixes
-
-- **rating:** fix block size to not encroach on neighboring elements ([#14709](https://github.com/Esri/calcite-design-system/issues/14709)), closes [#14708](https://github.com/Esri/calcite-design-system/issues/14708)
-
-## [5.2.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.7...@esri/calcite-components@5.2.0-next.8) (2026-06-29)
-
-**Note:** Version bump only for package @esri/calcite-components
-
-## [5.2.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.6...@esri/calcite-components@5.2.0-next.7) (2026-06-25)
+## [5.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.17...@esri/calcite-components@5.2.0-next.18) (2026-07-08)
 
 ### Features
 
-- **tabs:** Add `last-tab-closable` functionality ([#14446](https://github.com/Esri/calcite-design-system/issues/14446)), closes [#14346](https://github.com/Esri/calcite-design-system/issues/14346)
+- **input-date-picker:** add placeholder property ([#14748](https://github.com/Esri/calcite-design-system/issues/14748)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
 
-## [5.2.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.5...@esri/calcite-components@5.2.0-next.6) (2026-06-24)
+## [5.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.16...@esri/calcite-components@5.2.0-next.17) (2026-07-07)
 
-### Features
+**Note:** Version bump only for package @esri/calcite-components
 
-- **dropdown:** add max-height css token ([#14680](https://github.com/Esri/calcite-design-system/issues/14680)), closes [#12486](https://github.com/Esri/calcite-design-system/issues/12486)
-
-## [5.2.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.4...@esri/calcite-components@5.2.0-next.5) (2026-06-23)
+## [5.1.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1...@esri/calcite-components@5.1.2) (2026-07-02)
 
 ### Bug Fixes
 
-- **pagination:** ignore truncation indicators in screen readers ([#14677](https://github.com/Esri/calcite-design-system/issues/14677))
-
-## [5.2.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.2...@esri/calcite-components@5.2.0-next.4) (2026-06-18)
-
-### Features
-
-- **input-time-picker:** add placeholder property ([#14613](https://github.com/Esri/calcite-design-system/issues/14613)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
-
-### Bug Fixes
-
-- **input-number, input-text:** apply placeholder text color token ([#14595](https://github.com/Esri/calcite-design-system/issues/14595))
-
-## [5.1.2-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.1...@esri/calcite-components@5.1.2-next.2) (2026-06-12)
-
-**Note:** Version bump only for package @esri/calcite-components
-
-## [5.1.2-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2-next.0...@esri/calcite-components@5.1.2-next.1) (2026-06-10)
-
-**Note:** Version bump only for package @esri/calcite-components
-
-## [5.1.2-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.3...@esri/calcite-components@5.1.2-next.0) (2026-06-10)
-
-**Note:** Version bump only for package @esri/calcite-components
+- **combobox:** Prevent parent selection from selecting children in ancestors mode ([#14750](https://github.com/Esri/calcite-design-system/issues/14750)) ([d321054](https://github.com/Esri/calcite-design-system/commit/d32105468980b85d852b303747a775a95f9278c7))
 
 ## [5.1.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.0...@esri/calcite-components@5.1.1) (2026-06-10)
 
