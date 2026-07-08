@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe } from "vitest";
 import { TemplateResult } from "lit/html.js";
+
 import {
   defaults,
   disabled,
@@ -12,9 +13,24 @@ import {
   reflects,
   renders,
   t9n,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { Select } from "./select";
+import { CSS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-select label="required-for-a11y-test">
+        <calcite-option>uno</calcite-option>
+        <calcite-option>dos</calcite-option>
+        <calcite-option>tres</calcite-option>
+      </calcite-select>,
+    ),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -109,4 +125,58 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-select"));
+});
+
+describe("theme", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-select label="calcite select">
+          <calcite-option value="high">uno</calcite-option>
+          <calcite-option value="medium">dos</calcite-option>
+          <calcite-option value="low">tres</calcite-option>
+        </calcite-select>,
+      ),
+    {
+      "--calcite-select-font-size": {
+        shadowSelector: `.${CSS.select}`,
+        targetProp: "fontSize",
+      },
+      "--calcite-select-text-color": {
+        shadowSelector: `.${CSS.select}`,
+        targetProp: "color",
+      },
+      "--calcite-select-border-color": [
+        {
+          shadowSelector: `.${CSS.select}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.iconContainer}`,
+          targetProp: "borderColor",
+        },
+      ],
+      "--calcite-select-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+      "--calcite-select-icon-color-hover": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-select-background-color": {
+        shadowSelector: `.${CSS.select}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-select-corner-radius": {
+        shadowSelector: `.${CSS.select}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-select-shadow": {
+        shadowSelector: `.${CSS.select}`,
+        targetProp: "boxShadow",
+      },
+    },
+  );
 });

@@ -40,6 +40,7 @@ const resources = {
       noChangelogEntry: "no changelog entry",
       blocked: "blocked",
       breakingChange: "breaking change",
+      bounceBack: "bounce back",
       futureBreakingChange: "future breaking change",
       monday: "monday.com sync",
       paused: "paused",

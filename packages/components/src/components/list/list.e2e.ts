@@ -1,7 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
 import {
@@ -18,42 +16,9 @@ import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
 import { ListDragDetail } from "./interfaces";
-import { CSS } from "./resources";
 import type { List } from "./list";
 
 mockConsole();
-
-const placeholder = placeholderImage({
-  width: 140,
-  height: 100,
-});
-
-describe("accessible", () => {
-  accessible(
-    html`<calcite-list>
-      <calcite-list-item label="candy" description="kingdom">
-        <calcite-action icon="banana" label="finn" slot="actions-start" />
-        <calcite-icon icon="banana" slot="content-start" />
-        <img slot="content-start" src="${placeholder}" alt="Test image" />
-        <calcite-icon icon="banana" slot="content-end" />
-        <calcite-action icon="banana" label="jake" slot="actions-end" />
-      </calcite-list-item>
-      <calcite-list-item label="test" non-interactive description="hello world"></calcite-list-item>
-      <calcite-list-item label="test" description="hello world"></calcite-list-item>
-    </calcite-list>`,
-  );
-  accessible(
-    html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
-      <calcite-list-item label="Apples" value="apples"></calcite-list-item>
-      <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
-      <calcite-list-item label="Pears" value="pears"></calcite-list-item>
-      <calcite-notice slot="filter-no-results" icon kind="warning" scale="s" open>
-        <div slot="title">No fruits found</div>
-        <div slot="message">Try a different fruit?</div>
-      </calcite-notice>
-    </calcite-list>`,
-  );
-});
 
 it("should set the displayMode property on items", async () => {
   const page = await newE2EPage();
@@ -893,8 +858,8 @@ describe("filtering", () => {
 });
 
 it("should support shift click to select multiple items", async () => {
-  const clickItemContent = (item: ListItem["el"], selector: string) => {
-    item.shadowRoot.querySelector(selector).dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
+  const clickItemContent = (item: Element, selector: string) => {
+    item.shadowRoot!.querySelector(selector)!.dispatchEvent(new MouseEvent("click", { bubbles: true, shiftKey: true }));
   };
 
   const page = await newE2EPage();
@@ -1490,17 +1455,17 @@ describe("drag and drop", () => {
     calledTimes: number;
     list1CalledTimes: number;
     list2CalledTimes: number;
-    newIndex: number;
-    oldIndex: number;
+    newIndex?: number;
+    oldIndex?: number;
     fromEl: string;
     toEl: string;
     el: string;
     startCalledTimes: number;
     endCalledTimes: number;
-    endNewIndex: number;
-    endOldIndex: number;
-    startNewIndex: number;
-    startOldIndex: number;
+    endNewIndex?: number;
+    endOldIndex?: number;
+    startNewIndex?: number;
+    startOldIndex?: number;
   }>;
 
   it("works using a mouse", async () => {
@@ -1514,20 +1479,23 @@ describe("drag and drop", () => {
       testWindow.oldIndex = -1;
       testWindow.startCalledTimes = 0;
       testWindow.endCalledTimes = 0;
-      list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListOrderChange", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
       });
-      list.addEventListener("calciteListDragEnd", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListDragEnd", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.endCalledTimes++;
-        testWindow.endNewIndex = event.detail.newIndex;
-        testWindow.endOldIndex = event.detail.oldIndex;
+        testWindow.endNewIndex = detail.newIndex;
+        testWindow.endOldIndex = detail.oldIndex;
       });
-      list.addEventListener("calciteListDragStart", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListDragStart", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.startCalledTimes++;
-        testWindow.startNewIndex = event.detail.newIndex;
-        testWindow.startOldIndex = event.detail.oldIndex;
+        testWindow.startNewIndex = detail.newIndex;
+        testWindow.startOldIndex = detail.oldIndex;
       });
     });
 
@@ -1645,7 +1613,7 @@ describe("drag and drop", () => {
 
     const moveToItemIds = await page.evaluate((letterItemSelector) => {
       return Array.from(document.querySelectorAll(letterItemSelector))
-        .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.id))
+        .map((item) => (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.id))
         .flat();
     }, letterItemSelector);
 
@@ -1653,7 +1621,7 @@ describe("drag and drop", () => {
 
     const moveToItemElementIds = await page.evaluate((letterItemSelector) => {
       return Array.from(document.querySelectorAll(letterItemSelector))
-        .map((item: ListItem["el"]) => item.moveToItems.map((moveToItem) => moveToItem.element.id))
+        .map((item) => (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.element.id))
         .flat();
     }, letterItemSelector);
 
@@ -1849,13 +1817,14 @@ describe("drag and drop", () => {
     await page.$eval("calcite-list", (list: List["el"]) => {
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
-      list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListOrderChange", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.calledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
@@ -1956,30 +1925,32 @@ describe("drag and drop", () => {
     let listMoves = 0;
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#list1", (list: List["el"]) => {
+    await page.$eval("#list1", (list) => {
       const testWindow = window as TestWindow;
       testWindow.list1CalledTimes = 0;
-      list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListOrderChange", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.list1CalledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
     // Workaround for page.spyOnEvent() failing due to drag event payload being serialized and there being circular JSON structures from the payload elements. See: https://github.com/Esri/calcite-design-system/issues/7643
-    await page.$eval("#list2", (list: List["el"]) => {
+    await page.$eval("#list2", (list) => {
       const testWindow = window as TestWindow;
       testWindow.list2CalledTimes = 0;
-      list.addEventListener("calciteListOrderChange", (event: CustomEvent<ListDragDetail>) => {
+      list.addEventListener("calciteListOrderChange", (event) => {
+        const detail = (event as CustomEvent<ListDragDetail>).detail;
         testWindow.list2CalledTimes++;
-        testWindow.newIndex = event.detail.newIndex;
-        testWindow.oldIndex = event.detail.oldIndex;
-        testWindow.fromEl = event.detail.fromEl.id;
-        testWindow.toEl = event.detail.toEl.id;
-        testWindow.el = event.detail.dragEl.id;
+        testWindow.newIndex = detail.newIndex;
+        testWindow.oldIndex = detail.oldIndex;
+        testWindow.fromEl = detail.fromEl.id;
+        testWindow.toEl = detail.toEl.id;
+        testWindow.el = detail.dragEl.id;
       });
     });
 
@@ -1998,8 +1969,8 @@ describe("drag and drop", () => {
       const event = component.waitForEvent(eventName);
       await page.$eval(
         `#${listItemId}`,
-        (item: ListItem["el"], moveToListId, eventName) => {
-          const element = document.querySelector<List["el"]>(`#${moveToListId}`);
+        (item, moveToListId, eventName) => {
+          const element = document.querySelector<List["el"]>(`#${moveToListId}`)!;
           item.dispatchEvent(
             new CustomEvent(eventName, {
               detail: {
@@ -2085,8 +2056,8 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    let moveToItems: string[] = await page.$eval("#three", (item: ListItem["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
+    let moveToItems: string[] = await page.$eval("#three", (item) =>
+      (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.label),
     );
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe("Group 1");
@@ -2100,21 +2071,10 @@ describe("drag and drop", () => {
     await page.waitForChanges();
     await page.waitForTimeout(DEBOUNCE.nextTick);
 
-    moveToItems = await page.$eval("#three", (item: ListItem["el"]) =>
-      item.moveToItems.map((moveToItem) => moveToItem.label),
+    moveToItems = await page.$eval("#three", (item) =>
+      (item as ListItem["el"]).moveToItems.map((moveToItem) => moveToItem.label),
     );
     expect(moveToItems.length).toBe(1);
     expect(moveToItems[0]).toBe(newLabel);
-  });
-});
-
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-list`, {
-      "--calcite-list-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-    });
   });
 });

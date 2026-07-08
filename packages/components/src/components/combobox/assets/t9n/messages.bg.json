@@ -4,7 +4,7 @@
   "allSelected": "Всички избрани",
   "clear": "Изчистване на стойност",
   "noMatches": "Няма съвпадения",
-  "removeTag": "Премахване на таг",
+  "removeTag": "Remove {value} tag",
   "required": "Необходими",
   "selectAll": "Селектиране на всички",
   "selected": "избрани",
