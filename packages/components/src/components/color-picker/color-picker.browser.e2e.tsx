@@ -10,8 +10,8 @@ import {
   onTestFinished,
   vi,
 } from "vitest";
-import { type Locator, page as page, userEvent } from "vitest/browser";
-import { mount as ogMount, RenderResult } from "@arcgis/lumina-compiler/testing";
+import { type Locator, page, userEvent } from "vitest/browser";
+import { mount as ogMount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import { commands } from "../../tests/browser/commands";
 import {
@@ -51,7 +51,7 @@ import { focusElement } from "../../utils/dom";
 type OgMountArgs = typeof ogMount extends (...args: infer Args) => unknown ? Args : never;
 
 async function mount<T extends ColorPicker = ColorPicker>(
-  input: any,
+  input: OgMountArgs[0],
   options?: OgMountArgs[1],
 ): Promise<RenderResult<T>> {
   const result = await ogMount(input, options);
@@ -411,13 +411,10 @@ it(`should set all internal calcite-button types to 'button'`, async () => {
 
   const buttons = page
     .getBySelector(`calcite-color-picker .${CSS.container} calcite-button`)
-    .elements() as HTMLButtonElement[];
+    .elements() as Button["el"][];
 
   expect(buttons).toHaveLength(4);
-
-  for (const button of buttons) {
-    expect(await button.type).toBe("button");
-  }
+  buttons.forEach((button) => expect(button.type).toBe("button"));
 });
 
 it("emits event when value changes via user interaction and not programmatically", async () => {
@@ -519,7 +516,7 @@ it("emits event when value changes via user interaction and not programmatically
     previousInputEventLength = inputSpy.mock.calls.length;
 
     // this portion covers an odd scenario where setting twice would cause the component to emit
-    el.value = "colorFieldCenterValueHex";
+    el.value = colorFieldCenterValueHex;
 
     el.value = "#fff";
 
