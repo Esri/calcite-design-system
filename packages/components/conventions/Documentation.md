@@ -20,7 +20,7 @@ Follow these conventions when adding or editing API reference:
 
 ### Shared definitions using `@copyDoc`
 
-When a description is shared across multiple components, the `@copyDoc` tag should be used. This improves consistency and reduces repetition.
+Descriptions that are shared across components should use the @copyDoc tag to improve consistency and reduce repetition in the repository.
 
 #### Support
 
