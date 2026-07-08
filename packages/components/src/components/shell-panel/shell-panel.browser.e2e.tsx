@@ -332,13 +332,10 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
-  it("resizes on mobile touch devices", async () => {
-    const { panel, content, handle, shell, computedSizeProp, sizeCssProp, baselineContentSize } =
-      await setUpShellPanel({ dir: "ltr", slot: "panel-start", position: "start" });
-
-    panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
-    await shell.manager.component.updateComplete;
-
+  function resizeWithTouchPointer(
+    handle: HTMLElement,
+    { dx, dy }: { dx: number; dy: number },
+  ): void {
     const handleRect = handle.getBoundingClientRect();
     const clientX = handleRect.left + handleRect.width / 2;
     const clientY = handleRect.top + handleRect.height / 2;
@@ -361,10 +358,21 @@ describe("shell-panel updateSize public method", () => {
       new PointerEvent("pointermove", {
         ...eventOptions,
         buttons: 1,
-        clientX: clientX + 10,
+        clientX: clientX + dx,
+        clientY: clientY + dy,
       }),
     );
     document.dispatchEvent(new PointerEvent("pointerup", eventOptions));
+  }
+
+  it("resizes on mobile touch devices", async () => {
+    const { panel, content, handle, shell, computedSizeProp, sizeCssProp, baselineContentSize } =
+      await setUpShellPanel({ dir: "ltr", slot: "panel-start", position: "start" });
+
+    panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
+    await shell.manager.component.updateComplete;
+
+    resizeWithTouchPointer(handle, { dx: 10, dy: 0 });
     await shell.manager.component.updateComplete;
 
     const afterUserResize = parseFloat(getComputedStyle(content)[computedSizeProp]);
