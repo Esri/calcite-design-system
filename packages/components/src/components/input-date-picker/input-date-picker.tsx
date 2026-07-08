@@ -619,8 +619,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private onInputWrapperClick(event: MouseEvent): void {
-    const target = event.target as Element | null;
-    const actionClicked = !!target?.closest(`.${CSS.clearButton}, .${CSS.toggleIcon}`);
+    const actionClicked = event.composedPath().some((node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
+
+      return node.classList.contains(CSS.clearButton) || node.classList.contains(CSS.toggleIcon);
+    });
 
     if (!actionClicked) {
       const currentTarget = event.currentTarget as HTMLDivElement;

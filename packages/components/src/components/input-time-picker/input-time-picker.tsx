@@ -537,12 +537,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.open = !this.open;
   }
 
-  private clearClickHandler(event: MouseEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-    this.clearValue();
-  }
-
   private clearValue(): void {
     this.time.setValue(null, true);
     this.open = false;
@@ -723,10 +717,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
             </div>
           </div>
           {isClearable && (
-            <div class={CSS.clearButton} onClick={this.clearClickHandler}>
+            <div class={CSS.clearButton} onClick={this.clearValue}>
               <ClearButton
                 ariaLabel={this.messages.clear}
-                onClick={this.clearClickHandler}
                 scale={this.scale}
                 title={this.messages.clear}
               />
