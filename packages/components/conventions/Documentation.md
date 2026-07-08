@@ -34,7 +34,7 @@ Descriptions that are shared across components should use the `@copyDoc` tag to 
 
 To add shared component documentation definitions, perform the following:
 
-- Add a shared definition in the [api-extractor.config.ts file](../api-extractor.config.ts) within the `copyDocDefinitions` object. The `copyDocDefinitions` object stores shared documentation definitions by section, such as `properties`, `methods`, and `events`. The example below adds a shared definition for the `checked` property.
+- Add a shared definition in the [api-extractor.config.ts file](../api-extractor.config.ts) within the `copyDocDefinitions` object. The `copyDocDefinitions` object stores shared documentation definitions by section, such as `properties`, `methods`, and `events`. For example with the `properties` section:
   ```ts
   copyDocDefinitions: {
     properties: {
@@ -62,9 +62,9 @@ To add shared component documentation definitions, perform the following:
 In some cases a component may need different verbiage than the default description in `@copyDoc`. For example, most `heading` properties use the verbiage "Specifies the component's heading text." List Item Group uses the more specific description "Specifies the heading text for the nested `calcite-list-item` rows."
 To facilitate using a component-specific description either:
 
-- Use override functions, such as the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts). Name each override function after the target property, method, or event. Override functions give access to API metadata which can be used to customize `@copyDoc` definitions.
+- Use override functions, such as the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts). Name each override function after the target `property`, `method`, or `event` section. Override functions give access to API metadata which can be used to customize `@copyDoc` definitions.
 
-  In the override function example below, the `heading` property uses `apiClass.name` to return a specific value for List Item Group.
+  - In the override function example below, the `heading` property uses `apiClass.name` to return a specific value for List Item Group.
 
   ```ts
   copyDocDefinitions: {
@@ -81,20 +81,20 @@ To facilitate using a component-specific description either:
   ...
   ```
 
-  Add the typical `@copyDoc` tag in the component `.tsx` file.
+  - Add the `@copyDoc` tag in the component `.tsx` file.
 
   ```tsx
   /** @copyDoc */
   @property({ reflect: true }) heading?: string;
   ```
 
-- Add a description directly in the component file instead of using `@copyDoc`. Even when a matching `@copyDoc` definition exists, you can choose not to use it and provide a separate description in the component’s .tsx file instead. Below is an example for List Item Group's `heading` property:
+- Add a description directly in the component file instead of using `@copyDoc`. When a matching `@copyDoc` definition exists, you can choose not to use it and provide a separate description in the component’s .tsx file instead. For instance:
   ```tsx
   /** Specifies the heading text for the nested `calcite-list-item` rows. */
   @property({ reflect: true }) heading?: string;
   ```
 
-For additional guidance, review the Web GIS reference `@copyDoc` documentation.
+For additional guidance, review the Web GIS Resources `@copyDoc` documentation within the API Extractor's "Tag reference" section.
 
 ### Deprecation notices
 
