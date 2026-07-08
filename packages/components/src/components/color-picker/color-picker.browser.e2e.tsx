@@ -2035,7 +2035,7 @@ describe("color inputs", () => {
         ): Promise<void> => {
           await calciteInputOrSlider.setFocus();
 
-          const currentValue = (await calciteInputOrSlider.value) as string; // FIXME
+          const currentValue = calciteInputOrSlider.value as string | number;
 
           function ensureValueType(value: string | number): number | string {
             return typeof currentValue === "string" ? `${value}` : value;
