@@ -2949,7 +2949,7 @@ export const cornerRadiusAndBoxShadow = (): string => html`
       <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
     </calcite-shell>
-    <calcite-shell style="--calcite-shell-box-shadow: var(--calcite-shadow-md);">
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
       ${headerHTML}
       <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
       ${contentHTML}
@@ -2957,14 +2957,14 @@ export const cornerRadiusAndBoxShadow = (): string => html`
       <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
       ${footerHTML}
     </calcite-shell>
-    <calcite-shell style="--calcite-shell-box-shadow: var(--calcite-shadow-md);">
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
       <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
       ${contentHTML}
       <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
     </calcite-shell>
     <calcite-shell
-      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-box-shadow: var(--calcite-shadow-md);"
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
     >
       ${headerHTML}
       <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
@@ -2974,7 +2974,7 @@ export const cornerRadiusAndBoxShadow = (): string => html`
       ${footerHTML}
     </calcite-shell>
     <calcite-shell
-      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-box-shadow: var(--calcite-shadow-md);"
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
     >
       <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
       ${contentHTML}

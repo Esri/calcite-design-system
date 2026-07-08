@@ -52,7 +52,7 @@ describe("theme", () => {
         "--calcite-shell-corner-radius": {
           targetProp: "borderRadius",
         },
-        "--calcite-shell-box-shadow": {
+        "--calcite-shell-shadow": {
           targetProp: "boxShadow",
         },
         "--calcite-shell-border-color": [
