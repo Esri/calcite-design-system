@@ -70,6 +70,12 @@ export default {
       options: menuPlacement.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     scale: {
       options: scale.values,
       control: { type: "select" },

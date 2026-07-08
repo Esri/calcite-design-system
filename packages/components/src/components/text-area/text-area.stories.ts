@@ -59,6 +59,12 @@ export default {
       options: status.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
       control: { type: "select" },
