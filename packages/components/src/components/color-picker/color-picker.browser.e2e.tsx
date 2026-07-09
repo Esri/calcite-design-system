@@ -819,7 +819,6 @@ describe("accepts multiple color value formats", () => {
     for (const value of supportedObjectFormats) {
       el.value = value;
 
-      // FIXME
       expect(el.value).toMatchObject(value as any);
     }
   });
@@ -1289,7 +1288,7 @@ describe("color inputs", () => {
         picker.value = rgbObject;
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbObject as object); // FIXME
+          expect(value).not.toMatchObject(rgbObject as object);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1305,7 +1304,7 @@ describe("color inputs", () => {
         picker.value = hslObject;
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hslObject as object); // FIXME
+          expect(value).not.toMatchObject(hslObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1321,7 +1320,7 @@ describe("color inputs", () => {
         picker.value = hsvObject;
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvObject as object); // FIXME
+          expect(value).not.toMatchObject(hsvObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1786,7 +1785,7 @@ describe("color inputs", () => {
         picker.value = rgbObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbObject as object); // FIXME
+          expect(value).not.toMatchObject(rgbObject as object);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1803,7 +1802,7 @@ describe("color inputs", () => {
         picker.value = rgbaObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbaObject as object); // FIXME
+          expect(value).not.toMatchObject(rgbaObject as object); //
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1820,7 +1819,7 @@ describe("color inputs", () => {
         picker.value = hslObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hslObject as object); // FIXME
+          expect(value).not.toMatchObject(hslObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1837,7 +1836,7 @@ describe("color inputs", () => {
         picker.value = hslaObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hslaObject as object); // FIXME
+          expect(value).not.toMatchObject(hslaObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1854,7 +1853,7 @@ describe("color inputs", () => {
         picker.value = hsvObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvObject as object); // FIXME
+          expect(value).not.toMatchObject(hsvObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1870,7 +1869,7 @@ describe("color inputs", () => {
         picker.value = hsvaObject;
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvaObject as object); // FIXME
+          expect(value).not.toMatchObject(hsvaObject as object);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
