@@ -1,6 +1,6 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
 import {
   accessible,
@@ -12,6 +12,8 @@ import {
   disabled,
   focusable,
 } from "../../tests/commonTests/browser";
+import { page, userEvent } from "vitest/browser";
+import type { Block } from "../block/block";
 
 mockConsole();
 
@@ -124,5 +126,101 @@ describe("is focusable", () => {
 describe("disabled", () => {
   disabled(() => mount(<calcite-block-group>{renderBlock()}</calcite-block-group>), {
     focusTarget: "child",
+  });
+});
+
+describe("selectionMode", () => {
+  it("should allow only one block to be expanded when selectionMode is single", async () => {
+    await mount(
+      <calcite-block-group selection-mode="single">
+        <calcite-block collapsible heading="block 1" open>
+          <div>content</div>
+        </calcite-block>
+        <calcite-block collapsible heading="block 2">
+          <div>content</div>
+        </calcite-block>
+      </calcite-block-group>,
+    );
+
+    const [block1, block2] = page.getBySelector("calcite-block").elements() as Block["el"][];
+    await userEvent.click(block2);
+    expect(block1.expanded).toBe(false);
+    expect(block2.expanded).toBe(true);
+  });
+
+  it("should allow multiple block elements to be expanded when selectionMode is multiple", async () => {
+    await mount(
+      <calcite-block-group selection-mode="multiple">
+        <calcite-block collapsible heading="block 1" open>
+          <div>content</div>
+        </calcite-block>
+        <calcite-block collapsible heading="block 2">
+          <div>content</div>
+        </calcite-block>
+      </calcite-block-group>,
+    );
+
+    const [block1, block2] = page.getBySelector("calcite-block").elements() as Block["el"][];
+    await userEvent.click(block2);
+    expect(block1.expanded).toBe(true);
+    expect(block2.expanded).toBe(true);
+  });
+
+  it("should not allow expanded block element to collapse when selectionMode is single-persist", async () => {
+    await mount(
+      <calcite-block-group selection-mode="single-persist">
+        <calcite-block collapsible heading="block 1">
+          <div>content</div>
+        </calcite-block>
+        <calcite-block collapsible heading="block 2">
+          <div>content</div>
+        </calcite-block>
+      </calcite-block-group>,
+    );
+
+    const [block1, block2] = page.getBySelector("calcite-block").elements() as Block["el"][];
+    await userEvent.click(block2);
+    expect(block1.expanded).toBe(false);
+    expect(block2.expanded).toBe(true);
+
+    await userEvent.click(block2);
+    expect(block1.expanded).toBe(false);
+    expect(block2.expanded).toBe(true);
+
+    await userEvent.click(block1);
+    expect(block1.expanded).toBe(true);
+    expect(block2.expanded).toBe(false);
+  });
+
+  describe("nested block elements", () => {
+    it("should allow only one block to be expanded in nested group when selectionMode is single", async () => {
+      await mount(
+        <calcite-block-group selection-mode="single">
+          <calcite-block collapsible heading="Asia">
+            <calcite-block collapsible heading="Himalayas" slot="sections" />
+          </calcite-block>
+          <calcite-block collapsible heading="Africa" />
+        </calcite-block-group>,
+      );
+
+      const [block1, block2] = page.getBySelector("calcite-block").elements() as Block["el"][];
+      await userEvent.click(block1);
+      expect(block1.expanded).toBe(true);
+      expect(block2.expanded).toBe(false);
+
+      const nestedBlock = page
+        .getBySelector("calcite-block[slot='sections']")
+        .element() as Block["el"];
+
+      await userEvent.click(nestedBlock);
+      expect(nestedBlock.expanded).toBe(true);
+      expect(block1.expanded).toBe(true);
+
+      //debug
+      await userEvent.click(block2);
+      expect(block1.expanded).toBe(false);
+      expect(nestedBlock.expanded).toBe(true);
+      expect(block2.expanded).toBe(true);
+    });
   });
 });

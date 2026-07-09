@@ -86,23 +86,29 @@ export class BlockGroup extends LitElement {
         break;
       case "single":
         el.expanded = !el.expanded;
-        blockChildren.forEach((item) => {
-          if (item !== el) {
-            item.expanded = false;
-          }
-        });
+        this.collapseAllBlocks(blockChildren, el);
         break;
       case "single-persist":
         if (!el.expanded) {
           el.expanded = true;
+          this.collapseAllBlocks(blockChildren, el);
+        } else if (el.expanded) {
           blockChildren.forEach((item) => {
-            if (item !== el && !item.contains(el)) {
-              item.expanded = false;
+            if (item.contains(el) && item !== el) {
+              el.expanded = false;
             }
           });
         }
         break;
     }
+  };
+
+  private collapseAllBlocks = (blockChildren: Block["el"][], el: Block["el"]): void => {
+    blockChildren.forEach((item) => {
+      if (item !== el && !item.contains(el)) {
+        item.expanded = false;
+      }
+    });
   };
 
   //#endregion
