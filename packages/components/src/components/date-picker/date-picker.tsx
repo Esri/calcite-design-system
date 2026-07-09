@@ -139,7 +139,7 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). */
-  @property() value?: string | string[];
+  @property() value?: string | string[] | null;
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @property() valueAsDate?: Date | Date[];
@@ -251,7 +251,7 @@ export class DatePicker extends LitElement {
     }
   }
 
-  private valueHandler(value: string | string[] | undefined): void {
+  private valueHandler(value: string | string[] | null | undefined): void {
     if (Array.isArray(value)) {
       // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
       this.valueAsDate = getValueAsDateRange(value);
@@ -260,6 +260,8 @@ export class DatePicker extends LitElement {
       }
     } else if (value) {
       this.valueAsDate = dateFromISO(value);
+    } else {
+      this.valueAsDate = undefined;
     }
   }
 

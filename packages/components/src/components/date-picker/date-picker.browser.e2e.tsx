@@ -100,6 +100,24 @@ describe("activeDate", () => {
   }
 });
 
+describe("value", () => {
+  it.each<{ label: string; value: DatePicker["value"] }>([
+    { label: "empty string", value: "" },
+    { label: "null", value: null },
+    { label: "undefined", value: undefined },
+  ])("clears valueAsDate when value is set to $label", async ({ value }) => {
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2025-12-05" />);
+    await component.updateComplete;
+
+    expect(el.valueAsDate).toBeInstanceOf(Date);
+
+    el.value = value;
+    await component.updateComplete;
+
+    expect(el.valueAsDate).toBeUndefined();
+  });
+});
+
 describe("theme", () => {
   mockConsole();
 
