@@ -8,7 +8,7 @@ const { mode, scale, status } = ATTRIBUTES;
 
 type InputTimeZoneStoryArgs = Pick<
   InputTimeZone,
-  "disabled" | "mode" | "scale" | "status" | "validationMessage" | "validationIcon"
+  "disabled" | "mode" | "placeholder" | "scale" | "status" | "validationMessage" | "validationIcon"
 >;
 
 export default {
@@ -16,6 +16,7 @@ export default {
   args: {
     disabled: false,
     mode: mode.defaultValue,
+    placeholder: "Enter a time zone",
     scale: scale.defaultValue,
     status: status.defaultValue,
     validationMessage: "",
@@ -52,6 +53,7 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
+    placeholder="${args.placeholder}"
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"

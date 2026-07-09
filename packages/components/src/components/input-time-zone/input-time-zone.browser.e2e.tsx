@@ -38,6 +38,7 @@ describe("defaults", () => {
       { propertyName: "mode", defaultValue: "offset" },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
