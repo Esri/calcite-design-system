@@ -74,7 +74,13 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
   it("supports being placed in top layer", async () => {
     const { el } = await setup();
     const openProp = options?.openProp ?? "open";
-    const componentEl = (options?.componentTarget?.element() ?? el) as HTMLElement & {
+    const componentElFromLocator = options?.componentTarget?.element();
+
+    if (options?.componentTarget && !componentElFromLocator) {
+      throw new Error("componentTarget did not resolve to an element.");
+    }
+
+    const componentEl = (componentElFromLocator ?? el) as HTMLElement & {
       [key: string]: unknown;
       topLayerDisabled?: boolean;
     };
