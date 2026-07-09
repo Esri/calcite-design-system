@@ -84,3 +84,12 @@ export function createBreakpointStories(
 export const boolean = (prop: string, value: boolean): string => {
   return value ? prop : "";
 };
+
+/**
+ * Returns an HTML attribute when the value is defined, non-empty, and not a boolean.
+ */
+export const optionalAttribute = (attribute: string, value: string | number | boolean | null | undefined): string => {
+  return value === undefined || value === null || value === "" || typeof value === "boolean"
+    ? ""
+    : `${attribute}="${value}"`;
+};

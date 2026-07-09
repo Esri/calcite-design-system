@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -245,32 +245,5 @@ describe("embedded", () => {
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    mockConsole();
-
-    themed(
-      html`<calcite-shell>
-        <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
-        <calcite-flow slot="panel-end">
-          <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
-        </calcite-flow>
-      </calcite-shell>`,
-      {
-        "--calcite-shell-border-color": [
-          {
-            targetProp: "borderColor",
-            selector: "calcite-panel",
-          },
-          {
-            targetProp: "borderColor",
-            selector: "calcite-flow",
-          },
-        ],
-      },
-    );
   });
 });

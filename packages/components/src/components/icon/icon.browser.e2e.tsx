@@ -1,5 +1,12 @@
 import { h } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, accessible } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -39,6 +46,23 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-icon"), { display: "inline-flex" });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-icon"), {
+      "--calcite-icon-color": {
+        targetProp: "color",
+      },
+    });
+  });
+  describe("deprecated", () => {
+    themed(() => mount("calcite-icon"), {
+      "--calcite-ui-icon-color": {
+        targetProp: "color",
+      },
+    });
+  });
 });
 
 it("flips icon when enabled and in RTL", async () => {

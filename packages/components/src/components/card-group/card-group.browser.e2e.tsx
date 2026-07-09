@@ -9,8 +9,10 @@ import {
   hidden,
   renders,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import type { CardGroup } from "./card-group";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   describe("is accessible in selection mode none (default)", () => {
@@ -169,5 +171,24 @@ describe("scale propagation", () => {
 
     await expect.element(card1).toHaveProperty("scale", "l");
     await expect.element(card2).toHaveProperty("scale", "l");
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-card-group"), {
+      "--calcite-card-group-space": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
+  });
+  describe("deprecated", () => {
+    themed(() => mount("calcite-card-group"), {
+      "--calcite-card-group-gap": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
   });
 });

@@ -1,10 +1,9 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import type { RadioButton } from "../radio-button/radio-button";
-import { CSS } from "./resources";
 
 it("has a radio input for form compatibility", async () => {
   const page = await newE2EPage();
@@ -442,23 +441,4 @@ it("should focus the first focusable radio-button on setFocus()", async () => {
   await group.callMethod("setFocus");
   await page.waitForChanges();
   expect(await getFocusedElementProp(page, "id")).toBe("shrubs");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-radio-button-group></calcite-radio-button-group>`, {
-      "--calcite-radio-button-group-gap": {
-        targetProp: "columnGap",
-        shadowSelector: `.${CSS.itemWrapper}`,
-      },
-    });
-  });
-  describe("validation", () => {
-    themed(html`<calcite-radio-button-group validation-message="help" status="invalid"></calcite-radio-button-group>`, {
-      "--calcite-radio-button-input-message-spacing": {
-        targetProp: "--calcite-input-message-spacing",
-        shadowSelector: "calcite-input-message",
-      },
-    });
-  });
 });

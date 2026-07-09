@@ -9,8 +9,9 @@ import {
   renders,
   slots,
   accessible,
+  themed,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -109,4 +110,80 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-tree-item"), SLOTS);
+});
+
+describe("themed", () => {
+  describe(`selection-mode="none"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="none">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-text-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.nodeContainer}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="single"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="single">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-text-color-selected": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.nodeContainer}`,
+          selector: "calcite-tree-item",
+        },
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.selectionIcon}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="multiple"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="multiple">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.selectionIcon}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="ancestors"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="ancestors">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.checkbox}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
 });

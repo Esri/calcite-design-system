@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.18...@esri/calcite-components@5.2.0-next.19) (2026-07-08)
+
+### Features
+
+- **action:** add --calcite-action-loader-color CSS token ([#14783](https://github.com/Esri/calcite-design-system/issues/14783)), closes [#14782](https://github.com/Esri/calcite-design-system/issues/14782)
+
+## [5.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.17...@esri/calcite-components@5.2.0-next.18) (2026-07-08)
+
+### Features
+
+- **input-date-picker:** add placeholder property ([#14748](https://github.com/Esri/calcite-design-system/issues/14748)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
+
+## [5.2.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.16...@esri/calcite-components@5.2.0-next.17) (2026-07-07)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [5.1.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.1...@esri/calcite-components@5.1.2) (2026-07-02)
 
 ### Bug Fixes
