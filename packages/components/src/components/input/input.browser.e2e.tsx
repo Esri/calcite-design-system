@@ -183,7 +183,7 @@ describe("inline editing", () => {
       <calcite-input inline-editing inline-editing-controls value="John Doe" />,
     );
     const enableEditingSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditingEnableEditingChange", enableEditingSpy);
+    el.addEventListener("calciteInputInlineEditableChange", enableEditingSpy);
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
@@ -1659,15 +1659,16 @@ describe("theme", () => {
     });
 
     themed(
-      () =>
-        mount(
-          <calcite-input
-            editing-enabled
-            inline-editing
-            inline-editing-controls
-            value="Forty two"
-          />,
-        ),
+      async () => {
+        const component = await mount(
+          <calcite-input inline-editing inline-editing-controls value="Forty two" />,
+        );
+
+        const input = page.getBySelector("calcite-input input");
+        await userEvent.click(input);
+
+        return component;
+      },
       {
         "--calcite-input-inline-editing-control-background-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,

@@ -158,7 +158,7 @@ describe("is focusable", () => {
         <calcite-input-text inline-editing inline-editing-controls value="John Doe" />,
       );
       const enableEditingSpy = vi.fn();
-      el.addEventListener("calciteInputTextInlineEditingEnableEditingChange", enableEditingSpy);
+      el.addEventListener("calciteInputTextInlineEditableChange", enableEditingSpy);
 
       const input = page.getBySelector("calcite-input-text input");
       await userEvent.click(input);
@@ -537,15 +537,16 @@ describe("theme", () => {
     });
 
     themed(
-      () =>
-        mount(
-          <calcite-input-text
-            editing-enabled
-            inline-editing
-            inline-editing-controls
-            value="Value"
-          />,
-        ),
+      async () => {
+        const component = await mount(
+          <calcite-input-text inline-editing inline-editing-controls value="Value" />,
+        );
+
+        const input = page.getBySelector("calcite-input-text input");
+        await userEvent.click(input);
+
+        return component;
+      },
       {
         "--calcite-input-text-inline-editing-control-background-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,

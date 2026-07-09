@@ -129,7 +129,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.calciteInputTextInlineEditingConfirm.emit();
     },
     emitEnableEditingChange: () => {
-      this.calciteInputTextInlineEditingEnableEditingChange.emit();
+      this.calciteInputTextInlineEditableChange.emit();
     },
   });
 
@@ -195,7 +195,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** When `true`, enables the component's built-in inline editing behavior. */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** When `true` and `editingEnabled` is `true`, displays the component's built-in inline editing save and cancel controls. */
+  /** When `true` and `inlineEditing` is `true`, displays the component's built-in inline editing save and cancel controls. */
   @property({ reflect: true }) inlineEditingControls = false;
 
   /** Specifies a callback to be executed when saving inline editing changes */
@@ -369,7 +369,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   calciteInputTextInlineEditingConfirm = createEvent({ cancelable: false });
 
   /** Fires when built-in inline editing is enabled. */
-  calciteInputTextInlineEditingEnableEditingChange = createEvent({ cancelable: false });
+  calciteInputTextInlineEditableChange = createEvent({ cancelable: false });
 
   //#endregion
 

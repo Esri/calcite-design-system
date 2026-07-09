@@ -179,7 +179,7 @@ describe("inline editing", () => {
       <calcite-input-number inline-editing inline-editing-controls value="123" />,
     );
     const enableEditingSpy = vi.fn();
-    el.addEventListener("calciteInputNumberInlineEditingEnableEditingChange", enableEditingSpy);
+    el.addEventListener("calciteInputNumberInlineEditableChange", enableEditingSpy);
 
     const input = page.getBySelector("calcite-input-number input");
     await userEvent.click(input);
@@ -1268,15 +1268,16 @@ describe("theme", () => {
     });
 
     themed(
-      () =>
-        mount(
-          <calcite-input-number
-            editing-enabled
-            inline-editing
-            inline-editing-controls
-            value="42"
-          />,
-        ),
+      async () => {
+        const component = await mount(
+          <calcite-input-number inline-editing inline-editing-controls value="42" />,
+        );
+
+        const input = page.getBySelector("calcite-input-number input");
+        await userEvent.click(input);
+
+        return component;
+      },
       {
         "--calcite-input-number-inline-editing-control-background-color": {
           shadowSelector: `.${InlineEditingControlsCSS.confirmChanges}`,

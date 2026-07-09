@@ -148,7 +148,7 @@ export class InputNumber
       this.calciteInputNumberInlineEditingConfirm.emit();
     },
     emitEnableEditingChange: () => {
-      this.calciteInputNumberInlineEditingEnableEditingChange.emit();
+      this.calciteInputNumberInlineEditableChange.emit();
     },
   });
 
@@ -216,7 +216,7 @@ export class InputNumber
   /** When `true`, enables the component's built-in inline editing behavior. */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** When `true` and `editingEnabled` is `true`, displays the component's built-in inline editing save and cancel controls. */
+  /** When `true` and `inlineEditing` is `true`, displays the component's built-in inline editing save and cancel controls. */
   @property({ reflect: true }) inlineEditingControls = false;
 
   /** Specifies a callback to be executed when saving inline editing changes */
@@ -426,7 +426,7 @@ export class InputNumber
   calciteInputNumberInlineEditingConfirm = createEvent({ cancelable: false });
 
   /** Fires when built-in inline editing is enabled. */
-  calciteInputNumberInlineEditingEnableEditingChange = createEvent({ cancelable: false });
+  calciteInputNumberInlineEditableChange = createEvent({ cancelable: false });
 
   //#endregion
 
