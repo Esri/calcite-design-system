@@ -1,15 +1,16 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { placements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
 
-const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
+const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
 
 type SplitButtonStoryArgs = Pick<
   SplitButton,
+  | "active"
   | "appearance"
+  | "primaryIconEnd"
   | "kind"
   | "scale"
   | "width"
@@ -26,6 +27,7 @@ type SplitButtonStoryArgs = Pick<
 export default {
   title: "Components/Buttons/Split Button",
   args: {
+    active: true,
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
@@ -34,6 +36,7 @@ export default {
     disabled: false,
     placement: "bottom-end",
     primaryIconStart: iconNames[0],
+    primaryIconEnd: "",
     primaryText: "Primary Option",
     primaryLabel: "Primary Option",
     dropdownLabel: "Additional Options",
@@ -57,11 +60,15 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     primaryIconStart: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    primaryIconEnd: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     dropdownIconType: {
@@ -74,7 +81,7 @@ export default {
 export const simple = (args: SplitButtonStoryArgs): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      active
+      ${boolean("active", args.active)}
       appearance="${args.appearance}"
       kind="${args.kind}"
       scale="${args.scale}"
@@ -82,7 +89,8 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("disabled", args.disabled)}
       placement="${args.placement}"
-      primary-icon-start="${args.primaryIconStart}"
+      ${optionalAttribute("primary-icon-start", args.primaryIconStart)}
+      ${optionalAttribute("primary-icon-end", args.primaryIconEnd)}
       primary-text="${args.primaryText}"
       primary-label="${args.primaryLabel}"
       dropdown-label="${args.dropdownLabel}"
