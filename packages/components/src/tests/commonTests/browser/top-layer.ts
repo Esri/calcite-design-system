@@ -97,8 +97,9 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
     const skipCloseCheck = delegatedTopLayer || (options?.skipCloseCheck ?? false);
 
     async function expectTopLayerState(expectedState: boolean): Promise<boolean> {
-      await expect.poll(() => isInTopLayer(topLayerEl)).toBe(expectedState);
-      return isInTopLayer(topLayerEl);
+      let currentState = false;
+      await expect.poll(() => (currentState = isInTopLayer(topLayerEl))).toBe(expectedState);
+      return currentState;
     }
 
     expect(isInTopLayer(topLayerEl)).toBe(false);
