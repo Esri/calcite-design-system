@@ -11,7 +11,7 @@ import {
   vi,
 } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
-import { mount as ogMount, type RenderResult } from "@arcgis/lumina-compiler/testing";
+import { mount } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import { commands } from "../../tests/browser/commands";
 import {
@@ -44,21 +44,8 @@ import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker
 import type { Slider } from "../slider/slider";
 import type { Button } from "../button/button";
 import type { TabTitle } from "../tab-title/tab-title";
-import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
+import { afterNextFrame } from "../../tests/utils/timing";
 import { focusElement } from "../../utils/dom";
-
-// helps ensure color picker is ready for tests, it currently has a delay of a frame
-type OgMountArgs = typeof ogMount extends (...args: infer Args) => unknown ? Args : never;
-
-async function mount<T extends ColorPicker = ColorPicker>(
-  input: OgMountArgs[0],
-  options?: OgMountArgs[1],
-): Promise<RenderResult<T>> {
-  const result = await ogMount(input, options);
-  await afterNextFrame();
-  await afterNextTask();
-  return result as RenderResult<T>;
-}
 
 vi.mock("es-toolkit", { spy: true });
 
@@ -207,6 +194,7 @@ describe("scope interaction", () => {
 
     it("allows nudging color's saturation even if it does not change RGB value", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      await afterNextFrame(); // scope visual updates are delayed by a frame
       const scope = page.getByRole("slider", { name: "Saturation" });
 
       const initialStyle = window.getComputedStyle(scope.element());
@@ -226,6 +214,7 @@ describe("scope interaction", () => {
 
     it("allows nudging color's hue even if it does not change RGB value", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      await afterNextFrame(); // scope visual updates are delayed by a frame
       const scope = page.getByRole("slider", { name: "Hue" });
 
       const nudgeAThirdOfSlider = async () => {
@@ -284,6 +273,7 @@ describe("scope interaction", () => {
 
     it("positions the scope correctly when the color is #000", async () => {
       await mount<ColorPicker>(<calcite-color-picker value="#000" />);
+      await afterNextFrame(); // scope visual updates are delayed by a frame
       const hueSliderScope = page.getByRole("slider", { name: "Hue" });
 
       expect(window.getComputedStyle(hueSliderScope.element())).toMatchObject({
