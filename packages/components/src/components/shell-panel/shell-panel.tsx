@@ -400,6 +400,7 @@ export class ShellPanel extends LitElement {
     const containerSize = containerElement.getBoundingClientRect()[dimension];
     const shellSize = shellElement?.getBoundingClientRect()[dimension] ?? containerSize;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
+    const contentSpacingSize = this.getContentSpacingSize(axis);
     const defaultSlotBorderSize =
       axis === "block" ? this.getDefaultSlotBorderSize(containerElement) : 0;
 
@@ -408,9 +409,30 @@ export class ShellPanel extends LitElement {
         Math.ceil(siblingPanelSize) -
         Math.ceil(actionBarSize) -
         Math.ceil(containerSpacingSize) -
+        Math.ceil(contentSpacingSize) -
         Math.ceil(defaultSlotBorderSize),
       0,
     );
+  }
+
+  private getContentSpacingSize(axis: "inline" | "block"): number {
+    const content = this.contentRef.value;
+
+    if (!content) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(content);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
   }
 
   private getContainerSpacingSize(axis: "inline" | "block"): number {

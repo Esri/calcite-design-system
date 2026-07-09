@@ -9,12 +9,91 @@
 
   <body>
     <demo-dom-swapper>
-      <!-- demo snippet start -->
+      <calcite-shell>
+        <calcite-shell-panel
+          slot="panel-start"
+          id="shell-panel-start"
+          resizable
+          style="
+            --calcite-shell-panel-max-width: 100%;
+            --calcite-shell-panel-max-height: 100%;
+            --calcite-shell-panel-min-width: 0;
+            --calcite-shell-panel-min-height: 0;
+          "
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action active text="Layers" indicator icon="layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Undo" icon="undo"></calcite-action>
+              <calcite-action text="Redo" indicator icon="redo"></calcite-action>
+              <calcite-action text="Save" disabled icon="save"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="question"></calcite-action>
+              <calcite-action text="Settings" indicator icon="gear"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel heading="Layers" id="panel-start" closable>
+            <calcite-block
+              collapsible
+              heading="Symbology"
+              description="Select type, color, and transparency"
+              icon-start="map-pin"
+            >
+              <calcite-notice open>
+                <div slot="message">The viewers are going to love this</div>
+              </calcite-notice>
+            </calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
+        <calcite-shell-panel
+          style="
+            --calcite-shell-panel-max-width: 100%;
+            --calcite-shell-panel-max-height: 100%;
+            --calcite-shell-panel-min-width: 0;
+            --calcite-shell-panel-min-height: 0;
+          "
+          resizable
+          slot="panel-end"
+          position="end"
+          display-mode="float"
+          id="shell-panel-start"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action-group>
+              <calcite-action text="Add" icon="plus"></calcite-action>
+              <calcite-action active text="Layers" indicator icon="layers"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action text="Undo" icon="undo"></calcite-action>
+              <calcite-action text="Redo" indicator icon="redo"></calcite-action>
+              <calcite-action text="Save" disabled icon="save"></calcite-action>
+            </calcite-action-group>
+            <calcite-action-group slot="bottom-actions">
+              <calcite-action text="Tips" icon="question"></calcite-action>
+              <calcite-action text="Settings" indicator icon="gear"></calcite-action>
+            </calcite-action-group>
+          </calcite-action-bar>
+          <calcite-panel heading="Layers" id="panel-start" closable>
+            <calcite-block
+              collapsible
+              heading="Symbology"
+              description="Select type, color, and transparency"
+              icon-start="map-pin"
+            >
+              <calcite-notice open>
+                <div slot="message">The viewers are going to love this</div>
+              </calcite-notice>
+            </calcite-block>
+          </calcite-panel>
+        </calcite-shell-panel>
 
-      <!-- demo snippet end -->
+        <calcite-panel heading="Content"></calcite-panel>
+      </calcite-shell>
     </demo-dom-swapper>
     <demo-options></demo-options>
   </body>
