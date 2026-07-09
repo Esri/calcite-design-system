@@ -37,7 +37,7 @@ import {
   STATIC_DIMENSIONS,
 } from "./resources";
 import type { ColorPicker } from "./color-picker";
-import { type Format, getColorFieldDimensions, getSliderWidth } from "./utils";
+import { getColorFieldDimensions, getSliderWidth } from "./utils";
 import type { InputNumber } from "../input-number/input-number";
 import { isInputNumber } from "../input-number/resources";
 import type { ColorPickerHexInput } from "../color-picker-hex-input/color-picker-hex-input";
@@ -664,29 +664,23 @@ it("does not emit on initialization", async () => {
   expect(inputAndChangeHandler).not.toHaveBeenCalled();
 });
 
-const supportedFormatToSampleValue: Record<
-  Extract<Format, "hex" | "rgb-css" | "hsl-css" | "rgb" | "hsl" | "hsv">,
-  ColorValue
-> = {
+const supportedFormatToSampleValue = {
   hex: "#ffffff",
   "rgb-css": "rgb(255, 255, 255)",
   "hsl-css": "hsl(0, 0%, 100%)",
   rgb: { r: 255, g: 255, b: 255 },
   hsl: { h: 0, s: 0, l: 100 },
   hsv: { h: 0, s: 0, v: 100 },
-};
+} as const;
 
-const supportedAlphaFormatToSampleValue: Record<
-  Extract<Format, "hexa" | "rgba-css" | "hsla-css" | "rgba" | "hsla" | "hsva">,
-  ColorValue
-> = {
+const supportedAlphaFormatToSampleValue = {
   hexa: "#ffffffff",
   "rgba-css": "rgba(255, 255, 255, 1)",
   "hsla-css": "hsla(0, 0%, 100%, 1)",
   rgba: { r: 255, g: 255, b: 255, a: 1 },
   hsla: { h: 0, s: 0, l: 100, a: 1 },
   hsva: { h: 0, s: 0, v: 100, a: 1 },
-};
+} as const;
 
 const allSupportedFormatToSampleValue = {
   ...supportedFormatToSampleValue,
@@ -695,7 +689,7 @@ const allSupportedFormatToSampleValue = {
 
 const clearAndEnterHexOrChannelValue = async (
   channelInputOrHexInput: InputNumber["el"] | ColorPickerHexInput["el"],
-  value: ColorValue,
+  value: Extract<ColorValue, string>,
 ): Promise<void> => {
   await channelInputOrHexInput.setFocus();
 
@@ -1306,7 +1300,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbObject as object);
+          expect(value).not.toMatchObject(rgbObject);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1323,7 +1317,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hslObject as object);
+          expect(value).not.toMatchObject(hslObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1340,7 +1334,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvObject as object);
+          expect(value).not.toMatchObject(hsvObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1814,7 +1808,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbObject as object);
+          expect(value).not.toMatchObject(rgbObject);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1832,7 +1826,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbaObject as object);
+          expect(value).not.toMatchObject(rgbaObject);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1850,7 +1844,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hslObject as object);
+          expect(value).not.toMatchObject(hslObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1868,7 +1862,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hslaObject as object);
+          expect(value).not.toMatchObject(hslaObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1886,7 +1880,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvObject as object);
+          expect(value).not.toMatchObject(hsvObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
@@ -1903,7 +1897,7 @@ describe("color inputs", () => {
         await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(hsvaObject as object);
+          expect(value).not.toMatchObject(hsvaObject);
           expect(value).toMatchObject({
             h: toBeInteger(),
             s: toBeInteger(),
