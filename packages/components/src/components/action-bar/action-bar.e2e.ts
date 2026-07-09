@@ -80,7 +80,7 @@ describe("expand functionality", () => {
     expect(expandAction).not.toBeNull();
   });
 
-  it("allows disabling expandable behavior", async () => {
+  it("hides the expand/collapse toggle button", async () => {
     const page = await newE2EPage();
     await page.setContent("<calcite-action-bar expand-toggle-disabled></calcite-action-bar>");
     await page.waitForChanges();
