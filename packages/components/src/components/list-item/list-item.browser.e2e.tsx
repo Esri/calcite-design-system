@@ -17,8 +17,6 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ListItem } from "./list-item";
 
-mockConsole();
-
 describe("defaults", () => {
   defaults(
     () => mount("calcite-list-item"),
@@ -154,6 +152,8 @@ describe("disabled", () => {
 });
 
 describe("top layer placement", () => {
+  mockConsole();
+
   topLayer(
     () => mount(<calcite-list-item drag-handle label="test" set-position="1" set-size="4" />),
     {

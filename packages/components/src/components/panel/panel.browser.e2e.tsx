@@ -349,12 +349,9 @@ describe("top layer placement", () => {
         </calcite-panel>,
       ),
     {
+      delegatedTopLayer: true,
       openProp: "menuOpen",
-      openEventName: null,
-      closeEventName: null,
       topLayerTarget: page.getBySelector("calcite-panel [popover]"),
-      skipCloseCheck: true,
-      skipTopLayerDisabledCheck: true,
     },
   );
 });

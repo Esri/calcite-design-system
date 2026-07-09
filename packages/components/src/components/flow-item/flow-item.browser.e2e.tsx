@@ -232,12 +232,9 @@ describe("top layer placement", () => {
         </calcite-flow-item>,
       ),
     {
+      delegatedTopLayer: true,
       openProp: "menuOpen",
-      openEventName: null,
-      closeEventName: null,
       topLayerTarget: page.getBySelector("calcite-flow-item [popover]"),
-      skipCloseCheck: true,
-      skipTopLayerDisabledCheck: true,
     },
   );
 });

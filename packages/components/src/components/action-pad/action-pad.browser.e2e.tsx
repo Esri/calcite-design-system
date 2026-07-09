@@ -162,11 +162,8 @@ describe("top layer placement", () => {
       ),
     {
       componentTarget: page.getBySelector("calcite-action-pad > calcite-action-group"),
+      delegatedTopLayer: true,
       openProp: "menuOpen",
-      openEventName: null,
-      closeEventName: null,
-      skipCloseCheck: true,
-      skipTopLayerDisabledCheck: true,
     },
   );
 });

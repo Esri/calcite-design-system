@@ -148,11 +148,8 @@ describe("top layer placement", () => {
         </calcite-action-group>,
       ),
     {
+      delegatedTopLayer: true,
       openProp: "menuOpen",
-      openEventName: null,
-      closeEventName: null,
-      skipCloseCheck: true,
-      skipTopLayerDisabledCheck: true,
       topLayerTarget: page.getBySelector("calcite-action-group [popover]"),
     },
   );

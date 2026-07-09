@@ -1,11 +1,17 @@
 import { expect, it } from "vitest";
 import { Locator, page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { afterNextTask } from "../../utils/timing";
 import { isInTopLayer } from "../../utils/dom";
 import { getEventPrefix, waitForEvent } from "./utils";
 
 type TopLayerOptions = {
+  /**
+   * When `true`, the component delegates top-layer state to a nested owner.
+   *
+   * This disables open/close event waits and skips close-state assertions.
+   */
+  delegatedTopLayer?: boolean;
+
   /**
    * Prop name for toggling the top-layer element.
    *
@@ -17,19 +23,8 @@ type TopLayerOptions = {
    * Locator for the element that will be placed in the top layer.
    *
    * Defaults to all elements matching `[popover]`.
-   *
-   * If this locator resolves to multiple elements, provide `topLayerTargetSelector`
-   * or a more specific `topLayerTarget` locator to avoid ambiguous assertions.
    */
   topLayerTarget?: Locator;
-
-  /**
-   * Selector used to pick a single top-layer target when `topLayerTarget` resolves to multiple elements.
-   * The selector must match the top-layer host element itself.
-   *
-   * If omitted and multiple targets are found, the helper throws to avoid ambiguous assertions.
-   */
-  topLayerTargetSelector?: string;
 
   /**
    * Locator for the component whose open state is toggled.
@@ -39,28 +34,26 @@ type TopLayerOptions = {
   componentTarget?: Locator;
 
   /**
-   * Event name emitted when the component opens.
+   * Locator for the component that emits open and close events.
    *
-   * Defaults to `${getEventPrefix(componentEl)}Open`.
-   *
-   * When set to `null`, no event wait is performed.
+   * Defaults to `componentTarget`, or the mounted component element when `componentTarget` is omitted.
+   */
+  eventTarget?: Locator;
+
+  /**
+   * Event name emitted when the component opens. Defaults to `${getEventPrefix(eventTarget)}Open` using
+   * `eventTarget`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
    */
   openEventName?: string | null;
 
   /**
-   * Event name emitted when the component closes.
-   *
-   * Defaults to `${getEventPrefix(componentEl)}Close`.
-   *
-   * When set to `null`, no event wait is performed.
+   * Event name emitted when the component closes. Defaults to `${getEventPrefix(eventTarget)}Close` using
+   * `eventTarget`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
    */
   closeEventName?: string | null;
 
   /** When `true`, skips close-state assertions. Defaults to `false`. */
   skipCloseCheck?: boolean;
-
-  /** When `true`, skips `topLayerDisabled` assertions. Defaults to `false`. */
-  skipTopLayerDisabledCheck?: boolean;
 };
 
 /**
@@ -75,89 +68,86 @@ type TopLayerOptions = {
  */
 export async function topLayer(setup: () => ReturnType<typeof mount>, options?: TopLayerOptions): Promise<void> {
   it("supports being placed in top layer", async () => {
-    const { el } = await setup();
+    const { el, reRender } = await setup();
     const openProp = options?.openProp ?? "open";
     const componentElFromLocator = options?.componentTarget?.element();
+    const eventElFromLocator = options?.eventTarget?.element();
 
     if (options?.componentTarget && !componentElFromLocator) {
       throw new Error("componentTarget did not resolve to an element.");
+    }
+
+    if (options?.eventTarget && !eventElFromLocator) {
+      throw new Error("eventTarget did not resolve to an element.");
     }
 
     const componentEl = (componentElFromLocator ?? el) as HTMLElement & {
       [key: string]: unknown;
       topLayerDisabled?: boolean;
     };
+    const eventEl = (eventElFromLocator ?? componentEl) as HTMLElement;
     const targetLocator = options?.topLayerTarget ?? page.getBySelector("[popover]");
     const topLayerElements = targetLocator.elements();
-    const topLayerTargetSelector = options?.topLayerTargetSelector;
 
     if (topLayerElements.length === 0) {
       throw new Error("No top-layer target found.");
     }
 
-    if (topLayerElements.length > 1 && topLayerTargetSelector === undefined) {
-      throw new Error(
-        "Multiple top-layer targets found. Provide a specific topLayerTarget locator or set topLayerTargetSelector.",
-      );
+    if (topLayerElements.length > 1) {
+      throw new Error("Multiple top-layer targets found. Provide a more specific topLayerTarget locator.");
     }
 
-    const matchingTopLayerElements =
-      topLayerTargetSelector !== undefined
-        ? topLayerElements.filter((topLayerElement) => topLayerElement.matches(topLayerTargetSelector))
-        : topLayerElements;
-
-    if (topLayerTargetSelector !== undefined && matchingTopLayerElements.length === 0) {
-      throw new Error(`No top-layer host elements matched topLayerTargetSelector: ${topLayerTargetSelector}`);
-    }
-
-    if (topLayerTargetSelector !== undefined && matchingTopLayerElements.length > 1) {
-      throw new Error(
-        `Multiple top-layer host elements matched topLayerTargetSelector: ${topLayerTargetSelector}. Use a more specific selector.`,
-      );
-    }
-
-    const [topLayerEl] = matchingTopLayerElements;
+    const [topLayerEl] = topLayerElements;
+    const delegatedTopLayer = options?.delegatedTopLayer ?? false;
     const openEventName =
-      options?.openEventName === null ? null : (options?.openEventName ?? `${getEventPrefix(componentEl)}Open`);
+      delegatedTopLayer || options?.openEventName === null
+        ? null
+        : (options?.openEventName ?? `${getEventPrefix(eventEl)}Open`);
     const closeEventName =
-      options?.closeEventName === null ? null : (options?.closeEventName ?? `${getEventPrefix(componentEl)}Close`);
-    const skipCloseCheck = options?.skipCloseCheck ?? false;
-    const skipTopLayerDisabledCheck = options?.skipTopLayerDisabledCheck ?? false;
+      delegatedTopLayer || options?.closeEventName === null
+        ? null
+        : (options?.closeEventName ?? `${getEventPrefix(eventEl)}Close`);
+    const skipCloseCheck = delegatedTopLayer || (options?.skipCloseCheck ?? false);
+
+    async function expectTopLayerState(expectedState: boolean): Promise<boolean> {
+      await expect.poll(() => isInTopLayer(topLayerEl)).toBe(expectedState);
+      return isInTopLayer(topLayerEl);
+    }
 
     expect(isInTopLayer(topLayerEl)).toBe(false);
 
-    const componentOpen = openEventName ? waitForEvent(componentEl, openEventName) : null;
+    const componentOpen = openEventName ? waitForEvent(eventEl, openEventName) : null;
     componentEl[openProp] = true;
     await componentOpen;
-    await afterNextTask();
+    await reRender();
 
-    expect(isInTopLayer(topLayerEl)).toBe(true);
+    await expectTopLayerState(true);
 
     if (!skipCloseCheck) {
-      const componentClose = closeEventName ? waitForEvent(componentEl, closeEventName) : null;
+      const componentClose = closeEventName ? waitForEvent(eventEl, closeEventName) : null;
       componentEl[openProp] = false;
       await componentClose;
-      await afterNextTask();
+      await reRender();
     } else {
       componentEl[openProp] = false;
-      await afterNextTask();
+      await reRender();
     }
 
-    const closedState = !skipCloseCheck ? isInTopLayer(topLayerEl) : undefined;
+    const closedState = !skipCloseCheck ? await expectTopLayerState(false) : undefined;
     expect(closedState).toBe(!skipCloseCheck ? false : undefined);
 
-    const shouldAssertTopLayerDisabled = !skipTopLayerDisabledCheck && "topLayerDisabled" in componentEl;
-    let topLayerDisabledState: boolean | null = null;
+    const shouldAssertTopLayerDisabled = "topLayerDisabled" in componentEl;
+    const topLayerDisabledState = shouldAssertTopLayerDisabled
+      ? await (async (): Promise<boolean> => {
+          const componentOpen = openEventName ? waitForEvent(eventEl, openEventName) : null;
+          componentEl.topLayerDisabled = true;
+          componentEl[openProp] = true;
+          await componentOpen;
+          await reRender();
 
-    if (shouldAssertTopLayerDisabled) {
-      const componentOpen = openEventName ? waitForEvent(componentEl, openEventName) : null;
-      componentEl.topLayerDisabled = true;
-      componentEl[openProp] = true;
-      await componentOpen;
-      await afterNextTask();
-
-      topLayerDisabledState = isInTopLayer(topLayerEl);
-    }
+          return expectTopLayerState(false);
+        })()
+      : null;
 
     expect(topLayerDisabledState).toBe(shouldAssertTopLayerDisabled ? false : null);
   });

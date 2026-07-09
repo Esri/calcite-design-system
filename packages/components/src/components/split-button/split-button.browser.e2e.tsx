@@ -1,6 +1,7 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   defaults,
@@ -195,9 +196,8 @@ describe("top layer placement", () => {
         </calcite-split-button>,
       ),
     {
+      eventTarget: page.getBySelector("calcite-split-button calcite-dropdown"),
       openProp: "active",
-      openEventName: "calciteDropdownOpen",
-      closeEventName: "calciteDropdownClose",
     },
   );
 });

@@ -21,6 +21,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -218,11 +219,11 @@ describe("translation support", () => {
 });
 
 describe("top layer placement", () => {
-  topLayer(() => mount(<calcite-block drag-handle heading="heading" sort-disabled={false} />), {
+  topLayer(() => mount(<calcite-block drag-handle heading="heading" />), {
     openProp: "sortHandleOpen",
     openEventName: "calciteBlockSortHandleOpen",
     closeEventName: "calciteBlockSortHandleClose",
-    topLayerTarget: page.getBySelector(".wrapper[popover]"),
+    topLayerTarget: page.getBySelector(`.${DropdownCSS.wrapper}[popover]`),
   });
 });
 
