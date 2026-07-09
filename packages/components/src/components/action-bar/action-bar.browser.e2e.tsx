@@ -62,6 +62,10 @@ describe("defaults", () => {
     () => mount("calcite-action-bar"),
     [
       {
+        propertyName: "expandToggleDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "expandDisabled",
         defaultValue: false,
       },
@@ -117,6 +121,10 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-action-bar"),
     [
+      {
+        propertyName: "expandToggleDisabled",
+        value: true,
+      },
       {
         propertyName: "expandDisabled",
         value: true,
@@ -264,7 +272,7 @@ describe("overflowing actions", () => {
 
   it("only collapses and expand direct actions and trigger actions for direct action-menus", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar expand-disabled expanded layout="horizontal">
+      <calcite-action-bar expand-toggle-disabled expanded layout="horizontal">
         <calcite-action-menu>
           <calcite-action active icon="toggle" text-enabled />
           <calcite-action icon="toggle" />
@@ -464,7 +472,7 @@ describe("per-group overflow-actions-disabled", () => {
   it("keeps actions tabbable when tabbing out", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action icon="number-circle-1" text="first" />
           <calcite-action icon="number-circle-2" text="second" />
         </calcite-action-bar>
