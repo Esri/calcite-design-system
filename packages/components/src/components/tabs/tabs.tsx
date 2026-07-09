@@ -43,15 +43,20 @@ export class Tabs extends LitElement {
    */
   @state() titles: TabTitle["el"][] = [];
 
+  @state() hasVisibleTitles = true;
+
   // #endregion
 
   // #region Public Properties
 
   /** When `true`, displays the component with a folder style menu. */
-  @property() bordered = false;
+  @property({ reflect: true }) bordered = false;
 
   /** Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). */
   @property({ reflect: true }) layout: TabLayout = "inline";
+
+  /** When `true`, allows the last visible closable tab to keep its close button. */
+  @property({ reflect: true }) lastTabClosable = false;
 
   /** Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`. */
   @property({ reflect: true }) position: TabPosition = "top";
@@ -83,7 +88,8 @@ export class Tabs extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("position") && (this.hasUpdated || this.position !== "top")) ||
-      (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
+      (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) ||
+      (changes.has("lastTabClosable") && (this.hasUpdated || this.lastTabClosable !== false))
     ) {
       this.updateItems();
     }
@@ -91,8 +97,8 @@ export class Tabs extends LitElement {
     if (
       (changes.has("titles") || changes.has("tabs")) &&
       this.hasUpdated &&
-      this.titles?.length > 0 &&
-      this.tabs?.length > 0
+      (this.lastTabClosable || this.titles?.length > 0) &&
+      (this.lastTabClosable || this.tabs?.length > 0)
     ) {
       this.updateAriaSettings();
       this.updateItems();
@@ -104,9 +110,14 @@ export class Tabs extends LitElement {
   // #region Private Methods
   private calciteInternalTabNavSlotChangeHandler(event: CustomEvent): void {
     event.stopPropagation();
-    if (event.detail.length !== this.titles.length) {
-      this.titles = event.detail;
+    const nextTitles = [...event.detail] as TabTitle["el"][];
+    const titlesChanged = nextTitles.some((title, index) => this.titles[index] !== title);
+
+    if (titlesChanged) {
+      this.titles = nextTitles;
     }
+
+    this.hasVisibleTitles = nextTitles.some((title) => !title.closed);
   }
 
   private defaultSlotChangeHandler(event: Event): void {
@@ -168,10 +179,11 @@ export class Tabs extends LitElement {
   }
 
   private updateItems(): void {
-    const { position, scale } = this;
+    const { lastTabClosable, position, scale } = this;
 
     const nav = this.el.querySelector("calcite-tab-nav");
     if (nav) {
+      nav.lastTabClosable = lastTabClosable;
       nav.position = position;
       nav.scale = scale;
     }
@@ -199,7 +211,7 @@ export class Tabs extends LitElement {
     return (
       <>
         <slot name={SLOTS.titleGroup} />
-        <section class={CSS.section}>
+        <section class={CSS.section} hidden={!this.hasVisibleTitles}>
           <slot onSlotChange={this.defaultSlotChangeHandler} ref={this.slotRef} />
         </section>
       </>

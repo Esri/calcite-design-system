@@ -94,7 +94,7 @@ export class ColorPicker extends LitElement {
 
   private internalColorUpdateContext?: "internal" | "initial" | "user-interaction";
 
-  private isActiveChannelInputEmpty: boolean = false;
+  private isActiveChannelInputEmpty = false;
 
   private mode: SupportedMode = CSSColorMode.HEX;
 
@@ -1413,8 +1413,14 @@ export class ColorPicker extends LitElement {
     return channels as Channels;
   }
 
-  private getAdjustedScopePosition(left: number, top: number): [number, number] {
-    return [left - SCOPE_SIZE / 2, top - SCOPE_SIZE / 2];
+  private getAdjustedScopePosition(
+    left: number | undefined,
+    top: number | undefined,
+  ): [number, number] {
+    return [
+      left === undefined ? NaN : left - SCOPE_SIZE / 2,
+      top === undefined ? NaN : top - SCOPE_SIZE / 2,
+    ];
   }
 
   //#endregion
@@ -1452,6 +1458,7 @@ export class ColorPicker extends LitElement {
       (sliderWidth * alphaToOpacity(DEFAULT_COLOR.alpha())) / OPACITY_LIMITS.max;
     const noColor = color === undefined;
     const vertical = scopeOrientation === "vertical";
+
     const [adjustedColorFieldScopeLeft, adjustedColorFieldScopeTop] = this.getAdjustedScopePosition(
       colorFieldScopeLeft,
       colorFieldScopeTop,
@@ -1683,7 +1690,8 @@ export class ColorPicker extends LitElement {
 
             if (isAlphaChannel) {
               channelValue =
-                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue);
+                // channels can only be undefined when clearable
+                clearable && !channelValue ? channelValue : alphaToOpacity(channelValue!);
             }
 
             /* the channel container is ltr, so we apply the host's direction */

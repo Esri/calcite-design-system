@@ -133,22 +133,6 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.browser.*.tsx"],
-    extends: [calciteCoreConfig],
-    rules: {
-      "no-restricted-properties": [
-        "warn",
-        {
-          object: "page",
-          property: "getBySelector",
-          message:
-            "Prefer using more specific locators when possible for better test reliability – see https://vitest.dev/api/browser/locators",
-        },
-      ],
-    },
-  },
-
-  {
     plugins: {
       unicorn: unicornPlugin,
     },

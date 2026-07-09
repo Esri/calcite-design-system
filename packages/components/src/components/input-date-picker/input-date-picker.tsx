@@ -256,6 +256,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
+  /**
    * Determines the `calcite-date-picker`'s placement relative to the input.
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
@@ -440,21 +447,21 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
-      this.minAsDate = dateFromISO(this.min!) ?? undefined;
+      this.minAsDate = dateFromISO(this.min!);
     } else if (minSource === "minAsDate") {
-      this.minAsDate = dateFromISO(dateToISO(this.minAsDate)) ?? undefined;
+      this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
     }
 
     if (maxSource === "max") {
-      this.maxAsDate = dateFromISO(this.max!) ?? undefined;
+      this.maxAsDate = dateFromISO(this.max!);
     } else if (maxSource === "maxAsDate") {
-      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate)) ?? undefined;
+      this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
     }
 
     if ((minSource || maxSource) && !Array.isArray(this.valueAsDate)) {
       const validValueAsDate = dateFromRange(this.valueAsDate, this.minAsDate, this.maxAsDate);
       if (validValueAsDate !== this.valueAsDate) {
-        this.valueAsDate = validValueAsDate ?? undefined;
+        this.valueAsDate = validValueAsDate;
       }
     }
 
@@ -509,13 +516,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      let newValueAsDate: Date | Date[] | undefined;
+      let newValueAsDate: Date | (Date | undefined)[] | undefined;
 
       try {
         if (Array.isArray(newValue)) {
           newValueAsDate = getValueAsDateRange(newValue);
         } else if (newValue) {
-          newValueAsDate = dateFromISO(newValue) ?? undefined;
+          newValueAsDate = dateFromISO(newValue);
         } else {
           newValueAsDate = undefined;
         }
@@ -527,6 +534,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
         this.valueAsDate = newValueAsDate;
       }
 
@@ -535,7 +543,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = false;
   }
 
-  private valueAsDateWatcher(valueAsDate: Date | Date[] | undefined): void {
+  private valueAsDateWatcher(valueAsDate?: Date | (Date | undefined)[]): void {
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
@@ -688,21 +696,21 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
         }
         if (date) {
           this.setRangeValue([
-            focusedInput === "start" ? date : (dateFromISO(value[0]) ?? undefined),
-            focusedInput === "end" ? date : (dateFromISO(value[1]) ?? undefined),
+            focusedInput === "start" ? date : dateFromISO(value[0]),
+            focusedInput === "end" ? date : dateFromISO(value[1]),
           ]);
           this.localizeInputValues();
         } else {
           this.setRangeValue([
-            focusedInput === "end" ? (dateFromISO(value[0]) ?? undefined) : undefined,
-            focusedInput === "start" ? (dateFromISO(value[1]) ?? undefined) : undefined,
+            focusedInput === "end" ? dateFromISO(value[0]) : undefined,
+            focusedInput === "start" ? dateFromISO(value[1]) : undefined,
           ]);
         }
       } else {
         if (date) {
           this.setRangeValue([
-            focusedInput === "start" ? date : (dateFromISO(value[0]) ?? undefined),
-            focusedInput === "end" ? date : (dateFromISO(value[1]) ?? undefined),
+            focusedInput === "start" ? date : dateFromISO(value[0]),
+            focusedInput === "end" ? date : dateFromISO(value[1]),
           ]);
           this.localizeInputValues();
         }
@@ -882,7 +890,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    if (this.proximitySelectionDisabled && this.valueAsDate && this.valueAsDate[1] === null) {
+    if (
+      this.proximitySelectionDisabled &&
+      Array.isArray(this.valueAsDate) &&
+      this.valueAsDate[1] === undefined
+    ) {
       return;
     }
 
@@ -892,19 +904,17 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      this.range
-        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate,
+      this.range ? Array.isArray(this.valueAsDate) && this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate,
     );
     const endDate = this.range
       ? dateFromRange(
-          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
+          Array.isArray(this.valueAsDate) && this.valueAsDate[1],
           this.minAsDate,
           this.maxAsDate,
         )
-      : null;
+      : undefined;
 
     this.setInputValue((date && this.dateTimeFormat?.format(date)) ?? "", "start");
     this.setInputValue(
@@ -954,6 +964,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.userChangedValue = true;
     this.value = newValue;
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -984,7 +995,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
 
     this.userChangedValue = true;
-    this.valueAsDate = newValue ? (dateFromISO(newValue) ?? undefined) : undefined;
+    this.valueAsDate = newValue ? dateFromISO(newValue) : undefined;
     this.value = newValue || "";
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -1106,7 +1117,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                 oncalciteInternalInputTextFocus={this.startInputFocus}
-                placeholder={this.localeData?.placeholder}
+                placeholder={this.placeholder || this.localeData?.placeholder}
                 readOnly={readOnly}
                 ref={this.startInputRef}
                 role="combobox"
@@ -1117,7 +1128,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 !this.range &&
                 this.renderToggleIcon(this.open && this.focusedInput === "start")}
               <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
+                {this.placeholder ||
+                  messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
             </div>
             <div
@@ -1191,7 +1203,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.endInputFocus}
-                  placeholder={this.localeData?.placeholder}
+                  placeholder={this.placeholder || this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.endInputRef}
                   role="combobox"

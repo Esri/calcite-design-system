@@ -1,6 +1,6 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import type { Input } from "../input/input";
 import { findAll, getElementRect, toElementHandle } from "../../tests/utils/puppeteer";
@@ -124,26 +124,6 @@ describe("does not have controls", () => {
     input.triggerEvent("calciteInternalInputBlur");
     await page.waitForChanges();
     expect(element).not.toHaveAttribute("editing-enabled");
-  });
-
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
   });
 });
 
@@ -327,26 +307,6 @@ describe("has controls", () => {
     expect(element).toHaveAttribute("editing-enabled");
   });
 
-  describe("accessibility", () => {
-    accessible(html`
-      <calcite-label controls>
-        Label
-        <calcite-inline-editable>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-
-    accessible(html`
-      <calcite-label controls editing-enabled>
-        Label
-        <calcite-inline-editable editing-enabled>
-          <calcite-input value="John Doe"></calcite-input>
-        </calcite-inline-editable>
-      </calcite-label>
-    `);
-  });
-
   describe("labelable", () => {
     describe("default", () => {
       labelable(
@@ -370,82 +330,4 @@ describe("has controls", () => {
       );
     });
   });
-});
-
-describe("theme", () => {
-  themed("calcite-inline-editable", {
-    "--calcite-inline-editable-background-color-hover": {
-      shadowSelector: `.${CSS.wrapper}`,
-      state: "hover",
-      targetProp: "backgroundColor",
-    },
-    "--calcite-inline-editable-background-color": {
-      shadowSelector: `.${CSS.wrapper}`,
-      targetProp: "backgroundColor",
-    },
-  });
-  themed(
-    html`<calcite-inline-editable controls editing-enabled>
-      <calcite-input />
-    </calcite-inline-editable>`,
-    {
-      "--calcite-inline-editable-button-background-color": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-action-background-color",
-      },
-      "--calcite-inline-editable-button-background-color-hover": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-action-background-color-hover",
-        state: {
-          hover: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
-        },
-      },
-      "--calcite-inline-editable-button-background-color-press": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-action-background-color-press",
-        state: {
-          press: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
-        },
-      },
-      "--calcite-inline-editable-button-text-color-press": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-action-text-color-press",
-        state: {
-          press: `calcite-inline-editable >>> .${CSS.confirmChangesButton}`,
-        },
-      },
-      "--calcite-inline-editable-button-corner-radius": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-action-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-action-corner-radius",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-action-corner-radius",
-        },
-      ],
-      "--calcite-inline-editable-button-loader-color": {
-        shadowSelector: `.${CSS.confirmChangesButton}`,
-        targetProp: "--calcite-action-loader-color",
-      },
-      "--calcite-inline-editable-button-text-color": [
-        {
-          shadowSelector: `.${CSS.enableEditingButton}`,
-          targetProp: "--calcite-action-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.cancelEditingButton}`,
-          targetProp: "--calcite-action-text-color",
-        },
-        {
-          shadowSelector: `.${CSS.confirmChangesButton}`,
-          targetProp: "--calcite-action-text-color",
-        },
-      ],
-    },
-  );
 });

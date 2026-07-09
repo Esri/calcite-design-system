@@ -4,7 +4,7 @@
   "allSelected": "Semua dipilih",
   "clear": "Hapus nilai",
   "noMatches": "Tidak ada yang cocok",
-  "removeTag": "Hapus tag",
+  "removeTag": "Remove {value} tag",
   "required": "Wajib",
   "selectAll": "Pilih semua",
   "selected": "terpilih",

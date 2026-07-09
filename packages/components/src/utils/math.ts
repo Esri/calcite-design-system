@@ -13,7 +13,7 @@ const decimalNumberRegex = new RegExp(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
  */
 export const decimalPlaces = (value: number | string): number => {
   const match = ("" + value).match(decimalNumberRegex);
-  if (!match || parseInt(match[1]) === 0) {
+  if (!match || parseInt(match[1], 10) === 0) {
     return 0;
   }
   return Math.max(

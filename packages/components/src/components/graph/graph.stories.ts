@@ -1,7 +1,7 @@
 import { modesDarkDefault } from "../../../.storybook/utils";
 import type { Graph } from "./graph";
 
-interface GraphStoryArgs extends Pick<Graph, "min" | "max"> {
+interface GraphStoryArgs extends Pick<Graph, "highlightMax" | "highlightMin" | "max" | "min"> {
   width: number;
   height: number;
 }
@@ -11,8 +11,24 @@ export default {
   args: {
     width: 300,
     height: 100,
+    highlightMin: 25,
+    highlightMax: 75,
     min: 0,
     max: 100,
+  },
+  argTypes: {
+    min: {
+      control: { type: "number" },
+    },
+    max: {
+      control: { type: "number" },
+    },
+    highlightMin: {
+      control: { type: "number" },
+    },
+    highlightMax: {
+      control: { type: "number" },
+    },
   },
 };
 
@@ -40,6 +56,8 @@ export const simple = (args: GraphStoryArgs): HTMLDivElement => {
   const graph = document.createElement("calcite-graph");
   graph.min = args.min;
   graph.max = args.max;
+  graph.highlightMin = args.highlightMin;
+  graph.highlightMax = args.highlightMax;
   graph.data = data;
   div.appendChild(graph);
   return div;

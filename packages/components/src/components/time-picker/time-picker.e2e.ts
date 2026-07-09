@@ -1,9 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { formatTimePart } from "../../utils/time";
 import { getElementXY, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
 const letterKeys = [
@@ -36,14 +35,6 @@ const letterKeys = [
 ] as const;
 
 export type NumericString = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-
-describe("accessible", () => {
-  accessible(`<calcite-time-picker></calcite-time-picker>`);
-});
-
-describe("accessible using seconds", () => {
-  accessible(`<calcite-time-picker step="1" value="00:00:00"></calcite-time-picker>`);
-});
 
 describe("focusing", () => {
   it("should focus input when corresponding nudge up button is clicked", async () => {
@@ -1178,65 +1169,5 @@ describe("fractional second support", () => {
     const fractionalSecondEl = await page.find(`calcite-time-picker >>> .input.fractionalSecond`);
     expect(fractionalSecondEl.textContent).toEqual("000");
     expect(changeEventSpy).toHaveReceivedEventTimes(1);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-time-picker></calcite-time-picker>`, {
-      "--calcite-time-picker-background-color": {
-        targetProp: "backgroundColor",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-corner-radius": {
-        targetProp: "borderRadius",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-button-background-color-hover": {
-        targetProp: "backgroundColor",
-        state: "hover",
-        shadowSelector: `.${CSS.button}`,
-      },
-      "--calcite-time-picker-button-background-color-press": {
-        targetProp: "backgroundColor",
-        state: { press: { attribute: "class", value: CSS.button } },
-        shadowSelector: `.${CSS.button}`,
-      },
-      "--calcite-time-picker-color": {
-        targetProp: "color",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-      "--calcite-time-picker-icon-color": {
-        targetProp: "color",
-        shadowSelector: "calcite-icon",
-      },
-      "--calcite-time-picker-input-border-color-hover": {
-        targetProp: "boxShadow",
-        state: "hover",
-        shadowSelector: `.${CSS.input}`,
-      },
-      "--calcite-time-picker-border-color": {
-        targetProp: "borderColor",
-        shadowSelector: `.${CSS.timePicker}`,
-      },
-    });
-  });
-
-  describe("hour input focused", () => {
-    themed(
-      async () => {
-        const page = await newE2EPage();
-        await page.setContent(html`<calcite-time-picker></calcite-time-picker>`);
-        const timePickerHour = await page.find(`calcite-time-picker >>> .${CSS.hour}`);
-        await timePickerHour.focus();
-        return { page, tag: "calcite-time-picker" };
-      },
-      {
-        "--calcite-time-picker-input-border-color-press": {
-          targetProp: "boxShadow",
-          shadowSelector: `.${CSS.hour}`,
-        },
-      },
-    );
   });
 });

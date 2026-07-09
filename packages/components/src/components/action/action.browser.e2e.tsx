@@ -1,6 +1,10 @@
+import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+
+import { CSS } from "./resources";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -8,7 +12,13 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
+import { page } from "vitest/browser";
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-action text="hello world" />));
+});
 
 describe("defaults", () => {
   defaults(
@@ -171,5 +181,455 @@ describe("type property", () => {
     await component.updateComplete;
     const button = el.shadowRoot?.querySelector("button");
     expect(button?.type).toBe("submit");
+  });
+});
+
+describe("a11y attributes", () => {
+  it("should use text prop for a11y attributes when text is not enabled", async () => {
+    await mount(<calcite-action text="hello world" />);
+
+    await expect.element(page.getByRole("button", { name: "hello world" })).toBeDefined();
+  });
+
+  it("should set aria-label with indicator", async () => {
+    await mount(<calcite-action indicator text="hello world" />);
+
+    await expect.element(page.getByLabelText("hello world (Indicator present)")).toBeDefined();
+  });
+
+  it("should have label", async () => {
+    await mount(<calcite-action label="hi" text="hello world" />);
+
+    await expect.element(page.getByLabelText("hi")).toBeDefined();
+  });
+
+  it("should have a indicator live region", async () => {
+    const { el, reRender } = await mount("calcite-action");
+    const liveRegion = page.getByRole("region");
+
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    await expect.element(liveRegion).toBeInTheDocument();
+    await expect.element(liveRegion).toHaveTextContent("");
+
+    el.indicator = true;
+    await reRender();
+
+    await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
+    await expect.element(liveRegion).toBeInTheDocument();
+    await expect.element(liveRegion).toHaveTextContent("Indicator present");
+  });
+});
+
+describe("themed", () => {
+  describe("background color", () => {
+    themed(() => mount("calcite-action"), {
+      "--calcite-action-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-action-background-color-hover": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+    });
+  });
+  describe("text color", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action
+            icon="configure-popup"
+            label="hello world"
+            scale="s"
+            text="click-me"
+            text-enabled
+          />,
+        ),
+      {
+        "--calcite-action-text-color": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+        "--calcite-action-text-color-press": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+          state: "hover",
+        },
+      },
+    );
+  });
+  describe("loader", () => {
+    themed(() => mount(<calcite-action loading />), {
+      "--calcite-action-loader-color": {
+        shadowSelector: "calcite-loader",
+        targetProp: "--calcite-loader-progress-color-inline",
+      },
+    });
+  });
+  describe("active", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action
+            active
+            icon="configure-popup"
+            label="hello world"
+            scale="s"
+            text="click-me"
+            text-enabled
+          />,
+        ),
+      {
+        "--calcite-action-text-color-press": {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
+  describe("indicator", () => {
+    themed(
+      () =>
+        mount(
+          <>
+            <calcite-action id="with-text" indicator text="hello world" />
+            <calcite-action icon="hamburger" id="with-icon" indicator />
+          </>,
+        ),
+      {
+        "--calcite-action-indicator-color": [
+          {
+            selector: "#with-text",
+            shadowSelector: `.${CSS.indicatorWithoutIcon}::after`,
+            targetProp: "backgroundColor",
+          },
+          {
+            selector: "#with-icon",
+            shadowSelector: `.${CSS.indicatorWithIcon}::after`,
+            targetProp: "backgroundColor",
+          },
+        ],
+      },
+    );
+  });
+  describe("corner radius", () => {
+    themed(() => mount("calcite-action"), {
+      "--calcite-action-corner-radius": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+    });
+  });
+  describe("deprecated", () => {
+    themed(() => mount(<calcite-action appearance="transparent" />), {
+      "--calcite-action-background-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+      "--calcite-action-corner-radius-end-end": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-end-start": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-start-end": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-start-start": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-text-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "color",
+        state: "hover",
+      },
+    });
+    themed(() => mount(<calcite-action appearance="solid" />), {
+      "--calcite-action-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-action-background-color-hover": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+      "--calcite-action-background-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+      "--calcite-action-corner-radius-end-end": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-end-start": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-start-end": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-corner-radius-start-start": [
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          targetProp: "borderEndEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `.${CSS.button}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          targetProp: "borderStartStartRadius",
+        },
+      ],
+      "--calcite-action-text-color-pressed": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "color",
+        state: "hover",
+      },
+    });
   });
 });
