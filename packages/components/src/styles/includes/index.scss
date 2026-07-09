@@ -19,7 +19,7 @@
 }
 
 @mixin word-break() {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: break-word;
 }
 
@@ -271,7 +271,7 @@
       --calcite-action-background-color: var(#{$background-color});
       --calcite-action-corner-radius: var(#{$corner-radius});
       --calcite-action-loader-color: var(#{$loader-color});
-      --calcite-action-text-color: var(#{$text-color});
+      --calcite-action-text-color: var(#{$text-color}, var(--calcite-color-text-1));
 
       &:hover {
         --calcite-action-background-color-hover: var(#{$background-color-hover}, var(#{$background-color}));

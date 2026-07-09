@@ -83,7 +83,7 @@ calcite-action {
   --calcite-action-background-color: var(--calcite-inline-editable-button-background-color);
   --calcite-action-corner-radius: var(--calcite-inline-editable-button-corner-radius);
   --calcite-action-loader-color: var(--calcite-inline-editable-button-loader-color);
-  --calcite-action-text-color: var(--calcite-inline-editable-button-text-color);
+  --calcite-action-text-color: var(--calcite-inline-editable-button-text-color, var(--calcite-color-text-1));
 
   &:hover {
     --calcite-action-background-color-hover: var(
