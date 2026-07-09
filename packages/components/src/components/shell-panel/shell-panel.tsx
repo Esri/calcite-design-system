@@ -48,9 +48,13 @@ export class ShellPanel extends LitElement {
 
   private interaction?: Interactable;
 
+  private actionBarContainerRef = createRef<HTMLDivElement>();
+
   private actionBars: ActionBar["el"][] = [];
 
   private contentRef = createRef<HTMLDivElement>();
+
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -62,8 +66,8 @@ export class ShellPanel extends LitElement {
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
     getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+      inline: { min: this.resizeValues.minInlineSize, max: this.getMaxInlineSize() },
+      block: { min: this.resizeValues.minBlockSize, max: this.getMaxBlockSize() },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
@@ -322,22 +326,163 @@ export class ShellPanel extends LitElement {
   }
 
   private updateResizeValues(): void {
-    const { contentRef } = this;
+    const { contentRef, layout } = this;
 
     if (!contentRef.value) {
       return;
     }
 
     const computedStyle = window.getComputedStyle(contentRef.value);
+    const computedMaxInlineSize =
+      getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
+    const computedMaxBlockSize =
+      getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const availableInlineSize = layout === "vertical" ? this.getAvailableInlineSize() : null;
+    const availableBlockSize = layout === "horizontal" ? this.getAvailableBlockSize() : null;
 
     this.resizeValues = {
       inlineSize: getStylePixelValue(computedStyle.inlineSize),
       blockSize: getStylePixelValue(computedStyle.blockSize),
       minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
       minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
-      maxInlineSize: getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight,
+      maxInlineSize:
+        availableInlineSize === null
+          ? computedMaxInlineSize
+          : Math.min(computedMaxInlineSize, availableInlineSize),
+      maxBlockSize:
+        availableBlockSize === null
+          ? computedMaxBlockSize
+          : Math.min(computedMaxBlockSize, availableBlockSize),
     };
+  }
+
+  private getAvailableBlockSize(): number | null {
+    return this.getAvailableSize("block");
+  }
+
+  private getAvailableInlineSize(): number | null {
+    return this.getAvailableSize("inline");
+  }
+
+  private getAvailableSize(axis: "inline" | "block"): number | null {
+    const { el } = this;
+    const containerElement = el.assignedSlot?.parentElement ?? el.parentElement;
+    const shellElement = el.parentElement;
+    const dimension = axis === "inline" ? "width" : "height";
+    const slots =
+      axis === "inline"
+        ? ['slot="panel-start"', 'slot="panel-end"']
+        : ['slot="panel-top"', 'slot="panel-bottom"'];
+    const actionBarContainerSize =
+      this.actionBarContainerRef.value?.getBoundingClientRect()[dimension] ?? 0;
+    const actionBarSize = Math.max(
+      actionBarContainerSize,
+      this.actionBars.reduce(
+        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+        0,
+      ),
+    );
+
+    if (!containerElement) {
+      return null;
+    }
+
+    const siblingPanelSize = Array.from(
+      shellElement?.querySelectorAll<ShellPanel["el"]>(
+        slots.map((slot) => `calcite-shell-panel[${slot}]`).join(", "),
+      ) ?? [],
+    ).reduce(
+      (total, shellPanel) =>
+        shellPanel === el ? total : total + shellPanel.getBoundingClientRect()[dimension],
+      0,
+    );
+
+    const containerSize = containerElement.getBoundingClientRect()[dimension];
+    const shellSize = shellElement?.getBoundingClientRect()[dimension] ?? containerSize;
+    const containerSpacingSize = this.getContainerSpacingSize(axis);
+    const defaultSlotBorderSize =
+      axis === "block" ? this.getDefaultSlotBorderSize(containerElement) : 0;
+
+    return Math.max(
+      Math.floor(Math.min(containerSize, shellSize)) -
+        Math.ceil(siblingPanelSize) -
+        Math.ceil(actionBarSize) -
+        Math.ceil(containerSpacingSize) -
+        Math.ceil(defaultSlotBorderSize),
+      0,
+    );
+  }
+
+  private getContainerSpacingSize(axis: "inline" | "block"): number {
+    const container = this.containerRef.value;
+
+    if (!container) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(container);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
+  }
+
+  private getDefaultSlotBorderSize(containerElement: HTMLElement): number {
+    const defaultSlot = containerElement.querySelector<HTMLSlotElement>("slot:not([name])");
+
+    return (
+      defaultSlot?.assignedElements({ flatten: true }).reduce((total, element) => {
+        const computedStyle = window.getComputedStyle(element);
+
+        return (
+          total +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth)
+        );
+      }, 0) ?? 0
+    );
+  }
+
+  private getMaxBlockSize(): number | null {
+    const { layout, resizeValues } = this;
+
+    if (layout !== "horizontal") {
+      return resizeValues.maxBlockSize;
+    }
+
+    const availableBlockSize = this.getAvailableBlockSize();
+
+    if (availableBlockSize === null) {
+      return resizeValues.maxBlockSize;
+    }
+
+    return resizeValues.maxBlockSize === null
+      ? availableBlockSize
+      : Math.min(resizeValues.maxBlockSize, availableBlockSize);
+  }
+
+  private getMaxInlineSize(): number | null {
+    const { layout, resizeValues } = this;
+
+    if (layout !== "vertical") {
+      return resizeValues.maxInlineSize;
+    }
+
+    const availableInlineSize = this.getAvailableInlineSize();
+
+    if (availableInlineSize === null) {
+      return resizeValues.maxInlineSize;
+    }
+
+    return resizeValues.maxInlineSize === null
+      ? availableInlineSize
+      : Math.min(resizeValues.maxInlineSize, availableInlineSize);
   }
 
   private async refreshResize(): Promise<void> {
@@ -510,7 +655,11 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <div class={CSS.actionBarContainer} key="action-bar-container">
+      <div
+        class={CSS.actionBarContainer}
+        key="action-bar-container"
+        ref={this.actionBarContainerRef}
+      >
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
@@ -522,7 +671,10 @@ export class ShellPanel extends LitElement {
     }
 
     return (
-      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+      <div
+        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        ref={this.containerRef}
+      >
         {mainNodes}
       </div>
     );

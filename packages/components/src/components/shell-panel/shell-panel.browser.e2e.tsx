@@ -332,6 +332,115 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
+  function getShellPanelElements(panel: ShellPanel["el"]): {
+    actionBarContainer: HTMLElement;
+    content: HTMLElement;
+    handle: HTMLElement;
+  } {
+    return {
+      actionBarContainer: panel.shadowRoot!.querySelector<HTMLElement>(
+        `.${CSS.actionBarContainer}`,
+      )!,
+      content: panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!,
+      handle: panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!,
+    };
+  }
+
+  it("accounts for action bar width when applying max width to vertical panels", async () => {
+    const shellWidth = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
+        <calcite-shell-panel slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Start content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          resizable
+          slot="panel-end"
+          style="--calcite-shell-panel-max-width: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = el.querySelector<ShellPanel["el"]>('calcite-shell-panel[slot="panel-end"]')!;
+    const { actionBarContainer, content, handle } = getShellPanelElements(panel);
+
+    const handleRect = handle.getBoundingClientRect();
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(handleRect.left - shellWidth, handleRect.top + handleRect.height / 2);
+    await commands.mouseUp();
+
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    const occupiedWidth =
+      actionBarContainer.getBoundingClientRect().width + content.getBoundingClientRect().width;
+
+    expect(Math.ceil(occupiedWidth)).toBeLessThanOrEqual(shellWidth);
+  });
+
+  it("accounts for action bar height when applying max height to horizontal panels", async () => {
+    const shellHeight = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          resizable
+          slot="panel-bottom"
+          style="--calcite-shell-panel-max-height: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = el.querySelector<ShellPanel["el"]>('calcite-shell-panel[slot="panel-bottom"]')!;
+    const siblingPanel = el.querySelector<ShellPanel["el"]>(
+      'calcite-shell-panel[slot="panel-top"]',
+    )!;
+    const centerPanel = el.querySelector<HTMLElement>(":scope > calcite-panel:not([slot])")!;
+    const { actionBarContainer, content, handle } = getShellPanelElements(panel);
+
+    const handleRect = handle.getBoundingClientRect();
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(handleRect.left + handleRect.width / 2, handleRect.top - shellHeight);
+    await commands.mouseUp();
+
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    const occupiedHeight =
+      actionBarContainer.getBoundingClientRect().height + content.getBoundingClientRect().height;
+    const centerPanelComputedStyle = getComputedStyle(centerPanel);
+    const centerPanelBorderHeight =
+      parseFloat(centerPanelComputedStyle.borderBlockStartWidth) +
+      parseFloat(centerPanelComputedStyle.borderBlockEndWidth);
+    const totalOccupiedHeight =
+      siblingPanel.getBoundingClientRect().height + occupiedHeight + centerPanelBorderHeight;
+
+    expect(Math.ceil(occupiedHeight)).toBeLessThanOrEqual(shellHeight);
+    expect(Math.ceil(totalOccupiedHeight)).toBeLessThanOrEqual(shellHeight);
+  });
+
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
     const layout = layoutFromPanelSlot(slot);
     const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
