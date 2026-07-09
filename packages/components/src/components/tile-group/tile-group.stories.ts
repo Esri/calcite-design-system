@@ -4,9 +4,12 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import type { TileGroup } from "./tile-group";
 
-const { dir, layout, scale } = ATTRIBUTES;
+const { alignment, dir, layout, scale, tileSelectionAppearance, tileSelectionMode } = ATTRIBUTES;
 
-interface TileGroupStoryArgs extends Pick<TileGroup, "disabled" | "layout" | "scale"> {
+interface TileGroupStoryArgs extends Pick<
+  TileGroup,
+  "alignment" | "disabled" | "layout" | "scale" | "selectionAppearance" | "selectionMode"
+> {
   dir: string;
 }
 
@@ -14,9 +17,12 @@ export default {
   title: "Components/Tiles/Tile Group",
   args: {
     dir: dir.defaultValue,
+    alignment: alignment.defaultValue,
     disabled: false,
     layout: layout.defaultValue,
     scale: scale.defaultValue,
+    selectionAppearance: "icon",
+    selectionMode: "none",
   },
   argTypes: {
     dir: {
@@ -36,8 +42,20 @@ export default {
       ),
       control: { type: "select" },
     },
+    alignment: {
+      options: alignment.values.filter((option) => option !== "center"),
+      control: { type: "select" },
+    },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    selectionMode: {
+      options: tileSelectionMode.values,
+      control: { type: "select" },
+    },
+    selectionAppearance: {
+      options: tileSelectionAppearance.values,
       control: { type: "select" },
     },
   },
@@ -133,10 +151,13 @@ function getTileHtml(options: Partial<TileHtmlOptions> = {}): string {
 
 export const simple = (args: TileGroupStoryArgs): string => html`
   <calcite-tile-group
+    alignment="${args.alignment}"
     dir="${args.dir}"
     ${boolean("disabled", args.disabled)}
     layout="${args.layout}"
     scale="${args.scale}"
+    selection-mode="${args.selectionMode}"
+    selection-appearance="${args.selectionAppearance}"
   >
     ${getTileHtml({ heading: true, description: true, icon: true })}
     ${getTileHtml({ heading: true, description: true, icon: true })}

@@ -1,13 +1,13 @@
 import type { Decorator } from "@storybook/web-components-vite";
 import { ShellPanel } from "../shell-panel/shell-panel";
+import { Shell } from "./shell";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "../dialog/dialog";
-import { dialogPlacements } from "../dialog/resources";
 
-const { shellDisplayMode, position, scale } = ATTRIBUTES;
+const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
   centerPanelPosition: ShellPanel["position"];
@@ -15,7 +15,7 @@ interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | 
   trailingPanelPosition: ShellPanel["position"];
 }
 
-type ShellStoryArgs = ShellPanelArgs;
+type ShellStoryArgs = ShellPanelArgs & Pick<Shell, "contentBehind">;
 
 type ShellSlottedElementsStoryArgs = {
   dialogPlacement: Dialog["placement"];
@@ -32,6 +32,7 @@ export default {
     leadingPanelPosition: position.values[0],
     trailingPanelPosition: position.values[1],
     resizable: true,
+    contentBehind: false,
     detached: false,
     heightScale: scale.values[0],
   },
@@ -266,7 +267,7 @@ const advancedTrailingPanelHTMl = html`
 `;
 
 export const simple = (args: ShellStoryArgs): string => html`
-  <calcite-shell>
+  <calcite-shell ${boolean("content-behind", args.contentBehind)}>
     ${headerHTML}
     <calcite-shell-panel
       slot="panel-start"
@@ -2921,6 +2922,69 @@ export const floatAllHeights = (): string => html`
   </div>
 `;
 
+export const cornerRadiusAndBoxShadow = (): string => html`
+  <style>
+    .corner-radius-and-box-shadow {
+      display: grid;
+      gap: var(--calcite-space-3xl);
+      padding: var(--calcite-space-3xl);
+    }
+    .corner-radius-and-box-shadow > calcite-shell {
+      position: relative;
+      inline-size: auto;
+      block-size: auto;
+    }
+  </style>
+  <div class="corner-radius-and-box-shadow">
+    <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
+    >
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
+    >
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+  </div>
+`;
+
 embeddedSlotsInteractive.args = {
   dialogPlacement: "center",
   dialogHeight: "300px",
@@ -2929,7 +2993,7 @@ embeddedSlotsInteractive.args = {
 embeddedSlotsInteractive.argTypes = {
   dialogPlacement: {
     control: { type: "select" },
-    options: dialogPlacements,
+    options: dialogPlacement.values,
   },
   dialogWidth: {
     control: "text",

@@ -1,30 +1,52 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimeZone } from "./input-time-zone";
 
-const { mode, scale, status } = ATTRIBUTES;
+const { mode, scale, status, timeZoneOffsetStyle } = ATTRIBUTES;
 
 type InputTimeZoneStoryArgs = Pick<
   InputTimeZone,
-  "disabled" | "mode" | "placeholder" | "scale" | "status" | "validationMessage" | "validationIcon"
+  | "clearable"
+  | "disabled"
+  | "mode"
+  | "offsetStyle"
+  | "open"
+  | "placeholder"
+  | "readOnly"
+  | "required"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 >;
 
 export default {
   title: "Components/Controls/InputTimeZone",
   args: {
+    clearable: false,
     disabled: false,
     mode: mode.defaultValue,
+    offsetStyle: "user",
+    open: false,
     placeholder: "Enter a time zone",
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     validationMessage: "",
     validationIcon: "",
+    value: "",
   },
   argTypes: {
     mode: {
       options: mode.values,
+      control: { type: "select" },
+    },
+    offsetStyle: {
+      options: timeZoneOffsetStyle.values,
       control: { type: "select" },
     },
     scale: {
@@ -51,13 +73,19 @@ export default {
 
 export const simple = (args: InputTimeZoneStoryArgs): string => html`
   <calcite-input-time-zone
+    ${boolean("clearable", args.clearable)}
     ${boolean("disabled", args.disabled)}
     mode="${args.mode}"
+    offset-style="${args.offsetStyle}"
+    ${boolean("open", args.open)}
     placeholder="${args.placeholder}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
+    value="${args.value}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-input-time-zone>
 `;
 

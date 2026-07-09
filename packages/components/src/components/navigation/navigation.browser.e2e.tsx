@@ -9,7 +9,7 @@ import {
   renders,
   focusable,
   accessible,
-  themed
+  themed,
 } from "../../tests/commonTests/browser";
 import type { Navigation } from "./navigation";
 import { CSS } from "./resources";

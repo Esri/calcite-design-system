@@ -15,6 +15,7 @@ import type {
   SelectionAppearance,
 } from "../src/components/interfaces.ts";
 import type { ArrowType } from "../src/components/carousel/interfaces.ts";
+import type { PaginationPosition } from "../src/components/carousel/interfaces.ts";
 import type { BlockSectionToggleDisplay } from "../src/components/block-section/interfaces.ts";
 import type { TableInteractionMode } from "../src/components/table/interfaces.ts";
 import type { DeterminateType } from "../src/components/loader/interfaces.ts";
@@ -26,6 +27,10 @@ import type { DisplayMode } from "../src/components/sheet/interfaces.ts";
 import type { ShellDisplayMode } from "../src/components/shell/interfaces.ts";
 import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
 import type { AlertDuration, AlertQueue } from "../src/components/alert/interfaces";
+import { defaultMenuPlacement, placements, menuPlacements } from "../src/utils/floating-ui";
+import { dialogPlacements } from "../src/components/dialog/resources";
+import { supportedNlsLocales } from "../src/components/date-picker/utils";
+import { hourFormats } from "../src/utils/time";
 
 interface AttributeMetadata<T> {
   values: T[];
@@ -45,6 +50,12 @@ interface CommonAttributes {
   width: AttributeMetadata<Width>;
   selectionMode: AttributeMetadata<SelectionMode>;
   arrowType: AttributeMetadata<ArrowType>;
+  paginationPosition: AttributeMetadata<PaginationPosition>;
+  placement: AttributeMetadata<(typeof placements)[number]>;
+  menuPlacement: AttributeMetadata<(typeof menuPlacements)[number]>;
+  dialogPlacement: AttributeMetadata<(typeof dialogPlacements)[number]>;
+  supportedNlsLocale: AttributeMetadata<(typeof supportedNlsLocales)[number]>;
+  hourFormat: AttributeMetadata<(typeof hourFormats)[number]>;
   displayMode: AttributeMetadata<DisplayMode>;
   toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
   layout: AttributeMetadata<Layout>;
@@ -62,6 +73,24 @@ interface CommonAttributes {
   shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
   overlayPositioning: AttributeMetadata<OverlayPositioning>;
   numberingSystem: AttributeMetadata<string>;
+  calendarCount: AttributeMetadata<number>;
+  colorPickerFormat: AttributeMetadata<string>;
+  fontSize: AttributeMetadata<string>;
+  fontWeight: AttributeMetadata<string>;
+  headingLevel: AttributeMetadata<number>;
+  headingLevelWithNone: AttributeMetadata<number | "">;
+  horizontalVerticalLayout: AttributeMetadata<Extract<Layout, "horizontal" | "vertical">>;
+  labelLayout: AttributeMetadata<string>;
+  listDisplayMode: AttributeMetadata<string>;
+  monthStyle: AttributeMetadata<string>;
+  numberingSystemWithNone: AttributeMetadata<string>;
+  selectionDisplay: AttributeMetadata<string>;
+  sliderFillPlacement: AttributeMetadata<string>;
+  sortHandlePlacement: AttributeMetadata<string>;
+  textAreaWrap: AttributeMetadata<string>;
+  tileSelectionAppearance: AttributeMetadata<Extract<SelectionAppearance, "icon" | "highlight">>;
+  tileSelectionMode: AttributeMetadata<Extract<SelectionMode, "none" | "single" | "multiple">>;
+  timeZoneOffsetStyle: AttributeMetadata<string>;
 }
 
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
@@ -84,6 +113,7 @@ const selectionModeOptions: SelectionMode[] = [
   "multiple",
 ];
 const arrowTypeOptions: ArrowType[] = ["inline", "edge", "none"];
+const paginationPositionOptions: PaginationPosition[] = ["bottom", "top"];
 const displayModeOptions: DisplayMode[] = ["float", "overlay"];
 const toggleDisplayOptions: BlockSectionToggleDisplay[] = ["button", "switch"];
 const layoutOptions: Layout[] = [
@@ -122,6 +152,42 @@ const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
 const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
+const calendarCountOptions = [1, 2];
+const colorPickerFormatOptions = [
+  "auto",
+  "hex",
+  "hexa",
+  "rgb-css",
+  "rgba-css",
+  "hsl-css",
+  "hsla-css",
+  "rgb",
+  "rgba",
+  "hsl",
+  "hsla",
+  "hsv",
+  "hsva",
+];
+const fontSizeOptions = ["12", "14", "16", "18", "20", "24", "32"];
+const fontWeightOptions = ["300", "400", "500", "700"];
+const headingLevelOptions: number[] = [1, 2, 3, 4, 5, 6];
+const headingLevelWithNoneOptions: (number | "")[] = ["", ...headingLevelOptions];
+const horizontalVerticalLayoutOptions: Extract<Layout, "horizontal" | "vertical">[] = ["horizontal", "vertical"];
+const labelLayoutOptions = ["default", "block", "inline", "inline-space-between"];
+const listDisplayModeOptions = ["flat", "nested"];
+const monthStyleOptions = ["wide", "abbreviated"];
+const numberingSystemWithNoneOptions = ["", "arab", "latn"];
+const selectionDisplayOptions = ["none", "top"];
+const sliderFillPlacementOptions = ["all", "none", "single"];
+const sortHandlePlacementOptions = ["leading-start", "leading-end", "trailing-start", "trailing-end"];
+const textAreaWrapOptions = ["hard", "soft"];
+const tileSelectionAppearanceOptions: Extract<SelectionAppearance, "icon" | "highlight">[] = ["icon", "highlight"];
+const tileSelectionModeOptions: Extract<SelectionMode, "none" | "single" | "multiple">[] = [
+  "none",
+  "single",
+  "multiple",
+];
+const timeZoneOffsetStyleOptions = ["user", "utc", "gmt"];
 
 export const ATTRIBUTES: CommonAttributes = {
   alignment: {
@@ -171,6 +237,30 @@ export const ATTRIBUTES: CommonAttributes = {
   arrowType: {
     values: arrowTypeOptions,
     defaultValue: arrowTypeOptions[0],
+  },
+  paginationPosition: {
+    values: paginationPositionOptions,
+    defaultValue: paginationPositionOptions[0],
+  },
+  placement: {
+    values: [...placements],
+    defaultValue: placements[0],
+  },
+  menuPlacement: {
+    values: menuPlacements,
+    defaultValue: defaultMenuPlacement,
+  },
+  dialogPlacement: {
+    values: dialogPlacements,
+    defaultValue: dialogPlacements[7],
+  },
+  supportedNlsLocale: {
+    values: supportedNlsLocales,
+    defaultValue: supportedNlsLocales[0],
+  },
+  hourFormat: {
+    values: hourFormats,
+    defaultValue: hourFormats[0],
   },
   displayMode: {
     values: displayModeOptions,
@@ -239,5 +329,77 @@ export const ATTRIBUTES: CommonAttributes = {
   numberingSystem: {
     values: numberingSystems,
     defaultValue: numberingSystems[2],
+  },
+  calendarCount: {
+    values: calendarCountOptions,
+    defaultValue: calendarCountOptions[1],
+  },
+  colorPickerFormat: {
+    values: colorPickerFormatOptions,
+    defaultValue: colorPickerFormatOptions[0],
+  },
+  fontSize: {
+    values: fontSizeOptions,
+    defaultValue: fontSizeOptions[2],
+  },
+  fontWeight: {
+    values: fontWeightOptions,
+    defaultValue: fontWeightOptions[1],
+  },
+  headingLevel: {
+    values: headingLevelOptions,
+    defaultValue: 1,
+  },
+  headingLevelWithNone: {
+    values: headingLevelWithNoneOptions,
+    defaultValue: "",
+  },
+  horizontalVerticalLayout: {
+    values: horizontalVerticalLayoutOptions,
+    defaultValue: horizontalVerticalLayoutOptions[0],
+  },
+  labelLayout: {
+    values: labelLayoutOptions,
+    defaultValue: labelLayoutOptions[0],
+  },
+  listDisplayMode: {
+    values: listDisplayModeOptions,
+    defaultValue: listDisplayModeOptions[0],
+  },
+  monthStyle: {
+    values: monthStyleOptions,
+    defaultValue: monthStyleOptions[0],
+  },
+  numberingSystemWithNone: {
+    values: numberingSystemWithNoneOptions,
+    defaultValue: numberingSystemWithNoneOptions[0],
+  },
+  selectionDisplay: {
+    values: selectionDisplayOptions,
+    defaultValue: selectionDisplayOptions[1],
+  },
+  sliderFillPlacement: {
+    values: sliderFillPlacementOptions,
+    defaultValue: sliderFillPlacementOptions[0],
+  },
+  sortHandlePlacement: {
+    values: sortHandlePlacementOptions,
+    defaultValue: sortHandlePlacementOptions[0],
+  },
+  textAreaWrap: {
+    values: textAreaWrapOptions,
+    defaultValue: textAreaWrapOptions[1],
+  },
+  tileSelectionAppearance: {
+    values: tileSelectionAppearanceOptions,
+    defaultValue: tileSelectionAppearanceOptions[0],
+  },
+  tileSelectionMode: {
+    values: tileSelectionModeOptions,
+    defaultValue: tileSelectionModeOptions[0],
+  },
+  timeZoneOffsetStyle: {
+    values: timeZoneOffsetStyleOptions,
+    defaultValue: timeZoneOffsetStyleOptions[0],
   },
 };
