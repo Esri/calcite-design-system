@@ -8,10 +8,12 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  defaults,
   renders,
   accessible,
   themed,
 } from "../../tests/commonTests/browser";
+import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -25,6 +27,18 @@ describe("accessible", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-switch"), { display: "inline-block" });
+});
+
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "validity",
+        defaultValue: defaultValidity,
+      },
+    ],
+  );
 });
 
 describe("honors hidden attribute", () => {
