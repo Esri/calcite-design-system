@@ -196,7 +196,7 @@ describe("top layer placement", () => {
         </calcite-split-button>,
       ),
     {
-      eventTarget: page.getBySelector("calcite-split-button calcite-dropdown"),
+      eventEmitter: page.getBySelector("calcite-split-button calcite-dropdown"),
       openProp: "active",
     },
   );

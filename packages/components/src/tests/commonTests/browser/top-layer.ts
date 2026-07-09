@@ -38,17 +38,17 @@ type TopLayerOptions = {
    *
    * Defaults to `componentTarget`, or the mounted component element when `componentTarget` is omitted.
    */
-  eventTarget?: Locator;
+  eventEmitter?: Locator;
 
   /**
-   * Event name emitted when the component opens. Defaults to `${getEventPrefix(eventTarget)}Open` using
-   * `eventTarget`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
+   * Event name emitted when the component opens. Defaults to `${getEventPrefix(eventEmitter)}Open` using
+   * `eventEmitter`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
    */
   openEventName?: string | null;
 
   /**
-   * Event name emitted when the component closes. Defaults to `${getEventPrefix(eventTarget)}Close` using
-   * `eventTarget`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
+   * Event name emitted when the component closes. Defaults to `${getEventPrefix(eventEmitter)}Close` using
+   * `eventEmitter`, `componentTarget`, or the mounted component. When set to `null`, no event wait is performed.
    */
   closeEventName?: string | null;
 
@@ -71,15 +71,12 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
     const { el, reRender } = await setup();
     const openProp = options?.openProp ?? "open";
     const componentElFromLocator = options?.componentTarget?.element();
-    const eventElFromLocator = options?.eventTarget?.element();
+    const eventElFromLocator = options?.eventEmitter?.element();
+    const hasUnresolvedComponentTarget = Boolean(options?.componentTarget && !componentElFromLocator);
+    const hasUnresolvedEventEmitter = Boolean(options?.eventEmitter && !eventElFromLocator);
 
-    if (options?.componentTarget && !componentElFromLocator) {
-      throw new Error("componentTarget did not resolve to an element.");
-    }
-
-    if (options?.eventTarget && !eventElFromLocator) {
-      throw new Error("eventTarget did not resolve to an element.");
-    }
+    expect(hasUnresolvedComponentTarget).toBe(false);
+    expect(hasUnresolvedEventEmitter).toBe(false);
 
     const componentEl = (componentElFromLocator ?? el) as HTMLElement & {
       [key: string]: unknown;
@@ -87,17 +84,7 @@ export async function topLayer(setup: () => ReturnType<typeof mount>, options?: 
     };
     const eventEl = (eventElFromLocator ?? componentEl) as HTMLElement;
     const targetLocator = options?.topLayerTarget ?? page.getBySelector("[popover]");
-    const topLayerElements = targetLocator.elements();
-
-    if (topLayerElements.length === 0) {
-      throw new Error("No top-layer target found.");
-    }
-
-    if (topLayerElements.length > 1) {
-      throw new Error("Multiple top-layer targets found. Provide a more specific topLayerTarget locator.");
-    }
-
-    const [topLayerEl] = topLayerElements;
+    const topLayerEl = targetLocator.element();
     const delegatedTopLayer = options?.delegatedTopLayer ?? false;
     const openEventName =
       delegatedTopLayer || options?.openEventName === null
