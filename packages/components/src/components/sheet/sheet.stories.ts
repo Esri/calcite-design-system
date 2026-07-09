@@ -3,9 +3,9 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 
-const { logicalFlowPosition, displayMode } = ATTRIBUTES;
+const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
-type SheetStoryArgs = Pick<Sheet, "open" | "position" | "displayMode" | "resizable">;
+type SheetStoryArgs = Pick<Sheet, "displayMode" | "heightScale" | "open" | "position" | "resizable" | "width">;
 
 export default {
   title: "Components/Sheet",
@@ -14,6 +14,8 @@ export default {
     resizable: false,
     position: logicalFlowPosition.values[0],
     displayMode: displayMode.values[1],
+    width: scale.defaultValue,
+    heightScale: scale.defaultValue,
   },
   argTypes: {
     position: {
@@ -22,6 +24,14 @@ export default {
     },
     displayMode: {
       options: displayMode.values,
+      control: { type: "select" },
+    },
+    width: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    heightScale: {
+      options: scale.values,
       control: { type: "select" },
     },
   },
@@ -50,6 +60,8 @@ export const simple = (args: SheetStoryArgs): string => html`
     ${boolean("resizable", args.resizable)}
     position="${args.position}"
     display-mode="${args.displayMode}"
+    width="${args.width}"
+    height-scale="${args.heightScale}"
     >${panelHTML}</calcite-sheet
   >
 `;

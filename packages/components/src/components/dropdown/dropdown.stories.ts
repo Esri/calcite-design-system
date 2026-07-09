@@ -1,23 +1,34 @@
 import { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dropdown } from "./dropdown";
 
-const { scale, clickType, selectionMode } = ATTRIBUTES;
+const { clickType, menuPlacement, overlayPositioning, scale, selectionMode } = ATTRIBUTES;
 
 type DropdownStoryArgs = Pick<
   Dropdown,
-  "placement" | "scale" | "widthScale" | "type" | "closeOnSelectDisabled" | "disabled"
+  | "closeOnSelectDisabled"
+  | "disabled"
+  | "open"
+  | "overlayPositioning"
+  | "placement"
+  | "scale"
+  | "type"
+  | "width"
+  | "widthScale"
 > &
   Pick<DropdownGroup, "selectionMode">;
 
 export default {
   title: "Components/Buttons/Dropdown",
   args: {
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
+    open: true,
+    overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
+    width: scale.defaultValue,
     widthScale: scale.defaultValue,
     type: clickType.defaultValue,
     closeOnSelectDisabled: false,
@@ -26,15 +37,23 @@ export default {
   },
   argTypes: {
     placement: {
-      options: placements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
       options: scale.values,
       control: { type: "select" },
     },
+    width: {
+      options: scale.values,
+      control: { type: "select" },
+    },
     widthScale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    overlayPositioning: {
+      options: overlayPositioning.values,
       control: { type: "select" },
     },
     type: {
@@ -58,9 +77,11 @@ export default {
 
 export const simple = (args: DropdownStoryArgs): string => html`
   <calcite-dropdown
-    open
+    ${boolean("open", args.open)}
+    overlay-positioning="${args.overlayPositioning}"
     placement="${args.placement}"
     scale="${args.scale}"
+    width="${args.width}"
     width-scale="${args.widthScale}"
     type="${args.type}"
     ${boolean("close-on-select-disabled", args.closeOnSelectDisabled)}
