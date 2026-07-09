@@ -10,7 +10,7 @@ import {
   t9n,
   reflects,
   accessible,
-  themed
+  themed,
 } from "../../tests/commonTests/browser";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";

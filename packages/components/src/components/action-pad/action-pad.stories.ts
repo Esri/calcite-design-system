@@ -4,21 +4,34 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionPad } from "./action-pad";
 
-const { position, selectionAppearance } = ATTRIBUTES;
+const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
 
-type ActionPadStoryArgs = Pick<ActionPad, "expandDisabled" | "expanded" | "position" | "selectionAppearance">;
+type ActionPadStoryArgs = Pick<
+  ActionPad,
+  "expandDisabled" | "expanded" | "layout" | "position" | "scale" | "selectionAppearance"
+>;
 
 export default {
   title: "Components/Action Pad",
   args: {
     expandDisabled: false,
     expanded: false,
+    layout: layout.values[1],
     position: position.defaultValue,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
+    layout: {
+      options: layout.values,
+      control: { type: "select" },
+    },
     position: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
       control: { type: "select" },
     },
     selectionAppearance: {
@@ -37,7 +50,9 @@ export const simple = (args: ActionPadStoryArgs): string => html`
   <calcite-action-pad
     ${boolean("expand-disabled", args.expandDisabled)}
     ${boolean("expanded", args.expanded)}
+    layout="${args.layout}"
     position="${args.position}"
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>

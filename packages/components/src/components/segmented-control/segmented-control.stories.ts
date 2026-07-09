@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { SegmentedControl } from "./segmented-control";
@@ -68,7 +68,7 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     validation-message="${args.validationMessage}"
   >
     <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>

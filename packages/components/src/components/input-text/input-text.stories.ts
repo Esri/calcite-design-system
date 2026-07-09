@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputText } from "./input-text";
@@ -16,10 +16,16 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "maxLength"
+  | "minLength"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -33,6 +39,12 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    maxLength: undefined,
+    minLength: undefined,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
@@ -51,8 +63,18 @@ export default {
       options: alignment.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    icon: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
   },
@@ -69,10 +91,16 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("max-length", args.maxLength)}
+      ${optionalAttribute("min-length", args.minLength)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
   </div>

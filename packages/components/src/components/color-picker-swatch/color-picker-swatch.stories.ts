@@ -1,19 +1,33 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPickerSwatch } from "./color-picker-swatch";
 
-type ColorPickerSwatchStoryArgs = Pick<ColorPickerSwatch, "active" | "color">;
+const { scale } = ATTRIBUTES;
+
+type ColorPickerSwatchStoryArgs = Pick<ColorPickerSwatch, "active" | "color" | "scale">;
 
 export default {
   title: "Components/Controls/ColorPicker/support/ColorPickerSwatch",
   args: {
     active: true,
     color: "#b33f33",
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: ColorPickerSwatchStoryArgs): string => html`
-  <calcite-color-picker-swatch ${boolean("active", args.active)} color="${args.color}"></calcite-color-picker-swatch>
+  <calcite-color-picker-swatch
+    ${boolean("active", args.active)}
+    color="${args.color}"
+    scale="${args.scale}"
+  ></calcite-color-picker-swatch>
 `;
 
 export const active = (): string =>
