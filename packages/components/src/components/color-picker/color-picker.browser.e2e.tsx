@@ -11,7 +11,7 @@ import {
   vi,
 } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
-import { mount } from "@arcgis/lumina-compiler/testing";
+import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
 import { commands } from "../../tests/browser/commands";
 import {
@@ -408,7 +408,7 @@ it(`should set all internal calcite-button types to 'button'`, async () => {
 });
 
 it("emits event when value changes via user interaction and not programmatically", async () => {
-  const { el } = await mount("calcite-color-picker");
+  const { el, reRender } = await mount("calcite-color-picker");
 
   const changeSpy = vi.fn();
   const inputSpy = vi.fn();
@@ -418,6 +418,7 @@ it("emits event when value changes via user interaction and not programmatically
     const colorFieldCenterValueHex = "#408048";
 
     el.value = colorFieldCenterValueHex;
+    await reRender();
 
     expect(changeSpy).toHaveBeenCalledTimes(0);
     expect(inputSpy).toHaveBeenCalledTimes(0);
@@ -507,8 +508,10 @@ it("emits event when value changes via user interaction and not programmatically
 
     // this portion covers an odd scenario where setting twice would cause the component to emit
     el.value = colorFieldCenterValueHex;
+    await reRender();
 
     el.value = "#fff";
+    await reRender();
 
     expect(changeSpy).toHaveBeenCalledTimes(9);
     expect(inputSpy.mock.calls.length).toBe(previousInputEventLength);
@@ -715,7 +718,7 @@ describe("color format", () => {
   describe("when set initially", () => {
     let changeHandler: ReturnType<typeof vi.fn<() => void>>;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       changeHandler = vi.fn();
     });
 
@@ -761,18 +764,20 @@ describe("color format", () => {
   });
 
   it("allows specifying the color value format", async () => {
-    const { el } = await mount("calcite-color-picker");
+    const { el, reRender } = await mount("calcite-color-picker");
 
     for (const format in supportedFormatToSampleValue) {
       const expectedValue = supportedFormatToSampleValue[format];
 
       // set base format and value to test setting different format values
       el.format = format as ColorPicker["format"];
+      await reRender();
       el.value = expectedValue;
+      await reRender();
 
       for (const format in supportedFormatToSampleValue) {
-        const currentTestValue = supportedFormatToSampleValue[format];
-        el.value = currentTestValue;
+        el.value = supportedFormatToSampleValue[format];
+        await reRender();
 
         // non-matching formats are ignored
         expect(el.value).toEqual(expectedValue);
@@ -796,7 +801,7 @@ describe("color format", () => {
 
 describe("accepts multiple color value formats", () => {
   it("default", async () => {
-    const { el } = await mount("calcite-color-picker");
+    const { el, reRender } = await mount("calcite-color-picker");
 
     const supportedStringFormats = [
       supportedFormatToSampleValue.hex,
@@ -806,6 +811,7 @@ describe("accepts multiple color value formats", () => {
 
     for (const value of supportedStringFormats) {
       el.value = value;
+      await reRender();
 
       expect(el.value).toBe(value);
     }
@@ -818,13 +824,14 @@ describe("accepts multiple color value formats", () => {
 
     for (const value of supportedObjectFormats) {
       el.value = value;
+      await reRender();
 
       expect(el.value).toMatchObject(value as any);
     }
   });
 
   it("keeps value in alpha-compatible format when applying updates", async () => {
-    const { el } = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
+    const { el, reRender } = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
 
     const supportedStringFormats: [ColorValue, ColorValue][] = [
       [allSupportedFormatToSampleValue.hex, allSupportedFormatToSampleValue.hexa],
@@ -837,6 +844,7 @@ describe("accepts multiple color value formats", () => {
 
     for (const [value, expected] of supportedStringFormats) {
       el.value = value;
+      await reRender();
 
       expect(el.value).toBe(expected);
     }
@@ -852,6 +860,7 @@ describe("accepts multiple color value formats", () => {
 
     for (const [value, expected] of supportedObjectFormats) {
       el.value = value;
+      await reRender();
 
       expect(el.value).toMatchObject(expected);
     }
@@ -859,7 +868,9 @@ describe("accepts multiple color value formats", () => {
 });
 
 it("allows selecting colors via color field/slider", async () => {
-  const { el } = await mount<ColorPicker>(<calcite-color-picker scale="m" value="#000" />);
+  const { el, reRender } = await mount<ColorPicker>(
+    <calcite-color-picker scale="m" value="#000" />,
+  );
 
   const spy = vi.fn();
   el.addEventListener("calciteColorPickerChange", spy);
@@ -908,6 +919,7 @@ it("allows selecting colors via color field/slider", async () => {
 
     // set to corner right value that's not red (first value)
     el.value = "#ff0";
+    await reRender();
 
     expect(spy).toHaveBeenCalledTimes(changes);
 
@@ -950,6 +962,7 @@ it("allows selecting colors via color field/slider", async () => {
     // clicking on the slider when the color won't change by hue adjustments
 
     el.value = "#000";
+    await reRender();
 
     expect(spy).toHaveBeenCalledTimes(changes);
 
@@ -1122,6 +1135,7 @@ it("does not allow text selection when color field/sliders are used", async () =
 
 describe("unsupported value handling", () => {
   let el: ColorPicker["el"];
+  let reRender: RenderResult["reRender"];
 
   async function assertUnsupportedValue(unsupportedValue: string | undefined): Promise<void> {
     const spy = vi.fn();
@@ -1130,6 +1144,7 @@ describe("unsupported value handling", () => {
     const currentValue = el.value;
     const { format } = el;
     el.value = unsupportedValue;
+    await reRender();
 
     expect(el.value).toBe(currentValue);
     expect(spy).toHaveBeenCalledTimes(0);
@@ -1140,6 +1155,7 @@ describe("unsupported value handling", () => {
   beforeEach(async () => {
     const result = await mount("calcite-color-picker");
     el = result.el;
+    reRender = result.reRender;
   });
 
   it("ignores unsupported value types", () => assertUnsupportedValue("unsupported-color-format"));
@@ -1149,17 +1165,19 @@ describe("unsupported value handling", () => {
 
 describe("normalizes shorthand CSS hex", () => {
   it("normal", async () => {
-    const { el } = await mount("calcite-color-picker");
+    const { el, reRender } = await mount("calcite-color-picker");
 
     el.value = "#ABC";
+    await reRender();
 
     expect(el.value).toBe("#aabbcc");
   });
 
   it("alpha channel", async () => {
-    const { el } = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
+    const { el, reRender } = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
 
     el.value = "#ABCD";
+    await reRender();
 
     expect(el.value).toBe("#aabbccdd");
   });
@@ -1203,11 +1221,13 @@ describe("color inputs", () => {
 
   describe("default", () => {
     describe("keeps value in same format when applying updates", () => {
-      let picker: ColorPicker["el"];
+      let el: ColorPicker["el"];
+      let reRender: RenderResult["reRender"];
 
       beforeEach(async () => {
-        const { el } = await mount("calcite-color-picker");
-        picker = el;
+        const result = await mount("calcite-color-picker");
+        el = result.el;
+        reRender = result.reRender;
       });
 
       const updateColorWithAllInputs = async (
@@ -1219,7 +1239,7 @@ describe("color inputs", () => {
 
         await clearAndEnterHexOrChannelValue(hexInput, "abc");
 
-        assertColorUpdate(picker.value!);
+        assertColorUpdate(el.value!);
 
         const [rgbModeButton, hsvModeButton] = await (page
           .getBySelector(`calcite-color-picker .${CSS.colorMode}`)
@@ -1234,7 +1254,7 @@ describe("color inputs", () => {
         await clearAndEnterHexOrChannelValue(gInput, "64");
         await clearAndEnterHexOrChannelValue(bInput, "32");
 
-        assertColorUpdate(picker.value!);
+        assertColorUpdate(el.value!);
 
         await userEvent.click(page.elementLocator(hsvModeButton));
 
@@ -1244,12 +1264,13 @@ describe("color inputs", () => {
         await clearAndEnterHexOrChannelValue(hInput, "180");
         await clearAndEnterHexOrChannelValue(sInput, "90");
 
-        assertColorUpdate(picker.value!);
+        assertColorUpdate(el.value!);
       };
 
       it("supports hex", async () => {
         const hex = supportedFormatToSampleValue.hex;
-        picker.value = hex;
+        el.value = hex;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toBe(hex);
@@ -1261,7 +1282,8 @@ describe("color inputs", () => {
 
       it("supports rgb", async () => {
         const rgbCss = supportedFormatToSampleValue["rgb-css"];
-        picker.value = rgbCss;
+        el.value = rgbCss;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toBe(rgbCss);
@@ -1273,7 +1295,8 @@ describe("color inputs", () => {
 
       it("supports hsl", async () => {
         const hslCss = supportedFormatToSampleValue["hsl-css"];
-        picker.value = hslCss;
+        el.value = hslCss;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toBe(hslCss);
@@ -1285,7 +1308,8 @@ describe("color inputs", () => {
 
       it("supports rgb (object)", async () => {
         const rgbObject = supportedFormatToSampleValue.rgb;
-        picker.value = rgbObject;
+        el.value = rgbObject;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(rgbObject as object);
@@ -1301,7 +1325,8 @@ describe("color inputs", () => {
 
       it("supports hsl (object)", async () => {
         const hslObject = supportedFormatToSampleValue.hsl;
-        picker.value = hslObject;
+        el.value = hslObject;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(hslObject as object);
@@ -1317,7 +1342,8 @@ describe("color inputs", () => {
 
       it("supports hsv (object)", async () => {
         const hsvObject = supportedFormatToSampleValue.hsv;
-        picker.value = hsvObject;
+        el.value = hsvObject;
+        await reRender();
 
         await updateColorWithAllInputs((value: ColorValue) => {
           expect(value).not.toMatchObject(hsvObject as object);
@@ -1364,11 +1390,11 @@ describe("color inputs", () => {
         });
 
         describe("allows modifying color via hex, RGB, HSV inputs", () => {
-          let picker: ColorPicker["el"];
+          let el: ColorPicker["el"];
 
           beforeEach(async () => {
-            const { el } = await mount<ColorPicker>(<calcite-color-picker value="#fff" />);
-            picker = el;
+            const result = await mount<ColorPicker>(<calcite-color-picker value="#fff" />);
+            el = result.el;
           });
 
           it("allows modifying color via hex input", async () => {
@@ -1377,7 +1403,7 @@ describe("color inputs", () => {
               .element() as ColorPickerHexInput["el"];
             await clearAndEnterHexOrChannelValue(hexInput, "abc");
 
-            expect(picker.value).toBe("#aabbcc");
+            expect(el.value).toBe("#aabbcc");
           });
 
           it("allows modifying color via RGB inputs", async () => {
@@ -1393,7 +1419,7 @@ describe("color inputs", () => {
             await clearAndEnterHexOrChannelValue(gInput, "64");
             await clearAndEnterHexOrChannelValue(bInput, "32");
 
-            expect(picker.value).toBe("#804020");
+            expect(el.value).toBe("#804020");
           });
 
           it("allows modifying color via HSV inputs", async () => {
@@ -1411,7 +1437,7 @@ describe("color inputs", () => {
             await clearAndEnterHexOrChannelValue(hInput, "180");
             await clearAndEnterHexOrChannelValue(sInput, "90");
 
-            expect(picker.value).toBe("#730b0b");
+            expect(el.value).toBe("#730b0b");
           });
         });
 
@@ -1662,11 +1688,13 @@ describe("color inputs", () => {
 
   describe("alpha channel", () => {
     describe("keeps value in alpha-compatible format when applying updates", () => {
-      let picker: ColorPicker["el"];
+      let el: ColorPicker["el"];
+      let reRender: RenderResult["reRender"];
 
       beforeEach(async () => {
-        const { el } = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
-        picker = el;
+        const result = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
+        el = result.el;
+        reRender = result.reRender;
       });
 
       const updateColorWithAllInputs = async (
@@ -1678,7 +1706,7 @@ describe("color inputs", () => {
 
         await clearAndEnterHexOrChannelValue(hexInput, "abc0");
 
-        await assertColorUpdate(picker.value!);
+        await assertColorUpdate(el.value!);
 
         const [rgbModeButton, hsvModeButton] = await (page
           .getBySelector(`calcite-color-picker .${CSS.colorMode}`)
@@ -1694,7 +1722,7 @@ describe("color inputs", () => {
         await clearAndEnterHexOrChannelValue(bInput, "32");
         await clearAndEnterHexOrChannelValue(rgbAInput, "75");
 
-        await assertColorUpdate(picker.value!);
+        await assertColorUpdate(el.value!);
 
         await userEvent.click(page.elementLocator(hsvModeButton));
 
@@ -1705,12 +1733,13 @@ describe("color inputs", () => {
         await clearAndEnterHexOrChannelValue(sInput, "90");
         await clearAndEnterHexOrChannelValue(hsvAInput, "75");
 
-        await assertColorUpdate(picker.value!);
+        await assertColorUpdate(el.value!);
       };
 
       it("supports hex", async () => {
         const hex = supportedFormatToSampleValue.hex;
-        picker.value = hex;
+        el.value = hex;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(hex);
@@ -1722,7 +1751,8 @@ describe("color inputs", () => {
 
       it("supports hexa", async () => {
         const hexa = supportedAlphaFormatToSampleValue.hexa;
-        picker.value = hexa;
+        el.value = hexa;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(hexa);
@@ -1734,7 +1764,8 @@ describe("color inputs", () => {
 
       it("supports rgb", async () => {
         const rgbCss = supportedFormatToSampleValue["rgb-css"];
-        picker.value = rgbCss;
+        el.value = rgbCss;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(rgbCss);
@@ -1746,7 +1777,8 @@ describe("color inputs", () => {
 
       it("supports rgba", async () => {
         const rgbaCss = supportedAlphaFormatToSampleValue["rgba-css"];
-        picker.value = rgbaCss;
+        el.value = rgbaCss;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(rgbaCss);
@@ -1758,7 +1790,8 @@ describe("color inputs", () => {
 
       it("supports hsl", async () => {
         const hslCss = supportedFormatToSampleValue["hsl-css"];
-        picker.value = hslCss;
+        el.value = hslCss;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(hslCss);
@@ -1770,7 +1803,8 @@ describe("color inputs", () => {
 
       it("supports hsla", async () => {
         const hslaCss = supportedAlphaFormatToSampleValue["hsla-css"];
-        picker.value = hslaCss;
+        el.value = hslaCss;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toBe(hslaCss);
@@ -1782,7 +1816,8 @@ describe("color inputs", () => {
 
       it("supports rgb (object)", async () => {
         const rgbObject = supportedFormatToSampleValue.rgb;
-        picker.value = rgbObject;
+        el.value = rgbObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toMatchObject(rgbObject as object);
@@ -1799,10 +1834,11 @@ describe("color inputs", () => {
 
       it("supports rgba (object)", async () => {
         const rgbaObject = supportedAlphaFormatToSampleValue.rgba;
-        picker.value = rgbaObject;
+        el.value = rgbaObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
-          expect(value).not.toMatchObject(rgbaObject as object); //
+          expect(value).not.toMatchObject(rgbaObject as object);
           expect(value).toMatchObject({
             r: toBeInteger(),
             g: toBeInteger(),
@@ -1816,7 +1852,8 @@ describe("color inputs", () => {
 
       it("supports hsl (object)", async () => {
         const hslObject = supportedFormatToSampleValue.hsl;
-        picker.value = hslObject;
+        el.value = hslObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toMatchObject(hslObject as object);
@@ -1833,7 +1870,8 @@ describe("color inputs", () => {
 
       it("supports hsla (object)", async () => {
         const hslaObject = supportedAlphaFormatToSampleValue.hsla;
-        picker.value = hslaObject;
+        el.value = hslaObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toMatchObject(hslaObject as object);
@@ -1850,7 +1888,8 @@ describe("color inputs", () => {
 
       it("supports hsv (object)", async () => {
         const hsvObject = supportedFormatToSampleValue.hsv;
-        picker.value = hsvObject;
+        el.value = hsvObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toMatchObject(hsvObject as object);
@@ -1866,7 +1905,8 @@ describe("color inputs", () => {
 
       it("supports hsva (object)", async () => {
         const hsvaObject = supportedAlphaFormatToSampleValue.hsva;
-        picker.value = hsvaObject;
+        el.value = hsvaObject;
+        await reRender();
 
         await updateColorWithAllInputs(async (value: ColorValue) => {
           expect(value).not.toMatchObject(hsvaObject as object);
@@ -1916,13 +1956,13 @@ describe("color inputs", () => {
         });
 
         describe("allows modifying color via hex, RGBA, HSVA inputs", () => {
-          let picker: ColorPicker["el"];
+          let el: ColorPicker["el"];
 
           beforeEach(async () => {
-            const { el } = await mount<ColorPicker>(
+            const result = await mount<ColorPicker>(
               <calcite-color-picker alpha-channel value="#ffff" />,
             );
-            picker = el;
+            el = result.el;
           });
 
           it("allows modifying color via hex input", async () => {
@@ -1932,7 +1972,7 @@ describe("color inputs", () => {
             // eslint-disable-next-line @cspell/spellchecker -- testing hex code
             await clearAndEnterHexOrChannelValue(hexInput, "abcf");
 
-            expect(picker.value).toBe("#aabbccff");
+            expect(el.value).toBe("#aabbccff");
           });
 
           it("allows modifying color via RGBA inputs", async () => {
@@ -1949,7 +1989,7 @@ describe("color inputs", () => {
             await clearAndEnterHexOrChannelValue(bInput, "32");
             await clearAndEnterHexOrChannelValue(rgbAInput, "50");
 
-            expect(picker.value).toBe("#80402080");
+            expect(el.value).toBe("#80402080");
           });
 
           it("allows modifying color via HSVA inputs", async () => {
@@ -1968,7 +2008,7 @@ describe("color inputs", () => {
             await clearAndEnterHexOrChannelValue(sInput, "90");
             await clearAndEnterHexOrChannelValue(hsvAInput, "50");
 
-            expect(picker.value).toBe("#730b0b80");
+            expect(el.value).toBe("#730b0b80");
           });
         });
 
@@ -2287,23 +2327,29 @@ describe("color storage", () => {
     afterAll(clearStorage);
 
     it("allows saving unique colors", async () => {
-      const { el } = await mount<ColorPicker>(<calcite-color-picker storage-id={storageId} />);
+      const { el, reRender } = await mount<ColorPicker>(
+        <calcite-color-picker storage-id={storageId} />,
+      );
       const saveColor = page.getBySelector(`calcite-color-picker .${CSS.saveColor}`);
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
 
@@ -2347,9 +2393,7 @@ describe("color storage", () => {
         await userEvent.click(swatch);
         await userEvent.click(removeColor);
 
-        expect(
-          page.getBySelector(`calcite-color-picker calcite-swatch-group calcite-swatch`),
-        ).toHaveLength(--expectedSaved);
+        expect(saved).toHaveLength(--expectedSaved);
       }
     });
 
@@ -2363,8 +2407,8 @@ describe("color storage", () => {
         .getBySelector(`calcite-color-picker .${CSS.deleteColor}`)
         .element() as Button["el"];
 
-      expect(await saveColor.disabled).toBe(true);
-      expect(await removeColor.disabled).toBe(true);
+      expect(saveColor.disabled).toBe(true);
+      expect(removeColor.disabled).toBe(true);
     });
   });
 
@@ -2376,7 +2420,7 @@ describe("color storage", () => {
     afterAll(clearStorage);
 
     it("allows saving unique colors", async () => {
-      const { el } = await mount<ColorPicker>(
+      const { el, reRender } = await mount<ColorPicker>(
         <calcite-color-picker alpha-channel storage-id={storageId} />,
       );
 
@@ -2384,18 +2428,22 @@ describe("color storage", () => {
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color1;
+      await reRender();
 
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
 
@@ -2431,6 +2479,7 @@ describe("color storage", () => {
       await userEvent.click(saveColor);
 
       el.value = color2;
+      await reRender();
 
       await userEvent.click(saveColor);
 
@@ -2452,28 +2501,29 @@ describe("color storage", () => {
         .getBySelector(`calcite-color-picker .${CSS.deleteColor}`)
         .element() as Button["el"];
 
-      expect(await saveColor.disabled).toBe(true);
-      expect(await removeColor.disabled).toBe(true);
+      expect(saveColor.disabled).toBe(true);
+      expect(removeColor.disabled).toBe(true);
     });
   });
 });
 
 it("allows setting no-color", async () => {
-  const { el } = await mount<ColorPicker>(<calcite-color-picker clearable />);
+  const { el, reRender } = await mount<ColorPicker>(<calcite-color-picker clearable />);
 
   expect(el.value).not.toBe(undefined);
-  expect(await el.color).not.toBe(undefined);
+  expect(el.color).not.toBe(undefined);
 
   el.value = undefined;
+  await reRender();
 
   expect(el.value).toBe(undefined);
-  expect(await el.color).toBe(undefined);
+  expect(el.color).toBe(undefined);
 
   expect(() => assertUnsupportedValueMessage(undefined, "auto")).toThrow();
 });
 
 it("allows hiding sections", async () => {
-  const { el } = await mount("calcite-color-picker");
+  const { el, reRender } = await mount("calcite-color-picker");
 
   type HiddenSection = "hex" | "channels" | "saved" | "field";
 
@@ -2494,6 +2544,7 @@ it("allows hiding sections", async () => {
       const hideSectionProp = `${section.charAt(0) + section.slice(1)}Disabled`;
 
       Reflect.set(el, hideSectionProp, !sectionVisibility[section]);
+      await reRender();
     }
 
     const [hex, channels, saved, field] = [
