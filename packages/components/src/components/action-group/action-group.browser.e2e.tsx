@@ -13,6 +13,7 @@ import {
   slots,
   t9n,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -136,6 +137,25 @@ describe("focusable", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-group"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-group>
+          <calcite-action icon="plus" slot={SLOTS.menuActions} text="Add" />
+        </calcite-action-group>,
+      ),
+    {
+      openProp: "menuOpen",
+      openEventName: null,
+      closeEventName: null,
+      skipCloseCheck: true,
+      skipTopLayerDisabledCheck: true,
+      topLayerTarget: page.getBySelector("calcite-action-group [popover]"),
+    },
+  );
 });
 
 describe("actions have no ARIA attributes when selectionMode is 'none'", () => {

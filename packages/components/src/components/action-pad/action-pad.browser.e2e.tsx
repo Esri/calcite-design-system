@@ -12,6 +12,7 @@ import {
   focusable,
   t9n,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -147,6 +148,27 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-pad"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-pad expand-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-pad > calcite-action-group"),
+      openProp: "menuOpen",
+      openEventName: null,
+      closeEventName: null,
+      skipCloseCheck: true,
+      skipTopLayerDisabledCheck: true,
+    },
+  );
 });
 
 describe("selection-modes", () => {

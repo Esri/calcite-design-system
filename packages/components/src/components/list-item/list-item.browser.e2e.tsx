@@ -10,10 +10,14 @@ import {
   reflects,
   renders,
   slots,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ListItem } from "./list-item";
+
+mockConsole();
 
 describe("defaults", () => {
   defaults(
@@ -147,6 +151,17 @@ describe("is focusable", () => {
 
 describe("disabled", () => {
   disabled(() => mount(<calcite-list-item active label="test" />));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () => mount(<calcite-list-item drag-handle label="test" set-position="1" set-size="4" />),
+    {
+      openProp: "sortHandleOpen",
+      openEventName: "calciteListItemSortHandleOpen",
+      closeEventName: "calciteListItemSortHandleClose",
+    },
+  );
 });
 
 it("emits calciteInternalListItemChange only when metadata values change", async () => {

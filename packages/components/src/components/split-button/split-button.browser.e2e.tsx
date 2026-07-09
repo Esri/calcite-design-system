@@ -10,6 +10,7 @@ import {
   renders,
   disabled,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -183,6 +184,22 @@ describe("focusable", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-split-button"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          {renderContent()}
+        </calcite-split-button>,
+      ),
+    {
+      openProp: "active",
+      openEventName: "calciteDropdownOpen",
+      closeEventName: "calciteDropdownClose",
+    },
+  );
 });
 
 describe("theme", () => {

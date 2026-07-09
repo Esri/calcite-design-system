@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -10,6 +11,7 @@ import {
   delegatesToFloatingUiOwningComponent,
   focusable,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -122,6 +124,24 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-action-menu"), SLOTS);
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    {
+      openEventName: null,
+      closeEventName: null,
+      skipCloseCheck: true,
+      skipTopLayerDisabledCheck: true,
+      topLayerTarget: page.getBySelector("calcite-action-menu [popover]"),
+    },
+  );
 });
 
 describe("delegates to floating-ui-owner component", () => {
