@@ -346,6 +346,33 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
+  async function dragPanelToMax({
+    component,
+    handle,
+    layout,
+    panel,
+    shellSize,
+  }: {
+    component: { updateComplete: Promise<unknown> };
+    handle: HTMLElement;
+    layout: PanelLayout;
+    panel: ShellPanel["el"];
+    shellSize: number;
+  }): Promise<void> {
+    const handleRect = handle.getBoundingClientRect();
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(
+      layout === "vertical" ? handleRect.left - shellSize : handleRect.left + handleRect.width / 2,
+      layout === "vertical" ? handleRect.top + handleRect.height / 2 : handleRect.top - shellSize,
+    );
+    await commands.mouseUp();
+
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+  }
+
   it("accounts for action bar width when applying max width to vertical panels", async () => {
     const shellWidth = 700;
     const { el, component } = await mount<"calcite-shell">(
@@ -372,19 +399,46 @@ describe("shell-panel updateSize public method", () => {
     const panel = el.querySelector<ShellPanel["el"]>('calcite-shell-panel[slot="panel-end"]')!;
     const { actionBarContainer, content, handle } = getShellPanelElements(panel);
 
-    const handleRect = handle.getBoundingClientRect();
-    await userEvent.hover(handle);
-    await commands.mouseDown();
-    await commands.mouseMove(handleRect.left - shellWidth, handleRect.top + handleRect.height / 2);
-    await commands.mouseUp();
-
-    await component.updateComplete;
-    await panel.manager.component.updateComplete;
+    await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
 
     const occupiedWidth =
       actionBarContainer.getBoundingClientRect().width + content.getBoundingClientRect().width;
 
     expect(Math.ceil(occupiedWidth)).toBeLessThanOrEqual(shellWidth);
+  });
+
+  it("accounts for action bar width and float-all spacing when applying max width to vertical panels", async () => {
+    const shellWidth = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style={`inline-size: ${shellWidth}px; block-size: 400px; position: relative;`}>
+        <calcite-shell-panel slot="panel-start">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Start content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float-all"
+          resizable
+          slot="panel-end"
+          style="--calcite-shell-panel-max-width: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = el.querySelector<ShellPanel["el"]>('calcite-shell-panel[slot="panel-end"]')!;
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({ component, handle, layout: "vertical", panel, shellSize: shellWidth });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().right)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().right),
+    );
   });
 
   it("accounts for action bar height when applying max height to horizontal panels", async () => {
@@ -419,14 +473,13 @@ describe("shell-panel updateSize public method", () => {
     const centerPanel = el.querySelector<HTMLElement>(":scope > calcite-panel:not([slot])")!;
     const { actionBarContainer, content, handle } = getShellPanelElements(panel);
 
-    const handleRect = handle.getBoundingClientRect();
-    await userEvent.hover(handle);
-    await commands.mouseDown();
-    await commands.mouseMove(handleRect.left + handleRect.width / 2, handleRect.top - shellHeight);
-    await commands.mouseUp();
-
-    await component.updateComplete;
-    await panel.manager.component.updateComplete;
+    await dragPanelToMax({
+      component,
+      handle,
+      layout: "horizontal",
+      panel,
+      shellSize: shellHeight,
+    });
 
     const occupiedHeight =
       actionBarContainer.getBoundingClientRect().height + content.getBoundingClientRect().height;
@@ -439,6 +492,48 @@ describe("shell-panel updateSize public method", () => {
 
     expect(Math.ceil(occupiedHeight)).toBeLessThanOrEqual(shellHeight);
     expect(Math.ceil(totalOccupiedHeight)).toBeLessThanOrEqual(shellHeight);
+  });
+
+  it("accounts for action bar height and float-all spacing when applying max height to horizontal panels", async () => {
+    const shellHeight = 700;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+        <calcite-shell-panel
+          display-mode="float-all"
+          resizable
+          slot="panel-bottom"
+          style="--calcite-shell-panel-max-height: 100%;"
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="layers" text="Layers" />
+          </calcite-action-bar>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    );
+    const panel = el.querySelector<ShellPanel["el"]>('calcite-shell-panel[slot="panel-bottom"]')!;
+    const { actionBarContainer, handle } = getShellPanelElements(panel);
+
+    await dragPanelToMax({
+      component,
+      handle,
+      layout: "horizontal",
+      panel,
+      shellSize: shellHeight,
+    });
+
+    expect(Math.ceil(actionBarContainer.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
   });
 
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
