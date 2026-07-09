@@ -1135,7 +1135,7 @@ it("does not allow text selection when color field/sliders are used", async () =
 
 describe("unsupported value handling", () => {
   let el: ColorPicker["el"];
-  let reRender: RenderResult["reRender"];
+  let reRender: RenderResult<ColorPicker>["reRender"];
 
   async function assertUnsupportedValue(unsupportedValue: string | undefined): Promise<void> {
     const spy = vi.fn();
@@ -1222,7 +1222,7 @@ describe("color inputs", () => {
   describe("default", () => {
     describe("keeps value in same format when applying updates", () => {
       let el: ColorPicker["el"];
-      let reRender: RenderResult["reRender"];
+      let reRender: RenderResult<ColorPicker>["reRender"];
 
       beforeEach(async () => {
         const result = await mount("calcite-color-picker");
@@ -1689,7 +1689,7 @@ describe("color inputs", () => {
   describe("alpha channel", () => {
     describe("keeps value in alpha-compatible format when applying updates", () => {
       let el: ColorPicker["el"];
-      let reRender: RenderResult["reRender"];
+      let reRender: RenderResult<ColorPicker>["reRender"];
 
       beforeEach(async () => {
         const result = await mount<ColorPicker>(<calcite-color-picker alpha-channel />);
