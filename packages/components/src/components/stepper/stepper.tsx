@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
 import { Position, Scale } from "../interfaces";
@@ -19,6 +27,7 @@ import {
 } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper.scss";
+import { isStepperItem } from "../stepper-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -62,7 +71,7 @@ export class Stepper extends LitElement {
 
   //#region State Properties
 
-  @state() currentActivePosition: number;
+  @state() currentActivePosition = -1;
 
   //#endregion
 
@@ -74,7 +83,7 @@ export class Stepper extends LitElement {
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: StepperLayout = "horizontal";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
@@ -91,7 +100,7 @@ export class Stepper extends LitElement {
    *
    * @readonly
    */
-  @property() selectedItem: StepperItem["el"] = null;
+  @property() selectedItem: StepperItem["el"] | null = null;
 
   //#endregion
 
@@ -181,7 +190,10 @@ export class Stepper extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalStepperItemKeyEvent", this.calciteInternalStepperItemKeyEvent);
+    this.listen<ToEvents<StepperItem>["calciteInternalStepperItemKeyEvent"]>(
+      "calciteInternalStepperItemKeyEvent",
+      this.calciteInternalStepperItemKeyEvent,
+    );
     this.listen("calciteInternalStepperItemUpdate", (event: Event): void => {
       event.stopPropagation();
       this.updateItems();
@@ -219,12 +231,9 @@ export class Stepper extends LitElement {
 
   loaded(): void {
     // if no stepper items are set as active, default to the first one
-    if (typeof this.currentActivePosition !== "number") {
+    if (this.currentActivePosition === -1) {
       const enabledStepIndex = this.getFirstEnabledStepperPosition();
-
-      if (enabledStepIndex === 0) {
-        this.currentActivePosition = enabledStepIndex;
-      }
+      this.currentActivePosition = enabledStepIndex;
 
       this.calciteInternalStepperItemChange.emit({
         position: enabledStepIndex,
@@ -307,7 +316,7 @@ export class Stepper extends LitElement {
 
     this.multipleViewMode = layout !== "horizontal-single";
     visibleItems.forEach((item, index) => {
-      item.itemHidden = layout === "horizontal-single" && index !== (currentActivePosition || 0);
+      item.itemHidden = layout === "horizontal-single" && index !== currentActivePosition;
     });
   }
 
@@ -363,14 +372,12 @@ export class Stepper extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is StepperItem["el"] => el?.tagName === "CALCITE-STEPPER-ITEM",
-    );
-    this.items = items;
+    this.items = slotChangeGetAssignedElements(event).filter((el) => isStepperItem(el));
     this.updateItems();
     const spacing = Array(this.visibleItems.length).fill("1fr").join(" ");
-    this.containerRef.value.style.gridTemplateAreas = spacing;
-    this.containerRef.value.style.gridTemplateColumns = spacing;
+    const value = this.containerRef.value!;
+    value.style.gridTemplateAreas = spacing;
+    value.style.gridTemplateColumns = spacing;
   }
 
   //#endregion
@@ -379,7 +386,7 @@ export class Stepper extends LitElement {
 
   override render(): JsxNode {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = this.messages.label;
+    this.el.ariaLabel = this.messages.label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "region";
     return (

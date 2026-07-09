@@ -3,7 +3,9 @@ import { h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import * as esToolkit from "es-toolkit";
+
 import {
+  accessible,
   cancelable,
   defaults,
   disabled,
@@ -12,6 +14,7 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { afterNextFrame } from "../../tests/utils/timing";
@@ -25,6 +28,16 @@ mockConsole();
 
 afterEach(() => {
   vi.restoreAllMocks();
+});
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-color-picker"));
+  });
+
+  describe("clearable + cleared", () => {
+    accessible(() => mount(<calcite-color-picker clearable value="" />));
+  });
 });
 
 describe("cancelable", () => {
@@ -120,6 +133,7 @@ describe("scope interaction", () => {
   beforeEach(() => {
     vi.mocked(esToolkit.throttle).mockImplementation((toThrottle) => {
       const fakeThrottled = (...args: any[]) => toThrottle(...args);
+      // eslint-disable-next-line no-restricted-properties -- test mock requires throttle-compatible cancel API
       fakeThrottled.cancel = vi.fn();
       fakeThrottled.flush = vi.fn();
       return fakeThrottled;
@@ -131,7 +145,7 @@ describe("scope interaction", () => {
       const { el } = await mount<ColorPicker>(<calcite-color-picker clearable value="" />);
 
       await userEvent.keyboard("{Tab}");
-      expect(el.value).toBeFalsy();
+      expect(el.value).toBeUndefined();
       await userEvent.keyboard("{ArrowDown}");
       expect(el.value).toBe("#ffffff");
       await userEvent.keyboard("{ArrowDown}");
@@ -306,6 +320,69 @@ describe("scope interaction", () => {
       await userEvent.click(opacityScope, { position: { x: -moveByInPx, y: 0 }, force: true });
 
       await expect.element(el).not.toHaveProperty("value", initialValue);
+    });
+  });
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-color-picker alpha-channel />), {
+      "--calcite-color-picker-background-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-color-picker-border-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderColor",
+      },
+      "--calcite-color-picker-corner-radius": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-color-picker-shadow": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "boxShadow",
+      },
+      "--calcite-color-picker-text-color": {
+        shadowSelector: `.${CSS.header}`,
+        targetProp: "color",
+      },
+      "--calcite-color-picker-input-background-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+        targetProp: "--calcite-input-number-background-color",
+      },
+      "--calcite-color-picker-input-border-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+        targetProp: "--calcite-input-number-border-color",
+      },
+      "--calcite-color-picker-input-text-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+        targetProp: "--calcite-input-number-text-color",
+      },
+      "--calcite-color-picker-input-prefix-text-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-input-text`,
+        targetProp: "--calcite-input-prefix-text-color",
+      },
+      "--calcite-color-picker-input-suffix-text-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-input-number`,
+        targetProp: "--calcite-input-suffix-text-color",
+      },
+      "--calcite-color-picker-tab-border-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-tabs`,
+        targetProp: "--calcite-tab-border-color",
+      },
+      "--calcite-color-picker-tab-text-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-tabs`,
+        targetProp: "--calcite-tab-text-color",
+      },
+      "--calcite-color-picker-swatch-corner-radius": {
+        shadowSelector: `.${CSS.container} >>> calcite-swatch`,
+        targetProp: "--calcite-swatch-corner-radius",
+      },
+      "--calcite-color-picker-action-text-color": {
+        shadowSelector: `.${CSS.container} >>> calcite-button`,
+        targetProp: "--calcite-button-text-color",
+      },
     });
   });
 });

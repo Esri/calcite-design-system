@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import { supportedNlsLocales } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
@@ -32,7 +31,6 @@ describe("isValidNumber", () => {
 describe("parseNumberString", () => {
   it("returns empty string for string values that can't compute to a number", () => {
     expect(parseNumberString()).toBe("");
-    expect(parseNumberString(null)).toBe("");
     expect(parseNumberString(undefined)).toBe("");
     expect(parseNumberString("")).toBe("");
     expect(parseNumberString("only numbers")).toBe("");
@@ -149,12 +147,12 @@ describe("BigDecimal", () => {
       };
 
       const parts = new BigDecimal("-12345678.9").formatToParts(numberStringFormatter);
-      const groupPart = parts.find((part) => part.type === "group").value;
+      const groupPart = parts.find((part) => part.type === "group")!.value;
       expect(groupPart.trim().length === 0 || groupPart === " " ? "\u00A0" : groupPart).toBe(
         numberStringFormatter.group,
       );
-      expect(parts.find((part) => part.type === "decimal").value).toBe(numberStringFormatter.decimal);
-      expect(parts.find((part) => part.type === "minusSign").value).toBe(numberStringFormatter.minusSign);
+      expect(parts.find((part) => part.type === "decimal")!.value).toBe(numberStringFormatter.decimal);
+      expect(parts.find((part) => part.type === "minusSign")!.value).toBe(numberStringFormatter.minusSign);
     });
   });
 });

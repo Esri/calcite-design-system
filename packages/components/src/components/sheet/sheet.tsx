@@ -1,34 +1,31 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import {
   createEvent,
   h,
-  method,
-  state,
   JsxNode,
   LitElement,
+  method,
   property,
   setAttribute,
+  state,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { ensureId, getStylePixelValue } from "../../utils/dom";
+import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, LogicalFlowPosition, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
+import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../interfaces";
+import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
-import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { IconName } from "../icon/interfaces";
-import { ResizeValues } from "../interfaces";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS } from "./resources";
 import { DisplayMode } from "./interfaces";
@@ -50,8 +47,6 @@ export class Sheet extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  private contentId: string;
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -75,13 +70,11 @@ export class Sheet extends LitElement {
 
   usePreventDocumentScroll = usePreventDocumentScroll()(this);
 
-  private interaction: Interactable;
+  private interaction?: Interactable;
 
   messages = useT9n<typeof T9nStrings>();
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.handleMutationObserver(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
 
   private _open = false;
 
@@ -89,7 +82,7 @@ export class Sheet extends LitElement {
 
   transitionProp = "opacity" as const;
 
-  private resizeHandleEl: HTMLDivElement;
+  private resizeHandleEl?: HTMLDivElement;
 
   transitionRef = createRef<HTMLDivElement>();
 
@@ -150,7 +143,7 @@ export class Sheet extends LitElement {
   /**
    * Passes a function to run before the component closes.
    */
-  @property() beforeClose: (el: Sheet["el"]) => Promise<void>;
+  @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 
   /**
    * Specifies the display mode - `"float"` separates content from main layout,
@@ -181,7 +174,7 @@ export class Sheet extends LitElement {
    * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
@@ -190,17 +183,17 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** Specifies the component's height. */
-  @property({ reflect: true }) height: Height;
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays and positions the component. */
@@ -232,9 +225,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) resizable = false;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -248,7 +239,7 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the component's width. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -317,7 +308,10 @@ export class Sheet extends LitElement {
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.setupInteractions();
+
+    if (this.hasUpdated) {
+      this.refreshResize();
+    }
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -339,18 +333,14 @@ export class Sheet extends LitElement {
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
       changes.has("direction")
     ) {
-      this.setupInteractions();
-    }
-
-    if (this.contentRef.value) {
-      this.contentId = ensureId(this.contentRef.value);
+      this.refreshResize();
     }
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -383,10 +373,6 @@ export class Sheet extends LitElement {
       : ICONS.dragHorizontal;
   }
 
-  private getContentRefDOMRect(): DOMRect {
-    return this.contentRef.value?.getBoundingClientRect();
-  }
-
   private handleKeyDown(event: KeyboardEvent): void {
     const { key, defaultPrevented, shiftKey } = event;
     const {
@@ -407,7 +393,7 @@ export class Sheet extends LitElement {
       return;
     }
 
-    const rect = this.getContentRefDOMRect();
+    const rect = contentRef.value.getBoundingClientRect();
     const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
@@ -464,12 +450,35 @@ export class Sheet extends LitElement {
     this.sizeOverride.resize(size);
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private updateResizeValues(): void {
+    const { contentRef } = this;
+    if (!contentRef.value) {
+      return;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+
+    this.resizeValues = {
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize: getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight,
+    };
+  }
+
+  private refreshResize(): void {
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
+  }
+
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
 
     const { contentRef, el, resizable, position, open, resizeHandleEl } = this;
 
@@ -477,29 +486,17 @@ export class Sheet extends LitElement {
       return;
     }
 
-    await this.el.componentOnReady();
-
-    const computedStyle = window.getComputedStyle(contentRef.value);
-    this.resizeValues.minInlineSize = parseInt(computedStyle.minInlineSize) || 0;
-    this.resizeValues.maxInlineSize = parseInt(computedStyle.maxInlineSize) || window.innerWidth;
-    this.resizeValues.minBlockSize = parseInt(computedStyle.minBlockSize) || 0;
-    this.resizeValues.maxBlockSize = parseInt(computedStyle.maxBlockSize) || window.innerHeight;
-
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      computedStyle;
-
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
-    };
-
-    this.resizeValues = values;
-
     const rtl = this.direction === "rtl";
+
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+
+    const restrictSizeMax =
+      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -508,18 +505,7 @@ export class Sheet extends LitElement {
         bottom: position === "block-start" ? resizeHandleEl : false,
         left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
-          },
-          max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
       listeners: {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";
@@ -554,7 +540,7 @@ export class Sheet extends LitElement {
 
   private setResizeHandleEl(el: HTMLDivElement): void {
     this.resizeHandleEl = el;
-    this.setupInteractions();
+    this.refreshResize();
   }
 
   private handleOutsideClose(): void {
@@ -578,7 +564,7 @@ export class Sheet extends LitElement {
     const dir = this.direction;
     const isBlockPosition = position === "block-start" || position === "block-end";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "aria-describedby", this.contentId);
+    setAttribute(this.el, "aria-describedby", IDS.sheetContent);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -600,7 +586,7 @@ export class Sheet extends LitElement {
             this.height || this.heightScale
           ),
         }}
-        popover={!this.embedded ? "manual" : null}
+        popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}
       >
         <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />

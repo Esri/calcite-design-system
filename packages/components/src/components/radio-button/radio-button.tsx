@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -6,7 +5,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { Scale } from "../interfaces";
+import { Scale, Status } from "../interfaces";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -33,7 +32,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
   defaultValue: RadioButton["value"];
 
@@ -41,9 +40,9 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   formSupport = useForm({ inputType: "radio" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private rootNode: HTMLElement;
+  private rootNode!: HTMLElement;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -53,7 +52,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -66,12 +65,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) focused = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the component.
@@ -87,11 +82,11 @@ export class RadioButton extends LitElement implements LabelableComponent {
    */
   @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -102,14 +97,24 @@ export class RadioButton extends LitElement implements LabelableComponent {
   /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /** Specifies the status of the input field, which determines message and icons. */
+  @property({ reflect: true }) status: Status = "idle";
+
   /**
-   * The component's current validation state.
+   * The component's validation message.
+   * @internal
+   * @mdn [validationMessage](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/validationMessage)
+   */
+  @property() validationMessage?: string;
+
+  /**
+   * @copyDoc
    *
    * @internal
    * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /**
    * The component's value.
@@ -146,8 +151,11 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @internal
    */
   @method()
-  async setValidity(validity: ValidityStateFlags, validationMessage: string = ""): Promise<void> {
-    this.elementInternals.setValidity(validity, validationMessage);
+  async setValidity(
+    validity: ValidityStateFlags,
+    validationMessage: string | undefined = this.validationMessage,
+  ): Promise<void> {
+    this.elementInternals.setValidity(validity, validationMessage || "");
   }
 
   //#endregion
@@ -409,6 +417,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
         currentIndex = index;
         return true;
       }
+
+      return false;
     });
 
     switch (adjustedKey) {

@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, JsxNode, ToEvents } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
 import { Scale, SelectionMode } from "../interfaces";
 import type { Card } from "../card/card";
@@ -46,7 +45,7 @@ export class CardGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. Child `calcite-card`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -93,7 +92,10 @@ export class CardGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalCardKeyEvent", this.calciteInternalCardKeyEventListener);
+    this.listen<ToEvents<Card>["calciteInternalCardKeyEvent"]>(
+      "calciteInternalCardKeyEvent",
+      this.calciteInternalCardKeyEventListener,
+    );
     this.listen("calciteCardSelect", this.calciteCardSelectListener);
   }
 
@@ -119,7 +121,7 @@ export class CardGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
+  private calciteInternalCardKeyEventListener(event: CustomEvent<KeyboardEvent>): void {
     if (event.composedPath().includes(this.el)) {
       const interactiveItems = this.items.filter((el) => !el.disabled);
       switch (event.detail["key"]) {
@@ -162,7 +164,7 @@ export class CardGroup extends LitElement {
     this.updateItemsScale();
   }
 
-  private updateSlottedItems(target: HTMLSlotElement): void {
+  private updateSlottedItems(target?: HTMLSlotElement): void {
     this.items =
       target
         ?.assignedElements({ flatten: true })

@@ -2,8 +2,39 @@ import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
-import { defaults, disabled, hidden, renders, slots } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
+import {
+  defaults,
+  disabled,
+  hidden,
+  renders,
+  slots,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
+import { CSS, SLOTS } from "./resources";
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() => mount("calcite-tree-item"));
+  });
+
+  describe("with nested children", () => {
+    accessible(() =>
+      mount(
+        <calcite-tree lines>
+          <calcite-tree-item>
+            <a href="#">Child 2</a>
+            <calcite-tree slot="children">
+              <calcite-tree-item>
+                <a href="http://www.esri.com">Grandchild 1</a>
+              </calcite-tree-item>
+            </calcite-tree>
+          </calcite-tree-item>
+        </calcite-tree>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -79,4 +110,80 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-tree-item"), SLOTS);
+});
+
+describe("themed", () => {
+  describe(`selection-mode="none"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="none">
+            <calcite-tree-item> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-text-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.nodeContainer}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="single"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="single">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-text-color-selected": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.nodeContainer}`,
+          selector: "calcite-tree-item",
+        },
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.selectionIcon}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="multiple"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="multiple">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.selectionIcon}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
+  describe(`selection-mode="ancestors"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tree selection-mode="ancestors">
+            <calcite-tree-item selected> Child 1 </calcite-tree-item>
+          </calcite-tree>,
+        ),
+      {
+        "--calcite-tree-selected-icon-color": {
+          targetProp: "color",
+          shadowSelector: `.${CSS.checkbox}`,
+          selector: "calcite-tree-item",
+        },
+      },
+    );
+  });
 });

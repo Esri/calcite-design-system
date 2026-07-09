@@ -1,13 +1,14 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { RenderResult } from "@arcgis/lumina-compiler/testing";
+import type { RenderResult } from "@arcgis/lumina-compiler/testing";
 import {
   componentsWithInputEvent,
-  FormComponent,
+  type FormComponent,
   getClearValidationEventName,
-  ValidationProps,
+  type ValidationProps,
 } from "../../../controllers/useForm";
-import { TestSetup } from "./interfaces";
+import type { TestSetup } from "./interfaces";
+import type { RadioButtonGroup } from "../../../components/radio-button-group/radio-button-group";
 
 interface FormAssociatedOptions {
   /** This value will be set on the component and submitted by the form. */
@@ -133,7 +134,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
   }
 
   async function testRequiredPropertyValidation(setup: TestSetup): Promise<void> {
-    const { el } = (await setup()) as RenderResult<FormComponent>;
+    const { el, reRender } = (await setup()) as RenderResult<FormComponent>;
 
     ensureName(el);
     ensureRequired(el);
@@ -158,18 +159,23 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
 
     const requiredValidationMessage =
       options?.inputType === "radio" ? "Please select one of these options." : "Please fill out this field.";
+    const expectedInvalidValidity = { valueMissing: true, valid: false };
+    const expectedValidValidity = { valueMissing: false, valid: true };
 
     await assertPreventsFormSubmission(el, submitter, requiredValidationMessage);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
-    expect(el.validity).toHaveProperty("valueMissing", true);
+    assertValidityState(el, expectedInvalidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedInvalidValidity);
 
     await assertClearsValidationOnValueChange(el, options, clearValidationHandler);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(1);
-    expect(el.validity).toHaveProperty("valueMissing", false);
+    assertValidityState(el, expectedValidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedValidValidity);
 
     await assertUserMessageNotOverridden(el, submitter);
     expect(calciteInvalidEventHandler).toHaveBeenCalledTimes(2);
-    expect(el.validity).toHaveProperty("valueMissing", true);
+    assertValidityState(el, expectedInvalidValidity);
+    await assertDisabledValidationBehavior(el, reRender, expectedInvalidValidity);
   }
 
   function ensureName(el: FormComponent["el"]): void {
@@ -308,7 +314,7 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
         const values = formData.getAll(inputName);
 
         if (values.length > 1) {
-          resolve(values as string[]);
+          resolve(values);
           return;
         }
 
@@ -377,6 +383,24 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     expectValidationProps(el);
   }
 
+  async function assertDisabledValidationBehavior(
+    el: FormComponent["el"],
+    reRender: () => Promise<boolean>,
+    expectedEnabledValidityState: Partial<ValidityState>,
+  ): Promise<void> {
+    el.disabled = true;
+    await reRender();
+    assertValidityState(el, { valueMissing: false, valid: true });
+
+    el.disabled = false;
+    await reRender();
+    assertValidityState(el, expectedEnabledValidityState);
+  }
+
+  function assertValidityState(el: FormComponent["el"], expectedValidity: Partial<ValidityState>): void {
+    expect(el.validity).toMatchObject(expectedValidity);
+  }
+
   async function assertUserMessageNotOverridden(el: FormComponent["el"], submitter: HTMLInputElement): Promise<void> {
     const customValidationMessage = "This is a custom message.";
     const customValidationIcon = "banana";
@@ -395,13 +419,13 @@ export function formAssociated(setup: TestSetup, options: FormAssociatedOptions)
     });
   }
 
-  function expectValidationProps(element: HTMLElement, validationProps?: ValidationProps): void {
+  function expectValidationProps(element: HTMLElement, validationProps?: Partial<ValidationProps>): void {
     let testProps = validationProps;
 
     // radio-button is form-associated, but the validation props are on the parent group
     if (element.nodeName === "CALCITE-RADIO-BUTTON") {
       element.id = "radio-button";
-      const groupEl = element.closest("calcite-radio-button-group")!;
+      const groupEl = element.closest<RadioButtonGroup["el"]>("calcite-radio-button-group")!;
 
       testProps = {
         message: groupEl.validationMessage,

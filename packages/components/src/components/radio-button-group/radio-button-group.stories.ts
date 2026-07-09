@@ -1,11 +1,15 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { RadioButtonGroup } from "./radio-button-group";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, scale, status } = ATTRIBUTES;
 
-interface RadioButtonGroupStoryArgs extends Pick<RadioButtonGroup, "disabled" | "layout" | "scale"> {
+interface RadioButtonGroupStoryArgs extends Pick<
+  RadioButtonGroup,
+  "disabled" | "layout" | "scale" | "status" | "validationIcon" | "validationMessage"
+> {
   hidden: boolean;
 }
 
@@ -16,6 +20,9 @@ export default {
     hidden: false,
     layout: layout.defaultValue,
     scale: scale.defaultValue,
+    status: status.defaultValue,
+    validationIcon: "",
+    validationMessage: "",
   },
   argTypes: {
     layout: {
@@ -35,6 +42,14 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    status: {
+      options: status.values,
+      control: { type: "select" },
+    },
+    validationIcon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -45,6 +60,9 @@ export const simple = (args: RadioButtonGroupStoryArgs): string => html`
     ${boolean("hidden", args.hidden)}
     layout="${args.layout}"
     scale="${args.scale}"
+    status="${args.status}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
+    validation-message="${args.validationMessage}"
   >
     <calcite-label layout="inline">
       <calcite-radio-button value="react"></calcite-radio-button>
@@ -105,74 +123,78 @@ export const validationMessage = (): string => html`
       gap: 20px;
     }
   </style>
-  <div class="container">
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="s"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="one" scale="s"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="two" scale="s"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="s">
-        <calcite-radio-button value="three" scale="s"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
+  <form>
+    <div class="container">
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-s"
+        required
+        scale="s"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="one" scale="s"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="two" scale="s"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="s">
+          <calcite-radio-button value="three" scale="s"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
 
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="m"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="one" scale="m"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="two" scale="m"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="m">
-        <calcite-radio-button value="three" scale="m"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-m"
+        required
+        scale="m"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="one" scale="m"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="two" scale="m"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="m">
+          <calcite-radio-button value="three" scale="m"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
 
-    <calcite-radio-button-group
-      layout="horizontal"
-      name="validation"
-      required
-      scale="l"
-      status="invalid"
-      validation-icon
-      validation-message="Please select an option."
-    >
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="one" scale="l"></calcite-radio-button>
-        One
-      </calcite-label>
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="two" scale="l"></calcite-radio-button>
-        Two
-      </calcite-label>
-      <calcite-label layout="inline" scale="l">
-        <calcite-radio-button value="three" scale="l"></calcite-radio-button>
-        Three
-      </calcite-label>
-    </calcite-radio-button-group>
-  </div>
+      <calcite-radio-button-group
+        layout="horizontal"
+        name="validation-l"
+        required
+        scale="l"
+        status="invalid"
+        validation-icon
+        validation-message="Please select an option."
+      >
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="one" scale="l"></calcite-radio-button>
+          One
+        </calcite-label>
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="two" scale="l"></calcite-radio-button>
+          Two
+        </calcite-label>
+        <calcite-label layout="inline" scale="l">
+          <calcite-radio-button value="three" scale="l"></calcite-radio-button>
+          Three
+        </calcite-label>
+      </calcite-radio-button-group>
+      <calcite-button type="submit">Submit</calcite-button>
+      <calcite-button type="reset" kind="danger">Reset</calcite-button>
+    </div>
+  </form>
 `;

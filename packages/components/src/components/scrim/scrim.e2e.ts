@@ -1,21 +1,10 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { Scale } from "../interfaces";
 import { mockConsole } from "../../tests/utils/logging";
 import { BREAKPOINTS, CSS } from "./resources";
-
 mockConsole();
-
-describe("accessible", () => {
-  accessible("<calcite-scrim>My content</calcite-scrim>");
-});
-
-describe("accessible when loading", () => {
-  accessible("<calcite-scrim loading>My content</calcite-scrim>");
-});
 
 it("shows loading component", async () => {
   const page = await newE2EPage();
@@ -185,9 +174,10 @@ describe("Responsive loading spinner", () => {
       expect(scrimContainer).toBeDefined();
       await page.$eval(
         ".scrim-container",
-        (scrimContainer: HTMLElement, width: number, height: number) => {
-          scrimContainer.style.width = `${width}px`;
-          scrimContainer.style.height = `${height}px`;
+        (scrimContainer, width, height) => {
+          const { style } = scrimContainer as HTMLElement;
+          style.width = `${width}px`;
+          style.height = `${height}px`;
         },
         width,
         height,

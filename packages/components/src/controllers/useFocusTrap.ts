@@ -45,11 +45,13 @@ export interface UseFocusTrap {
   updateContainerElements: () => void;
 }
 
-interface UseFocusTrapOptions<T extends LitElement = LitElement> {
+export interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * The name of the prop that will trigger the focus trap to activate.
+   *
+   * When omitted, activation is controlled only through controller methods.
    */
-  triggerProp: keyof T;
+  triggerProp?: keyof T;
 
   /**
    * Options to pass to the focus-trap library.
@@ -57,7 +59,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: Options;
 }
 
-interface FocusTrapComponent extends LitElement {
+export interface FocusTrapComponent extends LitElement {
   /*
    * When `true` prevents focus trapping.
    */
@@ -210,31 +212,71 @@ export function createFocusTrapOptions(
  * @param options
  */
 export const useFocusTrap = <T extends FocusTrapComponent>(
-  options: UseFocusTrapOptions<T>,
+  options: UseFocusTrapOptions<T> = {},
 ): ReturnType<typeof makeGenericController<UseFocusTrap, T>> => {
   return makeGenericController<UseFocusTrap, T>((component, controller) => {
     let focusTrap: FocusTrap;
     let focusTrapEl: HTMLElement;
     let effectiveContainers: FocusTrapOptions["extraContainers"];
+    let requestedActive = false;
     const internalFocusTrapOptions = options.focusTrapOptions;
+    const isTriggerActive = (): boolean => (options.triggerProp ? Boolean(component[options.triggerProp]) : true);
+    const shouldAutoActivate = (): boolean => (options.triggerProp ? isTriggerActive() : requestedActive);
+    const canActivateTrap = (): boolean =>
+      typeof component.focusTrapDisabledOverride === "function"
+        ? !component.focusTrapDisabledOverride()
+        : !component.focusTrapDisabled;
+
+    const activateTrap = (): void => {
+      const targetEl = focusTrapEl || component.el;
+
+      if (!targetEl.isConnected) {
+        return;
+      }
+
+      if (!focusTrap) {
+        effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
+
+        focusTrap = createFocusTrap(
+          effectiveContainers,
+          createFocusTrapOptions(targetEl, {
+            ...internalFocusTrapOptions,
+            ...component.focusTrapOptions,
+          }),
+        );
+      }
+
+      if (canActivateTrap()) {
+        focusTrap.activate();
+      }
+    };
+
+    const deactivateTrap = (): void => {
+      focusTrap?.deactivate();
+    };
 
     controller.onConnected(() => {
-      if (component[options.triggerProp] && focusTrap) {
-        utils.activate();
+      if (focusTrap && shouldAutoActivate()) {
+        activateTrap();
       }
     });
 
     controller.onUpdate((changes) => {
-      if (component.hasUpdated && changes.has("focusTrapDisabled")) {
-        if (component.focusTrapDisabled) {
-          utils.deactivate();
-        } else {
-          utils.activate();
-        }
+      if (!component.hasUpdated || !changes.has("focusTrapDisabled")) {
+        return;
+      }
+
+      if (component.focusTrapDisabled || !isTriggerActive()) {
+        deactivateTrap();
+        return;
+      }
+
+      if (shouldAutoActivate()) {
+        activateTrap();
       }
     });
 
-    controller.onDisconnected(() => utils.deactivate());
+    controller.onDisconnected(() => deactivateTrap());
 
     const utils: UseFocusTrap = {
       get _instance() {
@@ -246,33 +288,13 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
       },
 
       activate: () => {
-        const targetEl = focusTrapEl || component.el;
-
-        if (!targetEl.isConnected) {
-          return;
-        }
-
-        if (!focusTrap) {
-          effectiveContainers ||= getEffectiveContainerElements(targetEl, component);
-
-          focusTrap = createFocusTrap(
-            effectiveContainers,
-            createFocusTrapOptions(targetEl, {
-              ...internalFocusTrapOptions,
-              ...component.focusTrapOptions,
-            }),
-          );
-        }
-
-        if (
-          typeof component.focusTrapDisabledOverride === "function"
-            ? !component.focusTrapDisabledOverride()
-            : !component.focusTrapDisabled
-        ) {
-          focusTrap.activate();
-        }
+        requestedActive = true;
+        activateTrap();
       },
-      deactivate: () => focusTrap?.deactivate(),
+      deactivate: () => {
+        requestedActive = false;
+        deactivateTrap();
+      },
       overrideFocusTrapEl: (el: HTMLElement) => {
         if (focusTrap) {
           throw new Error("Focus trap already created");

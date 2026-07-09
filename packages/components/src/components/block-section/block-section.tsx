@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -61,16 +60,16 @@ export class BlockSection extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true, type: String }) iconStart?: IconName;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -100,10 +99,10 @@ export class BlockSection extends LitElement {
    *
    * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
    */
-  @property({ reflect: true }) status: Status;
+  @property({ reflect: true }) status?: Status;
 
   /** The component header text. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
    * Specifies how the component's toggle is displayed, where:
@@ -184,7 +183,7 @@ export class BlockSection extends LitElement {
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
-    const statusIcon = ICONS[status] ?? false;
+    const statusIcon = status && ICONS[status];
     const statusIconClasses = {
       [CSS.statusIcon]: true,
       [CSS.valid]: status == "valid",

@@ -3,12 +3,15 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Table } from "./table";
 
-const { interactionMode, selectionMode, scale, layout } = ATTRIBUTES;
+const { interactionMode, selectionDisplay, selectionMode, scale, layout } = ATTRIBUTES;
 
 type TableStoryArgs = Pick<
   Table,
+  | "currentPage"
   | "pageSize"
+  | "groupSeparator"
   | "interactionMode"
+  | "numberingSystem"
   | "selectionMode"
   | "selectionDisplay"
   | "scale"
@@ -16,14 +19,18 @@ type TableStoryArgs = Pick<
   | "caption"
   | "numbered"
   | "bordered"
+  | "stickyHeader"
   | "striped"
 >;
 
 export default {
   title: "Components/Table",
   args: {
+    currentPage: 1,
     pageSize: 0,
+    groupSeparator: false,
     interactionMode: interactionMode.defaultValue,
+    numberingSystem: "",
     selectionMode: selectionMode.values[1],
     selectionDisplay: "top",
     scale: scale.defaultValue,
@@ -32,6 +39,7 @@ export default {
     numbered: false,
     bordered: false,
     striped: false,
+    stickyHeader: false,
   },
   argTypes: {
     interactionMode: {
@@ -46,7 +54,7 @@ export default {
       control: { type: "select" },
     },
     selectionDisplay: {
-      options: ["none", "top"],
+      options: selectionDisplay.values,
       control: { type: "select" },
     },
     scale: {
@@ -71,8 +79,11 @@ export default {
 
 export const simple = (args: TableStoryArgs): string => html`
   <calcite-table
+    current-page="${args.currentPage}"
     page-size="${args.pageSize}"
+    ${boolean("group-separator", args.groupSeparator)}
     interaction-mode="${args.interactionMode}"
+    numbering-system="${args.numberingSystem}"
     selection-mode="${args.selectionMode}"
     selection-display="${args.selectionDisplay}"
     scale="${args.scale}"
@@ -1457,6 +1468,40 @@ export const tableBorderedWithStripedAndSingleFooter = (): string =>
     </calcite-table-row>
   </calcite-table>`;
 
+export const tableBorderedWithMultipleHeader = (): string =>
+  html`<calcite-table bordered caption="Simple-bordered-with-multiple-headers table" selection-mode="multiple">
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row slot="table-header">
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+    <calcite-table-row>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+      <calcite-table-cell>cell</calcite-table-cell>
+    </calcite-table-row>
+  </calcite-table>`;
+
 export const tableBorderedWithMultipleFooter = (): string =>
   html`<calcite-table bordered caption="Simple-bordered-with-footer table" selection-mode="multiple">
     <calcite-table-row slot="table-header">
@@ -1683,5 +1728,201 @@ export const darkModeRTLWithSelection = (): string =>
       <calcite-table-cell>cell</calcite-table-cell>
     </calcite-table-row>
   </calcite-table>`;
+
+const stickyHeaderBodyRow = html`
+  <calcite-table-row>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+    <calcite-table-cell>cell</calcite-table-cell>
+  </calcite-table-row>
+`;
+
+const stickyHeaderBodyRowCount = 10;
+
+const stickyHeaderFirstBodyRow = html`
+  <calcite-table-row>
+    <calcite-table-cell>first row</calcite-table-cell>
+    <calcite-table-cell>first row</calcite-table-cell>
+    <calcite-table-cell>first row</calcite-table-cell>
+    <calcite-table-cell>first row</calcite-table-cell>
+  </calcite-table-row>
+`;
+
+const stickyHeaderLastBodyRow = html`
+  <calcite-table-row>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+    <calcite-table-cell>last row</calcite-table-cell>
+  </calcite-table-row>
+`;
+
+const stickyHeaderBodyRows = [
+  stickyHeaderFirstBodyRow,
+  Array.from({ length: stickyHeaderBodyRowCount - 1 }, () => stickyHeaderBodyRow).join("\n"),
+  stickyHeaderLastBodyRow,
+].join("\n");
+
+const stickyHeaderSingleTable = html`<calcite-table
+  caption="Sticky header table"
+  sticky-header
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderSingleTableBordered = html`<calcite-table
+  bordered
+  caption="Sticky header table"
+  sticky-header
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderSingleTableSelectionMultiplePaginated = html`<calcite-table
+  bordered
+  caption="Sticky header table with selection and pagination"
+  sticky-header
+  selection-mode="multiple"
+  page-size="8"
+  style="block-size: 20rem;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderSingleTableSelectionMultiplePaginatedUnbordered = html`<calcite-table
+  caption="Sticky header table with selection and pagination"
+  sticky-header
+  selection-mode="multiple"
+  page-size="8"
+  style="block-size: 20rem; inline-size: 400px;"
+>
+  <calcite-table-row slot="table-header">
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+    <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+  </calcite-table-row>
+  ${stickyHeaderBodyRows}
+</calcite-table>`;
+
+const stickyHeaderStoryGrid = html`<div
+  style="display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-items: flex-start;"
+>
+  ${stickyHeaderSingleTableBordered} ${stickyHeaderSingleTable} ${stickyHeaderSingleTableSelectionMultiplePaginated}
+  ${stickyHeaderSingleTableSelectionMultiplePaginatedUnbordered}
+</div>`;
+
+export const stickyHeader = (): string => stickyHeaderStoryGrid;
+
+export const tablesWithOverflow = (): string => html`
+  <div style="display: grid; gap: 1rem; grid-template-columns: repeat(4, 1fr); align-items: flex-start;">
+    <calcite-table bordered caption="Simple table" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table bordered caption="Simple table" sticky-header style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table caption="Simple table" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table caption="Simple table" sticky-header style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" alignment="end"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table bordered selection-mode="multiple" page-size="8" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table
+      bordered
+      sticky-header
+      selection-mode="multiple"
+      page-size="8"
+      style="block-size: 20rem;inline-size: 300px;"
+    >
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table selection-mode="multiple" page-size="8" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+
+    <calcite-table sticky-header selection-mode="multiple" page-size="8" style="block-size: 20rem;inline-size: 300px;">
+      <calcite-table-row slot="table-header">
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+        <calcite-table-header heading="Heading" description="Description"></calcite-table-header>
+      </calcite-table-row>
+      ${stickyHeaderBodyRows}
+    </calcite-table>
+  </div>
+`;
 
 darkModeRTLWithSelection.parameters = { themes: modesDarkDefault };

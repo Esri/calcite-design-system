@@ -1,6 +1,7 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import * as icons from "../../../../../node_modules/@esri/calcite-ui-icons";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Link } from "./link";
 
 // we can get all unique icon names from all size 16 non-filled icons.
@@ -8,7 +9,12 @@ const iconNames = Object.keys(icons)
   .filter((iconName) => iconName.endsWith("16"))
   .map((iconName) => iconName.replace("16", ""));
 
-interface LinkStoryArgs extends Pick<Link, "href" | "disabled"> {
+const { fontSize, fontWeight } = ATTRIBUTES;
+
+interface LinkStoryArgs extends Pick<
+  Link,
+  "disabled" | "download" | "href" | "iconEnd" | "iconFlipRtl" | "iconStart" | "rel" | "target"
+> {
   containingFontSize: string;
   containingFontWeight: string;
   text: string;
@@ -22,17 +28,31 @@ export default {
     containingFontWeight: "400",
     href: "http://www.esri.com",
     disabled: false,
+    download: false,
+    iconEnd: "",
+    iconFlipRtl: false,
+    iconStart: "",
+    rel: "",
+    target: "",
     text: "link text here",
     longText:
       "Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique magnis justo tincidunt. Lacinia et euismod massa aliquam venenatis sem arcu tellus.",
   },
   argTypes: {
     containingFontSize: {
-      options: ["12", "14", "16", "18", "20", "24", "32"],
+      options: fontSize.values,
       control: { type: "select" },
     },
     containingFontWeight: {
-      options: ["300", "400", "500", "700"],
+      options: fontWeight.values,
+      control: { type: "select" },
+    },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
   },
@@ -41,7 +61,16 @@ export default {
 export const simple = (args: LinkStoryArgs): string => html`
   <div style="font-size: ${args.containingFontSize}px; font-weight: ${args.containingFontWeight};">
     Some wrapping text
-    <calcite-link href="${args.href}" ${boolean("disabled", args.disabled)}>${args.text}</calcite-link>
+    <calcite-link
+      ${boolean("download", !!args.download)}
+      href="${args.href}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
+      ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
+      rel="${args.rel}"
+      target="${args.target}"
+      >${args.text}</calcite-link
+    >
     around the link
   </div>
 `;

@@ -1,14 +1,13 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
 import type { Action } from "../action/action";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/interfaces";
-import { CSS, SLOTS } from "./resources";
+import { CSS } from "./resources";
 import type { FlowItem } from "./flow-item";
 
 type TestWindow = GlobalTestProps<{
@@ -16,32 +15,6 @@ type TestWindow = GlobalTestProps<{
 }>;
 
 mockConsole();
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-flow-item>
-      <div slot="${SLOTS.headerActionsStart}">test start</div>
-      <div slot="${SLOTS.headerContent}">test content</div>
-      <div slot="${SLOTS.headerActionsEnd}">test end</div>
-      <p>Content</p>
-      <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-      <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-    </calcite-flow-item>
-  `);
-
-  describe("collapsible", () => {
-    accessible(html`
-      <calcite-flow-item collapsible>
-        <div slot="${SLOTS.headerActionsStart}">test start</div>
-        <div slot="${SLOTS.headerContent}">test content</div>
-        <div slot="${SLOTS.headerActionsEnd}">test end</div>
-        <p>Content</p>
-        <calcite-button slot="${SLOTS.footerStart}">test button 1</calcite-button>
-        <calcite-button slot="${SLOTS.footerEnd}">test button 2</calcite-button>
-      </calcite-flow-item>
-    `);
-  });
-});
 
 it("showBackButton", async () => {
   const page = await newE2EPage();
@@ -75,7 +48,7 @@ it("showBackButton", async () => {
   const calciteFlowItemBack = await page.spyOnEvent("calciteFlowItemBack", "window");
 
   await page.$eval("calcite-flow-item", (elm: HTMLElement) => {
-    const nativeBackButton = elm.shadowRoot.querySelector(`calcite-action`);
+    const nativeBackButton = elm.shadowRoot!.querySelector(`calcite-action`)!;
     nativeBackButton.click();
   });
 
@@ -108,7 +81,9 @@ it("sets collapsible and collapsed on internal panel", async () => {
   expect(await panel.getProperty("collapsed")).toBe(true);
   expect(await panel.getProperty("collapsible")).toBe(true);
 
-  await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el: Action["el"]) => el.click());
+  await page.$eval(`calcite-flow-item >>> calcite-panel >>> #${PanelIDS.collapse}`, (el) =>
+    (el as Action["el"]).click(),
+  );
   await page.waitForChanges();
 
   expect(await flowItem.getProperty("collapsed")).toBe(false);
@@ -235,7 +210,7 @@ it("should not close when slotted panels are closed", async () => {
   );
   await page.waitForChanges();
 
-  await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el: Action["el"]) => el.click());
+  await page.$eval(`calcite-panel >>> #${PanelIDS.close}`, (el) => (el as Action["el"]).click());
   await page.waitForChanges();
 
   const flowItem = await page.find("calcite-flow-item");
@@ -261,87 +236,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("collapsed")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  themed(html`<calcite-flow-item show-back-button icon="banana"></calcite-flow-item>`, {
-    "--calcite-flow-corner-radius": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-corner-radius",
-    },
-    "--calcite-flow-heading-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-heading-text-color",
-    },
-    "--calcite-flow-icon-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-icon-color",
-    },
-    "--calcite-flow-description-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-description-text-color",
-    },
-    "--calcite-flow-border-color": [
-      {
-        shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-border-color",
-      },
-    ],
-    "--calcite-flow-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-background-color",
-    },
-    "--calcite-flow-header-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-background-color",
-    },
-    "--calcite-flow-footer-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-footer-background-color",
-    },
-    "--calcite-flow-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-space",
-    },
-    "--calcite-flow-header-content-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-content-space",
-    },
-    "--calcite-flow-content-top-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-content-top-space",
-    },
-    "--calcite-flow-content-bottom-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-content-bottom-space",
-    },
-    "--calcite-flow-footer-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-footer-space",
-    },
-    "--calcite-flow-header-action-background-color-hover": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color-hover",
-    },
-    "--calcite-flow-header-action-background-color-press": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color-press",
-    },
-    "--calcite-flow-header-action-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color",
-    },
-    "--calcite-flow-header-action-indicator-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-indicator-color",
-    },
-    "--calcite-flow-header-action-text-color-press": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-text-color-press",
-    },
-    "--calcite-flow-header-action-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-text-color",
-    },
-  });
 });

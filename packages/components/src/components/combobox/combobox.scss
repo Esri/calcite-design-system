@@ -6,6 +6,7 @@
  * @prop --calcite-combobox-divider-color: Specifies the component's divider color.
  * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
  * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
+ * @prop --calcite-combobox-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
  * @prop --calcite-combobox-input-border-color: Specifies the border color of the component's input.
  * @prop --calcite-combobox-input-background-color: Specifies the background color of the component's input.
@@ -68,6 +69,7 @@
   @apply focus-base flex border border-solid;
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
+  border-radius: var(--calcite-combobox-corner-radius, var(--calcite-corner-radius));
   background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));

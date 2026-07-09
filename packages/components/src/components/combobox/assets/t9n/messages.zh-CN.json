@@ -4,7 +4,7 @@
   "allSelected": "选择全部",
   "clear": "清除值",
   "noMatches": "无任何匹配项",
-  "removeTag": "移除标签",
+  "removeTag": "Remove {value} tag",
   "required": "必需项",
   "selectAll": "全选",
   "selected": "选择",

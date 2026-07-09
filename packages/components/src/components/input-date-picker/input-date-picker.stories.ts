@@ -1,17 +1,29 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { supportedNlsLocales } from "../date-picker/utils";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
-  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  | "calendars"
+  | "disabled"
+  | "layout"
+  | "max"
+  | "min"
+  | "open"
+  | "placeholder"
+  | "placement"
+  | "range"
+  | "readOnly"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 > {
   lang: string;
 }
@@ -19,13 +31,20 @@ interface InputDatePickerStoryArgs extends Pick<
 export default {
   title: "Components/Controls/InputDatePicker",
   args: {
+    calendars: calendarCount.defaultValue,
+    disabled: false,
+    layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
-    placement: defaultMenuPlacement,
+    open: true,
+    placeholder: "Enter a date",
+    placement: menuPlacement.defaultValue,
+    range: false,
+    readOnly: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -39,11 +58,19 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: calendarCount.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     validationIcon: {
@@ -65,13 +92,19 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       scale="${args.scale}"
       status="${args.status}"
       value="${args.value}"
+      calendars="${args.calendars}"
+      ${boolean("disabled", args.disabled)}
       lang="${args.lang}"
+      layout="${args.layout}"
       min="${args.min}"
       max="${args.max}"
+      ${boolean("open", args.open)}
+      placeholder="${args.placeholder}"
       placement="${args.placement}"
+      ${boolean("range", args.range)}
+      ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
-      open="${boolean("open", true)}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
   </div>
 `;
@@ -188,104 +221,63 @@ export const validationMessageAllScales = (): string => html`
   </div>
 `;
 
-export const defaultAllScales = (): string => html`
-  <style>
-    .container {
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-      inline-size: 1200px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker scale="s" icon open value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="m" icon open value="2020-12-12"></calcite-input-date-picker>
-    <calcite-input-date-picker scale="l" icon open value="2020-12-12"></calcite-input-date-picker>
-  </div>
-`;
+const allScalesTemplate = (layout: "horizontal" | "vertical", range = false, calendars = 2): string => {
+  const scales = scale.values;
+  return html`<style>
+      .container {
+        block-size: 500px;
+        display: flex;
+        gap: 100px;
+      }
+      .range--horizontal {
+        inline-size: 2400px;
+      }
+    </style>
+    <div class="container ${range && layout === "horizontal" ? "range--horizontal" : ""}">
+      ${scales
+        .map(
+          (scale) => html`
+            <calcite-input-date-picker
+              scale="${scale}"
+              open
+              value="2020-12-12"
+              min="2020-12-12"
+              max="2020-12-16"
+              layout="${layout}"
+              calendars="${calendars}"
+              ${boolean("range", range)}
+            ></calcite-input-date-picker>
+          `,
+        )
+        .join("")}
+    </div>`;
+};
 
-export const rangeSmallAndLargeScales = (): string => html`
-  <style>
-    .container {
-      inline-size: 1500px;
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker
-      scale="s"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="l"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-  </div>
-`;
+export const allScalesHorizontal = (): string => allScalesTemplate("horizontal");
 
-export const rangeOneCalendarsAllScales = (): string => html`
-  <style>
-    .container {
-      block-size: 500px;
-      display: flex;
-      gap: 100px;
-      inline-size: 1200px;
-    }
-  </style>
-  <div class="container">
-    <calcite-input-date-picker
-      scale="s"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="m"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-    <calcite-input-date-picker
-      scale="l"
-      open
-      min="2020-12-12"
-      max="2020-12-16"
-      range
-      layout="horizontal"
-      value="2020-12-12"
-      calendars="1"
-      overlay-positioning="fixed"
-      placement="bottom-start"
-    ></calcite-input-date-picker>
-  </div>
-`;
+export const allScalesVertical = (): string => allScalesTemplate("vertical");
+
+export const allScalesRangeHorizontal = (): string => allScalesTemplate("horizontal", true);
+
+allScalesRangeHorizontal.parameters = {
+  chromatic: {
+    modes: {
+      largeScreen: {
+        viewport: {
+          width: 2500,
+          height: 800,
+        },
+      },
+    },
+    cropToViewport: true,
+  },
+};
+
+export const allScalesRangeVertical = (): string => allScalesTemplate("vertical", true);
+
+export const allScalesRangeOneCalendarHorizontal = (): string => allScalesTemplate("horizontal", true, 1);
+
+export const allScalesRangeOneCalendarVertical = (): string => allScalesTemplate("vertical", true, 1);
 
 export const arabicLocaleDarkModeRTL = (): string => html`
   <style>
