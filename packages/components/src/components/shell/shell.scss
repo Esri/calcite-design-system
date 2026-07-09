@@ -37,10 +37,7 @@
     flex-col
     flex-nowrap
     overflow-auto;
-  flex: 1 1 0;
   justify-content: space-between;
-  inline-size: auto;
-  min-inline-size: 0;
 }
 
 .content ::slotted(calcite-panel),
