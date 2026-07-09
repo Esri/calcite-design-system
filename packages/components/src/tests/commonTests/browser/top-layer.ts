@@ -16,7 +16,10 @@ type TopLayerOptions = {
   /**
    * Locator for the element that will be placed in the top layer.
    *
-   * Defaults to first element with the popover attribute present.
+   * Defaults to all elements matching `[popover]`.
+   *
+   * If this locator resolves to multiple elements, provide `topLayerTargetSelector`
+   * or a more specific `topLayerTarget` locator to avoid ambiguous assertions.
    */
   topLayerTarget?: Locator;
 
