@@ -177,7 +177,7 @@
 }
 
 :host .stepper-item-heading {
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(--calcite-font-weight-normal);
   color: var(--calcite-stepper-item-header-text-color, var(--calcite-color-text-1));
 }
 :host .stepper-item-description {
@@ -185,7 +185,7 @@
 }
 
 :host .stepper-item-number {
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(--calcite-font-weight-normal);
   margin-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
   color: var(--calcite-stepper-item-description-text-color, var(--calcite-color-text-1));
 }

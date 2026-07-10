@@ -154,7 +154,7 @@
   @apply flex justify-end items-center whitespace-nowrap;
 
   font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
-  font-weight: var(--calcite-font-weight-regular);
+  font-weight: var(--calcite-font-weight-normal);
   color: var(--calcite-text-area-character-limit-text-color, var(--calcite-color-text-2));
   padding-inline-start: var(--calcite-spacing-md);
 }
