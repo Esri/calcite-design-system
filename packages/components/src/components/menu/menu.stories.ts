@@ -87,6 +87,476 @@ export const iconsAndBreadcrumbVertical = (): string =>
     ></calcite-menu-item>
   </calcite-menu>`;
 
+export const scaleComparison = (): string => html`
+  <style>
+    .menu-scale-test {
+      display: grid;
+      gap: 3rem;
+    }
+
+    .comparison-section {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .comparison-grid {
+      align-items: start;
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: 12rem repeat(3, minmax(14rem, 1fr));
+    }
+
+    .column-heading,
+    .row-heading {
+      font-weight: 600;
+    }
+
+    .row-heading {
+      padding-block-start: 0.75rem;
+    }
+
+    .comparison-section h2 {
+      margin: 0;
+    }
+  </style>
+
+  <div class="menu-scale-test">
+    <section class="comparison-section">
+      <h2>Horizontal</h2>
+      <div class="comparison-grid">
+        <div></div>
+        <div class="column-heading">Scale m</div>
+        <div class="column-heading">Scale s</div>
+        <div class="column-heading">Scale l</div>
+
+        <div class="row-heading">Default</div>
+        <calcite-menu label="Horizontal default scale m">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="m" text="Default" />
+        </calcite-menu>
+        <calcite-menu label="Horizontal default scale s">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="s" text="Default" />
+        </calcite-menu>
+        <calcite-menu label="Horizontal default scale l">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="l" text="Default" />
+        </calcite-menu>
+
+        <div class="row-heading">Has children</div>
+        <calcite-menu label="Horizontal has children scale m">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="m"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="m"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="m"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Horizontal has children scale s">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="s"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="s"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="s"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Horizontal has children scale l">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="l"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="l"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="l"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <div class="row-heading">Has children + href</div>
+        <calcite-menu label="Horizontal has children and href scale m">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="m"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="m"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Horizontal has children and href scale s">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="s"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="s"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Horizontal has children and href scale l">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="l"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="l"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <div class="row-heading">Has breadcrumbs</div>
+        <calcite-menu label="Horizontal has breadcrumbs scale m">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="m"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+        <calcite-menu label="Horizontal has breadcrumbs scale s">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="s"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+        <calcite-menu label="Horizontal has breadcrumbs scale l">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="l"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+      </div>
+    </section>
+
+    <section class="comparison-section">
+      <h2>Vertical</h2>
+      <div class="comparison-grid">
+        <div></div>
+        <div class="column-heading">Scale m</div>
+        <div class="column-heading">Scale s</div>
+        <div class="column-heading">Scale l</div>
+
+        <div class="row-heading">Default</div>
+        <calcite-menu label="Vertical default scale m" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="m" text="Default" />
+        </calcite-menu>
+        <calcite-menu label="Vertical default scale s" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="s" text="Default" />
+        </calcite-menu>
+        <calcite-menu label="Vertical default scale l" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Default" scale="l" text="Default" />
+        </calcite-menu>
+
+        <div class="row-heading">Has children</div>
+        <calcite-menu label="Vertical has children scale m" layout="vertical">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="m"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="m"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="m"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical has children scale s" layout="vertical">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="s"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="s"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="s"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical has children scale l" layout="vertical">
+          <calcite-menu-item
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children"
+            open
+            scale="l"
+            text="Has children"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child one"
+              scale="l"
+              slot="submenu-item"
+              text="Child one"
+            />
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Child two"
+              scale="l"
+              slot="submenu-item"
+              text="Child two"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <div class="row-heading">Is child</div>
+        <calcite-menu label="Vertical child scale m" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="m" text="Parent">
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Is child"
+              scale="m"
+              slot="submenu-item"
+              text="Is child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical child scale s" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="s" text="Parent">
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Is child"
+              scale="s"
+              slot="submenu-item"
+              text="Is child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical child scale l" layout="vertical">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" label="Parent" open scale="l" text="Parent">
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Is child"
+              scale="l"
+              slot="submenu-item"
+              text="Is child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <div class="row-heading">Has children + href</div>
+        <calcite-menu label="Vertical has children and href scale m" layout="vertical">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="m"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="m"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical has children and href scale s" layout="vertical">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="s"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="s"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+        <calcite-menu label="Vertical has children and href scale l" layout="vertical">
+          <calcite-menu-item
+            href="#"
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has children and href"
+            open
+            scale="l"
+            text="Has children + href"
+          >
+            <calcite-menu-item
+              icon-end="diamond"
+              icon-start="diamond"
+              label="Linked child"
+              scale="l"
+              slot="submenu-item"
+              text="Linked child"
+            />
+          </calcite-menu-item>
+        </calcite-menu>
+
+        <div class="row-heading">Has breadcrumbs</div>
+        <calcite-menu label="Vertical has breadcrumbs scale m" layout="vertical">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="m"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+        <calcite-menu label="Vertical has breadcrumbs scale s" layout="vertical">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="s"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+        <calcite-menu label="Vertical has breadcrumbs scale l" layout="vertical">
+          <calcite-menu-item
+            breadcrumb
+            icon-end="diamond"
+            icon-start="diamond"
+            label="Has breadcrumbs"
+            scale="l"
+            text="Has breadcrumbs"
+          />
+        </calcite-menu>
+      </div>
+    </section>
+  </div>
+`;
+
 export const withNesting = (): string =>
   html`<calcite-panel>
     <calcite-menu layout="horizontal">

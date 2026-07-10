@@ -10,8 +10,9 @@ import {
   JsxNode,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
-import { FlipContext, Layout } from "../interfaces";
+import { FlipContext, Layout, Scale } from "../interfaces";
 import { Direction, slotChangeGetAssignedElements } from "../../utils/dom";
+import { getIconScale } from "../../utils/component";
 import { CSS_UTILITY } from "../../utils/resources";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
@@ -104,6 +105,9 @@ export class MenuItem extends LitElement {
   /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
   @property({ reflect: true }) open = false;
 
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /**
    * Defines the relationship between the `href` value and the current document.
    *
@@ -165,6 +169,10 @@ export class MenuItem extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private getContentIconScale(): "s" | "m" {
+    return this.layout === "vertical" ? "s" : getIconScale(this.scale);
+  }
 
   private handleClickOut(event: Event): void {
     if (
@@ -293,7 +301,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "start" || this.iconFlipRtl === "both"}
         icon={this.iconStart}
         key={CSS.iconStart}
-        scale="s"
+        scale={this.getContentIconScale()}
       />
     );
   }
@@ -305,7 +313,7 @@ export class MenuItem extends LitElement {
         flipRtl={this.iconFlipRtl === "end" || this.iconFlipRtl === "both"}
         icon={this.iconEnd}
         key={CSS.iconEnd}
-        scale="s"
+        scale={this.getContentIconScale()}
       />
     );
   }
@@ -316,7 +324,7 @@ export class MenuItem extends LitElement {
         class={`${CSS.icon} ${CSS.iconBreadcrumb}`}
         icon={dir === "rtl" ? ICONS.chevronLeft : ICONS.chevronRight}
         key={CSS.iconBreadcrumb}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -334,7 +342,7 @@ export class MenuItem extends LitElement {
             : dirChevron
         }
         key={CSS.iconDropdown}
-        scale="s"
+        scale={getIconScale(this.scale)}
       />
     );
   }
@@ -356,6 +364,7 @@ export class MenuItem extends LitElement {
         onClick={this.clickHandler}
         onKeyDown={this.keyDownHandler}
         ref={this.dropdownActionRef}
+        scale={this.scale}
         text={this.messages.open}
       />
     );
@@ -386,23 +395,26 @@ export class MenuItem extends LitElement {
         class={CSS.hoverHrefIcon}
         icon={dir === "rtl" ? ICONS.arrowLeft : ICONS.arrowRight}
         key={CSS.hoverHrefIcon}
-        scale="s"
+        scale={this.getContentIconScale()}
       />
     );
   }
 
   private renderItemContent(dir: Direction): JsxNode {
     const hasHref = this.href && (this.topLevelMenuLayout === "vertical" || !this.isTopLevelItem);
+    const hasDropdownIcon = !this.href && this.hasSubmenu;
     return (
       <>
-        {this.iconStart && this.renderIconStart()}
-        <div class={CSS.textContainer}>
-          <span>{this.text}</span>
+        <div class={CSS.contentContainer}>
+          {this.iconStart && this.renderIconStart()}
+          <div class={CSS.textContainer}>
+            <span>{this.text}</span>
+          </div>
+          {hasHref && this.renderHrefIcon(dir)}
+          {this.iconEnd && this.renderIconEnd()}
+          {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         </div>
-        {hasHref && this.renderHrefIcon(dir)}
-        {this.iconEnd && this.renderIconEnd()}
-        {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
-        {!this.href && this.hasSubmenu ? this.renderDropdownIcon(dir) : null}
+        {hasDropdownIcon ? this.renderDropdownIcon(dir) : null}
       </>
     );
   }
