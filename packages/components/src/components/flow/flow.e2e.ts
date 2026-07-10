@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { CSS as ITEM_CSS } from "../flow-item/resources";
 import { findAll, isElementFocused } from "../../tests/utils/puppeteer";
 import type { Action } from "../action/action";
@@ -75,8 +74,8 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#two",
-      (elm: FlowItem["el"], backButtonCSS: string) => {
-        elm.shadowRoot.querySelector<Action["el"]>(`.${backButtonCSS}`)?.click();
+      (elm, backButtonCSS: string) => {
+        elm.shadowRoot!.querySelector<Action["el"]>(`.${backButtonCSS}`)!.click();
       },
       ITEM_CSS.backButton,
     );
@@ -108,7 +107,7 @@ describe("works with flow-items", () => {
 
       lastFlowItem?.addEventListener("calciteFlowItemBack", (event) => event.preventDefault());
 
-      lastFlowItem?.shadowRoot.querySelector<HTMLElement>(backButtonSelector)?.click();
+      lastFlowItem?.shadowRoot!.querySelector<HTMLElement>(backButtonSelector)!.click();
     }, `.${ITEM_CSS.backButton}`);
     await page.waitForChanges();
 
@@ -135,7 +134,10 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#last-item",
-      (elm: FlowItem["el"]) => (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
+      (elm) =>
+        ((elm as FlowItem["el"]).beforeBack = (
+          window as typeof window & Pick<FlowItem["el"], "beforeBack">
+        ).beforeBack),
     );
 
     const flow = await page.find("calcite-flow");
@@ -161,7 +163,10 @@ describe("works with flow-items", () => {
 
     await page.$eval(
       "#two",
-      (elm: FlowItem["el"]) => (elm.beforeBack = (window as typeof window & Pick<typeof elm, "beforeBack">).beforeBack),
+      (elm) =>
+        ((elm as FlowItem["el"]).beforeBack = (
+          window as typeof window & Pick<FlowItem["el"], "beforeBack">
+        ).beforeBack),
     );
 
     const flow = await page.find("calcite-flow");
@@ -318,16 +323,6 @@ describe("works with flow-items", () => {
     expect(await items[2].getProperty("showBackButton")).toBe(true);
   });
 
-  describe("accessible", () => {
-    accessible(html`
-      <calcite-flow>
-        <calcite-flow-item> </calcite-flow-item>
-        <calcite-flow-item> </calcite-flow-item>
-        <calcite-flow-item> </calcite-flow-item>
-      </calcite-flow>
-    `);
-  });
-
   it("should also work with descendant slotted items", async () => {
     const page = await newE2EPage();
 
@@ -417,19 +412,19 @@ it("supports custom flow-items", async () => {
       }
 
       connectedCallback(): void {
-        this.flowItemEl.setAttribute("heading", this.getAttribute("heading"));
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected"));
-        this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button"));
-        this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open"));
-        this.flowItemEl.setAttribute("selected", this.getAttribute("selected"));
+        this.flowItemEl.setAttribute("heading", this.getAttribute("heading")!);
+        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
+        this.flowItemEl.setAttribute("show-back-button", this.getAttribute("show-back-button")!);
+        this.flowItemEl.setAttribute("menu-open", this.getAttribute("menu-open")!);
+        this.flowItemEl.setAttribute("selected", this.getAttribute("selected")!);
         this.selected = this.hasAttribute("selected");
         this.showBackButton = this.hasAttribute("show-back-button");
         this.menuOpen = this.hasAttribute("menu-open");
-        this.heading = this.getAttribute("heading");
+        this.heading = this.getAttribute("heading")!;
       }
 
       get heading(): string {
-        return this.getAttribute("heading");
+        return this.getAttribute("heading")!;
       }
 
       set heading(value: string) {
@@ -495,8 +490,8 @@ it("supports custom flow-items", async () => {
   await page.evaluate(
     async (displayedItemSelector: string, ITEM_CSS) => {
       document
-        .querySelector(displayedItemSelector)
-        .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
+        .querySelector(displayedItemSelector)!
+        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
         .click();
     },
     displayedItemSelector,
@@ -511,9 +506,9 @@ it("supports custom flow-items", async () => {
   await page.evaluate(
     async (displayedItemSelector: string, ITEM_CSS) => {
       document
-        .querySelector(displayedItemSelector)
-        .shadowRoot.querySelector("calcite-flow-item")
-        .shadowRoot.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)
+        .querySelector(displayedItemSelector)!
+        .shadowRoot!.querySelector("calcite-flow-item")!
+        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
         .click();
     },
     displayedItemSelector,
@@ -524,13 +519,4 @@ it("supports custom flow-items", async () => {
   displayedItem = await page.find(displayedItemSelector);
   expect(await flow.getProperty("childElementCount")).toBe(3);
   expect(displayedItem.id).toBe("first");
-});
-
-describe("theme", () => {
-  themed("calcite-flow", {
-    "--calcite-flow-background-color": {
-      shadowSelector: `.${CSS.frame}`,
-      targetProp: "backgroundColor",
-    },
-  });
 });

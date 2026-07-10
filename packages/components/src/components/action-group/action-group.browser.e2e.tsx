@@ -1,8 +1,8 @@
-import { JsxNode } from "@arcgis/lumina";
-import { h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   focusable,
@@ -12,6 +12,9 @@ import {
   renders,
   slots,
   t9n,
+  accessible,
+  topLayer,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
@@ -27,6 +30,17 @@ function renderActionGroup(): JsxNode {
     </calcite-action-group>
   );
 }
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-action-group scale="l">
+        <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+        <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
+      </calcite-action-group>,
+    ),
+  );
+});
 
 describe("defaults", () => {
   defaults(
@@ -123,6 +137,22 @@ describe("focusable", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-group"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-group>
+          <calcite-action icon="plus" slot={SLOTS.menuActions} text="Add" />
+        </calcite-action-group>,
+      ),
+    {
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-action-group [popover]"),
+    },
+  );
 });
 
 describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
@@ -247,4 +277,26 @@ it("should emit expanded/collapsed events when toggled", async () => {
 
   expect(expandEventHandler).toHaveBeenCalledTimes(1);
   expect(collapseEventHandler).toHaveBeenCalledTimes(1);
+});
+
+describe("theme", () => {
+  describe("border", () => {
+    themed(
+      () =>
+        mount(
+          <>
+            <calcite-action-menu open>
+              <calcite-action-group />
+              <calcite-action-group />
+            </calcite-action-menu>
+          </>,
+        ),
+      {
+        "--calcite-action-group-border-color": {
+          selector: "calcite-action-group",
+          targetProp: "borderBlockEndColor",
+        },
+      },
+    );
+  });
 });

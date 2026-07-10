@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -62,11 +61,11 @@ export class Select extends LitElement implements LabelableComponent {
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
-  defaultValue: Select["value"];
+  defaultValue?: Select["value"];
 
   formSupport = useForm<this>({ inputType: "text" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
@@ -90,25 +89,21 @@ export class Select extends LitElement implements LabelableComponent {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -124,34 +119,35 @@ export class Select extends LitElement implements LabelableComponent {
    *
    * @readonly
    */
-  @property() selectedOption: Option["el"];
+  @property() selectedOption!: Option["el"];
 
   /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedOption` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -232,7 +228,7 @@ export class Select extends LitElement implements LabelableComponent {
   //#region Private Methods
 
   private handleInternalSelectChange(): void {
-    const selected = this.selectRef.value.selectedOptions[0];
+    const selected = this.selectRef.value!.selectedOptions[0];
     this.selectFromNativeOption(selected);
     requestAnimationFrame(() => this.emitChangeEvent());
   }
@@ -270,7 +266,7 @@ export class Select extends LitElement implements LabelableComponent {
     nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
-    nativeOptionOrGroup.label = optionOrGroup.label;
+    nativeOptionOrGroup.label = optionOrGroup.label!;
 
     if (isOption(optionOrGroup)) {
       const option = nativeOptionOrGroup as HTMLOptionElement;
@@ -279,7 +275,7 @@ export class Select extends LitElement implements LabelableComponent {
 
       // need to set innerText for mobile
       // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
-      option.innerText = optionOrGroup.label;
+      option.innerText = optionOrGroup.label!;
     }
   }
 
@@ -302,12 +298,12 @@ export class Select extends LitElement implements LabelableComponent {
     this.componentToNativeEl.clear();
   }
 
-  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+  private selectFromNativeOption(nativeOption: HTMLOptionElement | undefined): void {
     if (!nativeOption) {
       return;
     }
 
-    let futureSelected: Option["el"];
+    let futureSelected: Option["el"] | undefined;
 
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {

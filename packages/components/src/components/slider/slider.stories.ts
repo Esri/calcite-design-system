@@ -1,18 +1,19 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Slider } from "./slider";
-import type { Slider as HTMLCalciteSliderElement } from "./slider";
+import type { Slider } from "./slider";
 
-const { scale, status } = ATTRIBUTES;
+const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
 interface SliderStoryArgs extends Pick<
   Slider,
   | "min"
   | "max"
+  | "maxLabel"
   | "value"
   | "step"
+  | "fillPlacement"
   | "minLabel"
   | "disabled"
   | "labelHandles"
@@ -24,8 +25,8 @@ interface SliderStoryArgs extends Pick<
   | "snap"
   | "scale"
   | "status"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 > {
   temperature: string;
 }
@@ -37,6 +38,8 @@ export default {
     max: 100,
     value: 50,
     step: 1,
+    maxLabel: "",
+    fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
     labelHandles: false,
@@ -64,6 +67,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    fillPlacement: {
+      options: sliderFillPlacement.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -78,8 +85,10 @@ export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
+    max-label="${args.maxLabel}"
     value="${args.value}"
     step="${args.step}"
+    fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
     ${boolean("label-handles", args.labelHandles)}
@@ -92,7 +101,7 @@ export const simple = (args: SliderStoryArgs): string => html`
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-slider>
 `;
 
@@ -237,7 +246,7 @@ function createHistogramSlider({
 }: {
   range: [number, number];
   values: [number, number];
-  histogram: HTMLCalciteSliderElement["histogram"];
+  histogram: Slider["histogram"];
 }) {
   const slider = document.createElement("calcite-slider");
   slider.min = range[0];
@@ -249,7 +258,7 @@ function createHistogramSlider({
   return slider;
 }
 
-export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const Histogram = (): HTMLDivElement => {
   function createTitle(title: string) {
     const titleElement = document.createElement("h1");
     titleElement.textContent = title;
@@ -409,7 +418,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   return sliderContainer;
 };
 
-export const darkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const darkModeHistogramRTL = (): Slider["el"] => {
   const slider = createHistogramSlider({
     range: [0, 100],
     values: [25, 75],

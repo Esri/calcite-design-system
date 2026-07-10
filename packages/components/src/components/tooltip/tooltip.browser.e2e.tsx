@@ -1,4 +1,4 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { it, expect, beforeAll, afterAll, describe, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -10,6 +10,8 @@ import {
   floatingUIOwner,
   topLayer,
   openClose,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { css } from "../../../support/formatting";
@@ -17,10 +19,39 @@ import {
   HOVER_OPEN_DELAY_MS,
   HOVER_CLOSE_DELAY_MS,
 } from "../../controllers/useReferenceElement/manager";
+import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("when closed", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-tooltip label="hello world" referenceElement="ref">
+            Hello World!
+          </calcite-tooltip>
+          <div id="ref">Tooltip Reference</div>
+        </>,
+      ),
+    );
+  });
+
+  describe("when open", () => {
+    accessible(() =>
+      mount(
+        <>
+          <calcite-tooltip label="hello world" open referenceElement="ref">
+            Hello World!
+          </calcite-tooltip>
+          <div id="ref">Tooltip Reference</div>
+        </>,
+      ),
+    );
+  });
+});
 
 describe("pointer movement toggling", () => {
   async function dispatchPointerEvent(selector: string): Promise<void> {
@@ -250,7 +281,7 @@ describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(
       () =>
-        mount(
+        mount<Tooltip>(
           <>
             <calcite-tooltip reference-element="ref">content</calcite-tooltip>
             <div id="ref">referenceElement</div>
@@ -369,5 +400,50 @@ describe("close-on-click", () => {
     expect(tip1.open).toBe(false);
     expect(tip2.open).toBe(true);
     expect(tip3.open).toBe(true);
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount(<calcite-tooltip>Lorem Ipsum</calcite-tooltip>), {
+      "--calcite-tooltip-background-color": [
+        {
+          shadowSelector: `.${FloatingCSS.animation}`,
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: `.${FloatingCSS.arrow}`,
+          targetProp: "fill",
+        },
+      ],
+      "--calcite-tooltip-border-color": [
+        {
+          shadowSelector: `.${FloatingCSS.animation}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${FloatingCSS.arrowStroke}`,
+          targetProp: "stroke",
+        },
+      ],
+      "--calcite-tooltip-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: `.${FloatingCSS.animation}`,
+          targetProp: "borderRadius",
+        },
+      ],
+      "--calcite-tooltip-text-color": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "color",
+      },
+      "--calcite-tooltip-max-size-x": {
+        shadowSelector: `.${CSS.positionContainer}`,
+        targetProp: "maxInlineSize",
+      },
+    });
   });
 });

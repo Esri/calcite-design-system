@@ -45,7 +45,7 @@ export interface UseFocusTrap {
   updateContainerElements: () => void;
 }
 
-interface UseFocusTrapOptions<T extends LitElement = LitElement> {
+export interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   /**
    * The name of the prop that will trigger the focus trap to activate.
    *
@@ -59,7 +59,7 @@ interface UseFocusTrapOptions<T extends LitElement = LitElement> {
   focusTrapOptions?: Options;
 }
 
-interface FocusTrapComponent extends LitElement {
+export interface FocusTrapComponent extends LitElement {
   /*
    * When `true` prevents focus trapping.
    */

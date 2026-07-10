@@ -1,6 +1,8 @@
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
+  accessible,
   defaults,
   disabled,
   focusable,
@@ -9,12 +11,23 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
   openClose,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
 mockConsole();
+
+describe("accessible", () => {
+  accessible(() => mount("calcite-input-time-zone"));
+});
+
+/**
+ * This file hosts component tests that do not depend on dynamic time zone changes.
+ * Those tests reside in `input-time-zone.time-zone.browser.e2e.tsx`, which need to be run separate from the main test script
+ */
 
 describe("defaults", () => {
   defaults(
@@ -70,6 +83,10 @@ describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
 });
 
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-input-time-zone"));
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-input-time-zone"));
 });
@@ -82,5 +99,20 @@ describe("is form-associated", () => {
   formAssociated(() => mount("calcite-input-time-zone"), {
     testValue: "-360",
     clearable: false,
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-input-time-zone"), {
+    "--calcite-input-time-zone-corner-radius": [
+      {
+        shadowSelector: "calcite-combobox",
+        targetProp: "--calcite-combobox-corner-radius",
+      },
+      {
+        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+    ],
   });
 });

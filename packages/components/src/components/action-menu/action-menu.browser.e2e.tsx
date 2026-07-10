@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   reflects,
@@ -9,11 +10,37 @@ import {
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
+  accessible,
+  topLayer,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    );
+  });
+
+  describe("with tooltip", () => {
+    accessible(() =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-tooltip slot={SLOTS.tooltip}>Bits and bobs.</calcite-tooltip>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -99,6 +126,21 @@ describe("slots", () => {
   slots(() => mount("calcite-action-menu"), SLOTS);
 });
 
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-menu label="test">
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    {
+      delegatedTopLayer: true,
+      topLayerTarget: page.getBySelector("calcite-action-menu [popover]"),
+    },
+  );
+});
+
 describe("delegates to floating-ui-owner component", () => {
   delegatesToFloatingUiOwningComponent(
     () =>
@@ -108,5 +150,24 @@ describe("delegates to floating-ui-owner component", () => {
         </calcite-action-menu>,
       ),
     "calcite-popover",
+  );
+});
+
+describe("theme", () => {
+  themed(
+    () =>
+      mount(
+        <calcite-action-menu open>
+          <calcite-action icon="plus" id="triggerAction" slot={SLOTS.trigger} text="Add" />
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>,
+      ),
+    {
+      "--calcite-action-menu-items-space": {
+        shadowSelector: `.${CSS.menu}`,
+        targetProp: "gap",
+      },
+    },
   );
 });

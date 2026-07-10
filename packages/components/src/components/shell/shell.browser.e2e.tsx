@@ -1,7 +1,24 @@
+import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, renders, slots } from "../../tests/commonTests/browser";
+import { hidden, renders, slots, accessible, themed } from "../../tests/commonTests/browser";
+import { mockConsole } from "../../tests/utils/logging";
 import { SLOTS } from "./resources";
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-shell>
+        <calcite-shell-panel position="start" slot={SLOTS.panelStart}>
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+        <calcite-shell-panel position="end" slot={SLOTS.panelEnd}>
+          <p>Primary Content</p>
+        </calcite-shell-panel>
+      </calcite-shell>,
+    ),
+  );
+});
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-shell"));
@@ -13,4 +30,42 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-shell"), SLOTS);
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    mockConsole();
+
+    themed(
+      () =>
+        mount(
+          <calcite-shell>
+            <calcite-panel heading="Example" slot="panel-start">
+              Hello world
+            </calcite-panel>
+            <calcite-flow slot="panel-end">
+              <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
+            </calcite-flow>
+          </calcite-shell>,
+        ),
+      {
+        "--calcite-shell-corner-radius": {
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-shadow": {
+          targetProp: "boxShadow",
+        },
+        "--calcite-shell-border-color": [
+          {
+            targetProp: "borderColor",
+            selector: "calcite-panel",
+          },
+          {
+            targetProp: "borderColor",
+            selector: "calcite-flow",
+          },
+        ],
+      },
+    );
+  });
 });

@@ -1,15 +1,7 @@
-// @ts-strict-ignore
 import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
-import { CSS } from "./resources";
+import { expect, it } from "vitest";
 
-describe("accessible", () => {
-  accessible("<calcite-link href='/'>link</calcite-link>");
-  accessible("<calcite-link>link</calcite-link>");
-  accessible("<calcite-link icon-start='plus' icon-end='plus' href='/'>Go</calcite-link>");
-});
+import { CSS } from "./resources";
 
 it("sets download attribute on internal anchor", async () => {
   const page = await newE2EPage();
@@ -156,15 +148,4 @@ it('renders with an icon-start and icon-end and role="button"', async () => {
   expect(iconStart).not.toBeNull();
   expect(elementAsLink).toEqualAttribute("role", "button");
   expect(iconEnd).not.toBeNull();
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html` <calcite-link href="#" icon-start="banana" icon-end="information">link</calcite-link> `, {
-      "--calcite-link-text-color": {
-        shadowSelector: "a",
-        targetProp: "color",
-      },
-    });
-  });
 });

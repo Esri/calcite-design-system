@@ -91,33 +91,33 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/aPreciado88">
-      <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
-      <br />
-      <sub><b>Abraham Preciado Morales</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/isaacbraun">
       <img src="https://avatars.githubusercontent.com/u/31631609?v=4" width="100;" alt="isaacbraun"/>
       <br />
       <sub><b>Isaac Braun</b></sub>
     </a>
   </td>
-</tr>
-<tr>
   <td align="center">
-    <a href="https://github.com/patrickarlt">
-      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
+    <a href="https://github.com/aPreciado88">
+      <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
-      <sub><b>Patrick Arlt</b></sub>
+      <sub><b>Abraham Preciado Morales</b></sub>
     </a>
   </td>
+</tr>
+<tr>
   <td align="center">
     <a href="https://github.com/arowles">
       <img src="https://avatars.githubusercontent.com/u/157734991?v=4" width="100;" alt="arowles"/>
       <br />
       <sub><b>Ashley Rowles</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/patrickarlt">
+      <img src="https://avatars.githubusercontent.com/u/378557?v=4" width="100;" alt="patrickarlt"/>
+      <br />
+      <sub><b>Patrick Arlt</b></sub>
     </a>
   </td>
   <td align="center">
@@ -186,19 +186,19 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/pr3tori4n">
-      <img src="https://avatars.githubusercontent.com/u/12614215?v=4" width="100;" alt="pr3tori4n"/>
+    <a href="https://github.com/Amretasre002762670">
+      <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
       <br />
-      <sub><b>Harry Robbins</b></sub>
+      <sub><b>Amretasre Rengarajan</b></sub>
     </a>
   </td>
 </tr>
 <tr>
   <td align="center">
-    <a href="https://github.com/Amretasre002762670">
-      <img src="https://avatars.githubusercontent.com/u/113134320?v=4" width="100;" alt="Amretasre002762670"/>
+    <a href="https://github.com/pr3tori4n">
+      <img src="https://avatars.githubusercontent.com/u/12614215?v=4" width="100;" alt="pr3tori4n"/>
       <br />
-      <sub><b>Amretasre Rengarajan</b></sub>
+      <sub><b>Harry Robbins</b></sub>
     </a>
   </td>
   <td align="center">
@@ -216,17 +216,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/maxpatiiuk">
-      <img src="https://avatars.githubusercontent.com/u/40512816?v=4" width="100;" alt="maxpatiiuk"/>
-      <br />
-      <sub><b>Max Patiiuk</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/brendan-vincent-rice">
       <img src="https://avatars.githubusercontent.com/u/835284?v=4" width="100;" alt="brendan-vincent-rice"/>
       <br />
       <sub><b>Brendan Rice</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/maxpatiiuk">
+      <img src="https://avatars.githubusercontent.com/u/40512816?v=4" width="100;" alt="maxpatiiuk"/>
+      <br />
+      <sub><b>Max Patiiuk</b></sub>
     </a>
   </td>
   <td align="center">

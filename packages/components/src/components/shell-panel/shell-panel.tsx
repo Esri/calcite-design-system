@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { PropertyValues } from "lit";
+import { type PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -11,17 +10,17 @@ import {
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, Layout, Position, Scale, Width } from "../interfaces";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../interfaces";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import type { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
 declare global {
@@ -47,7 +46,7 @@ export class ShellPanel extends LitElement {
 
   private resizeHandleRef = createRef<HTMLDivElement>();
 
-  private interaction: Interactable;
+  private interaction?: Interactable;
 
   private actionBars: ActionBar["el"][] = [];
 
@@ -113,7 +112,7 @@ export class ShellPanel extends LitElement {
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
-  @property({ reflect: true }) heightScale: Scale;
+  @property({ reflect: true }) heightScale?: Scale;
 
   /**
    * Specifies the component's direction.
@@ -122,7 +121,7 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -135,8 +134,8 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the component's height. */
-  @property({ reflect: true }) height: Height;
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
    * When `layout` is `vertical`, specifies the component's width.
@@ -146,7 +145,7 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the component's width. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -241,10 +240,6 @@ export class ShellPanel extends LitElement {
 
   //#region Private Methods
 
-  private getContentElDOMRect(): DOMRect {
-    return this.contentRef.value.getBoundingClientRect();
-  }
-
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
   private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
     if (!this.contentRef.value) {
@@ -272,7 +267,7 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
+    const rect = contentRef.value.getBoundingClientRect();
     const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
@@ -363,6 +358,15 @@ export class ShellPanel extends LitElement {
     }
 
     const rtl = this.direction === "rtl";
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+
+    const restrictSizeMax =
+      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
@@ -371,18 +375,7 @@ export class ShellPanel extends LitElement {
         bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
         left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: this.resizeValues.minInlineSize,
-            height: this.resizeValues.minBlockSize,
-          },
-          max: {
-            width: this.resizeValues.maxInlineSize,
-            height: this.resizeValues.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
       listeners: {
         resizestart: () => {
           this.calciteInternalShellPanelResizeStart.emit();

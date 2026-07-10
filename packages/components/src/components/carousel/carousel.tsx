@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -14,7 +13,6 @@ import { breakpoints } from "../../utils/responsive";
 import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -60,9 +58,9 @@ export class Carousel extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  private slideDurationInterval = null;
+  private slideDurationInterval?;
 
-  private slideInterval = null;
+  private slideInterval?;
 
   private tabListRef = createRef<HTMLDivElement>();
 
@@ -89,7 +87,7 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -109,7 +107,7 @@ export class Carousel extends LitElement {
 
   @state() playing = false;
 
-  @state() selectedIndex: number;
+  @state() selectedIndex = 0;
 
   @state() slideDurationRemaining = 1;
 
@@ -145,9 +143,9 @@ export class Carousel extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -163,14 +161,14 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  @property() paused: boolean;
+  @property() paused!: boolean;
 
   /**
    * The component's selected `calcite-carousel-item`.
    *
    * @readonly
    */
-  @property() selectedItem: CarouselItem["el"];
+  @property() selectedItem!: CarouselItem["el"];
 
   //#endregion
 
@@ -183,7 +181,7 @@ export class Carousel extends LitElement {
     if (
       this.playing ||
       !this.hasMultiple ||
-      (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")
+      (this.autoplay !== "" && this.autoplay !== true && this.autoplay !== "paused")
     ) {
       return;
     }
@@ -437,8 +435,8 @@ export class Carousel extends LitElement {
   }
 
   private handleItemSelection(event: MouseEvent): void {
-    const item = event.target as Action["el"];
-    const requestedPosition = parseInt(item.dataset.index);
+    const item = event.currentTarget as HTMLElement;
+    const requestedPosition = parseInt(item.dataset.index!, 10);
 
     if (requestedPosition === this.selectedIndex) {
       return;
@@ -520,7 +518,7 @@ export class Carousel extends LitElement {
       case " ":
       case "Enter":
         event.preventDefault();
-        if (this.autoplay === "" || this.autoplay || this.autoplay === "paused") {
+        if (this.autoplay === "" || this.autoplay === true || this.autoplay === "paused") {
           this.toggleRotation();
         }
         break;
@@ -561,9 +559,12 @@ export class Carousel extends LitElement {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabListRef.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value!.querySelectorAll<HTMLButtonElement>(
+        `button:not(.${CSS.paginationItemOutOfRange})`,
+      ),
     );
-    const currentEl = event.target as Action["el"];
+    const currentEl = event.target as HTMLButtonElement;
+
     switch (event.key) {
       case "ArrowRight":
         focusElementInGroup(visiblePaginationEls, currentEl, "next");
@@ -621,7 +622,10 @@ export class Carousel extends LitElement {
         onKeyDown={this.tabListKeyDownHandler}
         ref={this.tabListRef}
       >
-        {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
+        {(this.playing ||
+          this.autoplay === "" ||
+          this.autoplay === true ||
+          this.autoplay === "paused") &&
           this.hasMultiple &&
           this.renderRotationControl()}
         {this.arrowType === "inline" && this.hasMultiple && this.renderArrow("previous")}

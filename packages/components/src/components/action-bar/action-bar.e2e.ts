@@ -1,8 +1,6 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { accessible, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -197,7 +195,7 @@ describe("expand functionality", () => {
     );
 
     await page.evaluate(() => {
-      const actionBar = document.querySelector("calcite-action-bar");
+      const actionBar = document.querySelector("calcite-action-bar")!;
       const newAction = document.createElement("calcite-action");
       newAction.textEnabled = false;
       newAction.id = "new-child";
@@ -212,26 +210,6 @@ describe("expand functionality", () => {
   });
 });
 
-describe("accessible", () => {
-  accessible(html`
-    <calcite-action-bar>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-  `);
-});
-
-describe("accessible when expanded", () => {
-  accessible(html`
-    <calcite-action-bar expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-bar>
-  `);
-});
-
 describe("should focus on toggle button", () => {
   it("should not focus any action element when clicked on non-focusable region", async () => {
     const page = await newE2EPage();
@@ -242,7 +220,7 @@ describe("should focus on toggle button", () => {
     );
 
     const actionBarElRect = await page.evaluate(() => {
-      const actionBarEl = document.querySelector("calcite-action-bar");
+      const actionBarEl = document.querySelector("calcite-action-bar")!;
       return actionBarEl.getBoundingClientRect().toJSON();
     });
 
@@ -329,7 +307,7 @@ describe("overflow actions", () => {
     expect(await findAll(page, slottedActionsSelector, { allowEmpty: true })).toHaveLength(0);
 
     await page.$eval("calcite-action-bar", (element: ActionBar["el"]) => {
-      element.ownerDocument.getElementById("second-action").insertAdjacentHTML(
+      element.ownerDocument.getElementById("second-action")!.insertAdjacentHTML(
         "afterend",
         `
           <calcite-action text="Styles" icon="shapes"></calcite-action>
@@ -456,80 +434,4 @@ it("should set layout on child action-groups", async () => {
   for (const childGroup of groups) {
     expect(await childGroup.getProperty("layout")).toBe("vertical");
   }
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`<calcite-action-bar expanded layout="vertical">
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-      {
-        "--calcite-action-bar-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-expanded-max-width": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "maxInlineSize",
-        },
-        "--calcite-action-bar-items-space": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "gap",
-        },
-      },
-    );
-  });
-  describe("floating", () => {
-    themed(
-      html`<calcite-action-bar expanded layout="vertical" floating>
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-      {
-        "--calcite-action-bar-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-        "--calcite-action-bar-shadow": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "boxShadow",
-        },
-      },
-    );
-  });
-
-  it("should emit expanded/collapsed events when toggled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-action-bar heading="Test"></calcite-action-bar>`);
-    const item = await page.find("calcite-action-bar");
-
-    const expandSpy = await page.spyOnEvent("calciteActionBarExpand");
-    const collapseSpy = await page.spyOnEvent("calciteActionBarCollapse");
-
-    item.setProperty("expanded", true);
-    await page.waitForChanges();
-    expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandSpy).toHaveReceivedEventTimes(1);
-    expect(collapseSpy).toHaveReceivedEventTimes(0);
-
-    item.setProperty("expanded", false);
-    await page.waitForChanges();
-    expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandSpy).toHaveReceivedEventTimes(1);
-    expect(collapseSpy).toHaveReceivedEventTimes(1);
-  });
 });

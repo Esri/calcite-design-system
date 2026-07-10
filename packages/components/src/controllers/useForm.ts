@@ -257,7 +257,7 @@ export interface UseFormOptions {
   /**
    * A function that returns the value to be submitted for this component. If not provided, the controller will attempt to determine the value based on the component's `value` property and, if applicable, `checked` property.
    *
-   * Note: this is mostly intended for components that need to map their value differently
+   * Note: this is mostly intended for components that need to map their value differently (e.g., file type input passing its `files` property instead of `value`)
    */
   getValue?: () => any;
 
@@ -352,11 +352,14 @@ export const useForm = <T extends FormComponent>(
           clearValidationMessage(component, validationMessage);
 
           if (inputDelegate?.type === "radio") {
-            let group = component.elementInternals.form?.elements[component.name!];
-            if (group?.length > 0) {
-              group = Array.from(group).filter(
-                (element) => (element as HTMLElement).tagName === component.el.tagName,
-              ) as FormComponent["el"][];
+            const item = component.elementInternals.form?.elements.namedItem(component.name!);
+
+            if (item) {
+              const elements = "length" in item ? Array.from(item) : [item];
+              const group = elements.filter(
+                (element): element is CheckableFormComponent["el"] =>
+                  (element as HTMLElement).tagName === component.el.tagName,
+              );
               const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
               if (others?.length > 0) {
                 others.forEach((other) => {
@@ -401,22 +404,20 @@ export const useForm = <T extends FormComponent>(
     function updateValidity(): void {
       const { disabled, elementInternals } = component;
 
-      if (disabled) {
-        return;
-      }
-
       let validity: ValidityStateFlags = {};
       let validationMessage = "";
 
-      if (inputDelegate) {
-        inputDelegate.type = effectiveInputType!;
-        syncInternalInput(component, inputDelegate);
-        ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
-      }
+      if (!disabled) {
+        if (inputDelegate) {
+          inputDelegate.type = effectiveInputType!;
+          syncInternalInput(component, inputDelegate);
+          ({ validity, validationMessage } = validate({ component, input: inputDelegate, value: getComponentValue() }));
+        }
 
-      if (customValidityMessage) {
-        validity = { ...validity, customError: true };
-        validationMessage = customValidityMessage;
+        if (customValidityMessage) {
+          validity = { ...validity, customError: true };
+          validationMessage = customValidityMessage;
+        }
       }
 
       elementInternals.setValidity(validity, validationMessage);
@@ -439,9 +440,11 @@ export const useForm = <T extends FormComponent>(
     function getFormValue(): any {
       const value = getComponentValue();
 
-      if (Array.isArray(value)) {
+      if (Array.isArray(value) || value instanceof FileList) {
         const formData = new FormData();
-        value.forEach((value) => formData.append(component.name!, value));
+        for (const item of value) {
+          formData.append(component.name!, item);
+        }
         return formData;
       }
 
