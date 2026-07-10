@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
+import type { InputNumber } from "./input-number";
 
 export const CSS = {
   loader: "loader",
@@ -40,3 +41,7 @@ export const DIRECTION = {
 };
 
 export const NUDGE_DELAY_IN_MS = 150;
+
+export function isInputNumber(el: Element | null): el is InputNumber["el"] {
+  return el?.tagName === "CALCITE-INPUT-NUMBER";
+}

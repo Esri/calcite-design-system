@@ -14,6 +14,7 @@ import {
   t9n,
   delegatesToFloatingUiOwningComponent,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -179,6 +180,25 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-bar"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-bar expand-disabled overflow-actions-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-bar>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-bar > calcite-action-group"),
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-action-bar > calcite-action-group [popover]"),
+    },
+  );
 });
 
 describe("selection-mode", () => {

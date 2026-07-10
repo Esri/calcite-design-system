@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.19...@esri/calcite-components@5.2.0-next.20) (2026-07-09)
+
+### Features
+
+- **shell:** add variables for box-shadow and border-radius (corner radius) ([#14769](https://github.com/Esri/calcite-design-system/issues/14769)), closes [#13996](https://github.com/Esri/calcite-design-system/issues/13996)
+
 ## [5.2.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.18...@esri/calcite-components@5.2.0-next.19) (2026-07-08)
 
 ### Features
