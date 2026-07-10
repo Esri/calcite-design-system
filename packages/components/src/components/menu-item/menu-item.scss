@@ -194,6 +194,88 @@
   }
 }
 
+:host([scale="s"][layout="vertical"]) {
+  & .container,
+  & .item-content,
+  & .content {
+    min-block-size: theme("spacing.8");
+  }
+
+  .content {
+    font-size: var(--calcite-font-size);
+    gap: var(--calcite-space-sm);
+    line-height: theme("spacing.4");
+    padding: var(--calcite-space-sm);
+  }
+
+  .content-container {
+    @apply flex items-center;
+    gap: var(--calcite-space-sm);
+  }
+
+  .item-content:has(.dropdown-action) .content {
+    inline-size: auto;
+  }
+
+  .icon--dropdown {
+    box-sizing: border-box;
+    block-size: theme("spacing.4");
+    inline-size: calc(theme("spacing.4") + var(--calcite-space-xs));
+    padding-inline-start: var(--calcite-space-xs);
+  }
+}
+
+:host([breadcrumb][scale="s"][layout="vertical"]) {
+  .content {
+    gap: var(--calcite-space-xs);
+  }
+
+  .icon--breadcrumb {
+    @apply p-0;
+  }
+}
+
+:host([scale="l"][layout="vertical"]) {
+  & .container,
+  & .item-content,
+  & .content {
+    min-block-size: theme("spacing.14");
+  }
+
+  .content {
+    font-size: var(--calcite-font-size-lg);
+    gap: var(--calcite-space-lg);
+    line-height: theme("spacing.6");
+    padding: var(--calcite-space-lg);
+  }
+
+  .content-container {
+    @apply flex items-center;
+    gap: var(--calcite-space-lg);
+  }
+
+  .item-content:has(.dropdown-action) .content {
+    inline-size: auto;
+  }
+
+  .icon--dropdown {
+    box-sizing: border-box;
+    block-size: theme("spacing.6");
+    inline-size: calc(theme("spacing.6") + var(--calcite-space-sm-plus));
+    padding-inline-start: var(--calcite-space-sm-plus);
+  }
+}
+
+:host([breadcrumb][scale="l"][layout="vertical"]) {
+  .content {
+    gap: var(--calcite-space-sm-plus);
+  }
+
+  .icon--breadcrumb {
+    @apply p-0;
+  }
+}
+
 :host([layout="vertical"]) .content {
   @apply px-3;
 }
@@ -349,6 +431,22 @@
 
 :host([slot="submenu-item"]) .parent--vertical {
   @apply ps-6;
+}
+
+:host([slot="submenu-item"][scale="s"][layout="vertical"]) {
+  min-block-size: theme("spacing.9");
+
+  .parent--vertical {
+    padding-inline-start: var(--calcite-space-xl);
+  }
+}
+
+:host([slot="submenu-item"][scale="l"][layout="vertical"]) {
+  min-block-size: theme("spacing.16");
+
+  .parent--vertical {
+    padding-inline-start: theme("spacing.8");
+  }
 }
 
 .dropdown-menu-items.nested.calcite--rtl {

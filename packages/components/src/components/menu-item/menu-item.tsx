@@ -171,7 +171,7 @@ export class MenuItem extends LitElement {
   //#region Private Methods
 
   private getContentIconScale(): "s" | "m" {
-    return this.layout === "vertical" ? "s" : getIconScale(this.scale);
+    return getIconScale(this.scale);
   }
 
   private handleClickOut(event: Event): void {
@@ -412,8 +412,8 @@ export class MenuItem extends LitElement {
           </div>
           {hasHref && this.renderHrefIcon(dir)}
           {this.iconEnd && this.renderIconEnd()}
-          {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         </div>
+        {this.breadcrumb ? this.renderBreadcrumbIcon(dir) : null}
         {hasDropdownIcon ? this.renderDropdownIcon(dir) : null}
       </>
     );

@@ -106,6 +106,10 @@ export const scaleComparison = (): string => html`
       grid-template-columns: 12rem repeat(3, minmax(14rem, 1fr));
     }
 
+    .comparison-grid calcite-menu {
+      justify-self: start;
+    }
+
     .column-heading,
     .row-heading {
       font-weight: 600;
