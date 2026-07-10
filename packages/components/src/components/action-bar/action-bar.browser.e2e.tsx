@@ -91,6 +91,10 @@ describe("defaults", () => {
         propertyName: "expandPosition",
         defaultValue: "end",
       },
+      {
+        propertyName: "wrap",
+        defaultValue: false,
+      },
     ],
   );
 });
@@ -138,6 +142,10 @@ describe("reflects", () => {
       {
         propertyName: "expandPosition",
         value: "start",
+      },
+      {
+        propertyName: "wrap",
+        value: true,
       },
     ],
   );
@@ -556,5 +564,117 @@ describe("overflow-disabled actions", () => {
     await expect
       .element(page.getBySelector("calcite-action[overflow-disabled]"))
       .not.toHaveAttribute("slot");
+  });
+});
+
+describe("wrap", () => {
+  it("wraps items when enabled for horizontal layout", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    const container = el.shadowRoot?.querySelector(".container") as HTMLElement;
+    expect(getComputedStyle(container).flexWrap).toBe("wrap");
+  });
+
+  it("wraps items when enabled for vertical layout", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="vertical" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    const container = el.shadowRoot?.querySelector(".container") as HTMLElement;
+    expect(getComputedStyle(container).flexWrap).toBe("wrap");
+  });
+
+  it("projects top-level items into cell wrappers when enabled", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action icon="trash" text="Delete" />
+      </calcite-action-bar>,
+    );
+
+    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(3);
+  });
+
+  it("removes cell wrappers and slot assignments when disabled", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-bar>,
+    );
+
+    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(2);
+
+    el.wrap = false;
+    await component.updateComplete;
+
+    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(0);
+    Array.from(el.children).forEach((child) => {
+      expect(child.slot).toBe("");
+    });
+  });
+
+  it("does not project cells when layout is grid", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="grid" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-bar>,
+    );
+
+    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(0);
+  });
+
+  it("removes trailing border and padding from the last group in a wrapped line", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    // Let the rAF-batched line measurement settle so `.line-end` is applied.
+    await component.updateComplete;
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await component.updateComplete;
+
+    const lineEndCell = el.shadowRoot?.querySelector<HTMLElement>(".cell.line-end");
+    expect(lineEndCell).toBeTruthy();
+
+    // The first cell of each wrapped row (after the first) is flagged so its divider renders.
+    expect(el.shadowRoot?.querySelector(".cell.line-start")).toBeTruthy();
+
+    const group = lineEndCell
+      ?.querySelector<HTMLSlotElement>("slot")
+      ?.assignedElements()[0] as HTMLElement;
+
+    // The last group in a line drops its divider border and end padding (matching the non-wrap
+    // `:last-of-type` group) so the trailing space doesn't count toward the line and wrap early.
+    const groupStyle = getComputedStyle(group);
+    expect(groupStyle.paddingInlineEnd).toBe("0px");
+    expect(groupStyle.borderInlineEndWidth).toBe("0px");
   });
 });

@@ -68,6 +68,10 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][] = [];
 
+  private readonly cellSlotPrefix = "cell-";
+
+  private lineStartFrame?: number;
+
   private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
 
   private cancelable = useCancelable<this>()(this);
@@ -75,11 +79,19 @@ export class ActionBar extends LitElement {
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
 
+    if (!this.containerRef.value) {
+      return;
+    }
+
+    if (this.wrap) {
+      this.scheduleLineStarts();
+      return;
+    }
+
     if (
       overflowActionsDisabled ||
       (layout === "vertical" && !height) ||
-      (layout === "horizontal" && !width) ||
-      !this.containerRef.value
+      (layout === "horizontal" && !width)
     ) {
       return;
     }
@@ -154,6 +166,11 @@ export class ActionBar extends LitElement {
   }, DEBOUNCE.resize);
 
   private resizeHandler = (entry: ResizeObserverEntry): void => {
+    if (this.wrap) {
+      this.scheduleLineStarts();
+      return;
+    }
+
     const { width, height } = entry.contentRect;
     this.resize({ width, height });
   };
@@ -190,6 +207,16 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsStart = false;
 
+  @state() private cellSlotNames: string[] = [];
+
+  @state() private cellLineStarts: boolean[] = [];
+
+  @state() private cellLineEnds: boolean[] = [];
+
+  @state() private startGroupLineStart = false;
+
+  @state() private endGroupLineStart = false;
+
   //#endregion
 
   //#region Public Properties
@@ -220,6 +247,14 @@ export class ActionBar extends LitElement {
   /** Specifies the layout direction of the actions. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
+
+  /**
+   * When `true`, and `layout` is `"horizontal"` or `"vertical"`, allows the actions to wrap onto multiple lines, adding
+   * dividers between the wrapped rows or columns.
+   *
+   * Note: when enabled, automatic overflow of actions into menus is not applied.
+   */
+  @property({ reflect: true }) wrap = false;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -303,6 +338,7 @@ export class ActionBar extends LitElement {
 
   override connectedCallback(): void {
     this.updateGroups();
+    this.updateCells();
     this.overflowActions();
     this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
@@ -324,6 +360,18 @@ export class ActionBar extends LitElement {
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
+      this.updateCells();
+    }
+
+    if (changes.has("wrap") && (this.hasUpdated || this.wrap !== false)) {
+      if (!this.wrap && this.lineStartFrame != null) {
+        cancelAnimationFrame(this.lineStartFrame);
+        this.lineStartFrame = undefined;
+      }
+
+      this.updateCells();
+      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+      this.overflowActions();
     }
 
     if (
@@ -354,9 +402,18 @@ export class ActionBar extends LitElement {
     this.overflowActions();
   }
 
+  override updated(): void {
+    if (this.wrap) {
+      this.scheduleLineStarts();
+    }
+  }
+
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+    if (this.lineStartFrame != null) {
+      cancelAnimationFrame(this.lineStartFrame);
+    }
   }
 
   //#endregion
@@ -384,7 +441,7 @@ export class ActionBar extends LitElement {
   }
 
   private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
-    if (overflowActionsDisabled) {
+    if (overflowActionsDisabled && !this.wrap) {
       this.resizeObserver?.disconnect();
       return;
     }
@@ -406,6 +463,7 @@ export class ActionBar extends LitElement {
 
   private mutationObserverHandler(): void {
     this.updateGroups();
+    this.updateCells();
     this.overflowActions();
     this.queryAndStoreActions();
     this.updateActions();
@@ -424,8 +482,187 @@ export class ActionBar extends LitElement {
     });
   }
 
+  /**
+   * Whether the current layout projects each top-level item into a bar-owned cell wrapper.
+   * True for `"horizontal"`/`"vertical"` when `wrap` is enabled.
+   */
+  private get usesCells(): boolean {
+    return this.wrap && this.layout !== "grid";
+  }
+
+  /**
+   * When `wrap` is enabled, each top-level action or action-group is projected into a bar-owned cell
+   * wrapper so dividers can be drawn on the wrapper rather than the slotted element itself.
+   */
+  private updateCells(): void {
+    const children = Array.from(this.el.children).filter(
+      (child): child is HTMLElement =>
+        child instanceof HTMLElement &&
+        child.matches("calcite-action, calcite-action-group") &&
+        (child.slot === "" || child.slot.startsWith(this.cellSlotPrefix)),
+    );
+
+    if (!this.usesCells) {
+      children.forEach((child) => {
+        if (child.slot.startsWith(this.cellSlotPrefix)) {
+          child.removeAttribute("slot");
+        }
+      });
+      if (this.cellSlotNames.length > 0) {
+        this.cellSlotNames = [];
+      }
+      if (this.cellLineStarts.length > 0) {
+        this.cellLineStarts = [];
+      }
+      if (this.cellLineEnds.length > 0) {
+        this.cellLineEnds = [];
+      }
+      return;
+    }
+
+    const slotNames = children.map((child, index) => {
+      const slotName = `${this.cellSlotPrefix}${index}`;
+      if (child.slot !== slotName) {
+        child.setAttribute("slot", slotName);
+      }
+      return slotName;
+    });
+
+    if (slotNames.length !== this.cellSlotNames.length) {
+      this.cellSlotNames = slotNames;
+    }
+  }
+
+  /**
+   * Coalesces line-start measurement into a single animation frame so repeated renders/resizes
+   * don't each force a synchronous layout read. A frame-aligned update avoids the latency a
+   * time-based debounce would add for this visual measurement.
+   */
+  private scheduleLineStarts(): void {
+    if (this.lineStartFrame != null) {
+      cancelAnimationFrame(this.lineStartFrame);
+    }
+
+    this.lineStartFrame = requestAnimationFrame(() => {
+      this.lineStartFrame = undefined;
+      this.updateLineStarts();
+    });
+  }
+
+  /**
+   * Flags the first cell of each wrapped row (horizontal) or column (vertical) — except the first
+   * line — and exposes the container's main-axis extent so a full-length divider can be drawn on
+   * those cells via a pseudo-element.
+   */
+  private updateLineStarts(): void {
+    const container = this.containerRef.value;
+
+    if (!container || !this.usesCells) {
+      container?.style.removeProperty("--calcite-internal-action-bar-line-size");
+      container?.style.removeProperty("--calcite-internal-action-bar-toggle-line-offset");
+
+      if (this.cellLineStarts.length > 0) {
+        this.cellLineStarts = [];
+      }
+      if (this.cellLineEnds.length > 0) {
+        this.cellLineEnds = [];
+      }
+      if (this.startGroupLineStart) {
+        this.startGroupLineStart = false;
+      }
+      if (this.endGroupLineStart) {
+        this.endGroupLineStart = false;
+      }
+      return;
+    }
+
+    const horizontal = this.layout === "horizontal";
+    const containerStyle = getComputedStyle(container);
+    const lineSize = horizontal
+      ? container.clientWidth -
+        getStylePixelValue(containerStyle.paddingInlineStart) -
+        getStylePixelValue(containerStyle.paddingInlineEnd)
+      : container.clientHeight -
+        getStylePixelValue(containerStyle.paddingBlockStart) -
+        getStylePixelValue(containerStyle.paddingBlockEnd);
+
+    container.style.setProperty("--calcite-internal-action-bar-line-size", `${lineSize}px`);
+
+    const items = Array.from(container.children).filter(
+      (child): child is HTMLElement =>
+        child instanceof HTMLElement && child.tagName !== "SLOT" && !child.hidden,
+    );
+
+    const offsets = items.map((item) => (horizontal ? item.offsetTop : item.offsetLeft));
+    const cellLineStarts: boolean[] = [];
+    const cellLineEnds: boolean[] = [];
+    let startGroupLineStart = false;
+    let endGroupLineStart = false;
+    let endGroupItem: HTMLElement | null = null;
+
+    for (let index = 0; index < items.length; index++) {
+      const item = items[index];
+      const isLineStart = index > 0 && offsets[index] !== offsets[index - 1];
+      const isLineEnd = index === items.length - 1 || offsets[index + 1] !== offsets[index];
+
+      if (item.classList.contains(CSS.cell)) {
+        cellLineStarts.push(isLineStart);
+        cellLineEnds.push(isLineEnd);
+      } else if (item.classList.contains(CSS.actionGroupStart)) {
+        startGroupLineStart = isLineStart;
+      } else if (item.classList.contains(CSS.actionGroupEnd)) {
+        endGroupLineStart = isLineStart;
+        endGroupItem = item;
+      }
+    }
+
+    if (endGroupLineStart && endGroupItem) {
+      let toggleLineOffset: number;
+
+      if (horizontal) {
+        toggleLineOffset = endGroupItem.offsetTop;
+      } else if (this.direction === "rtl") {
+        toggleLineOffset =
+          container.clientWidth - endGroupItem.offsetLeft - endGroupItem.offsetWidth;
+      } else {
+        toggleLineOffset = endGroupItem.offsetLeft;
+      }
+
+      container.style.setProperty(
+        "--calcite-internal-action-bar-toggle-line-offset",
+        `${toggleLineOffset}px`,
+      );
+    } else {
+      container.style.removeProperty("--calcite-internal-action-bar-toggle-line-offset");
+    }
+
+    const cellStartsChanged =
+      cellLineStarts.length !== this.cellLineStarts.length ||
+      cellLineStarts.some((value, index) => value !== this.cellLineStarts[index]);
+
+    if (cellStartsChanged) {
+      this.cellLineStarts = cellLineStarts;
+    }
+
+    const cellEndsChanged =
+      cellLineEnds.length !== this.cellLineEnds.length ||
+      cellLineEnds.some((value, index) => value !== this.cellLineEnds[index]);
+
+    if (cellEndsChanged) {
+      this.cellLineEnds = cellLineEnds;
+    }
+
+    if (startGroupLineStart !== this.startGroupLineStart) {
+      this.startGroupLineStart = startGroupLineStart;
+    }
+    if (endGroupLineStart !== this.endGroupLineStart) {
+      this.endGroupLineStart = endGroupLineStart;
+    }
+  }
+
   private handleDefaultSlotChange(): void {
     this.updateGroups();
+    this.updateCells();
     this.queryAndStoreActions();
     this.updateActions();
   }
@@ -546,7 +783,10 @@ export class ActionBar extends LitElement {
       : this.handleActionsEndSlotChange;
     const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
     const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
-    const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
+    const isLineStart = isStart ? this.startGroupLineStart : this.endGroupLineStart;
+    const className = `${isStart ? CSS.actionGroupStart : CSS.actionGroupEnd}${
+      isLineStart ? ` ${CSS.lineStart}` : ""
+    }`;
 
     return (
       <calcite-action-group
@@ -566,6 +806,8 @@ export class ActionBar extends LitElement {
   }
 
   override render(): JsxNode {
+    const usesCells = this.usesCells;
+
     return (
       <div
         ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
@@ -574,6 +816,17 @@ export class ActionBar extends LitElement {
         role="toolbar"
       >
         {this.renderActionsGroup("start")}
+        {usesCells
+          ? this.cellSlotNames.map((name, index) => (
+              <div
+                class={`${CSS.cell}${this.cellLineStarts[index] ? ` ${CSS.lineStart}` : ""}${
+                  this.cellLineEnds[index] ? ` ${CSS.lineEnd}` : ""
+                }`}
+              >
+                <slot name={name} />
+              </div>
+            ))
+          : null}
         <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderActionsGroup("end")}
       </div>
