@@ -1527,7 +1527,7 @@ describe("filtering", () => {
     expect(el).toHaveProperty("open", false);
   });
 
-  it("should not toggle the combobox when typing within the input does not match any results", async () => {
+  it("should open the combobox and show the no matches placeholder when typing yields no results", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox id="myCombobox">
         <calcite-combobox-item heading="Raising Arizona" value="Raising Arizona" />
