@@ -190,6 +190,20 @@ describe("is form-associated", () => {
   }
 });
 
+it("updates files when a file is uploaded", async () => {
+  const { el } = await mount<Input>(<calcite-input type="file" />);
+  const input = page.getBySelector("calcite-input input");
+  const file = new File(["file contents"], "test-file.txt", { type: "text/plain" });
+
+  await userEvent.upload(input, file);
+
+  expect(el.files).toHaveLength(1);
+  expect(el.files![0]).toMatchObject({
+    name: file.name,
+    type: file.type,
+  });
+});
+
 describe("clearable", () => {
   it("renders clear button", async () => {
     await mount<Input>(<calcite-input clearable value="John Doe" />);
