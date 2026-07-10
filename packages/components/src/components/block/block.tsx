@@ -57,7 +57,7 @@ export class Block extends LitElement {
 
   private sortHandleEl?: SortHandle["el"];
 
-  private blockChildren: Block["el"][] = [];
+  // private nestedBlockElements: Block["el"][] = [];
 
   /**
    * Made into a prop for testing purposes only
@@ -293,7 +293,7 @@ export class Block extends LitElement {
    *
    * @private
    */
-  calciteInternalBlockChange = createEvent<{ el: HTMLElement }>({
+  calciteInternalBlockChange = createEvent<{ el: Block["el"] }>({
     cancelable: false,
   });
 
@@ -429,9 +429,9 @@ export class Block extends LitElement {
     });
   }
 
-  private handleSectionsSlotChange(event: Event): void {
-    this.blockChildren = slotChangeGetAssignedElements(event, "calcite-block");
-  }
+  // private handleSectionsSlotChange(event: Event): void {
+  //   this.nestedBlockElements = slotChangeGetAssignedElements(event, "calcite-block");
+  // }
 
   //#endregion
 
@@ -688,7 +688,7 @@ export class Block extends LitElement {
           <slot
             hidden={!expanded}
             name={SLOTS.sections}
-            onSlotChange={this.handleSectionsSlotChange}
+            // onSlotChange={this.handleSectionsSlotChange}
           />
         </article>
       </this.interactiveContainer>

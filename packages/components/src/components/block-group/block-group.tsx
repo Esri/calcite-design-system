@@ -244,7 +244,10 @@ export class BlockGroup extends LitElement {
       "calciteSortHandleAdd",
       this.handleSortAdd,
     );
-    this.listen("calciteInternalBlockChange", this.updateBlockItemSelection);
+    this.listen<ToEvents<Block>["calciteInternalBlockChange"]>(
+      "calciteInternalBlockChange",
+      this.updateBlockItemSelection,
+    );
   }
 
   override connectedCallback(): void {
