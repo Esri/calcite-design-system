@@ -494,17 +494,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
   }
 
-  private getPlaceholderText(): string | undefined {
+  private getPlaceholderText(): string {
     if (this.placeholder) {
       return this.placeholder;
     }
-    if (this.mode === "name") {
-      return this.messages.namePlaceholder;
-    }
-    if (this.mode === "offset") {
-      return this.messages.offsetPlaceholder || this.messages.regionPlaceholder;
-    }
-    return;
+    return this.messages[`${this.mode}Placeholder`];
   }
 
   //#endregion
