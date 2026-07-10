@@ -121,7 +121,9 @@
   }
 
   .content {
+    font-size: var(--calcite-font-size);
     gap: var(--calcite-space-xs);
+    line-height: theme("spacing.4");
     padding-block-start: var(--calcite-space-base);
     border-block-end-width: var(--calcite-border-width-md);
     padding-inline-end: var(--calcite-space-sm);
@@ -159,7 +161,9 @@
   }
 
   .content {
+    font-size: var(--calcite-font-size-lg);
     gap: var(--calcite-space-sm-plus);
+    line-height: theme("spacing.6");
     padding-block-start: var(--calcite-space-base);
     border-block-end-width: var(--calcite-border-width-md);
     padding-inline-end: var(--calcite-space-lg);
