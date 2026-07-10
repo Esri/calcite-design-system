@@ -494,13 +494,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       : getSelectedRegionTimeZoneLabel(label, metadata.country, this.messages);
   }
 
-  private getPlaceholderText(): string {
-    if (this.placeholder) {
-      return this.placeholder;
-    }
-    return this.messages[`${this.mode}Placeholder`];
-  }
-
   //#endregion
 
   //#region Rendering
@@ -521,7 +514,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={this.getPlaceholderText()}
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}
