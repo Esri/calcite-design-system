@@ -198,8 +198,10 @@ it("updates files when a file is uploaded", async () => {
   await userEvent.upload(input, file);
 
   expect(el.files).toHaveLength(1);
-  expect(el.files?.[0].name).toBe(file.name);
-  expect(el.files?.[0].type).toBe(file.type);
+  expect(el.files![0]).toMatchObject({
+    name: file.name,
+    type: file.type,
+  });
 });
 
 describe("clearable", () => {
