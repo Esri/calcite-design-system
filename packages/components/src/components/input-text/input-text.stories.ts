@@ -25,8 +25,8 @@ type InputTextStoryArgs = Pick<
   | "value"
   | "placeholder"
   | "validationIcon"
-  | "inlineEditing"
-  | "inlineEditingControls"
+  | "inlineEditable"
+  | "inlineEditableControls"
   | "validationMessage"
 >;
 
@@ -51,8 +51,8 @@ export default {
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
-    inlineEditing: false,
-    inlineEditingControls: false,
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     scale: {
@@ -104,8 +104,8 @@ export const simple = (args: InputTextStoryArgs): string => html`
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      ${boolean("inline-editing", args.inlineEditing)}
-      ${boolean("inline-editing-controls", args.inlineEditingControls)}
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
       ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
@@ -234,8 +234,8 @@ export const overlayDoesNotObscureIcon = (): string =>
     <calcite-input-text icon="check-square-f"></calcite-input-text>
     <div class="overlay"></div>`;
 
-export const inlineEditing = (): string => html`
+export const inlineEditable = (): string => html`
   <div>
-    <calcite-input-text inline-editing inline-editing-controls value="Editable text"></calcite-input-text>
+    <calcite-input-text inline-editable inline-editable-controls value="Editable text"></calcite-input-text>
   </div>
 `;

@@ -22,7 +22,7 @@ declare global {
 }
 
 /**
- * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editing (`inline-editing` and `inline-editing-controls` props) instead.
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
  * @slot - A slot for adding a `calcite-input`.
  */
 export class InlineEditable extends LitElement implements LabelableComponent {

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { TemplateResult } from "lit";
-import { InlineEditingControls, CSS } from "./InlineEditingControls";
+import { InlineEditableControls, CSS } from "./InlineEditableControls";
 
 interface TemplateLike {
   values: unknown[];
@@ -23,7 +23,7 @@ function collectTemplateValues(value: unknown, bucket: unknown[] = []): unknown[
   return bucket;
 }
 
-function renderInlineEditingControls(options: {
+function renderInlineEditableControls(options: {
   editingEnabled: boolean;
   loading?: boolean;
   showControls: boolean;
@@ -31,7 +31,7 @@ function renderInlineEditingControls(options: {
   onConfirmChanges?: (event: MouseEvent) => Promise<void> | void;
   onEnableEditing?: (event: MouseEvent) => void;
 }): TemplateResult {
-  return InlineEditingControls({
+  return InlineEditableControls({
     cancelEditingLabel: "Cancel",
     confirmChangesLabel: "Save",
     editingEnabled: options.editingEnabled,
@@ -45,9 +45,9 @@ function renderInlineEditingControls(options: {
   });
 }
 
-describe("InlineEditingControls", () => {
+describe("InlineEditableControls", () => {
   it("renders only enable editing action when not editing and controls are hidden", () => {
-    const template = renderInlineEditingControls({
+    const template = renderInlineEditableControls({
       editingEnabled: false,
       showControls: false,
     });
@@ -59,7 +59,7 @@ describe("InlineEditingControls", () => {
   });
 
   it("renders confirm and cancel actions when controls are shown", () => {
-    const template = renderInlineEditingControls({
+    const template = renderInlineEditableControls({
       editingEnabled: true,
       showControls: true,
     });
@@ -71,7 +71,7 @@ describe("InlineEditingControls", () => {
   });
 
   it("passes loading state to confirm action", () => {
-    const template = renderInlineEditingControls({
+    const template = renderInlineEditableControls({
       editingEnabled: true,
       loading: true,
       showControls: true,
@@ -86,7 +86,7 @@ describe("InlineEditingControls", () => {
     const onConfirmChanges = vi.fn();
     const onCancelEditing = vi.fn();
 
-    const template = renderInlineEditingControls({
+    const template = renderInlineEditableControls({
       editingEnabled: false,
       onCancelEditing,
       onConfirmChanges,

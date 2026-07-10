@@ -28,13 +28,13 @@ import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import {
-  CSS as InlineEditingControlsCSS,
-  InlineEditingControls,
-} from "../functional/InlineEditingControls";
+  CSS as InlineEditableControlsCSS,
+  InlineEditableControls,
+} from "../functional/InlineEditableControls";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
-import { UseInlineEditing } from "../../controllers/useInlineEditing";
+import { UseInlineEditable } from "../../controllers/useInlineEditable";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
@@ -141,7 +141,7 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
-  private useInlineEditing = new UseInlineEditing({
+  private useInlineEditable = new UseInlineEditable({
     getEditingEnabled: () => this.editingEnabled,
     setEditingEnabled: (editingEnabled) => {
       this.editingEnabled = editingEnabled;
@@ -154,10 +154,10 @@ export class Input
       void this.setFocus();
     },
     emitCancel: () => {
-      this.calciteInputInlineEditingCancel.emit();
+      this.calciteInputInlineEditableCancel.emit();
     },
     emitConfirm: () => {
-      this.calciteInputInlineEditingConfirm.emit();
+      this.calciteInputInlineEditableConfirm.emit();
     },
     emitEnableEditingChange: () => {
       this.calciteInputInlineEditableChange.emit();
@@ -165,13 +165,13 @@ export class Input
   });
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
-  private get selfManagedInlineEditing(): boolean {
-    return this.inlineEditing && !this.inlineEditableEl;
+  private get selfManagedInlineEditable(): boolean {
+    return this.inlineEditable && !this.inlineEditableEl;
   }
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !!this.inlineEditableEl)
-  private get hasInlineEditingContext(): boolean {
-    return this.inlineEditing || !!this.inlineEditableEl;
+  private get hasInlineEditableContext(): boolean {
+    return this.inlineEditable || !!this.inlineEditableEl;
   }
 
   get isClearable(): boolean {
@@ -184,7 +184,7 @@ export class Input
 
   @state() displayedValue!: string;
 
-  @state() inlineEditingLoading = false;
+  @state() inlineEditableLoading = false;
 
   @state() slottedActionElDisabledInternally = false;
 
@@ -222,20 +222,20 @@ export class Input
   @property({ reflect: true }) disabled = false;
 
   /**
-   * When `true`, the component displays its inline editing mode.
+   * When `true`, the component displays its inline editable mode.
    *
    * @private
    */
   @property({ reflect: true }) editingEnabled = false;
 
-  /** When `true`, enables the component's built-in inline editing behavior. */
-  @property({ reflect: true }) inlineEditing = false;
+  /** When `true`, enables the component's built-in inline editable behavior. */
+  @property({ reflect: true }) inlineEditable = false;
 
-  /** When `true` and `inlineEditing` is `true`, displays the component's built-in inline editing save and cancel controls. */
-  @property({ reflect: true }) inlineEditingControls = false;
+  /** When `true` and `inlineEditable` is `true`, displays the component's built-in inline editable save and cancel controls. */
+  @property({ reflect: true }) inlineEditableControls = false;
 
-  /** Specifies a callback to be executed when saving inline editing changes */
-  @property() inlineEditingAfterConfirm!: () => Promise<void>;
+  /** Specifies a callback to be executed when saving inline editable changes */
+  @property() inlineEditableAfterConfirm!: () => Promise<void>;
 
   /**
    * When `type` is `"file"`, specifies the component's selected files.
@@ -477,13 +477,13 @@ export class Input
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is cancelled. */
-  calciteInputInlineEditingCancel = createEvent({ cancelable: false });
+  /** Fires when built-in inline editable is cancelled. */
+  calciteInputInlineEditableCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is confirmed. */
-  calciteInputInlineEditingConfirm = createEvent({ cancelable: false });
+  /** Fires when built-in inline editable is confirmed. */
+  calciteInputInlineEditableConfirm = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled. */
+  /** Fires when built-in inline editable is enabled. */
   calciteInputInlineEditableChange = createEvent({ cancelable: false });
 
   //#endregion
@@ -599,7 +599,7 @@ export class Input
       return;
     }
 
-    if (this.selfManagedInlineEditing && this.editingEnabled && event.key === "Escape") {
+    if (this.selfManagedInlineEditable && this.editingEnabled && event.key === "Escape") {
       event.preventDefault();
 
       if (this.clearable && this.value?.length > 0) {
@@ -607,7 +607,7 @@ export class Input
         return;
       }
 
-      this.useInlineEditing.cancelEditing();
+      this.useInlineEditable.cancelEditing();
       requestAnimationFrame(() => {
         this.enableInlineEditingButtonRef.value?.setFocus();
       });
@@ -617,7 +617,7 @@ export class Input
     if (
       this.isClearable &&
       event.key === "Escape" &&
-      (!this.hasInlineEditingContext || this.editingEnabled)
+      (!this.hasInlineEditableContext || this.editingEnabled)
     ) {
       this.clearInputValue(event);
       event.preventDefault();
@@ -629,8 +629,8 @@ export class Input
   }
 
   onLabelClick(): void {
-    if (this.selfManagedInlineEditing && !this.editingEnabled) {
-      this.useInlineEditing.enable();
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
+      this.useInlineEditable.enable();
       return;
     }
 
@@ -710,8 +710,8 @@ export class Input
     this.stopNudging();
     this.calciteInternalInputBlur.emit();
 
-    if (this.selfManagedInlineEditing && this.editingEnabled && !this.inlineEditingControls) {
-      this.useInlineEditing.disable();
+    if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
+      this.useInlineEditable.disable();
     }
 
     this.emitChangeIfUserModified();
@@ -723,23 +723,23 @@ export class Input
     }
 
     const composedPath = event.composedPath();
-    const clickedInlineEditingControls = composedPath.some(
+    const clickedInlineEditableControls = composedPath.some(
       (element) =>
         element instanceof HTMLElement &&
-        element.classList.contains(InlineEditingControlsCSS.container),
+        element.classList.contains(InlineEditableControlsCSS.container),
     );
 
     if (
       !composedPath.includes(this.inputWrapperRef.value!) ||
       composedPath.includes(this.actionWrapperRef.value!) ||
-      clickedInlineEditingControls
+      clickedInlineEditableControls
     ) {
       return;
     }
 
-    if (this.selfManagedInlineEditing && !this.editingEnabled) {
+    if (this.selfManagedInlineEditable && !this.editingEnabled) {
       event.preventDefault();
-      this.useInlineEditing.enable();
+      this.useInlineEditable.enable();
       return;
     }
 
@@ -1165,7 +1165,7 @@ export class Input
           autofocus={autofocus}
           class={{
             [CSS.editingEnabled]: this.editingEnabled,
-            [CSS.inlineChild]: this.hasInlineEditingContext,
+            [CSS.inlineChild]: this.hasInlineEditableContext,
             [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
           }}
           defaultValue={this.defaultValue}
@@ -1188,7 +1188,9 @@ export class Input
           ref={this.childNumberRef}
           required={this.required}
           tabIndex={
-            this.disabled || (this.hasInlineEditingContext && !this.editingEnabled) ? -1 : undefined
+            this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)
+              ? -1
+              : undefined
           }
           type="text"
           value={this.displayedValue}
@@ -1206,7 +1208,7 @@ export class Input
           autofocus={autofocus}
           class={{
             [CSS.editingEnabled]: this.editingEnabled,
-            [CSS.inlineChild]: this.hasInlineEditingContext,
+            [CSS.inlineChild]: this.hasInlineEditableContext,
             [CSS.inlineEditableChild]: !!this.inlineEditableEl, // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
           }}
           defaultValue={this.defaultValue}
@@ -1233,7 +1235,9 @@ export class Input
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={
-            this.disabled || (this.hasInlineEditingContext && !this.editingEnabled) ? -1 : undefined
+            this.disabled || (this.hasInlineEditableContext && !this.editingEnabled)
+              ? -1
+              : undefined
           }
           type={this.type}
           value={this.value}
@@ -1278,24 +1282,24 @@ export class Input
               ? numberButtonsVertical
               : null}
           </div>
-          {this.selfManagedInlineEditing && (
-            <div class={CSS.inlineEditing}>
-              <InlineEditingControls
+          {this.selfManagedInlineEditable && (
+            <div class={CSS.inlineEditable}>
+              <InlineEditableControls
                 cancelEditingLabel={this.messages.cancelInlineEditing}
                 confirmChangesLabel={this.messages.confirmInlineEditingChanges}
                 editingEnabled={this.editingEnabled}
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
                 enableEditingLabel={this.messages.enableInlineEditing}
-                loading={this.inlineEditingLoading}
-                onCancelEditing={() => this.useInlineEditing.cancelEditing()}
+                loading={this.inlineEditableLoading}
+                onCancelEditing={() => this.useInlineEditable.cancelEditing()}
                 onConfirmChanges={() =>
-                  this.useInlineEditing.confirm(this.inlineEditingAfterConfirm, (loading) => {
-                    this.inlineEditingLoading = loading;
+                  this.useInlineEditable.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                    this.inlineEditableLoading = loading;
                   })
                 }
-                onEnableEditing={() => this.useInlineEditing.enable()}
+                onEnableEditing={() => this.useInlineEditable.enable()}
                 scale={this.scale}
-                showControls={this.editingEnabled && this.inlineEditingControls}
+                showControls={this.editingEnabled && this.inlineEditableControls}
               />
             </div>
           )}

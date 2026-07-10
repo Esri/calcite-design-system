@@ -4,7 +4,7 @@ import { h } from "@arcgis/lumina";
 import { Scale } from "../interfaces";
 import type { Action } from "../action/action";
 
-interface InlineEditingControlsProps {
+interface InlineEditableControlsProps {
   cancelEditingLabel: string;
   confirmChangesLabel: string;
   editingEnabled: boolean;
@@ -19,13 +19,13 @@ interface InlineEditingControlsProps {
 }
 
 export const CSS = {
-  container: "inline-editing--container",
+  container: "inline-editable--container",
   enableEditing: "enable-editing",
   confirmChanges: "confirm-changes",
   cancelEditing: "cancel-editing",
 };
 
-export const InlineEditingControls = ({
+export const InlineEditableControls = ({
   cancelEditingLabel,
   confirmChangesLabel,
   editingEnabled,
@@ -37,7 +37,7 @@ export const InlineEditingControls = ({
   onEnableEditing,
   scale,
   showControls,
-}: InlineEditingControlsProps): TemplateResult => (
+}: InlineEditableControlsProps): TemplateResult => (
   <div class={CSS.container}>
     {!editingEnabled && (
       <calcite-action

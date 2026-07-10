@@ -1,4 +1,4 @@
-export interface InlineEditingOptions {
+export interface InlineEditableOptions {
   getEditingEnabled: () => boolean;
   setEditingEnabled: (editingEnabled: boolean) => void;
   getValue: () => string;
@@ -9,10 +9,10 @@ export interface InlineEditingOptions {
   emitEnableEditingChange: () => void;
 }
 
-export class UseInlineEditing {
+export class UseInlineEditable {
   private valuePriorToEditing = "";
 
-  constructor(private options: InlineEditingOptions) {}
+  constructor(private options: InlineEditableOptions) {}
 
   enable(): void {
     this.valuePriorToEditing = this.options.getValue();
