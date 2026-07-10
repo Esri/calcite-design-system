@@ -349,6 +349,7 @@
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
   @apply ms-2;
+  margin-inline-start: 0.5rem;
 }
 
 :host([breadcrumb]) .content {

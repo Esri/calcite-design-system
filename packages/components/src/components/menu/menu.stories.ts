@@ -103,7 +103,11 @@ export const scaleComparison = (): string => html`
       align-items: start;
       display: grid;
       gap: 0.75rem;
-      grid-template-columns: 12rem repeat(3, minmax(14rem, 1fr));
+      grid-template-columns: 12rem repeat(3, minmax(20rem, max-content));
+    }
+
+    .comparison-grid--horizontal {
+      row-gap: 8rem;
     }
 
     .comparison-grid calcite-menu {
@@ -127,7 +131,7 @@ export const scaleComparison = (): string => html`
   <div class="menu-scale-test">
     <section class="comparison-section">
       <h2>Horizontal</h2>
-      <div class="comparison-grid">
+      <div class="comparison-grid comparison-grid--horizontal">
         <div></div>
         <div class="column-heading">Scale m</div>
         <div class="column-heading">Scale s</div>
