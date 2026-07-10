@@ -193,7 +193,7 @@ describe("selectionMode", () => {
   });
 
   describe("nested block elements", () => {
-    it("should allow only one block to be expanded in nested group when selectionMode is single", async () => {
+    it("should allow only one block to be expanded on click when selectionMode is single", async () => {
       await mount(
         <calcite-block-group selection-mode="single">
           <calcite-block collapsible heading="Asia">
@@ -203,7 +203,9 @@ describe("selectionMode", () => {
         </calcite-block-group>,
       );
 
-      const [block1, block2] = page.getBySelector("calcite-block").elements() as Block["el"][];
+      const [block1, block2] = page
+        .getBySelector("calcite-block:not([slot='sections'])")
+        .elements() as Block["el"][];
       await userEvent.click(block1);
       expect(block1.expanded).toBe(true);
       expect(block2.expanded).toBe(false);
@@ -216,9 +218,80 @@ describe("selectionMode", () => {
       expect(nestedBlock.expanded).toBe(true);
       expect(block1.expanded).toBe(true);
 
-      //debug
       await userEvent.click(block2);
       expect(block1.expanded).toBe(false);
+      expect(nestedBlock.expanded).toBe(true);
+      expect(block2.expanded).toBe(true);
+    });
+
+    it("should allow at least one block element expanded on click when selectionMode is single-persist", async () => {
+      await mount(
+        <calcite-block-group selection-mode="single-persist">
+          <calcite-block collapsible heading="Asia">
+            <calcite-block collapsible heading="Himalayas" slot="sections" />
+          </calcite-block>
+          <calcite-block collapsible heading="Africa" />
+        </calcite-block-group>,
+      );
+
+      const [block1, block2] = page
+        .getBySelector("calcite-block:not([slot='sections'])")
+        .elements() as Block["el"][];
+      const nestedBlock = page
+        .getBySelector("calcite-block[slot='sections']")
+        .element() as Block["el"];
+
+      await userEvent.click(block2);
+      expect(block1.expanded).toBe(false);
+      expect(block2.expanded).toBe(true);
+
+      await userEvent.click(block2);
+      expect(block1.expanded).toBe(false);
+      expect(block2.expanded).toBe(true);
+
+      await userEvent.click(block1);
+      expect(block1.expanded).toBe(true);
+      expect(nestedBlock.expanded).toBe(false);
+      expect(block2.expanded).toBe(false);
+
+      await userEvent.click(nestedBlock);
+      expect(block1.expanded).toBe(true);
+      expect(nestedBlock.expanded).toBe(true);
+      expect(block2.expanded).toBe(false);
+
+      await userEvent.click(nestedBlock);
+      expect(block1.expanded).toBe(true);
+      expect(nestedBlock.expanded).toBe(false);
+      expect(block2.expanded).toBe(false);
+    });
+
+    it("should allow multiple block elements to expand on click when selectionMode is multiple", async () => {
+      await mount(
+        <calcite-block-group selection-mode="multiple">
+          <calcite-block collapsible heading="Asia">
+            <calcite-block collapsible heading="Himalayas" slot="sections" />
+          </calcite-block>
+          <calcite-block collapsible heading="Africa" />
+        </calcite-block-group>,
+      );
+
+      const [block1, block2] = page
+        .getBySelector("calcite-block:not([slot='sections'])")
+        .elements() as Block["el"][];
+      const nestedBlock = page
+        .getBySelector("calcite-block[slot='sections']")
+        .element() as Block["el"];
+
+      await userEvent.click(block1);
+      expect(block1.expanded).toBe(true);
+      expect(block2.expanded).toBe(false);
+
+      await userEvent.click(nestedBlock);
+      expect(nestedBlock.expanded).toBe(true);
+      expect(block1.expanded).toBe(true);
+
+      await userEvent.click(block2);
+      expect(block1.expanded).toBe(true);
       expect(nestedBlock.expanded).toBe(true);
       expect(block2.expanded).toBe(true);
     });
