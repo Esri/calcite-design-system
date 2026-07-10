@@ -2,7 +2,6 @@ import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppete
 import { describe, expect, it, beforeEach } from "vitest";
 import { html } from "../../../support/formatting";
 import { getElementXY, skipAnimations } from "../../tests/utils/puppeteer";
-import { themed } from "../../tests/commonTests";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 
@@ -524,28 +523,5 @@ describe("auto-close behavior", () => {
     await button.focus();
     await page.waitForTimeout(DURATIONS.medium + alertQueueTimeoutMs);
     await page.waitForSelector("#alert", { visible: false });
-  });
-});
-
-describe("theme", () => {
-  themed(html`<calcite-alert label="this is a default alert"> </calcite-alert>`, {
-    "--calcite-alert-width": {
-      selector: `calcite-alert`,
-      targetProp: "inlineSize",
-    },
-    "--calcite-alert-background-color": {
-      shadowSelector: `.${CSS.container}`,
-      targetProp: "backgroundColor",
-    },
-    "--calcite-alert-corner-radius": [
-      {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
-    ],
-    "--calcite-alert-shadow": {
-      shadowSelector: `.${CSS.container}`,
-      targetProp: "boxShadow",
-    },
   });
 });

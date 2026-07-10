@@ -1,7 +1,7 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
+
 import { CSS as TooltipCSS } from "../tooltip/resources";
 import { HOVER_OPEN_DELAY_MS } from "../../controllers/useReferenceElement/manager";
 import {
@@ -608,20 +608,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  themed(
-    html`<calcite-action-menu open>
-      <calcite-action id="triggerAction" slot="${SLOTS.trigger}" text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action>
-      <calcite-action text="Add" icon="plus"></calcite-action
-    ></calcite-action-menu>`,
-    {
-      "--calcite-action-menu-items-space": {
-        shadowSelector: `.${CSS.menu}`,
-        targetProp: "gap",
-      },
-    },
-  );
 });

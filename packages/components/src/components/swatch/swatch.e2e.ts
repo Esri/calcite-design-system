@@ -1,7 +1,6 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
-import { html } from "../../../support/formatting";
+
 import { CSS, IDS } from "./resources";
 
 it("should not emit event after the swatch is clicked if interactive if not set", async () => {
@@ -116,26 +115,6 @@ describe("accepts CSS color strings", () => {
       const style = await swatch.getComputedStyle();
 
       expect(style["fill"]).toBe("rgba(255, 130, 0, 0.5)");
-    });
-  });
-});
-describe("themed", () => {
-  describe("default", () => {
-    themed(html`calcite-swatch`, {
-      "--calcite-swatch-corner-radius": [
-        { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
-        { shadowSelector: `#${IDS.swatchRect}`, targetProp: "rx" },
-      ],
-    });
-  });
-  describe("solid", () => {
-    themed(html`<calcite-swatch color="#ff8200"></calcite-swatch>`, {
-      "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchSolid}`, targetProp: "rx" }],
-    });
-  });
-  describe("transparent", () => {
-    themed(html`<calcite-swatch color="rgba(255, 255, 255, 0.5)"></calcite-swatch>`, {
-      "--calcite-swatch-corner-radius": [{ shadowSelector: `#${IDS.swatchTransparent}`, targetProp: "rx" }],
     });
   });
 });

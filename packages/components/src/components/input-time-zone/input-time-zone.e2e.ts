@@ -1,8 +1,5 @@
 import { describe } from "vitest";
 import { labelable } from "../../tests/commonTests";
-import { ComponentTestTokens, themed } from "../../tests/commonTests/themed";
-import { html } from "../../../support/formatting";
-import { CSS as ComboboxCSS } from "../combobox/resources";
 import { mockConsole } from "../../tests/utils/logging";
 
 /*
@@ -16,21 +13,4 @@ mockConsole();
 
 describe("labelable", () => {
   labelable("calcite-input-time-zone");
-});
-
-describe("theme", () => {
-  const inputTimeZoneTokens: ComponentTestTokens = {
-    "--calcite-input-time-zone-corner-radius": [
-      {
-        shadowSelector: "calcite-combobox",
-        targetProp: "--calcite-combobox-corner-radius",
-      },
-      {
-        shadowSelector: `calcite-combobox >>> .${ComboboxCSS.wrapper}`,
-        targetProp: "borderRadius",
-      },
-    ],
-  };
-
-  themed(html`<calcite-input-time-zone></calcite-input-time-zone>`, inputTimeZoneTokens);
 });

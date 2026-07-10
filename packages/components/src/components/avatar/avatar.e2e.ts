@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
@@ -85,64 +85,4 @@ it("generates unique background if names are similar", async () => {
   expect(firstBgColor).not.toEqual(secondBgColor);
   expect(secondBgColor).not.toEqual(thirdBgColor);
   expect(firstBgColor).not.toEqual(thirdBgColor);
-});
-
-describe("theme", () => {
-  describe("thumbnail", () => {
-    themed(
-      html`<calcite-avatar
-        thumbnail="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII"
-      ></calcite-avatar>`,
-      {
-        "--calcite-avatar-corner-radius": [
-          {
-            targetProp: "borderRadius",
-          },
-          {
-            shadowSelector: `.${CSS.thumbnail}`,
-            targetProp: "borderRadius",
-          },
-        ],
-      },
-    );
-  });
-
-  describe("icon", () => {
-    themed(html`<calcite-avatar user-id="umonti"></calcite-avatar>`, {
-      "--calcite-avatar-background-color": {
-        shadowSelector: `.${CSS.background}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-avatar-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
-      "--calcite-avatar-corner-radius": [
-        {
-          targetProp: "borderRadius",
-        },
-        {
-          shadowSelector: `.${CSS.background}`,
-          targetProp: "borderRadius",
-        },
-      ],
-    });
-  });
-
-  describe("initials", () => {
-    themed(html`<calcite-avatar full-name="Urbano Monti"></calcite-avatar>`, {
-      "--calcite-avatar-background-color": {
-        shadowSelector: `.${CSS.background}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-avatar-color": {
-        shadowSelector: `.${CSS.initials}`,
-        targetProp: "color",
-      },
-      "--calcite-avatar-corner-radius": {
-        shadowSelector: `.${CSS.background}`,
-        targetProp: "borderRadius",
-      },
-    });
-  });
 });

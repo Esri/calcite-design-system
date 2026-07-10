@@ -1,7 +1,8 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent, page } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+
 import {
   cancelable,
   defaults,
@@ -13,6 +14,8 @@ import {
   t9n,
   delegatesToFloatingUiOwningComponent,
   accessible,
+  topLayer,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { DEBOUNCE } from "../../utils/resources";
@@ -21,7 +24,7 @@ import { ActionBar } from "./action-bar";
 import type { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
 import { overflowActions } from "./utils";
-import { html } from "lit";
+import { CSS } from "./resources";
 
 mockConsole();
 
@@ -177,6 +180,25 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-bar"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-bar expand-disabled overflow-actions-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-bar>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-bar > calcite-action-group"),
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-action-bar > calcite-action-group [popover]"),
+    },
+  );
 });
 
 describe("selection-mode", () => {
@@ -468,13 +490,15 @@ describe("per-group overflow-actions-disabled", () => {
     expect(group2.overflowActionsDisabled).toBe(false);
   });
   it("keeps actions tabbable when tabbing out", async () => {
-    await mount(html`
-      <calcite-action-bar expand-disabled>
-        <calcite-action text="first" icon="number-circle-1"></calcite-action>
-        <calcite-action text="second" icon="number-circle-2"></calcite-action>
-      </calcite-action-bar>
-      <calcite-action text="third" icon="number-circle-3"></calcite-action>
-    `);
+    await mount(
+      <>
+        <calcite-action-bar expand-disabled>
+          <calcite-action icon="number-circle-1" text="first" />
+          <calcite-action icon="number-circle-2" text="second" />
+        </calcite-action-bar>
+        <calcite-action icon="number-circle-3" text="third" />
+      </>,
+    );
     const actions = page.getBySelector("calcite-action");
 
     await userEvent.keyboard("{Tab}");
@@ -676,5 +700,99 @@ describe("wrap", () => {
     const groupStyle = getComputedStyle(group);
     expect(groupStyle.paddingInlineEnd).toBe("0px");
     expect(groupStyle.borderInlineEndWidth).toBe("0px");
+  });
+});
+
+it("should emit expanded/collapsed events when toggled", async () => {
+  const { el, reRender } = await mount<ActionBar>(<calcite-action-bar />);
+  const expandSpy = vi.fn();
+  const collapseSpy = vi.fn();
+
+  el.addEventListener("calciteActionBarExpand", expandSpy);
+  el.addEventListener("calciteActionBarCollapse", collapseSpy);
+
+  el.expanded = true;
+  await reRender();
+  expect(el.expanded).toBe(true);
+  expect(expandSpy).toHaveBeenCalledTimes(1);
+  expect(collapseSpy).toHaveBeenCalledTimes(0);
+
+  el.expanded = false;
+  await reRender();
+  expect(el.expanded).toBe(false);
+  expect(expandSpy).toHaveBeenCalledTimes(1);
+  expect(collapseSpy).toHaveBeenCalledTimes(1);
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-bar expanded layout="vertical">
+            <calcite-action-group>
+              <calcite-action icon="plus" id="my-action" label="Add Item" text="Add" />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action-menu label="Save and open">
+                <calcite-action
+                  icon="save"
+                  id="menu-action"
+                  label="Save"
+                  text="Save"
+                  text-enabled
+                />
+              </calcite-action-menu>
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      {
+        "--calcite-action-bar-background-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-action-bar-expanded-max-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-action-bar-items-space": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "gap",
+        },
+      },
+    );
+  });
+  describe("floating", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-bar expanded floating layout="vertical">
+            <calcite-action-group>
+              <calcite-action icon="plus" id="my-action" label="Add Item" text="Add" />
+            </calcite-action-group>
+            <calcite-action-group>
+              <calcite-action-menu label="Save and open">
+                <calcite-action
+                  icon="save"
+                  id="menu-action"
+                  label="Save"
+                  text="Save"
+                  text-enabled
+                />
+              </calcite-action-menu>
+            </calcite-action-group>
+          </calcite-action-bar>,
+        ),
+      {
+        "--calcite-action-bar-corner-radius": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-action-bar-shadow": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "boxShadow",
+        },
+      },
+    );
   });
 });

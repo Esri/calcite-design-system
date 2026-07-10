@@ -13,4 +13,5 @@ export { reflects } from "./reflects";
 export { renders } from "./renders";
 export { slots } from "./slots";
 export { t9n } from "./t9n";
+export { type ComponentTestTokens, themed } from "./themed";
 export { topLayer } from "./top-layer";
