@@ -662,7 +662,7 @@ describe("wrap", () => {
     expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(0);
   });
 
-  it("removes trailing border and padding from the last group in a wrapped line", async () => {
+  it("hides the divider on the last group in a wrapped line without changing its size", async () => {
     const { el, component } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
         <calcite-action-group>
@@ -695,11 +695,13 @@ describe("wrap", () => {
       ?.querySelector<HTMLSlotElement>("slot")
       ?.assignedElements()[0] as HTMLElement;
 
-    // The last group in a line drops its divider border and end padding (matching the non-wrap
-    // `:last-of-type` group) so the trailing space doesn't count toward the line and wrap early.
     const groupStyle = getComputedStyle(group);
-    expect(groupStyle.paddingInlineEnd).toBe("0px");
-    expect(groupStyle.borderInlineEndWidth).toBe("0px");
+    // The last group in a line hides its divider (transparent border)...
+    expect(groupStyle.borderInlineEndColor).toBe("rgba(0, 0, 0, 0)");
+    // ...but keeps its border width and padding so its size is unchanged, which prevents the wrap
+    // boundary from oscillating (flicker).
+    expect(groupStyle.borderInlineEndWidth).not.toBe("0px");
+    expect(groupStyle.paddingInlineEnd).not.toBe("0px");
   });
 });
 

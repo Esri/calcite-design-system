@@ -205,10 +205,10 @@
     );
   }
 
-  // Match the non-wrap `:last-of-type` group pattern.
+  // Hide divider of last group in a row without changing its size to avoid flicker.
   .line-end ::slotted(calcite-action-group) {
-    border-inline-end-width: 0;
-    padding-inline-end: 0;
+    border-image: none;
+    border-inline-end-color: transparent;
   }
 }
 
@@ -245,11 +245,11 @@
     );
   }
 
-  // The last group in a column has nothing after it, so drop its main-axis divider and end padding
-  // to match the non-wrap `:last-of-type` group (see the horizontal note about premature wrapping).
+  // Hide divider of last group in a column without changing its size to avoid flicker.
+
   .line-end ::slotted(calcite-action-group) {
-    border-block-end-width: 0;
-    padding-block-end: 0;
+    border-image: none;
+    border-block-end-color: transparent;
   }
 }
 

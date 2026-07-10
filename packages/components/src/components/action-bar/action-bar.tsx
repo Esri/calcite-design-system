@@ -370,6 +370,9 @@ export class ActionBar extends LitElement {
       }
 
       this.updateCells();
+      if (!this.wrap) {
+        this.updateLineStarts();
+      }
       this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
       this.overflowActions();
     }
@@ -403,7 +406,7 @@ export class ActionBar extends LitElement {
   }
 
   override updated(): void {
-    if (this.wrap) {
+    if (this.usesCells && this.lineStartFrame == null) {
       this.scheduleLineStarts();
     }
   }
