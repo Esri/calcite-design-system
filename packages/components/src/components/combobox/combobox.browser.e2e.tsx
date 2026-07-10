@@ -1542,10 +1542,12 @@ describe("filtering", () => {
 
     const text = "no-matching-text-here";
 
-    await updateFilter(el, { type: "keyboard", value: text }, false);
+    await updateFilter(el, { type: "keyboard", value: text });
 
-    expect(el).toHaveProperty("open", false);
-  });
+    expect(el).toHaveProperty("open", true);
+    await expect
+      .element(page.getBySelector(`calcite-combobox li.${CSS.noMatchesPlaceholder}`))
+      .toBeVisible();
 
   it("filtering does not match property with value of undefined", async () => {
     const { el } = await mount<Combobox>(
