@@ -141,7 +141,7 @@ const config: Omit<Config, "content"> = {
     fontWeight: {
       // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
-      normal: "var(--calcite-font-weight-normal)",
+      normal: "var(--calcite-font-weight-regular)",
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)",
     },
