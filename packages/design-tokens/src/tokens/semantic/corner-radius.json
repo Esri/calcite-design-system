@@ -20,11 +20,15 @@
       }
     },
     "none": {
-      "$value": "{core.size.default.none}",
+      "$value": "{corner-radius.sharp}",
       "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-corner-radius-sharp`"
     },
     "xs": {
       "$value": "{core.size.default.2}",
@@ -34,11 +38,15 @@
       }
     },
     "sm": {
-      "$value": "{core.size.default.4}",
+      "$value": "{corner-radius.round}",
       "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-corner-radius-round`"
     },
     "round": {
       "$value": "{core.size.default.4}",

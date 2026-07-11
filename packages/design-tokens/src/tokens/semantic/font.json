@@ -140,12 +140,16 @@
         }
       },
       "2xl": {
-        "$value": "{core.size.default.24}",
+        "$value": "{font.size.xxl}",
         "$type": "fontSizes",
         "attributes": {
           "category": "font",
           "group": "size"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-font-size-xxl`"
       },
       "relative": {
         "xs": {

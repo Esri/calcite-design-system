@@ -37,7 +37,7 @@
           "docs": "deprecated"
         }
       },
-      "sm+": {
+      "sm-plus": {
         "$value": "{core.size.default.10}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-4xs` instead.",
         "$type": "spacing",
@@ -55,7 +55,7 @@
           "docs": "deprecated"
         }
       },
-      "md+": {
+      "md-plus": {
         "$value": "{core.size.default.14}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-2xs` instead.",
         "$type": "spacing",
@@ -109,11 +109,15 @@
       }
     },
     "4xs": {
-      "$value": "{core.size.default.10}",
+      "$value": "{size.fixed.sm-plus}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-sm-plus`"
     },
     "xxxs": {
       "$value": "{core.size.default.12}",
@@ -125,11 +129,15 @@
       }
     },
     "3xs": {
-      "$value": "{core.size.default.12}",
+      "$value": "{size.fixed.md}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-md`"
     },
     "xxs": {
       "$value": "{core.size.default.14}",
@@ -141,32 +149,48 @@
       }
     },
     "2xs": {
-      "$value": "{core.size.default.14}",
+      "$value": "{size.fixed.md-plus}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-md-plus`"
     },
     "xs": {
-      "$value": "{core.size.default.16}",
+      "$value": "{size.fixed.lg}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-lg`"
     },
     "sm": {
-      "$value": "{core.size.default.24}",
+      "$value": "{size.fixed.xxl}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-xxl`"
     },
     "md": {
-      "$value": "{core.size.default.32}",
+      "$value": "{size.fixed.xxxl}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-fixed-xxxl`"
     },
     "lg": {
       "$value": "{core.size.default.44}",
@@ -192,11 +216,15 @@
       }
     },
     "2xl": {
-      "$value": "{core.size.default.64}",
+      "$value": "{size.xxl}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-xxl`"
     },
     "xxxl": {
       "$value": "{core.size.default.96}",
@@ -208,11 +236,15 @@
       }
     },
     "3xl": {
-      "$value": "{core.size.default.96}",
+      "$value": "{size.xxxl}",
       "$type": "dimension",
       "attributes": {
         "category": "size"
-      }
+      },
+      "$extensions": {
+        "calcite.outputReference": true
+      },
+      "$description": "Replaces `--calcite-size-xxxl`"
     }
   }
 }

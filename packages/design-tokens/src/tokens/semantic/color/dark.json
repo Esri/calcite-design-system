@@ -2,44 +2,64 @@
   "color": {
     "surface": {
       "1": {
-        "$value": "{core.color.neutral.blk-210}",
+        "$value": "{color.background.default}",
         "$type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-color-background`"
       },
       "2": {
-        "$value": "{core.color.neutral.blk-200}",
+        "$value": "{color.foreground.1}",
         "$type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-color-foreground-1`"
       },
       "3": {
-        "$value": "{core.color.neutral.blk-190}",
+        "$value": "{color.foreground.2}",
         "$type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-color-foreground-2`"
       },
       "4": {
-        "$value": "{core.color.neutral.blk-180}",
+        "$value": "{color.foreground.3}",
         "$type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-color-foreground-3`"
       },
       "highlight": {
-        "$value": "{core.color.medium-saturation.blue.m-bb-090}",
+        "$value": "{color.foreground.current}",
         "$type": "color",
         "attributes": {
           "category": "color",
           "group": "surface"
-        }
+        },
+        "$extensions": {
+          "calcite.outputReference": true
+        },
+        "$description": "Replaces `--calcite-color-foreground-current`"
       }
     },
     "background": {
