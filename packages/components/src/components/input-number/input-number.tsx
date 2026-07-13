@@ -153,7 +153,7 @@ export class InputNumber
     },
   });
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove !this.inlineEditableEl)
   private get selfManagedInlineEditable(): boolean {

@@ -144,7 +144,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   labelEl?: Label["el"];
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   transitionProp = "opacity" as const;
 

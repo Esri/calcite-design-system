@@ -112,7 +112,7 @@ export class Input
 
   labelEl?: Label["el"];
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private maxString?: string;
 

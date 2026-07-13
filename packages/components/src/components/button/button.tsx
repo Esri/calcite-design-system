@@ -79,7 +79,7 @@ export class Button extends LitElement {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   //#endregion
 

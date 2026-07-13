@@ -102,7 +102,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private timePickerRef = createRef<TimePicker>();
 

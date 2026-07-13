@@ -103,7 +103,7 @@ export class Autocomplete
 
   labelEl?: Label["el"];
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private listId = IDS.list(this.guid);
 

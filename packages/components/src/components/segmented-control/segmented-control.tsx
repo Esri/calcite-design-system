@@ -70,7 +70,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   //#endregion
 

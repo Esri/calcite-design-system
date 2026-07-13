@@ -185,7 +185,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private _value: number | number[] = defaultValue;
 

@@ -200,7 +200,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   labelEl?: Label["el"];
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private listContainerEl?: HTMLDivElement;
 

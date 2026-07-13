@@ -64,7 +64,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
-  labelable = useLabel<this>()(this);
+  labelable = useLabel(this);
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;

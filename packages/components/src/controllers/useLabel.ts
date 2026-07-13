@@ -20,17 +20,15 @@ export interface LabelableComponent extends LitElement {
 /**
  * A controller for managing label interaction
  */
-export const useLabel = <T extends LabelableComponent>(): ReturnType<typeof makeGenericController<undefined, T>> => {
-  return makeGenericController<undefined, T>((component, controller) => {
-    controller.onConnected(() => {
-      connectLabel(component);
-    });
-
-    controller.onDisconnected(() => {
-      disconnectLabel(component);
-    });
+export const useLabel = makeGenericController<void, LabelableComponent>((component, controller) => {
+  controller.onConnected(() => {
+    connectLabel(component);
   });
-};
+
+  controller.onDisconnected(() => {
+    disconnectLabel(component);
+  });
+});
 
 /**
  * Exported for testing purposes only

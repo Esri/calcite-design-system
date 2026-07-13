@@ -22,7 +22,7 @@ class LabelableComponent extends LitElement {
     this.inputRef.value!.focus();
   }
 
-  labelController = useLabel()(this);
+  labelController = useLabel(this);
 
   override render(): JsxNode {
     return <input ref={this.inputRef} />;
