@@ -332,7 +332,7 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
-  it("applies touch-action none to the resize handle", async () => {
+  it("applies touch-action:none to the resize handle to enable resizing on mobile/touch devices", async () => {
     const { el } = await mount<"calcite-shell-panel">(
       <calcite-shell-panel resizable>
         <calcite-panel>Content</calcite-panel>
