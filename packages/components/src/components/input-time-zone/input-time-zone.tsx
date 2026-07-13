@@ -147,6 +147,13 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
+
   /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
 
@@ -507,13 +514,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={
-            this.mode === "name"
-              ? this.messages.namePlaceholder
-              : this.mode === "offset"
-                ? this.messages.offsetPlaceholder
-                : this.messages.regionPlaceholder
-          }
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}
