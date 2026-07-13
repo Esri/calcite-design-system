@@ -424,6 +424,7 @@ export class ActionBar extends LitElement {
     this.resizeObserver?.disconnect();
     if (this.lineStartFrame != null) {
       cancelAnimationFrame(this.lineStartFrame);
+      this.lineStartFrame = undefined;
     }
   }
 
@@ -589,13 +590,16 @@ export class ActionBar extends LitElement {
 
     const horizontal = this.layout === "horizontal";
     const containerStyle = getComputedStyle(container);
-    const lineSize = horizontal
-      ? container.clientWidth -
-        getStylePixelValue(containerStyle.paddingInlineStart) -
-        getStylePixelValue(containerStyle.paddingInlineEnd)
-      : container.clientHeight -
-        getStylePixelValue(containerStyle.paddingBlockStart) -
-        getStylePixelValue(containerStyle.paddingBlockEnd);
+    const lineSize = Math.max(
+      0,
+      horizontal
+        ? container.clientWidth -
+            getStylePixelValue(containerStyle.paddingInlineStart) -
+            getStylePixelValue(containerStyle.paddingInlineEnd)
+        : container.clientHeight -
+            getStylePixelValue(containerStyle.paddingBlockStart) -
+            getStylePixelValue(containerStyle.paddingBlockEnd),
+    );
 
     container.style.setProperty("--calcite-internal-action-bar-line-size", `${lineSize}px`);
 
