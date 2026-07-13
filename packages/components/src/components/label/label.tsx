@@ -47,12 +47,6 @@ export class Label extends LitElement {
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });
 
-  /** @private */
-  [labelConnectedEvent] = createEvent<void>({ cancelable: false });
-
-  /** @private */
-  [labelDisconnectedEvent] = createEvent<void>({ cancelable: false });
-
   // #endregion
 
   // #region Lifecycle
@@ -63,7 +57,7 @@ export class Label extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.calciteInternalLabelConnected.emit();
+    document.dispatchEvent(new CustomEvent(labelConnectedEvent));
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -73,7 +67,7 @@ export class Label extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    this.calciteInternalLabelDisconnected.emit();
+    document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
   }
 
   // #endregion
