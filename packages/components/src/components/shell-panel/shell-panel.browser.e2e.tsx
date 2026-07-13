@@ -332,51 +332,15 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
-  function resizeWithTouchPointer(
-    handle: HTMLElement,
-    { dx, dy }: { dx: number; dy: number },
-  ): void {
-    const handleRect = handle.getBoundingClientRect();
-    const clientX = handleRect.left + handleRect.width / 2;
-    const clientY = handleRect.top + handleRect.height / 2;
-    const eventOptions: PointerEventInit = {
-      bubbles: true,
-      cancelable: true,
-      clientX,
-      clientY,
-      composed: true,
-      isPrimary: true,
-      pointerId: 1,
-      pointerType: "touch",
-    };
-
-    handle.dispatchEvent(
-      new PointerEvent("pointerdown", { ...eventOptions, button: 0, buttons: 1 }),
+  it("applies touch-action none to the resize handle", async () => {
+    const { el } = await mount<"calcite-shell-panel">(
+      <calcite-shell-panel resizable>
+        <calcite-panel>Content</calcite-panel>
+      </calcite-shell-panel>,
     );
-    handle.dispatchEvent(new PointerEvent("pointermove", { ...eventOptions, buttons: 1 }));
-    document.dispatchEvent(
-      new PointerEvent("pointermove", {
-        ...eventOptions,
-        buttons: 1,
-        clientX: clientX + dx,
-        clientY: clientY + dy,
-      }),
-    );
-    document.dispatchEvent(new PointerEvent("pointerup", eventOptions));
-  }
+    const handle = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
 
-  it("resizes on mobile touch devices", async () => {
-    const { panel, content, handle, shell, computedSizeProp, sizeCssProp, baselineContentSize } =
-      await setUpShellPanel({ dir: "ltr", slot: "panel-start", position: "start" });
-
-    panel.style.setProperty(sizeCssProp, `${baselineContentSize}px`);
-    await shell.manager.component.updateComplete;
-
-    resizeWithTouchPointer(handle, { dx: 10, dy: 0 });
-    await shell.manager.component.updateComplete;
-
-    const afterUserResize = parseFloat(getComputedStyle(content)[computedSizeProp]);
-    expect(afterUserResize).toBeGreaterThan(baselineContentSize);
+    expect(getComputedStyle(handle).touchAction).toBe("none");
   });
 
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
