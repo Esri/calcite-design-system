@@ -472,39 +472,39 @@ export class ShellPanel extends LitElement {
   }
 
   private getMaxBlockSize(): number | null {
-    const { layout, resizeValues } = this;
+    const { layout, contentRef } = this;
 
     if (layout !== "horizontal") {
-      return resizeValues.maxBlockSize;
+      return this.resizeValues.maxBlockSize;
     }
 
+    if (!contentRef.value) {
+      return this.resizeValues.maxBlockSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
     const availableBlockSize = this.getAvailableBlockSize();
 
-    if (availableBlockSize === null) {
-      return resizeValues.maxBlockSize;
-    }
-
-    return resizeValues.maxBlockSize === null
-      ? availableBlockSize
-      : Math.min(resizeValues.maxBlockSize, availableBlockSize);
+    return availableBlockSize === null ? cssMax : Math.min(cssMax, availableBlockSize);
   }
 
   private getMaxInlineSize(): number | null {
-    const { layout, resizeValues } = this;
+    const { layout, contentRef } = this;
 
     if (layout !== "vertical") {
-      return resizeValues.maxInlineSize;
+      return this.resizeValues.maxInlineSize;
     }
 
+    if (!contentRef.value) {
+      return this.resizeValues.maxInlineSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
     const availableInlineSize = this.getAvailableInlineSize();
 
-    if (availableInlineSize === null) {
-      return resizeValues.maxInlineSize;
-    }
-
-    return resizeValues.maxInlineSize === null
-      ? availableInlineSize
-      : Math.min(resizeValues.maxInlineSize, availableInlineSize);
+    return availableInlineSize === null ? cssMax : Math.min(cssMax, availableInlineSize);
   }
 
   private async refreshResize(): Promise<void> {
@@ -530,11 +530,6 @@ export class ShellPanel extends LitElement {
         ? undefined
         : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
 
-    const restrictSizeMax =
-      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
-        ? undefined
-        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
-
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
         top: position === "end" && layout === "horizontal" ? resizeHandle : false,
@@ -542,7 +537,7 @@ export class ShellPanel extends LitElement {
         bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
         left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin })],
       listeners: {
         resizestart: () => {
           this.calciteInternalShellPanelResizeStart.emit();
