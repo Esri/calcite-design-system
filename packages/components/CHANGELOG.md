@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.21...@esri/calcite-components@5.2.0-next.22) (2026-07-13)
+
+### Features
+
+- **input-time-zone:** add placeholder property ([#14794](https://github.com/Esri/calcite-design-system/issues/14794)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
+
 ## [5.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.20...@esri/calcite-components@5.2.0-next.21) (2026-07-13)
 
 ### Features
