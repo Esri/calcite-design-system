@@ -7,6 +7,8 @@ export const CSS = {
   clearable: "clearable",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child", // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  inlineEditable: "inline-editable",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",
