@@ -207,15 +207,15 @@ export class ActionBar extends LitElement {
 
   @state() hasActionsStart = false;
 
-  @state() private cellSlotNames: string[] = [];
+  @state() cellSlotNames: string[] = [];
 
-  @state() private cellLineStarts: boolean[] = [];
+  @state() cellLineStarts: boolean[] = [];
 
-  @state() private cellLineEnds: boolean[] = [];
+  @state() cellLineEnds: boolean[] = [];
 
-  @state() private startGroupLineStart = false;
+  @state() startGroupLineStart = false;
 
-  @state() private endGroupLineStart = false;
+  @state() endGroupLineStart = false;
 
   //#endregion
 

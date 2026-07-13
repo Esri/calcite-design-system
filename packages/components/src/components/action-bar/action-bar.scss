@@ -130,7 +130,7 @@
 // When `wrap` is enabled, each top-level item is projected into a bar-owned `.cell` wrapper that draws the cross-axis
 // divider between wrapped rows/columns. The cell adds no spacing of its own.
 .cell {
-  @apply grid;
+  display: grid;
 }
 
 // The first item of each wrapped row/column (except the first line) draws a full-length divider,
