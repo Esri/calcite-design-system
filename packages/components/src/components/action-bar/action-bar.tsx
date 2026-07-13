@@ -83,7 +83,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    if (this.wrap) {
+    if (this.usesCells) {
       this.scheduleLineStarts();
       return;
     }
@@ -166,7 +166,7 @@ export class ActionBar extends LitElement {
   }, DEBOUNCE.resize);
 
   private resizeHandler = (entry: ResizeObserverEntry): void => {
-    if (this.wrap) {
+    if (this.usesCells) {
       this.scheduleLineStarts();
       return;
     }
@@ -295,6 +295,11 @@ export class ActionBar extends LitElement {
    */
   @method()
   async overflowActions(): Promise<void> {
+    if (this.usesCells) {
+      this.scheduleLineStarts();
+      return;
+    }
+
     this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
 
