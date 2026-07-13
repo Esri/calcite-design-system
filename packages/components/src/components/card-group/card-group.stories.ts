@@ -1,4 +1,4 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -6,13 +6,14 @@ import { CardGroup } from "./card-group";
 
 const { scale, selectionMode } = ATTRIBUTES;
 
-interface CardGroupStoryArgs extends Pick<CardGroup, "scale" | "selectionMode"> {
+interface CardGroupStoryArgs extends Pick<CardGroup, "disabled" | "scale" | "selectionMode"> {
   src: string;
 }
 
 export default {
   title: "Components/Card Group",
   args: {
+    disabled: false,
     scale: scale.defaultValue,
     selectionMode: selectionMode.defaultValue,
     src: placeholderImage({
@@ -35,7 +36,11 @@ export default {
 };
 
 export const simple = (args: CardGroupStoryArgs): string => html`
-  <calcite-card-group scale="${args.scale}" selection-mode="${args.selectionMode}">
+  <calcite-card-group
+    ${boolean("disabled", args.disabled)}
+    scale="${args.scale}"
+    selection-mode="${args.selectionMode}"
+  >
     <calcite-card label="test card">
       <img slot="thumbnail" alt="Sample image alt" src="${args.src}" />
       <h3 slot="heading">Portland Businesses</h3>

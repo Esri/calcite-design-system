@@ -49,6 +49,12 @@ describe("theme", () => {
           </calcite-shell>,
         ),
       {
+        "--calcite-shell-corner-radius": {
+          targetProp: "borderRadius",
+        },
+        "--calcite-shell-shadow": {
+          targetProp: "boxShadow",
+        },
         "--calcite-shell-border-color": [
           {
             targetProp: "borderColor",

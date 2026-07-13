@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
@@ -8,7 +8,7 @@ const { appearance, kind, scale, width } = ATTRIBUTES;
 
 interface ButtonStoryArgs extends Pick<
   Button,
-  "appearance" | "kind" | "scale" | "round" | "href" | "loading" | "disabled" | "width"
+  "appearance" | "disabled" | "href" | "iconEnd" | "iconStart" | "kind" | "loading" | "round" | "scale" | "width"
 > {
   text: string;
 }
@@ -21,6 +21,8 @@ export default {
     scale: scale.defaultValue,
     round: false,
     href: "",
+    iconEnd: "",
+    iconStart: "",
     loading: false,
     disabled: false,
     width: width.defaultValue,
@@ -43,6 +45,14 @@ export default {
       options: width.values,
       control: { type: "select" },
     },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -53,6 +63,8 @@ export const simple = (args: ButtonStoryArgs): string => html`
     scale="${args.scale}"
     ${boolean("round", args.round)}
     href="${args.href}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     width="${args.width}"
