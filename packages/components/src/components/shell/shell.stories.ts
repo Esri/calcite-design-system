@@ -36,11 +36,13 @@ type PanelWithActionBarPositionStoryArgs = {
 
 type ActionBarPositionPanelStartItem = {
   id: string;
+  shellId: string;
   slot: ShellPanelSlot;
   actionBarPosition: Position;
   layout: "horizontal" | "vertical";
   position: Position;
   resizable: boolean;
+  sizeAttribute: string;
 };
 
 export default {
@@ -3515,22 +3517,30 @@ shellPanelWithActionBarPositionPropToolbar.parameters = {
 
 function renderActionBarPositionPanelStartItem(config: ActionBarPositionPanelStartItem): string {
   return html`
-    <div class="shell-set__item">
-      <calcite-shell>
-        <calcite-shell-panel
-          id="${config.id}"
-          slot="${config.slot}"
-          action-bar-position="${config.actionBarPosition}"
-          layout="${config.layout}"
-          position="${config.position}"
-          width="l"
-          ${boolean("resizable", config.resizable)}
-        >
-          ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
-        </calcite-shell-panel>
-        ${actionBarPositionPanelHTML}
-      </calcite-shell>
-    </div>
+    <calcite-shell
+      class="shell-set__item"
+      id="${config.shellId}"
+      style="
+        --calcite-shell-panel-height: 400px;
+        --calcite-shell-panel-min-height: 200px;
+        --calcite-shell-panel-max-height: 900px;
+        --calcite-shell-panel-min-width: 200px;
+        --calcite-shell-panel-max-width: 900px;
+      "
+    >
+      <calcite-shell-panel
+        id="${config.id}"
+        slot="${config.slot}"
+        action-bar-position="${config.actionBarPosition}"
+        layout="${config.layout}"
+        position="${config.position}"
+        ${config.sizeAttribute}
+        ${boolean("resizable", config.resizable)}
+      >
+        ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
+      </calcite-shell-panel>
+      ${actionBarPositionPanelHTML}
+    </calcite-shell>
   `;
 }
 
@@ -3560,14 +3570,21 @@ function renderShellPanelWithActionBarPositionPanelSlotStory(
 ): string {
   const panelItemConfigs: ActionBarPositionPanelStartItem[] = shellPanelActionBarPositions.flatMap(
     (actionBarPosition) =>
-      [false, true].map((resizable) => ({
-        id: "shellPanel",
-        slot,
-        actionBarPosition,
-        layout,
-        position,
-        resizable,
-      })),
+      [false, true].map((resizable) => {
+        const itemId = `${slot}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
+        const sizeAttribute = layout === "horizontal" ? 'height-scale="m"' : 'width="l"';
+
+        return {
+          id: `shellPanel-${itemId}`,
+          shellId: `shell-${itemId}`,
+          slot,
+          actionBarPosition,
+          layout,
+          position,
+          resizable,
+          sizeAttribute,
+        };
+      }),
   );
 
   return html` ${shellSetStyles} ${shellSampleContentStyles}
