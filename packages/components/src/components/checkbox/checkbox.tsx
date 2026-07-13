@@ -2,7 +2,7 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
@@ -11,6 +11,7 @@ import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -45,6 +46,8 @@ export class Checkbox extends LitElement implements LabelableComponent {
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
   labelEl?: Label["el"];
+
+  labelable = useLabel<this>()(this);
 
   onLabelClick = (): void => {
     this.toggle();
@@ -172,14 +175,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
     super();
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

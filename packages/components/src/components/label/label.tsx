@@ -4,7 +4,7 @@ import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
   labelDisconnectedEvent,
-} from "../../utils/label";
+} from "../../controllers/useLabel";
 import { Alignment, Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
@@ -47,6 +47,12 @@ export class Label extends LitElement {
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });
 
+  /** @private */
+  [labelConnectedEvent] = createEvent<void>({ cancelable: false });
+
+  /** @private */
+  [labelDisconnectedEvent] = createEvent<void>({ cancelable: false });
+
   // #endregion
 
   // #region Lifecycle
@@ -57,7 +63,7 @@ export class Label extends LitElement {
   }
 
   override connectedCallback(): void {
-    document.dispatchEvent(new CustomEvent(labelConnectedEvent));
+    this.calciteInternalLabelConnected.emit();
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -67,7 +73,7 @@ export class Label extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
+    this.calciteInternalLabelDisconnected.emit();
   }
 
   // #endregion

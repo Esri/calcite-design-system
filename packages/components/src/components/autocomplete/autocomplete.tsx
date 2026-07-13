@@ -28,7 +28,7 @@ import {
 } from "../../utils/floating-ui";
 import { Alignment, Scale, Status } from "../interfaces";
 import { IconName } from "../icon/interfaces";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { guid } from "../../utils/guid";
@@ -46,6 +46,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { styles } from "./autocomplete.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -101,6 +102,8 @@ export class Autocomplete
   private inputId = IDS.input(this.guid);
 
   labelEl?: Label["el"];
+
+  labelable = useLabel<this>()(this);
 
   private listId = IDS.list(this.guid);
 
@@ -420,7 +423,6 @@ export class Autocomplete
       childList: true,
       subtree: true,
     });
-    connectLabel(this);
     this.getAllItemsDebounced();
     connectFloatingUI(this);
     this.cancelable.add(this.getAllItemsDebounced);
@@ -481,7 +483,6 @@ export class Autocomplete
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectLabel(this);
     disconnectFloatingUI(this);
   }
 

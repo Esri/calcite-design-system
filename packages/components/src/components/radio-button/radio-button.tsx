@@ -3,7 +3,8 @@ import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/l
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getRoundRobinIndex } from "../../utils/array";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Scale, Status } from "../interfaces";
 import type { Label } from "../label/label";
@@ -47,6 +48,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   //#endregion
 
@@ -209,7 +212,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
     if (this.name) {
       this.checkLastRadioButton();
     }
-    connectLabel(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
     super.connectedCallback();
   }
@@ -239,7 +241,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.updateTabIndexOfOtherRadioButtonsInGroup();
   }
 

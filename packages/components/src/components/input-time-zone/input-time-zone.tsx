@@ -10,7 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { IconName } from "../icon/interfaces";
@@ -80,6 +80,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
@@ -258,10 +260,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
@@ -298,10 +296,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.openChanged();
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

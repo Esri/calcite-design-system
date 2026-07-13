@@ -14,7 +14,8 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
 import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
@@ -100,6 +101,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   })(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   get isClearable(): boolean {
     return this.clearable && this.value.length > 0;
@@ -315,8 +318,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -329,10 +330,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (changes.has("icon")) {
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

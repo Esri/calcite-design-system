@@ -15,7 +15,8 @@ import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
   addLocalizedTrailingDecimalZeros,
@@ -119,6 +120,8 @@ export class InputNumber
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   get isClearable(): boolean {
     return this.clearable && this.value.length > 0;
@@ -372,7 +375,6 @@ export class InputNumber
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -422,7 +424,6 @@ export class InputNumber
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.stopNudging();
   }
 

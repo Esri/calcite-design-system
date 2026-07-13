@@ -11,7 +11,8 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { useLabel } from "../../controllers/useLabel";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
@@ -40,7 +41,7 @@ declare global {
  *
  * @slot - A slot for adding text.
  */
-export class Button extends LitElement implements LabelableComponent {
+export class Button extends LitElement {
   //#region Static Members
 
   static formAssociated = true;
@@ -77,6 +78,8 @@ export class Button extends LitElement implements LabelableComponent {
   messages = useT9n<typeof T9nStrings>();
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   //#endregion
 
@@ -198,7 +201,6 @@ export class Button extends LitElement implements LabelableComponent {
 
   override connectedCallback(): void {
     this.setupTextContentObserver();
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -211,7 +213,6 @@ export class Button extends LitElement implements LabelableComponent {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
   }
 

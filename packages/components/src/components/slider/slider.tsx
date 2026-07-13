@@ -16,7 +16,8 @@ import { intersects, isPrimaryPointerButton } from "../../utils/dom";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/interfaces";
@@ -183,6 +184,8 @@ export class Slider extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel<this>()(this);
 
   private _value: number | number[] = defaultValue;
 
@@ -400,7 +403,6 @@ export class Slider extends LitElement implements LabelableComponent {
   override connectedCallback(): void {
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
-    connectLabel(this);
     this.previousEmittedValue = this.value;
   }
 
@@ -444,7 +446,6 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.removeDragListeners();
   }
 
