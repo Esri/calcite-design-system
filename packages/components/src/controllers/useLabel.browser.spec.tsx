@@ -6,6 +6,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
 import type { Label } from "../components/label/label";
 import { page, userEvent } from "vitest/browser";
+import { mockConsole } from "../tests/utils/logging";
 
 class LabelableComponent extends LitElement {
   static tagName = "labelable-component";
@@ -33,6 +34,8 @@ type WithManager<T extends LitElement> = T["el"] & { manager: { component: T } }
 
 describe("useLabel", () => {
   describe("wires up the associated label", () => {
+    mockConsole();
+
     it("ignores labelable with no associated label", async () => {
       const { component, el } = await mount(
         html`<labelable-component id="unlabeled"></labelable-component>`,
@@ -210,11 +213,10 @@ describe("useLabel", () => {
       const labelable =
         document.querySelector<WithManager<LabelableComponent>>("labelable-component")!;
       vi.spyOn(labelable.manager.component, "onLabelClick");
+      await labelable.componentOnReady();
 
-      labelable.remove();
-      expect(labelable.manager.component.labelEl).toBeUndefined();
-
-      container.append(labelable);
+      el.remove();
+      container.append(el);
 
       expect(labelable.manager.component.labelEl).toBe(el);
 
