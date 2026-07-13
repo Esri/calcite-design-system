@@ -63,7 +63,6 @@ In some cases a component may need different verbiage than the default descripti
 To facilitate using a component-specific description either:
 
 - Use override functions, such as the [`heading` property in api-extractor.config.ts](../api-extractor.config.ts). Name each override function after the target `property`, `method`, or `event` section. Override functions give access to API metadata which can be used to customize `@copyDoc` definitions.
-
   - In the override function example below, the `heading` property uses `apiClass.name` to return a specific value for List Item Group.
 
   ```ts
@@ -94,7 +93,7 @@ To facilitate using a component-specific description either:
   @property({ reflect: true }) heading?: string;
   ```
 
-For additional guidance, review the Web GIS Resources `@copyDoc` documentation within the API Extractor's "Tag reference" section.
+For additional guidance, review the [Web GIS Resources `@copyDoc` documentation](https://webgis.esri.com/references/api-extractor/tags-reference#copydoc).
 
 ### Deprecation notices
 
