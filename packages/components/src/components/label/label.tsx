@@ -1,11 +1,11 @@
-import { PropertyValues } from "lit";
+import type { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
   labelDisconnectedEvent,
 } from "../../controllers/useLabel";
-import { Alignment, Scale } from "../interfaces";
+import type { Alignment, Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
 
