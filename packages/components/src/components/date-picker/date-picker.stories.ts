@@ -2,12 +2,15 @@ import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { supportedNlsLocales } from "./utils";
 import { DatePicker } from "./date-picker";
 
-const { scale } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, monthStyle, numberingSystemWithNone, scale, supportedNlsLocale } =
+  ATTRIBUTES;
 
-interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" | "scale" | "value"> {
+interface DatePickerStoryArgs extends Pick<
+  DatePicker,
+  "calendars" | "layout" | "max" | "min" | "monthStyle" | "numberingSystem" | "range" | "scale" | "value"
+> {
   dir: string;
   lang: string;
   nextMonthLabel: string;
@@ -17,11 +20,15 @@ interface DatePickerStoryArgs extends Pick<DatePicker, "min" | "max" | "range" |
 export default {
   title: "Components/Controls/DatePicker",
   args: {
+    calendars: 2,
     dir: "",
+    layout: "horizontal",
     lang: defaultLocale,
     max: "",
     min: "",
+    monthStyle: "wide",
     nextMonthLabel: "",
+    numberingSystem: "",
     prevMonthLabel: "",
     range: false,
     scale: scale.defaultValue,
@@ -29,11 +36,27 @@ export default {
   },
   argTypes: {
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     scale: {
       options: scale.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: calendarCount.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: horizontalVerticalLayout.values,
+      control: { type: "select" },
+    },
+    monthStyle: {
+      options: monthStyle.values,
+      control: { type: "select" },
+    },
+    numberingSystem: {
+      options: numberingSystemWithNone.values,
       control: { type: "select" },
     },
   },
@@ -51,8 +74,12 @@ export const simple = (args: DatePickerStoryArgs): string => html`
     <calcite-date-picker
       dir="${args.dir}"
       lang="${args.lang}"
+      calendars="${args.calendars}"
+      layout="${args.layout}"
       max="${args.max}"
       min="${args.min}"
+      month-style="${args.monthStyle}"
+      numbering-system="${args.numberingSystem}"
       ${boolean("range", args.range)}
       scale="${args.scale}"
       value="${args.value}"

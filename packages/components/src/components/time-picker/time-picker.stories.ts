@@ -1,19 +1,15 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
-import { numberingSystems, defaultNumberingSystem } from "../../utils/locale";
-import { supportedNlsLocales } from "../date-picker/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { TimePicker } from "./time-picker";
 
-const { scale } = ATTRIBUTES;
+const { hourFormat, menuPlacement, numberingSystem, scale, supportedNlsLocale } = ATTRIBUTES;
 
-interface TimePickerStoryArgs extends Pick<TimePicker, "numberingSystem" | "scale" | "step" | "value"> {
+interface TimePickerStoryArgs extends Pick<TimePicker, "hourFormat" | "numberingSystem" | "scale" | "step" | "value"> {
   disabled: boolean;
   hidden: boolean;
   lang: string;
-  name: string;
   placement: string;
 }
 
@@ -23,24 +19,28 @@ export default {
     disabled: false,
     hidden: false,
     lang: defaultLocale,
-    name: "simple",
-    numberingSystem: defaultNumberingSystem,
-    placement: defaultMenuPlacement,
+    hourFormat: hourFormat.defaultValue,
+    numberingSystem: numberingSystem.defaultValue,
+    placement: menuPlacement.defaultValue,
     scale: scale.defaultValue,
     step: 0.001,
     value: "10:37:09.023",
   },
   argTypes: {
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     numberingSystem: {
-      options: numberingSystems,
+      options: numberingSystem.values,
+      control: { type: "select" },
+    },
+    hourFormat: {
+      options: hourFormat.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
@@ -55,7 +55,7 @@ export const simple = (args: TimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     lang="${args.lang}"
-    name="${args.name}"
+    hour-format="${args.hourFormat}"
     numbering-system="${args.numberingSystem}"
     placement="${args.placement}"
     scale="${args.scale}"

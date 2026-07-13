@@ -3,17 +3,29 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ColorPicker } from "./color-picker";
 
-const { scale } = ATTRIBUTES;
+const { colorPickerFormat, scale } = ATTRIBUTES;
 
 type ColorPickerStoryArgs = Pick<
   ColorPicker,
-  "channelsDisabled" | "hexDisabled" | "savedDisabled" | "fieldDisabled" | "scale" | "clearable" | "value"
+  | "alphaChannel"
+  | "channelsDisabled"
+  | "clearable"
+  | "disabled"
+  | "fieldDisabled"
+  | "format"
+  | "hexDisabled"
+  | "savedDisabled"
+  | "scale"
+  | "value"
 >;
 
 export default {
   title: "Components/Controls/ColorPicker",
   args: {
+    alphaChannel: false,
     channelsDisabled: false,
+    disabled: false,
+    format: "auto",
     hexDisabled: false,
     savedDisabled: false,
     fieldDisabled: false,
@@ -26,14 +38,21 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    format: {
+      options: colorPickerFormat.values,
+      control: { type: "select" },
+    },
   },
 };
 
 export const simple = (args: ColorPickerStoryArgs): string => html`
   <calcite-color-picker
+    ${boolean("alpha-channel", args.alphaChannel)}
     ${boolean("channels-disabled", args.channelsDisabled)}
+    ${boolean("disabled", args.disabled)}
     ${boolean("hex-disabled", args.hexDisabled)}
     ${boolean("saved-disabled", args.savedDisabled)}
+    format="${args.format}"
     scale="${args.scale}"
     ${boolean("clearable", args.clearable)}
     value="${args.value}"
