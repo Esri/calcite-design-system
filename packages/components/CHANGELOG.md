@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.20...@esri/calcite-components@5.2.0-next.21) (2026-07-13)
+
+### Features
+
+- **action-bar:** add `expandToggleDisabled` property ([#14793](https://github.com/Esri/calcite-design-system/issues/14793)), closes [#14695](https://github.com/Esri/calcite-design-system/issues/14695)
+
 ## [5.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.19...@esri/calcite-components@5.2.0-next.20) (2026-07-09)
 
 ### Features
