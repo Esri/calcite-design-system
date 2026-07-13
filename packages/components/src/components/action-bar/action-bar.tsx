@@ -68,7 +68,7 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][] = [];
 
-  private readonly cellSlotPrefix = "cell-";
+  private readonly cellSlotPrefix = "calcite-action-bar-cell-";
 
   private lineStartFrame?: number;
 
@@ -366,6 +366,9 @@ export class ActionBar extends LitElement {
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
       this.updateCells();
+      if (!this.usesCells) {
+        this.updateLineStarts();
+      }
     }
 
     if (changes.has("wrap") && (this.hasUpdated || this.wrap !== false)) {
@@ -449,7 +452,7 @@ export class ActionBar extends LitElement {
   }
 
   private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
-    if (overflowActionsDisabled && !this.wrap) {
+    if (overflowActionsDisabled && !this.usesCells) {
       this.resizeObserver?.disconnect();
       return;
     }
