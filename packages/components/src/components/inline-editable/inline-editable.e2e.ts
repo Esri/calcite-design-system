@@ -8,6 +8,8 @@ import { createControlledPromise } from "../../tests/utils/promises";
 import { CSS } from "./resources";
 import type { InlineEditable } from "./inline-editable";
 
+// Deprecated in v5.2.0, removal target v7.0.0
+
 describe("rendering permutations", () => {
   it("renders default props when none are provided", async () => {
     const page: E2EPage = await newE2EPage();
@@ -23,14 +25,14 @@ describe("rendering permutations", () => {
     expect(element).not.toHaveAttribute("loading");
   });
 
-  it(`should set all internal calcite-button types to 'button'`, async () => {
+  it(`should set all internal calcite-action types to 'action'`, async () => {
     const page = await newE2EPage({
       html: html`<calcite-inline-editable controls editing-enabled>
         <calcite-input />
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 
@@ -46,7 +48,7 @@ describe("rendering permutations", () => {
       </calcite-inline-editable>`,
     });
 
-    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-button");
+    const buttons = await findAll(page, "calcite-inline-editable >>> calcite-action");
 
     expect(buttons).toHaveLength(3);
 

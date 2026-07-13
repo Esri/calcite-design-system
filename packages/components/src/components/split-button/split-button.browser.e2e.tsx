@@ -1,6 +1,7 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   defaults,
@@ -10,6 +11,7 @@ import {
   renders,
   disabled,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -183,6 +185,21 @@ describe("focusable", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-split-button"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-split-button dropdown-label="Show options" primary-text="Button Text">
+          {renderContent()}
+        </calcite-split-button>,
+      ),
+    {
+      eventEmitter: page.getBySelector("calcite-split-button calcite-dropdown"),
+      openProp: "active",
+    },
+  );
 });
 
 describe("theme", () => {

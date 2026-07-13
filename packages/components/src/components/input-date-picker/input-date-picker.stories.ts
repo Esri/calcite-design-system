@@ -1,17 +1,29 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { supportedNlsLocales } from "../date-picker/utils";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
-  "scale" | "status" | "value" | "min" | "max" | "placeholder" | "placement" | "validationMessage" | "validationIcon"
+  | "calendars"
+  | "disabled"
+  | "layout"
+  | "max"
+  | "min"
+  | "open"
+  | "placeholder"
+  | "placement"
+  | "range"
+  | "readOnly"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 > {
   lang: string;
 }
@@ -19,14 +31,20 @@ interface InputDatePickerStoryArgs extends Pick<
 export default {
   title: "Components/Controls/InputDatePicker",
   args: {
+    calendars: calendarCount.defaultValue,
+    disabled: false,
+    layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
+    open: true,
     placeholder: "Enter a date",
-    placement: defaultMenuPlacement,
+    placement: menuPlacement.defaultValue,
+    range: false,
+    readOnly: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -40,11 +58,19 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: calendarCount.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     validationIcon: {
@@ -66,14 +92,19 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       scale="${args.scale}"
       status="${args.status}"
       value="${args.value}"
+      calendars="${args.calendars}"
+      ${boolean("disabled", args.disabled)}
       lang="${args.lang}"
+      layout="${args.layout}"
       min="${args.min}"
       max="${args.max}"
+      ${boolean("open", args.open)}
       placeholder="${args.placeholder}"
       placement="${args.placement}"
+      ${boolean("range", args.range)}
+      ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
-      open="${boolean("open", true)}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
   </div>
 `;
