@@ -333,7 +333,10 @@ export const FloatingCSS = {
   arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
-/** Exported for testing purposes only */
+/**
+ * Exported for testing purposes only
+ * @private
+ */
 export function getMiddleware({
   placement,
   flipDisabled,
