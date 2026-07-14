@@ -14,6 +14,7 @@ const {
   flipPlacements,
   filterValidFlipPlacements,
   getEffectivePlacement,
+  getMiddleware,
   placements,
   reposition,
 } = floatingUI;
@@ -225,6 +226,38 @@ describe("connect/disconnect helpers", () => {
 
 it("should have correct value for defaultOffsetDistance", () => {
   expect(defaultOffsetDistance).toBe(6);
+});
+
+it("should use layoutViewport rootBoundary in viewport-aware middleware", () => {
+  const middleware = getMiddleware({
+    placement: "auto",
+    type: "menu",
+  });
+
+  const viewportAwareMiddleware = middleware.filter(({ name }) =>
+    ["shift", "flip", "autoPlacement", "hide"].includes(name),
+  );
+
+  expect(viewportAwareMiddleware).toHaveLength(4);
+
+  viewportAwareMiddleware.forEach((middleware) => {
+    expect(middleware.options?.rootBoundary).toBe("layoutViewport");
+  });
+});
+
+it("should use layoutViewport rootBoundary in non-auto flip middleware", () => {
+  const middleware = getMiddleware({
+    placement: "top",
+    type: "popover",
+  });
+
+  const viewportAwareMiddleware = middleware.filter(({ name }) => ["shift", "flip", "hide"].includes(name));
+
+  expect(viewportAwareMiddleware).toHaveLength(3);
+
+  viewportAwareMiddleware.forEach((middleware) => {
+    expect(middleware.options?.rootBoundary).toBe("layoutViewport");
+  });
 });
 
 describe("filterValidFlipPlacements", () => {
