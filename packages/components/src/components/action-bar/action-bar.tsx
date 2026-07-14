@@ -68,9 +68,9 @@ export class ActionBar extends LitElement {
 
   private actionGroups: ActionGroup["el"][] = [];
 
-  private lineEndGroups = new Set<HTMLElement>();
+  private defaultSlotItems: HTMLElement[] = [];
 
-  private defaultSlotRef = createRef<HTMLSlotElement>();
+  private lineEndGroups = new Set<HTMLElement>();
 
   private actionsStartRef = createRef<ActionGroup["el"]>();
 
@@ -526,13 +526,8 @@ export class ActionBar extends LitElement {
       items.push(start);
     }
 
-    const assigned = this.defaultSlotRef.value?.assignedElements({ flatten: true }) ?? [];
-    assigned.forEach((el) => {
-      if (
-        el instanceof HTMLElement &&
-        !el.hidden &&
-        el.matches("calcite-action, calcite-action-group")
-      ) {
+    this.defaultSlotItems.forEach((el) => {
+      if (!el.hidden) {
         items.push(el);
       }
     });
@@ -625,10 +620,18 @@ export class ActionBar extends LitElement {
     }
   }
 
-  private handleDefaultSlotChange(): void {
+  private handleDefaultSlotChange(event: Event): void {
+    this.defaultSlotItems = slotChangeGetAssignedElements<HTMLElement>(
+      event,
+      "calcite-action, calcite-action-group",
+    );
     this.updateGroups();
     this.queryAndStoreActions();
     this.updateActions();
+
+    if (this.usesWrap) {
+      this.scheduleLineMeasure();
+    }
   }
 
   private handleActionsEndSlotChange(event: Event): void {
@@ -775,10 +778,10 @@ export class ActionBar extends LitElement {
         role="toolbar"
       >
         {this.renderActionsGroup("start")}
-        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
+        <slot onSlotChange={this.handleDefaultSlotChange} />
         {this.renderActionsGroup("end")}
         {this.usesWrap ? (
-          <div class={CSS.lineOverlay} ariaHidden="true">
+          <div ariaHidden="true" class={CSS.lineOverlay}>
             {this.lineOffsets.map((offset) => (
               <div
                 class={CSS.line}
