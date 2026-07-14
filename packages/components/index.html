@@ -8,14 +8,16 @@
   </head>
 
   <body>
-    <demo-dom-swapper>
-      <!-- demo snippet start -->
-
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `npx snippet` -->
-
-      <!-- demo snippet end -->
-    </demo-dom-swapper>
-    <demo-options></demo-options>
+    <button id="ref">Reference element</button>
+    <calcite-popover open reference-element="ref">
+      <div style="display: flex; flex-direction: column; justify-content: end; width: 300px; background-color: white">
+        <p>
+          On a mobile device oriented horizontally, the virtual keyboard auto-closes as soon as you focus the input
+          below. This is not an issue if you render the same popover content outside an expand, on its own. The element
+          will shrink in height to ensure the input is always visible.
+        </p>
+        <calcite-input placeholder="Focus me if you can! (You can't)"></calcite-input>
+      </div>
+    </calcite-popover>
   </body>
 </html>

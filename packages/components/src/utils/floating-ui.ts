@@ -4,6 +4,7 @@ import {
   autoPlacement,
   autoUpdate,
   computePosition,
+  detectOverflow,
   flip,
   hide,
   Middleware,
@@ -350,7 +351,7 @@ function getMiddleware({
   arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
-  const middleware = [shift(), hide()];
+  const middleware = [shift()];
 
   if (type === "menu") {
     middleware.push(
@@ -382,6 +383,19 @@ function getMiddleware({
       }),
     );
   }
+
+  middleware.push({
+    name: "detectOverflow",
+    async fn(state) {
+      await detectOverflow(state, {
+        rootBoundary: "layoutViewport",
+      });
+
+      return {};
+    },
+  });
+
+  middleware.push(hide());
 
   return middleware;
 }
