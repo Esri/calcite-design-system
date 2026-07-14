@@ -16,7 +16,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
-import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
+import { focusElement, getElementWidth, getTextWidth, inViewport } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -58,15 +58,18 @@ import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./interfaces";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
+import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, ICONS, IDS } from "./resources";
 import {
+  getCompactSelectionDisplayBreakpoint,
+  getFitCompactDisplayState,
   getItemAncestors,
-  getItemChildren,
   getLabel,
-  hasActiveChildren,
+  getPlaceholderWidth,
+  getSelectedItems,
   isSingleLike,
   orderByPrevious,
   orderValuesByPrevious,
+  syncAncestorSelection,
 } from "./utils";
 import { styles } from "./combobox.scss";
 
@@ -101,7 +104,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
-  private chipContainerEl?: HTMLDivElement;
+  private chipContainerRef = createRef<HTMLDivElement>();
 
   private data: ItemData[] = [];
 
@@ -168,19 +171,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private filteredFlipPlacements?: FlipPlacement[];
 
-  floatingEl?: HTMLDivElement;
-
-  private getSelectedItems = (): HTMLCalciteComboboxItemElement["el"][] => {
-    if (!this.isMulti()) {
-      const match = this.allItems.find(({ selected }) => selected);
-      return match ? [match] : [];
-    }
-
-    return this.allItems.filter(
-      (item) => item.selected && (this.selectionMode !== "ancestors" || !hasActiveChildren(item)),
-    );
-  };
-
   private groupData: GroupData[] = [];
 
   private groupItems: HTMLCalciteComboboxItemGroupElement["el"][] = [];
@@ -197,13 +187,27 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private fitFollowUpRefreshPromise?: Promise<void>;
 
+  get floatingEl(): HTMLDivElement | undefined {
+    return this.floatingElRef.value;
+  }
+
+  private floatingElRef = createRef<HTMLDivElement>();
+
   labelEl?: Label["el"];
 
-  private listContainerEl?: HTMLDivElement;
+  private listContainerRef = createRef<HTMLDivElement>();
+
+  private get listContainerEl(): HTMLDivElement | undefined {
+    return this.listContainerRef.value;
+  }
 
   private maxCompactBreakpoint?: number;
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
+
+  private observedChipContainerEl?: HTMLDivElement;
+
+  private observedListContainerEl?: HTMLDivElement;
 
   onLabelClick = (): void => {
     this.setFocus();
@@ -211,7 +215,19 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   transitionProp = "opacity" as const;
 
-  referenceEl?: HTMLDivElement;
+  get referenceEl(): HTMLDivElement | undefined {
+    return this.referenceElRef.value;
+  }
+
+  private referenceElRef = createRef<HTMLDivElement>();
+
+  private previousFloatingEl?: HTMLDivElement;
+
+  private previousReferenceEl?: HTMLDivElement;
+
+  private get chipContainerEl(): HTMLDivElement | undefined {
+    return this.chipContainerRef.value;
+  }
 
   private resizeObserver = (() => {
     let resizeWorkQueued = false;
@@ -241,7 +257,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private textInputRef = createRef<HTMLInputElement>();
 
-  transitionEl: HTMLDivElement | undefined;
+  get transitionEl(): HTMLDivElement | undefined {
+    return this.listContainerRef.value;
+  }
 
   private _value: string | string[] = "";
 
@@ -669,8 +687,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
+  override updated(): void {
+    this.syncRenderedElements();
+  }
+
   loaded(): void {
-    connectFloatingUI(this);
     this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
@@ -711,11 +732,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private valueHandler(value: string | string[]): void {
     if (!this.internalValueChangeFlag) {
-      this.items.forEach((item) => {
-        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+      this.batchItemMutations(() => {
+        this.items.forEach((item) => {
+          item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+        });
       });
 
-      this.updateItems();
+      this.commitSelection();
     }
   }
 
@@ -740,12 +763,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       if (wasAllSelected && !isAllSelected) {
         this.selectedHiddenChipsCount = 0;
 
-        this.selectedItems.forEach((item) => {
-          const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-          if (chipEl) {
-            this.showChip(chipEl);
-          }
-        });
+        this.forEachSelectedChip((chipEl) => this.showChip(chipEl));
       }
 
       this.updateComplete.then(async () => {
@@ -772,9 +790,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     await this.componentOnReady();
 
     if (!this.allowCustomValues && this.filterText) {
-      this.clearInputValue();
-      this.filterItems("");
-      this.updateActiveItemIndex(-1);
+      this.clearTextInput();
     }
 
     if (this.allowCustomValues && this.filterText.trim().length) {
@@ -792,17 +808,48 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.toggleSelectAll();
 
     if (this.selectionDisplay !== "fit" && this.allSelected) {
-      this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl!.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-        if (chipEl) {
-          this.hideChip(chipEl);
-        }
-      });
+      this.forEachSelectedChip((chipEl) => this.hideChip(chipEl));
+    }
+  }
+
+  private commitSelection({
+    clearTextInput = false,
+    close = false,
+    emit = false,
+    focus = false,
+  }: {
+    clearTextInput?: boolean;
+    close?: boolean;
+    emit?: boolean;
+    focus?: boolean;
+  } = {}): void {
+    this.updateSelectedItems();
+
+    if (close) {
+      this.open = false;
+    }
+
+    if (clearTextInput) {
+      this.clearTextInput();
+    }
+
+    if (emit) {
+      this.emitComboboxChange();
+    }
+
+    if (focus) {
+      void this.setFocus();
     }
   }
 
   private updateSelectedItems(): void {
-    this.selectedItems = this.getOrderedSelectedItems(this.getSelectedItems());
+    const selectedItems = this.getOrderedSelectedItems(
+      getSelectedItems(this.allItems, this.selectionMode),
+    );
+
+    if (!this.hasMatchingElements(selectedItems, this.selectedItems)) {
+      this.selectedItems = selectedItems;
+    }
   }
 
   private calciteComboboxItemChangeHandler(event: CustomEvent<void>): void {
@@ -825,6 +872,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private calciteInternalComboboxItemChangeHandler(event: CustomEvent<void>): void {
     event.stopPropagation();
+    if (this.ignoreSelectedEventsFlag) {
+      return;
+    }
+
     if (this.hasUpdated) {
       this.updateItems();
     }
@@ -834,25 +885,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const enabledSelectedItems = this.items.filter((item) => item.selected && !item.disabled);
 
     if (enabledSelectedItems.length) {
-      this.ignoreSelectedEventsFlag = true;
-      enabledSelectedItems.forEach((el) => (el.selected = false));
-      this.ignoreSelectedEventsFlag = false;
-      this.updateSelectedItems();
-      this.emitComboboxChange();
+      this.batchItemMutations(() => {
+        enabledSelectedItems.forEach((item) => (item.selected = false));
+      });
+      this.commitSelection({ clearTextInput: true, close: true, emit: true, focus: true });
+      return;
     }
 
     this.open = false;
-    this.updateActiveItemIndex(-1);
-    this.resetText();
-    this.filterItems("");
-    this.setFocus();
-  }
-
-  private clearInputValue(): void {
-    if (this.textInputRef.value) {
-      this.textInputRef.value.value = "";
-    }
-    this.filterText = "";
+    this.clearTextInput();
+    void this.setFocus();
   }
 
   private setFilteredPlacements(): void {
@@ -886,26 +928,18 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     return this.isMulti() ? orderByPrevious(selectedItems, this.selectedItems) : selectedItems;
   }
 
-  private comboboxInViewport(): boolean {
-    const bounding = this.el.getBoundingClientRect();
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-      bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-    );
-  }
-
   private toggleSelectAll() {
     const toggledValue = !this.allSelected;
-    this.allItems.forEach((item) => {
-      if (item.disabled) {
-        return;
-      }
-      item.selected = toggledValue;
+
+    this.batchItemMutations(() => {
+      this.allItems.forEach((item) => {
+        if (item.disabled) {
+          return;
+        }
+        item.selected = toggledValue;
+      });
     });
-    this.updateSelectedItems();
-    this.emitComboboxChange();
+    this.commitSelection({ emit: true });
   }
 
   private hasHiddenSelectedFitChips(): boolean {
@@ -936,9 +970,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           this.open = false;
           event.preventDefault();
         } else if (!this.allowCustomValues && this.filterText) {
-          this.clearInputValue();
-          this.filterItems("");
-          this.updateActiveItemIndex(-1);
+          this.clearTextInput();
         }
         break;
       case "ArrowLeft":
@@ -961,7 +993,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           }
           this.scrollToActiveOrSelectedItem();
 
-          if (!this.comboboxInViewport()) {
+          if (!inViewport(this.el)) {
             this.el.scrollIntoView();
           }
         }
@@ -978,7 +1010,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           }
           this.scrollToActiveOrSelectedItem();
 
-          if (!this.comboboxInViewport()) {
+          if (!inViewport(this.el)) {
             this.el.scrollIntoView();
           }
         }
@@ -999,7 +1031,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         event.preventDefault();
         this.updateActiveItemIndex(0);
         this.scrollToActiveOrSelectedItem();
-        if (!this.comboboxInViewport()) {
+        if (!inViewport(this.el)) {
           this.el.scrollIntoView();
         }
         break;
@@ -1010,7 +1042,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         event.preventDefault();
         this.updateActiveItemIndex(this.filteredItems.length - 1);
         this.scrollToActiveOrSelectedItem();
-        if (!this.comboboxInViewport()) {
+        if (!inViewport(this.el)) {
           this.el.scrollIntoView();
         }
         break;
@@ -1023,7 +1055,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
         if (!this.clearDisabled) {
           if (this.textInputRef.value!.value.length > 0) {
-            this.resetText();
+            this.clearTextInput();
             event.preventDefault();
           } else if (this.selectedItems.length > 0 && this.selectionMode !== "single-persist") {
             this.clearValue();
@@ -1170,6 +1202,54 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     chipEl.classList.remove(CSS.chipInvisible);
   }
 
+  private getChipLayoutMetrics():
+    | {
+        chipContainerElGap: number;
+        chipContainerElWidth: number;
+        inputMinWidth: number;
+        inputWidth: number;
+        largestSelectedIndicatorChipWidth: number;
+        placeholderWidth: number;
+        selectedIndicatorChipElWidth: number;
+      }
+    | undefined {
+    const { chipContainerEl, placeholder, selectedIndicatorChipRef, textInputRef } = this;
+
+    if (!textInputRef.value || !chipContainerEl) {
+      return;
+    }
+
+    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap, 10);
+    const chipContainerElWidth = getElementWidth(chipContainerEl);
+    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
+    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
+    const placeholderWidth = getPlaceholderWidth({
+      fontSize,
+      inputMinWidth,
+      measuredPlaceholderWidth: getTextWidth(placeholder, `${fontSize} ${fontFamily}`),
+      placeholder,
+    });
+    const inputWidth =
+      (this.selectionDisplay === "fit"
+        ? Math.max(inputMinWidth, placeholderWidth)
+        : placeholderWidth) + chipContainerElGap;
+    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
+    const largestSelectedIndicatorChipWidth = Math.max(
+      getElementWidth(this.allSelectedIndicatorChipRef.value),
+      selectedIndicatorChipElWidth,
+    );
+
+    return {
+      chipContainerElGap,
+      chipContainerElWidth,
+      inputMinWidth,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+      placeholderWidth,
+      selectedIndicatorChipElWidth,
+    };
+  }
+
   private refreshChipDisplay({
     chipEls,
     availableHorizontalChipElSpace,
@@ -1238,47 +1318,29 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
-    const {
-      allSelectedIndicatorChipRef,
-      chipContainerEl,
-      selectionDisplay,
-      placeholder,
-      selectedIndicatorChipRef,
-      textInputRef,
-    } = this;
+    const { chipContainerEl, selectionDisplay, textInputRef } = this;
 
     if (!textInputRef.value || !chipContainerEl) {
       this.refreshingSelectionDisplay = false;
       return;
     }
 
-    const chipContainerElGap = parseInt(getComputedStyle(chipContainerEl).gap, 10);
-    const chipContainerElWidth = getElementWidth(chipContainerEl);
-    const { fontSize, fontFamily, minInlineSize } = getComputedStyle(textInputRef.value);
-    // Heuristic placeholder width multiplier for stable hidden chip calculations.
-    const placeholderWidthMultiplier = 0.55;
-    const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
-    const measuredPlaceholderWidth = getTextWidth(placeholder, `${fontSize} ${fontFamily}`);
-    const placeholderWidth =
-      measuredPlaceholderWidth > 0
-        ? measuredPlaceholderWidth
-        : Math.max(
-            inputMinWidth,
-            Math.round(
-              (placeholder?.length || 0) *
-                (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
-                placeholderWidthMultiplier,
-            ),
-          );
-    const fitInputWidth = Math.max(inputMinWidth, placeholderWidth);
-    const inputWidth =
-      (selectionDisplay === "fit" ? fitInputWidth : placeholderWidth) + chipContainerElGap;
-    const allSelectedIndicatorChipElWidth = getElementWidth(allSelectedIndicatorChipRef.value);
-    const selectedIndicatorChipElWidth = getElementWidth(selectedIndicatorChipRef.value);
-    const largestSelectedIndicatorChipWidth = Math.max(
-      allSelectedIndicatorChipElWidth,
+    const layoutMetrics = this.getChipLayoutMetrics();
+
+    if (!layoutMetrics) {
+      this.refreshingSelectionDisplay = false;
+      return;
+    }
+
+    const {
+      chipContainerElGap,
+      chipContainerElWidth,
+      inputMinWidth,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+      placeholderWidth,
       selectedIndicatorChipElWidth,
-    );
+    } = layoutMetrics;
 
     this.setCompactSelectionDisplay({
       chipContainerElGap,
@@ -1288,21 +1350,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     });
 
     if (selectionDisplay !== "fit" && this.allSelected && this.selectAllEnabled) {
-      this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-        if (chipEl) {
-          this.hideChip(chipEl);
-        }
-      });
+      this.forEachSelectedChip((chipEl) => this.hideChip(chipEl));
     }
 
     if (this.indeterminate) {
-      this.selectedItems.forEach((item) => {
-        const chipEl = this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`);
-        if (chipEl) {
-          this.showChip(chipEl);
-        }
-      });
+      this.forEachSelectedChip((chipEl) => this.showChip(chipEl));
     }
 
     if (selectionDisplay === "fit") {
@@ -1355,38 +1407,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.refreshingSelectionDisplay = false;
   }
 
-  private setFloatingEl(el: HTMLDivElement): void {
-    this.floatingEl = el;
-    connectFloatingUI(this);
-  }
-
-  private shouldUseFitCompactDisplay({
-    chipContainerElGap,
-    chipContainerElWidth,
-    hiddenChipIndicatorWidth,
-    inputMinWidth,
-    placeholderWidth,
-    reservedPlaceholderInputWidth,
-  }: {
-    chipContainerElGap: number;
-    chipContainerElWidth: number;
-    hiddenChipIndicatorWidth: number;
-    inputMinWidth: number;
-    placeholderWidth: number;
-    reservedPlaceholderInputWidth: number;
-  }): boolean {
-    const availableHorizontalChipElSpaceWithPlaceholder = Math.round(
-      chipContainerElWidth -
-        (hiddenChipIndicatorWidth +
-          chipContainerElGap +
-          reservedPlaceholderInputWidth +
-          chipContainerElGap),
-    );
-    const placeholderIsReallyLong = placeholderWidth > inputMinWidth * 2;
-
-    return placeholderIsReallyLong && availableHorizontalChipElSpaceWithPlaceholder <= 0;
-  }
-
   private getFitCompactDisplayState({
     chipContainerElGap,
     chipContainerElWidth,
@@ -1404,26 +1424,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     hideSelectedChips: boolean;
     reservedPlaceholderInputWidth: number;
   } {
-    const selectedChipCountElWidth = getElementWidth(this.selectedChipCountRef.value);
-    const hiddenChipIndicatorWidth =
-      this.deferFitChipCountRender || this.selectedHiddenChipsCount <= 0
-        ? 0
-        : selectedChipCountElWidth || selectedIndicatorChipElWidth;
-    const reservedPlaceholderInputWidth = Math.max(inputMinWidth, placeholderWidth);
-    const hideSelectedChips = this.shouldUseFitCompactDisplay({
+    return getFitCompactDisplayState({
       chipContainerElGap,
       chipContainerElWidth,
-      hiddenChipIndicatorWidth,
+      deferFitChipCountRender: this.deferFitChipCountRender,
       inputMinWidth,
       placeholderWidth,
-      reservedPlaceholderInputWidth,
+      selectedChipCountWidth: getElementWidth(this.selectedChipCountRef.value),
+      selectedHiddenChipsCount: this.selectedHiddenChipsCount,
+      selectedIndicatorChipWidth: selectedIndicatorChipElWidth,
     });
-
-    return {
-      hiddenChipIndicatorWidth,
-      hideSelectedChips,
-      reservedPlaceholderInputWidth,
-    };
   }
 
   private setCompactSelectionDisplay({
@@ -1432,29 +1442,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     inputWidth,
     largestSelectedIndicatorChipWidth,
   }): void {
-    const newCompactBreakpoint = Math.round(
-      largestSelectedIndicatorChipWidth + chipContainerElGap + inputWidth,
-    );
+    const newCompactBreakpoint = getCompactSelectionDisplayBreakpoint({
+      chipContainerElGap,
+      inputWidth,
+      largestSelectedIndicatorChipWidth,
+    });
     if (!this.maxCompactBreakpoint || this.maxCompactBreakpoint < newCompactBreakpoint) {
       this.maxCompactBreakpoint = newCompactBreakpoint;
     }
     this.compactSelectionDisplay = chipContainerElWidth < this.maxCompactBreakpoint;
-  }
-
-  private setContainerEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.listContainerEl, el);
-    this.listContainerEl = el;
-    this.transitionEl = el;
-  }
-
-  private setChipContainerEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.chipContainerEl, el);
-    this.chipContainerEl = el;
-  }
-
-  private setReferenceEl(el: HTMLDivElement): void {
-    this.referenceEl = el;
-    connectFloatingUI(this);
   }
 
   private syncChipVisibilityCounts(chipEls: Chip["el"][]): void {
@@ -1558,56 +1554,22 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private handleMultiSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
-    item.selected = value;
-    this.updateAncestors(item);
-    this.updateSelectedItems();
-    this.emitComboboxChange();
-    this.resetText();
-    this.filterItems("");
+    this.batchItemMutations(() => {
+      item.selected = value;
+      if (this.selectionMode === "ancestors") {
+        syncAncestorSelection(item, value);
+      }
+    });
+    this.commitSelection({ clearTextInput: true, emit: true });
   }
 
   private handleSingleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
-    this.ignoreSelectedEventsFlag = true;
-    this.items.forEach((el) => (el.selected = el === item ? value : false));
-    this.ignoreSelectedEventsFlag = false;
-    this.updateSelectedItems();
-    this.emitComboboxChange();
-
-    if (this.textInputRef.value) {
-      this.textInputRef.value.value = getLabel(item);
-    }
-    this.open = false;
-    this.updateActiveItemIndex(-1);
-    this.resetText();
-    this.filterItems("");
-  }
-
-  private updateAncestors(item: HTMLCalciteComboboxItemElement["el"]): void {
-    if (this.selectionMode !== "ancestors") {
-      return;
-    }
-    const ancestors = getItemAncestors(item);
-    const children = getItemChildren(item);
-    if (item.selected) {
-      ancestors.forEach((el) => {
-        if (el.disabled) {
-          return;
-        }
-        el.selected = true;
-      });
-    } else {
-      [...children].forEach((el) => {
-        if (el.disabled) {
-          return;
-        }
-        el.selected = false;
-      });
-      [...ancestors].forEach((el) => {
-        if (!hasActiveChildren(el)) {
-          el.selected = false;
-        }
-      });
-    }
+    this.batchItemMutations(() => {
+      this.items.forEach(
+        (currentItem) => (currentItem.selected = currentItem === item ? value : false),
+      );
+    });
+    this.commitSelection({ clearTextInput: true, close: true, emit: true });
   }
 
   private updateItems(): void {
@@ -1670,10 +1632,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }));
   }
 
-  private resetText(): void {
-    if (this.textInputRef.value) {
-      this.textInputRef.value.value = "";
-    }
+  private clearTextInput(): void {
+    this.setInputValue("");
     this.filterText = "";
   }
 
@@ -1753,9 +1713,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private focusChip(): void {
     const guid = this.selectedItems[this.activeChipIndex]?.guid;
 
-    const chip = guid
-      ? this.referenceEl?.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`)
-      : undefined;
+    const chip = guid ? this.renderRoot.querySelector<Chip["el"]>(`#${IDS.chip(guid)}`) : undefined;
     chip?.setFocus();
   }
 
@@ -1852,6 +1810,75 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const value = Array.isArray(this.value) ? this.value.join(", ") : this.value;
 
     return this.readOnly ? this.messages.nonEditable.replace("{value}", `${value}`) : value;
+  }
+
+  private batchItemMutations(callback: () => void): void {
+    this.ignoreSelectedEventsFlag = true;
+
+    try {
+      callback();
+    } finally {
+      this.ignoreSelectedEventsFlag = false;
+    }
+  }
+
+  private forEachSelectedChip(callback: (chipEl: Chip["el"]) => void): void {
+    this.selectedItems.forEach((item) => {
+      const chipEl = this.getChipElement(item);
+
+      if (chipEl) {
+        callback(chipEl);
+      }
+    });
+  }
+
+  private getChipElement(item: HTMLCalciteComboboxItemElement["el"]): Chip["el"] | null {
+    return item.guid ? this.renderRoot.querySelector<Chip["el"]>(`#${IDS.chip(item.guid)}`) : null;
+  }
+
+  private hasMatchingElements<T>(items: readonly T[], otherItems: readonly T[]): boolean {
+    return (
+      items.length === otherItems.length && items.every((item, index) => item === otherItems[index])
+    );
+  }
+
+  private setInputValue(value: string): void {
+    const textInput = this.textInputRef.value;
+
+    if (textInput && textInput.value !== value) {
+      textInput.value = value;
+    }
+  }
+
+  private syncObservedElement(
+    previousEl: HTMLDivElement | undefined,
+    nextEl: HTMLDivElement | undefined,
+  ): HTMLDivElement | undefined {
+    if (previousEl !== nextEl) {
+      updateRefObserver(this.resizeObserver, previousEl, nextEl);
+    }
+
+    return nextEl;
+  }
+
+  private syncRenderedElements(): void {
+    this.observedListContainerEl = this.syncObservedElement(
+      this.observedListContainerEl,
+      this.listContainerRef.value,
+    );
+    this.observedChipContainerEl = this.syncObservedElement(
+      this.observedChipContainerEl,
+      this.chipContainerRef.value,
+    );
+
+    const floatingEl = this.floatingEl;
+    const referenceEl = this.referenceEl;
+
+    if (floatingEl !== this.previousFloatingEl || referenceEl !== this.previousReferenceEl) {
+      this.previousFloatingEl = floatingEl;
+      this.previousReferenceEl = referenceEl;
+      connectFloatingUI(this);
+    }
   }
 
   private getChipLabel(item: HTMLCalciteComboboxItemElement["el"], isAncestors: boolean): string {
@@ -1961,12 +1988,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     let disabledIndex = 0;
 
     if (preserveOrder) {
-      const selectedChipItems = this.allItems.filter(
-        (item) => item.selected && (!isAncestors || !hasActiveChildren(item)),
-      );
-      const orderedSelectedChipItems = orderByPrevious(selectedChipItems, this.selectedItems);
-
-      orderedSelectedChipItems.forEach((item) => {
+      this.selectedItems.forEach((item) => {
         if (item.disabled) {
           chips.push(
             this.renderChip({
@@ -2027,41 +2049,29 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderAllSelectedIndicatorChip(): JsxNode {
-    const {
-      allSelectedIndicatorChipRef,
-      compactSelectionDisplay,
-      scale,
-      selectedVisibleChipsCount,
-    } = this;
+    const { compactSelectionDisplay, scale, selectedVisibleChipsCount } = this;
     let useFitCompactLabel = false;
 
-    if (this.selectionDisplay === "fit" && this.textInputRef.value && this.chipContainerEl) {
-      const chipContainerElGap = parseInt(getComputedStyle(this.chipContainerEl).gap, 10);
-      const chipContainerElWidth = getElementWidth(this.chipContainerEl);
-      const { fontSize, fontFamily, minInlineSize } = getComputedStyle(this.textInputRef.value);
-      // Heuristic placeholder width multiplier for stable hidden chip calculations.
-      const placeholderWidthMultiplier = 0.55;
-      const inputMinWidth = parseFloat(minInlineSize) || parseInt(calciteSize48, 10);
-      const measuredPlaceholderWidth = getTextWidth(this.placeholder, `${fontSize} ${fontFamily}`);
-      const placeholderWidth =
-        measuredPlaceholderWidth > 0
-          ? measuredPlaceholderWidth
-          : Math.max(
-              inputMinWidth,
-              Math.round(
-                (this.placeholder?.length || 0) *
-                  (parseFloat(fontSize) || parseInt(calciteSize48, 10)) *
-                  placeholderWidthMultiplier,
-              ),
-            );
-      const selectedIndicatorChipElWidth = getElementWidth(this.selectedIndicatorChipRef.value);
-      useFitCompactLabel = this.getFitCompactDisplayState({
-        chipContainerElGap,
-        chipContainerElWidth,
-        inputMinWidth,
-        placeholderWidth,
-        selectedIndicatorChipElWidth,
-      }).hideSelectedChips;
+    if (this.selectionDisplay === "fit") {
+      const layoutMetrics = this.getChipLayoutMetrics();
+
+      if (layoutMetrics) {
+        const {
+          chipContainerElGap,
+          chipContainerElWidth,
+          inputMinWidth,
+          placeholderWidth,
+          selectedIndicatorChipElWidth,
+        } = layoutMetrics;
+
+        useFitCompactLabel = this.getFitCompactDisplayState({
+          chipContainerElGap,
+          chipContainerElWidth,
+          inputMinWidth,
+          placeholderWidth,
+          selectedIndicatorChipElWidth,
+        }).hideSelectedChips;
+      }
     }
 
     const useCompactAllLabel = compactSelectionDisplay || useFitCompactLabel;
@@ -2081,7 +2091,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         }}
         data-testid="all-selected-indicator-chip"
         label={label}
-        ref={allSelectedIndicatorChipRef}
+        ref={this.allSelectedIndicatorChipRef}
         scale={scale}
         title={label}
         value=""
@@ -2092,10 +2102,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderSelectedIndicatorChip(): JsxNode {
-    const { compactSelectionDisplay, selectionDisplay, scale, selectedIndicatorChipRef } = this;
+    const {
+      compactSelectionDisplay,
+      selectionDisplay,
+      scale,
+      selectedIndicatorChipRef,
+      selectedItems,
+    } = this;
     let chipInvisible = false;
     let label: string | undefined;
-    const selectedItemsCount = this.getSelectedItems().length;
+    const selectedItemsCount = selectedItems.length;
 
     if (compactSelectionDisplay) {
       chipInvisible = true;
@@ -2129,10 +2145,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderSelectedIndicatorChipCompact(): JsxNode {
-    const { compactSelectionDisplay, selectionDisplay, scale } = this;
+    const { compactSelectionDisplay, selectionDisplay, scale, selectedItems } = this;
     let chipInvisible = false;
     let label: string | undefined;
-    const selectedItemsCount = this.getSelectedItems().length;
+    const selectedItemsCount = selectedItems.length;
 
     if (compactSelectionDisplay) {
       if (this.allSelected) {
@@ -2250,7 +2266,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private renderFloatingUIContainer(): JsxNode {
-    const { messages, setFloatingEl, setContainerEl, open, scale } = this;
+    const { messages, open, scale } = this;
     const classes = {
       [CSS.listContainer]: true,
       [FloatingCSS.animation]: true,
@@ -2258,10 +2274,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     };
 
     const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
-
     return (
-      <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
-        <div class={classes} ref={setContainerEl}>
+      <div
+        ariaHidden="true"
+        class={CSS.floatingUIContainer}
+        popover="manual"
+        ref={this.floatingElRef}
+      >
+        <div class={classes} ref={this.listContainerRef}>
           <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
@@ -2375,7 +2395,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
           }}
           onClick={this.clickHandler}
           onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
+          ref={this.referenceElRef}
         >
           {this.renderSelectedOrPlaceholderIcon()}
           <div
@@ -2385,7 +2405,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               [CSS.selectionDisplaySingle]: singleSelectionDisplay,
             }}
             key="grid"
-            ref={this.setChipContainerEl}
+            ref={this.chipContainerRef}
           >
             {!singleSelectionMode && !singleSelectionDisplay && this.renderChips()}
             {!singleSelectionMode &&
