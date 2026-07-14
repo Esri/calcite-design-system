@@ -4,8 +4,8 @@ import {
   autoPlacement,
   autoUpdate,
   computePosition,
-  detectOverflow,
   flip,
+  FlipOptions,
   hide,
   Middleware,
   offset,
@@ -351,12 +351,19 @@ function getMiddleware({
   arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
-  const middleware = [shift()];
+  const rootBoundary = "layoutViewport";
+
+  const middleware = [
+    shift({
+      rootBoundary,
+    }),
+  ];
 
   if (type === "menu") {
     middleware.push(
       flip({
         fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
+        rootBoundary,
       }),
     );
   }
@@ -370,10 +377,14 @@ function getMiddleware({
 
   if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
     middleware.push(
-      autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
+      autoPlacement({
+        alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null,
+        rootBoundary,
+      }),
     );
   } else if (!flipDisabled) {
-    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
+    const flipOptions: FlipOptions = { rootBoundary };
+    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements, ...flipOptions } : flipOptions));
   }
 
   if (arrowEl) {
@@ -384,18 +395,11 @@ function getMiddleware({
     );
   }
 
-  middleware.push({
-    name: "detectOverflow",
-    async fn(state) {
-      await detectOverflow(state, {
-        rootBoundary: "layoutViewport",
-      });
-
-      return {};
-    },
-  });
-
-  middleware.push(hide());
+  middleware.push(
+    hide({
+      rootBoundary,
+    }),
+  );
 
   return middleware;
 }
