@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
+import type { InputNumber } from "./input-number";
 
 export const CSS = {
   loader: "loader",
@@ -6,6 +7,8 @@ export const CSS = {
   clearable: "clearable",
   editingEnabled: "editing-enabled",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child", // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  inlineEditable: "inline-editable",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",
@@ -40,3 +43,7 @@ export const DIRECTION = {
 };
 
 export const NUDGE_DELAY_IN_MS = 150;
+
+export function isInputNumber(el: Element | null): el is InputNumber["el"] {
+  return el?.tagName === "CALCITE-INPUT-NUMBER";
+}

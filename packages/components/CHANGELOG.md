@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.22...@esri/calcite-components@5.2.0-next.23) (2026-07-13)
+
+### Features
+
+- **input, input-number, input-text:** add inline-editable functionality ([#14623](https://github.com/Esri/calcite-design-system/issues/14623)), closes [#6153](https://github.com/Esri/calcite-design-system/issues/6153) [#13534](https://github.com/Esri/calcite-design-system/issues/13534)
+
+## [5.2.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.21...@esri/calcite-components@5.2.0-next.22) (2026-07-13)
+
+### Features
+
+- **input-time-zone:** add placeholder property ([#14794](https://github.com/Esri/calcite-design-system/issues/14794)), closes [#10656](https://github.com/Esri/calcite-design-system/issues/10656)
+
+## [5.2.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.20...@esri/calcite-components@5.2.0-next.21) (2026-07-13)
+
+### Features
+
+- **action-bar:** add `expandToggleDisabled` property ([#14793](https://github.com/Esri/calcite-design-system/issues/14793)), closes [#14695](https://github.com/Esri/calcite-design-system/issues/14695)
+
+## [5.2.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.19...@esri/calcite-components@5.2.0-next.20) (2026-07-09)
+
+### Features
+
+- **shell:** add variables for box-shadow and border-radius (corner radius) ([#14769](https://github.com/Esri/calcite-design-system/issues/14769)), closes [#13996](https://github.com/Esri/calcite-design-system/issues/13996)
+
+## [5.2.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.18...@esri/calcite-components@5.2.0-next.19) (2026-07-08)
+
+### Features
+
+- **action:** add --calcite-action-loader-color CSS token ([#14783](https://github.com/Esri/calcite-design-system/issues/14783)), closes [#14782](https://github.com/Esri/calcite-design-system/issues/14782)
+
 ## [5.2.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.17...@esri/calcite-components@5.2.0-next.18) (2026-07-08)
 
 ### Features

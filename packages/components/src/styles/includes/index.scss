@@ -251,6 +251,49 @@
   }
 }
 
+@mixin inline-editable(
+  $background-color: "--calcite-inline-editable-background-color",
+  $background-color-hover: "--calcite-inline-editable-background-color-hover",
+  $background-color-press: "--calcite-inline-editable-background-color-press",
+  $corner-radius: "--calcite-inline-editable-corner-radius",
+  $loader-color: "--calcite-inline-editable-loader-color",
+  $text-color: "--calcite-inline-editable-text-color",
+  $text-color-press: "--calcite-inline-editable-text-color-press"
+) {
+  .inline-editable--container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+
+    .enable-editing,
+    .confirm-changes,
+    .cancel-editing {
+      margin-inline-start: var(--calcite-space-2xs);
+    }
+
+    .enable-editing {
+      --calcite-action-text-color: var(#{$text-color}, var(--calcite-color-text-1));
+    }
+
+    calcite-action {
+      --calcite-action-background-color: var(#{$background-color});
+      --calcite-action-corner-radius: var(#{$corner-radius});
+      --calcite-action-loader-color: var(#{$loader-color});
+      --calcite-action-text-color: var(#{$text-color});
+
+      &:hover {
+        --calcite-action-background-color-hover: var(#{$background-color-hover}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+
+      &:active {
+        --calcite-action-background-color-press: var(#{$background-color-press}, var(#{$background-color}));
+        --calcite-action-text-color-press: var(#{$text-color-press}, var(#{$text-color}));
+      }
+    }
+  }
+}
+
 // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance
 $common-animatable-props: "background-color, block-size, border-color, box-shadow, color, inset-block-end, inset-block-start, inset-inline-end, inset-inline-start, inset-size, opacity, outline-color, transform";
 
