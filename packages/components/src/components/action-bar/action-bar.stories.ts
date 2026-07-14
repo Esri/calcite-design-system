@@ -412,6 +412,33 @@ export const darkModeRTL = (): string => html`
 
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
+export const horizontalWrapDarkModeRTL = (): string =>
+  html`<div style="width: 360px;">
+    <calcite-action-bar layout="horizontal" wrap dir="rtl" class="calcite-mode-dark">
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Measure" icon="measure"></calcite-action>
+        <calcite-action text="Share" icon="share"></calcite-action>
+        <calcite-action text="Print" icon="print"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Search" icon="search"></calcite-action>
+        <calcite-action text="About" icon="information"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group slot="actions-end">
+        <calcite-action text="Settings" icon="gear"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>`;
+
+horizontalWrapDarkModeRTL.parameters = { themes: modesDarkDefault };
+
 export const verticalWrapDarkModeRTL = (): string =>
   html`<calcite-action-bar layout="vertical" wrap dir="rtl" class="calcite-mode-dark" style="height: 260px;">
     <calcite-action-group>

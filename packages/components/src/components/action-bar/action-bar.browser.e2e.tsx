@@ -618,7 +618,7 @@ describe("wrap", () => {
     expect(getComputedStyle(container).flexWrap).toBe("wrap");
   });
 
-  it("projects top-level items into cell wrappers when enabled", async () => {
+  it("keeps top-level items in the default slot when enabled", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" wrap>
         <calcite-action icon="plus" text="Add" />
@@ -629,40 +629,12 @@ describe("wrap", () => {
       </calcite-action-bar>,
     );
 
-    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(3);
-  });
-
-  it("removes cell wrappers and slot assignments when disabled", async () => {
-    const { el, component } = await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal" wrap>
-        <calcite-action icon="plus" text="Add" />
-        <calcite-action icon="save" text="Save" />
-      </calcite-action-bar>,
-    );
-
-    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(2);
-
-    el.wrap = false;
-    await component.updateComplete;
-
-    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(0);
     Array.from(el.children).forEach((child) => {
       expect(child.slot).toBe("");
     });
   });
 
-  it("does not project cells when layout is grid", async () => {
-    const { el } = await mount<ActionBar>(
-      <calcite-action-bar layout="grid" wrap>
-        <calcite-action icon="plus" text="Add" />
-        <calcite-action icon="save" text="Save" />
-      </calcite-action-bar>,
-    );
-
-    expect(el.shadowRoot?.querySelectorAll(".cell")).toHaveLength(0);
-  });
-
-  it("hides the divider on the last group in a wrapped line without changing its size", async () => {
+  it("renders the divider overlay when enabled and removes it when disabled", async () => {
     const { el, component } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
         <calcite-action-group>
@@ -680,28 +652,94 @@ describe("wrap", () => {
       </calcite-action-bar>,
     );
 
-    // Let the rAF-batched line measurement settle so `.line-end` is applied.
-    await component.updateComplete;
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     await component.updateComplete;
 
-    const lineEndCell = el.shadowRoot?.querySelector<HTMLElement>(".cell.line-end");
-    expect(lineEndCell).toBeTruthy();
+    await expect
+      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
+      .toBeGreaterThan(0);
+    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeTruthy();
 
-    // The first cell of each wrapped row (after the first) is flagged so its divider renders.
-    expect(el.shadowRoot?.querySelector(".cell.line-start")).toBeTruthy();
+    el.wrap = false;
+    await component.updateComplete;
 
-    const group = lineEndCell
-      ?.querySelector<HTMLSlotElement>("slot")
-      ?.assignedElements()[0] as HTMLElement;
+    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
+    Array.from(el.children).forEach((child) => {
+      expect(child.slot).toBe("");
+    });
+  });
 
-    const groupStyle = getComputedStyle(group);
+  it("does not render the divider overlay when layout is grid", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="grid" wrap>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+      </calcite-action-bar>,
+    );
+
+    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
+  });
+
+  it("hides the trailing group divider at the end of a wrapped line without changing its size", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    // Let the rAF-batched line measurement settle so the divider lines and line-end marker apply.
+    await component.updateComplete;
+    await expect
+      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
+      .toBeGreaterThan(0);
+
+    const group = el.querySelector<HTMLElement>("calcite-action-group.action-bar-line-end");
+    expect(group).toBeTruthy();
+
+    const groupStyle = getComputedStyle(group!);
     // The last group in a line hides its divider (transparent border)...
     expect(groupStyle.borderInlineEndColor).toBe("rgba(0, 0, 0, 0)");
     // ...but keeps its border width and padding so its size is unchanged, which prevents the wrap
     // boundary from oscillating (flicker).
     expect(groupStyle.borderInlineEndWidth).not.toBe("0px");
     expect(groupStyle.paddingInlineEnd).not.toBe("0px");
+  });
+
+  it("ignores hidden top-level items when measuring wrapped lines", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar expandDisabled layout="horizontal" style="width: 120px;" wrap>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group hidden>
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await component.updateComplete;
+    await expect
+      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
+      .toBeGreaterThan(0);
+
+    // The two visible groups wrap into two rows → exactly one divider; the hidden group must not
+    // add a phantom line.
+    expect(el.shadowRoot?.querySelectorAll(`.${CSS.line}`)).toHaveLength(1);
   });
 });
 

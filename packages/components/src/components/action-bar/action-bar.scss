@@ -127,36 +127,21 @@
   @apply justify-end;
 }
 
-// When `wrap` is enabled, each top-level item is projected into a bar-owned `.cell` wrapper that draws the cross-axis
-// divider between wrapped rows/columns. The cell adds no spacing of its own.
-.cell {
-  display: grid;
-}
-
-// The first item of each wrapped row/column (except the first line) draws a full-length divider,
-// including the expand toggle group when it wraps. JS flags these items and sets
-// `--calcite-internal-action-bar-line-size` to the container's content extent so the divider spans
-// the full row/column.
-.line-start {
-  position: relative;
-}
-
-.line-start::before {
-  content: "";
+// When `wrap` is enabled, absolutely-positioned dividers are drawn between wrapped rows/columns.
+// Position each `.line` using the cross-axis offset exposed via `--calcite-internal-action-bar-line-offset`.
+.line-overlay {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
+  inset: 0;
+  pointer-events: none;
+}
 
-  // Inset linear gradient to align with the action content, matching the group dividers' margin.
+.line {
+  position: absolute;
+
+  // Inset the divider ends to align with the action corner radius, matching the group dividers' margin.
   --calcite-internal-action-bar-divider-inset: calc(
     var(--calcite-internal-action-group-dividing-border-margin) - var(--calcite-border-width-sm)
   );
-}
-
-// The toggle group is pinned to the end with auto margin. Position its divider relative to
-// the container and offset via `--calcite-internal-action-bar-toggle-line-offset`.
-.action-group--end.line-start {
-  position: static;
 }
 
 :host([wrap][layout="horizontal"]),
@@ -179,12 +164,12 @@
     row-gap: var(--calcite-internal-action-bar-line-gap);
   }
 
-  .line-start::before {
-    inline-size: var(--calcite-internal-action-bar-line-size, 100%);
+  .line {
+    inset-inline: var(--calcite-internal-action-bar-padding);
     block-size: var(--calcite-border-width-sm);
-    // Center the divider in the container's row gap between wrapped rows.
-    inset-block-start: calc(var(--calcite-internal-action-bar-line-gap) / -2);
-    // Fade the divider's ends to align with the action corner radius, matching the group dividers.
+    inset-block-start: calc(
+      var(--calcite-internal-action-bar-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
+    );
     background: linear-gradient(
       to right,
       transparent var(--calcite-internal-action-bar-divider-inset),
@@ -196,17 +181,8 @@
     );
   }
 
-  // The toggle divider is positioned relative to the container, so start it at the container's
-  // padding (where the content begins) and center it in the row gap above the toggle's line.
-  .action-group--end.line-start::before {
-    inset-inline-start: var(--calcite-internal-action-bar-padding);
-    inset-block-start: calc(
-      var(--calcite-internal-action-bar-toggle-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
-    );
-  }
-
-  // Hide divider of last group in a row without changing its size to avoid flicker.
-  .line-end ::slotted(calcite-action-group) {
+  // Hide the trailing group divider at the end of a wrapped row without changing its size.
+  ::slotted(calcite-action-group.action-bar-line-end) {
     border-image: none;
     border-inline-end-color: transparent;
   }
@@ -219,12 +195,12 @@
     column-gap: var(--calcite-internal-action-bar-line-gap);
   }
 
-  .line-start::before {
+  .line {
+    inset-block: var(--calcite-internal-action-bar-padding);
     inline-size: var(--calcite-border-width-sm);
-    block-size: var(--calcite-internal-action-bar-line-size, 100%);
-    // Center the divider in the container's column gap between wrapped columns.
-    inset-inline-start: calc(var(--calcite-internal-action-bar-line-gap) / -2);
-    // Fade the divider's ends to align with the action corner radius, matching the group dividers.
+    inset-inline-start: calc(
+      var(--calcite-internal-action-bar-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
+    );
     background: linear-gradient(
       to bottom,
       transparent var(--calcite-internal-action-bar-divider-inset),
@@ -236,18 +212,8 @@
     );
   }
 
-  // The toggle divider is positioned relative to the container, so start it at the container's
-  // padding (where the content begins) and center it in the column gap before the toggle's line.
-  .action-group--end.line-start::before {
-    inset-block-start: var(--calcite-internal-action-bar-padding);
-    inset-inline-start: calc(
-      var(--calcite-internal-action-bar-toggle-line-offset, 0px) - var(--calcite-internal-action-bar-line-gap) / 2
-    );
-  }
-
-  // Hide divider of last group in a column without changing its size to avoid flicker.
-
-  .line-end ::slotted(calcite-action-group) {
+  // Hide the trailing group divider at the end of a wrapped column without changing its size.
+  ::slotted(calcite-action-group.action-bar-line-end) {
     border-image: none;
     border-block-end-color: transparent;
   }

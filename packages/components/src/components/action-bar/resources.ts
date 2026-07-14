@@ -1,8 +1,8 @@
 export const CSS = {
   container: "container",
-  cell: "cell",
-  lineStart: "line-start",
-  lineEnd: "line-end",
+  lineOverlay: "line-overlay",
+  line: "line",
+  lineEnd: "action-bar-line-end",
   actionGroupEnd: "action-group--end",
   actionGroupStart: "action-group--start",
 };
