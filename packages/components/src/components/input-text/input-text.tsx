@@ -10,13 +10,13 @@ import {
   JsxNode,
   LuminaJsx,
   stringOrBoolean,
+  EventEmitter,
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
 import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
 import { CSS_UTILITY } from "../../utils/resources";
-import { SetValueOrigin } from "../input/interfaces";
 import { Alignment, Scale, Status } from "../interfaces";
 import { getIconScale } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
@@ -33,6 +33,7 @@ import { UseInlineEditable } from "../../controllers/useInlineEditable";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
+import { useValue } from "../../controllers/useValue";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -82,18 +83,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   labelEl?: Label["el"];
 
-  private previousEmittedValue?: string;
-
-  private previousValue!: string;
-
-  private previousValueOrigin: SetValueOrigin = "initial";
-
   /** the computed icon to render */
   private requestedIcon?: IconName;
 
-  private userChangedValue = false;
-
-  private _value = "";
+  private valueController = useValue(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -117,7 +110,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     },
     getValue: () => this.value,
     setValue: (value) => {
-      this.setValue({ origin: "direct", value });
+      this.value = value;
     },
     setFocus: () => {
       void this.setFocus();
@@ -309,17 +302,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
-  @property()
-  get value(): string {
-    return this._value;
-  }
-  set value(value: string) {
-    const oldValue = this._value;
-    if (value !== oldValue) {
-      this._value = value;
-      this.valueWatcher(value, oldValue);
-    }
-  }
+  @property() value: string = "";
 
   //#endregion
 
@@ -350,8 +333,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   /** Fires each time a new `value` is typed and committed. */
   calciteInputTextChange = createEvent();
 
-  /** Fires each time a new `value` is typed. */
-  calciteInputTextInput = createEvent();
+  /** Fires each time a new value is typed. */
+  calciteInputTextInput: EventEmitter<string> = createEvent();
 
   /** @private */
   calciteInternalInputTextBlur = createEvent<{ element: HTMLInputElement; value: string }>();
@@ -393,8 +376,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   async load(): Promise<void> {
     this.requestedIcon = setRequestedIcon({}, this.icon, "text");
-    this.setPreviousEmittedValue(this.value);
-    this.setPreviousValue(this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -415,17 +396,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     this.requestUpdate();
   }
 
-  private valueWatcher(newValue: string, previousValue: string): void {
-    if (!this.userChangedValue) {
-      this.setValue({
-        origin: "direct",
-        previousValue,
-        value: !newValue ? "" : newValue,
-      });
-    }
-    this.userChangedValue = false;
-  }
-
   private keyDownHandler(event: KeyboardEvent): void {
     if (this.readOnly || this.disabled || event.defaultPrevented) {
       return;
@@ -435,7 +405,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       event.preventDefault();
 
       if (this.clearable && this.value?.length > 0) {
-        this.clearInputTextValue(event);
+        this.clearInputTextValue();
         return;
       }
 
@@ -451,7 +421,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       event.key === "Escape" &&
       (!this.hasInlineEditableContext || this.inlineEditableEnabledInContext)
     ) {
-      this.clearInputTextValue(event);
+      this.clearInputTextValue();
       event.preventDefault();
     }
     if (event.key === "Enter" && this.formSupport.active) {
@@ -469,20 +439,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     this.setFocus();
   }
 
-  private clearInputTextValue(nativeEvent: KeyboardEvent | MouseEvent): void {
-    this.setValue({
-      committing: true,
-      nativeEvent,
-      origin: "user",
+  private clearInputTextValue(): void {
+    this.valueController.inputValue({
+      inputEventEmitter: this.calciteInputTextInput,
       value: "",
     });
-  }
-
-  private emitChangeIfUserModified(): void {
-    if (this.previousValueOrigin === "user" && this.value !== this.previousEmittedValue) {
-      this.calciteInputTextChange.emit();
-      this.setPreviousEmittedValue(this.value);
-    }
   }
 
   private inputTextBlurHandler() {
@@ -495,7 +456,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.useInlineEditable.disable();
     }
 
-    this.emitChangeIfUserModified();
+    this.commitValue();
   }
 
   private clickHandler(event: MouseEvent): void {
@@ -527,6 +488,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     this.setFocus();
   }
 
+  private commitValue() {
+    this.valueController.commitCurrentValue({ changeEventEmitter: this.calciteInputTextChange });
+  }
+
   private inputTextFocusHandler(): void {
     this.calciteInternalInputTextFocus.emit({
       element: this.childRef.value!,
@@ -538,9 +503,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     if (this.disabled || this.readOnly) {
       return;
     }
-    this.setValue({
-      nativeEvent,
-      origin: "user",
+    this.valueController.inputValue({
+      inputEventEmitter: this.calciteInputTextInput,
       value: (nativeEvent.target as HTMLInputElement).value,
     });
   }
@@ -550,56 +514,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       return;
     }
     if (event.key === "Enter") {
-      this.emitChangeIfUserModified();
-    }
-  }
-
-  private setInputValue(newInputValue: string): void {
-    if (!this.childRef.value) {
-      return;
-    }
-    this.childRef.value.value = newInputValue;
-  }
-
-  private setPreviousEmittedValue(value: string): void {
-    this.previousEmittedValue = value;
-  }
-
-  private setPreviousValue(value: string): void {
-    this.previousValue = value;
-  }
-
-  private setValue({
-    committing = false,
-    nativeEvent,
-    origin,
-    previousValue,
-    value,
-  }: {
-    committing?: boolean;
-    nativeEvent?: MouseEvent | KeyboardEvent | InputEvent;
-    origin: SetValueOrigin;
-    previousValue?: string;
-    value: string;
-  }): void {
-    this.setPreviousValue(previousValue ?? this.value);
-    this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && value !== this.value;
-    this.value = value;
-
-    if (origin === "direct") {
-      this.setInputValue(value);
-      this.setPreviousEmittedValue(value);
-    }
-
-    if (nativeEvent) {
-      const calciteInputTextInputEvent = this.calciteInputTextInput.emit();
-
-      if (calciteInputTextInputEvent.defaultPrevented) {
-        this.value = this.previousValue;
-      } else if (committing) {
-        this.emitChangeIfUserModified();
-      }
+      this.commitValue();
     }
   }
 

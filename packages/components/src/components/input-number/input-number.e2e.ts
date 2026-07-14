@@ -1,9 +1,9 @@
 import { KeyInput } from "puppeteer";
-import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import { E2EPage, newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { labelable } from "../../tests/commonTests";
-import { assertCaretPosition, findAll, isElementFocused } from "../../tests/utils/puppeteer";
+import { assertCaretPosition, findAll, isElementFocused, selectText } from "../../tests/utils/puppeteer";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { testWorkaroundForGlobalPropRemoval } from "../input/common/tests";
@@ -93,6 +93,39 @@ describe("direct changes to the value", () => {
     expect(await input.getProperty("value")).toBe("2");
   });
 
+  it("Setting the value to Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const input = await page.find("calcite-input-number");
+
+    await input.callMethod("setFocus");
+    await page.waitForChanges();
+
+    input.setProperty("value", "-Infinity");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-Infinity");
+
+    await typeNumberValue(page, "123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("-Infinity");
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("");
+
+    input.setProperty("value", "Infinity");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("Infinity");
+
+    await typeNumberValue(page, "123");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("Infinity");
+
+    await page.keyboard.press("Backspace");
+    await page.waitForChanges();
+    expect(await input.getProperty("value")).toBe("");
+  });
+
   it("Setting the value to -Infinity prevents typing additional numbers and clears the value on Backspace or Delete", async () => {
     const page = await newE2EPage();
     await page.setContent(html`<calcite-input-number></calcite-input-number>`);
@@ -113,32 +146,116 @@ describe("direct changes to the value", () => {
     await page.waitForChanges();
     expect(await input.getProperty("value")).toBe("");
   });
-});
 
-it("value stays in sync when value property is controlled with javascript", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-  const calciteInput = await page.find("calcite-input-number");
-  const input = await page.find("calcite-input-number >>> input");
+  it("setting the value with a typeof number", async () => {
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const element = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
 
-  await page.evaluate(() => {
-    document.querySelector("calcite-input-number")!.addEventListener("calciteInputNumberInput", (event): void => {
-      (event.target as HTMLInputElement).value = "5";
-    });
+    element.setProperty("value", 2);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe("2");
+    expect(await input.getProperty("value")).toBe("2");
   });
 
-  await calciteInput.click();
-  await typeNumberValue(page, "1");
-  await page.waitForChanges();
+  it("value stays in sync when value property is controlled with javascript", async () => {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    const calciteInput = await page.find("calcite-input-number");
+    const input = await page.find("calcite-input-number >>> input");
 
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
+    await page.evaluate(() => {
+      document.querySelector("calcite-input-number")!.addEventListener("calciteInputNumberInput", (event): void => {
+        (event.target as HTMLInputElement).value = "5";
+      });
+    });
 
-  await typeNumberValue(page, "2");
-  await page.waitForChanges();
+    await calciteInput.click();
+    await typeNumberValue(page, "1");
+    await page.waitForChanges();
 
-  expect(await calciteInput.getProperty("value")).toBe("5");
-  expect(await input.getProperty("value")).toBe("5");
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
+
+    await typeNumberValue(page, "2");
+    await page.waitForChanges();
+
+    expect(await calciteInput.getProperty("value")).toBe("5");
+    expect(await input.getProperty("value")).toBe("5");
+  });
+});
+
+describe("emits events when value is modified", () => {
+  async function assertChangeEvents(): Promise<void> {
+    const page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+
+    const element = await page.find("calcite-input-number");
+    const calciteInputNumberInput = await element.spyOnEvent("calciteInputNumberInput");
+    const calciteInputNumberChange = await element.spyOnEvent("calciteInputNumberChange");
+
+    const inputFirstPart = "12345";
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, inputFirstPart);
+    expect(await element.getProperty("value")).toBe(inputFirstPart);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("Enter");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(5);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
+
+    const textSecondPart = "67890";
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, textSecondPart);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+    expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await page.keyboard.press("Tab");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+    expect(await element.getProperty("value")).toBe(`${inputFirstPart}${textSecondPart}`);
+
+    const programmaticSetValue = "1337";
+    element.setProperty("value", programmaticSetValue);
+    await page.waitForChanges();
+
+    expect(await element.getProperty("value")).toBe(programmaticSetValue);
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(10);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(2);
+
+    await element.callMethod("setFocus");
+    await page.waitForChanges();
+    await selectText(element);
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Tab");
+
+    expect(await element.getProperty("value")).toBe("");
+    expect(calciteInputNumberInput).toHaveReceivedEventTimes(11);
+    expect(calciteInputNumberChange).toHaveReceivedEventTimes(3);
+  }
+
+  it("emits events", () => assertChangeEvents());
 });
 
 it("doesn't round numbers larger than double-precision floating-point", async () => {
@@ -182,7 +299,7 @@ it("allows exponential number format", async () => {
   expect(Number(await element.getProperty("value"))).toBe(0.000012);
 });
 
-it("sanitizes numbers when using exponential format", async () => {
+it("disallows typing redundant minus signs and the 'e' character while preserving leading zeros on input; removes leading zeros on commit", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number></calcite-input-number>`);
 
@@ -191,8 +308,18 @@ it("sanitizes numbers when using exponential format", async () => {
   await page.waitForChanges();
   await typeNumberValue(page, "------000005eeee00005----eee");
   await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("-5e5");
-  expect(Number(await element.getProperty("value"))).toBe(-500000);
+
+  let value = await element.getProperty("value");
+
+  expect(value).toBe("-000005e5");
+  expect(Number(value)).toBe(-500000);
+
+  await page.keyboard.press("Tab");
+
+  value = await element.getProperty("value");
+
+  expect(value).toBe("-5e5");
+  expect(Number(value)).toBe(-500000);
 });
 
 it("increments correctly with exponential numbers", async () => {
@@ -308,26 +435,35 @@ it("allows shift tabbing", async () => {
   expect(await page.evaluate(() => document.activeElement!.getAttribute("label"))).toEqual("one");
 });
 
-it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
+it("typing zero and then a non-zero number sets and emits the non-zero number on commit", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number></calcite-input-number>`);
   const calciteInputNumberInput = await page.spyOnEvent("calciteInputNumberInput");
+  const calciteInputNumberChange = await page.spyOnEvent("calciteInputNumberChange");
   const calciteInput = await page.find("calcite-input-number");
 
   await calciteInput.callMethod("setFocus");
   await page.waitForChanges();
-
   await page.keyboard.press("0");
   await page.waitForChanges();
 
   expect(await calciteInput.getProperty("value")).toBe("0");
   expect(calciteInputNumberInput).toHaveReceivedEventTimes(1);
+  expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
 
   await page.keyboard.press("1");
   await page.waitForChanges();
 
+  expect(await calciteInput.getProperty("value")).toBe("01");
+  expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
+  expect(calciteInputNumberChange).toHaveReceivedEventTimes(0);
+
+  await page.keyboard.press("Tab");
+  await page.waitForChanges();
+
   expect(await calciteInput.getProperty("value")).toBe("1");
   expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
+  expect(calciteInputNumberChange).toHaveReceivedEventTimes(1);
 });
 
 it("prevent typing invalid characters", async () => {
@@ -377,24 +513,102 @@ it("allows negative numbers after clearing value with an empty string", async ()
   expect(await input.getProperty("value")).toBe("-123");
 });
 
-it(`Using the select method selects all text`, async () => {
-  const value = "-98.76";
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number value="123.45"></calcite-input-number>`);
-  const element = await page.find("calcite-input-number");
-  // overwrite initial value by selecting and typing
-  await element.callMethod("selectText");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await typeNumberValue(page, value);
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe(value);
+describe("input selection behavior", async () => {
+  let page: E2EPage;
+  let component: E2EElement;
+  let input: E2EElement;
+
+  beforeEach(async () => {
+    page = await newE2EPage();
+    await page.setContent(html`<calcite-input-number value="123.45"></calcite-input-number>`);
+    component = await page.find("calcite-input-number");
+    input = await page.find("calcite-input-number >>> input");
+  });
+
+  it(`Using the select method selects all text`, async () => {
+    const value = "-98.76";
+    await component.callMethod("selectText");
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, value);
+    await page.waitForChanges();
+    expect(await component.getProperty("value")).toBe(value);
+  });
+
+  it("allows typing a minus sign while all text is selected in the input", async () => {
+    await component.callMethod("selectText");
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "-");
+    await page.waitForChanges();
+
+    expect(await component.getProperty("value")).toBe("");
+    expect(await input.getProperty("value")).toBe("-");
+
+    await typeNumberValue(page, "2");
+
+    expect(await component.getProperty("value")).toBe("-2");
+    expect(await input.getProperty("value")).toBe("-2");
+  });
+
+  it("allows typing a decimal while all text is selected in the input", async () => {
+    await component.callMethod("selectText");
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, ".");
+    await page.waitForChanges();
+
+    expect(await component.getProperty("value")).toBe("");
+    expect(await input.getProperty("value")).toBe(".");
+
+    await typeNumberValue(page, "2");
+
+    expect(await component.getProperty("value")).toBe("0.2");
+    expect(await input.getProperty("value")).toBe("0.2");
+  });
+
+  it(`allows typing "e" while all text is selected in the input`, async () => {
+    await component.callMethod("selectText");
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "e");
+    await page.waitForChanges();
+
+    expect(await component.getProperty("value")).toBe("");
+    expect(await input.getProperty("value")).toBe("e");
+
+    await typeNumberValue(page, "2");
+
+    expect(await component.getProperty("value")).toBe("1e2");
+    expect(await input.getProperty("value")).toBe("1e2");
+  });
+
+  it(`allows typing "E" while all text is selected in the input`, async () => {
+    await component.callMethod("selectText");
+    await component.callMethod("setFocus");
+    await page.waitForChanges();
+    await typeNumberValue(page, "E");
+    await page.waitForChanges();
+
+    expect(await component.getProperty("value")).toBe("");
+    expect(await input.getProperty("value")).toBe("E");
+
+    await typeNumberValue(page, "2");
+
+    expect(await component.getProperty("value")).toBe("1e2");
+    expect(await input.getProperty("value")).toBe("1e2");
+  });
 });
 
 it(`allows clearing value`, async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number value="1"></calcite-input-number>`);
   const input = await page.find("calcite-input-number");
+
+  input.setProperty("value", "");
+  await page.waitForChanges();
+
+  expect(await input.getProperty("value")).toBe("");
 
   input.setProperty("value", null);
   await page.waitForChanges();
@@ -410,28 +624,172 @@ it(`allows clearing value`, async () => {
 describe("disallowed values", () => {
   mockConsole();
 
-  it(`disallows setting text value`, async () => {
+  describe("with initial text value", () => {
+    let page: E2EPage;
     const nonNumberValue = "i am a text value";
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
-    const calciteInput = await page.find("calcite-input-number");
-    const input = await page.find("calcite-input-number >>> input");
-
-    expect(await calciteInput.getProperty("value")).toBe("");
-    expect(await input.getProperty("value")).toBe("");
-
     const numberValue = "1234";
-    calciteInput.setProperty("value", numberValue);
-    await page.waitForChanges();
 
-    expect(await calciteInput.getProperty("value")).toBe(numberValue);
-    expect(await input.getProperty("value")).toBe(numberValue);
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-input-number value=${nonNumberValue}></calcite-input-number>`);
+    });
 
-    calciteInput.setProperty("value", nonNumberValue);
-    await page.waitForChanges();
+    it("initial text value is reset to empty string", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
 
-    expect(await calciteInput.getProperty("value")).toBe(numberValue);
-    expect(await input.getProperty("value")).toBe(numberValue);
+    it("allows directly setting a valid number", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+    });
+
+    it("disallows directly setting a text value", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", "i am a different text value");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+
+    it("resets to previous valid number value when attempting to directly set a text value", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      calciteInput.setProperty("value", nonNumberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+    });
+
+    it("user-initiated value clearing persists after a previously valid number value was directly set", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      calciteInput.setProperty("value", nonNumberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+  });
+
+  describe("with no initial value", () => {
+    let page: E2EPage;
+    const nonNumberValue = "i am a text value";
+    const numberValue = "1234";
+
+    beforeEach(async () => {
+      page = await newE2EPage();
+      await page.setContent(html`<calcite-input-number></calcite-input-number>`);
+    });
+
+    it("initial text value is reset to empty string", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+
+    it("allows directly setting a valid number", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+    });
+
+    it("disallows directly setting a text value", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", "i am a different text value");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
+
+    it("resets to previous valid number value when attempting to directly set a text value", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      calciteInput.setProperty("value", nonNumberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+    });
+
+    it("user-initiated value clearing persists after a previously valid number value was directly set", async () => {
+      const calciteInput = await page.find("calcite-input-number");
+      const input = await page.find("calcite-input-number >>> input");
+
+      calciteInput.setProperty("value", numberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      calciteInput.setProperty("value", nonNumberValue);
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe(numberValue);
+      expect(await input.getProperty("value")).toBe(numberValue);
+
+      await calciteInput.callMethod("setFocus");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.keyboard.press("Backspace");
+      await page.waitForChanges();
+
+      expect(await calciteInput.getProperty("value")).toBe("");
+      expect(await input.getProperty("value")).toBe("");
+    });
   });
 
   it(`disallows pasting just text characters with no initial value`, async () => {
@@ -693,25 +1051,36 @@ it("sets internals to autocomplete when the attribute is used", async () => {
   expect(await input.getProperty("autocomplete")).toBe("cc-number");
 });
 
-it("sanitize leading zeros from value", async () => {
+it("removes leading zeros from value only on commit", async () => {
   const page = await newE2EPage();
   await page.setContent(`
     <calcite-input-number></calcite-input-number>
     `);
-
   const element = await page.find("calcite-input-number");
+
   await element.callMethod("setFocus");
   await page.waitForChanges();
   await typeNumberValue(page, "0000000");
   await page.waitForChanges();
+
+  expect(await element.getProperty("value")).toBe("0000000");
+
+  await page.keyboard.press("Enter");
+
   expect(await element.getProperty("value")).toBe("0");
 
-  await typeNumberValue(page, "1");
+  await typeNumberValue(page, "0000001");
   await page.waitForChanges();
+
+  expect(await element.getProperty("value")).toBe("00000001");
+
+  await page.keyboard.press("Enter");
+
   expect(await element.getProperty("value")).toBe("1");
 
   await typeNumberValue(page, "0000000");
   await page.waitForChanges();
+
   expect(await element.getProperty("value")).toBe("10000000");
 });
 

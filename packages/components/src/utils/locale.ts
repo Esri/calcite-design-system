@@ -1,5 +1,5 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
-import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./number";
+import { BigDecimal, isE, isValidNumber, sanitizeExponentialNumberString } from "./number";
 
 /**
  * Represents any BCP 47 locale code used for formatting and parsing numbers.
@@ -183,6 +183,10 @@ export class NumberStringFormat {
   }
 
   delocalize = (numberString: string): string => {
+    if (isE(numberString)) {
+      return numberString;
+    }
+
     // For performance, (de)localization is skipped if the formatter isn't initialized.
     // In order to localize/delocalize, e.g. when lang/numberingSystem props are not default values,
     // `numberFormatOptions` must be set in a component to create and cache the formatter.

@@ -54,6 +54,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
+import { useValue } from "../../controllers/useValue";
 import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -189,8 +190,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private ignoreSelectedEventsFlag = false;
 
-  private internalValueChangeFlag = false;
-
   private previousAllSelected = false;
 
   private refreshingSelectionDisplay = false;
@@ -237,13 +236,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private clearButtonRef = createRef<HTMLDivElement>();
 
-  private _selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
-
   private textInputRef = createRef<HTMLInputElement>();
 
   transitionEl: HTMLDivElement | undefined;
 
   private _value: string | string[] = "";
+
+  private valueController = useValue(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -441,16 +440,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @readonly
    */
-  @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
-    return this._selectedItems;
-  }
-  set selectedItems(selectedItems: HTMLCalciteComboboxItemElement["el"][]) {
-    const oldSelectedItems = this._selectedItems;
-    if (selectedItems !== oldSelectedItems) {
-      this._selectedItems = selectedItems;
-      this.selectedItemsHandler();
-    }
-  }
+  @property() selectedItems: HTMLCalciteComboboxItemElement["el"][] = [];
 
   /**
    * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
@@ -615,11 +605,18 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       "calciteInternalComboboxItemChange",
       this.calciteInternalComboboxItemChangeHandler,
     );
+    this.listen(
+      "calciteInternalComboboxItemSelectedDirectChange",
+      this.calciteInternalComboboxItemSelectedDirectChangeHandler,
+    );
     this.listen("click", this.comboboxFocusHandler);
   }
 
   override connectedCallback(): void {
     connectLabel(this);
+
+    this.updateItems();
+    this.value = this.getValue();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -664,6 +661,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.updateItems();
     }
 
+    if (changes.has("selectedItems")) {
+      this.selectedItemsHandler();
+    }
+
     if (changes.has("flipPlacements")) {
       this.flipPlacementsHandler();
     }
@@ -671,7 +672,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   loaded(): void {
     connectFloatingUI(this);
-    this.updateItems();
     this.filterItems(this.filterText, false, false);
   }
 
@@ -686,8 +686,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   //#region Private Methods
 
-  private emitComboboxChange(): void {
-    this.calciteComboboxChange.emit();
+  private commitValue(): void {
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteComboboxChange,
+      value: this.getValue(),
+    });
   }
 
   private filterTextChange(value: string): void {
@@ -710,9 +713,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   private valueHandler(value: string | string[]): void {
-    if (!this.internalValueChangeFlag) {
-      this.items.forEach((item) => {
-        item.selected = Array.isArray(value) ? value.includes(item.value) : value === item.value;
+    if (this.valueController.valueSetDirectly) {
+      this.getItems().forEach((item) => {
+        item.setSelected(Array.isArray(value) ? value.includes(item.value) : value === item.value);
       });
 
       this.updateItems();
@@ -730,9 +733,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     this.previousAllSelected = isAllSelected;
 
-    this.internalValueChangeFlag = true;
-    this.value = this.getValue();
-    this.internalValueChangeFlag = false;
+    this.commitValue();
 
     if (this.selectionDisplay === "fit" && this.isMulti()) {
       const transitioningFromAllSelected = wasAllSelected && !isAllSelected;
@@ -821,6 +822,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     );
     this.updateActiveItemIndex(newIndex);
     this.toggleSelection(target, target.selected);
+    this.updateSelectedItems();
   }
 
   private calciteInternalComboboxItemChangeHandler(event: CustomEvent<void>): void {
@@ -830,15 +832,28 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
+  private calciteInternalComboboxItemSelectedDirectChangeHandler(
+    event: CustomEvent<HTMLCalciteComboboxItemElement["el"]>,
+  ) {
+    event.stopPropagation();
+    // TODO: update the other selection modes
+    if (this.selectionMode === "single") {
+      // TODO: we may need to handle updating each item's selected property here in response to a direct change on any item element.
+      this.updateSelectedItems();
+      this.value = this.getValue();
+    }
+    this.updateItems();
+  }
+
   private clearValue(): void {
     const enabledSelectedItems = this.items.filter((item) => item.selected && !item.disabled);
 
     if (enabledSelectedItems.length) {
       this.ignoreSelectedEventsFlag = true;
-      enabledSelectedItems.forEach((el) => (el.selected = false));
+      enabledSelectedItems.forEach((el) => el.setSelected(false));
       this.ignoreSelectedEventsFlag = false;
       this.updateSelectedItems();
-      this.emitComboboxChange();
+      this.commitValue();
     }
 
     this.open = false;
@@ -902,10 +917,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       if (item.disabled) {
         return;
       }
-      item.selected = toggledValue;
+      item.setSelected(toggledValue);
     });
     this.updateSelectedItems();
-    this.emitComboboxChange();
+    this.commitValue();
   }
 
   private hasHiddenSelectedFitChips(): boolean {
@@ -1561,17 +1576,17 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     item.selected = value;
     this.updateAncestors(item);
     this.updateSelectedItems();
-    this.emitComboboxChange();
+    this.commitValue();
     this.resetText();
     this.filterItems("");
   }
 
   private handleSingleSelection(item: HTMLCalciteComboboxItemElement["el"], value: boolean): void {
     this.ignoreSelectedEventsFlag = true;
-    this.items.forEach((el) => (el.selected = el === item ? value : false));
+    this.items.forEach((el) => el.setSelected(el === item ? value : false));
     this.ignoreSelectedEventsFlag = false;
     this.updateSelectedItems();
-    this.emitComboboxChange();
+    this.commitValue();
 
     if (this.textInputRef.value) {
       this.textInputRef.value.value = getLabel(item);

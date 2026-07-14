@@ -8,6 +8,7 @@ import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/interfaces";
 import { slotChangeHasContent } from "../../utils/dom";
 import { highlightText } from "../../utils/text";
+import { useValue } from "../../controllers/useValue";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS, itemSpacingMultiplier } from "./resources";
 import { styles } from "./combobox-item.scss";
@@ -33,6 +34,10 @@ export class ComboboxItem extends LitElement {
   //#region Private Properties
 
   private _selected = false;
+
+  private valueController = useValue(this);
+
+  valueProperty: string = "selected";
 
   private _value: any;
 
@@ -101,14 +106,15 @@ export class ComboboxItem extends LitElement {
   /** When `true`, the component is selected. */
   @property({ reflect: true })
   get selected(): boolean {
-    return this._selected;
+    return !!this._selected;
   }
   set selected(value: boolean) {
     const oldValue = this._selected;
     if (value !== oldValue) {
       this._selected = value;
-      // we emit directly to avoid delays updating the parent combobox
-      this.emitItemChange();
+      if (this.hasUpdated && this.valueController.valueSetDirectly) {
+        this.calciteInternalComboboxItemSelectedDirectChange.emit();
+      }
     }
   }
 
@@ -180,6 +186,11 @@ export class ComboboxItem extends LitElement {
 
   //#region Public Methods
 
+  @method()
+  async setSelected(value: any): Promise<void> {
+    this.valueController.setValue(value);
+  }
+
   /**
    * Toggle selection of the component.
    *
@@ -193,8 +204,10 @@ export class ComboboxItem extends LitElement {
       return;
     }
 
-    this.selected = !this.selected;
-    this.calciteComboboxItemChange.emit();
+    this.valueController.commitValue({
+      changeEventEmitter: this.calciteComboboxItemChange,
+      value: !this.selected,
+    });
   }
 
   //#endregion
@@ -210,6 +223,8 @@ export class ComboboxItem extends LitElement {
    * @private
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
+
+  calciteInternalComboboxItemSelectedDirectChange = createEvent({ cancelable: false });
 
   //#endregion
 

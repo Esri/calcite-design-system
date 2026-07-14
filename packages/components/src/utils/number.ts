@@ -100,16 +100,29 @@ export class BigDecimal {
   }
 }
 
-export function isValidNumber(numberString?: string | null): boolean {
-  return !(!numberString || isNaN(Number(numberString)));
+export function isE(value: string | null): boolean {
+  return value === "e" || value === "E";
 }
 
-export function parseNumberString(numberString?: string): string {
-  if (!numberString || !stringContainsNumbers(numberString)) {
+export function isInfinity(value: string | number): boolean {
+  return value === "Infinity" || value === "-Infinity" || value === Infinity || value === -Infinity;
+}
+
+export function isValidNumber(value: string | null): boolean {
+  return !(!value || isNaN(Number(value)));
+}
+
+export function parseNumberString(value?: string): string {
+  if (isInfinity(value)) {
+    return value;
+  }
+
+  if (!value || !stringContainsNumbers(value)) {
     return "";
   }
 
-  return sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string => {
+  const decimals = !usesExponentialNotation(value) && value?.split(".")[1];
+  let sanitizedValue = sanitizeExponentialNumberString(value, (nonExpoNumString: string): string => {
     let containsDecimal = false;
     const result = nonExpoNumString
       .split("")
@@ -126,10 +139,21 @@ export function parseNumberString(numberString?: string): string {
       .join("");
     return isValidNumber(result) ? new BigDecimal(result).toString() : "";
   });
+  if (decimals && hasTrailingDecimalZeros.test(decimals)) {
+    const decimalRemoved = value.includes(".") && !sanitizedValue.includes(".");
+    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    if (decimalRemoved) {
+      sanitizedValue = `${sanitizedValue}.`;
+    }
+    sanitizedValue = sanitizedValue.padEnd(sanitizedValue.length + trailingDecimalZeros.length, "0");
+  }
+  return value.endsWith(".") ? `${sanitizedValue}.` : sanitizedValue;
 }
 
 // regex for number sanitization
 const allLeadingZerosOptionallyNegative = /^([-0])0+(?=\d)/;
+const anyLeadingZeros = /^-?(0+)\d/;
+const containsE = /[eE]/;
 const decimalOnlyAtEndOfString = /(?!^\.)\.$/;
 const allHyphensExceptTheStart = /(?!^-)-/g;
 const isNegativeDecimalOnlyZeros = /^-\b0\b\.?0*$/;
@@ -251,7 +275,7 @@ export function addLocalizedTrailingDecimalZeros(
   value: string,
   formatter: NumberStringFormat,
 ): string {
-  const decimals = value.split(".")[1];
+  const decimals = value?.split(".")[1];
   if (decimals) {
     const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)?.[0];
     if (
@@ -267,4 +291,38 @@ export function addLocalizedTrailingDecimalZeros(
     }
   }
   return localizedValue;
+}
+
+export function getLocalizedCharAllowList(numberStringFormatter: NumberStringFormat): Set<string> {
+  return new Set([...getLocalizedNonDigitCharAllowList(numberStringFormatter), ...numberStringFormatter.digits]);
+}
+
+export function getLocalizedNonDigitCharAllowList(numberStringFormatter: NumberStringFormat): Set<string> {
+  return new Set([
+    "e",
+    "E",
+    numberStringFormatter.decimal,
+    numberStringFormatter.minusSign,
+    numberStringFormatter.group,
+  ]);
+}
+
+function usesExponentialNotation(value: string): boolean {
+  return containsE.test(value);
+}
+
+export function hasLeadingMinusSign(value: string): boolean {
+  return value?.charAt(0) === "-";
+}
+
+export function getLeadingZeros(value: string): RegExpMatchArray {
+  return value?.match(anyLeadingZeros);
+}
+
+export function hasTrailingDecimal(value: string): boolean {
+  return decimalOnlyAtEndOfString.test(value);
+}
+
+export function hasExponentialTrailingMinusSign(value: string): boolean {
+  return !!value.match(/(e-)$/);
 }
