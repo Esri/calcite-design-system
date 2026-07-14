@@ -363,9 +363,9 @@ export class ActionBar extends LitElement {
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
-      if (this.usesWrap) {
-        this.scheduleLineMeasure();
-      } else {
+      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+
+      if (!this.usesWrap) {
         this.updateLines();
       }
     }
@@ -778,7 +778,7 @@ export class ActionBar extends LitElement {
         <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         {this.renderActionsGroup("end")}
         {this.usesWrap ? (
-          <div class={CSS.lineOverlay}>
+          <div class={CSS.lineOverlay} ariaHidden="true">
             {this.lineOffsets.map((offset) => (
               <div
                 class={CSS.line}
