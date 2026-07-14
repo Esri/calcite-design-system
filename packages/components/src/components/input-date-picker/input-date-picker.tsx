@@ -1196,7 +1196,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 {this.placeholder ||
                   messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
-              {!this.range && this.layout === "horizontal" && !this.readOnly ? (
+              {!this.range && !this.readOnly ? (
                 <div class={CSS.horizontalActionsContainer}>
                   {isClearableSingle ? (
                     <div class={CSS.clearButton} onClick={this.clearValue}>

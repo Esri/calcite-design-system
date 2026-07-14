@@ -24,12 +24,12 @@
  * @prop --calcite-input-time-picker-action-background-color-hover: Specifies the background color of the component's actions when hovered.
  * @prop --calcite-input-time-picker-action-background-color-press: Specifies the background color of the component's actions when active.
  *
- * @prop --calcite-input-time-picker-clear-button-background-color: Specifies the background color of the component's clear button.
- * @prop --calcite-input-time-picker-clear-button-background-color-hover: Specifies the background color of the component's clear button when hovered.
- * @prop --calcite-input-time-picker-clear-button-background-color-press: Specifies the background color of the component's clear button when pressed.
- * @prop --calcite-input-time-picker-clear-button-icon-color: Specifies the icon color of the component's clear button.
- * @prop --calcite-input-time-picker-clear-button-icon-color-hover: Specifies the icon color of the component's clear button when hovered.
- * @prop --calcite-input-time-picker-clear-button-icon-color-press: Specifies the icon color of the component's clear button when pressed.
+ * @prop --calcite-input-time-picker-clearable-action-background-color: Specifies the background color of the component's `clearable` element.
+ * @prop --calcite-input-time-picker-clearable-action-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-time-picker-clearable-action-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
+ * @prop --calcite-input-time-picker-clearable-action-icon-color: Specifies the icon color of the component's `clearable` element.
+ * @prop --calcite-input-time-picker-clearable-action-icon-color-hover: Specifies the icon color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-time-picker-clearable-action-icon-color-press: Specifies the icon color of the component's `clearable` element when pressed.
  */
 
 @use "../../styles/includes";
@@ -231,12 +231,12 @@ calcite-popover {
 @include includes.form-validation-message();
 @include includes.base-component();
 @include includes.clear-button(
-  $background-color: "--calcite-input-time-picker-clear-button-background-color",
-  $background-color-hover: "--calcite-input-time-picker-clear-button-background-color-hover",
-  $background-color-press: "--calcite-input-time-picker-clear-button-background-color-press",
-  $icon-color: "--calcite-input-time-picker-clear-button-icon-color",
-  $icon-color-hover: "--calcite-input-time-picker-clear-button-icon-color-hover",
-  $icon-color-press: "--calcite-input-time-picker-clear-button-icon-color-press",
+  $background-color: "--calcite-input-time-picker-clearable-action-background-color",
+  $background-color-hover: "--calcite-input-time-picker-clearable-action-background-color-hover",
+  $background-color-press: "--calcite-input-time-picker-clearable-action-background-color-press",
+  $icon-color: "--calcite-input-time-picker-clearable-action-icon-color",
+  $icon-color-hover: "--calcite-input-time-picker-clearable-action-icon-color-hover",
+  $icon-color-press: "--calcite-input-time-picker-clearable-action-icon-color-press",
   $padding-inline-end-s: 0,
   $padding-inline-end-m: 0,
   $padding-inline-end-l: 0

@@ -39,12 +39,12 @@
  * @prop --calcite-input-date-picker-shadow: Specifies the component's input shadow.
  * @prop --calcite-input-date-picker-text-color: Specifies the component's input text color.
  *
- * @prop --calcite-input-date-picker-clear-button-background-color: Specifies the component's clear button background color.
- * @prop --calcite-input-date-picker-clear-button-background-color-hover: Specifies the component's clear button background color when hovered.
- * @prop --calcite-input-date-picker-clear-button-background-color-press: Specifies the component's clear button background color when pressed.
- * @prop --calcite-input-date-picker-clear-button-icon-color: Specifies the component's clear button icon color.
- * @prop --calcite-input-date-picker-clear-button-icon-color-hover: Specifies the component's clear button icon color when hovered.
- * @prop --calcite-input-date-picker-clear-button-icon-color-press: Specifies the component's clear button icon color when pressed.
+ * @prop --calcite-input-date-picker-clearable-action-background-color: Specifies the background color of the component's `clearable` element.
+ * @prop --calcite-input-date-picker-clearable-action-background-color-hover: Specifies the background color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-date-picker-clearable-action-background-color-press: Specifies the background color of the component's `clearable` element when pressed.
+ * @prop --calcite-input-date-picker-clearable-action-icon-color: Specifies the icon color of the component's `clearable` element.
+ * @prop --calcite-input-date-picker-clearable-action-icon-color-hover: Specifies the icon color of the component's `clearable` element when hovered.
+ * @prop --calcite-input-date-picker-clearable-action-icon-color-press: Specifies the icon color of the component's `clearable` element when pressed.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -84,31 +84,34 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-sm);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-2xs);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-lg))};
 
   .clear-button {
     block-size: var(--calcite-space-2xl);
+    padding-inline-start: var(--calcite-space-sm);
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-md);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(var(--calcite-spacing-xxl))};
 
   .clear-button {
     block-size: var(--calcite-space-3xl);
+    padding-inline-start: var(--calcite-space-md);
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-date-picker-toggle-spacing: var(--calcite-spacing-lg);
+  --calcite-internal-date-picker-toggle-spacing: var(--calcite-space-sm-plus);
   --calcite-internal-input-text-input-padding-inline-end: #{get-trailing-text-input-padding(
       var(--calcite-spacing-xxxl)
     )};
 
   .clear-button {
     block-size: var(--calcite-space-4xl);
+    padding-inline-start: var(--calcite-space-lg);
   }
 }
 
@@ -117,6 +120,10 @@
 .calendar-wrapper {
   box-shadow: var(--calcite-input-date-picker-calendar-shadow, var(--calcite-shadow-none));
   transform: translate3d(0, 0, 0);
+}
+
+.input-container {
+  position: relative;
 }
 
 .input-wrapper {
@@ -241,9 +248,18 @@
     @apply flex-col items-start;
   }
 
+  .vertical-actions-container {
+    padding-inline-start: var(--calcite-space-md);
+    padding-inline-end: var(--calcite-space-none);
+  }
+
   .vertical-actions-container .toggle-icon {
     cursor: default;
     pointer-events: none;
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-md);
   }
 }
 
@@ -259,14 +275,30 @@
 }
 
 :host([range][layout="vertical"][scale="s"]) {
-  .vertical-actions-container,
+  .vertical-actions-container {
+    padding-inline-start: var(--calcite-space-sm);
+    padding-inline-end: var(--calcite-space-none);
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-sm);
+  }
+
   .divider-container {
     padding-inline: var(--calcite-space-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
-  .vertical-actions-container,
+  .vertical-actions-container {
+    padding-inline-start: var(--calcite-space-lg);
+    padding-inline-end: var(--calcite-space-none);
+  }
+
+  .vertical-actions-container:not(:has(.clear-button)) .toggle-icon {
+    padding-inline-start: var(--calcite-space-lg);
+  }
+
   .divider-container {
     padding-inline: var(--calcite-space-lg);
   }
@@ -388,12 +420,12 @@ calcite-date-picker {
 @include includes.form-internal-label();
 @include includes.base-component();
 @include includes.clear-button(
-  $background-color: "--calcite-input-date-picker-clear-button-background-color",
-  $background-color-hover: "--calcite-input-date-picker-clear-button-background-color-hover",
-  $background-color-press: "--calcite-input-date-picker-clear-button-background-color-press",
-  $icon-color: "--calcite-input-date-picker-clear-button-icon-color",
-  $icon-color-hover: "--calcite-input-date-picker-clear-button-icon-color-hover",
-  $icon-color-press: "--calcite-input-date-picker-clear-button-icon-color-press",
+  $background-color: "--calcite-input-date-picker-clearable-action-background-color",
+  $background-color-hover: "--calcite-input-date-picker-clearable-action-background-color-hover",
+  $background-color-press: "--calcite-input-date-picker-clearable-action-background-color-press",
+  $icon-color: "--calcite-input-date-picker-clearable-action-icon-color",
+  $icon-color-hover: "--calcite-input-date-picker-clearable-action-icon-color-hover",
+  $icon-color-press: "--calcite-input-date-picker-clearable-action-icon-color-press",
   $padding-inline-end-s: 0,
   $padding-inline-end-m: 0,
   $padding-inline-end-l: 0
