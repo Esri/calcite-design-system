@@ -142,5 +142,14 @@
     "stylelint-use-logical-spec": {
       "stylelint": "17.13.0"
     }
+  },
+  "allowScripts": {
+    "esbuild": false,
+    "es5-ext": false,
+    "nx": false,
+    "puppeteer": false,
+    "ttf2woff2": false,
+    "@parcel/watcher": false,
+    "github:actions/github-script": false
   }
 }
