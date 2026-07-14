@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.23...@esri/calcite-components@5.2.0-next.24) (2026-07-14)
+
+### Bug Fixes
+
+- **components:** use layoutViewport boundary for floating-ui positioning ([#14809](https://github.com/Esri/calcite-design-system/issues/14809)), closes [#13426](https://github.com/Esri/calcite-design-system/issues/13426)
+
 ## [5.2.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.22...@esri/calcite-components@5.2.0-next.23) (2026-07-13)
 
 ### Features
