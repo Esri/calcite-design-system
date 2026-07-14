@@ -352,6 +352,7 @@ export function getMiddleware({
   type: UIType;
 }): Middleware[] {
   const rootBoundary = "layoutViewport";
+  const isAutoPlacement = placement === "auto" || placement === "auto-start" || placement === "auto-end";
 
   const middleware = [
     shift({
@@ -366,7 +367,7 @@ export function getMiddleware({
     }),
   );
 
-  if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
+  if (isAutoPlacement) {
     middleware.push(
       autoPlacement({
         alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null,
@@ -375,9 +376,7 @@ export function getMiddleware({
     );
   }
 
-  const shouldAddFlip =
-    !flipDisabled &&
-    (!(placement === "auto" || placement === "auto-start" || placement === "auto-end") || type === "menu");
+  const shouldAddFlip = !flipDisabled && (!isAutoPlacement || type === "menu");
 
   if (shouldAddFlip) {
     const fallbackPlacements =
