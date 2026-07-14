@@ -15,8 +15,9 @@ import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -110,6 +111,8 @@ export class Input
   private inputWrapperRef = createRef<HTMLDivElement>();
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   private maxString?: string;
 
@@ -502,7 +505,6 @@ export class Input
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -553,7 +555,6 @@ export class Input
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.stopNudging();
   }
 

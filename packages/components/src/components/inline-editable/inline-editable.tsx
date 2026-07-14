@@ -1,6 +1,7 @@
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale } from "../interfaces";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
@@ -62,6 +63,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   private get shouldShowControls(): boolean {
     return this.editingEnabled && this.controls;
@@ -141,14 +144,6 @@ export class InlineEditable extends LitElement implements LabelableComponent {
     this.listen("calciteInternalInputNumberBlur", this.blurHandler);
     this.listen("calciteInternalInputTextBlur", this.blurHandler);
     this.listen("keydown", this.escapeKeyHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
