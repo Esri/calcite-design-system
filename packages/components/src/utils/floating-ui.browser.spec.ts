@@ -260,6 +260,35 @@ it("should use layoutViewport rootBoundary in non-auto flip middleware", () => {
   });
 });
 
+it("should only add one flip middleware for non-auto menu placements", () => {
+  const middleware = getMiddleware({
+    placement: "top",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(1);
+});
+
+it("should not add menu flip middleware when flipDisabled is true", () => {
+  const middleware = getMiddleware({
+    flipDisabled: true,
+    placement: "top",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(0);
+});
+
+it("should not add menu flip middleware for auto placements when flipDisabled is true", () => {
+  const middleware = getMiddleware({
+    flipDisabled: true,
+    placement: "auto",
+    type: "menu",
+  });
+
+  expect(middleware.filter(({ name }) => name === "flip")).toHaveLength(0);
+});
+
 describe("filterValidFlipPlacements", () => {
   mockConsole();
 

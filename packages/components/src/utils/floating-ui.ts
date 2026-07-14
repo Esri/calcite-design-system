@@ -5,7 +5,6 @@ import {
   autoUpdate,
   computePosition,
   flip,
-  FlipOptions,
   hide,
   Middleware,
   offset,
@@ -360,15 +359,6 @@ export function getMiddleware({
     }),
   ];
 
-  if (type === "menu") {
-    middleware.push(
-      flip({
-        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
-        rootBoundary,
-      }),
-    );
-  }
-
   middleware.push(
     offset({
       mainAxis: typeof offsetDistance === "number" ? offsetDistance : 0,
@@ -383,9 +373,19 @@ export function getMiddleware({
         rootBoundary,
       }),
     );
-  } else if (!flipDisabled) {
-    const flipOptions: FlipOptions = { rootBoundary };
-    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements, ...flipOptions } : flipOptions));
+  }
+
+  const shouldAddFlip =
+    !flipDisabled &&
+    (!(placement === "auto" || placement === "auto-start" || placement === "auto-end") || type === "menu");
+
+  if (shouldAddFlip) {
+    const fallbackPlacements =
+      type === "menu"
+        ? flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+        : flipPlacements;
+
+    middleware.push(flip(fallbackPlacements ? { fallbackPlacements, rootBoundary } : { rootBoundary }));
   }
 
   if (arrowEl) {
