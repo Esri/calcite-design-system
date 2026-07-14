@@ -710,21 +710,5 @@
         "$value": "{typography.wrap.regular.-2}"
       }
     }
-  },
-  "temp-semantic-typography": {
-    "attributes": {
-      "category": "typography"
-    },
-    "$type": "typography",
-    "$value": {
-      "fontFamily": "{font.family.default}",
-      "fontSize": "{font.size.default}",
-      "fontWeight": "{font.weight.regular}",
-      "lineHeight": "{font.line-height.fixed.base}",
-      "letterSpacing": "{font.letter-spacing.normal}",
-      "paragraphSpacing": "{font.paragraph-spacing.normal}",
-      "textCase": "{font.text-case.none}",
-      "textDecoration": "{font.text-decoration.none}"
-    }
   }
 }

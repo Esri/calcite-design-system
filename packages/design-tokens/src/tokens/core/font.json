@@ -1,12 +1,4 @@
 {
-  "temp-core-font": {
-    "attributes": {
-      "category": "font"
-    },
-    "$type": "fontFamilies",
-    "$value": "Andale Mono",
-    "$description": "Fallback for Monaco"
-  },
   "core": {
     "font": {
       "family": {

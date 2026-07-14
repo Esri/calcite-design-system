@@ -625,14 +625,5 @@
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
       }
     }
-  },
-  "temp-semantic-font": {
-    "attributes": {
-      "category": "font",
-      "group": "family"
-    },
-    "$type": "fontFamilies",
-    "$value": "{core.font.family.avenirNext},{core.font.family.avenir},{core.font.family.helveticaNeue},{core.font.family.sansSerif}",
-    "$description": "Primary font with fallbacks"
   }
 }

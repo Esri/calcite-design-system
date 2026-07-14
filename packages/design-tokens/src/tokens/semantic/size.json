@@ -207,12 +207,5 @@
       "$type": "dimension",
       "$value": "{core.size.default.96}"
     }
-  },
-  "temp-semantic-size": {
-    "attributes": {
-      "category": "size"
-    },
-    "$type": "sizing",
-    "$value": "{core.size.default.1}"
   }
 }

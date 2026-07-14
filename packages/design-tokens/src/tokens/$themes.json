@@ -793,8 +793,7 @@
       "space.xl": "86917f7fbf3f3b132f509e6fa86155f7ea58ca3b",
       "space.2xl": "2948da2e1f2cb646167d4c3255dc1509d4b8d07b",
       "space.3xl": "5f7efe27dcb5840481ce50b49cf51c6a50773e57",
-      "space.4xl": "1dee77eed278f8fd24a050c57cca0ab58717cea0",
-      "temp-semantic-size": "5d724f607a73b7c6e9e16cea59e6e9b9a9673a9f"
+      "space.4xl": "1dee77eed278f8fd24a050c57cca0ab58717cea0"
     },
     "$figmaCollectionId": "VariableCollectionId:2302:10",
     "$figmaModeId": "2302:1",
@@ -819,8 +818,7 @@
       "corner-radius.xs": "ede2d57b86be5856745407b14ba01f65f8b3a9a8",
       "corner-radius.sm": "a9e874c55c70ad65b95bb420359c9f3fa085438c",
       "corner-radius.round": "db85dd9c2809e100b6123cb7ab85c5faa6721c1d",
-      "corner-radius.pill": "9cd51e7f2c411b7c64c82d4568d1e79df260b134",
-      "temp-semantic-corner-radius": "0a14c64babe980039188b674758519f4e122acb0"
+      "corner-radius.pill": "9cd51e7f2c411b7c64c82d4568d1e79df260b134"
     },
     "$figmaCollectionId": "VariableCollectionId:2302:2",
     "$figmaModeId": "2302:0",
@@ -838,8 +836,7 @@
       "opacity.light": "56f5bae6e1585a229686f005f81b822f590d9cf4",
       "opacity.half": "2d320a2c6edfe2c3bc89aa33cb96be3f27ce5261",
       "opacity.dark": "13430d8c8f2086a0b47c163ce688b395bfa17231",
-      "opacity.full": "070100a831724545995cd74021482ee1f419de6f",
-      "temp-semantic-opacity": "b0e64e2500ea10831fb0f35415409b169910d583"
+      "opacity.full": "070100a831724545995cd74021482ee1f419de6f"
     },
     "$figmaCollectionId": "VariableCollectionId:3361:3",
     "$figmaModeId": "3361:0",
@@ -859,6 +856,7 @@
       "core/size": "source",
       "semantic/shadow": "enabled"
     },
-    "group": "_styles"
+    "group": "_styles",
+    "$figmaVariableReferences": {}
   }
 ]

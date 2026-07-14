@@ -1,11 +1,4 @@
 {
-  "temp-semantic-corner-radius": {
-    "attributes": {
-      "category": "corner-radius"
-    },
-    "$type": "borderRadius",
-    "$value": "{core.size.default.none}"
-  },
   "corner-radius": {
     "sharp": {
       "attributes": {

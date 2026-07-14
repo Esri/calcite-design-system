@@ -67,18 +67,5 @@
         }
       }
     }
-  },
-  "temp-core-shadow": {
-    "attributes": {
-      "category": "shadow"
-    },
-    "$type": "boxShadow",
-    "$value": {
-      "x": "0",
-      "y": "0",
-      "blur": "0",
-      "spread": "0",
-      "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})"
-    }
   }
 }

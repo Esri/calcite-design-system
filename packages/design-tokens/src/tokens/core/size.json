@@ -393,12 +393,5 @@
         }
       }
     }
-  },
-  "temp-core-size": {
-    "attributes": {
-      "category": "size"
-    },
-    "$type": "sizing",
-    "$value": "1px"
   }
 }

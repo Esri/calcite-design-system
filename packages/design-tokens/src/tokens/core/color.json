@@ -3858,9 +3858,5 @@
         }
       }
     }
-  },
-  "temp-core-color": {
-    "$type": "color",
-    "$value": "#"
   }
 }
