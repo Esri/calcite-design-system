@@ -194,6 +194,15 @@
       }
     }
   },
+  "temp-semantic-space": {
+    "attributes": {
+      "category": "spacing",
+      "docs": "unlisted"
+    },
+    "$type": "spacing",
+    "$value": "{core.size.default.4}",
+    "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-2xs` instead."
+  },
   "space": {
     "none": {
       "attributes": {

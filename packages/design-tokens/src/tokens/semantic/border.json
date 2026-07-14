@@ -34,5 +34,13 @@
         "$value": "{core.size.default.4}"
       }
     }
+  },
+  "temp-semantic-border": {
+    "attributes": {
+      "category": "border",
+      "group": "width"
+    },
+    "$type": "borderWidth",
+    "$value": "{core.size.default.none}"
   }
 }

@@ -460,5 +460,13 @@
         "$value": "{color.brand.default}"
       }
     }
+  },
+  "temp-semantic-dark": {
+    "attributes": {
+      "category": "color",
+      "group": "surface"
+    },
+    "$type": "color",
+    "$value": "{core.color.neutral.blk-210}"
   }
 }

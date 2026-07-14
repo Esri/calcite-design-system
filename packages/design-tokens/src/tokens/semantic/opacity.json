@@ -1,12 +1,12 @@
 {
-  "opacity": {
-    "disabled": {
-      "attributes": {
-        "category": "opacity"
-      },
-      "$type": "opacity",
-      "$value": "{core.opacity.50}"
+  "temp-semantic-opacity": {
+    "attributes": {
+      "category": "opacity"
     },
+    "$type": "opacity",
+    "$value": "{core.opacity.50}"
+  },
+  "opacity": {
     "light": {
       "attributes": {
         "category": "opacity"

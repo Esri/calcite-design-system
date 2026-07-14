@@ -65,5 +65,12 @@
         "$value": "900"
       }
     }
+  },
+  "temp-core-z-index": {
+    "attributes": {
+      "category": "z-index"
+    },
+    "$type": "z-index",
+    "$value": "-999999"
   }
 }

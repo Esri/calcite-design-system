@@ -276,5 +276,13 @@
         "$description": "only for lg breakpoint fixed grid width"
       }
     }
+  },
+  "temp-semantic-container-size": {
+    "attributes": {
+      "category": "breakpoint"
+    },
+    "$type": "sizing",
+    "$value": "{core.size.relative.100}",
+    "$description": "for fluid grid widths"
   }
 }

@@ -101,13 +101,6 @@
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-md` instead."
       }
     },
-    "px": {
-      "attributes": {
-        "category": "size"
-      },
-      "$type": "sizing",
-      "$value": "{core.size.default.1}"
-    },
     "4xs": {
       "attributes": {
         "category": "size"
@@ -214,5 +207,12 @@
       "$type": "dimension",
       "$value": "{core.size.default.96}"
     }
+  },
+  "temp-semantic-size": {
+    "attributes": {
+      "category": "size"
+    },
+    "$type": "sizing",
+    "$value": "{core.size.default.1}"
   }
 }

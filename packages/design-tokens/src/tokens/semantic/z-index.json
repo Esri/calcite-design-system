@@ -1,12 +1,12 @@
 {
-  "z-index": {
-    "deep": {
-      "attributes": {
-        "category": "z-index"
-      },
-      "$type": "z-index",
-      "$value": "{core.z-index.0}"
+  "temp-semantic-z-index": {
+    "attributes": {
+      "category": "z-index"
     },
+    "$type": "z-index",
+    "$value": "{core.z-index.0}"
+  },
+  "z-index": {
     "default": {
       "attributes": {
         "category": "z-index"

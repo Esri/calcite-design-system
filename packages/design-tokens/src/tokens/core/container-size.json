@@ -79,5 +79,12 @@
         "$value": "1440"
       }
     }
+  },
+  "temp-core-container-size": {
+    "attributes": {
+      "category": "breakpoint"
+    },
+    "$type": "sizing",
+    "$value": "0"
   }
 }

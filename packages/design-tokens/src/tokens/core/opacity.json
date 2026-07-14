@@ -128,5 +128,12 @@
         "$value": "100%"
       }
     }
+  },
+  "temp-core-opacity": {
+    "attributes": {
+      "category": "opacity"
+    },
+    "$type": "opacity",
+    "$value": "0%"
   }
 }
