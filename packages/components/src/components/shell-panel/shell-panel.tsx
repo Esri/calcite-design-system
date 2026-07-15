@@ -209,6 +209,7 @@ export class ShellPanel extends LitElement {
   override connectedCallback(): void {
     if (this.hasUpdated) {
       this.refreshResize();
+      this.setUpActionBarObserver();
     }
   }
 
@@ -265,10 +266,6 @@ export class ShellPanel extends LitElement {
     if (changes.has("actionBarPosition")) {
       this.calciteInternalShellPanelActionBarPositionChange.emit();
     }
-  }
-
-  override firstUpdated(): void {
-    this.setUpActionBarObserver();
   }
 
   override disconnectedCallback(): void {
@@ -477,6 +474,7 @@ export class ShellPanel extends LitElement {
 
     await this.updateComplete;
 
+    this.setUpActionBarObserver();
     actionBars.forEach((actionBar) => actionBar.overflowActions());
   }
 
@@ -504,6 +502,8 @@ export class ShellPanel extends LitElement {
   }
 
   private setUpActionBarObserver(): void {
+    this.actionBarObserver?.disconnect();
+
     const actionBar = this.actionBars[0];
 
     if (!actionBar || !this.contentRef.value) {
