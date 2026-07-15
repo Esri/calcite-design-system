@@ -758,6 +758,148 @@ describe("slot-change action tracking", () => {
     expect(triggerAction.selectionAppearance).toBe("highlight");
   });
 
+  it("updates slotted trigger action state when an actions-start action-menu emits an actions change event", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar expanded selection-appearance="highlight">
+        <calcite-action-menu label="Actions" slot={SLOTS.actionsStart} />
+      </calcite-action-bar>,
+    );
+
+    const menu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-start']")
+      .element() as ActionMenu["el"];
+    const actionsChange = vi.fn();
+
+    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
+
+    expect(menu.actions).toEqual([]);
+
+    menu.innerHTML = `
+      <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const triggerAction = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu[slot='actions-start'] > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+
+    expect(actionsChange).toHaveBeenCalled();
+    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+    expect(menu.actions).toHaveLength(2);
+    expect(menu.actions[0]).toBe(triggerAction);
+    expect(triggerAction.selectionAppearance).toBe("highlight");
+  });
+
+  it("updates slotted trigger action state when an actions-end action-menu emits an actions change event", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar expanded selection-appearance="highlight">
+        <calcite-action-menu label="Actions" slot={SLOTS.actionsEnd} />
+      </calcite-action-bar>,
+    );
+
+    const menu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-end']")
+      .element() as ActionMenu["el"];
+    const actionsChange = vi.fn();
+
+    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
+
+    expect(menu.actions).toEqual([]);
+
+    menu.innerHTML = `
+      <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const triggerAction = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu[slot='actions-end'] > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+
+    expect(actionsChange).toHaveBeenCalled();
+    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+    expect(menu.actions).toHaveLength(2);
+    expect(menu.actions[0]).toBe(triggerAction);
+    expect(triggerAction.selectionAppearance).toBe("highlight");
+  });
+
+  it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group id="default-group">
+          <calcite-action icon="plus" text="Default" />
+          <calcite-action icon="save" slot="menu-actions" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group id="start-group" slot={SLOTS.actionsStart}>
+          <calcite-action icon="pin" text="Start" />
+          <calcite-action icon="trash" slot="menu-actions" text="Delete" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const defaultGroup = page
+      .getBySelector("calcite-action-group#default-group")
+      .element() as ActionGroup["el"];
+    const startGroup = page
+      .getBySelector("calcite-action-group#start-group[slot='actions-start']")
+      .element() as ActionGroup["el"];
+    const defaultTrigger = page
+      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
+      .element() as Action["el"];
+    const startTrigger = page
+      .getBySelector("calcite-action-group#start-group calcite-action[slot='trigger']")
+      .element() as Action["el"];
+
+    await userEvent.click(defaultTrigger);
+    expect(defaultGroup.menuOpen).toBe(true);
+
+    await userEvent.click(startTrigger);
+    expect(startGroup.menuOpen).toBe(true);
+    expect(defaultGroup.menuOpen).toBe(false);
+  });
+
+  it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group id="default-group">
+          <calcite-action icon="plus" text="Default" />
+          <calcite-action icon="save" slot="menu-actions" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group id="end-group" slot={SLOTS.actionsEnd}>
+          <calcite-action icon="pin" text="End" />
+          <calcite-action icon="trash" slot="menu-actions" text="Delete" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const defaultGroup = page
+      .getBySelector("calcite-action-group#default-group")
+      .element() as ActionGroup["el"];
+    const endGroup = page
+      .getBySelector("calcite-action-group#end-group[slot='actions-end']")
+      .element() as ActionGroup["el"];
+    const defaultTrigger = page
+      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
+      .element() as Action["el"];
+    const endTrigger = page
+      .getBySelector("calcite-action-group#end-group calcite-action[slot='trigger']")
+      .element() as Action["el"];
+
+    await userEvent.click(defaultTrigger);
+    expect(defaultGroup.menuOpen).toBe(true);
+
+    await userEvent.click(endTrigger);
+    expect(endGroup.menuOpen).toBe(true);
+    expect(defaultGroup.menuOpen).toBe(false);
+  });
+
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
     const { component } = await mount(ActionBarTestWrapper);
     const actions = page.getBySelector("action-bar-test-wrapper calcite-action");
@@ -810,6 +952,42 @@ describe("slot-change action tracking", () => {
 
     expect(getStartGroup().layout).toBe("horizontal");
     expect(getEndGroup().layout).toBe("horizontal");
+  });
+
+  it("syncs layout and scale to slotted groups in actions-start and actions-end", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group slot={SLOTS.actionsStart}>
+          <calcite-action icon="plus" text="Start" />
+        </calcite-action-group>
+        <calcite-action-group slot={SLOTS.actionsEnd}>
+          <calcite-action icon="save" text="End" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const getSlottedStartGroup = (): ActionGroup["el"] =>
+      page
+        .getBySelector("calcite-action-bar > calcite-action-group[slot='actions-start']")
+        .element() as ActionGroup["el"];
+    const getSlottedEndGroup = (): ActionGroup["el"] =>
+      page
+        .getBySelector("calcite-action-bar > calcite-action-group[slot='actions-end']")
+        .element() as ActionGroup["el"];
+
+    expect(getSlottedStartGroup().layout).toBe("vertical");
+    expect(getSlottedEndGroup().layout).toBe("vertical");
+    expect(getSlottedStartGroup().scale).toBe("m");
+    expect(getSlottedEndGroup().scale).toBe("m");
+
+    el.layout = "horizontal";
+    el.scale = "l";
+    await reRender();
+
+    expect(getSlottedStartGroup().layout).toBe("horizontal");
+    expect(getSlottedEndGroup().layout).toBe("horizontal");
+    expect(getSlottedStartGroup().scale).toBe("l");
+    expect(getSlottedEndGroup().scale).toBe("l");
   });
 });
 

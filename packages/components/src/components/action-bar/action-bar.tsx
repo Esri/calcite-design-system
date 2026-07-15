@@ -84,9 +84,13 @@ export class ActionBar extends LitElement {
 
   private actionMenus: ActionMenu["el"][] = [];
 
-  private actionsStart: Action["el"][] = [];
+  private actionsStart: ActionBarItem[] = [];
 
-  private actionsEnd: Action["el"][] = [];
+  private actionsStartGroups: ActionGroup["el"][] = [];
+
+  private actionsEnd: ActionBarItem[] = [];
+
+  private actionsEndGroups: ActionGroup["el"][] = [];
 
   private ignoreActionGroupActionsChange = false;
 
@@ -451,7 +455,7 @@ export class ActionBar extends LitElement {
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
     if ((event.target as ActionGroup["el"]).menuOpen) {
       const composedPath = event.composedPath();
-      this.actionGroups?.forEach((group) => {
+      this.getTrackedActionGroups().forEach((group) => {
         if (!composedPath.includes(group)) {
           group.menuOpen = false;
         }
@@ -493,6 +497,8 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = [
       ...this.actionGroups,
+      ...this.actionsStartGroups,
+      ...this.actionsEndGroups,
       ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
         (group): group is ActionGroup["el"] => !!group,
       ),
@@ -557,7 +563,7 @@ export class ActionBar extends LitElement {
     toggleActionBarChildActionText({
       actions: this.actions,
       expandables: [
-        ...this.actionGroups,
+        ...this.getTrackedActionGroups(),
         ...this.actionMenus,
         ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
           (group): group is ActionGroup["el"] => !!group,
@@ -565,6 +571,16 @@ export class ActionBar extends LitElement {
       ],
       expanded: this.expanded,
     });
+  }
+
+  private getTrackedActionGroups(): ActionGroup["el"][] {
+    return [...this.actionGroups, ...this.actionsStartGroups, ...this.actionsEndGroups];
+  }
+
+  private getTrackedActionMenus(): ActionMenu["el"][] {
+    return [...this.actionMenus, ...this.actionsStart, ...this.actionsEnd].filter(
+      (item): item is ActionMenu["el"] => isActionMenu(item),
+    );
   }
 
   private getAssignedDefaultSlotItems(slot = this.defaultSlotRef.value): ActionBarItem[] {
@@ -578,8 +594,15 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private getAssignedActions(slot?: HTMLSlotElement | null): Action["el"][] {
-    return slot ? getSlotAssignedElements<Action["el"]>(slot, "calcite-action") : [];
+  private getAssignedActionBarItems(slot?: HTMLSlotElement | null): ActionBarItem[] {
+    if (!slot) {
+      return [];
+    }
+
+    return getSlotAssignedElements(slot).filter(
+      (element): element is ActionBarItem =>
+        isAction(element) || isActionGroup(element) || isActionMenu(element),
+    );
   }
 
   private syncDefaultSlot(): void {
@@ -594,19 +617,29 @@ export class ActionBar extends LitElement {
   }
 
   private syncActionsStartSlot(): void {
-    this.actionsStart = this.getAssignedActions(this.actionsStartSlotRef.value);
+    this.actionsStart = this.getAssignedActionBarItems(this.actionsStartSlotRef.value);
+    this.actionsStartGroups = this.actionsStart.filter((item): item is ActionGroup["el"] =>
+      isActionGroup(item),
+    );
     this.hasActionsStart = this.actionsStart.length > 0;
+    this.updateGroups();
   }
 
   private syncActionsEndSlot(): void {
-    this.actionsEnd = this.getAssignedActions(this.actionsEndSlotRef.value);
+    this.actionsEnd = this.getAssignedActionBarItems(this.actionsEndSlotRef.value);
+    this.actionsEndGroups = this.actionsEnd.filter((item): item is ActionGroup["el"] =>
+      isActionGroup(item),
+    );
     this.hasActionsEnd = this.actionsEnd.length > 0;
+    this.updateGroups();
   }
 
   private handleActionGroupActionsChange(event: CustomEvent<void>): void {
     const group = event.target as ActionGroup["el"];
 
-    if (this.ignoreActionGroupActionsChange || !this.actionGroups.includes(group)) {
+    const trackedGroups = this.getTrackedActionGroups();
+
+    if (this.ignoreActionGroupActionsChange || !trackedGroups.includes(group)) {
       return;
     }
 
@@ -617,7 +650,7 @@ export class ActionBar extends LitElement {
   private handleActionMenuActionsChange(event: CustomEvent<void>): void {
     const menu = event.target as ActionMenu["el"];
 
-    if (!this.actionMenus.includes(menu)) {
+    if (!this.getTrackedActionMenus().includes(menu)) {
       return;
     }
 
