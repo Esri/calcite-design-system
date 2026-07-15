@@ -419,13 +419,11 @@ export class ShellPanel extends LitElement {
         },
         resizeend: () => {
           this.calciteInternalShellPanelResizeEnd.emit();
-          this.actionBars.forEach((actionBar) => actionBar.overflowActions());
         },
         move: ({ rect }: ResizeEvent) => {
           const isBlock = layout === "horizontal";
 
           this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
-          this.actionBars.forEach((actionBar) => actionBar.overflowActions());
         },
       },
     });
@@ -475,7 +473,6 @@ export class ShellPanel extends LitElement {
     await this.updateComplete;
 
     this.setUpActionBarObserver();
-    actionBars.forEach((actionBar) => actionBar.overflowActions());
   }
 
   private handleHeaderSlotChange(event: Event): void {
