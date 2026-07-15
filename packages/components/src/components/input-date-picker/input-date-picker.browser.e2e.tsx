@@ -1,31 +1,33 @@
-import { JsxNode, LitElement } from "@arcgis/lumina";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
+import { getLocaleData } from "../date-picker/utils";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
+  accessible,
   defaults,
+  disabled,
   floatingUIOwner,
   focusable,
   formAssociated,
   hidden,
   internalLabel,
   openClose,
-  accessible,
   renders,
   t9n,
   themed,
   topLayer,
-  disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { FloatingCSS } from "../../utils/floating-ui";
-import { afterNextTask } from "../../tests/utils/timing";
+import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
+import { Position } from "../interfaces";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-input-date-picker label="Input Date Picker" />));
@@ -186,12 +188,12 @@ describe("minAsDate and maxAsDate properties", () => {
     el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
     await component.updateComplete;
 
-    expect(el.value).toBe("2020-12-31");
+    expect(el).toHaveValue("2020-12-31");
 
     const input = el.shadowRoot
       .querySelector<HTMLElement>("calcite-input-text")!
       .shadowRoot!.querySelector<HTMLInputElement>("input")!;
-    expect(input.value).toBe("12/31/2020");
+    expect(input).toHaveValue("12/31/2020");
   });
 });
 
@@ -438,6 +440,125 @@ describe("theme", () => {
         shadowSelector: `.${CSS.verticalChevronContainer}`,
         targetProp: "borderColor",
       },
+    });
+  });
+});
+
+function getActiveMonth(position: Extract<"start" | "end", Position> = "start"): Locator {
+  const [startMonth, endMonth] = page
+    .getBySelector(
+      `calcite-input-date-picker calcite-date-picker-month-header .${MONTH_HEADER_CSS.header} calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
+    )
+    .all();
+
+  return position === "start"
+    ? startMonth.getBySelector("calcite-option[selected]")
+    : endMonth.getBySelector("calcite-option[selected]");
+}
+
+function getDateInput(type: "start" | "end" = "start"): Locator {
+  const inputIndex = type === "start" ? 0 : 1;
+
+  return page.getBySelector("calcite-input-date-picker calcite-input-text").nth(inputIndex);
+}
+
+async function selectDayInMonthByIndex(day: number): Promise<void> {
+  const dayIndex = day - 1;
+  const target = page
+    .getBySelector("calcite-input-date-picker calcite-date-picker-day[current-month]")
+    .nth(dayIndex);
+  await userEvent.click(target);
+}
+
+describe("localization", () => {
+  it("renders arabic numerals while typing in the input when numbering-system is set to arab", async () => {
+    await mount(<calcite-input-date-picker lang="ar" numbering-system="arab" />);
+
+    await userEvent.keyboard("{Tab}1/");
+
+    expect(getDateInput()).toHaveValue("١‏/");
+
+    await userEvent.keyboard("2");
+
+    // NOTE: This asserted value was copied from the received value in a test failure caused by
+    // typing these same values into the test file using an Arabic input source on macOS.
+    // Make sure to preserve this value when refactoring instead of typing these characters from scratch.
+    expect(getDateInput()).toHaveValue("١‏‏/٢");
+
+    await userEvent.keyboard("/");
+
+    expect(getDateInput()).toHaveValue("١‏‏‏/٢‏/");
+
+    await userEvent.keyboard("1234");
+
+    expect(getDateInput()).toHaveValue("١‏‏‏‏‏‏‏/٢‏‏‏‏‏/١٢٣٤");
+  });
+
+  it("syncs lang changes to internal date-picker and input", async () => {
+    const lang = "en";
+    const newLang = "es";
+
+    const year = "2020";
+    const month = "4";
+    const day = "19";
+
+    const langData = getLocaleData(lang);
+    const newLangData = getLocaleData(newLang);
+
+    const { el } = await mount(
+      <calcite-input-date-picker lang={lang} value={`${year}-${month}-${day}`} />,
+    );
+
+    expect(getActiveMonth()).toHaveTextContent(langData.months.wide[Number(month) - 1]);
+    expect(getDateInput()).toHaveValue(
+      langData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
+    );
+
+    el.lang = newLang;
+    await afterNextFrame();
+
+    expect(getActiveMonth()).toHaveTextContent(newLangData.months.wide[Number(month) - 1]);
+    expect(getDateInput()).toHaveValue(
+      newLangData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
+    );
+  });
+
+  describe("regional date handling", () => {
+    const testLocaleDateSelection = async (locale: string, expectedFormattedValue?: string) => {
+      const { el, reRender } = await mount(
+        <calcite-input-date-picker lang={locale} value="2023-05-31" />,
+      );
+      const calciteInputDatePickerOpenEvent = waitForEvent(el, "calciteInputDatePickerOpen");
+
+      await userEvent.click(el);
+      await calciteInputDatePickerOpenEvent;
+
+      await selectDayInMonthByIndex(1);
+      await reRender();
+      el.blur();
+
+      expect(el).toHaveValue("2023-05-01");
+
+      if (expectedFormattedValue) {
+        const inputText = page.getBySelector("calcite-input-date-picker calcite-input-text");
+        expect(inputText).toHaveValue(expectedFormattedValue);
+      }
+    };
+
+    it("handles Buddhist calendar (Thai) locale", async () => {
+      await testLocaleDateSelection("th");
+    });
+
+    it("handles Arabic with Saudi Arabia region fallback", async () => {
+      await testLocaleDateSelection("ar-SA");
+    });
+
+    it("handles Bosnian locale", async () => {
+      await testLocaleDateSelection("bs", "1. 5. 2023.");
+    });
+
+    it("handles Italian (Switzerland) locale", async () => {
+      await testLocaleDateSelection("it-CH", "1.5.2023");
     });
   });
 });
