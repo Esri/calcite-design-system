@@ -1,5 +1,12 @@
 {
   "z-index": {
+    "deep": {
+      "attributes": {
+        "category": "z-index"
+      },
+      "$type": "z-index",
+      "$value": "{core.z-index.0}"
+    },
     "default": {
       "attributes": {
         "category": "z-index"

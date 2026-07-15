@@ -1,5 +1,12 @@
 {
   "opacity": {
+    "disabled": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
+    },
     "light": {
       "attributes": {
         "category": "opacity"
