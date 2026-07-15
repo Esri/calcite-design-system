@@ -1,13 +1,40 @@
 import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import type { ActionMenu } from "../action-menu/action-menu";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
+import { isAction } from "../action/resources";
 
-export const queryActions = (el: HTMLElement): Action["el"][] => {
-  return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
-    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
-  );
-};
+export type ActionBarItem = Action["el"] | ActionGroup["el"] | ActionMenu["el"];
+
+export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
+  return el?.tagName === "CALCITE-ACTION-MENU";
+}
+
+function getNestedTriggerActions(root: Element): Action["el"][] {
+  return Array.from(root.children).flatMap((child) => {
+    if (isAction(child)) {
+      return child.slot === ACTION_MENU_SLOTS.trigger ? [child] : [];
+    }
+
+    return getNestedTriggerActions(child);
+  });
+}
+
+export const queryActions = (items: ActionBarItem[]): Action["el"][] =>
+  items
+    .flatMap((item) => {
+      if (isActionGroup(item)) {
+        return item.actions;
+      }
+
+      if (isActionMenu(item)) {
+        return getNestedTriggerActions(item);
+      }
+
+      return item;
+    })
+    .filter((action): action is Action["el"] => !!action);
 
 /**
  * Manages action overflow by slotting actions into action menus as needed.
@@ -23,12 +50,10 @@ export const overflowActions = ({
   overflowCount: number;
 }): void => {
   let needToSlotCount = overflowCount;
-  actionGroups.reverse().forEach((group) => {
+  [...actionGroups].reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const directGroupActions = queryActions(group)
-      .filter((action) => isActionGroup(action.parentElement))
-      .reverse();
+    const directGroupActions = [...group.actions].reverse();
 
     directGroupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {

@@ -14,12 +14,12 @@ import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
   focusElementInGroup,
+  getSlotAssignedElements,
   getStylePixelValue,
   slotChangeGetAssignedElements,
-  slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
+import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
 import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
@@ -31,11 +31,12 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
+import { isActionGroup } from "../action-group/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { ActionBarItem, isActionMenu, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -63,13 +64,33 @@ export class ActionBar extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsStartSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsEndSlotRef = createRef<HTMLSlotElement>();
+
+  private actionsStartGroupRef = createRef<ActionGroup["el"]>();
+
+  private actionsEndGroupRef = createRef<ActionGroup["el"]>();
+
   private direction = useDirection();
 
   private expandToggleEl?: Action["el"];
 
+  private defaultSlotItems: ActionBarItem[] = [];
+
   private actionGroups: ActionGroup["el"][] = [];
 
-  private mutationObserver = createObserver("mutation", () => this.mutationObserverHandler());
+  private actionMenus: ActionMenu["el"][] = [];
+
+  private actionsStart: Action["el"][] = [];
+
+  private actionsEnd: Action["el"][] = [];
+
+  private ignoreActionGroupActionsChange = false;
+
+  private ignoreActionGroupActionsChangeTimeout?: ReturnType<typeof setTimeout>;
 
   private cancelable = useCancelable<this>()(this);
 
@@ -148,7 +169,7 @@ export class ActionBar extends LitElement {
       itemSizes,
     });
 
-    overflowActions({
+    this.runOverflowActions({
       actionGroups,
       expanded,
       overflowCount,
@@ -319,14 +340,14 @@ export class ActionBar extends LitElement {
       "calciteActionMenuOpen",
       this.actionMenuOpenHandler,
     );
+    this.listen<CustomEvent<void>>(
+      "calciteActionGroupActionsChange",
+      this.handleActionGroupActionsChange,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
   override connectedCallback(): void {
-    this.updateGroups();
-    this.overflowActions();
-    this.updateActions();
-    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
     this.cancelable.add(this.resize);
   }
@@ -374,12 +395,20 @@ export class ActionBar extends LitElement {
   }
 
   loaded(): void {
+    this.syncDefaultSlot();
+    this.syncActionsStartSlot();
+    this.syncActionsEndSlot();
+    this.syncActionsState();
     this.overflowActions();
   }
 
   override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
+
+    if (this.ignoreActionGroupActionsChangeTimeout) {
+      clearTimeout(this.ignoreActionGroupActionsChangeTimeout);
+      this.ignoreActionGroupActionsChangeTimeout = undefined;
+    }
   }
 
   //#endregion
@@ -387,9 +416,9 @@ export class ActionBar extends LitElement {
   //#region Private Methods
 
   private getItemSizes(): number[] {
-    const { el, layout, expandToggleEl } = this;
+    const { layout, expandToggleEl } = this;
 
-    const actions = queryActions(el);
+    const actions = [...this.actions];
 
     if (expandToggleEl) {
       actions.push(expandToggleEl);
@@ -401,8 +430,7 @@ export class ActionBar extends LitElement {
   }
 
   private expandedHandler(): void {
-    const { el, expanded } = this;
-    toggleChildActionText({ el, expanded });
+    this.syncActionsState();
     this.overflowActions();
   }
 
@@ -427,11 +455,31 @@ export class ActionBar extends LitElement {
     }
   }
 
-  private mutationObserverHandler(): void {
-    this.updateGroups();
-    this.overflowActions();
-    this.queryAndStoreActions();
-    this.updateActions();
+  private runOverflowActions({
+    actionGroups,
+    expanded,
+    overflowCount,
+  }: {
+    actionGroups: ActionGroup["el"][];
+    expanded: boolean;
+    overflowCount: number;
+  }): void {
+    this.ignoreActionGroupActionsChange = true;
+
+    if (this.ignoreActionGroupActionsChangeTimeout) {
+      clearTimeout(this.ignoreActionGroupActionsChangeTimeout);
+    }
+
+    overflowActions({
+      actionGroups,
+      expanded,
+      overflowCount,
+    });
+
+    this.ignoreActionGroupActionsChangeTimeout = setTimeout(() => {
+      this.ignoreActionGroupActionsChange = false;
+      this.ignoreActionGroupActionsChangeTimeout = undefined;
+    }, 0);
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -439,27 +487,27 @@ export class ActionBar extends LitElement {
   }
 
   private updateGroups(): void {
-    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-    this.actionGroups = groups;
-    groups.forEach((group) => {
+    this.actionGroups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
     });
   }
 
   private handleDefaultSlotChange(): void {
-    this.updateGroups();
-    this.queryAndStoreActions();
-    this.updateActions();
-  }
-
-  private handleActionsEndSlotChange(event: Event): void {
-    this.hasActionsEnd = slotChangeHasAssignedElement(event);
+    this.syncDefaultSlot();
+    this.syncActionsState();
     this.overflowActions();
   }
 
-  private handleActionsStartSlotChange(event: Event): void {
-    this.hasActionsStart = slotChangeHasAssignedElement(event);
+  private handleActionsEndSlotChange(): void {
+    this.syncActionsEndSlot();
+    this.syncActionsState();
+    this.overflowActions();
+  }
+
+  private handleActionsStartSlotChange(): void {
+    this.syncActionsStartSlot();
+    this.syncActionsState();
     this.overflowActions();
   }
 
@@ -477,12 +525,78 @@ export class ActionBar extends LitElement {
     });
   }
 
-  private queryAndStoreActions(): void {
-    this.actions = Array.from(this.el.querySelectorAll("calcite-action"));
+  private syncActions(): void {
+    this.actions = queryActions([
+      ...this.actionsStart,
+      ...this.defaultSlotItems,
+      ...this.actionsEnd,
+    ]);
+  }
+
+  private syncActionsState(): void {
+    this.syncActions();
+    this.updateActions();
+    toggleActionBarChildActionText({
+      actions: this.actions,
+      expandables: [
+        ...this.actionGroups,
+        ...this.actionMenus,
+        ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
+          (group): group is ActionGroup["el"] => !!group,
+        ),
+      ],
+      expanded: this.expanded,
+    });
+  }
+
+  private getAssignedDefaultSlotItems(slot = this.defaultSlotRef.value): ActionBarItem[] {
+    if (!slot) {
+      return [];
+    }
+
+    return getSlotAssignedElements(slot).filter(
+      (element): element is ActionBarItem =>
+        isAction(element) || isActionGroup(element) || isActionMenu(element),
+    );
+  }
+
+  private getAssignedActions(slot?: HTMLSlotElement | null): Action["el"][] {
+    return slot ? getSlotAssignedElements<Action["el"]>(slot, "calcite-action") : [];
+  }
+
+  private syncDefaultSlot(): void {
+    this.defaultSlotItems = this.getAssignedDefaultSlotItems();
+    this.actionGroups = this.defaultSlotItems.filter((item): item is ActionGroup["el"] =>
+      isActionGroup(item),
+    );
+    this.actionMenus = this.defaultSlotItems.filter((item): item is ActionMenu["el"] =>
+      isActionMenu(item),
+    );
+    this.updateGroups();
+  }
+
+  private syncActionsStartSlot(): void {
+    this.actionsStart = this.getAssignedActions(this.actionsStartSlotRef.value);
+    this.hasActionsStart = this.actionsStart.length > 0;
+  }
+
+  private syncActionsEndSlot(): void {
+    this.actionsEnd = this.getAssignedActions(this.actionsEndSlotRef.value);
+    this.hasActionsEnd = this.actionsEnd.length > 0;
+  }
+
+  private handleActionGroupActionsChange(event: CustomEvent<void>): void {
+    const group = event.target as ActionGroup["el"];
+
+    if (this.ignoreActionGroupActionsChange || !this.actionGroups.includes(group)) {
+      return;
+    }
+
+    this.syncActionsState();
+    this.overflowActions();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    this.queryAndStoreActions();
     const actions = this.actions.filter((action) => !action.disabled);
     const current = document.activeElement;
 
@@ -578,10 +692,15 @@ export class ActionBar extends LitElement {
         label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
+        ref={isStart ? this.actionsStartGroupRef : this.actionsEndGroupRef}
         scale={scale}
       >
         {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
-        <slot name={slotName} onSlotChange={onSlotChange} />
+        <slot
+          name={slotName}
+          onSlotChange={onSlotChange}
+          ref={isStart ? this.actionsStartSlotRef : this.actionsEndSlotRef}
+        />
         {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
         {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
       </calcite-action-group>
@@ -597,7 +716,7 @@ export class ActionBar extends LitElement {
         role="toolbar"
       >
         {this.renderActionsGroup("start")}
-        <slot onSlotChange={this.handleDefaultSlotChange} />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         {this.renderActionsGroup("end")}
       </div>
     );

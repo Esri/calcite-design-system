@@ -9,11 +9,11 @@ import {
   ToEvents,
   createEvent,
 } from "@arcgis/lumina";
-import { queryAssignedElements } from "lit/decorators.js";
+import { createRef } from "lit/directives/ref.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
@@ -56,8 +56,9 @@ export class ActionGroup extends LitElement {
 
   private focusSetter = useSetFocus<this>()(this);
 
-  @queryAssignedElements({ selector: "calcite-action" })
-  private actions!: Action["el"][];
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private menuActionsSlotRef = createRef<HTMLSlotElement>();
 
   //#endregion
 
@@ -131,6 +132,13 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
+   * Specifies the actions in the group.
+   *
+   * @readonly
+   */
+  @property() actions: Action["el"][] = [];
+
+  /**
    * Specifies the active actions in the group.
    *
    * @readonly
@@ -165,6 +173,9 @@ export class ActionGroup extends LitElement {
 
   /** Fires after an action's active state changes. */
   calciteActionGroupChange = createEvent({ cancelable: false });
+
+  /** Fires after the component's slotted actions change. */
+  calciteActionGroupActionsChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -251,8 +262,26 @@ export class ActionGroup extends LitElement {
     this.menuOpen = !!event.currentTarget.open;
   }
 
+  private syncActions(): void {
+    const defaultActions = this.defaultSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.defaultSlotRef.value, "calcite-action")
+      : [];
+    const menuActions = this.menuActionsSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.menuActionsSlotRef.value, "calcite-action")
+      : [];
+
+    this.actions = [...defaultActions, ...menuActions];
+  }
+
+  private handleDefaultSlotChange(): void {
+    this.syncActions();
+    this.calciteActionGroupActionsChange.emit();
+  }
+
   private handleMenuActionsSlotChange(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
+    this.syncActions();
+    this.calciteActionGroupActionsChange.emit();
   }
 
   private handleActionClick(event: MouseEvent): void {
@@ -360,7 +389,11 @@ export class ActionGroup extends LitElement {
           text={messages.more}
           textEnabled={expanded}
         />
-        <slot name={SLOTS.menuActions} onSlotChange={this.handleMenuActionsSlotChange} />
+        <slot
+          name={SLOTS.menuActions}
+          onSlotChange={this.handleMenuActionsSlotChange}
+          ref={this.menuActionsSlotRef}
+        />
         <slot name={SLOTS.menuTooltip} slot={ACTION_MENU_SLOTS.tooltip} />
       </calcite-action-menu>
     );
@@ -377,7 +410,7 @@ export class ActionGroup extends LitElement {
             : "radiogroup"
         }
       >
-        <slot />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         {this.renderMenu()}
       </div>
     );

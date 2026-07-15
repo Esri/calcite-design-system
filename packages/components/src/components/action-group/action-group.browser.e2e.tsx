@@ -75,6 +75,10 @@ describe("defaults", () => {
         defaultValue: "none",
       },
       {
+        propertyName: "actions",
+        defaultValue: [],
+      },
+      {
         propertyName: "selectedActions",
         defaultValue: [],
       },
@@ -277,6 +281,28 @@ it("should emit expanded/collapsed events when toggled", async () => {
 
   expect(expandEventHandler).toHaveBeenCalledTimes(1);
   expect(collapseEventHandler).toHaveBeenCalledTimes(1);
+});
+
+it("stores slotted actions and emits an actions change event without detail", async () => {
+  const { component, el } = await mount<ActionGroup>(<calcite-action-group label="Test" />);
+  const actionsChange = vi.fn();
+
+  el.addEventListener("calciteActionGroupActionsChange", actionsChange);
+
+  expect(el.actions).toEqual([]);
+
+  el.innerHTML = `
+    <calcite-action icon="plus" text="Add"></calcite-action>
+    <calcite-action icon="save" slot="menu-actions" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  expect(el.actions).toHaveLength(2);
+  expect(el.actions[0].text).toBe("Add");
+  expect(el.actions[1].text).toBe("Save");
+  expect(actionsChange).toHaveBeenCalled();
+  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
 });
 
 describe("theme", () => {

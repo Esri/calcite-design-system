@@ -1,4 +1,4 @@
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent, page } from "vitest/browser";
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
@@ -27,6 +27,20 @@ import { overflowActions } from "./utils";
 import { CSS } from "./resources";
 
 mockConsole();
+
+class ActionBarTestWrapper extends LitElement {
+  static tagName = "action-bar-test-wrapper";
+
+  override render(): JsxNode {
+    return (
+      <calcite-action-bar expand-toggle-disabled>
+        <calcite-action-group>
+          <slot />
+        </calcite-action-group>
+      </calcite-action-bar>
+    );
+  }
+}
 
 describe("accessible", () => {
   describe("default", () => {
@@ -354,6 +368,35 @@ describe("overflowing actions", () => {
 });
 
 describe("per-group overflow-actions-disabled", () => {
+  it("does not mutate the provided group order when evaluating overflow", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+          <calcite-action icon="information" text="Info" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const before = [...groups];
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
+
+    expect(groups).toEqual(before);
+  });
+
   it("utility skips slotting for groups with overflowActionsDisabled but still removes previously-overflowed actions from the overflow slot", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
@@ -588,6 +631,104 @@ describe("overflow-disabled actions", () => {
     await expect
       .element(page.getBySelector("calcite-action[overflow-disabled]"))
       .not.toHaveAttribute("slot");
+  });
+});
+
+describe("slot-change action tracking", () => {
+  it("updates slotted action state when an action-group emits an actions change event", async () => {
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar expanded selection-appearance="highlight">
+        <calcite-action-group />
+      </calcite-action-bar>,
+    );
+
+    const group = el.querySelector("calcite-action-group") as ActionGroup["el"];
+    const actionsChange = vi.fn();
+    const actions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group > calcite-action",
+    );
+
+    group.addEventListener("calciteActionGroupActionsChange", actionsChange);
+
+    expect(group.actions).toEqual([]);
+
+    group.innerHTML = `
+      <calcite-action icon="plus" text="Add"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const action1 = actions.nth(0).element() as Action["el"];
+    const action2 = actions.nth(1).element() as Action["el"];
+
+    expect(actionsChange).toHaveBeenCalled();
+    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+    expect(group.actions).toEqual([action1, action2]);
+    expect(action1.selectionAppearance).toBe("highlight");
+    expect(action2.selectionAppearance).toBe("highlight");
+    expect(action1.textEnabled).toBe(true);
+    expect(action2.textEnabled).toBe(true);
+  });
+
+  it("requests overflow recomputation when an action-group's actions change", async () => {
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const overflowSpy = vi.spyOn(ActionBar.prototype, "overflowActions");
+
+    try {
+      const group = el.querySelector("calcite-action-group") as ActionGroup["el"];
+
+      group.innerHTML = `
+        <calcite-action icon="plus" text="Add"></calcite-action>
+        <calcite-action icon="save" text="Save"></calcite-action>
+        <calcite-action icon="trash" text="Delete"></calcite-action>
+        <calcite-action icon="pencil" text="Edit"></calcite-action>
+      `;
+
+      await component.updateComplete;
+
+      expect(overflowSpy).toHaveBeenCalled();
+    } finally {
+      overflowSpy.mockRestore();
+    }
+  });
+
+  it("updates actions when actions are slotted through a shadow wrapper", async () => {
+    const { component } = await mount(ActionBarTestWrapper);
+    const actions = page.getBySelector("action-bar-test-wrapper calcite-action");
+
+    component.innerHTML = `
+      <calcite-action icon="plus" text="Add"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const actionBar = component.shadowRoot?.querySelector("calcite-action-bar") as ActionBar["el"];
+    const group = component.shadowRoot?.querySelector(
+      "calcite-action-group:not([hidden])",
+    ) as ActionGroup["el"];
+    const action1 = actions.nth(0).element() as Action["el"];
+    const action2 = actions.nth(1).element() as Action["el"];
+
+    expect(group.actions).toHaveLength(2);
+    expect(group.actions[0]).toBe(action1);
+    expect(group.actions[1]).toBe(action2);
+
+    await userEvent.click(action1);
+    await expect.element(actions.nth(0)).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(actions.nth(1)).toHaveFocus();
+
+    expect(actionBar.expanded).toBe(false);
   });
 });
 

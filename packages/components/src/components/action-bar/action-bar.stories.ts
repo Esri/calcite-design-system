@@ -316,6 +316,49 @@ export const horizontalOverflowPerGroupDisabled = (): string => html`
   </div>
 `;
 
+export const shadowSlottedHorizontal = (): string => html`
+  <script>
+    if (!customElements.get("action-bar-shadow-component")) {
+      class ActionBarShadowComponent extends HTMLElement {
+        constructor() {
+          super();
+          const shadow = this.attachShadow({ mode: "open" });
+          shadow.innerHTML =
+            '<calcite-action-bar layout="horizontal" style="width: 100%;">' + "<slot></slot>" + "</calcite-action-bar>";
+        }
+      }
+
+      customElements.define("action-bar-shadow-component", ActionBarShadowComponent);
+    }
+  </script>
+
+  <div style="width: 420px; display: flex;">
+    <action-bar-shadow-component style="width: 100%; display: block;">
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+        <calcite-action icon="information" text="Before actions"></calcite-action>
+      </calcite-action-group>
+    </action-bar-shadow-component>
+  </div>
+`;
+
+shadowSlottedHorizontal.parameters = {
+  chromatic: {
+    delay: 500,
+  },
+};
+
 export const withDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {
