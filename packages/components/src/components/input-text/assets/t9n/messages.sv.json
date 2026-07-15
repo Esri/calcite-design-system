@@ -1,8 +1,8 @@
 {
-  "cancelInlineEditing": "Cancel",
+  "cancelInlineEditing": "Avbryt",
   "clear": "Rensa värde",
-  "confirmInlineEditingChanges": "Save",
-  "enableInlineEditing": "Edit",
+  "confirmInlineEditingChanges": "Spara",
+  "enableInlineEditing": "Redigera",
   "loading": "Läser in",
   "required": "Obligatoriskt"
 }
