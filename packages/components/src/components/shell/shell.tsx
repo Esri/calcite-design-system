@@ -254,9 +254,7 @@ export class Shell extends LitElement {
 
   private syncActionBarPositionPanelAttribute(): void {
     const hasActionBarPositionPanel = this.panelSlots.some((slot) =>
-      this.panelSlotState[slot].elements.some(
-        (panel) => !!panel.actionBarPosition || panel.hasAttribute("action-bar-position"),
-      ),
+      this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
     );
 
     this.el.toggleAttribute("data-has-action-bar-position-panel", hasActionBarPositionPanel);
