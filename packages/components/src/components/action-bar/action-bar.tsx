@@ -92,9 +92,7 @@ export class ActionBar extends LitElement {
 
   private actionsEndGroups: ActionGroup["el"][] = [];
 
-  private ignoreActionGroupActionsChange = false;
-
-  private ignoreActionGroupActionsChangeTimeout?: ReturnType<typeof setTimeout>;
+  private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
 
   private cancelable = useCancelable<this>()(this);
 
@@ -412,11 +410,6 @@ export class ActionBar extends LitElement {
 
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
-
-    if (this.ignoreActionGroupActionsChangeTimeout) {
-      clearTimeout(this.ignoreActionGroupActionsChangeTimeout);
-      this.ignoreActionGroupActionsChangeTimeout = undefined;
-    }
   }
 
   //#endregion
@@ -472,11 +465,11 @@ export class ActionBar extends LitElement {
     expanded: boolean;
     overflowCount: number;
   }): void {
-    this.ignoreActionGroupActionsChange = true;
-
-    if (this.ignoreActionGroupActionsChangeTimeout) {
-      clearTimeout(this.ignoreActionGroupActionsChangeTimeout);
-    }
+    const slotStateByGroup = new Map<ActionGroup["el"], string>();
+    actionGroups.forEach((group) => {
+      const directActions = group.actions.filter((action) => action.parentElement === group);
+      slotStateByGroup.set(group, directActions.map((action) => action.slot ?? "").join("|"));
+    });
 
     overflowActions({
       actionGroups,
@@ -484,10 +477,15 @@ export class ActionBar extends LitElement {
       overflowCount,
     });
 
-    this.ignoreActionGroupActionsChangeTimeout = setTimeout(() => {
-      this.ignoreActionGroupActionsChange = false;
-      this.ignoreActionGroupActionsChangeTimeout = undefined;
-    }, 0);
+    actionGroups.forEach((group) => {
+      const directActions = group.actions.filter((action) => action.parentElement === group);
+      const nextSlotState = directActions.map((action) => action.slot ?? "").join("|");
+
+      if (slotStateByGroup.get(group) !== nextSlotState) {
+        const pending = this.suppressedActionGroupActionsChange.get(group) ?? 0;
+        this.suppressedActionGroupActionsChange.set(group, pending + 1);
+      }
+    });
   }
 
   private resizeHandlerEntries(entries: ResizeObserverEntry[]): void {
@@ -639,7 +637,17 @@ export class ActionBar extends LitElement {
 
     const trackedGroups = this.getTrackedActionGroups();
 
-    if (this.ignoreActionGroupActionsChange || !trackedGroups.includes(group)) {
+    if (!trackedGroups.includes(group)) {
+      return;
+    }
+
+    const pending = this.suppressedActionGroupActionsChange.get(group) ?? 0;
+    if (pending > 0) {
+      if (pending === 1) {
+        this.suppressedActionGroupActionsChange.delete(group);
+      } else {
+        this.suppressedActionGroupActionsChange.set(group, pending - 1);
+      }
       return;
     }
 
