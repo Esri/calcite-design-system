@@ -23,7 +23,12 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import {
+  getDateTextSupportedLocale,
+  getDateTimeFormat,
+  NumberingSystem,
+  numberStringFormatter,
+} from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
@@ -425,7 +430,10 @@ export class DatePicker extends LitElement {
     };
 
     this.localeData = await getLocaleData(locale);
-    this.dateTimeFormat = getDateTimeFormat(locale, DATE_PICKER_FORMAT_OPTIONS);
+    this.dateTimeFormat = getDateTimeFormat(
+      getDateTextSupportedLocale(locale),
+      DATE_PICKER_FORMAT_OPTIONS,
+    );
   }
 
   private monthHeaderSelectChange(event: CustomEvent<{ date: Date; position: string }>): void {
