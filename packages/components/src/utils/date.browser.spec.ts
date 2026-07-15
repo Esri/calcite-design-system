@@ -5,6 +5,7 @@ import { mockConsole } from "../tests/utils/logging";
 import {
   getDateInMonth,
   dateFromISO,
+  dateFromLocalizedString,
   dateFromRange,
   datePartsFromISO,
   dateToISO,
@@ -22,6 +23,7 @@ import {
 import { numberStringFormatter } from "./locale";
 
 const arabic = getLocaleData("ar");
+const bosnian = getLocaleData("bs");
 const english = getLocaleData("en");
 const french = getLocaleData("fr");
 const korean = getLocaleData("ko");
@@ -235,6 +237,9 @@ describe("parseDateString", () => {
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
+  });
+  it("parses Bosnian dates formatted with the Chromium fallback", () => {
+    expect(dateFromLocalizedString("1. 5. 2023.", bosnian)).toEqual(new Date(2023, 4, 1));
   });
 });
 

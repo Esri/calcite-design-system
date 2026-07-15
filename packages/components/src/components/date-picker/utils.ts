@@ -1,7 +1,7 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
-import { Locale } from "../../utils/locale";
+import { getDateFormatSupportedLocale, getDateTextSupportedLocale, Locale } from "../../utils/locale";
 import type { DatePicker } from "./date-picker";
 
 type MinSource = Extract<keyof DatePicker, "min" | "minAsDate">;
@@ -185,15 +185,17 @@ export function getLocaleData(locale: Locale): DateLocaleData {
     return dateLocaleDataCache[locale];
   }
 
-  const calendar = memoize(() => getCalendar(locale));
-  const datePattern = memoize(() => getDatePattern(locale));
-  const abbreviatedMonths = memoize(() => getMonthNames(locale, "abbreviated"));
-  const wideMonths = memoize(() => getMonthNames(locale, "wide"));
-  const abbreviatedWeekdays = memoize(() => getWeekdayNames(locale, "abbreviated"));
-  const narrowWeekdays = memoize(() => getWeekdayNames(locale, "narrow"));
+  const dateFormatLocale = getDateFormatSupportedLocale(locale);
+  const dateTextLocale = getDateTextSupportedLocale(locale);
+  const calendar = memoize(() => getCalendar(dateFormatLocale));
+  const datePattern = memoize(() => getDatePattern(dateFormatLocale));
+  const abbreviatedMonths = memoize(() => getMonthNames(dateTextLocale, "abbreviated"));
+  const wideMonths = memoize(() => getMonthNames(dateTextLocale, "wide"));
+  const abbreviatedWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "abbreviated"));
+  const narrowWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "narrow"));
   const shortWeekdays = memoize(() => getShortWeekdayNames(abbreviatedWeekdays()));
   const weekStart = memoize(() => getWeekStart(locale));
-  const yearSuffix = memoize(() => getYearSuffix(locale));
+  const yearSuffix = memoize(() => getYearSuffix(dateTextLocale));
   const localeData: DateLocaleData = {
     get "default-calendar"() {
       return calendar();

@@ -82,6 +82,17 @@ export function getDateFormatSupportedLocale(locale: string): string {
   }
 }
 
+/**
+ * Gets the locale that best matches the context for textual date formatting.
+ *
+ * Chromium recognizes Bosnian but returns placeholder month and weekday values, such as `"M05"` and `"Mon"`.
+ *
+ * @see [Related Issue](https://github.com/Esri/calcite-design-system/issues/9387)
+ */
+export function getDateTextSupportedLocale(locale: string): string {
+  return locale === "bs" ? getDateFormatSupportedLocale(locale) : locale;
+}
+
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem?: NumberingSystem;
   locale?: string;

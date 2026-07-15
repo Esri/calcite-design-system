@@ -4,6 +4,7 @@ import {
   dateTimeFormatCache,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
+  getDateTextSupportedLocale,
   getDateTimeFormat,
   numberingSystems,
   numberStringFormatter,
@@ -206,6 +207,16 @@ describe("getDateFormatSupportedLocale", () => {
   describe("locale mappings", () => {
     it("maps `it-CH` to `de-CH`", () => {
       assertLocaleMapping("it-CH", "de-CH");
+    });
+
+    describe("getDateTextSupportedLocale", () => {
+      it("maps `bs` to the Serbian Latin fallback", () => {
+        expect(getDateTextSupportedLocale("bs")).toBe("sr-Latn-CS");
+      });
+
+      it("preserves locales whose textual date formatting is supported", () => {
+        expect(getDateTextSupportedLocale("it-CH")).toBe("it-CH");
+      });
     });
 
     it("maps `bs` to `sr-Latn-CS`", () => {

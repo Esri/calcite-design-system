@@ -22,6 +22,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
+import { getDateFormatSupportedLocale } from "../../utils/locale";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
@@ -529,6 +530,14 @@ describe("localization", () => {
         <calcite-input-date-picker lang={locale} value="2023-05-31" />,
       );
       const calciteInputDatePickerOpenEvent = waitForEvent(el, "calciteInputDatePickerOpen");
+
+      if (expectedFormattedValue) {
+        expect(getDateInput()).toHaveValue(
+          new Intl.DateTimeFormat(getDateFormatSupportedLocale(locale)).format(
+            new Date(2023, 4, 31),
+          ),
+        );
+      }
 
       await userEvent.click(el);
       await calciteInputDatePickerOpenEvent;
