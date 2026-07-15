@@ -512,12 +512,14 @@ export class ActionBar extends LitElement {
 
   private handleActionsEndSlotChange(): void {
     this.syncActionsEndSlot();
+    this.updateGroups();
     this.syncActionsState(false);
     this.overflowActions();
   }
 
   private handleActionsStartSlotChange(): void {
     this.syncActionsStartSlot();
+    this.updateGroups();
     this.syncActionsState(false);
     this.overflowActions();
   }

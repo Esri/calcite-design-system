@@ -1915,9 +1915,9 @@ export const resizableShellPanelWithDropdown = (): string =>
     ></div>
     <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
       <calcite-action-bar slot="action-bar">
-        <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
-        <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
-        <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
+        <calcite-action text="Save" icon="save" indicator></calcite-action>
+        <calcite-action active icon="map" text="Map"></calcite-action>
+        <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
         <calcite-dropdown open width="m" overlay-positioning="fixed">
