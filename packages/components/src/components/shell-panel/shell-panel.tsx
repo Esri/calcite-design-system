@@ -49,7 +49,7 @@ export class ShellPanel extends LitElement {
 
   private interaction?: Interactable;
 
-  private actionBars: ActionBar["el"][] = [];
+  private actionBar?: ActionBar["el"];
 
   private actionBarContainerEl?: HTMLDivElement;
 
@@ -225,7 +225,7 @@ export class ShellPanel extends LitElement {
     let shouldRefreshResize = false;
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
-      this.setActionBarsLayout(this.actionBars);
+      this.setActionBarLayout(this.actionBar);
       this.updateSizeInternal({ inline: null, block: null }); // we clear sizing as it won't be applicable across axes
       shouldRefreshResize = true;
     }
@@ -252,7 +252,7 @@ export class ShellPanel extends LitElement {
       this.refreshResize();
     }
     if (changes.has("actionBarPosition") && this.hasUpdated) {
-      this.setActionBarsLayout(this.actionBars);
+      this.setActionBarLayout(this.actionBar);
     }
     if (changes.has("resizable") && this.hasUpdated) {
       this.calciteInternalShellPanelResizableChange.emit();
@@ -452,27 +452,29 @@ export class ShellPanel extends LitElement {
     this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-height", `${height}px`);
   }
 
-  private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
-    actionBars.forEach((actionBar) => {
-      if (this.actionBarPosition) {
-        actionBar.layout =
-          this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
-            ? "horizontal"
-            : "vertical";
-        return;
-      }
+  private setActionBarLayout(actionBar?: ActionBar["el"]): void {
+    if (!actionBar) {
+      return;
+    }
 
-      actionBar.layout = this.layout;
-    });
+    if (this.actionBarPosition) {
+      actionBar.layout =
+        this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
+          ? "horizontal"
+          : "vertical";
+      return;
+    }
+
+    actionBar.layout = this.layout;
   }
 
   private async handleActionBarSlotChange(event: Event): Promise<void> {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
+    const actionBar = slotChangeGetAssignedElements(event).find((el): el is ActionBar["el"] =>
       el.matches("calcite-action-bar"),
     );
 
-    this.actionBars = actionBars;
-    this.setActionBarsLayout(actionBars);
+    this.actionBar = actionBar;
+    this.setActionBarLayout(actionBar);
 
     await this.updateComplete;
 
@@ -508,7 +510,7 @@ export class ShellPanel extends LitElement {
   private setUpActionBarObserver(): void {
     this.cleanUpActionBarListeners();
 
-    const actionBar = this.actionBars[0];
+    const { actionBar } = this;
 
     if (!actionBar || !this.contentRef.value) {
       this.isActionBarExpanded = false;
