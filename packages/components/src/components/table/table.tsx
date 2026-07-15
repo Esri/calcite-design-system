@@ -549,10 +549,36 @@ export class Table extends LitElement {
     }
   }
 
-  private handleDeselectAllRows(): void {
-    const changedRows = this.bodyRows.filter((row) => row.setSelectedFromTable(false));
+  private setRowSelectedFromTable(row: TableRow["el"], value: boolean): boolean {
+    const tableRow = row as TableRow["el"] & {
+      setSelectedFromTable?: (value: boolean) => boolean;
+    };
 
-    changedRows.forEach((row) => row.syncSelectionCells());
+    if (typeof tableRow.setSelectedFromTable === "function") {
+      return tableRow.setSelectedFromTable(value);
+    }
+
+    if (row.selected === value) {
+      return false;
+    }
+
+    row.selected = value;
+
+    return true;
+  }
+
+  private syncRowSelectionCells(row: TableRow["el"]): void {
+    const tableRow = row as TableRow["el"] & {
+      syncSelectionCells?: () => void;
+    };
+
+    tableRow.syncSelectionCells?.();
+  }
+
+  private handleDeselectAllRows(): void {
+    const changedRows = this.bodyRows.filter((row) => this.setRowSelectedFromTable(row, false));
+
+    changedRows.forEach((row) => this.syncRowSelectionCells(row));
     this.updateSelectedItems(true);
   }
 
@@ -560,15 +586,15 @@ export class Table extends LitElement {
     const nextHeadSelectionState = this.selectedCount !== this.bodyRows.length;
     const changedRows = this.bodyRows.filter((row) => {
       if (elToMatch?.rowType === "head") {
-        return row.setSelectedFromTable(nextHeadSelectionState);
+        return this.setRowSelectedFromTable(row, nextHeadSelectionState);
       }
 
       return this.selectionMode === "multiple" || elToMatch === row
         ? false
-        : row.setSelectedFromTable(false);
+        : this.setRowSelectedFromTable(row, false);
     });
 
-    changedRows.forEach((row) => row.syncSelectionCells());
+    changedRows.forEach((row) => this.syncRowSelectionCells(row));
 
     this.updateSelectedItems(true);
   }
