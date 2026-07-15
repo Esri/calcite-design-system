@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DateLocaleData } from "../components/date-picker/utils";
-import arabic from "../components/date-picker/assets/nls/ar.json";
-import english from "../components/date-picker/assets/nls/en.json";
-import french from "../components/date-picker/assets/nls/fr.json";
-import korean from "../components/date-picker/assets/nls/ko.json";
+import { getLocaleData } from "../components/date-picker/utils";
 import { mockConsole } from "../tests/utils/logging";
 import {
   getDateInMonth,
@@ -23,6 +20,11 @@ import {
   sameDate,
 } from "./date";
 import { numberStringFormatter } from "./locale";
+
+const arabic = getLocaleData("ar");
+const english = getLocaleData("en");
+const french = getLocaleData("fr");
+const korean = getLocaleData("ko");
 
 describe("inRange", () => {
   it("returns true if no min/max", () => {
@@ -189,47 +191,47 @@ describe("parse number", () => {
 
 describe("parseDateString", () => {
   it("parses MM/DD/YYYY date format with single-digit day and month", () => {
-    const parsed = parseDateString("3/7/2003", english as DateLocaleData);
+    const parsed = parseDateString("3/7/2003", english);
     expect(parsed.month).toEqual(2);
     expect(parsed.day).toEqual(7);
     expect(parsed.year).toEqual(2003);
   });
 
   it("parses MM/DD/YYYY date format with single-digit day and month and triple-digit year", () => {
-    const parsed = parseDateString("3/7/200", english as DateLocaleData);
+    const parsed = parseDateString("3/7/200", english);
     expect(parsed.month).toEqual(2);
     expect(parsed.day).toEqual(7);
     expect(parsed.year).toEqual(200);
   });
 
   it("parses MM/DD/YYYY date format with double-digit day and month", () => {
-    const parsed = parseDateString("10/31/2022", english as DateLocaleData);
+    const parsed = parseDateString("10/31/2022", english);
     expect(parsed.month).toEqual(9);
     expect(parsed.day).toEqual(31);
     expect(parsed.year).toEqual(2022);
   });
 
   it("parses MM/DD/YYYY date format with double-digit day and month and triple-digit year", () => {
-    const parsed = parseDateString("10/31/200", english as DateLocaleData);
+    const parsed = parseDateString("10/31/200", english);
     expect(parsed.month).toEqual(9);
     expect(parsed.day).toEqual(31);
     expect(parsed.year).toEqual(200);
   });
 
   it("parses arabic date", () => {
-    const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic as DateLocaleData);
+    const parsed = parseDateString("٢٧‏/١١‏/٢٠٠٠", arabic);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
   });
   it("parses french date", () => {
-    const parsed = parseDateString("27/11/2000", french as DateLocaleData);
+    const parsed = parseDateString("27/11/2000", french);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
   });
   it("parses korean date", () => {
-    const parsed = parseDateString("2000. 11. 27.", korean as DateLocaleData);
+    const parsed = parseDateString("2000. 11. 27.", korean);
     expect(parsed.day).toEqual(27);
     expect(parsed.month).toEqual(10);
     expect(parsed.year).toEqual(2000);
