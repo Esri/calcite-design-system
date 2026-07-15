@@ -305,6 +305,29 @@ it("stores slotted actions and emits an actions change event without detail", as
   expect(actionsChange.mock.calls[0][0].detail).toBeNull();
 });
 
+it("reapplies selection ARIA state and selectedActions when slotted actions change", async () => {
+  const { component, el } = await mount<ActionGroup>(
+    <calcite-action-group selection-mode="single" />,
+  );
+
+  let actionFromEvent: ActionGroup["actions"][number] | undefined;
+
+  el.addEventListener("calciteActionGroupActionsChange", () => {
+    actionFromEvent = el.actions[0];
+  });
+
+  el.innerHTML = `<calcite-action active icon="plus" text="Add"></calcite-action>`;
+
+  await component.updateComplete;
+
+  const action = el.actions[0];
+
+  expect(actionFromEvent).toBe(action);
+  expect(action?.aria?.role).toBe("radio");
+  expect(action?.aria?.checked).toBe("true");
+  expect(el.selectedActions).toEqual([action]);
+});
+
 describe("theme", () => {
   describe("border", () => {
     themed(

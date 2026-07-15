@@ -136,7 +136,7 @@ export class ActionGroup extends LitElement {
    *
    * @readonly
    */
-  @property() actions: Action["el"][] = [];
+  @property({ attribute: false }) actions: Action["el"][] = [];
 
   /**
    * Specifies the active actions in the group.
@@ -193,26 +193,7 @@ export class ActionGroup extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
 
     if (this.hasUpdated || changes.has("selectionMode")) {
-      if (this.selectionMode !== "none") {
-        this.setRoleOnActions();
-      } else if (this.selectionMode === "none") {
-        this.clearActionAriaAttributes();
-      }
-
-      if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-        const selected = this.actions?.filter((action) => action.active) ?? [];
-        if (selected.length > 1) {
-          this.actions.forEach((action) =>
-            this.updateAction(action, action === selected[selected.length - 1]),
-          );
-        }
-      }
-
-      this.updateSelectedActions(
-        this.selectionMode === "none"
-          ? []
-          : (this.actions?.filter((action) => action.active) ?? []),
-      );
+      this.syncSelectionState();
     }
 
     if (changes.has("expanded")) {
@@ -262,6 +243,27 @@ export class ActionGroup extends LitElement {
     this.menuOpen = !!event.currentTarget.open;
   }
 
+  private syncSelectionState(): void {
+    if (this.selectionMode !== "none") {
+      this.setRoleOnActions();
+    } else {
+      this.clearActionAriaAttributes();
+    }
+
+    if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+      const selected = this.actions?.filter((action) => action.active) ?? [];
+      if (selected.length > 1) {
+        this.actions.forEach((action) =>
+          this.updateAction(action, action === selected[selected.length - 1]),
+        );
+      }
+    }
+
+    this.updateSelectedActions(
+      this.selectionMode === "none" ? [] : (this.actions?.filter((action) => action.active) ?? []),
+    );
+  }
+
   private syncActions(): void {
     const defaultActions = this.defaultSlotRef.value
       ? getSlotAssignedElements<Action["el"]>(this.defaultSlotRef.value, "calcite-action")
@@ -271,6 +273,7 @@ export class ActionGroup extends LitElement {
       : [];
 
     this.actions = [...defaultActions, ...menuActions];
+    this.syncSelectionState();
   }
 
   private handleDefaultSlotChange(): void {

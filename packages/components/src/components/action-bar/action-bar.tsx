@@ -344,6 +344,10 @@ export class ActionBar extends LitElement {
       "calciteActionGroupActionsChange",
       this.handleActionGroupActionsChange,
     );
+    this.listen<CustomEvent<void>>(
+      "calciteActionMenuActionsChange",
+      this.handleActionMenuActionsChange,
+    );
     this.listen("keydown", this.handleKeyDown);
   }
 
@@ -589,6 +593,17 @@ export class ActionBar extends LitElement {
     const group = event.target as ActionGroup["el"];
 
     if (this.ignoreActionGroupActionsChange || !this.actionGroups.includes(group)) {
+      return;
+    }
+
+    this.syncActionsState();
+    this.overflowActions();
+  }
+
+  private handleActionMenuActionsChange(event: CustomEvent<void>): void {
+    const menu = event.target as ActionMenu["el"];
+
+    if (!this.actionMenus.includes(menu)) {
       return;
     }
 

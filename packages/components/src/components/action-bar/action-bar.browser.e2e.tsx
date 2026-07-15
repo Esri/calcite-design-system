@@ -23,6 +23,7 @@ import { SLOTS } from "./resources";
 import { ActionBar } from "./action-bar";
 import type { Action } from "../action/action";
 import type { ActionGroup } from "../action-group/action-group";
+import type { ActionMenu } from "../action-menu/action-menu";
 import { overflowActions } from "./utils";
 import { CSS } from "./resources";
 
@@ -698,6 +699,41 @@ describe("slot-change action tracking", () => {
     } finally {
       overflowSpy.mockRestore();
     }
+  });
+
+  it("updates slotted trigger action state when an action-menu emits an actions change event", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar expanded selection-appearance="highlight">
+        <calcite-action-menu label="Actions" />
+      </calcite-action-bar>,
+    );
+
+    const menu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu")
+      .element() as ActionMenu["el"];
+    const actionsChange = vi.fn();
+
+    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
+
+    expect(menu.actions).toEqual([]);
+
+    menu.innerHTML = `
+      <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const triggerAction = page
+      .getBySelector("calcite-action-bar > calcite-action-menu > calcite-action[slot='trigger']")
+      .element() as Action["el"];
+
+    expect(actionsChange).toHaveBeenCalled();
+    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+    expect(menu.actions).toHaveLength(2);
+    expect(menu.actions[0]).toBe(triggerAction);
+    expect(triggerAction.selectionAppearance).toBe("highlight");
+    expect(triggerAction.textEnabled).toBe(true);
   });
 
   it("updates actions when actions are slotted through a shadow wrapper", async () => {

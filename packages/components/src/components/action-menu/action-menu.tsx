@@ -9,14 +9,18 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
 import { getRoundRobinIndex } from "../../utils/array";
 import { toAriaBoolean } from "../../utils/aria";
+import { getSlotAssignedElements } from "../../utils/dom";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { Appearance, Scale } from "../interfaces";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
+import type { ActionGroup } from "../action-group/action-group";
+import { isActionGroup } from "../action-group/resources";
 import type { Tooltip } from "../tooltip/tooltip";
 import { Popover } from "../popover/popover";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -48,6 +52,10 @@ export class ActionMenu extends LitElement {
   private guid = guid();
 
   private actionElements: Action["el"][] = [];
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private triggerSlotRef = createRef<HTMLSlotElement>();
 
   private defaultMenuButtonEl?: Action["el"];
 
@@ -186,6 +194,13 @@ export class ActionMenu extends LitElement {
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Specifies the actions in the menu.
+   *
+   * @readonly
+   */
+  @property({ attribute: false }) actions: Action["el"][] = [];
+
   //#endregion
 
   //#region Public Methods
@@ -215,9 +230,20 @@ export class ActionMenu extends LitElement {
   /** Fires when the `open` property is toggled. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
 
+  /** Fires after the component's slotted actions change. */
+  calciteActionMenuActionsChange = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    this.listen<CustomEvent<void>>(
+      "calciteActionGroupActionsChange",
+      this.handleActionGroupActionsChange,
+    );
+  }
 
   override connectedCallback(): void {
     this.connectMenuButtonEl();
@@ -343,15 +369,68 @@ export class ActionMenu extends LitElement {
     this.menuButtonEl = undefined;
   }
 
-  private setMenuButtonEl(event: Event): void {
-    const actions = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .filter((el): el is Action["el"] => el?.matches("calcite-action"));
+  private syncActions(): void {
+    const triggerSlot = this.triggerSlotRef.value;
+    const triggerActions = triggerSlot
+      ? getSlotAssignedElements<Action["el"]>(triggerSlot, "calcite-action").filter(
+          (action) => action.assignedSlot === triggerSlot,
+        )
+      : [];
 
-    this.slottedMenuButtonEl = actions[0];
+    const defaultActions = this.defaultSlotRef.value
+      ? getSlotAssignedElements(this.defaultSlotRef.value).flatMap((element) => {
+          if (isAction(element)) {
+            return element;
+          }
+
+          if (isActionGroup(element)) {
+            return element.actions;
+          }
+
+          return [];
+        })
+      : [];
+
+    const dedupedActions: Action["el"][] = [];
+    const seenActions = new Set<Action["el"]>();
+
+    [...triggerActions, ...defaultActions].forEach((action) => {
+      if (seenActions.has(action)) {
+        return;
+      }
+
+      seenActions.add(action);
+      dedupedActions.push(action);
+    });
+
+    this.actions = dedupedActions;
+    this.actionElements = dedupedActions.filter(
+      (action) => action.slot !== SLOTS.trigger && !action.disabled && !action.hidden,
+    );
+
+    if (!this.open || !this.actionElements.length) {
+      this.activeMenuItemIndex = -1;
+    } else if (
+      this.activeMenuItemIndex < 0 ||
+      this.activeMenuItemIndex >= this.actionElements.length
+    ) {
+      this.activeMenuItemIndex = 0;
+    }
+
+    this.updateActions(this.actionElements);
+  }
+
+  private setMenuButtonEl(): void {
+    this.slottedMenuButtonEl = this.triggerSlotRef.value
+      ? getSlotAssignedElements<Action["el"]>(this.triggerSlotRef.value, "calcite-action")[0]
+      : undefined;
     this.connectMenuButtonEl();
+  }
+
+  private handleTriggerSlotChange(): void {
+    this.setMenuButtonEl();
+    this.syncActions();
+    this.calciteActionMenuActionsChange.emit();
   }
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
@@ -397,26 +476,27 @@ export class ActionMenu extends LitElement {
     actions?.forEach(this.updateAction);
   }
 
-  private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const actions = (event.target as HTMLSlotElement)
-      .assignedElements({
-        flatten: true,
-      })
-      .reduce<Action["el"][]>((previousValue, currentValue) => {
-        if (currentValue?.matches("calcite-action")) {
-          previousValue.push(currentValue);
-          return previousValue;
-        }
-
-        if (currentValue?.matches("calcite-action-group")) {
-          return previousValue.concat(Array.from(currentValue.querySelectorAll("calcite-action")));
-        }
-
-        return previousValue;
-      }, []);
-
+  private async handleDefaultSlotChange(): Promise<void> {
     await this.componentOnReady();
-    this.actionElements = actions.filter((action) => !action.disabled && !action.hidden);
+    this.syncActions();
+    this.calciteActionMenuActionsChange.emit();
+  }
+
+  private handleActionGroupActionsChange(event: CustomEvent<void>): void {
+    const group = event.target as ActionGroup["el"];
+
+    const slottedActionGroups = this.defaultSlotRef.value
+      ? getSlotAssignedElements(this.defaultSlotRef.value).filter(
+          (element): element is ActionGroup["el"] => isActionGroup(element),
+        )
+      : [];
+
+    if (!slottedActionGroups.includes(group)) {
+      return;
+    }
+
+    this.syncActions();
+    this.calciteActionMenuActionsChange.emit();
   }
 
   private isValidKey(key: string, supportedKeys: string[]): boolean {
@@ -486,7 +566,11 @@ export class ActionMenu extends LitElement {
     const { appearance, label, scale, expanded } = this;
 
     const menuButtonSlot = (
-      <slot name={SLOTS.trigger} onSlotChange={this.setMenuButtonEl}>
+      <slot
+        name={SLOTS.trigger}
+        onSlotChange={this.handleTriggerSlotChange}
+        ref={this.triggerSlotRef}
+      >
         <calcite-action
           appearance={appearance}
           aria={{ expanded }}
@@ -545,7 +629,7 @@ export class ActionMenu extends LitElement {
           role="menu"
           tabIndex={-1}
         >
-          <slot onSlotChange={this.handleDefaultSlotChange} />
+          <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
         </div>
       </calcite-popover>
     );

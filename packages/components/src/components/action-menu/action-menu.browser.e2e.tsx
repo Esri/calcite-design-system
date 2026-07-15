@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
@@ -74,8 +74,84 @@ describe("defaults", () => {
         propertyName: "scale",
         defaultValue: "m",
       },
+      {
+        propertyName: "actions",
+        defaultValue: [],
+      },
     ],
   );
+});
+
+it("stores slotted actions and emits an actions change event without detail", async () => {
+  const { component, el } = await mount<"calcite-action-menu">(
+    <calcite-action-menu label="Test" />,
+  );
+  const actionsChange = vi.fn();
+
+  el.addEventListener("calciteActionMenuActionsChange", actionsChange);
+
+  expect(el.actions).toEqual([]);
+
+  el.innerHTML = `
+    <calcite-action icon="plus" slot="trigger" text="Open"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  expect(el.actions).toHaveLength(2);
+  expect(el.actions[0].text).toBe("Open");
+  expect(el.actions[1].text).toBe("Save");
+  expect(actionsChange).toHaveBeenCalled();
+  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+});
+
+it("applies menu item accessibility state when slotted actions change", async () => {
+  const { component, el } = await mount<"calcite-action-menu">(
+    <calcite-action-menu label="Test" />,
+  );
+
+  el.innerHTML = `
+    <calcite-action icon="plus" slot="trigger" text="Open"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  const menuItem = el.actions[1];
+
+  expect(menuItem?.getAttribute("role")).toBe("menuitem");
+  expect(menuItem?.tabIndex).toBe(-1);
+});
+
+it("updates actions when nested action-group actions change", async () => {
+  const { component, el } = await mount<"calcite-action-menu">(
+    <calcite-action-menu label="Test">
+      <calcite-action-group>
+        <calcite-action icon="plus" text="Add" />
+      </calcite-action-group>
+    </calcite-action-menu>,
+  );
+
+  const actionsChange = vi.fn();
+  const group = page.getBySelector("calcite-action-menu > calcite-action-group").element();
+
+  el.addEventListener("calciteActionMenuActionsChange", actionsChange);
+
+  expect(el.actions).toHaveLength(1);
+
+  group.innerHTML = `
+    <calcite-action icon="plus" text="Add"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  expect(actionsChange).toHaveBeenCalled();
+  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
+  expect(el.actions).toHaveLength(2);
+  expect(el.actions[0].text).toBe("Add");
+  expect(el.actions[1].text).toBe("Save");
 });
 
 describe("is focusable", () => {

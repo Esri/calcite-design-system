@@ -3,22 +3,11 @@ import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
-import { isAction } from "../action/resources";
 
 export type ActionBarItem = Action["el"] | ActionGroup["el"] | ActionMenu["el"];
 
 export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
   return el?.tagName === "CALCITE-ACTION-MENU";
-}
-
-function getNestedTriggerActions(root: Element): Action["el"][] {
-  return Array.from(root.children).flatMap((child) => {
-    if (isAction(child)) {
-      return child.slot === ACTION_MENU_SLOTS.trigger ? [child] : [];
-    }
-
-    return getNestedTriggerActions(child);
-  });
 }
 
 export const queryActions = (items: ActionBarItem[]): Action["el"][] =>
@@ -29,7 +18,7 @@ export const queryActions = (items: ActionBarItem[]): Action["el"][] =>
       }
 
       if (isActionMenu(item)) {
-        return getNestedTriggerActions(item);
+        return item.actions.filter((action) => action.slot === ACTION_MENU_SLOTS.trigger);
       }
 
       return item;
