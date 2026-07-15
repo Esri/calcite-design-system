@@ -5,6 +5,7 @@ import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { Position } from "../interfaces";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
+import { getLocaleData } from "../date-picker/utils";
 import { CSS, POSITION } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
 
@@ -514,7 +515,6 @@ describe("localization", () => {
   });
 
   it("syncs lang changes to internal date-picker and input", async () => {
-    // note that lang values should be available as bundles for both input-date-picker and date-picker
     const lang = "en";
     const newLang = "es";
 
@@ -522,8 +522,8 @@ describe("localization", () => {
     const month = "4";
     const day = "19";
 
-    const langTranslations = await import(`../date-picker/assets/nls/${lang}.json`);
-    const newLangTranslations = await import(`../date-picker/assets/nls/${newLang}.json`);
+    const langData = getLocaleData(lang);
+    const newLangData = getLocaleData(newLang);
 
     const page = await newE2EPage();
     await page.setContent(
@@ -531,17 +531,17 @@ describe("localization", () => {
     );
     const inputDatePicker = await page.find("calcite-input-date-picker");
 
-    expect(await getActiveMonth(page)).toEqual(langTranslations.months.wide[Number(month) - 1]);
+    expect(await getActiveMonth(page)).toEqual(langData.months.wide[Number(month) - 1]);
     expect(await getDateInputValue(page)).toBe(
-      langTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
+      langData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
     );
 
     inputDatePicker.setProperty("lang", newLang);
     await page.waitForChanges();
 
-    expect(await getActiveMonth(page)).toEqual(newLangTranslations.months.wide[Number(month) - 1]);
+    expect(await getActiveMonth(page)).toEqual(newLangData.months.wide[Number(month) - 1]);
     expect(await getDateInputValue(page)).toBe(
-      newLangTranslations.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
+      newLangData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
     );
   });
 

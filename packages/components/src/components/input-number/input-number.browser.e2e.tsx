@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "@arcgis/lumina";
+import { supportedLocales } from "@arcgis/toolkit/intl";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
@@ -16,7 +17,6 @@ import {
   t9n,
   themed,
 } from "../../tests/commonTests/browser";
-import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
@@ -875,7 +875,7 @@ it("input event fires when number ends with a decimal", async () => {
 });
 
 describe("number locale support", () => {
-  supportedNlsLocales.forEach((locale) => {
+  supportedLocales.forEach((locale) => {
     it(`displays decimal separator on initial load for ${locale} locale`, async () => {
       const expectedValue = "1234.56";
       numberStringFormatter.numberFormatOptions = {

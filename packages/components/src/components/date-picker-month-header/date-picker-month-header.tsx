@@ -76,7 +76,7 @@ export class DatePickerMonthHeader extends LitElement {
   /** @copyDoc */
   @property({ type: Number }) headingLevel!: HeadingLevel;
 
-  /** CLDR locale data for translated calendar info. */
+  /** Locale data for translated calendar info. */
   @property() localeData!: DateLocaleData;
 
   /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */

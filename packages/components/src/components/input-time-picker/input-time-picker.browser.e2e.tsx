@@ -1,4 +1,5 @@
 import { Fragment, h } from "@arcgis/lumina";
+import { supportedLocales } from "@arcgis/toolkit/intl";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
@@ -18,7 +19,6 @@ import {
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { supportedNlsLocales } from "../date-picker/utils";
 import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
@@ -257,7 +257,7 @@ describe("l10n", () => {
     });
   });
 
-  supportedNlsLocales.forEach((locale) => {
+  supportedLocales.forEach((locale) => {
     if (locale !== "es") {
       return;
     }

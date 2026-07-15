@@ -1,74 +1,73 @@
-import { describe, expect, it, afterEach, beforeEach, vi } from "vitest";
-import { mockConsole } from "../../tests/utils/logging";
-import { getLocaleData, requestCache, translationCache } from "./utils";
+import { afterEach, describe, expect, it } from "vitest";
+import { dateLocaleDataCache, dateLocaleFormatterCache, getLocaleData } from "./utils";
 
 describe(getLocaleData, () => {
-  mockConsole();
-
-  beforeEach(() => {
-    const fakeData = { fake: "fake data not meant to be checked" };
-    globalThis.fetch = vi.fn().mockResolvedValue({ json: async () => fakeData });
-  });
-
   afterEach(() => {
-    vi.restoreAllMocks();
-    Object.keys(requestCache).forEach((key) => delete requestCache[key]);
-    Object.keys(translationCache).forEach((key) => delete translationCache[key]);
+    Object.keys(dateLocaleDataCache).forEach((key) => delete dateLocaleDataCache[key]);
+    Object.keys(dateLocaleFormatterCache).forEach((key) => delete dateLocaleFormatterCache[key]);
   });
 
-  it("defaults to en locale if lang code is invalid", async () => {
-    const locale = "invalid-locale";
+  it("defaults to en locale if the language code is invalid", () => {
+    getLocaleData("invalid_locale");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("en");
+    expect(dateLocaleDataCache).toHaveProperty("en");
   });
 
-  it("falls to lang code locale if regional code is not found", async () => {
-    const locale = "es-UnsupportedRegion";
+  it("falls back to the language if the regional code is invalid", () => {
+    getLocaleData("es-UnsupportedRegion");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("es");
+    expect(dateLocaleDataCache).toHaveProperty("es");
   });
 
-  it("falls to pt-BR lang code locale if regional code is not found", async () => {
-    const locale = "pt-UnsupportedRegion";
+  it("canonicalizes locale casing", () => {
+    getLocaleData("zh-cn");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("pt-BR");
+    expect(dateLocaleDataCache).toHaveProperty("zh-CN");
   });
 
-  it("fetches locale with conventional-cased lang code", async () => {
-    const locale = "es";
+  it("supports locales without a manually maintained allowlist", () => {
+    const localeData = getLocaleData("de-AT");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("es");
+    expect(localeData.months.wide).toHaveLength(12);
+    expect(dateLocaleDataCache).toHaveProperty("de-AT");
   });
 
-  it("fetches locale with uppercased lang code", async () => {
-    const locale = "AR";
+  it("uses Intl short weekdays as the temporary two-character weekday fallback", () => {
+    const localeData = getLocaleData("en");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("ar");
+    expect(localeData.days.short).toBe(localeData.days.abbreviated);
   });
 
-  it("fetches locale with lowercased region code", async () => {
-    const locale = "zh-cn";
+  it("derives calendar metadata from Intl", () => {
+    const localeData = getLocaleData("en-GB");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("zh-CN");
+    expect(localeData["default-calendar"]).toBe("gregorian");
+    expect(localeData.separator).toBe("/");
+    expect(localeData.unitOrder).toBe("DD/MM/YYYY");
+    expect(localeData.weekStart).toBe(1);
+    expect(localeData.placeholder).toBe("DD/MM/YYYY");
+    expect(localeData.days.abbreviated).toHaveLength(7);
+    expect(localeData.days.narrow).toHaveLength(7);
+    expect(localeData.days.short).toHaveLength(7);
+    expect(localeData.months.abbreviated).toHaveLength(12);
+    expect(localeData.months.wide).toHaveLength(12);
+    expect(localeData.year).toBeUndefined();
   });
 
-  it("fetches locale with uppercased region code", async () => {
-    const locale = "ES-MX";
-
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("es-MX");
+  it("derives non-Gregorian years and year suffixes from Intl", () => {
+    expect(getLocaleData("th")["default-calendar"]).toBe("buddhist");
+    expect(getLocaleData("ko").year?.suffix).toBe("년");
   });
 
-  it("fetches locale with conventional-cased lang and region code", async () => {
-    const locale = "pt-PT";
+  it("creates and caches formatters only when their data is requested", () => {
+    const localeData = getLocaleData("en");
 
-    await getLocaleData(locale);
-    expect(requestCache).toHaveProperty("pt-PT");
+    expect(dateLocaleFormatterCache).toEqual({});
+    expect(localeData.placeholder).toBe("MM/DD/YYYY");
+    expect(Object.keys(dateLocaleFormatterCache)).toEqual(["en:calendar", "en:date-pattern"]);
+    expect(localeData.placeholder).toBe("MM/DD/YYYY");
+    expect(Object.keys(dateLocaleFormatterCache)).toHaveLength(2);
+    expect(localeData.months.wide).toHaveLength(12);
+    expect(Object.keys(dateLocaleFormatterCache)).toContain("en:months-wide");
   });
 });
