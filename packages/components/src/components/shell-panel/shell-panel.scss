@@ -482,6 +482,10 @@
   }
 }
 
+.content--action-bar-expanded {
+  --calcite-internal-shell-panel-max-width: 100%;
+}
+
 :host([layout="vertical"]:not([display-mode="float-all"])) .content {
   inline-size: var(--calcite-internal-shell-panel-width);
   max-inline-size: var(--calcite-internal-shell-panel-max-width);

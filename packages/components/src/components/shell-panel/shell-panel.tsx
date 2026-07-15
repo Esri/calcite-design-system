@@ -98,6 +98,8 @@ export class ShellPanel extends LitElement {
     maxBlockSize: null,
   };
 
+  @state() isActionBarExpanded = false;
+
   @state() hasHeader = false;
 
   //#endregion
@@ -486,16 +488,7 @@ export class ShellPanel extends LitElement {
   }
 
   private updateContentMaxWidthFromActionBar(actionBar: ActionBar["el"]): void {
-    if (!this.contentRef.value) {
-      return;
-    }
-
-    const isExpanded = actionBar.expanded;
-    if (isExpanded) {
-      this.contentRef.value.style.setProperty("--calcite-internal-shell-panel-max-width", "100%");
-    } else {
-      this.contentRef.value.style.removeProperty("--calcite-internal-shell-panel-max-width");
-    }
+    this.isActionBarExpanded = actionBar.expanded;
   }
 
   private setUpActionBarObserver(): void {
@@ -585,6 +578,7 @@ export class ShellPanel extends LitElement {
           class={{
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.content]: true,
+            [CSS.contentActionBarExpanded]: this.isActionBarExpanded,
             [CSS.contentOverlay]: displayMode === "overlay",
             [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
