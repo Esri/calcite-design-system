@@ -57,13 +57,15 @@ export class ShellPanel extends LitElement {
     this.updateActionBarSize(),
   );
 
-  private actionBarObserver = createObserver("mutation", () => {
-    const actionBar = this.actionBars[0];
+  private observedActionBar?: ActionBar["el"];
 
-    if (actionBar) {
-      this.updateContentMaxWidthFromActionBar(actionBar);
-    }
-  });
+  private actionBarExpandHandler = (): void => {
+    this.isActionBarExpanded = true;
+  };
+
+  private actionBarCollapseHandler = (): void => {
+    this.isActionBarExpanded = false;
+  };
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -272,7 +274,7 @@ export class ShellPanel extends LitElement {
 
   override disconnectedCallback(): void {
     this.cleanUpInteractions();
-    this.actionBarObserver?.disconnect();
+    this.cleanUpActionBarListeners();
   }
 
   //#endregion
@@ -491,19 +493,31 @@ export class ShellPanel extends LitElement {
     this.isActionBarExpanded = actionBar.expanded;
   }
 
+  private cleanUpActionBarListeners(): void {
+    this.observedActionBar?.removeEventListener(
+      "calciteActionBarExpand",
+      this.actionBarExpandHandler,
+    );
+    this.observedActionBar?.removeEventListener(
+      "calciteActionBarCollapse",
+      this.actionBarCollapseHandler,
+    );
+    this.observedActionBar = undefined;
+  }
+
   private setUpActionBarObserver(): void {
-    this.actionBarObserver?.disconnect();
+    this.cleanUpActionBarListeners();
 
     const actionBar = this.actionBars[0];
 
     if (!actionBar || !this.contentRef.value) {
+      this.isActionBarExpanded = false;
       return;
     }
 
-    this.actionBarObserver?.observe(actionBar, {
-      attributes: true,
-      attributeFilter: ["expanded"],
-    });
+    actionBar.addEventListener("calciteActionBarExpand", this.actionBarExpandHandler);
+    actionBar.addEventListener("calciteActionBarCollapse", this.actionBarCollapseHandler);
+    this.observedActionBar = actionBar;
 
     this.updateContentMaxWidthFromActionBar(actionBar);
   }
