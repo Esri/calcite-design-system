@@ -1606,7 +1606,7 @@ export const panelEndWithPositionStart = (): string =>
 export const panelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
-      <calcite-action-bar slot="action-bar" expand-disabled layout="horizontal" overlay-positioning="absolute">
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="horizontal" overlay-positioning="absolute">
         <calcite-action-group layout="horizontal" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
           <calcite-action icon="map" text="New" appearance="solid" scale="m"> </calcite-action>
@@ -1652,7 +1652,7 @@ export const panelTopFloatHorizontal = (): string =>
 export const panelTopFloatVertical = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
-      <calcite-action-bar slot="action-bar" expand-disabled layout="vertical" overlay-positioning="absolute">
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="vertical" overlay-positioning="absolute">
         <calcite-action-group layout="vertical" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
           <calcite-action icon="map" text="New" appearance="solid" scale="m" text-enabled slot="menu-actions">
@@ -1978,7 +1978,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
@@ -2000,7 +2000,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
         </calcite-action-group>
@@ -2017,7 +2017,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
@@ -2103,7 +2103,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
@@ -2125,7 +2125,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
         </calcite-action-group>
@@ -2142,7 +2142,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
