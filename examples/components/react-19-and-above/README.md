@@ -7,8 +7,8 @@ This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Developer info
@@ -16,7 +16,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components
 ```
 
 ### Setup components

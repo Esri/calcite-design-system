@@ -25,7 +25,7 @@ Consider upgrading to React 19+ and using <code>@esri/calcite-components</code> 
 To install `@esri/calcite-components-react`, run:
 
 ```sh
-pnpm install @esri/calcite-components-react
+pnpm add @esri/calcite-components-react
 ```
 
 This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.

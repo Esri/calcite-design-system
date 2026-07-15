@@ -14,7 +14,7 @@ pnpm start
 To install `@esri/calcite-components`, run:
 
 ```sh
-pnpm install @esri/calcite-components
+pnpm add @esri/calcite-components
 ```
 
 ### Setup components
@@ -41,7 +41,7 @@ import "@esri/calcite-components/dist/components/calcite-date-picker";
 Calcite components need to be copied to your output directory so they can be loaded from the client. The easiest way to do this is with [copy-webpack-plugin](https://webpack.js.org/plugins/copy-webpack-plugin/). First, install the package:
 
 ```sh
-pnpm install -D copy-webpack-plugin
+pnpm add -D copy-webpack-plugin
 ```
 
 Then, import the package in `webpack.config.js` and set it up in the `plugins` section:

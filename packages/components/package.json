@@ -39,7 +39,7 @@
     "build:dev": "vite build --mode development",
     "build:watch": "pnpm util:prep-build-reqs && vite --mode production",
     "build:watch-dev": "pnpm util:prep-build-reqs && vite --mode development",
-    "clean": "pnpm util:clean-js-files && rimraf node_modules dist hydrate docs .turbo",
+    "clean": "pnpm util:clean-js-files && rimraf node_modules dist docs .turbo",
     "lint": "concurrently pnpm lint:*",
     "lint:html": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.html\" >/dev/null",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",

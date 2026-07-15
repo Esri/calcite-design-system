@@ -14,7 +14,7 @@ pnpm dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-pnpm install @esri/calcite-components
+pnpm add @esri/calcite-components
 ```
 
 ### Setup components
