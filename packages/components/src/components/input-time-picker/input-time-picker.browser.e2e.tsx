@@ -933,32 +933,32 @@ describe("theme", () => {
   const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
 
   themed(() => mount(<calcite-input-time-picker clearable value="14:30" />), {
-    "--calcite-input-time-picker-clear-button-background-color": {
+    "--calcite-input-time-picker-clearable-action-background-color": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-background-color",
     },
-    "--calcite-input-time-picker-clear-button-background-color-hover": {
+    "--calcite-input-time-picker-clearable-action-background-color-hover": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-background-color-hover",
       state: "hover",
     },
-    "--calcite-input-time-picker-clear-button-background-color-press": {
+    "--calcite-input-time-picker-clearable-action-background-color-press": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-background-color-press",
       state: {
         press: `calcite-input-time-picker >>> ${clearButtonContainerSelector} calcite-action`,
       },
     },
-    "--calcite-input-time-picker-clear-button-icon-color": {
+    "--calcite-input-time-picker-clearable-action-icon-color": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-text-color",
     },
-    "--calcite-input-time-picker-clear-button-icon-color-hover": {
+    "--calcite-input-time-picker-clearable-action-icon-color-hover": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-text-color-press",
       state: "hover",
     },
-    "--calcite-input-time-picker-clear-button-icon-color-press": {
+    "--calcite-input-time-picker-clearable-action-icon-color-press": {
       shadowSelector: `${clearButtonContainerSelector} calcite-action`,
       targetProp: "--calcite-action-text-color-press",
       state: {
