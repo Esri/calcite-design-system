@@ -58,10 +58,10 @@ export class Filter extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
+  /** When `value` is an object, specifies the properties to match against when filtering. If not set, all properties will be matched. */
   @property() filterProps?: string[];
 
   /**
@@ -72,7 +72,7 @@ export class Filter extends LitElement {
   @property() filteredItems: object[] = [];
 
   /**
-   * Defines the items to filter. The component uses the values as the starting point, and returns items
+   * Specifies the items to filter. The component uses the values as the starting point, and returns items
    *
    * that contain the string entered in the input, using a partial match and recursive search.
    *
@@ -80,15 +80,13 @@ export class Filter extends LitElement {
    */
   @property() items: object[] = [];
 
-  /**
-   * Specifies an accessible label for the component.
-   */
+  /** @copyDoc */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies placeholder text for the input element. */
+  /** Specifies the component's input placeholder text. */
   @property() placeholder?: string;
 
   /** Specifies the size of the component. */
@@ -132,7 +130,7 @@ export class Filter extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -191,8 +189,10 @@ export class Filter extends LitElement {
     }
 
     if (event.key === "Escape") {
-      this.clear();
-      event.preventDefault();
+      if (this.value.length > 0) {
+        this.clear();
+        event.preventDefault();
+      }
     }
 
     if (event.key === "Enter") {
@@ -231,8 +231,8 @@ export class Filter extends LitElement {
               icon={ICONS.search}
               label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={this.textInputRef}
               scale={scale}

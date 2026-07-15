@@ -4,9 +4,10 @@
   "allSelected": "כולם נבחרו",
   "clear": "נקה ערך",
   "noMatches": "אין התאמות",
-  "removeTag": "הסר תג",
+  "removeTag": "Remove {value} tag",
   "required": "נדרש",
   "selectAll": "בחר הכול",
   "selected": "נבחר",
-  "nonEditable": "{value} לקריאה בלבד"
+  "nonEditable": "{value} לקריאה בלבד",
+  "disabledSelectedCount": "+{count}"
 }

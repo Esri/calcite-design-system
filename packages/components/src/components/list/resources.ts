@@ -12,6 +12,7 @@ export const CSS = {
 export type SelectionAppearance = "border" | "highlight" | "icon";
 
 export const SLOTS = {
+  emptyContent: "empty-content",
   filterNoResults: "filter-no-results",
   filterActionsStart: "filter-actions-start",
   filterActionsEnd: "filter-actions-end",

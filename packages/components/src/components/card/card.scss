@@ -9,20 +9,74 @@
  * @prop --calcite-card-corner-radius: Specifies the component's corner radius.
  * @prop --calcite-card-selection-background-color-hover: Specifies the component's selection element background color when hovered.
  * @prop --calcite-card-selection-background-color-press: Specifies the component's selection element background color when active.
- * @prop --calcite-card-selection-background-color: [Deprecated] Use `--calcite-card-background-color`. Specifies the component's selection element background color.
+ * @prop --calcite-card-selection-background-color: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead. Specifies the component's selection element background color.
  * @prop --calcite-card-selection-color-hover: Specifies the component's selection element color when hovered or focused.
  * @prop --calcite-card-selection-color: Specifies the component's selection element color.
- * @prop --calcite-card-selection-icon-color-hover: [Deprecated] Use `--calcite-card-selection-color-hover`. Specifies the component's selection element icon color when hovered.
- * @prop --calcite-card-selection-icon-color-selected: [Deprecated] Use `--calcite-card-accent-color-selected`. Specifies the component's selection element icon color when `selected`.
+ * @prop --calcite-card-selection-icon-color-hover: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead. Specifies the component's selection element icon color when hovered.
+ * @prop --calcite-card-selection-icon-color-selected: [Deprecated] in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead. Specifies the component's selection element icon color when `selected`.
  * @prop --calcite-card-shadow: Specifies the component's shadow.
  *
  */
+
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-card-checkbox-wrapper-margin
+// --calcite-internal-card-checkbox-wrapper-padding
+// --calcite-internal-card-description-font-size
+// --calcite-internal-card-footer-padding-inline
+// --calcite-internal-card-footer-start-end-gap
+// --calcite-internal-card-header-text-container-padding-block
+// --calcite-internal-card-header-text-container-padding-inline
+// --calcite-internal-card-header-text-container-padding-right
+// --calcite-internal-card-heading-font-size
+// --calcite-internal-card-slotted-content-padding
 
 @use "../../styles/includes";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
   @apply block max-w-full;
+}
+
+:host([scale="s"]) {
+  --calcite-internal-card-header-text-container-padding-inline: var(--calcite-space-sm);
+  --calcite-internal-card-header-text-container-padding-block: var(--calcite-space-xs);
+  --calcite-internal-card-header-text-container-padding-right: 0;
+  --calcite-internal-card-heading-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-card-description-font-size: var(--calcite-font-size-relative-xs);
+  --calcite-internal-card-checkbox-wrapper-padding: var(--calcite-space-xs);
+  --calcite-internal-card-checkbox-wrapper-margin: var(--calcite-space-xs);
+  --calcite-internal-card-slotted-content-padding: var(--calcite-space-sm);
+  --calcite-internal-card-footer-padding-inline: var(--calcite-space-sm);
+  --calcite-internal-card-footer-start-end-gap: var(--calcite-space-base);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-card-header-text-container-padding-inline: var(--calcite-space-md);
+  --calcite-internal-card-header-text-container-padding-block: var(--calcite-space-sm);
+  --calcite-internal-card-header-text-container-padding-right: var(--calcite-space-base);
+  --calcite-internal-card-heading-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-card-description-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-card-checkbox-wrapper-padding: var(--calcite-space-sm);
+  --calcite-internal-card-checkbox-wrapper-margin: var(--calcite-space-sm);
+  --calcite-internal-card-slotted-content-padding: var(--calcite-space-md);
+  --calcite-internal-card-footer-padding-inline: var(--calcite-space-md);
+  --calcite-internal-card-footer-start-end-gap: var(--calcite-space-2xs);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-card-header-text-container-padding-inline: var(--calcite-space-lg);
+  --calcite-internal-card-header-text-container-padding-block: var(--calcite-space-md);
+  --calcite-internal-card-header-text-container-padding-right: var(--calcite-space-xs);
+  --calcite-internal-card-heading-font-size: var(--calcite-font-size-relative-md);
+  --calcite-internal-card-description-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-card-checkbox-wrapper-padding: var(--calcite-space-md);
+  --calcite-internal-card-checkbox-wrapper-margin: var(--calcite-space-md);
+  --calcite-internal-card-slotted-content-padding: var(--calcite-space-lg);
+  --calcite-internal-card-footer-padding-inline: var(--calcite-space-lg);
+  --calcite-internal-card-footer-start-end-gap: var(--calcite-space-sm);
 }
 
 .content-wrapper {
@@ -71,26 +125,28 @@
   @apply flex flex-row items-start;
 }
 
-.footer {
-  @apply flex mt-auto flex-row content-between justify-between;
-  padding-inline: var(--calcite-spacing-md);
-  padding-block-start: var(--calcite-spacing-xxs);
-  padding-block-end: var(--calcite-spacing-md);
-}
-
 .header-text-container {
-  @apply flex flex-col px-3 py-2 w-full justify-center;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  justify-content: center;
+  padding-inline: var(--calcite-internal-card-header-text-container-padding-inline);
+  padding-block: var(--calcite-internal-card-header-text-container-padding-block);
+
   &:not(:only-child) {
-    @apply pr-0.5;
+    padding-inline-end: var(--calcite-internal-card-header-text-container-padding-right);
   }
 }
 
 .footer {
-  @apply mt-auto flex-row content-between
-    justify-between
-    px-3
-    pt-1
-    pb-3;
+  display: flex;
+  margin-block-start: auto;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+  padding-inline: var(--calcite-internal-card-footer-padding-inline);
+  padding-block-start: var(--calcite-space-2xs);
+  padding-block-end: var(--calcite-space-md);
 }
 
 .card-content {
@@ -98,7 +154,7 @@
 }
 
 .has-slotted-content {
-  @apply p-3;
+  padding: var(--calcite-internal-card-slotted-content-padding);
 }
 
 :host([selected]) .content-wrapper {
@@ -110,19 +166,19 @@
 }
 
 @include includes.slotted("heading", "*") {
-  @apply text-color-1
-    text-n1-wrap
-    m-0
-    font-medium;
+  color: var(--calcite-color-text-1);
+  margin: 0;
+  font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-internal-card-heading-font-size);
 }
 
 @include includes.slotted("description", "*") {
-  @apply text-color-2
-    text-n2-wrap
-    m-0
-    font-normal;
+  color: var(--calcite-color-text-2);
+  margin: 0;
+  font-weight: var(--calcite-font-weight-normal);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-internal-card-description-font-size);
 }
 
 @include includes.slotted("thumbnail", "img") {
@@ -160,11 +216,15 @@
 }
 
 .checkbox-wrapper {
-  @apply m-2 p-2 focus-base cursor-pointer pointer-events-auto;
+  outline-color: transparent;
+  cursor: pointer;
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-items: center;
   color: var(--calcite-card-selection-color, var(--calcite-color-text-3));
+  padding: var(--calcite-internal-card-checkbox-wrapper-padding);
+  margin: var(--calcite-internal-card-checkbox-wrapper-margin);
 
   &:hover {
     background-color: var(--calcite-card-selection-background-color-hover, var(--calcite-color-foreground-2));
@@ -235,7 +295,8 @@
 
 slot[name="footer-start"]::slotted(*),
 slot[name="footer-end"]::slotted(*) {
-  @apply flex gap-1;
+  display: flex;
+  gap: var(--calcite-internal-card-footer-start-end-gap);
 }
 
 @include includes.base-component();

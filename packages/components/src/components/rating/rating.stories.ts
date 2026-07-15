@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -16,8 +16,8 @@ type RatingStoryArgs = Pick<
   | "readOnly"
   | "disabled"
   | "status"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -61,11 +61,11 @@ export const simple = (args: RatingStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-rating>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-rating
     class="calcite-mode-dark"
     dir="rtl"
@@ -77,11 +77,11 @@ export const darkModeRTL_TestOnly = (): string => html`
   ></calcite-rating>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
+export const disabled = (): string => html`<calcite-rating disabled value="3"></calcite-rating>`;
 
-export const Focus_TestOnly = (): string =>
+export const Focus = (): string =>
   html` <calcite-rating value="4" required></calcite-rating>
     <script>
       (async () => {
@@ -90,17 +90,17 @@ export const Focus_TestOnly = (): string =>
       })();
     </script>`;
 
-Focus_TestOnly.parameters = {
+Focus.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
       flex-direction: column;
-      width: 400px;
-      height: 200px;
+      min-inline-size: 400px;
+      min-block-size: 200px;
       gap: 40px;
     }
   </style>

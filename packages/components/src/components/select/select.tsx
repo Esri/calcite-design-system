@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -11,15 +10,8 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -31,6 +23,7 @@ import type { OptionGroup } from "../option-group/option-group";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
@@ -56,8 +49,10 @@ function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGro
  * @slot - A slot for adding `calcite-option`s.
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class Select extends LitElement implements LabelableComponent, FormComponent {
+export class Select extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -67,11 +62,11 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
   private componentToNativeEl = new Map<OptionOrGroup, NativeOptionOrGroup>();
 
-  defaultValue: Select["value"];
+  defaultValue?: Select["value"];
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({ inputType: "text" })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private mutationObserver = createObserver("mutation", () => this.populateInternalSelect());
 
@@ -88,6 +83,8 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   //#endregion
 
   //#region Public Properties
@@ -95,25 +92,21 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -129,46 +122,35 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
    *
    * @readonly
    */
-  @property() selectedOption: Option["el"];
+  @property() selectedOption!: Option["el"];
 
   /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedOption` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -180,7 +162,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -209,9 +191,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
       subtree: true,
       childList: true,
     });
-
-    connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -237,13 +216,11 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
     const selected = this.selectRef.value?.selectedOptions[0];
     this.selectFromNativeOption(selected);
-    afterConnectDefaultValueSet(this, this.selectedOption?.value ?? "");
+    this.formSupport.overrideDefaultValue(this.selectedOption?.value ?? "");
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -251,7 +228,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
   //#region Private Methods
 
   private handleInternalSelectChange(): void {
-    const selected = this.selectRef.value.selectedOptions[0];
+    const selected = this.selectRef.value!.selectedOptions[0];
     this.selectFromNativeOption(selected);
     requestAnimationFrame(() => this.emitChangeEvent());
   }
@@ -289,7 +266,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
     nativeOptionOrGroup: NativeOptionOrGroup,
   ): void {
     nativeOptionOrGroup.disabled = optionOrGroup.disabled;
-    nativeOptionOrGroup.label = optionOrGroup.label;
+    nativeOptionOrGroup.label = optionOrGroup.label!;
 
     if (isOption(optionOrGroup)) {
       const option = nativeOptionOrGroup as HTMLOptionElement;
@@ -298,7 +275,7 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
 
       // need to set innerText for mobile
       // @see [iOS Safari now showing all options for select menu](https://stackoverflow.com/questions/35021620/ios-safari-not-showing-all-options-for-select-menu/41749701).
-      option.innerText = optionOrGroup.label;
+      option.innerText = optionOrGroup.label!;
     }
   }
 
@@ -321,12 +298,12 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
     this.componentToNativeEl.clear();
   }
 
-  private selectFromNativeOption(nativeOption: HTMLOptionElement): void {
+  private selectFromNativeOption(nativeOption: HTMLOptionElement | undefined): void {
     if (!nativeOption) {
       return;
     }
 
-    let futureSelected: Option["el"];
+    let futureSelected: Option["el"] | undefined;
 
     this.componentToNativeEl.forEach((nativeOptionOrGroup, optionOrGroup) => {
       if (isOption(optionOrGroup) && nativeOptionOrGroup === nativeOption) {
@@ -421,7 +398,6 @@ export class Select extends LitElement implements LabelableComponent, FormCompon
             <slot />
           </select>
           {this.renderChevron()}
-          <HiddenFormInputSlot component={this} />
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation

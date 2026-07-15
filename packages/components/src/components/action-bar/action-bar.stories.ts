@@ -4,24 +4,46 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ActionBar } from "./action-bar";
 
-const { position, selectionAppearance } = ATTRIBUTES;
+const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<
   ActionBar,
-  "expandDisabled" | "expanded" | "floating" | "position" | "selectionAppearance"
+  | "expandToggleDisabled"
+  | "expanded"
+  | "expandPosition"
+  | "floating"
+  | "layout"
+  | "position"
+  | "scale"
+  | "selectionAppearance"
 >;
 
 export default {
   title: "Components/Action Bar",
   args: {
-    expandDisabled: false,
+    expandToggleDisabled: false,
     expanded: false,
+    layout: layout.values[1],
     position: position.defaultValue,
+    expandPosition: "end",
     floating: false,
+    scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.values[2],
   },
   argTypes: {
+    layout: {
+      options: layout.values,
+      control: { type: "select" },
+    },
     position: {
+      options: position.values.filter((option) => option !== "top" && option !== "bottom"),
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+    expandPosition: {
       options: position.values.filter((option) => option !== "top" && option !== "bottom"),
       control: { type: "select" },
     },
@@ -34,10 +56,13 @@ export default {
 
 export const simple = (args: ActionBarStoryArgs): string => html`
   <calcite-action-bar
-    ${boolean("expand-disabled", args.expandDisabled)}
+    ${boolean("expand-toggle-disabled", args.expandToggleDisabled)}
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
+    layout="${args.layout}"
     position="${args.position}"
+    expand-position="${args.expandPosition}"
+    scale="${args.scale}"
     selection-appearance="${args.selectionAppearance}"
   >
     <calcite-action-group>
@@ -105,6 +130,90 @@ export const floatingWithGroups = (): string =>
     </calcite-action-bar>
   </div>`;
 
+const expandPositionActions = html`<calcite-action text-enabled text="Add" icon="plus"></calcite-action>
+  <calcite-action text-enabled text="Save" icon="save"></calcite-action>
+  <calcite-action slot="actions-start" text-enabled text="Layers" icon="layers"></calcite-action>
+  <calcite-action slot="actions-end" text-enabled text="Basemaps" icon="layer-basemap"></calcite-action>
+  <calcite-tooltip slot="expand-tooltip">Toggle Action Bar</calcite-tooltip>`;
+
+export const expandPositionHorizontal = (): string =>
+  html`<style>
+      calcite-action-bar[layout="horizontal"] {
+        width: 600px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="horizontal">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
+export const expandPositionVertical = (): string =>
+  html`<style>
+      calcite-action-bar[layout="vertical"] {
+        height: 300px;
+      }
+    </style>
+    <h2>position="start" expand-position="start"</h2>
+    <calcite-action-bar position="start" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end"</h2>
+    <calcite-action-bar position="start" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="start" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="start" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end"</h2>
+    <calcite-action-bar position="end" expand-position="end" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="end" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="end" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start"</h2>
+    <calcite-action-bar position="end" expand-position="start" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>
+    <h2>position="end" expand-position="start" & RTL</h2>
+    <calcite-action-bar position="end" expand-position="start" dir="rtl" expanded layout="vertical">
+      ${expandPositionActions}
+    </calcite-action-bar>`;
+
 export const floatingDarkModeRTL = (): string =>
   html`<div style="padding:20px;">
     <calcite-action-bar floating position="start" dir="rtl" class="calcite-mode-dark">
@@ -156,9 +265,9 @@ export const horizontalSmall = (): string => html`
   </div>
 `;
 
-export const horizontalOverflow_TestOnly = (): string => html`
+export const horizontalOverflow = (): string => html`
   <div style="width: 450px; display:flex;">
-    <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" active icon="save"> </calcite-action>
@@ -186,6 +295,27 @@ export const horizontalOverflow_TestOnly = (): string => html`
   </div>
 `;
 
+export const horizontalOverflowPerGroupDisabled = (): string => html`
+  <div style="width: 300px; display:flex;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
+      <calcite-action-group overflow-actions-disabled>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus"></calcite-action>
+        <calcite-action text="Save" active icon="save"></calcite-action>
+        <calcite-action text="Layers" icon="layers"></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+  </div>
+`;
+
 export const withDefinedWidths = (): string => html`
   <style>
     calcite-action-bar {
@@ -205,7 +335,7 @@ export const withDefinedWidths = (): string => html`
 
 export const gridLayout = (): string =>
   html`<div style="padding:20px;">
-    <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled floating>
+    <calcite-action-bar layout="grid" expand-toggle-disabled overflow-actions-disabled floating>
       <calcite-action-group>
         <calcite-action text="Northwest" icon="chevron-up-left"></calcite-action>
         <calcite-action text="North" icon="chevron-up"></calcite-action>
@@ -220,7 +350,7 @@ export const gridLayout = (): string =>
     </calcite-action-bar>
   </div>`;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-action-bar position="start" dir="rtl" class="calcite-mode-dark">
     <calcite-action-group>
       <calcite-action text="Add" label="Add Item" icon="plus"></calcite-action>
@@ -232,7 +362,7 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-action-bar>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const adjacentTooltipsOpenQuickly = (): string => html`
   <div style="display:flex; height:500px; width: 200px;">
@@ -259,32 +389,32 @@ export const adjacentTooltipsOpenQuickly = (): string => html`
   </div>
 `;
 
-export const hebrewLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="he">
+export const hebrewLocale = (): string => `<calcite-action-bar expanded lang="he">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const norwegianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="nb">
+export const norwegianLocale = (): string => `<calcite-action-bar expanded lang="nb">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const FrenchLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="fr">
+export const FrenchLocale = (): string => `<calcite-action-bar expanded lang="fr">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const hongKongLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="zh-HK">
+export const hongKongLocale = (): string => `<calcite-action-bar expanded lang="zh-HK">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const ukrainianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="uk">
+export const ukrainianLocale = (): string => `<calcite-action-bar expanded lang="uk">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
 
-export const bosnianLocale_TestOnly = (): string => `<calcite-action-bar expanded lang="bs">
+export const bosnianLocale = (): string => `<calcite-action-bar expanded lang="bs">
 <calcite-action text-enabled text="Information" icon="information"></calcite-action>
 <calcite-action text-enabled text="Feedback" slot="actions-end" icon="mega-phone"></calcite-action>
 </calcite-action-bar>`;
@@ -304,5 +434,50 @@ export const fullWidthActions = (): string => html`
       <calcite-action text="Remove" icon="minus" width="full"> </calcite-action>
       <calcite-action text="Copy" icon="plus" width="full"> </calcite-action>
     </calcite-action-bar>
+  </div>
+`;
+
+export const overflowDisabledActions = (): string => html`
+  <style>
+    .overflow-disabled-story-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .overflow-disabled-story-label {
+      font-family: sans-serif;
+      font-size: 0.875rem;
+    }
+  </style>
+  <div class="overflow-disabled-story-group">
+    <p class="overflow-disabled-story-label">
+      Horizontal — width unconstrained. First three actions have <code>overflow-disabled</code>; all actions are
+      visible.
+    </p>
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled>
+      <calcite-action-group>
+        <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+        <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+        <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+        <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+        <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <p class="overflow-disabled-story-label">
+      Horizontal — width constrained. First three actions stay visible; the rest overflow into the menu.
+      <code>action-bar</code> cannot collapse further because the <code>overflow-disabled</code> actions set its minimum
+      width.
+    </p>
+    <div style="width: 100px; display: flex;">
+      <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex: 1;">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
+          <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
+          <calcite-action text="Layers" icon="layers" overflow-disabled></calcite-action>
+          <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+          <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    </div>
   </div>
 `;

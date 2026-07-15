@@ -1,14 +1,7 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { Appearance, Scale } from "../interfaces";
-import {
-  afterConnectDefaultValueSet,
-  connectForm,
-  disconnectForm,
-  FormComponent,
-} from "../../utils/form";
 import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
@@ -24,7 +17,7 @@ declare global {
   }
 }
 
-export class Meter extends LitElement implements FormComponent {
+export class Meter extends LitElement {
   // #region Static Members
 
   static override styles = styles;
@@ -33,13 +26,9 @@ export class Meter extends LitElement implements FormComponent {
 
   // #region Private Properties
 
-  defaultValue: Meter["value"];
-
-  formEl: HTMLFormElement;
-
   private highLabelRef = createRef<HTMLDivElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private labelFlipMax = 0.8;
 
@@ -59,7 +48,7 @@ export class Meter extends LitElement implements FormComponent {
 
   private minPercent = 0;
 
-  private percentFormatting: {
+  private percentFormatting?: {
     formatter: Intl.NumberFormat;
     locale: Locale;
   };
@@ -72,15 +61,15 @@ export class Meter extends LitElement implements FormComponent {
 
   // #region State Properties
 
-  @state() currentPercent: number;
+  @state() currentPercent = 0;
 
-  @state() highActive: boolean;
+  @state() highActive = false;
 
-  @state() highPercent: number;
+  @state() highPercent = 100;
 
-  @state() lowActive: boolean;
+  @state() lowActive = false;
 
-  @state() lowPercent: number;
+  @state() lowPercent = 0;
 
   // #endregion
 
@@ -103,27 +92,27 @@ export class Meter extends LitElement implements FormComponent {
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * Specifies the `id` of the component's associated form.
+   * @copyDoc
    *
-   * When not set, the component is associated with its ancestor form element, if one exists.
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
   /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
-  @property({ reflect: true }) high: number;
+  @property({ reflect: true }) high?: number;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
-  @property({ reflect: true }) low: number;
+  @property({ reflect: true }) low?: number;
 
   /** Specifies the component's highest allowed value. */
   @property({ reflect: true }) max = 100;
@@ -131,11 +120,15 @@ export class Meter extends LitElement implements FormComponent {
   /** Specifies the component's lowest allowed value. */
   @property({ reflect: true }) min = 0;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
-  @property({ reflect: true }) name: string;
+  /**
+   * @copyDoc
+   *
+   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
+   */
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
   @property({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
@@ -150,7 +143,7 @@ export class Meter extends LitElement implements FormComponent {
   @property() unitLabel = "";
 
   /** Specifies the component's value. */
-  @property() value: number;
+  @property() value?: number;
 
   /** When `true`, displays the `value`. */
   @property({ reflect: true }) valueLabel = false;
@@ -163,13 +156,11 @@ export class Meter extends LitElement implements FormComponent {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    connectForm(this);
     this.resizeObserver?.observe(this.el);
   }
 
   load(): void {
     this.calculateValues();
-    afterConnectDefaultValueSet(this, this.value);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -203,7 +194,6 @@ export class Meter extends LitElement implements FormComponent {
   }
 
   override disconnectedCallback(): void {
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
@@ -221,24 +211,20 @@ export class Meter extends LitElement implements FormComponent {
   }
 
   private updateLabels(): void {
-    if (this.valueLabelRef.value) {
-      this.determineValueLabelPosition();
-    }
-    if (this.rangeLabels) {
-      this.determineVisibleLabels();
-    }
+    this.determineValueLabelPosition();
+    this.determineVisibleLabels();
   }
 
   private calculateValues(): void {
     const { min, max, low, high, value } = this;
-    const lowPercent = (100 * (low - min)) / (max - min);
-    const highPercent = (100 * (high - min)) / (max - min);
-    const currentPercent = (100 * (value - min)) / (max - min);
+    const lowPercent = low === undefined ? NaN : (100 * (low - min)) / (max - min);
+    const highPercent = high === undefined ? NaN : (100 * (high - min)) / (max - min);
+    const currentPercent = value === undefined ? NaN : (100 * (value - min)) / (max - min);
 
-    if (!low || low < min || low > high || low > max) {
+    if (!low || low < min || (high !== undefined && low > high) || low > max) {
       this.low = min;
     }
-    if (!high || high > max || high < low || high < min) {
+    if (!high || high > max || (low !== undefined && high < low) || high < min) {
       this.high = max;
     }
     if (!value) {
@@ -278,10 +264,10 @@ export class Meter extends LitElement implements FormComponent {
     const { low, high, min, max, value } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
-    const aboveLowest = value >= lowest;
-    const belowLowest = value < lowest;
-    const aboveHighest = value >= highest;
-    const belowHighest = value < highest;
+    const aboveLowest = value !== undefined && value >= lowest;
+    const belowLowest = value !== undefined && value < lowest;
+    const aboveHighest = value !== undefined && value >= highest;
+    const belowHighest = value !== undefined && value < highest;
 
     if (!value || (!low && belowHighest) || belowLowest) {
       return CSS.success;
@@ -294,11 +280,15 @@ export class Meter extends LitElement implements FormComponent {
     }
   }
 
-  private intersects(el1: HTMLDivElement, el2: HTMLDivElement): boolean {
-    return el1 && el2 && intersects(el1.getBoundingClientRect(), el2.getBoundingClientRect());
+  private intersects(el1: HTMLDivElement | undefined, el2: HTMLDivElement | undefined): boolean {
+    return !!(el1 && el2 && intersects(el1.getBoundingClientRect(), el2.getBoundingClientRect()));
   }
 
   private determineVisibleLabels(): void {
+    if (!this.rangeLabels) {
+      return;
+    }
+
     const {
       minLabelRef: { value: minLabelEl },
       lowLabelRef: { value: lowLabelEl },
@@ -344,6 +334,11 @@ export class Meter extends LitElement implements FormComponent {
       meterContainerRef: { value: meterContainerEl },
       currentPercent,
     } = this;
+
+    if (!valueLabelEl || !meterContainerEl) {
+      return;
+    }
+
     const valuePosition = currentPercent > 100 ? 100 : currentPercent > 0 ? currentPercent : 0;
     const valueLabelWidth = valueLabelEl.getBoundingClientRect().width;
     const containerWidth = meterContainerEl.getBoundingClientRect().width;
@@ -392,7 +387,7 @@ export class Meter extends LitElement implements FormComponent {
       >
         {label}
         {unitLabel && valueLabelType !== "percent" && (
-          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
+          <span class={CSS.unitLabel}>{unitLabel}</span>
         )}
       </div>
     );
@@ -414,7 +409,7 @@ export class Meter extends LitElement implements FormComponent {
       >
         {labelMin}
         {unitLabel && rangeLabelType !== "percent" && (
-          <span class={CSS.unitLabel}>&nbsp;{unitLabel}</span>
+          <span class={CSS.unitLabel}>{unitLabel}</span>
         )}
       </div>
     );

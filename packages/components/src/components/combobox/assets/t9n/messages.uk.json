@@ -4,9 +4,10 @@
   "allSelected": "Всі вибрані",
   "clear": "Очистити значення",
   "noMatches": "Немає збігів",
-  "removeTag": "Вилучити тег",
+  "removeTag": "Remove {value} tag",
   "required": "Потрібні відомості",
   "selectAll": "Вибрати всі",
   "selected": "вибрані",
-  "nonEditable": "{value} тільки читання"
+  "nonEditable": "{value} тільки читання",
+  "disabledSelectedCount": "+{count}"
 }

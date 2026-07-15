@@ -1,7 +1,10 @@
 name: PR Bot
 on:
   pull_request:
-    branches: [main, rc, dev]
+    branches:
+      - "releases/**"
+      - rc
+      - dev
 permissions:
   pull-requests: write
   issues: write
@@ -13,14 +16,14 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: "Assign author"
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/assignPullRequestAuthor.js')
             await action({github, context, core})
 
       - name: "Add commit type label"
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/labelPullRequestWithCommitType.js')

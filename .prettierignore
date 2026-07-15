@@ -2,7 +2,7 @@
 **/pnpm-lock.yaml
 
 # prevents modifying licenses
-**/THIRD-PARTY-LICENSES.md
+**/THIRD-PARTY-NOTICES.md
 
 # calcite-design-tokens
 

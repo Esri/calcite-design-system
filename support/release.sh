@@ -13,6 +13,15 @@ help() {
     exit 1
 }
 
+valid_release_branch_pattern() {
+    # Only enforce the pattern for "latest" releases
+    if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
+        [[ $branch =~ ^releases/[0-9]+\.R[0-9]+$ ]]
+    else
+        return 0
+    fi
+}
+
 correct_branch_checked_out() {
     [ "$(git rev-parse --abbrev-ref HEAD)" = "$branch" ]
 }
@@ -26,7 +35,9 @@ working_tree_clean() {
 }
 
 sanity_checks() {
-    if ! correct_branch_checked_out; then
+    if ! valid_release_branch_pattern; then
+        help "Current branch '$branch' does not match the expected release branch pattern (releases/YY.R#, e.g., releases/26.R1)"
+    elif ! correct_branch_checked_out; then
         help "The '$branch' branch must be checked out before deploying $dist_tag"
     elif ! in_sync_with_origin; then
         help "The repository must be in sync with 'origin/$branch'"
@@ -63,7 +74,8 @@ main() {
     dist_tag="$2"
 
     if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
-        branch="main"
+        # we assume HEAD is a release branch
+        branch="$(git rev-parse --abbrev-ref HEAD)"
     elif [ "$dist_tag" = "next" ]; then
         branch="dev"
     elif [ "$dist_tag" = "rc" ]; then

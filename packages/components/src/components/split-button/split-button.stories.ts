@@ -1,15 +1,16 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { menuPlacements } from "../../utils/floating-ui";
 import { SplitButton } from "./split-button";
 
-const { appearance, kind, scale, width, iconType } = ATTRIBUTES;
+const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
 
 type SplitButtonStoryArgs = Pick<
   SplitButton,
+  | "active"
   | "appearance"
+  | "primaryIconEnd"
   | "kind"
   | "scale"
   | "width"
@@ -26,6 +27,7 @@ type SplitButtonStoryArgs = Pick<
 export default {
   title: "Components/Buttons/Split Button",
   args: {
+    active: true,
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
@@ -34,6 +36,7 @@ export default {
     disabled: false,
     placement: "bottom-end",
     primaryIconStart: iconNames[0],
+    primaryIconEnd: "",
     primaryText: "Primary Option",
     primaryLabel: "Primary Option",
     dropdownLabel: "Additional Options",
@@ -57,11 +60,15 @@ export default {
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: placement.values,
       control: { type: "select" },
     },
     primaryIconStart: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    primaryIconEnd: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     dropdownIconType: {
@@ -74,7 +81,7 @@ export default {
 export const simple = (args: SplitButtonStoryArgs): string => html`
   <div style="width:70vw;">
     <calcite-split-button
-      active
+      ${boolean("active", args.active)}
       appearance="${args.appearance}"
       kind="${args.kind}"
       scale="${args.scale}"
@@ -82,7 +89,8 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("disabled", args.disabled)}
       placement="${args.placement}"
-      primary-icon-start="${args.primaryIconStart}"
+      ${optionalAttribute("primary-icon-start", args.primaryIconStart)}
+      ${optionalAttribute("primary-icon-end", args.primaryIconEnd)}
       primary-text="${args.primaryText}"
       primary-label="${args.primaryLabel}"
       dropdown-label="${args.dropdownLabel}"
@@ -97,7 +105,7 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
   </div>
 `;
 
-export const allWidths_TestOnly = (): string => html`
+export const allWidths = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button primary-text="auto" width="auto">
       <calcite-dropdown-group selection-mode="none" group-title="Veggies">
@@ -132,7 +140,7 @@ export const allWidths_TestOnly = (): string => html`
   </div>
 `;
 
-export const iconEnd_TestOnly = (): string => html`
+export const iconEnd = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="solid"
@@ -202,7 +210,7 @@ export const placementTopStart = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button
       appearance="solid"
@@ -224,9 +232,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`
+export const disabled = (): string => html`
   <calcite-split-button disabled>
     <calcite-dropdown-group selection-mode="none">
       <calcite-dropdown-item>Option 2</calcite-dropdown-item>
@@ -244,7 +252,7 @@ export const disabled_TestOnly = (): string => html`
   </calcite-split-button>
 `;
 
-export const appearanceAndKindCombinations_TestOnly = (): string => html`
+export const appearanceAndKindCombinations = (): string => html`
   <calcite-split-button primary-text="outline+brand" appearance="outline" kind="brand"></calcite-split-button>
   <calcite-split-button primary-text="outline+danger" appearance="outline" kind="danger"></calcite-split-button>
   <calcite-split-button primary-text="outline+inverse" appearance="outline" kind="inverse"></calcite-split-button>
@@ -286,7 +294,7 @@ export const appearanceAndKindCombinations_TestOnly = (): string => html`
   ></calcite-split-button>
 `;
 
-export const loadingAndDisabled_TestOnly = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
+export const loadingAndDisabled = (): string => html`<calcite-button loading disabled>Test</calcite-button>`;
 
 export const primaryAsALink = (): string =>
   html` <calcite-split-button

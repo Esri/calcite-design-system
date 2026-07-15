@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
@@ -45,7 +44,7 @@ export class SwatchGroup extends LitElement {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -161,18 +160,18 @@ export class SwatchGroup extends LitElement {
     event.stopPropagation();
   }
 
-  private updateItems(event?: Event): void {
-    const itemsFromSlot = this.slotRef.value
-      ?.assignedElements({ flatten: true })
-      .filter((el): el is Swatch["el"] => el?.matches("calcite-swatch"));
+  private handleSlotChange(event: Event): void {
+    this.updateItems(slotChangeGetAssignedElements<Swatch["el"]>(event, "calcite-swatch"));
+  }
 
-    this.items = !event ? itemsFromSlot : slotChangeGetAssignedElements<Swatch["el"]>(event);
+  private updateItems(items = this.items): void {
+    this.items = items;
 
-    if (this.items?.length < 1) {
+    if (this.items.length < 1) {
       return;
     }
 
-    this.items?.forEach((el) => {
+    this.items.forEach((el) => {
       el.interactive = true;
       el.scale = this.scale;
       el.selectionMode = this.selectionMode;
@@ -227,7 +226,7 @@ export class SwatchGroup extends LitElement {
     return (
       <this.interactiveContainer disabled={disabled}>
         <div ariaLabel={this.label} class={CSS.container} role={role}>
-          <slot onSlotChange={this.updateItems} ref={this.slotRef} />
+          <slot onSlotChange={this.handleSlotChange} ref={this.slotRef} />
         </div>
       </this.interactiveContainer>
     );

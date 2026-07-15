@@ -1,13 +1,14 @@
 on:
   push:
     branches:
-      - release-please--branches--main
+      - "release-please--branches--releases/**"
 permissions:
   contents: write
   pull-requests: write
 name: clean-changelog
 jobs:
   clean-changelog:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository

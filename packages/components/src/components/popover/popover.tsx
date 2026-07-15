@@ -1,19 +1,10 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import {
-  LitElement,
-  property,
-  createEvent,
-  h,
-  method,
-  state,
-  JsxNode,
-  setAttribute,
-} from "@arcgis/lumina";
+import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  connectFloatingUI,
   defaultOffsetDistance,
+  connectFloatingUI,
   disconnectFloatingUI,
   filterValidFlipPlacements,
   FlipPlacement,
@@ -26,8 +17,6 @@ import {
   ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { queryElementRoots, toAriaBoolean } from "../../utils/dom";
-import { guid } from "../../utils/guid";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { Scale } from "../interfaces";
@@ -37,9 +26,14 @@ import { useT9n } from "../../controllers/useT9n";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import PopoverManager from "./PopoverManager";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ARIA_CONTROLS, ARIA_EXPANDED, CSS, defaultPopoverPlacement } from "./resources";
+import { CSS, defaultPopoverPlacement } from "./resources";
 import { styles } from "./popover.scss";
 
 declare global {
@@ -48,10 +42,10 @@ declare global {
   }
 }
 
-const manager = new PopoverManager();
+const manager = referenceElementManager({ click: true });
 
 /** @slot - A slot for adding custom content. */
-export class Popover extends LitElement implements FloatingUIComponent {
+export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override styles = styles;
@@ -60,11 +54,17 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   //#region Private Properties
 
-  private arrowEl: SVGSVGElement;
+  referenceElementType: ReferenceElementType = "click";
 
-  private filteredFlipPlacements: FlipPlacement[];
+  referenceElementController = useReferenceElement({ manager })(this);
 
-  floatingEl: HTMLDivElement;
+  private arrowEl?: SVGSVGElement;
+
+  private direction = useDirection();
+
+  private filteredFlipPlacements?: FlipPlacement[];
+
+  floatingEl?: HTMLDivElement;
 
   focusTrap = useFocusTrap<this>({
     triggerProp: "open",
@@ -81,11 +81,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
     },
   })(this);
 
-  private guid = `calcite-popover-${guid()}`;
-
-  private hasLoaded = false;
-
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
+  private mutationObserver = createObserver("mutation", () =>
     this.focusTrap.updateContainerElements(),
   );
 
@@ -113,7 +109,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
-  @state() referenceEl: ReferenceElement;
+  @state() referenceEl?: ReferenceElement;
 
   //#endregion
 
@@ -122,14 +118,14 @@ export class Popover extends LitElement implements FloatingUIComponent {
   /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
   @property({ reflect: true }) autoClose = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
   @property({ reflect: true }) flipDisabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
@@ -143,42 +139,36 @@ export class Popover extends LitElement implements FloatingUIComponent {
    * `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body, and
    * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
    */
-  @property() focusTrapOptions: Partial<FocusTrapOptions>;
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies an accessible label for the component.
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Offsets the position of the popover away from the `referenceElement`.
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Offsets the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
@@ -188,27 +178,19 @@ export class Popover extends LitElement implements FloatingUIComponent {
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
+   * @copyDoc
    *
    * @required
    */
-  @property() referenceElement: ReferenceElement | string;
+  @property() referenceElement!: ReferenceElement | string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * @copyDoc
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
@@ -244,8 +226,9 @@ export class Popover extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
-        referenceEl: referenceEl,
+        referenceEl,
         overlayPositioning,
         placement,
         flipDisabled,
@@ -264,16 +247,23 @@ export class Popover extends LitElement implements FloatingUIComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.el, options);
   }
 
-  /** Updates the element(s) that are used within the focus-trap of the component. */
+  /**
+   * Updates the element(s) that are included in the component's focus-trap.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
   @method()
-  async updateFocusTrapElements(): Promise<void> {
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrap.setExtraContainers(extraContainers);
     this.focusTrap.updateContainerElements();
   }
 
@@ -300,10 +290,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.setFilteredPlacements();
-
-    // we set up the ref element in the next frame to ensure PopoverManager
-    // event handlers are invoked after connect (mainly for `components` output target)
-    requestAnimationFrame(() => this.setUpReferenceElement(this.hasLoaded));
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -330,26 +316,19 @@ export class Popover extends LitElement implements FloatingUIComponent {
       this.reposition(true);
     }
 
-    if (changes.has("referenceElement")) {
-      this.referenceElementHandler();
-
-      if (!this.referenceElement && this.open) {
-        this.topLayer.hide();
-      }
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
     }
   }
 
-  loaded(): void {
-    if (this.referenceElement && !this.referenceEl) {
-      this.setUpReferenceElement();
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl")) {
+      connectFloatingUI(this);
     }
-
-    this.hasLoaded = true;
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    this.removeReferences();
     disconnectFloatingUI(this);
   }
 
@@ -365,20 +344,10 @@ export class Popover extends LitElement implements FloatingUIComponent {
   private openHandler(): void {
     toggleOpenClose(this);
     this.reposition(true);
-    this.setExpandedAttr();
-  }
-
-  private referenceElementHandler(): void {
-    this.setUpReferenceElement();
-    this.reposition(true);
   }
 
   private setFloatingEl(el: HTMLDivElement): void {
     this.floatingEl = el;
-
-    if (el) {
-      requestAnimationFrame(() => this.setUpReferenceElement());
-    }
   }
 
   private setFilteredPlacements(): void {
@@ -386,80 +355,7 @@ export class Popover extends LitElement implements FloatingUIComponent {
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
-  }
-
-  private setUpReferenceElement(warn = true): void {
-    this.removeReferences();
-    this.referenceEl = this.getReferenceElement();
-    connectFloatingUI(this);
-
-    const { el, referenceElement, referenceEl } = this;
-    if (warn && referenceElement && !referenceEl) {
-      console.warn(`${el.tagName}: reference-element id "${referenceElement}" was not found.`, {
-        el,
-      });
-    }
-
-    this.addReferences();
-  }
-
-  private getId(): string {
-    return this.el.id || this.guid;
-  }
-
-  private setExpandedAttr(): void {
-    const { referenceEl, open } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_EXPANDED, toAriaBoolean(open));
-    }
-  }
-
-  private addReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    const id = this.getId();
-
-    if ("setAttribute" in referenceEl) {
-      referenceEl.setAttribute(ARIA_CONTROLS, id);
-    }
-
-    manager.registerElement(referenceEl, this.el);
-    this.setExpandedAttr();
-  }
-
-  private removeReferences(): void {
-    const { referenceEl } = this;
-
-    if (!referenceEl) {
-      return;
-    }
-
-    if ("removeAttribute" in referenceEl) {
-      referenceEl.removeAttribute(ARIA_CONTROLS);
-      referenceEl.removeAttribute(ARIA_EXPANDED);
-    }
-
-    manager.unregisterElement(referenceEl);
-  }
-
-  private getReferenceElement(): ReferenceElement {
-    const { referenceElement, el } = this;
-
-    return (
-      (typeof referenceElement === "string"
-        ? queryElementRoots(el, { id: referenceElement })
-        : referenceElement) || null
-    );
+      : undefined;
   }
 
   private hide(): void {
@@ -540,8 +436,6 @@ export class Popover extends LitElement implements FloatingUIComponent {
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "id", this.getId());
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 

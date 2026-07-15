@@ -1,10 +1,9 @@
-// @ts-strict-ignore
 import { BoundingBox, ElementHandle } from "puppeteer";
 import { LitElement, ToElement } from "@arcgis/lumina";
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { expect } from "vitest";
 import { ComponentTag } from "../commonTests/interfaces";
-import { waitForAnimationFrame as waitForRaf } from "./timing";
+import { afterNextFrame as waitForRaf } from "./timing";
 import { GlobalTestProps } from "./interfaces";
 
 type DragAndDropSelector = string | SelectorOptions;
@@ -41,14 +40,14 @@ export async function dragAndDrop(
   async function getBounds(selector: DragAndDropSelector): Promise<BoundingBox> {
     const elementHandle =
       typeof selector === "string"
-        ? await page.waitForSelector(selector)
+        ? (await page.waitForSelector(selector))!
         : await page.evaluateHandle(({ element, shadow }) => {
-            const target = document.querySelector(element);
+            const target = document.querySelector(element)!;
 
-            return shadow ? target.shadowRoot.querySelector(shadow) : target;
+            return shadow ? target.shadowRoot!.querySelector(shadow)! : target;
           }, selector);
 
-    return elementHandle.asElement().boundingBox();
+    return elementHandle.asElement()!.boundingBox() as Promise<BoundingBox>;
   }
 
   async function createEventInitializer(selector: DragAndDropSelector): Promise<MouseInitEvent> {
@@ -85,12 +84,12 @@ export async function dragAndDrop(
   ): Promise<void> {
     function getElement(selector: DragAndDropSelector): Element {
       if (typeof selector === "string") {
-        return document.querySelector(selector);
+        return document.querySelector(selector)!;
       }
 
-      const element = document.querySelector(selector.element);
+      const element = document.querySelector(selector.element)!;
 
-      return selector.shadow ? element.shadowRoot.querySelector(selector.shadow) : element;
+      return selector.shadow ? element.shadowRoot!.querySelector(selector.shadow)! : element;
     }
 
     const dragStart = getElement(dragStartSelector);
@@ -141,13 +140,13 @@ export async function getElementXY(
 ): Promise<[number, number]> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): [number, number] => {
-      const element = document.querySelector(elementSelector);
-      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const element = document.querySelector(elementSelector)!;
+      const measureTarget = shadowSelector ? element.shadowRoot!.querySelector(shadowSelector)! : element;
       const { x, y } = measureTarget.getBoundingClientRect();
 
       return [x, y];
     },
-    [elementSelector, shadowSelector],
+    [elementSelector, shadowSelector] as const,
   );
 }
 
@@ -166,11 +165,11 @@ export async function getElementRect(
 ): Promise<DOMRect> {
   return page.evaluate(
     ([elementSelector, shadowSelector]): DOMRect => {
-      const element = document.querySelector(elementSelector);
-      const measureTarget = shadowSelector ? element.shadowRoot.querySelector(shadowSelector) : element;
+      const element = document.querySelector(elementSelector)!;
+      const measureTarget = shadowSelector ? element.shadowRoot!.querySelector(shadowSelector)! : element;
       return measureTarget.getBoundingClientRect().toJSON();
     },
-    [elementSelector, shadowSelector],
+    [elementSelector, shadowSelector] as const,
   );
 }
 
@@ -330,7 +329,7 @@ export async function isElementFocused(
   const shadowed = options?.shadowed;
 
   return page.evaluate(
-    (selector: string, shadowed: boolean): boolean => {
+    (selector, shadowed) => {
       const targetDoc = shadowed ? document.activeElement?.shadowRoot : document;
 
       return !!targetDoc?.activeElement?.matches(selector);
@@ -423,7 +422,7 @@ export async function createSelectedItemsAsserter(
 
     const selectedItemIds = await page.evaluate(
       (groupElementTagName) =>
-        document.querySelector<HTMLSelectableElement>(groupElementTagName).selectedItems.map((item) => item.id),
+        document.querySelector<HTMLSelectableElement>(groupElementTagName)!.selectedItems.map((item) => item.id),
       selectableComponentTagName,
     );
 
@@ -455,8 +454,8 @@ export async function assertCaretPosition({
   expect(
     await page.evaluate(
       (position, componentTag, shadowInputTypeSelector) => {
-        const element = document.querySelector(componentTag);
-        const el = element.shadowRoot.querySelector(shadowInputTypeSelector);
+        const element = document.querySelector(componentTag)!;
+        const el = element.shadowRoot!.querySelector(shadowInputTypeSelector)!;
         return el.selectionStart === (position !== undefined ? position : el.value.length);
       },
       position,
@@ -576,13 +575,14 @@ export async function createEventTimePropValuesAsserter<
   const { selector, eventName, props, eventListenerSelector } = propValuesTarget;
   const callbackAfterEvent = page.$eval(
     selector,
-    (element: El, eventName, props, eventListenerSelector) => {
-      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector) : element;
+    (element, eventName, props, eventListenerSelector) => {
+      const el = element as El;
+      const targetEl = eventListenerSelector ? document.querySelector(eventListenerSelector)! : el;
       return new Promise<PropValues>((resolve) => {
         targetEl.addEventListener(
           eventName,
           () => {
-            const propValues = Object.fromEntries(props.map((prop) => [prop, element[prop]]));
+            const propValues = Object.fromEntries(props.map((prop) => [prop, el[prop]]));
             resolve(propValues as PropValues);
           },
           { once: true },

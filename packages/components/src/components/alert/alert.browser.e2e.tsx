@@ -1,6 +1,8 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, Fragment, type JsxNode } from "@arcgis/lumina";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
+
 import {
   defaults,
   reflects,
@@ -8,54 +10,168 @@ import {
   renders,
   t9n,
   topLayer,
+  openClose,
+  accessible,
+  themed,
 } from "../../tests/commonTests/browser";
+import { CSS, DURATIONS } from "./resources";
+import { alertQueueTimeoutMs } from "./AlertManager";
+import type { Alert } from "./alert";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
-describe("calcite-alert", () => {
-  describe("defaults", () => {
-    defaults(
-      () => mount("calcite-alert"),
-      [
-        {
-          propertyName: "autoCloseDuration",
-          defaultValue: "medium",
-        },
-        {
-          propertyName: "embedded",
-          defaultValue: false,
-        },
-        {
-          propertyName: "queue",
-          defaultValue: "last",
-        },
-      ],
+describe("accessible", () => {
+  function renderAlertContent(): JsxNode {
+    return (
+      <>
+        <div slot="title">Title Text</div>
+        <div slot="message">Message Text</div>
+        <a href="" slot="link">
+          Action
+        </a>
+      </>
     );
+  }
+
+  describe("open", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteAlertOpen");
+      const renderResult = await mount(
+        <calcite-alert label="test" open>
+          {renderAlertContent()}
+        </calcite-alert>,
+      );
+      await openEvent;
+      return renderResult;
+    });
   });
 
-  describe("reflects", () => {
-    reflects(
-      () => mount("calcite-alert"),
-      [
-        {
-          propertyName: "queue",
-          value: "last",
-        },
-      ],
-    );
+  describe("accessible with auto-close", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteAlertOpen");
+      const renderResult = await mount(
+        <calcite-alert autoClose={true} autoCloseDuration="slow" label="test" open>
+          {renderAlertContent()}
+        </calcite-alert>,
+      );
+      await openEvent;
+      return renderResult;
+    });
   });
+});
 
-  describe("honors hidden attribute", () => {
-    hidden(() => mount(<calcite-alert open />));
-  });
+describe("defaults", () => {
+  defaults(
+    () => mount("calcite-alert"),
+    [
+      {
+        propertyName: "autoCloseDuration",
+        defaultValue: "medium",
+      },
+      {
+        propertyName: "embedded",
+        defaultValue: false,
+      },
+      {
+        propertyName: "queue",
+        defaultValue: "last",
+      },
+    ],
+  );
+});
 
-  describe("renders", () => {
-    renders(() => mount("calcite-alert"), { visible: false, display: "block" });
-  });
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-alert"),
+    [
+      {
+        propertyName: "queue",
+        value: "last",
+      },
+    ],
+  );
+});
 
-  describe("top layer placement", () => {
-    topLayer(() => mount("calcite-alert"));
-  });
+describe("honors hidden attribute", () => {
+  hidden(() => mount(<calcite-alert open />));
+});
 
-  describe("translation support", () => {
-    t9n(() => mount("calcite-alert"));
+describe("openClose", () => {
+  openClose((mountOptions) => mount("calcite-alert", mountOptions));
+});
+
+describe("renders", () => {
+  renders(() => mount("calcite-alert"), { visible: false, display: "block" });
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-alert"));
+});
+
+describe("translation support", () => {
+  t9n(() => mount("calcite-alert"));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+it("retains close button during auto-close delay and closes when clicked", async () => {
+  vi.useFakeTimers();
+
+  await mount(
+    <calcite-alert
+      auto-close
+      auto-close-duration="medium"
+      icon
+      id="alert"
+      kind="success"
+      label="this is a success"
+    />,
+  );
+
+  const alert = page.getBySelector("#alert").element() as Alert["el"];
+  alert.open = true;
+
+  vi.advanceTimersByTime(alertQueueTimeoutMs);
+
+  expect(alert.open).toBe(true);
+
+  let closeButton = page.getBySelector(`#alert .${CSS.close}`);
+  await expect.element(closeButton).toBeVisible();
+
+  vi.advanceTimersByTime(DURATIONS.medium / 2);
+
+  closeButton = page.getBySelector(`#alert .${CSS.close}`);
+  await expect.element(closeButton).toBeVisible();
+
+  vi.advanceTimersByTime(DURATIONS.medium / 2 - 1);
+
+  closeButton = page.getBySelector(`#alert .${CSS.close}`);
+  await expect.element(closeButton).toBeVisible();
+  await userEvent.click(closeButton);
+
+  expect(alert.open).toBe(false);
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-alert label="this is a default alert"> </calcite-alert>), {
+    "--calcite-alert-width": {
+      selector: `calcite-alert`,
+      targetProp: "inlineSize",
+    },
+    "--calcite-alert-background-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-alert-corner-radius": [
+      {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "borderRadius",
+      },
+    ],
+    "--calcite-alert-shadow": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "boxShadow",
+    },
   });
 });

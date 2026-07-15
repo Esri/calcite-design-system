@@ -4,9 +4,10 @@
   "allSelected": "เลือกทั้งหมดแล้ว",
   "clear": "ล้างค่า",
   "noMatches": "ไม่ตรงกัน",
-  "removeTag": "ลบแท็ก",
+  "removeTag": "Remove {value} tag",
   "required": "ต้องการ",
   "selectAll": "เลือกทั้งหมด",
   "selected": "เลือก",
-  "nonEditable": "อ่านอย่างเดียว {value}"
+  "nonEditable": "อ่านอย่างเดียว {value}",
+  "disabledSelectedCount": "+{count}"
 }

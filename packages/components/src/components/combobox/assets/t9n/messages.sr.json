@@ -4,9 +4,10 @@
   "allSelected": "Sve selektovano",
   "clear": "Izbriši vrednosti",
   "noMatches": "Nema podudaranja",
-  "removeTag": "Ukloni oznaku",
+  "removeTag": "Remove {value} tag",
   "required": "Obavezno",
   "selectAll": "Izaberi sve",
   "selected": "selektovano",
-  "nonEditable": "Samo za čitanje {value}"
+  "nonEditable": "Samo za čitanje {value}",
+  "disabledSelectedCount": "+{count}"
 }

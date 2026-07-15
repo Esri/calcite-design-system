@@ -1,8 +1,16 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property } from "@arcgis/lumina";
-import { queryAssignedElements } from "lit/decorators.js";
-import { focusElement, focusElementInGroup, nextFrame } from "../../utils/dom";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
+import { nextFrame } from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -12,24 +20,29 @@ import {
   FloatingCSS,
   FloatingUIComponent,
   hideFloatingUI,
-  MenuPlacement,
+  LogicalPlacement,
   OverlayPositioning,
+  ReferenceElement,
   reposition,
 } from "../../utils/floating-ui";
-import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { RequestedItem } from "../dropdown-group/interfaces";
-import { Scale, SingleItemSlotArray, Width } from "../interfaces";
+import { Scale, Width } from "../interfaces";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
-import { ItemKeyboardEvent } from "./interfaces";
-import { CSS, IDS, SLOTS } from "./resources";
+import {
+  ReferenceElementComponent,
+  ReferenceElementType,
+  useReferenceElement,
+} from "../../controllers/useReferenceElement";
+import { referenceElementManager } from "../../controllers/useReferenceElement/manager";
+import { CSS, SLOTS } from "./resources";
 import { styles } from "./dropdown.scss";
 
 declare global {
@@ -38,11 +51,13 @@ declare global {
   }
 }
 
+const manager = referenceElementManager({ click: true, hover: true });
+
 /**
  * @slot - A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
- * @slot trigger - A slot for the element that triggers the `calcite-dropdown`.
+ * @slot trigger - [deprecated] in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead. A slot for the element that triggers the component.
  */
-export class Dropdown extends LitElement implements FloatingUIComponent {
+export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -53,15 +68,24 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   //#region Private Properties
 
-  private filteredFlipPlacements: FlipPlacement[];
+  get referenceElementType(): ReferenceElementType | undefined {
+    return this.referenceElement ? this.type : undefined;
+  }
 
-  floatingEl: HTMLDivElement;
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
+  referenceElementController = useReferenceElement({ manager })(this);
+
+  private direction = useDirection();
+
+  private filteredFlipPlacements?: FlipPlacement[];
+
+  floatingEl?: HTMLDivElement;
 
   private focusLastDropdownItem = false;
 
-  private groups: DropdownGroup["el"][] = [];
+  private activeItemIndex = -1;
 
-  private guid = guid();
+  private groups: DropdownGroup["el"][] = [];
 
   private items: DropdownItem["el"][] = [];
 
@@ -69,18 +93,15 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
   transitionProp = "opacity" as const;
 
-  referenceEl: HTMLDivElement;
-
   private resizeObserver = createObserver("resize", (entries) =>
     this.resizeObserverCallback(entries),
   );
 
-  private scrollerEl: HTMLDivElement;
+  private scrollerEl?: HTMLDivElement;
 
-  transitionEl: HTMLDivElement;
+  transitionEl: HTMLDivElement | undefined;
 
-  @queryAssignedElements({ slot: SLOTS.trigger })
-  private triggerEls: SingleItemSlotArray<HTMLElement>;
+  onReferenceElementKeyDown = (event: KeyboardEvent): void => this.keyDownHandler(event);
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -89,6 +110,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private topLayer = useTopLayer<this>({
     target: () => this.floatingEl,
   })(this);
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() activeDescendantElement?: DropdownItem["el"];
+
+  @state() referenceEl?: ReferenceElement;
 
   //#endregion
 
@@ -101,81 +130,77 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted `calcite-dropdown-items` when their initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /**
-   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scroller.
-   * Value must be greater than `0`, and does not include `groupTitle`'s from `calcite-dropdown-group`.
+   * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scrollbar.
+   * Value must be greater than `0`, and does not include `groupTitle`s from `calcite-dropdown-group`.
    */
   @property({ reflect: true }) maxItems = 0;
 
   /**
-   * Offset the position of the component away from the `referenceElement`.
+   * Specifies the distance to position the component away from the `referenceElement`.
    */
   @property({ type: Number, reflect: true }) offsetDistance = 0;
 
-  /** Offset the position of the component along the `referenceElement`. */
+  /** Specifies the distance to position the component along the `referenceElement`. */
   @property({ reflect: true }) offsetSkidding = 0;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Determines where the component will be positioned relative to the container element.
+   * Determines the component's placement relative to the container element.
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+
+  /** @copyDoc */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
+  @property() referenceElement: ReferenceElement | string | null;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the component's selected items.
+   * The component's selected items.
    *
    * @readonly
    */
   @property() selectedItems: DropdownItem["el"][] = [];
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * @copyDoc
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
-   *
-   * @mdn [Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the action to open the component from the container element. */
+  /** Specifies the type of action on the container element to open the component. */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
   /**
-   * Specifies the width of the component.
+   * Specifies the component's width.
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
-  @property({ reflect: true }) widthScale: Scale;
+  @property({ reflect: true }) widthScale?: Scale;
 
-  /** Specifies the width of the component. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  /** Specifies the component's width. */
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
   //#region Public Methods
 
   /**
-   * Updates the position of the component.
+   * Updates the component's position.
    *
    * @param delayed
    */
@@ -194,6 +219,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     return reposition(
       this,
       {
+        direction: this.direction,
         floatingEl,
         referenceEl,
         offsetDistance,
@@ -212,11 +238,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.referenceEl, options);
+    return this.focusSetter(
+      () => (this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl),
+      options,
+    );
   }
 
   //#endregion
@@ -232,7 +261,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   /** Fires when the component is closed and animation is complete. */
   calciteDropdownClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /** Fires when the component is opened and animation is complete. */
   calciteDropdownOpen = createEvent({ cancelable: false });
 
   /** Fires when a `calcite-dropdown-item`'s selection changes. */
@@ -245,12 +274,13 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   constructor() {
     super();
     this.listenOn(window, "click", this.closeCalciteDropdownOnClick);
-    this.listen("calciteInternalDropdownCloseRequest", this.closeCalciteDropdownOnEvent);
     this.listenOn(window, "calciteDropdownOpen", this.closeCalciteDropdownOnOpenEvent);
     this.listen("pointerenter", this.pointerEnterHandler);
     this.listen("pointerleave", this.pointerLeaveHandler);
-    this.listen("calciteInternalDropdownItemKeyEvent", this.calciteInternalDropdownItemKeyEvent);
-    this.listen("calciteInternalDropdownItemSelect", this.handleItemSelect);
+    this.listen<ToEvents<DropdownItem>["calciteInternalDropdownItemSelect"]>(
+      "calciteInternalDropdownItemSelect",
+      this.handleItemSelect,
+    );
   }
 
   override connectedCallback(): void {
@@ -293,6 +323,16 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
     if (changes.has("scale") && (this.hasUpdated || this.scale !== "m")) {
       this.handlePropsChange();
+    }
+
+    if (changes.has("referenceElement") && !this.referenceElement && this.open) {
+      this.topLayer.hide();
+    }
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("referenceEl") && this.referenceElementType) {
+      connectFloatingUI(this);
     }
   }
 
@@ -337,36 +377,36 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private closeCalciteDropdownOnClick(event: MouseEvent): void {
-    if (this.disabled || !this.open || event.composedPath().includes(this.el)) {
+    if (
+      this.referenceElementType ||
+      this.disabled ||
+      !this.open ||
+      event.composedPath().includes(this.el)
+    ) {
       return;
     }
 
-    this.closeCalciteDropdown(false);
-  }
-
-  private closeCalciteDropdownOnEvent(event: Event): void {
     this.closeCalciteDropdown();
-    event.stopPropagation();
   }
 
   private closeCalciteDropdownOnOpenEvent(event: Event): void {
-    if (event.composedPath().includes(this.el)) {
+    if (this.referenceElementType || event.composedPath().includes(this.el)) {
       return;
     }
 
-    this.open = false;
+    this.closeCalciteDropdown();
   }
 
   private pointerEnterHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
-    this.toggleDropdown();
+    this.open = true;
   }
 
   private pointerLeaveHandler(): void {
-    if (this.disabled || this.type !== "hover") {
+    if (this.referenceElementType || this.disabled || this.type !== "hover") {
       return;
     }
 
@@ -377,37 +417,12 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     return this.items.filter((item) => !item.disabled && !item.hidden);
   }
 
-  private calciteInternalDropdownItemKeyEvent(event: CustomEvent<ItemKeyboardEvent>): void {
-    const { keyboardEvent } = event.detail;
-    const target = keyboardEvent.target as DropdownItem["el"];
-    const traversableItems = this.getTraversableItems();
-
-    switch (keyboardEvent.key) {
-      case "Tab":
-        this.open = false;
-        this.updateTabIndexOfItems(target);
-        break;
-      case "ArrowDown":
-        focusElementInGroup(traversableItems, target, "next");
-        break;
-      case "ArrowUp":
-        focusElementInGroup(traversableItems, target, "previous");
-        break;
-      case "Home":
-        focusElementInGroup(traversableItems, target, "first");
-        break;
-      case "End":
-        focusElementInGroup(traversableItems, target, "last");
-        break;
-    }
-
-    event.stopPropagation();
-  }
-
-  private handleItemSelect(event: CustomEvent<RequestedItem>): void {
+  private async handleItemSelect(event: CustomEvent<RequestedItem>): Promise<void> {
     this.updateSelectedItems();
+    this.syncActiveItemFromTraversableItems();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
+    await this.setFocus();
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
     }
@@ -418,7 +433,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
+      : undefined;
   }
 
   private updateItems(): void {
@@ -427,6 +442,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       .reduce((previousValue, currentValue) => [...previousValue, ...currentValue], []);
 
     this.updateSelectedItems();
+    this.syncActiveItemFromTraversableItems();
 
     this.reposition(true);
 
@@ -464,7 +480,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   private setDropdownWidth(): void {
     const { referenceEl, scrollerEl } = this;
 
-    if (!scrollerEl || !referenceEl) {
+    if (!scrollerEl || !(referenceEl instanceof HTMLElement)) {
       return;
     }
 
@@ -493,7 +509,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   onBeforeOpen(): void {
-    this.focusOnFirstActiveOrDefaultItem();
+    this.setInitialActiveItem();
     this.calciteDropdownBeforeOpen.emit();
     this.topLayer.show();
   }
@@ -513,8 +529,18 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private setReferenceEl(el: HTMLDivElement): void {
-    updateRefObserver(this.resizeObserver, this.referenceEl, el);
+    const previousReferenceEl =
+      this.referenceEl instanceof HTMLElement ? this.referenceEl : undefined;
+    const nextReferenceEl = el instanceof HTMLElement ? el : undefined;
+
+    updateRefObserver(this.resizeObserver, previousReferenceEl, nextReferenceEl);
+
+    if (this.referenceElementType || !nextReferenceEl) {
+      return;
+    }
+
     this.referenceEl = el;
+
     connectFloatingUI(this);
   }
 
@@ -524,7 +550,10 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!event.composedPath().includes(this.referenceEl)) {
+    if (
+      !(this.referenceEl instanceof HTMLElement) ||
+      !event.composedPath().includes(this.referenceEl)
+    ) {
       return;
     }
 
@@ -534,25 +563,61 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
       return;
     }
 
-    if (key === "Escape") {
+    if (this.open && key === "Escape") {
       this.closeCalciteDropdown();
       event.preventDefault();
       return;
     }
 
-    if (this.open && event.shiftKey && key === "Tab") {
-      this.closeCalciteDropdown();
+    if (!this.open && isActivationKey(key)) {
+      this.open = true;
       event.preventDefault();
+      return;
+    }
+
+    if (!this.open && (key === "ArrowDown" || key === "ArrowUp")) {
+      event.preventDefault();
+      this.focusLastDropdownItem = key === "ArrowUp";
+      this.open = true;
+      return;
+    }
+
+    if (!this.open) {
+      return;
+    }
+
+    if (key === "Tab") {
+      this.closeCalciteDropdown();
+      return;
+    }
+
+    if (key === "ArrowDown") {
+      event.preventDefault();
+      this.navigateActiveItem("next");
+      return;
+    }
+
+    if (key === "ArrowUp") {
+      event.preventDefault();
+      this.navigateActiveItem("previous");
+      return;
+    }
+
+    if (key === "Home") {
+      event.preventDefault();
+      this.navigateActiveItem("first");
+      return;
+    }
+
+    if (key === "End") {
+      event.preventDefault();
+      this.navigateActiveItem("last");
       return;
     }
 
     if (isActivationKey(key)) {
-      this.toggleDropdown();
       event.preventDefault();
-    } else if (key === "ArrowDown" || key === "ArrowUp") {
-      event.preventDefault();
-      this.focusLastDropdownItem = key === "ArrowUp";
-      this.open = true;
+      this.activateActiveItem();
     }
   }
 
@@ -560,26 +625,98 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     this.selectedItems = this.items.filter((item) => item.selected);
   }
 
-  private getYDistanceFromScroller(last: HTMLElement): number {
+  private getYDistanceFromScroller(last: HTMLElement | undefined): number {
+    if (!last) {
+      return NaN;
+    }
     const style = last.getBoundingClientRect();
     return last.offsetTop + style.height;
   }
 
-  private closeCalciteDropdown(focusTrigger = true) {
+  private closeCalciteDropdown(): void {
     this.open = false;
-
-    if (focusTrigger) {
-      focusElement(this.triggerEls[0]);
-    }
+    this.setActiveItemByIndex(-1);
   }
 
-  private async focusOnFirstActiveOrDefaultItem(): Promise<void> {
-    const selectedItem = this.getTraversableItems().find((item) => item.selected);
-    const target: DropdownItem["el"] =
-      selectedItem || (this.focusLastDropdownItem ? this.items.at(-1) : this.items[0]);
+  private async setInitialActiveItem(): Promise<void> {
+    const traversableItems = this.getTraversableItems();
+    const target: DropdownItem["el"] | undefined = this.focusLastDropdownItem
+      ? traversableItems.at(-1)
+      : traversableItems[0];
 
     this.focusLastDropdownItem = false;
 
+    if (!target) {
+      this.setActiveItemByIndex(-1);
+      return;
+    }
+
+    const targetIndex = traversableItems.findIndex((item) => item === target);
+    this.setActiveItemByIndex(targetIndex);
+
+    await this.scrollActiveItemIntoView(target);
+  }
+
+  private syncActiveItemFromTraversableItems(): void {
+    const traversableItems = this.getTraversableItems();
+
+    if (!traversableItems.length) {
+      this.setActiveItemByIndex(-1);
+      return;
+    }
+
+    if (this.activeItemIndex < 0 || this.activeItemIndex >= traversableItems.length) {
+      this.setActiveItemByIndex(0);
+      return;
+    }
+
+    this.updateActiveDescendantElement(traversableItems[this.activeItemIndex]);
+  }
+
+  private setActiveItemByIndex(index: number): void {
+    this.activeItemIndex = index;
+    const traversableItems = this.getTraversableItems();
+    const activeItem = index >= 0 ? traversableItems[index] : null;
+
+    this.updateActiveDescendantElement(activeItem);
+  }
+
+  private updateActiveDescendantElement(activeItem: DropdownItem["el"] | null): void {
+    this.items.forEach((item) => {
+      item.activeDescendant = item === activeItem;
+    });
+
+    this.activeDescendantElement = activeItem ?? undefined;
+  }
+
+  private navigateActiveItem(direction: "next" | "previous" | "first" | "last"): void {
+    const traversableItems = this.getTraversableItems();
+
+    if (!traversableItems.length) {
+      return;
+    }
+
+    const totalItems = traversableItems.length;
+    let index = this.activeItemIndex;
+
+    if (index < 0 || index >= totalItems) {
+      index = direction === "previous" || direction === "last" ? totalItems - 1 : 0;
+    } else if (direction === "next") {
+      index = (index + 1) % totalItems;
+    } else if (direction === "previous") {
+      index = (index - 1 + totalItems) % totalItems;
+    } else if (direction === "first") {
+      index = 0;
+    } else if (direction === "last") {
+      index = totalItems - 1;
+    }
+
+    const activeItem = traversableItems[index];
+    this.setActiveItemByIndex(index);
+    void this.scrollActiveItemIntoView(activeItem);
+  }
+
+  private async scrollActiveItemIntoView(target: DropdownItem["el"]): Promise<void> {
     if (!target) {
       return;
     }
@@ -590,18 +727,53 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
     await nextFrame();
     await nextFrame();
 
-    await focusElement(target);
     target.scrollIntoView({ block: "nearest" });
   }
 
-  private toggleDropdown() {
-    this.open = !this.open;
+  private activateActiveItem(): void {
+    const traversableItems = this.getTraversableItems();
+    const activeItem = traversableItems[this.activeItemIndex] || traversableItems[0];
+
+    if (!activeItem) {
+      return;
+    }
+
+    this.setActiveItemByIndex(traversableItems.findIndex((item) => item === activeItem));
+    activeItem.activateItem();
   }
 
-  private updateTabIndexOfItems(target: DropdownItem["el"]): void {
-    this.items.forEach((item: DropdownItem["el"]) => {
-      item.tabIndex = target !== item ? -1 : 0;
-    });
+  private openHoverDropdown(): void {
+    if (this.open || this.disabled || this.type !== "hover") {
+      return;
+    }
+
+    this.open = true;
+  }
+
+  private closeHoverDropdown(event: FocusEvent): void {
+    if (!this.open || this.disabled || this.type !== "hover") {
+      return;
+    }
+    const relatedTarget = event.relatedTarget as Node | null;
+    if (
+      relatedTarget &&
+      (this.el.contains(relatedTarget) ||
+        (this.referenceEl != null &&
+          this.referenceEl instanceof HTMLElement &&
+          this.referenceEl.contains(relatedTarget)))
+    ) {
+      return;
+    }
+
+    this.closeCalciteDropdown();
+  }
+
+  private toggleClickDropdown(): void {
+    if (this.disabled || this.type !== "click") {
+      return;
+    }
+
+    this.open = !this.open;
   }
 
   //#endregion
@@ -609,42 +781,47 @@ export class Dropdown extends LitElement implements FloatingUIComponent {
   //#region Rendering
 
   override render(): JsxNode {
-    const { open, guid } = this;
+    const { open } = this;
     return (
       <this.interactiveContainer disabled={this.disabled}>
+        {!this.referenceElementType ? (
+          <div
+            class={CSS.triggerContainer}
+            onClick={this.toggleClickDropdown}
+            onFocusIn={this.openHoverDropdown}
+            onFocusOut={this.closeHoverDropdown}
+            onKeyDown={this.keyDownHandler}
+            ref={this.setReferenceEl}
+          >
+            <slot
+              ariaActiveDescendantElement={this.activeDescendantElement ?? undefined}
+              ariaControlsElements={this.scrollerEl ? [this.scrollerEl] : undefined}
+              ariaExpanded={open}
+              ariaHasPopup="menu"
+              name={SLOTS.trigger}
+            />
+          </div>
+        ) : null}
         <div
-          class={CSS.triggerContainer}
-          id={IDS.menuButton(guid)}
-          onClick={this.toggleDropdown}
-          onKeyDown={this.keyDownHandler}
-          ref={this.setReferenceEl}
-        >
-          <slot
-            aria-controls={IDS.menu(guid)}
-            ariaExpanded={open}
-            ariaHasPopup="menu"
-            name={SLOTS.trigger}
-          />
-        </div>
-        <div
-          ariaHidden={!open}
           class={{
             [CSS.wrapper]: true,
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
               this.width || this.widthScale
             ),
           }}
+          inert={!open}
           popover="manual"
           ref={this.setFloatingEl}
         >
           <div
-            aria-labelledby={IDS.menuButton(guid)}
+            ariaLabelledByElements={
+              this.referenceEl instanceof HTMLElement ? [this.referenceEl] : undefined
+            }
             class={{
               [CSS.content]: true,
               [FloatingCSS.animation]: true,
               [FloatingCSS.animationActive]: open,
             }}
-            id={IDS.menu(guid)}
             ref={this.setScrollerAndTransitionEl}
             role="menu"
           >

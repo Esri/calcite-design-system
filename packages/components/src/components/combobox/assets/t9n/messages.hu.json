@@ -4,9 +4,10 @@
   "allSelected": "Összes kiválasztva",
   "clear": "Érték törlése",
   "noMatches": "Nincs találat",
-  "removeTag": "Címke eltávolítása",
+  "removeTag": "Remove {value} tag",
   "required": "Szükséges",
   "selectAll": "Összes kiválasztása",
   "selected": "kiválasztva",
-  "nonEditable": "Csak olvasható {value}"
+  "nonEditable": "Csak olvasható {value}",
+  "disabledSelectedCount": "+{count}"
 }

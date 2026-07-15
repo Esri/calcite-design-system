@@ -4,7 +4,7 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
 
 ## Usage
 
-1. Clone the documentation repo (internal) as a sibling to the Calcite Design System monorepo.
+1. Clone the documentation repo (internal) as a sibling to the Calcite Design System monorepo. The absolute path of the documentation repo can be specified using the `CALCITE_DOCUMENTATION` environment variable. This is helpful for use cases where the documentation repo can't be a sibling of the monorepo, or when using [git worktrees](git-scm.com/docs/git-worktree).
 2. Install dependencies:
    ```bash
    pnpm install
@@ -18,7 +18,7 @@ A CLI tool that loads MDX snippets from the docs repo and injects them into your
 
 ## License
 
-COPYRIGHT © Esri
+COPYRIGHT Esri - <https://js.arcgis.com/5.0/LICENSE.txt>
 
 All rights reserved under the copyright laws of the United States and applicable international laws, treaties, and conventions.
 
@@ -30,6 +30,6 @@ For additional information, contact: Environmental Systems Research Institute, I
 
 email: <contracts@esri.com>
 
-## Third-party licenses
+## Third-party notices
 
-See [THIRD-PARTY-LICENSES.md](./THIRD-PARTY-LICENSES.md).
+See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md).

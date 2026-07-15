@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it } from "vitest";
 import {
   formatTimePart,
@@ -59,10 +58,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "ar", parts: getTimeParts("ar", "PM") })).toEqual("م");
   });
   it("bg", () => {
-    expect(getLocalizedMeridiem({ locale: "bg", meridiem: "AM" })).toEqual("пр.об.");
-    expect(getLocalizedMeridiem({ locale: "bg", meridiem: "PM" })).toEqual("сл.об.");
-    expect(getLocalizedMeridiem({ locale: "bg", parts: getTimeParts("bg", "AM") })).toEqual("пр.об.");
-    expect(getLocalizedMeridiem({ locale: "bg", parts: getTimeParts("bg", "PM") })).toEqual("сл.об.");
+    expect(getLocalizedMeridiem({ locale: "bg", meridiem: "AM" })).toEqual("am");
+    expect(getLocalizedMeridiem({ locale: "bg", meridiem: "PM" })).toEqual("pm");
+    expect(getLocalizedMeridiem({ locale: "bg", parts: getTimeParts("bg", "AM") })).toEqual("am");
+    expect(getLocalizedMeridiem({ locale: "bg", parts: getTimeParts("bg", "PM") })).toEqual("pm");
   });
   it("bs", () => {
     expect(getLocalizedMeridiem({ locale: "bs", meridiem: "AM" })).toEqual("prijepodne");
@@ -71,10 +70,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "bs", parts: getTimeParts("bs", "PM") })).toEqual("popodne");
   });
   it("ca", () => {
-    expect(getLocalizedMeridiem({ locale: "ca", meridiem: "AM" })).toEqual("a. m.");
-    expect(getLocalizedMeridiem({ locale: "ca", meridiem: "PM" })).toEqual("p. m.");
-    expect(getLocalizedMeridiem({ locale: "ca", parts: getTimeParts("ca", "AM") })).toEqual("a. m.");
-    expect(getLocalizedMeridiem({ locale: "ca", parts: getTimeParts("ca", "PM") })).toEqual("p. m.");
+    expect(getLocalizedMeridiem({ locale: "ca", meridiem: "AM" })).toEqual("a. m.");
+    expect(getLocalizedMeridiem({ locale: "ca", meridiem: "PM" })).toEqual("p. m.");
+    expect(getLocalizedMeridiem({ locale: "ca", parts: getTimeParts("ca", "AM") })).toEqual("a. m.");
+    expect(getLocalizedMeridiem({ locale: "ca", parts: getTimeParts("ca", "PM") })).toEqual("p. m.");
   });
   it("cs", () => {
     expect(getLocalizedMeridiem({ locale: "cs", meridiem: "AM" })).toEqual("dop.");
@@ -137,10 +136,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "en-CA", parts: getTimeParts("en-CA", "PM") })).toEqual("p.m.");
   });
   it("es", () => {
-    expect(getLocalizedMeridiem({ locale: "es", meridiem: "AM" })).toEqual("a. m.");
-    expect(getLocalizedMeridiem({ locale: "es", meridiem: "PM" })).toEqual("p. m.");
-    expect(getLocalizedMeridiem({ locale: "es", parts: getTimeParts("es", "AM") })).toEqual("a. m.");
-    expect(getLocalizedMeridiem({ locale: "es", parts: getTimeParts("es", "PM") })).toEqual("p. m.");
+    expect(getLocalizedMeridiem({ locale: "es", meridiem: "AM" })).toEqual("a. m.");
+    expect(getLocalizedMeridiem({ locale: "es", meridiem: "PM" })).toEqual("p. m.");
+    expect(getLocalizedMeridiem({ locale: "es", parts: getTimeParts("es", "AM") })).toEqual("a. m.");
+    expect(getLocalizedMeridiem({ locale: "es", parts: getTimeParts("es", "PM") })).toEqual("p. m.");
   });
   it("es-MX", () => {
     expect(getLocalizedMeridiem({ locale: "es-MX", meridiem: "AM" })).toEqual("a.m.");
@@ -233,10 +232,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "lt", parts: getTimeParts("lt", "PM") })).toEqual("popiet");
   });
   it("lv", () => {
-    expect(getLocalizedMeridiem({ locale: "lv", meridiem: "AM" })).toEqual("priekšpusdienā");
-    expect(getLocalizedMeridiem({ locale: "lv", meridiem: "PM" })).toEqual("pēcpusdienā");
-    expect(getLocalizedMeridiem({ locale: "lv", parts: getTimeParts("lv", "AM") })).toEqual("priekšpusdienā");
-    expect(getLocalizedMeridiem({ locale: "lv", parts: getTimeParts("lv", "PM") })).toEqual("pēcpusdienā");
+    expect(getLocalizedMeridiem({ locale: "lv", meridiem: "AM" })).toEqual("priekšp.");
+    expect(getLocalizedMeridiem({ locale: "lv", meridiem: "PM" })).toEqual("pēcp.");
+    expect(getLocalizedMeridiem({ locale: "lv", parts: getTimeParts("lv", "AM") })).toEqual("priekšp.");
+    expect(getLocalizedMeridiem({ locale: "lv", parts: getTimeParts("lv", "PM") })).toEqual("pēcp.");
   });
   it("mk", () => {
     expect(getLocalizedMeridiem({ locale: "mk", meridiem: "AM" })).toEqual("претпл.");
@@ -269,10 +268,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "pt-BR", parts: getTimeParts("pt-BR", "PM") })).toEqual("PM");
   });
   it("pt-PT", () => {
-    expect(getLocalizedMeridiem({ locale: "pt-PT", meridiem: "AM" })).toEqual("da manhã");
-    expect(getLocalizedMeridiem({ locale: "pt-PT", meridiem: "PM" })).toEqual("da tarde");
-    expect(getLocalizedMeridiem({ locale: "pt-PT", parts: getTimeParts("pt-PT", "AM") })).toEqual("da manhã");
-    expect(getLocalizedMeridiem({ locale: "pt-PT", parts: getTimeParts("pt-PT", "PM") })).toEqual("da tarde");
+    expect(getLocalizedMeridiem({ locale: "pt-PT", meridiem: "AM" })).toEqual("a.m.");
+    expect(getLocalizedMeridiem({ locale: "pt-PT", meridiem: "PM" })).toEqual("p.m.");
+    expect(getLocalizedMeridiem({ locale: "pt-PT", parts: getTimeParts("pt-PT", "AM") })).toEqual("a.m.");
+    expect(getLocalizedMeridiem({ locale: "pt-PT", parts: getTimeParts("pt-PT", "PM") })).toEqual("p.m.");
   });
   it("ro", () => {
     expect(getLocalizedMeridiem({ locale: "ro", meridiem: "AM" })).toEqual("a.m.");
@@ -305,10 +304,10 @@ describe("getLocalizedMeridiem", () => {
     expect(getLocalizedMeridiem({ locale: "sv", parts: getTimeParts("sv", "PM") })).toEqual("em");
   });
   it("th", () => {
-    expect(getLocalizedMeridiem({ locale: "th", meridiem: "AM" })).toEqual("ก่อนเที่ยง");
-    expect(getLocalizedMeridiem({ locale: "th", meridiem: "PM" })).toEqual("หลังเที่ยง");
-    expect(getLocalizedMeridiem({ locale: "th", parts: getTimeParts("th", "AM") })).toEqual("ก่อนเที่ยง");
-    expect(getLocalizedMeridiem({ locale: "th", parts: getTimeParts("th", "PM") })).toEqual("หลังเที่ยง");
+    expect(getLocalizedMeridiem({ locale: "th", meridiem: "AM" })).toEqual("AM");
+    expect(getLocalizedMeridiem({ locale: "th", meridiem: "PM" })).toEqual("PM");
+    expect(getLocalizedMeridiem({ locale: "th", parts: getTimeParts("th", "AM") })).toEqual("AM");
+    expect(getLocalizedMeridiem({ locale: "th", parts: getTimeParts("th", "PM") })).toEqual("PM");
   });
   it("tr", () => {
     expect(getLocalizedMeridiem({ locale: "tr", meridiem: "AM" })).toEqual("ÖÖ");
@@ -471,7 +470,7 @@ describe("localizeTimeString", () => {
       second: "30",
       decimalSeparator: ".",
       fractionalSecond: "04",
-      secondSuffix: " ",
+      secondSuffix: " ",
       meridiem: "AM",
     });
     expect(localizeTimeString({ step: 0.001, parts: true, value: "06:45:30.003", locale: "en" })).toEqual({
@@ -482,7 +481,7 @@ describe("localizeTimeString", () => {
       second: "30",
       decimalSeparator: ".",
       fractionalSecond: "003",
-      secondSuffix: " ",
+      secondSuffix: " ",
       meridiem: "AM",
     });
     expect(

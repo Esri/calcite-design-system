@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { throttle } from "es-toolkit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -12,14 +11,9 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { PropertyValues } from "lit";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -27,13 +21,14 @@ import { guid } from "../../utils/guid";
 import { Status } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { syncHiddenFormInput, TextualInputComponent } from "../input/common/input";
+import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/interfaces";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
@@ -53,9 +48,11 @@ declare global {
  */
 export class TextArea
   extends LitElement
-  implements FormComponent, LabelableComponent, Omit<TextualInputComponent, "pattern">
+  implements LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -68,21 +65,23 @@ export class TextArea
     this.handleGlobalAttributesChanged,
   );
 
-  defaultValue: TextArea["value"];
+  defaultValue?: TextArea["value"];
 
   private footerRef = createRef<HTMLElement>();
 
-  private validationMessageEl: HTMLDivElement;
+  private validationMessageEl?: HTMLDivElement;
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "text",
+  })(this);
 
   private guid = guid();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private textAreaEl: HTMLTextAreaElement;
+  private textAreaEl?: HTMLTextAreaElement;
 
-  private localizedCharacterLengthObj: CharacterLengthObj;
+  private localizedCharacterLengthObj!: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
@@ -96,7 +95,7 @@ export class TextArea
       validationMessageHeight,
     } = this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerRef.value.style.width = `${textAreaWidth}px`;
+      this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
 
     if (this.resize === "none") {
@@ -138,13 +137,15 @@ export class TextArea
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   //#endregion
 
   //#region State Properties
 
-  @state() endSlotHasElements: boolean;
+  @state() endSlotHasElements = false;
 
-  @state() startSlotHasElements: boolean;
+  @state() startSlotHasElements = false;
 
   //#endregion
 
@@ -153,32 +154,28 @@ export class TextArea
   /**
    * Specifies the component's number of columns.
    *
-   * @mdn [cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
+   * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
-  @property({ reflect: true }) columns: number;
+  @property({ reflect: true }) columns?: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
-   * @mdn [disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /**
    * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
@@ -192,42 +189,42 @@ export class TextArea
    * When the component resides in a form,
    * specifies the maximum number of characters allowed.
    *
-   * @mdn [maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
+   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum number of characters allowed.
    *
-   * @mdn [minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
+   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
    * Specifies the name of the component. Required to pass the component's value on form submission.
    *
-   * @mdn [name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
+   * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the placeholder text for the component.
    *
-   * @mdn [placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -235,7 +232,7 @@ export class TextArea
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
-   * @mdn [required]https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required
+   * @see [MDN - required](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
    */
   @property({ reflect: true }) required = false;
 
@@ -245,9 +242,9 @@ export class TextArea
   /**
    * Specifies the component's number of rows.
    *
-   * @mdn [rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
+   * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
-  @property({ reflect: true }) rows: number;
+  @property({ reflect: true }) rows?: number;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "l" | "m" | "s" = "m";
@@ -256,32 +253,20 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value = "";
@@ -289,7 +274,7 @@ export class TextArea
   /**
    * Specifies the wrapping mechanism for the text.
    *
-   * @mdn [wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
+   * @see [MDN - wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
    */
   @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
 
@@ -309,7 +294,7 @@ export class TextArea
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -331,9 +316,28 @@ export class TextArea
   //#region Lifecycle
 
   override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
     this.cancelable.add(this.updateSizeToAuto);
+  }
+
+  override willUpdate(changes: PropertyValues<this>): void {
+    let numberFormatOptionsChanged = false;
+
+    if (
+      changes.has("messages") ||
+      changes.has("numberingSystem") ||
+      changes.has("groupSeparator")
+    ) {
+      numberFormatOptionsChanged = true;
+    }
+
+    if (changes.has("value") || changes.has("maxLength") || numberFormatOptionsChanged) {
+      this.updateNumberFormatter();
+
+      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
+      this.formSupport.setCustomValidity(
+        this.isCharacterLimitExceeded() ? this.replacePlaceholdersInMessages() : "",
+      );
+    }
   }
 
   override updated(): void {
@@ -341,14 +345,21 @@ export class TextArea
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
     this.resizeObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private updateNumberFormatter(): void {
+    numberStringFormatter.numberFormatOptions = {
+      locale: this.messages._lang,
+      numberingSystem: this.numberingSystem,
+      signDisplay: "never",
+      useGrouping: this.groupSeparator,
+    };
+  }
 
   private handleGlobalAttributesChanged(): void {
     this.requestUpdate();
@@ -359,7 +370,7 @@ export class TextArea
   }
 
   private handleInput(event: InputEvent): void {
-    this.value = event.target["value"];
+    this.value = (event.target as HTMLTextAreaElement).value;
     this.calciteTextAreaInput.emit();
   }
 
@@ -371,7 +382,7 @@ export class TextArea
     if (!this.value) {
       const nodes = this.el.childNodes;
       nodes.forEach((el) => {
-        if (el.nodeName === "#text") {
+        if (el.nodeName === "#text" && el.nodeValue) {
           this.value = el.nodeValue.trim();
         }
       });
@@ -379,31 +390,16 @@ export class TextArea
   }
 
   private getLocalizedCharacterLength(): CharacterLengthObj {
-    const currentLength = this.value ? this.value.length.toString() : "0";
-    const maxLength = this.maxLength.toString();
+    const currentLength = this.value?.length.toString() || "0";
+    const maxLength = this.maxLength?.toString() || "0";
     if (this.numberingSystem === "latn") {
       return { currentLength, maxLength };
     }
 
-    numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
-      numberingSystem: this.numberingSystem,
-      signDisplay: "never",
-      useGrouping: this.groupSeparator,
-    };
     return {
       currentLength: numberStringFormatter.localize(currentLength),
       maxLength: numberStringFormatter.localize(maxLength),
     };
-  }
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.setCustomValidity("");
-    if (this.isCharacterLimitExceeded()) {
-      input.setCustomValidity(this.replacePlaceholdersInMessages());
-    }
-
-    syncHiddenFormInput("textarea", this, input);
   }
 
   private setTextAreaEl(el: HTMLTextAreaElement): void {
@@ -415,7 +411,7 @@ export class TextArea
     const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
       this.getHeightAndWidthOfElements();
     if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
-      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
+      this.textAreaEl!.style.height = `${elHeight - footerHeight}px`;
     }
   }
 
@@ -458,7 +454,7 @@ export class TextArea
   }
 
   private isCharacterLimitExceeded(): boolean {
-    return this.value?.length > this.maxLength;
+    return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
   }
 
   private setValidationRef(el: HTMLDivElement): void {
@@ -552,7 +548,6 @@ export class TextArea
               </div>
               {this.renderCharacterLimit()}
             </footer>
-            <HiddenFormInputSlot component={this} />
             {this.isCharacterLimitExceeded() && (
               <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
                 {this.replacePlaceholdersInMessages()}
@@ -576,7 +571,6 @@ export class TextArea
 
   private renderCharacterLimit(): JsxNode | null {
     if (this.maxLength) {
-      this.localizedCharacterLengthObj = this.getLocalizedCharacterLength();
       return (
         <span class={CSS.characterLimit}>
           <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>

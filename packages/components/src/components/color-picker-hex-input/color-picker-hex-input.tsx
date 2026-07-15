@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import Color, { type ColorInstance } from "color";
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
@@ -46,7 +45,7 @@ export class ColorPickerHexInput extends LitElement {
 
   private opacityInputRef = createRef<InputNumber["el"]>();
 
-  private previousNonNullValue: string;
+  private previousDefinedValue?: string;
 
   private focusSetter = useSetFocus<this>()(this);
 
@@ -55,7 +54,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region State Properties
 
   /** The last valid/selected color. Used as a fallback if an invalid hex code is entered. */
-  @state() internalColor: ColorInstance | undefined = DEFAULT_COLOR;
+  @state() internalColor?: ColorInstance = DEFAULT_COLOR;
 
   // #endregion
 
@@ -83,7 +82,7 @@ export class ColorPickerHexInput extends LitElement {
    *
    * @private
    */
-  @property() messages: ColorPicker["messages"]["_overrides"];
+  @property() messages!: ColorPicker["messages"]["_overrides"];
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem?: NumberingSystem;
@@ -92,7 +91,7 @@ export class ColorPickerHexInput extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** The hex value. */
-  @property({ reflect: true }) value: string = normalizeHex(
+  @property({ reflect: true }) value?: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
     this.alphaChannel,
     true,
@@ -107,7 +106,7 @@ export class ColorPickerHexInput extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -126,7 +125,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region Lifecycle
 
   override connectedCallback(): void {
-    this.previousNonNullValue = this.value;
+    this.previousDefinedValue = this.value;
     const { allowEmpty, alphaChannel, value } = this;
 
     if (value) {
@@ -164,7 +163,7 @@ export class ColorPickerHexInput extends LitElement {
   // #region Private Methods
 
   private onHexInputBlur(): void {
-    const node = this.hexInputRef.value;
+    const node = this.hexInputRef.value!;
     const inputValue = node.value;
     const hex = `#${inputValue}`;
     const { allowEmpty, internalColor } = this;
@@ -188,13 +187,13 @@ export class ColorPickerHexInput extends LitElement {
         : this.formatHexForInternalInput(
             rgbToHex(
               // always display hex input in RRGGBB format
-              internalColor.object() as any as RGB,
+              internalColor!.object() as any as RGB,
             ),
           );
   }
 
   private onOpacityInputBlur(): void {
-    const node = this.opacityInputRef.value;
+    const node = this.opacityInputRef.value!;
     const inputValue = node.value;
     const { allowEmpty, internalColor } = this;
     const willClearValue = allowEmpty && !inputValue;
@@ -213,7 +212,7 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onHexInputChange(): void {
-    const nodeValue = this.hexInputRef.value.value;
+    const nodeValue = this.hexInputRef.value!.value;
     let value = nodeValue;
 
     if (value) {
@@ -229,8 +228,8 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onOpacityInputChange(): void {
-    const node = this.opacityInputRef.value;
-    let value: number | string;
+    const node = this.opacityInputRef.value!;
+    let value: number | string | undefined;
 
     if (!node.value) {
       value = node.value;
@@ -245,11 +244,11 @@ export class ColorPickerHexInput extends LitElement {
   private onInputFocus(event: Event): void {
     const focusTarget =
       event.type === "calciteInternalInputTextFocus" ? this.hexInputRef : this.opacityInputRef;
-    focusTarget.value.selectText();
+    focusTarget.value!.selectText();
   }
 
   private onHexInputInput(): void {
-    const hexInputValue = `#${this.hexInputRef.value.value}`;
+    const hexInputValue = `#${this.hexInputRef.value!.value}`;
     const oldValue = this.value;
 
     if (
@@ -267,7 +266,7 @@ export class ColorPickerHexInput extends LitElement {
     const composedPath = event.composedPath();
 
     if ((key === "Tab" && isShorthandHex(value, this.alphaChannel)) || key === "Enter") {
-      if (composedPath.includes(hexInputRef.value)) {
+      if (composedPath.includes(hexInputRef.value!)) {
         this.onHexInputChange();
       } else {
         this.onOpacityInputChange();
@@ -285,7 +284,7 @@ export class ColorPickerHexInput extends LitElement {
 
     if (isNudgeKey) {
       if (!value) {
-        this.internalSetValue(this.previousNonNullValue, oldValue);
+        this.internalSetValue(this.previousDefinedValue, oldValue);
         event.preventDefault();
         return;
       }
@@ -296,9 +295,9 @@ export class ColorPickerHexInput extends LitElement {
       this.internalSetValue(
         hexify(
           this.nudgeRGBChannels(
-            internalColor,
+            internalColor!,
             bump * direction,
-            composedPath.includes(hexInputRef.value) ? "rgb" : "a",
+            composedPath.includes(hexInputRef.value!) ? "rgb" : "a",
           ),
           alphaChannel,
         ),
@@ -319,11 +318,11 @@ export class ColorPickerHexInput extends LitElement {
   }
 
   private onHexInputPaste(event: ClipboardEvent): void {
-    const hex = event.clipboardData.getData("text");
+    const hex = event.clipboardData?.getData("text");
 
     if (isValidHex(hex, this.alphaChannel) && isLonghandHex(hex, this.alphaChannel)) {
       event.preventDefault();
-      this.hexInputRef.value.value = hex.slice(1);
+      this.hexInputRef.value!.value = hex!.slice(1);
       this.internalSetValue(hex, this.value);
     }
   }
@@ -347,7 +346,7 @@ export class ColorPickerHexInput extends LitElement {
           normalizedLonghand !== normalizeHex(hexify(currentColor, alphaChannel), alphaChannel);
 
         this.internalColor = nextColor;
-        this.previousNonNullValue = normalizedLonghand;
+        this.previousDefinedValue = normalizedLonghand;
         this.value = normalizedLonghand;
 
         if (changed && emit) {
@@ -370,11 +369,11 @@ export class ColorPickerHexInput extends LitElement {
     this.value = oldValue;
   }
 
-  private formatHexForInternalInput(hex: string): string {
+  private formatHexForInternalInput(hex: string | undefined): string {
     return hex ? hex.replace("#", "").slice(0, 6) : "";
   }
 
-  private formatOpacityForInternalInput(color: ColorInstance): string {
+  private formatOpacityForInternalInput(color: ColorInstance | undefined): string {
     return color ? `${alphaToOpacity(color.alpha())}` : "";
   }
 
@@ -417,12 +416,12 @@ export class ColorPickerHexInput extends LitElement {
           class={CSS.hexInput}
           label={messages?.hex || hexLabel}
           maxLength={this.alphaChannel ? 8 : 6}
-          onKeyDown={this.onInputKeyDown}
-          onPaste={this.onHexInputPaste}
           oncalciteInputTextChange={this.onHexInputChange}
           oncalciteInputTextInput={this.onHexInputInput}
           oncalciteInternalInputTextBlur={this.onHexInputBlur}
           oncalciteInternalInputTextFocus={this.onInputFocus}
+          onKeyDown={this.onInputKeyDown}
+          onPaste={this.onHexInputPaste}
           prefixText="#"
           ref={this.hexInputRef}
           scale={inputScale}
@@ -438,10 +437,10 @@ export class ColorPickerHexInput extends LitElement {
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
-            onKeyDown={this.onInputKeyDown}
             oncalciteInputNumberInput={this.onOpacityInputInput}
             oncalciteInternalInputNumberBlur={this.onOpacityInputBlur}
             oncalciteInternalInputNumberFocus={this.onInputFocus}
+            onKeyDown={this.onInputKeyDown}
             ref={this.opacityInputRef}
             scale={inputScale}
             suffixText="%"

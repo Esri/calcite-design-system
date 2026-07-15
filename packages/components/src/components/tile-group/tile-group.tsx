@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
@@ -30,7 +29,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   private mutationObserver = createObserver("mutation", () => this.updateTiles());
 
-  private slotEl: HTMLSlotElement;
+  private slotEl?: HTMLSlotElement;
 
   private interactiveContainer = useInteractive(this);
 
@@ -49,7 +48,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /**
    * Defines the layout of the component.
@@ -184,7 +183,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
       (this.selectionMode === "single" || this.selectionMode === "single-persist") &&
       selectedItems?.length > 1
     ) {
-      this.selectedItems = [selectedItems.pop()];
+      this.selectedItems = [selectedItems.pop()!];
       this.items?.forEach((el) => {
         if (this.selectedItems.indexOf(el) === -1) {
           el.selected = false;

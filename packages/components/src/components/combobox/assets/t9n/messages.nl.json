@@ -4,9 +4,10 @@
   "allSelected": "Alle geselecteerde",
   "clear": "Waarde wissen",
   "noMatches": "Geen overeenkomsten",
-  "removeTag": "Tag verwijderen",
+  "removeTag": "Remove {value} tag",
   "required": "Vereist",
   "selectAll": "Alles selecteren",
   "selected": "geselecteerd",
-  "nonEditable": "Alleen-lezen {value}"
+  "nonEditable": "Alleen-lezen {value}",
+  "disabledSelectedCount": "+{count}"
 }

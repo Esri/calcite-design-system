@@ -147,6 +147,7 @@ const config: Config = {
         ...transformers.platformTransforms.es6,
         transformers.TransformValueCorrectPropName,
         transformers.TransformValueMergeValues,
+        transformers.TransformValueEs6MergeBreakpoints,
       ],
       buildPath: "dist/es6/",
       prefix: "calcite",
@@ -201,12 +202,12 @@ const config: Config = {
         {
           destination: "breakpoints.js",
           format: sdFormats.javascriptEs6,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
         {
           destination: "breakpoints.d.ts",
           format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterBreakpointTokens,
+          filter: filters.FilterEs6BreakpointTokens,
         },
       ],
     },

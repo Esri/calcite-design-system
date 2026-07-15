@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { setCSSVariables } from "../../tests/utils/cssTokenValues";
@@ -9,13 +9,16 @@ const { scale } = ATTRIBUTES;
 
 const sampleIcon = iconNames.find((item) => item === "arrowRight");
 
-type IconStoryArgs = Pick<Icon, "icon" | "scale">;
+type IconStoryArgs = Pick<Icon, "flipRtl" | "icon" | "preload" | "scale" | "textLabel">;
 
 export default {
   title: "Components/Icon",
   args: {
+    flipRtl: false,
     icon: sampleIcon,
+    preload: false,
     scale: scale.defaultValue,
+    textLabel: "",
   },
   argTypes: {
     icon: {
@@ -30,7 +33,13 @@ export default {
 };
 
 export const simple = (args: IconStoryArgs): string => html`
-  <calcite-icon icon="${args.icon}" scale="${args.scale}"></calcite-icon>
+  <calcite-icon
+    ${boolean("flip-rtl", !!args.flipRtl)}
+    ${optionalAttribute("icon", args.icon)}
+    ${boolean("preload", args.preload)}
+    scale="${args.scale}"
+    text-label="${args.textLabel}"
+  ></calcite-icon>
 `;
 
 export const customBaseFontSize = (): string => html`
@@ -43,12 +52,12 @@ export const customBaseFontSize = (): string => html`
   <calcite-icon icon="banana" scale="l"></calcite-icon>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-icon class="calcite-mode-dark" dir="rtl" icon="${sampleIcon}" flip-rtl></calcite-icon>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const theming_TestOnly = (): string => html`
+export const theming = (): string => html`
   <style>
     .container {
         ${setCSSVariables(["--calcite-icon-color"])}

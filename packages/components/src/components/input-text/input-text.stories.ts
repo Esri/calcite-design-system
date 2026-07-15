@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputText } from "./input-text";
@@ -16,10 +16,18 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "maxLength"
+  | "minLength"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
+  | "validationMessage"
 >;
 
 export default {
@@ -33,10 +41,18 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    maxLength: undefined,
+    minLength: undefined,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     scale: {
@@ -51,8 +67,18 @@ export default {
       options: alignment.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    icon: {
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
   },
@@ -69,10 +95,18 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("max-length", args.maxLength)}
+      ${optionalAttribute("min-length", args.minLength)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
   </div>
@@ -86,7 +120,7 @@ export const withSlottedAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
     <calcite-input-text
       id="input-dark-mode"
@@ -98,9 +132,9 @@ export const darkModeRTL_TestOnly = (): string => html`
     </calcite-input-text>
   </div>
 `;
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
+export const mediumIconForLargeScaleStyling = (): string => html`
   <calcite-label scale="l">
     Input Label
     <calcite-input-text placeholder="Placeholder" scale="l"></calcite-input-text>
@@ -114,7 +148,7 @@ export const mediumIconForLargeScaleStyling_TestOnly = (): string => html`
   </calcite-label>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`
     <style>
       .breakpoint-story-container {
@@ -134,7 +168,7 @@ export const widthSetToBreakpoints_TestOnly = (): string =>
     ></calcite-input-text>
   `);
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -199,3 +233,9 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input-text icon="check-square-f"></calcite-input-text>
     <div class="overlay"></div>`;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input-text inline-editable inline-editable-controls value="Editable text"></calcite-input-text>
+  </div>
+`;

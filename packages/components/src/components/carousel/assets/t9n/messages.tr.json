@@ -5,5 +5,5 @@
   "pause": "Duraklat",
   "carousel": "Döngü",
   "carouselItemProgress": "Döngü Ögesi için ilerleme göstergesi",
-  "paginationStatus": "Item {current} of {total}"
+  "paginationStatus": "Öge {current} / {total}"
 }

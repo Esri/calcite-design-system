@@ -4,9 +4,9 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Stepper } from "./stepper";
 
-const { layout, scale } = ATTRIBUTES;
+const { layout, numberingSystem, scale } = ATTRIBUTES;
 
-type StepperArgs = Pick<Stepper, "layout" | "scale" | "numbered" | "icon">;
+type StepperArgs = Pick<Stepper, "icon" | "layout" | "numbered" | "numberingSystem" | "scale">;
 
 type StepperItemArgs1 = {
   heading1: StepperItem["heading"];
@@ -37,6 +37,7 @@ export default {
     scale: scale.defaultValue,
     numbered: true,
     icon: true,
+    numberingSystem: numberingSystem.defaultValue,
     heading1: "Choose method",
     description1: "Add members without sending invitations",
     heading2: "Compile member list",
@@ -63,6 +64,10 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
+    numberingSystem: {
+      options: numberingSystem.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -76,6 +81,7 @@ export const simple = (args: StepperStoryArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
+    numbering-system="${args.numberingSystem}"
     ${boolean("numbered", args.numbered)}
     ${boolean("icon", args.icon)}
   >
@@ -96,6 +102,7 @@ export const simple = (args: StepperStoryArgs): string => html`
   <calcite-stepper
     layout="${args.layout}"
     scale="${args.scale}"
+    numbering-system="${args.numberingSystem}"
     ${boolean("numbered", args.numbered)}
     ${boolean("icon", args.icon)}
   >
@@ -110,7 +117,7 @@ export const simple = (args: StepperStoryArgs): string => html`
   </calcite-stepper>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div dir="rtl">
     <calcite-stepper
     class="calcite-mode-dark"
@@ -150,9 +157,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const overriddenWidth_TestOnly = (): string =>
+export const overriddenWidth = (): string =>
   html` <calcite-stepper numbered style="width: 50vw">
     <calcite-stepper-item heading="Choose method" description="Add members without sending invitations" complete>
       <calcite-notice open width="full">
@@ -176,13 +183,13 @@ export const overriddenWidth_TestOnly = (): string =>
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-stepper>
     <calcite-stepper-item heading="item1" complete disabled>1</calcite-stepper-item>
     <calcite-stepper-item heading="item2">2</calcite-stepper-item>
   </calcite-stepper>`;
 
-export const arabicNumberingSystem_TestOnly = (): string =>
+export const arabicNumberingSystem = (): string =>
   html` <calcite-stepper numbered numbering-system="arab" lang="ar" dir="rtl" scale="s">
     <calcite-stepper-item heading="الخطوةالاولى" complete>
       <calcite-notice open width="full">
@@ -206,7 +213,7 @@ export const arabicNumberingSystem_TestOnly = (): string =>
     </calcite-stepper-item>
   </calcite-stepper>`;
 
-export const verticalLayout_TestOnly = (): string =>
+export const verticalLayout = (): string =>
   html`<calcite-stepper layout="vertical" scale="s">
       <calcite-stepper-item heading="Mountains" description="The Mountains are calling and I must go"
         >Step 1 Content Goes Here</calcite-stepper-item
@@ -241,7 +248,7 @@ export const verticalLayout_TestOnly = (): string =>
       ></calcite-stepper-item>
     </calcite-stepper>`;
 
-export const horizontalSingleLayout_TestOnly = (): string => html`
+export const horizontalSingleLayout = (): string => html`
   <div style="display: flex; flex-direction: column; gap: 1em;">
     <calcite-stepper layout="horizontal-single" numbered icon scale="s">
       <calcite-stepper-item heading="Choose method">
@@ -356,3 +363,29 @@ export const verticalLayoutFullWidth = (): string =>
       <calcite-stepper-item heading="Rivers" description="The Rivers are calling and I must go" selected></calcite-stepper-item>
       </calcite-stepper-item>
     </calcite-stepper>`;
+
+export const horizontalContentHeight = (): string =>
+  html`<calcite-stepper numbered style="border: 1px solid red; width: 600px; height: 400px;">
+    <calcite-stepper-item heading="Add info" selected>
+      <div style="border: 1px solid green; height: 100%;">
+        <calcite-notice width="full" open>
+          <div slot="title">Step 1 content</div>
+        </calcite-notice>
+      </div>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Add data"></calcite-stepper-item>
+    <calcite-stepper-item heading="Add images"></calcite-stepper-item>
+    <calcite-stepper-item heading="Review"></calcite-stepper-item>
+  </calcite-stepper>`;
+
+export const horizontalBoxSizing = (): string =>
+  html`<calcite-stepper numbered>
+    <calcite-stepper-item heading="Add info" selected>
+      <calcite-notice width="full" open>
+        <div slot="title">Step 1 content</div>
+      </calcite-notice>
+    </calcite-stepper-item>
+    <calcite-stepper-item heading="Add data"> </calcite-stepper-item>
+    <calcite-stepper-item heading="Add images"> </calcite-stepper-item>
+    <calcite-stepper-item heading="Review"> </calcite-stepper-item>
+  </calcite-stepper>`;

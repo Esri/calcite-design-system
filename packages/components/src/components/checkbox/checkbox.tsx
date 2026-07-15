@@ -1,16 +1,8 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
-import {
-  CheckableFormComponent,
-  connectForm,
-  disconnectForm,
-  HiddenFormInputSlot,
-  MutableValidityState,
-} from "../../utils/form";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { Scale, Status } from "../interfaces";
 import { CSS_UTILITY } from "../../utils/resources";
 import type { Label } from "../label/label";
@@ -18,6 +10,8 @@ import { InternalLabel } from "../functional/InternalLabel";
 import { useT9n } from "../../controllers/useT9n";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS } from "./resources";
 import { styles } from "./checkbox.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -28,8 +22,10 @@ declare global {
   }
 }
 
-export class Checkbox extends LitElement implements LabelableComponent, CheckableFormComponent {
+export class Checkbox extends LitElement implements LabelableComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override styles = styles;
 
@@ -39,15 +35,19 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   private readonly checkedPath = "M5.5 12L2 8.689l.637-.636L5.5 10.727l8.022-7.87.637.637z";
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
-  defaultValue: Checkbox["checked"];
+  defaultValue?: Checkbox["checked"];
 
-  formEl: HTMLFormElement;
+  private direction = useDirection();
+
+  formSupport = useForm<this>({ inputType: "checkbox" })(this);
 
   private readonly indeterminatePath = "M13 8v1H3V8z";
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   onLabelClick = (): void => {
     this.toggle();
@@ -70,18 +70,14 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the checkbox.
@@ -95,21 +91,21 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
    *
    * The state is visual only, and can look different across browsers.
    *
-   * @mdn [indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
+   * @see [MDN - indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -124,24 +120,12 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value: any;
@@ -155,7 +139,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -193,23 +177,9 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
     this.listen("keydown", this.keyDownHandler);
   }
 
-  override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
-  }
-
   //#endregion
 
   //#region Private Methods
-
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    input.type = "checkbox";
-  }
 
   private getPath(): string {
     return this.indeterminate ? this.indeterminatePath : this.checked ? this.checkedPath : "";
@@ -248,7 +218,7 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
   //#region Rendering
 
   override render(): JsxNode {
-    const rtl = getElementDir(this.el) === "rtl";
+    const rtl = this.direction === "rtl";
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -280,7 +250,6 @@ export class Checkbox extends LitElement implements LabelableComponent, Checkabl
             tooltipText={this.messages.required}
           />
         )}
-        <HiddenFormInputSlot component={this} />
       </this.interactiveContainer>
     );
   }

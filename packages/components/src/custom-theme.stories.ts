@@ -15,7 +15,7 @@ import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { block, blockTokens } from "./custom-theme/block";
-import { buttons } from "./custom-theme/button";
+import { buttons, buttonTokens } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -30,7 +30,7 @@ import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
 import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
-import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import { input, inputTokens } from "./custom-theme/input";
 import {
   inputDatePicker,
@@ -51,6 +51,8 @@ import {
   inputNumberClearableReadOnly,
   inputNumberReadOnlyWithPrefixSuffix,
   inputNumberTokens,
+  inputNumberWithPrefixAndSuffix,
+  inputNumberLoading,
 } from "./custom-theme/input-number";
 import {
   inputText,
@@ -104,6 +106,7 @@ import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
 import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
+import { inputTimeZone, inputTimeZoneTokens } from "./custom-theme/input-time-zone";
 import { colorPicker, colorPickerTokens } from "./custom-theme/color-picker";
 
 const globalTokens = {
@@ -183,8 +186,9 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
           ${icon}
         </div>
         ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
-        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
-        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
+        ${inputNumberLoading} ${inputNumberWithPrefixAndSuffix} ${inputNumberReadOnly}
+        ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText} ${inputTextClearable}
+        ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly} ${inputTimePicker} ${inputTimeZone}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -262,9 +266,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     <div class="demo-row">
       <div class="demo-column">${colorPicker}</div>
     </div>
-    <div class="demo-row">
-      <div class="demo-column">${inputTimePicker}</div>
-    </div>
   </div>`;
 
 const componentTokens = {
@@ -281,6 +282,7 @@ const componentTokens = {
   ...avatarTokens,
   ...blockSectionTokens,
   ...blockTokens,
+  ...buttonTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
@@ -338,6 +340,7 @@ const componentTokens = {
   ...swatchTokens,
   ...splitButtonTokens,
   ...inputTimePickerTokens,
+  ...inputTimeZoneTokens,
   ...colorPickerTokens,
 };
 

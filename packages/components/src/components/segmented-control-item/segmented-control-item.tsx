@@ -1,6 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeHasContent, toAriaBoolean } from "../../utils/dom";
+import { slotChangeHasContent } from "../../utils/dom";
+import { toAriaBoolean } from "../../utils/aria";
 import { Appearance, Layout, Scale } from "../interfaces";
 import { IconName } from "../icon/interfaces";
 import { CSS, SLOTS } from "./resources";
@@ -34,16 +35,16 @@ export class SegmentedControlItem extends LitElement {
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
-  /** Specifies an icon to display at the end of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconEnd?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an icon to display at the start of the component. */
+  /** @copyDoc */
   @property({ reflect: true, type: String }) iconStart?: IconName;
 
   /**

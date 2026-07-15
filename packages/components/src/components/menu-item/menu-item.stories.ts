@@ -1,11 +1,23 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
-import { CalciteMenuItem } from "./menu-item";
+import type { MenuItem } from "./menu-item";
 
-interface MenuItemStoryArgs
-  extends Pick<CalciteMenuItem, "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"> {
+interface MenuItemStoryArgs extends Pick<
+  MenuItem,
+  | "active"
+  | "breadcrumb"
+  | "href"
+  | "iconEnd"
+  | "iconFlipRtl"
+  | "iconStart"
+  | "label"
+  | "open"
+  | "rel"
+  | "target"
+  | "text"
+> {
   src: string;
 }
 
@@ -17,9 +29,23 @@ export default {
     href: "",
     rel: "",
     target: "",
+    iconStart: "",
+    iconEnd: "",
+    iconFlipRtl: false,
     label: "",
     active: false,
     breadcrumb: false,
+    open: false,
+  },
+  argTypes: {
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -31,9 +57,13 @@ export const simple = (args: MenuItemStoryArgs): string => html`
       href="${args.href}"
       rel="${args.rel}"
       target="${args.target}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
+      ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
       label="${args.label}"
       ${boolean("active", args.active)}
       ${boolean("breadcrumb", args.breadcrumb)}
+      ${boolean("open", args.open)}
     />
   </calcite-menu>
 `;
@@ -53,7 +83,7 @@ export const iconsBoth = (): string =>
     <calcite-menu-item text="Menu item" icon-end="${iconNames[0]}" icon-start="${iconNames[0]}" />
   </calcite-menu>`;
 
-export const allIconsAndSubMenu_TestOnly = (): string =>
+export const allIconsAndSubMenu = (): string =>
   html`<calcite-menu>
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -66,7 +96,7 @@ export const allIconsAndSubMenu_TestOnly = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item
   ></calcite-menu>`;
 
-export const allIconsAndSubMenuVertical_TestOnly = (): string =>
+export const allIconsAndSubMenuVertical = (): string =>
   html`<calcite-menu layout="vertical">
     <calcite-menu-item text="Example item 1" text-enabled></calcite-menu-item>
     <calcite-menu-item text="Example item 2" text-enabled active></calcite-menu-item>
@@ -79,7 +109,7 @@ export const allIconsAndSubMenuVertical_TestOnly = (): string =>
     <calcite-menu-item text="Example item 4" text-enabled></calcite-menu-item>
   </calcite-menu>`;
 
-export const darkModeRTL_TestOnly = (): string =>
+export const darkModeRTL = (): string =>
   html`<calcite-menu-item
     text="Menu item"
     active

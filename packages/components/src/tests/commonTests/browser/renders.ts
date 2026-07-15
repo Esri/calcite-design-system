@@ -1,7 +1,6 @@
 import { expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { type Locator, page } from "vitest/browser";
-import { HYDRATED_ATTR } from "../utils";
 
 /**
  * Verifies that a component renders correctly.
@@ -42,7 +41,7 @@ export async function renders(
   it(`renders`, async () => {
     const { el } = await setup();
 
-    await expect.element(el).toHaveAttribute(HYDRATED_ATTR);
+    await expect.element(el).toHaveAttribute("calcite-hydrated");
     expect(getComputedStyle(el).display).toBe(options?.display ?? "inline");
 
     const visible = typeof options?.visible === "object" ? options.visible.value : (options?.visible ?? true);
@@ -51,6 +50,7 @@ export async function renders(
         ? options.visible.locator
         : page.elementLocator(el);
 
+    // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
     await (visible ? expect.element(locator).toBeVisible() : expect.element(locator).not.toBeVisible());
   });
 }

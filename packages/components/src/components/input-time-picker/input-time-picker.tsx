@@ -1,8 +1,8 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
+  state,
   createEvent,
   h,
   method,
@@ -10,16 +10,10 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import {
-  connectForm,
-  disconnectForm,
-  FormComponent,
-  HiddenFormInputSlot,
-  MutableValidityState,
-  submitForm,
-} from "../../utils/form";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
@@ -27,9 +21,7 @@ import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { getElementDir } from "../../utils/dom";
 import { IconName } from "../icon/interfaces";
-import { syncHiddenFormInput } from "../input/common/input";
 import { useT9n } from "../../controllers/useT9n";
 import type { TimePicker } from "../time-picker/time-picker";
 import type { Popover } from "../popover/popover";
@@ -38,6 +30,7 @@ import { isValidNumber } from "../../utils/number";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { useInteractive } from "../../controllers/useInteractive";
+import { useForm } from "../../controllers/useForm";
 import { styles } from "./input-time-picker.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, ICONS } from "./resources";
@@ -51,11 +44,10 @@ declare global {
 /**
  * @slot label-content - A slot for rendering content next to the component's `labelText`.
  */
-export class InputTimePicker
-  extends LitElement
-  implements FormComponent, LabelableComponent, TimeComponent
-{
+export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Static Members
+
+  static formAssociated = true;
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
@@ -72,35 +64,53 @@ export class InputTimePicker
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private activeEl: HTMLSpanElement;
+  private activeEl?: HTMLSpanElement;
 
   private containerRef = createRef<HTMLDivElement>();
 
-  defaultValue: InputTimePicker["value"];
+  defaultValue?: InputTimePicker["value"];
+
+  private direction = useDirection();
 
   private focusSetter = useSetFocus<this>()(this);
 
-  formEl: HTMLFormElement;
+  formSupport = useForm<this>({
+    inputType: "time",
+  })(this);
 
   private fractionalSecondRef = createRef<HTMLSpanElement>();
 
   private hourRef = createRef<HTMLSpanElement>();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private meridiemRef = createRef<HTMLSpanElement>();
 
   private minuteRef = createRef<HTMLSpanElement>();
 
-  private popoverEl: Popover["el"];
+  private popoverEl?: Popover["el"];
 
-  private previousEmittedValue: string;
+  private previousEmittedValue?: string;
 
   private secondRef = createRef<HTMLSpanElement>();
+
+  private get showPlaceholder() {
+    return (this.placeholder && !this.hasFocus && !this.time.hasValue) ?? false;
+  }
 
   private time = useTime(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
+
+  private timePickerRef = createRef<TimePicker>();
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() hasFocus = false;
 
   //#endregion
 
@@ -112,12 +122,8 @@ export class InputTimePicker
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /**
    * Specifies the component's hour format, where:
@@ -128,48 +134,45 @@ export class InputTimePicker
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /**
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
-   * @mdn [max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
+   * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
-   * @mdn [min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
+   * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission. */
-  @property() name: string;
+  /** @copyDoc */
+  @property() name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem!: NumberingSystem;
 
   /** When `true`, displays the `calcite-time-picker` component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property() overlayPositioning: OverlayPositioning = "absolute";
+
+  /** Specifies the component's placeholder text. */
+  @property() placeholder?: string;
 
   /** Determines the `calcite-time-picker`'s position relative to the input. */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
@@ -177,7 +180,7 @@ export class InputTimePicker
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
-   * @mdn [readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
+   * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
 
@@ -197,35 +200,23 @@ export class InputTimePicker
   @property({ reflect: true }) step: number = 60;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
    * @readonly
-   * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property() validity: MutableValidityState = {
-    valid: false,
-    badInput: false,
-    customError: false,
-    patternMismatch: false,
-    rangeOverflow: false,
-    rangeUnderflow: false,
-    stepMismatch: false,
-    tooLong: false,
-    tooShort: false,
-    typeMismatch: false,
-    valueMissing: false,
-  };
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The time value in ISO (24-hour) format. */
-  @property() value: string;
+  @property() value!: string;
 
   //#endregion
 
@@ -246,7 +237,7 @@ export class InputTimePicker
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -279,13 +270,10 @@ export class InputTimePicker
   constructor() {
     super();
     this.listen("blur", this.blurHandler);
+    this.listen("focus", this.focusHandler);
+    this.listen("focusout", this.focusOutHandler);
     this.listen("keydown", this.keyDownHandler);
     this.listen("calciteTimeChange", this.timeChangeHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-    connectForm(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -315,15 +303,11 @@ export class InputTimePicker
           this.previousEmittedValue = this.value;
         }
         this.time.setValue(this.value);
+        this.requestTimePickerUpdate();
       } else {
         this.previousEmittedValue = this.value;
       }
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
-    disconnectForm(this);
   }
 
   //#endregion
@@ -334,6 +318,14 @@ export class InputTimePicker
     this.changeEventHandler();
   }
 
+  private focusHandler(): void {
+    this.hasFocus = true;
+  }
+
+  private focusOutHandler(): void {
+    this.hasFocus = false;
+  }
+
   /**
    * Emits a change event and resets to previous value if the event's default behavior is prevented.
    */
@@ -342,7 +334,7 @@ export class InputTimePicker
     if (previousEmittedValue !== value) {
       const changeEvent = this.calciteInputTimePickerChange.emit();
       if (changeEvent.defaultPrevented) {
-        this.time.setValue(this.previousEmittedValue);
+        this.time.setValue(this.previousEmittedValue ?? null);
       } else {
         this.previousEmittedValue = value;
       }
@@ -358,7 +350,8 @@ export class InputTimePicker
     }
 
     if (key === "Enter") {
-      if (submitForm(this)) {
+      if (this.formSupport.active) {
+        this.formSupport.requestSubmit();
         event.preventDefault();
       }
       this.changeEventHandler();
@@ -433,6 +426,13 @@ export class InputTimePicker
     }
   }
 
+  private mouseDownHandler(event): void {
+    if (this.showPlaceholder) {
+      event.preventDefault();
+      this.setFocus();
+    }
+  }
+
   onLabelClick(): void {
     this.setFocus();
   }
@@ -469,6 +469,10 @@ export class InputTimePicker
     this.open = false;
   }
 
+  private requestTimePickerUpdate(): void {
+    this.timePickerRef.value?.manager?.component.requestUpdate();
+  }
+
   private setCalcitePopoverEl(el: Popover["el"]): void {
     this.popoverEl = el;
     this.openHandler();
@@ -488,10 +492,6 @@ export class InputTimePicker
     ref.value?.focus();
   }
 
-  syncHiddenFormInput(input: HTMLInputElement): void {
-    syncHiddenFormInput("time", this, input);
-  }
-
   private timeChangeHandler(event: CustomEvent<string>): void {
     event.stopPropagation();
 
@@ -502,6 +502,8 @@ export class InputTimePicker
     const newValue = event.detail;
     if (newValue !== this.value) {
       this.value = newValue;
+    } else {
+      this.requestTimePickerUpdate();
     }
   }
 
@@ -551,7 +553,7 @@ export class InputTimePicker
     const showFractionalSecond = decimalPlaces(this.step) > 0;
     const showMeridiem = hourFormat === "12";
     const showSecond = this.step < 60;
-    const meridiemStart = meridiemOrder === 0 || getElementDir(this.el) === "rtl";
+    const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -578,102 +580,116 @@ export class InputTimePicker
             icon={ICONS.clock}
             scale={scale === "l" ? "m" : "s"}
           />
-          <div
-            aria-label={getLabelText(this)}
-            ariaRequired={this.required}
-            class={CSS.inputContainer}
-            dir="ltr"
-            id={IDS.inputContainer}
-            role="group"
-          >
-            {showMeridiem && meridiemStart && this.renderMeridiem()}
-            <span
-              aria-label={this.messages.hour}
-              aria-valuemax="23"
-              aria-valuemin="1"
-              aria-valuenow={(hourIsNumber && parseInt(hour)) || "0"}
-              aria-valuetext={hour}
+          <div class={CSS.contentContainer}>
+            {this.showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
+            <div
+              aria-label={getLabelText(this)}
+              ariaRequired={this.required}
               class={{
-                [CSS.empty]: !localizedHour,
-                [CSS.hour]: true,
-                [CSS.input]: true,
+                [CSS.inputContainer]: true,
+                [CSS.inputContainerHidden]: this.showPlaceholder,
               }}
-              onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
-              ref={this.hourRef}
-              role="spinbutton"
-              tabIndex={0}
+              dir="ltr"
+              id={IDS.inputContainer}
+              role="group"
             >
-              {localizedHour || emptyPlaceholder}
-            </span>
-            <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
-            <span
-              aria-label={this.messages.minute}
-              aria-valuemax="12"
-              aria-valuemin="1"
-              aria-valuenow={(minuteIsNumber && parseInt(minute)) || "0"}
-              aria-valuetext={minute}
-              class={{
-                [CSS.empty]: !localizedMinute,
-                [CSS.input]: true,
-                [CSS.minute]: true,
-              }}
-              onFocus={this.timePartFocusHandler}
-              onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
-              ref={this.minuteRef}
-              role="spinbutton"
-              tabIndex={0}
-            >
-              {localizedMinute || emptyPlaceholder}
-            </span>
-            <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
-            {showSecond && (
+              {showMeridiem && meridiemStart && this.renderMeridiem()}
               <span
-                aria-label={this.messages.second}
-                aria-valuemax="59"
-                aria-valuemin="0"
-                aria-valuenow={(secondIsNumber && parseInt(second)) || "0"}
-                aria-valuetext={second}
-                class={{
-                  [CSS.empty]: !localizedSecond,
-                  [CSS.input]: true,
-                  [CSS.second]: true,
-                }}
-                onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
-                ref={this.secondRef}
-                role="spinbutton"
-                tabIndex={0}
-              >
-                {localizedSecond || emptyPlaceholder}
-              </span>
-            )}
-            {showFractionalSecond && (
-              <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
-            )}
-            {showFractionalSecond && (
-              <span
-                aria-label={this.messages.fractionalSecond}
-                aria-valuemax="999"
+                aria-label={this.messages.hour}
+                aria-valuemax="23"
                 aria-valuemin="1"
-                aria-valuenow={(fractionalSecondIsNumber && parseInt(fractionalSecond)) || "0"}
-                aria-valuetext={localizedFractionalSecond}
+                aria-valuenow={(hourIsNumber && parseInt(hour!, 10)) || "0"}
+                aria-valuetext={hour}
                 class={{
-                  [CSS.empty]: !localizedFractionalSecond,
-                  [CSS.fractionalSecond]: true,
+                  [CSS.empty]: !localizedHour,
+                  [CSS.hour]: true,
                   [CSS.input]: true,
                 }}
                 onFocus={this.timePartFocusHandler}
-                onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
-                ref={this.fractionalSecondRef}
+                onKeyDown={isInteractive ? handleHourKeyDownEvent : undefined}
+                onMouseDown={this.mouseDownHandler}
+                ref={this.hourRef}
                 role="spinbutton"
                 tabIndex={0}
               >
-                {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+                {localizedHour || emptyPlaceholder}
               </span>
-            )}
-            {localizedSecondSuffix && <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>}
-            {showMeridiem && !meridiemStart && this.renderMeridiem()}
+              <span class={CSS.hourSuffix}>{localizedHourSuffix}</span>
+              <span
+                aria-label={this.messages.minute}
+                aria-valuemax="12"
+                aria-valuemin="1"
+                aria-valuenow={(minuteIsNumber && parseInt(minute!, 10)) || "0"}
+                aria-valuetext={minute}
+                class={{
+                  [CSS.empty]: !localizedMinute,
+                  [CSS.input]: true,
+                  [CSS.minute]: true,
+                }}
+                onFocus={this.timePartFocusHandler}
+                onKeyDown={isInteractive ? handleMinuteKeyDownEvent : undefined}
+                onMouseDown={this.mouseDownHandler}
+                ref={this.minuteRef}
+                role="spinbutton"
+                tabIndex={0}
+              >
+                {localizedMinute || emptyPlaceholder}
+              </span>
+              <span class={CSS.minuteSuffix}>{localizedMinuteSuffix}</span>
+              {showSecond && (
+                <span
+                  aria-label={this.messages.second}
+                  aria-valuemax="59"
+                  aria-valuemin="0"
+                  aria-valuenow={(secondIsNumber && parseInt(second!, 10)) || "0"}
+                  aria-valuetext={second}
+                  class={{
+                    [CSS.empty]: !localizedSecond,
+                    [CSS.input]: true,
+                    [CSS.second]: true,
+                  }}
+                  onFocus={this.timePartFocusHandler}
+                  onKeyDown={isInteractive ? handleSecondKeyDownEvent : undefined}
+                  onMouseDown={this.mouseDownHandler}
+                  ref={this.secondRef}
+                  role="spinbutton"
+                  tabIndex={0}
+                >
+                  {localizedSecond || emptyPlaceholder}
+                </span>
+              )}
+              {showFractionalSecond && (
+                <span class={CSS.decimalSeparator}>{localizedDecimalSeparator}</span>
+              )}
+              {showFractionalSecond && (
+                <span
+                  aria-label={this.messages.fractionalSecond}
+                  aria-valuemax="999"
+                  aria-valuemin="1"
+                  aria-valuenow={
+                    (fractionalSecondIsNumber && parseInt(fractionalSecond!, 10)) || "0"
+                  }
+                  aria-valuetext={localizedFractionalSecond}
+                  class={{
+                    [CSS.empty]: !localizedFractionalSecond,
+                    [CSS.fractionalSecond]: true,
+                    [CSS.input]: true,
+                  }}
+                  onFocus={this.timePartFocusHandler}
+                  onKeyDown={isInteractive ? handleFractionalSecondKeyDownEvent : undefined}
+                  onMouseDown={this.mouseDownHandler}
+                  ref={this.fractionalSecondRef}
+                  role="spinbutton"
+                  tabIndex={0}
+                >
+                  {localizedFractionalSecond || "".padStart(decimalPlaces(this.step), "-")}
+                </span>
+              )}
+              {localizedSecondSuffix && (
+                <span class={CSS.secondSuffix}>{localizedSecondSuffix}</span>
+              )}
+              {showMeridiem && !meridiemStart && this.renderMeridiem()}
+            </div>
           </div>
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
@@ -696,11 +712,12 @@ export class InputTimePicker
           triggerDisabled={true}
         >
           <calcite-time-picker
-            hourFormat={this.time.hourFormat}
+            hourFormat={this.time.hourFormat ?? undefined}
             lang={this.messages._lang}
             messageOverrides={this.messageOverrides}
             numberingSystem={this.numberingSystem}
             oncalciteTimePickerChange={this.timePickerChangeHandler}
+            ref={this.timePickerRef}
             scale={this.scale}
             step={this.step}
             tabIndex={this.open ? undefined : -1}
@@ -708,7 +725,6 @@ export class InputTimePicker
             value={this.value}
           />
         </calcite-popover>
-        <HiddenFormInputSlot component={this} />
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
             icon={this.validationIcon}
@@ -739,6 +755,7 @@ export class InputTimePicker
         }}
         onFocus={this.timePartFocusHandler}
         onKeyDown={isInteractive ? handleMeridiemKeyDownEvent : undefined}
+        onMouseDown={this.mouseDownHandler}
         ref={this.meridiemRef}
         role="spinbutton"
         tabIndex={0}

@@ -1,27 +1,29 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { hourFormats } from "../../utils/time";
 import { InputTimePicker } from "./input-time-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { hourFormat, menuPlacement, scale, status } = ATTRIBUTES;
 
-interface InputTimePickerStoryArgs
-  extends Pick<
-    InputTimePicker,
-    | "disabled"
-    | "hourFormat"
-    | "name"
-    | "placement"
-    | "scale"
-    | "status"
-    | "step"
-    | "validationMessage"
-    | "validationIcon"
-    | "value"
-  > {
+interface InputTimePickerStoryArgs extends Pick<
+  InputTimePicker,
+  | "disabled"
+  | "hourFormat"
+  | "max"
+  | "min"
+  | "open"
+  | "placeholder"
+  | "placement"
+  | "readOnly"
+  | "required"
+  | "scale"
+  | "status"
+  | "step"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
+> {
   hidden: boolean;
 }
 
@@ -31,8 +33,12 @@ export default {
     disabled: false,
     hidden: false,
     hourFormat: undefined,
-    name: "simple",
-    placement: defaultMenuPlacement,
+    max: "",
+    min: "",
+    open: false,
+    placement: menuPlacement.defaultValue,
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     step: 1,
@@ -42,11 +48,11 @@ export default {
   },
   argTypes: {
     hourFormat: {
-      options: hourFormats,
+      options: hourFormat.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     scale: {
@@ -69,40 +75,114 @@ export const simple = (args: InputTimePickerStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     ${boolean("hidden", args.hidden)}
     hour-format="${args.hourFormat}"
-    name="${args.name}"
+    max="${args.max}"
+    min="${args.min}"
+    placeholder="${args.placeholder}"
     placement="${args.placement}"
+    ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
     status="${args.status}"
     step="${args.step}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
     value="${args.value}"
   >
   </calcite-input-time-picker>
 `;
 
-export const deciSeconds_TestOnly = (): string => html`
+export const deciSeconds = (): string => html`
   <calcite-input-time-picker step="0.1" value="10:37:09.5" open> </calcite-input-time-picker>
 `;
 
-export const centiseconds_TestOnly = (): string => html`
+export const centiseconds = (): string => html`
   <calcite-input-time-picker step="0.01" value="10:37:09.06" open> </calcite-input-time-picker>
 `;
 
-export const milliseconds_TestOnly = (): string => html`
+export const milliseconds = (): string => html`
   <calcite-input-time-picker step="0.001" value="10:37:09.023" open> </calcite-input-time-picker>
 `;
 
-export const disabled_TestOnly = (): string =>
+export const disabled = (): string =>
   html`<calcite-input-time-picker disabled scale="l" icon step="1" value="01:02"></calcite-input-time-picker>`;
 
-export const scales_TestOnly = (): string => html`
-  <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
-  <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
-  <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+export const scales = (): string => html`
+  <div style="display: flex; gap: 20px">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="s" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="m" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        value
+        <calcite-input-time-picker scale="l" icon value="01:02"></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="s" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="m" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder
+        <calcite-input-time-picker scale="l" icon placeholder="With placeholder text"></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="s"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="m"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        placeholder + value
+        <calcite-input-time-picker
+          scale="l"
+          icon
+          placeholder="With placeholder text"
+          value="01:02"
+        ></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="s" icon></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="m" icon></calcite-input-time-picker>
+      </calcite-label>
+      <calcite-label>
+        no placeholder + no value
+        <calcite-input-time-picker scale="l" icon></calcite-input-time-picker>
+      </calcite-label>
+    </div>
+  </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-input-time-picker
     class="calcite-mode-dark"
     value="22:37"
@@ -112,31 +192,29 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-input-time-picker>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const open_TestOnly = (): string => html`
-  <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker>
-`;
+export const open = (): string => html` <calcite-input-time-picker value="10:37" open> </calcite-input-time-picker> `;
 
-export const frenchCanadianLocale_TestOnly = (): string => html`
+export const frenchCanadianLocale = (): string => html`
   <calcite-input-time-picker lang="fr-CA" value="10:37:45.321" step=".001" hour-format="12" open>
   </calcite-input-time-picker>
 `;
 
-export const koreanLocale_TestOnly = (): string => html`
+export const koreanLocale = (): string => html`
   <calcite-input-time-picker lang="ko" value="10:37" step="1" open> </calcite-input-time-picker>
 `;
 
-export const arabicLocaleNumberingSystem_TestOnly = (): string => html`
+export const arabicLocaleNumberingSystem = (): string => html`
   <calcite-input-time-picker dir="rtl" lang="ar" numbering-system="arab" step="1" value="1:33:7" open>
   </calcite-input-time-picker>
 `;
 
-export const readOnlyHasNoDropdownAffordance_TestOnly = (): string => html`
+export const readOnlyHasNoDropdownAffordance = (): string => html`
   <calcite-input-time-picker read-only value="10:37"></calcite-input-time-picker>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -171,7 +249,7 @@ export const validationMessageAllScales_TestOnly = (): string => html`
   </div>
 `;
 
-export const widthSetToBreakpoints_TestOnly = (): string =>
+export const widthSetToBreakpoints = (): string =>
   createBreakpointStories(html`<calcite-input-time-picker scale="{scale}" value="12:34"></calcite-input-time-picker>`);
 
 export const Focus = (): string =>

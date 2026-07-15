@@ -1,5 +1,5 @@
 import { Option } from "../option/option";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -8,7 +8,8 @@ import { Select } from "./select";
 const { status, width, scale } = ATTRIBUTES;
 
 interface SelectStoryArgs
-  extends Pick<Select, "disabled" | "status" | "width" | "scale" | "validationMessage" | "validationIcon">,
+  extends
+    Pick<Select, "disabled" | "status" | "width" | "scale" | "validationIcon" | "validationMessage">,
     Pick<Option, "label" | "selected" | "value"> {
   optionDisabled: Option["disabled"];
 }
@@ -55,7 +56,7 @@ export const simple = (args: SelectStoryArgs): string => html`
       width="${args.width}"
       scale="${args.scale}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
       <calcite-option
         ${boolean("disabled", args.optionDisabled)}
@@ -87,7 +88,7 @@ export const grouped = (): string => html`
   </calcite-select>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <calcite-select status="idle" width="auto" scale="m" dir="rtl" class="calcite-mode-dark">
     <calcite-option-group label="My fancy group label">
       <calcite-option label="fancy label" value="value"></calcite-option>
@@ -101,16 +102,16 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-select>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const disabledAndLargeScaleGetsMediumChevron_TestOnly = (): string => html`
+export const disabledAndLargeScaleGetsMediumChevron = (): string => html`
   <calcite-select disabled scale="l">
     <calcite-option label="first" value="1"></calcite-option>
     <calcite-option label="second" value="2"></calcite-option>
   </calcite-select>
 `;
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;

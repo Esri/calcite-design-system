@@ -1,7 +1,31 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import { ATTRIBUTES } from "../../../.storybook/resources";
+import type { SortHandle } from "./sort-handle";
+
+const { scale, sortHandlePlacement } = ATTRIBUTES;
+
+type SortHandleStoryArgs = Pick<SortHandle, "disabled" | "open" | "placement" | "scale" | "sortDisabled">;
 
 export default {
   title: "Components/SortHandle",
+  args: {
+    disabled: false,
+    open: false,
+    placement: "leading-start",
+    scale: scale.defaultValue,
+    sortDisabled: false,
+  },
+  argTypes: {
+    placement: {
+      options: sortHandlePlacement.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
   parameters: {
     chromatic: {
       delay: 500,
@@ -9,12 +33,48 @@ export default {
   },
 };
 
-export const closed = (): string => html`
-  <calcite-sort-handle label="test" set-position="4" set-size="10"></calcite-sort-handle>
+export const simple = (args: SortHandleStoryArgs): string => html`
+  <calcite-sort-handle
+    label="test"
+    set-position="4"
+    set-size="10"
+    placement="${args.placement}"
+    scale="${args.scale}"
+    ${boolean("open", args.open)}
+    ${boolean("disabled", args.disabled)}
+    ${boolean("sort-disabled", args.sortDisabled)}
+  ></calcite-sort-handle>
 `;
 
-export const open = (): string =>
-  html`<calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>`;
+export const closed = (): string => html`
+  <calcite-sort-handle
+    label="test"
+    set-position="4"
+    set-size="10"
+    placement="leading-start"
+    scale="m"
+  ></calcite-sort-handle>
+`;
+
+export const open = (): string => html`
+  <calcite-sort-handle
+    label="test"
+    set-position="4"
+    set-size="10"
+    placement="bottom-start"
+    scale="m"
+    open
+  ></calcite-sort-handle>
+`;
+
+export const logicalPlacement = (): string =>
+  html`<calcite-sort-handle
+    label="test"
+    placement="leading-start"
+    set-position="4"
+    set-size="10"
+    open
+  ></calcite-sort-handle>`;
 
 export const positions = (): string => html`
   <style>
@@ -49,27 +109,43 @@ export const positions = (): string => html`
 
 export const withMoveToItems = (): string => html`
   <div style="height:600px; width:600px;">
-    <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
+    <calcite-sort-handle id="move-to-story-handle" label="test" set-position="4" set-size="10"></calcite-sort-handle>
   </div>
   <script>
-    const sortHandle = document.querySelector("calcite-sort-handle");
-    sortHandle.moveToItems = [
-      { element: document.createElement("div"), id: "1", label: "Group 1" },
-      { element: document.createElement("div"), id: "2", label: "Group 2" },
-    ];
+    (async () => {
+      await customElements.whenDefined("calcite-sort-handle");
+
+      const sortHandle = document.querySelector("#move-to-story-handle");
+      await sortHandle.componentOnReady();
+
+      sortHandle.moveToItems = [
+        { element: document.createElement("div"), id: "1", label: "Group 1" },
+        { element: document.createElement("div"), id: "2", label: "Group 2" },
+      ];
+
+      sortHandle.open = true;
+    })();
   </script>
 `;
 
 export const withAddToItems = (): string => html`
   <div style="height:600px; width:600px;">
-    <calcite-sort-handle label="test" set-position="4" set-size="10" open></calcite-sort-handle>
+    <calcite-sort-handle id="add-to-story-handle" label="test" set-position="4" set-size="10"></calcite-sort-handle>
   </div>
   <script>
-    const sortHandle = document.querySelector("calcite-sort-handle");
-    sortHandle.addToItems = [
-      { element: document.createElement("div"), id: "1", label: "Group 1" },
-      { element: document.createElement("div"), id: "2", label: "Group 2" },
-    ];
+    (async () => {
+      await customElements.whenDefined("calcite-sort-handle");
+
+      const sortHandle = document.querySelector("#add-to-story-handle");
+      await sortHandle.componentOnReady();
+
+      sortHandle.addToItems = [
+        { element: document.createElement("div"), id: "1", label: "Group 1" },
+        { element: document.createElement("div"), id: "2", label: "Group 2" },
+      ];
+
+      sortHandle.open = true;
+    })();
   </script>
 `;
 

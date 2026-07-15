@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { numberKeys } from "./key";
 import { NumberStringFormat } from "./locale";
 
@@ -7,10 +6,10 @@ const trailingZeros = new RegExp("0+$");
 
 // adopted from https://stackoverflow.com/a/66939244
 export class BigDecimal {
-  value: bigint;
+  value!: bigint;
 
   // BigInt("-0").toString() === "0" which removes the minus sign when typing numbers like -0.1
-  isNegative: boolean;
+  isNegative!: boolean;
 
   // Configuration: constants
   static DECIMALS = 100; // number of decimals on all instances
@@ -101,7 +100,7 @@ export class BigDecimal {
   }
 }
 
-export function isValidNumber(numberString: string): boolean {
+export function isValidNumber(numberString?: string | null): boolean {
   return !(!numberString || isNaN(Number(numberString)));
 }
 
@@ -254,7 +253,7 @@ export function addLocalizedTrailingDecimalZeros(
 ): string {
   const decimals = value.split(".")[1];
   if (decimals) {
-    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)[0];
+    const trailingDecimalZeros = decimals.match(hasTrailingDecimalZeros)?.[0];
     if (
       trailingDecimalZeros &&
       formatter.delocalize(localizedValue).length !== value.length &&

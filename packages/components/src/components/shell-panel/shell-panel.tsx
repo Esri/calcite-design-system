@@ -1,27 +1,26 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
+import { type PropertyValues } from "lit";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  getElementDir,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, Layout, Position, Scale, Width } from "../interfaces";
-import { CSS_UTILITY } from "../../utils/resources";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../interfaces";
+import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
+import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
-import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import type { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
 declare global {
@@ -43,9 +42,11 @@ export class ShellPanel extends LitElement {
 
   //#region Private Properties
 
-  private resizeHandleEl: HTMLDivElement;
+  direction = useDirection();
 
-  private interaction: Interactable;
+  private resizeHandleRef = createRef<HTMLDivElement>();
+
+  private interaction?: Interactable;
 
   private actionBars: ActionBar["el"][] = [];
 
@@ -64,6 +65,9 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
+    onResize: (resizeValues) => {
+      this.resizeValues = resizeValues;
+    },
   });
 
   //#endregion
@@ -108,30 +112,30 @@ export class ShellPanel extends LitElement {
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
-  @property({ reflect: true }) heightScale: Scale;
+  @property({ reflect: true }) heightScale?: Scale;
 
   /**
    * Specifies the component's direction.
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated in v4.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the component's height. */
-  @property({ reflect: true }) height: Height;
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
    * When `layout` is `vertical`, specifies the component's width.
@@ -141,15 +145,17 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the component's width. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
   //#region Public Methods
+
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
    *
-   * @param size - An object specifying the new inline and/or block size values.
+   * Use this method to programmatically override the component's width (inline) and/or height (block).
+   * Pass `null` to clear the override and revert to the default or CSS variable size.
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
@@ -176,14 +182,47 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
+  override connectedCallback(): void {
+    if (this.hasUpdated) {
+      this.refreshResize();
+    }
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    let shouldRefreshResize = false;
+
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
+      this.updateSizeInternal({ inline: null, block: null }); // we clear sizing as it won't be applicable across axes
+      shouldRefreshResize = true;
     }
+
+    if (
+      (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("position") && (this.hasUpdated || this.position !== "start"))
+    ) {
+      shouldRefreshResize = true;
+    }
+
+    if (
+      (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      shouldRefreshResize = this.resizable && !this.collapsed;
+
+      if (!shouldRefreshResize) {
+        this.cleanUpInteractions();
+      }
+    }
+
+    if (shouldRefreshResize) {
+      this.refreshResize();
+    }
+
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calciteShellPanelCollapse.emit();
@@ -194,34 +233,19 @@ export class ShellPanel extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
 
   //#region Private Methods
 
-  private getContentElDOMRect(): DOMRect {
-    return this.contentRef.value.getBoundingClientRect();
-  }
-
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
   private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
     if (!this.contentRef.value) {
       return;
     }
-
-    const appliedSize = this.sizeOverride.resize(size);
-
-    this.resizeValues = {
-      ...this.resizeValues,
-      ...(appliedSize.inline !== undefined && {
-        inlineSize: appliedSize.inline,
-      }),
-      ...(appliedSize.block !== undefined && {
-        blockSize: appliedSize.block,
-      }),
-    };
+    this.sizeOverride.resize(size);
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -231,7 +255,6 @@ export class ShellPanel extends LitElement {
       layout,
       resizable,
       contentRef,
-      el,
       resizeValues: { maxBlockSize, maxInlineSize, minBlockSize, minInlineSize },
     } = this;
 
@@ -244,8 +267,8 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
-    const invertRTL = getElementDir(el) === "rtl" ? -1 : 1;
+    const rect = contentRef.value.getBoundingClientRect();
+    const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
     switch (key) {
@@ -294,58 +317,65 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private updateResizeValues(): void {
+    const { contentRef } = this;
 
-    const { el, contentRef, resizable, position, collapsed, resizeHandleEl, layout } = this;
-
-    if (!contentRef.value || collapsed || !resizable || !resizeHandleEl) {
+    if (!contentRef.value) {
       return;
     }
 
-    await this.el.componentOnReady();
+    const computedStyle = window.getComputedStyle(contentRef.value);
 
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentRef.value);
-
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
+    this.resizeValues = {
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize: getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth,
+      maxBlockSize: getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight,
     };
+  }
 
-    this.resizeValues = values;
+  private async refreshResize(): Promise<void> {
+    await this.componentOnReady();
+    await this.updateComplete;
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
+  }
 
-    const rtl = getElementDir(el) === "rtl";
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
+
+    const { el, contentRef, resizable, position, collapsed, resizeHandleRef, layout } = this;
+    const resizeHandle = resizeHandleRef.value;
+
+    if (!contentRef.value || collapsed || !resizable || !resizeHandle) {
+      return;
+    }
+
+    const rtl = this.direction === "rtl";
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+
+    const restrictSizeMax =
+      this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
-        top: position === "end" && layout === "horizontal" ? resizeHandleEl : false,
-        right:
-          position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandleEl : false,
-        bottom: position === "start" && layout === "horizontal" ? resizeHandleEl : false,
-        left:
-          position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandleEl : false,
+        top: position === "end" && layout === "horizontal" ? resizeHandle : false,
+        right: position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandle : false,
+        bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
+        left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
-          },
-          max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
       listeners: {
         resizestart: () => {
           this.calciteInternalShellPanelResizeStart.emit();
@@ -360,11 +390,6 @@ export class ShellPanel extends LitElement {
         },
       },
     });
-  }
-
-  private setResizeHandleEl(el: HTMLDivElement): void {
-    this.resizeHandleEl = el;
-    this.setupInteractions();
   }
 
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
@@ -405,24 +430,33 @@ export class ShellPanel extends LitElement {
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
+    const isBlockPosition = layout === "horizontal";
 
     const separatorNode =
       !collapsed && resizable ? (
         <div
           ariaLabel={this.messages.resize}
-          ariaOrientation={layout === "horizontal" ? "vertical" : "horizontal"}
-          ariaValueMax={
-            layout == "horizontal" ? resizeValues.maxBlockSize : resizeValues.maxInlineSize
-          }
-          ariaValueMin={
-            layout == "horizontal" ? resizeValues.minBlockSize : resizeValues.minInlineSize
-          }
-          ariaValueNow={layout == "horizontal" ? resizeValues.blockSize : resizeValues.inlineSize}
+          ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
+          ariaValueMax={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.maxBlockSize,
+            resizeValues.maxInlineSize,
+          )}
+          ariaValueMin={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.minBlockSize,
+            resizeValues.minInlineSize,
+          )}
+          ariaValueNow={ariaValueFromSize(
+            isBlockPosition ? "block" : "inline",
+            resizeValues.blockSize,
+            resizeValues.inlineSize,
+          )}
           class={CSS.resizeHandle}
           key="resize-handle"
           onKeyDown={this.handleKeyDown}
-          ref={this.setResizeHandleEl}
+          ref={this.resizeHandleRef}
           role="separator"
           tabIndex={0}
           touch-action="none"

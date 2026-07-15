@@ -1,12 +1,41 @@
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+import type { Label } from "./label";
+
+const { alignment, labelLayout, scale } = ATTRIBUTES;
+
+type LabelStoryArgs = Pick<Label, "alignment" | "layout" | "scale">;
 
 export default {
   title: "Components/Label",
+  args: {
+    alignment: alignment.defaultValue,
+    layout: "default",
+    scale: scale.defaultValue,
+  },
+  argTypes: {
+    alignment: {
+      options: alignment.values.filter((value) => value !== "center"),
+      control: { type: "select" },
+    },
+    layout: {
+      options: labelLayout.values,
+      control: { type: "select" },
+    },
+    scale: {
+      options: scale.values,
+      control: { type: "select" },
+    },
+  },
 };
 
-export const simple = (): string => html`
+export const simple = (args: LabelStoryArgs): string => html`
   <div style="width:300px;max-width:100%;text-align:center;">
+    <calcite-label alignment="${args.alignment}" layout="${args.layout}" scale="${args.scale}">
+      Controlled label
+      <calcite-input-text id="label-controls-input" placeholder="Adjust label controls"></calcite-input-text>
+    </calcite-label>
     <calcite-label>
       Default label wrapping a switch
       <calcite-switch></calcite-switch>
@@ -91,7 +120,7 @@ export const simple = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:300px;max-width:100%;text-align:center;" class="calcite-mode-dark" dir="rtl">
     <calcite-label class="calcite-mode-dark">
       Default label wrapping a switch
@@ -157,9 +186,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const spacingWithLabel_TestOnly = (): string => html`
+export const spacingWithLabel = (): string => html`
   <style>
     .css-var {
       --calcite-label-margin-bottom: 0;
