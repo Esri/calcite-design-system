@@ -12,6 +12,7 @@ import {
   renders,
   accessible,
   themed,
+  reflects,
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 
@@ -36,6 +37,22 @@ describe("defaults", () => {
       {
         propertyName: "validity",
         defaultValue: defaultValidity,
+      },
+      {
+        propertyName: "required",
+        defaultValue: false,
+      },
+    ],
+  );
+});
+
+describe("reflects", () => {
+  reflects(
+    () => mount("calcite-switch"),
+    [
+      {
+        propertyName: "required",
+        value: true,
       },
     ],
   );
