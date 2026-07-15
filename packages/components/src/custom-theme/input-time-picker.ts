@@ -18,12 +18,12 @@ export const inputTimePickerTokens = {
   calciteInputTimePickerDigitBorderColorHover: "",
   calciteInputTimePickerActionBackgroundColorHover: "",
   calciteInputTimePickerActionBackgroundColorPress: "",
-  calciteInputTimePickerClearableActionBackgroundColor: "",
-  calciteInputTimePickerClearableActionBackgroundColorHover: "",
-  calciteInputTimePickerClearableActionBackgroundColorPress: "",
-  calciteInputTimePickerClearableActionIconColor: "",
-  calciteInputTimePickerClearableActionIconColorHover: "",
-  calciteInputTimePickerClearableActionIconColorPress: "",
+  calciteInputTimePickerInputActionBackgroundColor: "",
+  calciteInputTimePickerInputActionBackgroundColorHover: "",
+  calciteInputTimePickerInputActionBackgroundColorPress: "",
+  calciteInputTimePickerInputActionIconColor: "",
+  calciteInputTimePickerInputActionIconColorHover: "",
+  calciteInputTimePickerInputActionIconColorPress: "",
 };
 
 export const inputTimePicker = html`<calcite-input-time-picker open></calcite-input-time-picker>`;

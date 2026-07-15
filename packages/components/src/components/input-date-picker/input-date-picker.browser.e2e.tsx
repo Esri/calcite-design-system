@@ -551,32 +551,32 @@ describe("theme", () => {
     const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
 
     themed(() => mount(<calcite-input-date-picker clearable value="2024-01-31" />), {
-      "--calcite-input-date-picker-clearable-action-background-color": {
+      "--calcite-input-date-picker-input-action-background-color": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-background-color",
       },
-      "--calcite-input-date-picker-clearable-action-background-color-hover": {
+      "--calcite-input-date-picker-input-action-background-color-hover": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-background-color-hover",
         state: "hover",
       },
-      "--calcite-input-date-picker-clearable-action-background-color-press": {
+      "--calcite-input-date-picker-input-action-background-color-press": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-background-color-press",
         state: {
           press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action`,
         },
       },
-      "--calcite-input-date-picker-clearable-action-icon-color": {
+      "--calcite-input-date-picker-input-action-icon-color": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-text-color",
       },
-      "--calcite-input-date-picker-clearable-action-icon-color-hover": {
+      "--calcite-input-date-picker-input-action-icon-color-hover": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-text-color-press",
         state: "hover",
       },
-      "--calcite-input-date-picker-clearable-action-icon-color-press": {
+      "--calcite-input-date-picker-input-action-icon-color-press": {
         shadowSelector: `${clearButtonContainerSelector} calcite-action`,
         targetProp: "--calcite-action-text-color-press",
         state: {
