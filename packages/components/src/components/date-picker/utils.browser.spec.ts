@@ -59,6 +59,23 @@ describe(getLocaleData, () => {
     expect(getLocaleData("ko").year?.suffix).toBe("년");
   });
 
+  it("uses the Bosnian date-format fallback for metadata affected by Chromium", () => {
+    const localeData = getLocaleData("bs");
+
+    expect(localeData.placeholder).toBe("DD.MM.YYYY.");
+    expect(localeData.unitOrder).toBe("DD.MM.YYYY.");
+    expect(localeData.months.wide[4]).toBe("maj");
+    expect(localeData.days.abbreviated?.[1]).not.toBe("Mon");
+    expect(localeData.weekStart).toBe(1);
+  });
+
+  it("preserves Swiss Italian textual date metadata", () => {
+    const localeData = getLocaleData("it-CH");
+
+    expect(localeData.placeholder).toBe("DD.MM.YYYY");
+    expect(localeData.months.wide[4]).toBe("maggio");
+  });
+
   it("creates and caches formatters only when their data is requested", () => {
     const localeData = getLocaleData("en");
 
