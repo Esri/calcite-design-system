@@ -465,6 +465,32 @@ describe("per-group overflow-actions-disabled", () => {
     expect(overflowedIn(group2)).toBe(0);
   });
 
+  it("utility preserves authored menu-actions when no overflow is needed", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" slot="menu-actions" text="Save" />
+          <calcite-action icon="trash" slot="menu-actions" text="Delete" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 0 });
+
+    const authoredMenuActions = page
+      .getBySelector("calcite-action-group > calcite-action[slot='menu-actions']")
+      .elements()
+      .filter((action) => groups[0].contains(action));
+
+    expect(authoredMenuActions).toHaveLength(2);
+  });
+
   it("setting overflowActionsDisabled to true on a group removes its overflowed actions when overflow is re-evaluated", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>

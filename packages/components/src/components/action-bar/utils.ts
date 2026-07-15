@@ -6,6 +6,8 @@ import type { Action } from "../action/action";
 
 export type ActionBarItem = Action["el"] | ActionGroup["el"] | ActionMenu["el"];
 
+const overflowedByActionBar = new WeakSet<Action["el"]>();
+
 export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
   return el?.tagName === "CALCITE-ACTION-MENU";
 }
@@ -45,8 +47,9 @@ export const overflowActions = ({
     const directGroupActions = [...group.actions].filter((action) => action.parentElement === group).reverse();
 
     directGroupActions.forEach((groupAction) => {
-      if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
+      if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions && overflowedByActionBar.has(groupAction)) {
         groupAction.removeAttribute("slot");
+        overflowedByActionBar.delete(groupAction);
         groupAction.textEnabled = expanded;
       }
     });
@@ -63,6 +66,7 @@ export const overflowActions = ({
         ) {
           groupAction.textEnabled = true;
           groupAction.setAttribute("slot", ACTION_GROUP_SLOTS.menuActions);
+          overflowedByActionBar.add(groupAction);
           slottedWithinGroupCount++;
 
           if (slottedWithinGroupCount > 1) {
