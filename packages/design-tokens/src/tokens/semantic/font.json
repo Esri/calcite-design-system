@@ -36,12 +36,12 @@
           "group": "weight",
           "docs": "deprecated"
         },
-        "$type": "fontWeights",
-        "$value": "{core.font.weight.regular}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead.",
         "extensions": {
           "calcite.deprecated": true
-        }
+        },
+        "$type": "fontWeights",
+        "$value": "{core.font.weight.regular}",
+        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-font-weight-regular` instead."
       },
       "regular": {
         "attributes": {

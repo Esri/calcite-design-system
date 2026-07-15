@@ -1,12 +1,5 @@
 {
   "corner-radius": {
-    "default": {
-      "attributes": {
-        "category": "corner-radius"
-      },
-      "$type": "borderRadius",
-      "$value": "{core.size.default.none}"
-    },
     "sharp": {
       "attributes": {
         "category": "corner-radius",

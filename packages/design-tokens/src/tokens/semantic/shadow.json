@@ -1,18 +1,5 @@
 {
   "shadow": {
-    "none": {
-      "attributes": {
-        "category": "shadow"
-      },
-      "$type": "boxShadow",
-      "$value": {
-        "x": "{core.size.default.none}",
-        "y": "{core.size.default.none}",
-        "blur": "{core.size.default.none}",
-        "spread": "{core.size.default.none}",
-        "color": "rgba({core.color.neutral.blk-240}, {core.opacity.0})"
-      }
-    },
     "sm": {
       "attributes": {
         "category": "shadow"

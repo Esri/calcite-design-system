@@ -745,7 +745,6 @@
       "size.fixed.xl": "2007a5a25fad031d335902c231ff4b6f257d15b5",
       "size.fixed.xxl": "83a306a5c30b9ebd67d5f602c454e650e8434082",
       "size.fixed.xxxl": "82e9eb54d1200fbc961e15615bb731afa16c36b9",
-      "size.px": "5d724f607a73b7c6e9e16cea59e6e9b9a9673a9f",
       "size.4xs": "d1f3010203c118b2ff99fb5ce189c20bb05b40e4",
       "size.xxxs": "07178d6e4d0d8f2ed330c7755b48390f74dd4919",
       "size.3xs": "60d4f7935f4d4504239a4da8746140fbc23492a9",
@@ -814,7 +813,6 @@
       "border.width.sm": "2a69635f494082998387a211b333b3cad6f5983f",
       "border.width.md": "e60343348eec8035014072a2dde7357739ab6670",
       "border.width.lg": "1bbc5b37999c189ce5ce6d4d346bfab723cddfa9",
-      "corner-radius.default": "0a14c64babe980039188b674758519f4e122acb0",
       "corner-radius.sharp": "149866fca03d8b351598f2c4dad9f15c07256a76",
       "corner-radius.none": "560b1da7135f39b3cff48807e20eba7149c455a9",
       "corner-radius.xs": "ede2d57b86be5856745407b14ba01f65f8b3a9a8",
@@ -835,7 +833,6 @@
       "semantic/opacity": "enabled"
     },
     "$figmaVariableReferences": {
-      "opacity.disabled": "b0e64e2500ea10831fb0f35415409b169910d583",
       "opacity.light": "56f5bae6e1585a229686f005f81b822f590d9cf4",
       "opacity.half": "2d320a2c6edfe2c3bc89aa33cb96be3f27ce5261",
       "opacity.dark": "13430d8c8f2086a0b47c163ce688b395bfa17231",
@@ -859,6 +856,7 @@
       "core/size": "source",
       "semantic/shadow": "enabled"
     },
-    "group": "_styles"
+    "group": "_styles",
+    "$figmaVariableReferences": {}
   }
 ]
