@@ -1,11 +1,10 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { menuPlacements } from "../../utils/floating-ui";
 import { Alert } from "./alert";
 
-const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
+const { scale, duration, kind, menuPlacement, numberingSystem, queue } = ATTRIBUTES;
 
 type AlertStoryArgs = Pick<
   Alert,
@@ -27,15 +26,15 @@ export default {
   args: {
     autoClose: false,
     autoCloseDuration: duration.defaultValue,
-    icon: "",
+    icon: "lightbulb",
     iconFlipRtl: false,
     kind: kind.defaultValue,
     label: "Alert",
-    numberingSystem: numberingSystem[2],
+    numberingSystem: numberingSystem.defaultValue,
     open: true,
-    placement: menuPlacements[4],
-    scale: "m",
-    queue: "last",
+    placement: menuPlacement.values[4],
+    scale: scale.defaultValue,
+    queue: queue.defaultValue,
   },
   argTypes: {
     autoCloseDuration: {
@@ -51,11 +50,11 @@ export default {
       control: { type: "select" },
     },
     numberingSystem: {
-      options: numberingSystem,
+      options: numberingSystem.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     queue: {
@@ -97,7 +96,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
       label="${args.label}"
       numbering-system="${args.numberingSystem}"
       placement="${args.placement}"
