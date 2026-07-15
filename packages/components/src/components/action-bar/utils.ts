@@ -42,7 +42,7 @@ export const overflowActions = ({
   [...actionGroups].reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const directGroupActions = [...group.actions].reverse();
+    const directGroupActions = [...group.actions].filter((action) => action.parentElement === group).reverse();
 
     directGroupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {

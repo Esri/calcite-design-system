@@ -491,7 +491,14 @@ export class ActionBar extends LitElement {
   }
 
   private updateGroups(): void {
-    this.actionGroups.forEach((group) => {
+    const groups = [
+      ...this.actionGroups,
+      ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
+        (group): group is ActionGroup["el"] => !!group,
+      ),
+    ];
+
+    groups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
     });
@@ -499,19 +506,19 @@ export class ActionBar extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.syncDefaultSlot();
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 
   private handleActionsEndSlotChange(): void {
     this.syncActionsEndSlot();
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 
   private handleActionsStartSlotChange(): void {
     this.syncActionsStartSlot();
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 
@@ -537,9 +544,14 @@ export class ActionBar extends LitElement {
     ]);
   }
 
-  private syncActionsState(): void {
+  private syncActionsState(syncExpandedState = true): void {
     this.syncActions();
     this.updateActions();
+
+    if (!syncExpandedState || this.expandToggleDisabled) {
+      return;
+    }
+
     toggleActionBarChildActionText({
       actions: this.actions,
       expandables: [
@@ -596,7 +608,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 
@@ -607,7 +619,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 

@@ -373,7 +373,7 @@ export class ActionMenu extends LitElement {
     const triggerSlot = this.triggerSlotRef.value;
     const triggerActions = triggerSlot
       ? getSlotAssignedElements<Action["el"]>(triggerSlot, "calcite-action").filter(
-          (action) => action.assignedSlot === triggerSlot,
+          (action) => !action.classList.contains(CSS.defaultTrigger),
         )
       : [];
 

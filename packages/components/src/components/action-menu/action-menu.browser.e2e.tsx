@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
@@ -16,8 +16,22 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
+import type { ActionMenu } from "./action-menu";
 
 mockConsole();
+
+class ActionMenuTestWrapper extends LitElement {
+  static tagName = "action-menu-test-wrapper";
+
+  override render(): JsxNode {
+    return (
+      <calcite-action-menu label="Test">
+        <slot name="trigger-action" slot={SLOTS.trigger} />
+        <slot />
+      </calcite-action-menu>
+    );
+  }
+}
 
 describe("accessible", () => {
   describe("default", () => {
@@ -152,6 +166,27 @@ it("updates actions when nested action-group actions change", async () => {
   expect(el.actions).toHaveLength(2);
   expect(el.actions[0].text).toBe("Add");
   expect(el.actions[1].text).toBe("Save");
+});
+
+it("tracks trigger actions projected through an intermediate slot", async () => {
+  const { component } = await mount(ActionMenuTestWrapper);
+
+  component.innerHTML = `
+    <calcite-action icon="plus" slot="trigger-action" text="Open"></calcite-action>
+    <calcite-action icon="save" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  const actionMenu = component.shadowRoot?.querySelector("calcite-action-menu") as
+    | ActionMenu["el"]
+    | undefined;
+
+  const actions = actionMenu?.actions ?? [];
+
+  expect(actions).toHaveLength(2);
+  expect(actions[0].text).toBe("Open");
+  expect(actions[1].text).toBe("Save");
 });
 
 describe("is focusable", () => {

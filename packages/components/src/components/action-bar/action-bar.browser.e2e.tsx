@@ -369,6 +369,31 @@ describe("overflowing actions", () => {
 });
 
 describe("per-group overflow-actions-disabled", () => {
+  it("does not slot projected non-direct actions when evaluating overflow", async () => {
+    const { component } = await mount(ActionBarTestWrapper);
+
+    component.innerHTML = `
+      <calcite-action icon="plus" text="Add"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+      <calcite-action icon="trash" text="Delete"></calcite-action>
+      <calcite-action icon="pencil" text="Edit"></calcite-action>
+    `;
+
+    await component.updateComplete;
+
+    const group = component.shadowRoot?.querySelector("calcite-action-group") as ActionGroup["el"];
+    const projectedActions = page
+      .getBySelector("action-bar-test-wrapper > calcite-action")
+      .elements() as Action["el"][];
+
+    expect(group.actions).toHaveLength(4);
+    expect(projectedActions.every((action) => action.parentElement === component)).toBe(true);
+
+    overflowActions({ actionGroups: [group], expanded: false, overflowCount: 10 });
+
+    expect(projectedActions.every((action) => !action.slot)).toBe(true);
+  });
+
   it("does not mutate the provided group order when evaluating overflow", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
@@ -668,8 +693,6 @@ describe("slot-change action tracking", () => {
     expect(group.actions).toEqual([action1, action2]);
     expect(action1.selectionAppearance).toBe("highlight");
     expect(action2.selectionAppearance).toBe("highlight");
-    expect(action1.textEnabled).toBe(true);
-    expect(action2.textEnabled).toBe(true);
   });
 
   it("requests overflow recomputation when an action-group's actions change", async () => {
@@ -733,7 +756,6 @@ describe("slot-change action tracking", () => {
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(triggerAction.selectionAppearance).toBe("highlight");
-    expect(triggerAction.textEnabled).toBe(true);
   });
 
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
@@ -765,6 +787,29 @@ describe("slot-change action tracking", () => {
     await expect.element(actions.nth(1)).toHaveFocus();
 
     expect(actionBar.expanded).toBe(false);
+  });
+
+  it("syncs layout to actions-start and actions-end groups", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action icon="plus" slot={SLOTS.actionsStart} text="Start" />
+        <calcite-action icon="save" slot={SLOTS.actionsEnd} text="End" />
+      </calcite-action-bar>,
+    );
+
+    const getStartGroup = (): ActionGroup["el"] =>
+      page.getBySelector("calcite-action-bar .action-group--start").element() as ActionGroup["el"];
+    const getEndGroup = (): ActionGroup["el"] =>
+      page.getBySelector("calcite-action-bar .action-group--end").element() as ActionGroup["el"];
+
+    expect(getStartGroup().layout).toBe("vertical");
+    expect(getEndGroup().layout).toBe("vertical");
+
+    el.layout = "horizontal";
+    await reRender();
+
+    expect(getStartGroup().layout).toBe("horizontal");
+    expect(getEndGroup().layout).toBe("horizontal");
   });
 });
 
