@@ -103,3 +103,51 @@ export const allScales = (): string =>
       <calcite-block-group scale="m"> ${blockHTML} </calcite-block-group>
       <calcite-block-group scale="l"> ${blockHTML} </calcite-block-group>
     </div>`;
+
+const nestedBlockHTML = html`
+  <calcite-block
+    collapsible
+    heading="Layer effects2"
+    description="Adjust blur, highlight, and more"
+    icon-start="effects"
+  >
+  </calcite-block>
+  <calcite-block
+    collapsible
+    heading="Symbology2"
+    description="Select type, color, and transparency"
+    icon-start="map-pin"
+  >
+    <calcite-block
+      collapsible
+      heading="Sub Symbology2"
+      description="Select type, color, and transparency"
+      icon-start="map-pin"
+      slot="sections"
+      drag-handle
+    >
+      <calcite-block
+        collapsible
+        heading="Sub Sub Symbology2"
+        description="Select type, color, and transparency"
+        icon-start="map-pin"
+        slot="sections"
+        drag-handle
+      >
+      </calcite-block>
+    </calcite-block>
+  </calcite-block>
+`;
+
+export const multipleSelectionMode = (): string => html`
+  <calcite-block-group label="My Group" selection-mode="multiple"> ${nestedBlockHTML} </calcite-block-group>
+`;
+
+export const singleSelectionMode = (): string => html`
+  <calcite-block-group label="My Group" selection-mode="single"> ${nestedBlockHTML} </calcite-block-group>
+`;
+
+export const singlePersistSelectionMode = (): string =>
+  html` <calcite-block-group label="My Group" selection-mode="single-persist">
+    ${nestedBlockHTML}
+  </calcite-block-group>`;
