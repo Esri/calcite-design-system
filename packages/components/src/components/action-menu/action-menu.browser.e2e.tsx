@@ -178,9 +178,9 @@ it("tracks trigger actions projected through an intermediate slot", async () => 
 
   await component.updateComplete;
 
-  const actionMenu = component.shadowRoot?.querySelector("calcite-action-menu") as
-    | ActionMenu["el"]
-    | undefined;
+  const actionMenu = page
+    .getBySelector("action-menu-test-wrapper calcite-action-menu")
+    .element() as ActionMenu["el"] | undefined;
 
   const actions = actionMenu?.actions ?? [];
   const triggerAction = actions[0];

@@ -504,14 +504,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const sourceIsActionGroup = isActionGroup(source);
-    const sourceIsActionMenu = isActionMenu(source);
-
-    if (!sourceIsActionGroup && !sourceIsActionMenu) {
-      return;
-    }
-
-    if ((sourceIsActionGroup && !source.menuOpen) || (sourceIsActionMenu && !source.open)) {
+    if ((isActionGroup(source) && !source.menuOpen) || (isActionMenu(source) && !source.open)) {
       return;
     }
 
