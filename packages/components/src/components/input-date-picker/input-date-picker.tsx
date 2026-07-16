@@ -35,8 +35,9 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -143,6 +144,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   })(this);
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   transitionProp = "opacity" as const;
 
@@ -420,7 +423,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    connectLabel(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
   }
@@ -504,7 +506,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     disconnectFloatingUI(this);
   }
 
