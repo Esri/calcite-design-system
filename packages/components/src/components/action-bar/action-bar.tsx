@@ -439,7 +439,7 @@ export class ActionBar extends LitElement {
     this.syncDefaultSlot();
     this.syncActionsStartSlot();
     this.syncActionsEndSlot();
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
@@ -466,7 +466,7 @@ export class ActionBar extends LitElement {
   }
 
   private expandedHandler(): void {
-    this.syncActionsState();
+    this.syncActionsState(true);
     this.overflowActions();
   }
 
@@ -545,21 +545,21 @@ export class ActionBar extends LitElement {
 
   private handleDefaultSlotChange(): void {
     this.syncDefaultSlot();
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
   private handleActionsEndSlotChange(): void {
     this.syncActionsEndSlot();
     this.updateGroups();
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
   private handleActionsStartSlotChange(): void {
     this.syncActionsStartSlot();
     this.updateGroups();
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
@@ -585,7 +585,7 @@ export class ActionBar extends LitElement {
     ]);
   }
 
-  private syncActionsState(syncExpandedState = true): void {
+  private syncActionsState(syncExpandedState = false): void {
     this.syncActions();
     this.updateActions();
 
@@ -686,7 +686,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
@@ -697,7 +697,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState(false);
+    this.syncActionsState();
     this.overflowActions();
   }
 
