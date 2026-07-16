@@ -996,7 +996,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius: var(--calcite-size-none);
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
@@ -1149,6 +1148,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -1554,7 +1554,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius: var(--calcite-size-none);
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
@@ -1707,6 +1706,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-modal: 800;
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
+  --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
 `;
@@ -19643,12 +19643,12 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "fontWeight",
-      "$value": "400",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "extensions": {
         "calcite.deprecated": true
       },
+      "$type": "fontWeight",
+      "$value": "400",
+      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -23047,8 +23047,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"10px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23066,6 +23064,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontSize\\":\\"10px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 3h",
@@ -23089,8 +23089,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"12px\\",\\"fontWeight\\":\\"300\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23108,6 +23106,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontSize\\":\\"12px\\",\\"fontWeight\\":\\"300\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 2h",
@@ -23131,8 +23131,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23150,6 +23148,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 1h",
@@ -23173,8 +23173,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"16px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"20px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23192,6 +23190,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontSize\\":\\"16px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"20px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 0h",
@@ -23215,8 +23215,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"18px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"24px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23234,6 +23232,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontSize\\":\\"18px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"24px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 1h",
@@ -23257,8 +23257,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23276,6 +23274,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 3h",
@@ -23299,8 +23299,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23318,6 +23316,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 2h",
@@ -23366,8 +23366,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23385,6 +23383,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 0h",
@@ -23408,8 +23408,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23427,6 +23425,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 1h",
@@ -23450,8 +23450,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23469,6 +23467,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 3h",
@@ -23492,8 +23492,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23511,6 +23509,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 2h",
@@ -23534,8 +23534,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23553,6 +23551,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 1h",
@@ -23576,8 +23576,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23595,6 +23593,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 0h",
@@ -23618,8 +23618,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23637,6 +23635,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 1h",
@@ -23660,8 +23660,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23679,6 +23677,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 3h",
@@ -23702,8 +23702,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23721,6 +23719,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 2h",
@@ -23744,8 +23744,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23763,6 +23761,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 1h",
@@ -23786,8 +23786,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23805,6 +23803,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 0h",
@@ -23828,8 +23828,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23847,6 +23845,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 1h",
@@ -23870,8 +23870,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23889,6 +23887,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 0",
@@ -23912,8 +23912,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23931,6 +23929,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 1",
@@ -23954,8 +23954,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -23973,6 +23971,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 2",
@@ -23996,8 +23996,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"24px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24015,6 +24013,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"24px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 3",
@@ -24038,8 +24038,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24057,6 +24055,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 2",
@@ -24080,8 +24080,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24099,6 +24097,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 1",
@@ -24122,8 +24122,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24141,6 +24139,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 0",
@@ -24164,8 +24164,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24183,6 +24181,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 1",
@@ -24206,8 +24206,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24225,6 +24223,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 2",
@@ -24248,8 +24248,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24267,6 +24265,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 3",
@@ -24290,8 +24290,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24309,6 +24307,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 2",
@@ -24332,8 +24332,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24351,6 +24349,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"lineHeight\\":\\"1.375\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 1",
@@ -24374,8 +24374,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24393,6 +24391,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 0",
@@ -24416,8 +24416,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24435,6 +24433,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 1",
@@ -24458,8 +24458,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24477,6 +24475,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 2",
@@ -24500,8 +24500,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24519,6 +24517,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 3",
@@ -24542,8 +24542,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24561,6 +24559,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 2",
@@ -24584,8 +24584,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24603,6 +24601,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 1",
@@ -24626,8 +24626,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24645,6 +24643,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 0",
@@ -24668,8 +24668,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24687,6 +24685,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 1",
@@ -24710,8 +24710,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24729,6 +24727,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 2",
@@ -24752,8 +24752,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24771,6 +24769,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 3",
@@ -24794,8 +24794,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24813,6 +24811,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 2",
@@ -24836,8 +24836,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\"}",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -24855,6 +24853,8 @@ exports[`DOCS (internal) > global should match 1`] = `
           "textDecoration": "none"
         }
       },
+      "$type": "typography",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 1",
@@ -25830,12 +25830,12 @@ exports[`DOCS (internal) > semantic should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$type": "fontWeight",
-      "$value": "400",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "extensions": {
         "calcite.deprecated": true
       },
+      "$type": "fontWeight",
+      "$value": "400",
+      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-font-weight-regular\` instead.",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Normal",
@@ -33179,7 +33179,6 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius: $calcite-size-none;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
@@ -33332,6 +33331,7 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
+$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
 
@@ -33872,7 +33872,6 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius: $calcite-size-none;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
@@ -34025,5 +34024,6 @@ $calcite-z-index-overlay: 700;
 $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
+$calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
