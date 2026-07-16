@@ -146,7 +146,10 @@
   &:is(:focus-within, :active) {
     .chevron-icon,
     ~ .input-wrapper .chevron-icon {
-      color: var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1));
+      color: var(
+        --calcite-input-date-picker-actions-icon-color-hover,
+        var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1))
+      );
     }
   }
 }
@@ -335,7 +338,10 @@
 :host([range][layout="vertical"]) .input-container:has(.input-wrapper:active) + .vertical-actions-container,
 :host([range][layout="vertical"]) .vertical-actions-container:active {
   .chevron-icon {
-    color: var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1));
+    color: var(
+      --calcite-input-date-picker-actions-icon-color-hover,
+      var(--calcite-input-date-picker-input-action-icon-color-press, var(--calcite-color-text-1))
+    );
   }
 }
 

@@ -176,7 +176,10 @@ calcite-time-picker {
   }
 
   &:active {
-    --calcite-icon-color: var(--calcite-input-time-picker-input-action-icon-color-press, var(--calcite-color-text-1));
+    --calcite-icon-color: var(
+      --calcite-input-time-picker-icon-color-hover,
+      var(--calcite-input-time-picker-input-action-icon-color-press, var(--calcite-color-text-1))
+    );
   }
 }
 
