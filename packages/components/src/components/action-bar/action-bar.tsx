@@ -121,6 +121,7 @@ export class ActionBar extends LitElement {
       actionsEndGroups,
       actionsStart,
       actionsStartGroups,
+      defaultSlotItems,
     } = this;
     const slottedActionGroups = [
       ...actionsStartGroups,
@@ -134,9 +135,9 @@ export class ActionBar extends LitElement {
     const actionsStartCount =
       this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
 
-    const groupCount = defaultActionGroups.length + actionsEndCount + actionsStartCount;
+    const visibleSectionCount = defaultSlotItems.length + actionsEndCount + actionsStartCount;
 
-    let bufferSize = groupCount;
+    let bufferSize = visibleSectionCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
 
     bufferSize +=
@@ -205,10 +206,8 @@ export class ActionBar extends LitElement {
       addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value);
     }
 
-    if (groupCount > 0) {
-      for (let i = 1; i < groupCount; i++) {
-        bufferSize += getStylePixelValue(actionBarContainerStyle.gap);
-      }
+    if (visibleSectionCount > 1) {
+      bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);
     }
 
     const overflowCount = getOverflowCount({
@@ -744,8 +743,14 @@ export class ActionBar extends LitElement {
     this.overflowActions();
   }
 
+  private getNavigableActions(): Action["el"][] {
+    return this.actions.filter(
+      (action) => !action.disabled && action.slot !== ACTION_GROUP_SLOTS.menuActions,
+    );
+  }
+
   private handleKeyDown(event: KeyboardEvent): void {
-    const actions = this.actions.filter((action) => !action.disabled);
+    const actions = this.getNavigableActions();
     const current = document.activeElement;
 
     if (!isAction(current) || !actions.includes(current)) {

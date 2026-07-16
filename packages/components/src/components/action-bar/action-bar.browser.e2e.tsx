@@ -461,6 +461,36 @@ describe("overflowing actions", () => {
     expect(reorderedOverflowCount).toBe(orderedOverflowCount);
   });
 
+  it("accounts for direct default-slot section gaps when evaluating overflow", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar
+        expanded
+        style={{
+          "--calcite-action-bar-items-space": "200px",
+          height: "360px",
+        }}
+      >
+        <calcite-action-menu label="More actions">
+          <calcite-action icon="ellipsis" slot="trigger" text="More" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-menu>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page
+      .getBySelector("calcite-action-group calcite-action[slot='menu-actions']")
+      .elements();
+
+    expect(overflowedActions.length).toBeGreaterThan(0);
+  });
+
   it("overflows actions from slotted actions-end groups", async () => {
     await mount<ActionBar>(
       <calcite-action-bar expanded style={{ height: "140px" }}>
@@ -483,6 +513,39 @@ describe("overflowing actions", () => {
       .elements();
 
     expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
+  });
+
+  it("skips overflowed menu-actions during toolbar keyboard navigation", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar expanded style={{ height: "200px" }}>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const visibleActions = page
+      .getBySelector("calcite-action-bar > calcite-action-group > calcite-action:not([slot])")
+      .elements() as Action["el"][];
+    const overflowedActions = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-group > calcite-action[slot='menu-actions']",
+      )
+      .elements() as Action["el"][];
+
+    expect(overflowedActions.length).toBeGreaterThan(0);
+    expect(visibleActions.length).toBeGreaterThan(1);
+
+    await userEvent.click(visibleActions[1]);
+    expect(document.activeElement).toBe(visibleActions[1]);
+
+    await userEvent.keyboard("{ArrowDown}");
+    expect(overflowedActions.includes(document.activeElement as Action["el"])).toBe(false);
   });
 });
 
@@ -1104,7 +1167,7 @@ describe("slot-change action tracking", () => {
     await userEvent.click(defaultTrigger);
     expect(defaultGroup.menuOpen).toBe(true);
 
-    await userEvent.click(endTrigger);
+    endTrigger.click();
     expect(endGroup.menuOpen).toBe(true);
     expect(defaultGroup.menuOpen).toBe(false);
   });
