@@ -14,22 +14,54 @@
       <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
       <!-- you can add a demo snippet by running `npx snippet` -->
       <style>
+        html,
+        body {
+          margin: 0;
+        }
+      </style>
+      <style id="panel-styles">
+        /* Applies to all Panels */
         calcite-panel {
-          /* --calcite-panel-space: 2rem; */
+          --calcite-panel-background-color: lightyellow;
+        }
+
+        /* Applies to the sibling Panel of the Dialog */
+        #outside {
+          --calcite-panel-header-background-color: lightblue;
+        }
+
+        /* Applies to the first nested Panel inside of Dialog, and any children Panels */
+        #nested-first {
+          --calcite-panel-heading-text-color: blue;
+        }
+
+        /* Applies to the second nested Panel inside of Dialog */
+        #nested-second {
+          /* Overrides background from global style */
+          --calcite-panel-background-color: lightgreen;
         }
       </style>
 
-      <calcite-panel heading="Panel">
-        <span>Hello! I'm outside the dialog and thus dont get the extra padding</span>
+      <calcite-panel id="outside" heading="Panel">
+        <span>Panel that is a sibling of the Dialog, no nesting involved.</span>
+        <h2>Applied styles</h2>
+        <pre></pre>
       </calcite-panel>
-      <calcite-dialog reference-element="button" open>
-        <calcite-panel style="--calcite-color-background: lightblue" heading="Extra padding">
-          Hi, I no longer get extra padding inside a dialog
-          <calcite-panel style="--calcite-color-background: lightgreen" heading="Nested panel">
-            I'm a further nested panel and I also don't get the extra padding
+      <calcite-dialog reference-element="button" placement="bottom" open>
+        <calcite-panel id="nested-first" heading="First nested Panel">
+          Nested Panel inside Dialog, no longer receives extra padding inside a Dialog
+          <calcite-panel id="nested-second" heading="Second nested panel">
+            Furter nested Panel, also no longer receives the extra padding. Any nested Panel still inherits styles from
+            Parent or global styles.
           </calcite-panel>
         </calcite-panel>
       </calcite-dialog>
+
+      <script>
+        const panelStyles = document.getElementById("panel-styles");
+        const stylePre = document.querySelector("pre");
+        stylePre.textContent = panelStyles.innerHTML;
+      </script>
 
       <!-- demo snippet end -->
     </demo-dom-swapper>

@@ -32,15 +32,59 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-panel-action-spacing
+// --calcite-internal-panel-background-color
+// --calcite-internal-panel-border-color
+// --calcite-internal-panel-content-bottom-space
+// --calcite-internal-panel-content-space
+// --calcite-internal-panel-content-top-space
+// --calcite-internal-panel-corner-radius
 // --calcite-internal-panel-default-space
+// --calcite-internal-panel-description-text-color
+// --calcite-internal-panel-footer-background-color
+// --calcite-internal-panel-footer-space
+// --calcite-internal-panel-header-action-background-color
+// --calcite-internal-panel-header-action-background-color-hover
+// --calcite-internal-panel-header-action-background-color-press
+// --calcite-internal-panel-header-action-text-color
+// --calcite-internal-panel-header-action-text-color-press
+// --calcite-internal-panel-header-background-color
+// --calcite-internal-panel-header-content-space
 // --calcite-internal-panel-header-vertical-padding
+// --calcite-internal-panel-heading-text-color
+// --calcite-internal-panel-icon-color
+// --calcite-internal-panel-popover-border-color
+// --calcite-internal-panel-space
 
 @use "../../styles/includes";
 @use "sass:meta";
 
 :host {
+  --calcite-internal-panel-background-color: var(--calcite-panel-background-color);
+  --calcite-internal-panel-border-color: var(--calcite-panel-border-color);
+  --calcite-internal-panel-content-bottom-space: var(--calcite-panel-content-bottom-space);
+  --calcite-internal-panel-content-space: var(--calcite-panel-content-space);
+  --calcite-internal-panel-content-top-space: var(--calcite-panel-content-top-space);
+  --calcite-internal-panel-corner-radius: var(--calcite-panel-corner-radius);
+  --calcite-internal-panel-description-text-color: var(--calcite-panel-description-text-color);
+  --calcite-internal-panel-footer-background-color: var(--calcite-panel-footer-background-color);
+  --calcite-internal-panel-footer-space: var(--calcite-panel-footer-space);
+  --calcite-internal-panel-header-action-background-color: var(--calcite-panel-header-action-background-color);
+  --calcite-internal-panel-header-action-background-color-hover: var(
+    --calcite-panel-header-action-background-color-hover
+  );
+  --calcite-internal-panel-header-action-background-color-press: var(
+    --calcite-panel-header-action-background-color-press
+  );
+  --calcite-internal-panel-header-action-text-color: var(--calcite-panel-header-action-text-color);
+  --calcite-internal-panel-header-action-text-color-press: var(--calcite-panel-header-action-text-color-press);
+  --calcite-internal-panel-header-background-color: var(--calcite-panel-header-background-color);
+  --calcite-internal-panel-header-content-space: var(--calcite-panel-header-content-space);
+  --calcite-internal-panel-heading-text-color: var(--calcite-panel-heading-text-color);
+  --calcite-internal-panel-icon-color: var(--calcite-panel-icon-color);
+  --calcite-internal-panel-popover-border-color: var(--calcite-popover-border-color);
+  --calcite-internal-panel-space: var(--calcite-panel-space);
   @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
-  border-radius: var(--calcite-panel-corner-radius, var(--calcite-corner-radius-sharp));
+  border-radius: var(--calcite-internal-panel-corner-radius, var(--calcite-corner-radius-sharp));
 }
 
 slot[name="alerts"]::slotted(calcite-alert) {
@@ -114,16 +158,16 @@ slot[name="alerts"]::slotted(calcite-alert) {
 .content-top,
 .content-bottom {
   @apply flex items-start self-stretch;
-  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-  background-color: var(--calcite-panel-background-color, var(--calcite-color-foreground-1));
+  border-block-start: 1px solid var(--calcite-internal-panel-border-color, var(--calcite-color-border-3));
+  background-color: var(--calcite-internal-panel-background-color, var(--calcite-color-foreground-1));
 }
 
 .content-top {
-  padding: var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-space));
+  padding: var(--calcite-internal-panel-content-top-space, var(--calcite-internal-panel-default-space));
 }
 
 .content-bottom {
-  padding: var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-space));
+  padding: var(--calcite-internal-panel-content-bottom-space, var(--calcite-internal-panel-default-space));
 }
 
 .container {
@@ -142,9 +186,12 @@ slot[name="alerts"]::slotted(calcite-alert) {
 .header {
   @apply flex flex-col z-header;
 
-  background-color: var(--calcite-panel-header-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-internal-panel-header-background-color, var(--calcite-color-foreground-1));
   border-block-end: 1px solid
-    var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
+    var(
+      --calcite-internal-panel-border-color,
+      var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3))
+    );
 }
 
 .header-container {
@@ -155,7 +202,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  border-block-end: 1px solid var(--calcite-internal-panel-border-color, var(--calcite-color-border-3));
 }
 
 .action-bar-container {
@@ -192,7 +239,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .heading {
     @apply font-medium;
-    color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-1));
+    color: var(--calcite-internal-panel-heading-text-color, var(--calcite-color-text-1));
 
     &:only-child {
       @apply mb-0;
@@ -200,18 +247,22 @@ slot[name="alerts"]::slotted(calcite-alert) {
   }
 
   .description {
-    color: var(--calcite-panel-description-text-color, var(--calcite-color-text-2));
+    color: var(--calcite-internal-panel-description-text-color, var(--calcite-color-text-2));
   }
 }
 
 #close,
 #collapse,
 calcite-action-menu {
-  --calcite-action-background-color: var(--calcite-panel-header-action-background-color);
-  --calcite-action-background-color-hover: var(--calcite-panel-header-action-background-color-hover);
-  --calcite-action-background-color-press: var(--calcite-panel-header-action-background-color-press);
-  --calcite-action-text-color: var(--calcite-panel-header-action-text-color);
-  --calcite-action-text-color-press: var(--calcite-panel-header-action-text-color-press);
+  --calcite-action-background-color: var(--calcite-internal-panel-header-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-internal-panel-header-action-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-internal-panel-header-action-background-color-press);
+  --calcite-action-text-color: var(--calcite-internal-panel-header-action-text-color);
+  --calcite-action-text-color-press: var(--calcite-internal-panel-header-action-text-color-press);
+}
+
+calcite-action-menu {
+  --calcite-popover-border-color: var(--calcite-internal-panel-popover-border-color);
 }
 
 .header-actions {
@@ -244,8 +295,8 @@ calcite-action-menu {
   focus-base
   text-color-2
   relative;
-  padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
-  background: var(--calcite-panel-background-color, var(--calcite-color-background));
+  padding: var(--calcite-internal-panel-space, var(--calcite-internal-panel-content-space, 0));
+  background: var(--calcite-internal-panel-background-color, var(--calcite-color-background));
 }
 
 .content-wrapper:focus-visible {
@@ -260,7 +311,7 @@ calcite-action-menu {
 
   &.header--slotted-content {
     padding: var(
-      --calcite-panel-header-content-space,
+      --calcite-internal-panel-header-content-space,
       var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
     );
   }
@@ -273,12 +324,12 @@ calcite-action-menu {
 
 .footer {
   @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
-  border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
+  border-block-start: 1px solid var(--calcite-internal-panel-border-color, var(--calcite-color-border-3));
   padding: var(
-    --calcite-panel-footer-space,
+    --calcite-internal-panel-footer-space,
     var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
   );
-  background-color: var(--calcite-panel-footer-background-color, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-internal-panel-footer-background-color, var(--calcite-color-foreground-1));
 }
 
 .footer-content {
@@ -310,7 +361,10 @@ calcite-action-menu {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
+  --calcite-icon-color: var(
+    --calcite-internal-panel-icon-color,
+    var(--calcite-ui-icon-color, var(--calcite-color-text-1))
+  );
 }
 
 @include includes.base-component();
