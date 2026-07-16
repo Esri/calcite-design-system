@@ -1279,7 +1279,7 @@ describe("keyboard navigation", () => {
   });
 
   it("navigates filtered items from and back to the filter", async () => {
-    const { el } = await mount<List>(
+    await mount<List>(
       <calcite-list filter-enabled filter-text="water" id="filtered-nav">
         <calcite-list-item id="fire" label="fire" />
         <calcite-list-item id="water-one" label="water one" />
@@ -1419,7 +1419,7 @@ describe("drag and sort behavior", () => {
       dragEnd(event as CustomEvent<ListDragDetail>);
     });
 
-    await pointerDrag(a, page.getBySelector("#b").element());
+    await pointerDrag(a, page.getBySelector("#b").element() as HTMLElement);
     expect(Array.from(first.children).map((item) => (item as ListItem["el"]).value)).toEqual([
       "b",
       "a",
@@ -1477,9 +1477,9 @@ describe("drag and sort behavior", () => {
     container.querySelectorAll("calcite-list").forEach((list) => {
       list.addEventListener("calciteListOrderChange", orderChange);
     });
-    const firstLetters = page.getBySelector("#b").element();
-    const numbers = page.getBySelector("#one").element();
-    const noGroup = page.getBySelector("#ungrouped").element();
+    const firstLetters = page.getBySelector("#b").element() as HTMLElement;
+    const numbers = page.getBySelector("#one").element() as HTMLElement;
+    const noGroup = page.getBySelector("#ungrouped").element() as HTMLElement;
     const d = page.getBySelector("#d").element() as ListItem["el"];
     const e = page.getBySelector("#e").element() as ListItem["el"];
 
