@@ -465,7 +465,7 @@ describe("per-group overflow-actions-disabled", () => {
     expect(overflowedIn(group2)).toBe(0);
   });
 
-  it("utility preserves authored menu-actions when no overflow is needed", async () => {
+  it("utility surfaces authored menu-actions when no overflow is needed", async () => {
     const { el } = await mount<ActionBar>(
       <calcite-action-bar overflow-actions-disabled>
         <calcite-action-group>
@@ -480,15 +480,55 @@ describe("per-group overflow-actions-disabled", () => {
       .getBySelector("calcite-action-group")
       .elements()
       .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const directActions = page
+      .getBySelector("calcite-action-group > calcite-action")
+      .elements()
+      .filter((action) => groups[0].contains(action)) as Action["el"][];
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 0 });
 
-    const authoredMenuActions = page
-      .getBySelector("calcite-action-group > calcite-action[slot='menu-actions']")
-      .elements()
-      .filter((action) => groups[0].contains(action));
+    expect(directActions.filter((action) => action.slot === "menu-actions")).toHaveLength(0);
+  });
 
-    expect(authoredMenuActions).toHaveLength(2);
+  it("overflows the last eligible group before preceding groups", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar overflow-actions-disabled>
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="map" slot="menu-actions" text="New" />
+          <calcite-action icon="collection" slot="menu-actions" text="Open" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="basemap" text="Basemaps" />
+          <calcite-action icon="legend" text="Legend" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="share" text="Share" />
+          <calcite-action icon="print" text="Print" />
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+          <calcite-action icon="mega-phone" text="What's next" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const groups = page
+      .getBySelector("calcite-action-group")
+      .elements()
+      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+    const overflowedIn = (group: ActionGroup["el"]): string[] =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((action) => group.contains(action))
+        .map((action) => (action as Action["el"]).text);
+
+    overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
+
+    expect(overflowedIn(groups[0])).toEqual([]);
+    expect(overflowedIn(groups[1])).toEqual([]);
+    expect(overflowedIn(groups[2]).length).toBeGreaterThan(0);
   });
 
   it("setting overflowActionsDisabled to true on a group removes its overflowed actions when overflow is re-evaluated", async () => {

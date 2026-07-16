@@ -404,7 +404,7 @@ export class ActionBar extends LitElement {
     this.syncDefaultSlot();
     this.syncActionsStartSlot();
     this.syncActionsEndSlot();
-    this.syncActionsState();
+    this.syncActionsState(false);
     this.overflowActions();
   }
 
