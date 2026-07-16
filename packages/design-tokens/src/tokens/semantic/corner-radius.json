@@ -5,7 +5,7 @@
         "category": "corner-radius"
       },
       "$type": "borderRadius",
-      "$value": "{core.size.default.none}"
+      "$value": "{corner-radius.none}"
     },
     "sharp": {
       "attributes": {
