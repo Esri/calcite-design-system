@@ -47,6 +47,7 @@
 // --calcite-internal-dialog-shown-position
 // --calcite-internal-panel-background-color
 // --calcite-internal-panel-border-color
+// --calcite-internal-panel-content-background-color
 // --calcite-internal-panel-content-bottom-space
 // --calcite-internal-panel-content-space
 // --calcite-internal-panel-content-top-space
@@ -60,6 +61,7 @@
 // --calcite-internal-panel-header-action-text-color
 // --calcite-internal-panel-header-action-text-color-press
 // --calcite-internal-panel-header-background-color
+// --calcite-internal-panel-header-border-color
 // --calcite-internal-panel-header-content-space
 // --calcite-internal-panel-heading-text-color
 // --calcite-internal-panel-icon-color
@@ -192,13 +194,33 @@
     --calcite-dialog-content-bottom-space,
     var(--calcite-internal-dialog-content-padding)
   );
-  --calcite-internal-panel-footer-space: var(--calcite-dialog-footer-space);
-  --calcite-internal-panel-border-color: var(--calcite-dialog-border-color);
+  --calcite-internal-panel-footer-space: var(
+    --calcite-dialog-footer-space,
+    var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
+  );
+  --calcite-internal-panel-border-color: var(--calcite-dialog-border-color, var(--calcite-color-border-3));
   --calcite-internal-panel-background-color: var(--calcite-dialog-background-color, var(--calcite-color-foreground-1));
-  --calcite-internal-panel-icon-color: var(--calcite-dialog-icon-color);
-  --calcite-internal-panel-heading-text-color: var(--calcite-dialog-heading-text-color);
-  --calcite-internal-panel-description-text-color: var(--calcite-dialog-description-text-color);
-  --calcite-internal-panel-header-background-color: var(--calcite-dialog-header-background-color);
+  --calcite-internal-panel-content-background-color: var(
+    --calcite-dialog-background-color,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-panel-icon-color: var(
+    --calcite-dialog-icon-color,
+    var(--calcite-ui-icon-color, var(--calcite-color-text-1))
+  );
+  --calcite-internal-panel-heading-text-color: var(--calcite-dialog-heading-text-color, var(--calcite-color-text-1));
+  --calcite-internal-panel-description-text-color: var(
+    --calcite-dialog-description-text-color,
+    var(--calcite-color-text-2)
+  );
+  --calcite-internal-panel-header-background-color: var(
+    --calcite-dialog-header-background-color,
+    var(--calcite-color-foreground-1)
+  );
+  --calcite-internal-panel-header-border-color: var(
+    --calcite-dialog-border-color,
+    var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3))
+  );
   --calcite-internal-panel-header-action-background-color: var(--calcite-dialog-header-action-background-color);
   --calcite-internal-panel-header-action-background-color-hover: var(
     --calcite-dialog-header-action-background-color-hover
@@ -208,17 +230,23 @@
   );
   --calcite-internal-panel-header-action-text-color: var(--calcite-dialog-header-action-text-color);
   --calcite-internal-panel-header-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
-  --calcite-internal-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
+  --calcite-internal-panel-footer-background-color: var(
+    --calcite-dialog-footer-background-color,
+    var(--calcite-color-foreground-1)
+  );
   --calcite-internal-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
   --calcite-internal-panel-header-content-space: var(
     --calcite-dialog-header-content-space,
-    var(--calcite-dialog-content-space)
+    var(
+      --calcite-dialog-content-space,
+      var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
+    )
   );
   --calcite-internal-panel-popover-border-color: var(
     --calcite-dialog-action-menu-border-color,
     var(--calcite-color-border-1)
   );
-  --calcite-internal-panel-corner-radius: var(--calcite-dialog-corner-radius);
+  --calcite-internal-panel-corner-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   @apply invisible opacity-0;
   border-radius: var(--calcite-dialog-corner-radius, var(--calcite-corner-radius-sm));
   transition:
