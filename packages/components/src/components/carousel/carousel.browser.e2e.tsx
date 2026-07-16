@@ -1,4 +1,4 @@
-import { h, type JsxNode } from "@arcgis/lumina";
+import { Fragment, h, type JsxNode } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent } from "vitest/browser";
