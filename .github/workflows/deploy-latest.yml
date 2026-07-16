@@ -24,6 +24,10 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.ADMIN_TOKEN }}
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - name: Setup Node
         if: steps.release.outputs.releases_created == 'true'
         uses: actions/setup-node@v6
@@ -37,16 +41,16 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
         run: |
-          npm ci
-          npm run build
+          pnpm install
+          pnpm build
 
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
           release_commit="$(git rev-parse HEAD)"
 
-          npm run publish:latest
-          npm run util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
+          pnpm publish:latest
+          pnpm util:upload-release-assets -- "${{toJSON(steps.release.outputs.paths_released)}}"
 
           release_version="$(node -p "require('./packages/components/package.json').version")"
 

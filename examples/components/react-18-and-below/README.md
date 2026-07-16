@@ -7,8 +7,8 @@ This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Deprecation Notice
@@ -25,7 +25,7 @@ Consider upgrading to React 19+ and using <code>@esri/calcite-components</code> 
 To install `@esri/calcite-components-react`, run:
 
 ```sh
-npm install @esri/calcite-components-react
+pnpm add @esri/calcite-components-react
 ```
 
 This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.

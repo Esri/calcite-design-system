@@ -4,6 +4,9 @@ description: Install dependencies and build Storybook output
 runs:
   using: composite
   steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        cache: true
     - uses: actions/setup-node@v6
       with:
         node-version-file: package.json
@@ -12,8 +15,8 @@ runs:
       env:
         STORYBOOK_SCREENSHOT_TEST_BUILD: true
       run: |
-        npm install
-        npm --workspace="packages/design-tokens" run build
-        npm --workspace="packages/tailwind-preset" run build
-        npm --workspace="packages/ui-icons" run build
-        npm --workspace="packages/components" run build-storybook
+        pnpm install
+        pnpm --filter @esri/calcite-design-tokens build
+        pnpm --filter @esri//calcite-tailwind-preset build
+        pnpm --filter @esri/calcite-ui-icons build
+        pnpm --filter @esri/calcite-components build-storybook

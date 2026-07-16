@@ -7,13 +7,6 @@
 import { Runtime } from "@arcgis/lumina";
 import { setAssetPath as runtimeSetAssetPath } from "./runtime";
 
-/** @public */
-declare module "csstype" {
-  interface Properties {
-    [index: `--calcite-${string}`]: any;
-  }
-}
-
 /** @internal */
 export let assetPathChanged = false;
 

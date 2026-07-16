@@ -61,7 +61,7 @@ version() {
     fi
 
     # default to latest if no dist tag was provided in the second argument
-    npm run util:sync-linked-package-versions -- "${dist_tag:-latest}"
+    pnpm util:sync-linked-package-versions -- "${dist_tag:-latest}"
 }
 
 publish() {
