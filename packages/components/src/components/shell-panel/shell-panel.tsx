@@ -57,13 +57,11 @@ export class ShellPanel extends LitElement {
     this.updateActionBarSize(),
   );
 
-  private observedActionBar?: ActionBar["el"];
-
-  private actionBarExpandHandler = (): void => {
+  private handleActionBarExpand = (): void => {
     this.isActionBarExpanded = true;
   };
 
-  private actionBarCollapseHandler = (): void => {
+  private handleActionBarCollapse = (): void => {
     this.isActionBarExpanded = false;
   };
 
@@ -213,7 +211,7 @@ export class ShellPanel extends LitElement {
   override connectedCallback(): void {
     if (this.hasUpdated) {
       this.refreshResize();
-      this.setUpActionBarObserver();
+      this.syncActionBarExpandedState();
     }
   }
 
@@ -274,7 +272,18 @@ export class ShellPanel extends LitElement {
 
   override disconnectedCallback(): void {
     this.cleanUpInteractions();
-    this.cleanUpActionBarListeners();
+
+    if (this.actionBarContainerEl) {
+      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+      this.actionBarContainerEl.removeEventListener(
+        "calciteActionBarExpand",
+        this.handleActionBarExpand,
+      );
+      this.actionBarContainerEl.removeEventListener(
+        "calciteActionBarCollapse",
+        this.handleActionBarCollapse,
+      );
+    }
   }
 
   //#endregion
@@ -434,8 +443,23 @@ export class ShellPanel extends LitElement {
   }
 
   private setActionBarContainerEl(el: HTMLDivElement): void {
+    if (this.actionBarContainerEl) {
+      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
+      this.actionBarContainerEl.removeEventListener(
+        "calciteActionBarExpand",
+        this.handleActionBarExpand,
+      );
+      this.actionBarContainerEl.removeEventListener(
+        "calciteActionBarCollapse",
+        this.handleActionBarCollapse,
+      );
+    }
+
     this.actionBarContainerEl = el;
+
     if (el) {
+      el.addEventListener("calciteActionBarExpand", this.handleActionBarExpand);
+      el.addEventListener("calciteActionBarCollapse", this.handleActionBarCollapse);
       this.actionBarContainerResizeObserver?.observe(el);
       this.updateActionBarSize();
     }
@@ -468,17 +492,14 @@ export class ShellPanel extends LitElement {
     actionBar.layout = this.layout;
   }
 
-  private async handleActionBarSlotChange(event: Event): Promise<void> {
+  private handleActionBarSlotChange(event: Event): void {
     const actionBar = slotChangeGetAssignedElements(event).find((el): el is ActionBar["el"] =>
       el.matches("calcite-action-bar"),
     );
 
     this.actionBar = actionBar;
     this.setActionBarLayout(actionBar);
-
-    await this.updateComplete;
-
-    this.setUpActionBarObserver();
+    this.syncActionBarExpandedState(actionBar);
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -491,37 +512,8 @@ export class ShellPanel extends LitElement {
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
   }
 
-  private updateContentMaxWidthFromActionBar(actionBar: ActionBar["el"]): void {
-    this.isActionBarExpanded = actionBar.expanded;
-  }
-
-  private cleanUpActionBarListeners(): void {
-    this.observedActionBar?.removeEventListener(
-      "calciteActionBarExpand",
-      this.actionBarExpandHandler,
-    );
-    this.observedActionBar?.removeEventListener(
-      "calciteActionBarCollapse",
-      this.actionBarCollapseHandler,
-    );
-    this.observedActionBar = undefined;
-  }
-
-  private setUpActionBarObserver(): void {
-    this.cleanUpActionBarListeners();
-
-    const { actionBar } = this;
-
-    if (!actionBar || !this.contentRef.value) {
-      this.isActionBarExpanded = false;
-      return;
-    }
-
-    actionBar.addEventListener("calciteActionBarExpand", this.actionBarExpandHandler);
-    actionBar.addEventListener("calciteActionBarCollapse", this.actionBarCollapseHandler);
-    this.observedActionBar = actionBar;
-
-    this.updateContentMaxWidthFromActionBar(actionBar);
+  private syncActionBarExpandedState(actionBar = this.actionBar): void {
+    this.isActionBarExpanded = !!actionBar?.expanded;
   }
 
   //#endregion
