@@ -207,7 +207,7 @@ export class ActionBar extends LitElement {
     });
 
     this.runOverflowActions({
-      actionGroups: defaultActionGroups,
+      actionGroups: slottedActionGroups,
       expanded,
       overflowCount,
     });

@@ -401,6 +401,30 @@ describe("overflowing actions", () => {
 
     expect(overflowedActions.length).toBeGreaterThan(0);
   });
+
+  it("overflows actions from slotted actions-end groups", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar expanded style={{ height: "140px" }}>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+          <calcite-action icon="plus-square" text="What's next" />
+          <calcite-action icon="banana" text="News" />
+          <calcite-action icon="information" text="Info" />
+          <calcite-action icon="gear" text="Settings" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedInActionsEndGroup = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-group[slot='actions-end'] calcite-action[slot='menu-actions']",
+      )
+      .elements();
+
+    expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
