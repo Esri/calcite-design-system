@@ -667,6 +667,26 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
   }
 
+  private onVerticalActionsContainerClick(event: MouseEvent): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
+    const clearButtonClicked = event.composedPath().some((node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
+
+      return node.classList.contains(CSS.clearButton);
+    });
+
+    if (clearButtonClicked) {
+      return;
+    }
+
+    this.toggleRangeOpenClickHandler();
+  }
+
   private clearValue(): void {
     if (this.range) {
       this.setRangeValue([undefined, undefined]);
@@ -1304,7 +1324,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
             )}
           </div>
           {this.range && this.layout === "vertical" ? (
-            <div class={CSS.verticalActionsContainer}>
+            <div
+              class={CSS.verticalActionsContainer}
+              onClick={this.onVerticalActionsContainerClick}
+            >
               {isClearableRange ? rangeClearButton : null}
               {this.renderToggleIcon(this.open, () => this.toggleRangeOpenClickHandler())}
             </div>

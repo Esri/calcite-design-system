@@ -173,7 +173,12 @@
   background-color: var(--calcite-input-date-picker-background-color, var(--calcite-color-surface-2));
   border-color: var(--calcite-input-date-picker-border-color, var(--calcite-color-border-input));
   padding-inline: var(--calcite-space-md);
+  padding-inline-start: var(--calcite-space-none);
   border-inline-start-width: var(--calcite-border-width-none);
+
+  &:hover {
+    cursor: pointer;
+  }
 
   .toggle-icon {
     position: relative;
@@ -200,6 +205,7 @@
   inset-inline-end: var(--calcite-space-none);
   inset-block: var(--calcite-space-none);
   padding-inline: var(--calcite-internal-date-picker-toggle-spacing);
+  padding-inline-start: var(--calcite-space-none);
 }
 
 :host([range]) {
@@ -243,7 +249,6 @@
   @apply w-full h-px border-t-0 border-b-0;
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-none);
-  padding-inline: var(--calcite-spacing-md);
   & .divider {
     @apply w-full h-px my-0;
   }
@@ -259,7 +264,6 @@
   }
 
   .vertical-actions-container {
-    padding-inline-start: var(--calcite-space-md);
     padding-inline-end: var(--calcite-space-none);
   }
 
@@ -273,7 +277,7 @@
   }
 
   .clear-button {
-    padding-inline-start: var(--calcite-space-md);
+    margin-inline-start: var(--calcite-space-md);
   }
 }
 
@@ -290,7 +294,6 @@
 
 :host([range][layout="vertical"][scale="s"]) {
   .vertical-actions-container {
-    padding-inline-start: var(--calcite-space-sm);
     padding-inline-end: var(--calcite-space-none);
   }
 
@@ -298,18 +301,13 @@
     padding-inline-start: var(--calcite-space-sm);
   }
 
-  .divider-container {
-    padding-inline: var(--calcite-space-sm);
-  }
-
   .clear-button {
-    padding-inline-start: var(--calcite-space-sm);
+    margin-inline-start: var(--calcite-space-sm);
   }
 }
 
 :host([range][layout="vertical"][scale="l"]) {
   .vertical-actions-container {
-    padding-inline-start: var(--calcite-space-lg);
     padding-inline-end: var(--calcite-space-none);
   }
 
@@ -317,12 +315,8 @@
     padding-inline-start: var(--calcite-space-lg);
   }
 
-  .divider-container {
-    padding-inline: var(--calcite-space-lg);
-  }
-
   .clear-button {
-    padding-inline-start: var(--calcite-space-lg);
+    margin-inline-start: var(--calcite-space-lg);
   }
 }
 
@@ -457,8 +451,5 @@ calcite-date-picker {
   $background-color-press: "--calcite-input-date-picker-input-action-background-color-press",
   $icon-color: "--calcite-input-date-picker-input-action-icon-color",
   $icon-color-hover: "--calcite-input-date-picker-input-action-icon-color-hover",
-  $icon-color-press: "--calcite-input-date-picker-input-action-icon-color-press",
-  $padding-inline-end-s: 0,
-  $padding-inline-end-m: 0,
-  $padding-inline-end-l: 0
+  $icon-color-press: "--calcite-input-date-picker-input-action-icon-color-press"
 );

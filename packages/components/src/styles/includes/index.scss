@@ -190,10 +190,7 @@
   $background-color-press: "--calcite-clear-button-background-color-press",
   $icon-color: "--calcite-clear-button-icon-color",
   $icon-color-hover: "--calcite-clear-button-icon-color-hover",
-  $icon-color-press: "--calcite-clear-button-icon-color-press",
-  $padding-inline-end-s: var(--calcite-space-2xs),
-  $padding-inline-end-m: var(--calcite-space-sm),
-  $padding-inline-end-l: var(--calcite-space-sm-plus)
+  $icon-color-press: "--calcite-clear-button-icon-color-press"
 ) {
   .clear-button--container {
     display: flex;
@@ -232,21 +229,20 @@
 
   :host([scale="s"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
-      padding-inline-end: $padding-inline-end-s;
+      padding: var(--calcite-space-2xs);
     }
   }
 
   :host([scale="m"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
-      padding-inline-end: $padding-inline-end-m;
+      padding: var(--calcite-space-2xs);
+      padding-inline-end: var(--calcite-space-sm);
     }
   }
 
   :host([scale="l"]) {
     .clear-button--container {
-      padding-inline-end: $padding-inline-end-l;
+      padding-inline-end: var(--calcite-space-sm-plus);
     }
   }
 }

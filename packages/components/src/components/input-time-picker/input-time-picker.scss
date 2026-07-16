@@ -166,6 +166,7 @@ calcite-time-picker {
   justify-content: center;
   margin-inline-end: calc(var(--calcite-internal-input-time-picker-toggle-inline-end-offset) * -1);
   padding-inline: var(--calcite-internal-input-time-picker-toggle-spacing);
+  padding-inline-start: var(--calcite-space-none);
 
   &:hover {
     --calcite-icon-color: var(
@@ -269,10 +270,7 @@ calcite-popover {
   $background-color-press: "--calcite-input-time-picker-input-action-background-color-press",
   $icon-color: "--calcite-input-time-picker-input-action-icon-color",
   $icon-color-hover: "--calcite-input-time-picker-input-action-icon-color-hover",
-  $icon-color-press: "--calcite-input-time-picker-input-action-icon-color-press",
-  $padding-inline-end-s: 0,
-  $padding-inline-end-m: 0,
-  $padding-inline-end-l: 0
+  $icon-color-press: "--calcite-input-time-picker-input-action-icon-color-press"
 );
 
 // Keep .container icon token support for deprecated tests without leaking it into clear-button icon color.
