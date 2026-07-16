@@ -402,6 +402,65 @@ describe("overflowing actions", () => {
     expect(overflowedActions.length).toBeGreaterThan(0);
   });
 
+  it("uses visual slot order for overflow spacing regardless of light-DOM order", async () => {
+    const getOverflowedCount = (el: ActionBar["el"]): number =>
+      page
+        .getBySelector("calcite-action[slot='menu-actions']")
+        .elements()
+        .filter((action) => el.contains(action)).length;
+
+    const { el: orderedEl } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
+        <calcite-action-group
+          style={{
+            borderBlockEndStyle: "solid",
+            borderBlockEndWidth: "20px",
+            paddingBlockEnd: "120px",
+          }}
+        >
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const orderedOverflowCount = getOverflowedCount(orderedEl);
+
+    const { el: reorderedEl } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+        </calcite-action-group>
+        <calcite-action-group
+          style={{
+            borderBlockEndStyle: "solid",
+            borderBlockEndWidth: "20px",
+            paddingBlockEnd: "120px",
+          }}
+        >
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const reorderedOverflowCount = getOverflowedCount(reorderedEl);
+
+    expect(orderedOverflowCount).toBeGreaterThan(0);
+    expect(reorderedOverflowCount).toBe(orderedOverflowCount);
+  });
+
   it("overflows actions from slotted actions-end groups", async () => {
     await mount<ActionBar>(
       <calcite-action-bar expanded style={{ height: "140px" }}>

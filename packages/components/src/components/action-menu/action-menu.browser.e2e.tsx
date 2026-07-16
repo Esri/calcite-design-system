@@ -183,10 +183,14 @@ it("tracks trigger actions projected through an intermediate slot", async () => 
     | undefined;
 
   const actions = actionMenu?.actions ?? [];
+  const triggerAction = actions[0];
+  const menuAction = actions[1];
 
   expect(actions).toHaveLength(2);
   expect(actions[0].text).toBe("Open");
   expect(actions[1].text).toBe("Save");
+  expect(triggerAction?.getAttribute("role")).not.toBe("menuitem");
+  expect(menuAction?.getAttribute("role")).toBe("menuitem");
 });
 
 describe("is focusable", () => {

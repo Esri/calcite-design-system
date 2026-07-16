@@ -152,13 +152,15 @@ export class ActionBar extends LitElement {
       );
 
     if (slottedActionGroups.length > 0) {
-      slottedActionGroups.forEach((actionGroup) => {
+      const lastSlottedActionGroupIndex = slottedActionGroups.length - 1;
+
+      slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
         const actionGroupGapQuantity = actionGroup.childElementCount - 1;
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
-        if (actionGroup.matches(":not(:last-of-type)")) {
+        if (index !== lastSlottedActionGroupIndex) {
           bufferSize += getStylePixelValue(
             layout === "horizontal"
               ? actionGroupStyle.paddingInlineEnd

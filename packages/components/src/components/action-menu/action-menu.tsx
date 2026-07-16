@@ -376,6 +376,7 @@ export class ActionMenu extends LitElement {
           (action) => !action.classList.contains(CSS.defaultTrigger),
         )
       : [];
+    const triggerActionsSet = new Set(triggerActions);
 
     const defaultActions = this.defaultSlotRef.value
       ? getSlotAssignedElements(this.defaultSlotRef.value).flatMap((element) => {
@@ -405,7 +406,7 @@ export class ActionMenu extends LitElement {
 
     this.actions = dedupedActions;
     this.actionElements = dedupedActions.filter(
-      (action) => action.slot !== SLOTS.trigger && !action.disabled && !action.hidden,
+      (action) => !triggerActionsSet.has(action) && !action.disabled && !action.hidden,
     );
 
     if (!this.open || !this.actionElements.length) {
