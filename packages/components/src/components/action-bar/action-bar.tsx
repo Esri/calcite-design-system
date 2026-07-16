@@ -31,7 +31,7 @@ import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
-import { isActionGroup } from "../action-group/resources";
+import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -157,7 +157,14 @@ export class ActionBar extends LitElement {
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupGapQuantity = actionGroup.childElementCount - 1;
+        const defaultActionsCount = actionGroup.actions.filter(
+          (action) => action.slot !== ACTION_GROUP_SLOTS.menuActions,
+        ).length;
+        const hasMenuActions = actionGroup.actions.some(
+          (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
+        );
+        const actionGroupItemCount = defaultActionsCount + (hasMenuActions ? 1 : 0);
+        const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
         if (index !== lastSlottedActionGroupIndex) {
@@ -631,7 +638,7 @@ export class ActionBar extends LitElement {
       actions: this.actions,
       expandables: [
         ...this.getTrackedActionGroups(),
-        ...this.actionMenus,
+        ...this.getTrackedActionMenus(),
         ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
           (group): group is ActionGroup["el"] => !!group,
         ),
@@ -650,7 +657,9 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private getAssignedDefaultSlotItems(slot = this.defaultSlotRef.value): ActionBarItem[] {
+  private getAssignedDefaultSlotItems(): ActionBarItem[] {
+    const slot = this.defaultSlotRef.value;
+
     if (!slot) {
       return [];
     }

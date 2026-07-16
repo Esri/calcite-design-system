@@ -1220,6 +1220,45 @@ describe("slot-change action tracking", () => {
     expect(getSlottedStartGroup().scale).toBe("l");
     expect(getSlottedEndGroup().scale).toBe("l");
   });
+
+  it("syncs expanded state to action-menus in actions-start and actions-end", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-menu label="Start" slot={SLOTS.actionsStart}>
+          <calcite-action icon="ellipsis" slot="trigger" text="Start menu" />
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-menu>
+        <calcite-action-menu label="End" slot={SLOTS.actionsEnd}>
+          <calcite-action icon="ellipsis" slot="trigger" text="End menu" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-menu>
+      </calcite-action-bar>,
+    );
+
+    const getStartMenu = (): ActionMenu["el"] =>
+      page
+        .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-start']")
+        .element() as ActionMenu["el"];
+    const getEndMenu = (): ActionMenu["el"] =>
+      page
+        .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-end']")
+        .element() as ActionMenu["el"];
+
+    expect(getStartMenu().expanded).toBe(false);
+    expect(getEndMenu().expanded).toBe(false);
+
+    el.expanded = true;
+    await reRender();
+
+    expect(getStartMenu().expanded).toBe(true);
+    expect(getEndMenu().expanded).toBe(true);
+
+    el.expanded = false;
+    await reRender();
+
+    expect(getStartMenu().expanded).toBe(false);
+    expect(getEndMenu().expanded).toBe(false);
+  });
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
