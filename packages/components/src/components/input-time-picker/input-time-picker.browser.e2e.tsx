@@ -991,6 +991,7 @@ describe("value and property behavior", () => {
       ]) {
         await page.getBySelector(selector).first().click();
         await userEvent.keyboard("{ArrowUp}");
+        // @ts-expect-error -- setting unsupported value
         el.value = undefined;
         await assertDisplayedTime("--:--:--.--- --");
         await expect
@@ -1402,7 +1403,7 @@ describe("time picker interactions", () => {
   });
 
   it("traps focus only while open", async () => {
-    const { el } = await mount(
+    const { el } = await mount<InputTimePicker>(
       <>
         <calcite-input-time-picker />
         <button>next sibling</button>
