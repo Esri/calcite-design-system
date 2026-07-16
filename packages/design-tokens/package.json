@@ -42,6 +42,7 @@
     "util:update-test-snapshots": "vitest --update"
   },
   "devDependencies": {
+    "@esri/eslint-config-calcite": "workspace:*",
     "vitest": "4.1.10"
   }
 }

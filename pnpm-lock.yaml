@@ -409,6 +409,9 @@ importers:
 
   packages/design-tokens:
     devDependencies:
+      '@esri/eslint-config-calcite':
+        specifier: workspace:*
+        version: link:../eslint-config
       vitest:
         specifier: 4.1.10
         version: 4.1.10(@types/node@24.10.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.100.0)(sass@1.100.0)(yaml@2.9.0))
