@@ -13,6 +13,7 @@ type InputTimeZoneStoryArgs = Pick<
   | "mode"
   | "offsetStyle"
   | "open"
+  | "placeholder"
   | "readOnly"
   | "required"
   | "scale"
@@ -30,6 +31,7 @@ export default {
     mode: mode.defaultValue,
     offsetStyle: "user",
     open: false,
+    placeholder: "Enter a time zone",
     readOnly: false,
     required: false,
     scale: scale.defaultValue,
@@ -76,6 +78,7 @@ export const simple = (args: InputTimeZoneStoryArgs): string => html`
     mode="${args.mode}"
     offset-style="${args.offsetStyle}"
     ${boolean("open", args.open)}
+    placeholder="${args.placeholder}"
     ${boolean("read-only", args.readOnly)}
     ${boolean("required", args.required)}
     scale="${args.scale}"

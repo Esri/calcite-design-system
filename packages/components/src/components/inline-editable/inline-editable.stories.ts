@@ -4,6 +4,8 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InlineEditable } from "./inline-editable";
 
+// Deprecated in v5.2.0, removal target v7.0.0
+
 const { scale, alignment } = ATTRIBUTES;
 
 type InlineEditableStoryArgs = Pick<InlineEditable, "scale" | "controls" | "editingEnabled" | "loading" | "disabled"> &

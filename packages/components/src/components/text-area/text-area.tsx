@@ -12,7 +12,8 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
@@ -135,6 +136,8 @@ export class TextArea
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   //#endregion
 
@@ -313,7 +316,6 @@ export class TextArea
   //#region Lifecycle
 
   override connectedCallback(): void {
-    connectLabel(this);
     this.cancelable.add(this.updateSizeToAuto);
   }
 
@@ -343,7 +345,6 @@ export class TextArea
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
   }
 

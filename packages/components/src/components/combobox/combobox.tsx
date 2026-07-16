@@ -31,10 +31,11 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { DEBOUNCE } from "../../utils/resources";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, SelectionAppearance, SelectionMode, Status } from "../interfaces";
 import { getIconScale, isHidden } from "../../utils/component";
 import { ClearButton } from "../functional/ClearButton";
@@ -198,6 +199,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private fitFollowUpRefreshPromise?: Promise<void>;
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   private listContainerEl?: HTMLDivElement;
 
@@ -619,7 +622,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   override connectedCallback(): void {
-    connectLabel(this);
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
 
     this.setFilteredPlacements();
@@ -678,7 +680,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
-    disconnectLabel(this);
     disconnectFloatingUI(this);
   }
 
