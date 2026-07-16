@@ -1047,10 +1047,10 @@ describe("slot-change action tracking", () => {
       .getBySelector("calcite-action-group#start-group calcite-action[slot='trigger']")
       .element() as Action["el"];
 
-    await userEvent.click(defaultTrigger);
+    defaultTrigger.click();
     expect(defaultGroup.menuOpen).toBe(true);
 
-    await userEvent.click(startTrigger);
+    startTrigger.click();
     expect(startGroup.menuOpen).toBe(true);
     expect(defaultGroup.menuOpen).toBe(false);
   });
@@ -1082,10 +1082,10 @@ describe("slot-change action tracking", () => {
       .getBySelector("calcite-action-group#end-group calcite-action[slot='trigger']")
       .element() as Action["el"];
 
-    await userEvent.click(defaultTrigger);
+    defaultTrigger.click();
     expect(defaultGroup.menuOpen).toBe(true);
 
-    await userEvent.click(endTrigger);
+    endTrigger.click();
     expect(endGroup.menuOpen).toBe(true);
     expect(defaultGroup.menuOpen).toBe(false);
   });
