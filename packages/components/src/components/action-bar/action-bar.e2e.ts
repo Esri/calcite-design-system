@@ -67,41 +67,6 @@ describe("expand functionality", () => {
     expect(await actionGroup.getProperty("expanded")).toBe(false);
   });
 
-  it("should apply expanded state to child actions when expanded is toggled", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-action-bar>
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-    });
-    await page.waitForChanges();
-    const actionBar = await page.find("calcite-action-bar");
-    const actionBarAction = await page.find("#my-action");
-    const menuAction = await page.find("#menu-action");
-
-    expect(await actionBar.getProperty("expanded")).toBe(false);
-    expect(await actionBarAction.getProperty("textEnabled")).toBe(false);
-    expect(await menuAction.getProperty("textEnabled")).toBe(true);
-
-    actionBar.setProperty("expanded", true);
-    await page.waitForChanges();
-
-    expect(await actionBarAction.getProperty("textEnabled")).toBe(true);
-    expect(await menuAction.getProperty("textEnabled")).toBe(true);
-
-    actionBar.setProperty("expanded", false);
-    await page.waitForChanges();
-
-    expect(await menuAction.getProperty("textEnabled")).toBe(true);
-    expect(await actionBarAction.getProperty("textEnabled")).toBe(false);
-  });
-
   it("should be expandable by default", async () => {
     const page = await newE2EPage();
 

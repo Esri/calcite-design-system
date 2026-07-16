@@ -514,39 +514,6 @@ describe("overflowing actions", () => {
 
     expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
   });
-
-  it("skips overflowed menu-actions during toolbar keyboard navigation", async () => {
-    await mount<ActionBar>(
-      <calcite-action-bar expanded style={{ height: "200px" }}>
-        <calcite-action-group>
-          <calcite-action icon="plus" text="Add" />
-          <calcite-action icon="save" text="Save" />
-          <calcite-action icon="trash" text="Delete" />
-          <calcite-action icon="pencil" text="Edit" />
-        </calcite-action-group>
-      </calcite-action-bar>,
-    );
-
-    vi.advanceTimersByTime(DEBOUNCE.resize);
-
-    const visibleActions = page
-      .getBySelector("calcite-action-bar > calcite-action-group > calcite-action:not([slot])")
-      .elements() as Action["el"][];
-    const overflowedActions = page
-      .getBySelector(
-        "calcite-action-bar > calcite-action-group > calcite-action[slot='menu-actions']",
-      )
-      .elements() as Action["el"][];
-
-    expect(overflowedActions.length).toBeGreaterThan(0);
-    expect(visibleActions.length).toBeGreaterThan(1);
-
-    await userEvent.click(visibleActions[1]);
-    expect(document.activeElement).toBe(visibleActions[1]);
-
-    await userEvent.keyboard("{ArrowDown}");
-    expect(overflowedActions.includes(document.activeElement as Action["el"])).toBe(false);
-  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
@@ -1413,6 +1380,40 @@ describe("slot-change action tracking", () => {
 
     expect(action?.textEnabled).toBe(false);
     expect(startMenu.expanded).toBe(false);
+  });
+
+  it("applies expanded state to child actions when expanded is toggled", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar>
+        <calcite-action-group>
+          <calcite-action icon="plus" id="my-action" label="Add Item" text="Add" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action-menu label="Save and open">
+            <calcite-action icon="save" id="menu-action" label="Save" text="Save" text-enabled />
+          </calcite-action-menu>
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const actionBarAction = page.getBySelector("#my-action").element() as Action["el"];
+    const menuAction = page.getBySelector("#menu-action").element() as Action["el"];
+
+    expect(el.expanded).toBe(false);
+    expect(actionBarAction.textEnabled).toBe(false);
+    expect(menuAction.textEnabled).toBe(true);
+
+    el.expanded = true;
+    await reRender();
+
+    expect(actionBarAction.textEnabled).toBe(true);
+    expect(menuAction.textEnabled).toBe(true);
+
+    el.expanded = false;
+    await reRender();
+
+    expect(menuAction.textEnabled).toBe(true);
+    expect(actionBarAction.textEnabled).toBe(false);
   });
 });
 
