@@ -73,7 +73,7 @@ To output a CSS file in the final bundle, you can leverage [mini-css-extract-plu
 First, install the required plugin and loader packages:
 
 ```sh
-pnpm install -D mini-css-extract-plugin css-loader
+pnpm add -D mini-css-extract-plugin css-loader
 ```
 
 Then, add them to your config:
