@@ -50,7 +50,7 @@ export class Tabs extends LitElement {
   // #region Public Properties
 
   /** When `true`, displays the component with a folder style menu. */
-  @property() bordered = false;
+  @property({ reflect: true }) bordered = false;
 
   /** Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). */
   @property({ reflect: true }) layout: TabLayout = "inline";

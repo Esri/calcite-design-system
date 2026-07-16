@@ -1,13 +1,14 @@
 import { BlockSection } from "../block-section/block-section";
-import { boolean } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Scale } from "../interfaces";
 import { Block } from "./block";
 
-const { toggleDisplay, scale } = ATTRIBUTES;
+const { headingLevelWithNone, placement, toggleDisplay, scale } = ATTRIBUTES;
 
 interface BlockStoryArgs
   extends
@@ -16,6 +17,8 @@ interface BlockStoryArgs
       | "heading"
       | "description"
       | "expanded"
+      | "iconEnd"
+      | "iconStart"
       | "collapsible"
       | "loading"
       | "disabled"
@@ -42,7 +45,9 @@ export default {
     disabled: false,
     dragDisabled: false,
     sortHandleOpen: false,
-    headingLevel: 2,
+    headingLevel: "",
+    iconEnd: "",
+    iconStart: "",
     text: "Animals",
     sectionExpanded: true,
     toggleDisplay: toggleDisplay.defaultValue,
@@ -50,11 +55,20 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     headingLevel: {
-      control: { type: "number", min: 1, max: 6, step: 1 },
+      options: headingLevelWithNone.values,
+      control: { type: "select" },
+    },
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
     },
     toggleDisplay: {
       options: toggleDisplay.values,
@@ -71,14 +85,16 @@ export const simple = (args: BlockStoryArgs): string => html`
   <calcite-block
     heading="${args.heading}"
     description="${args.description}"
+    ${optionalAttribute("icon-start", args.iconStart)}
+    ${optionalAttribute("icon-end", args.iconEnd)}
     menu-placement="${args.menuPlacement}"
     ${boolean("expanded", args.expanded)}
     ${boolean("collapsible", args.collapsible)}
     ${boolean("loading", args.loading)}
     ${boolean("disabled", args.disabled)}
     ${boolean("drag-disabled", args.dragDisabled)}
-    ${boolean("sort-handle-open", args.dragDisabled)}
-    heading-level="${args.headingLevel}"
+    ${boolean("sort-handle-open", args.sortHandleOpen)}
+    ${optionalAttribute("heading-level", args.headingLevel)}
     scale="${args.scale}"
   >
     <calcite-block-section

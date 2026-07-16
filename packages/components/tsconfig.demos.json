@@ -1,9 +1,7 @@
 {
   "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false
+    "noEmit": true
   },
-  "include": ["src/demos"]
+  "include": ["src/demos", "src/lumina.ts", "vite-env.d.ts"]
 }

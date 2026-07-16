@@ -8,8 +8,9 @@ import {
   renders,
   slots,
   disabled,
+  themed,
 } from "../../tests/commonTests/browser";
-import { SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -94,5 +95,26 @@ describe("toggleSelection", () => {
 
     expect(el.selected).toBe(false);
     expect(selectSpy).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount("calcite-autocomplete-item"), {
+    "--calcite-autocomplete-background-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-autocomplete-description-text-color": {
+      shadowSelector: `.${CSS.description}`,
+      targetProp: "color",
+    },
+    "--calcite-autocomplete-heading-text-color": {
+      shadowSelector: `.${CSS.heading}`,
+      targetProp: "color",
+    },
+    "--calcite-autocomplete-text-color": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "color",
+    },
   });
 });

@@ -1,13 +1,11 @@
 import { boolean } from "../../../.storybook/utils";
-import { ATTRIBUTES } from "../../../.storybook/resources";
 import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import type { NavigationUser } from "./navigation-user";
-const { scale } = ATTRIBUTES;
 
 type NavigationUserStoryArgs = Pick<
   NavigationUser,
-  "active" | "fullName" | "scale" | "textDisabled" | "thumbnail" | "userId" | "username"
+  "active" | "fullName" | "textDisabled" | "thumbnail" | "userId" | "username"
 >;
 
 export default {
@@ -15,17 +13,10 @@ export default {
   args: {
     active: true,
     fullName: "Edward Abbey",
-    scale: scale.defaultValue,
     textDisabled: false,
     thumbnail: "",
     userId: "",
     username: "eabbey_123",
-  },
-  argTypes: {
-    scale: {
-      options: scale.values,
-      control: { type: "select" },
-    },
   },
 };
 
@@ -33,7 +24,6 @@ export const simple = (args: NavigationUserStoryArgs): string => html`
   <calcite-navigation-user
     ${boolean("active", args.active)}
     full-name="${args.fullName}"
-    scale="${args.scale}"
     slot="user"
     ${boolean("text-disabled", args.textDisabled)}
     thumbnail="${args.thumbnail}"

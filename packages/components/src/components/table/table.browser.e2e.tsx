@@ -1,13 +1,23 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
+import { CSS as HEADER_CSS } from "../table-header/resources";
+import { CSS as CELL_CSS } from "../table-cell/resources";
 import { userEvent } from "vitest/browser";
-import { defaults, hidden, reflects, renders, accessible } from "../../tests/commonTests/browser";
+import { mount } from "@arcgis/lumina-compiler/testing";
+import {
+  defaults,
+  hidden,
+  reflects,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TableCell } from "../table-cell/table-cell";
 import type { TableHeader } from "../table-header/table-header";
+import type { TableRow } from "../table-row/table-row";
 import type { Table } from "./table";
-import { CSS as TABLE_CSS, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 
 type SimpleTableRowConfig = {
   id?: string;
@@ -22,10 +32,11 @@ function createSimpleTableRows(
     typeof rowsOrCount === "number"
       ? Array.from({ length: rowsOrCount }, (_, index) => ({
           id: index === 0 ? firstRowId : undefined,
+          selected: false,
         }))
       : rowsOrCount;
 
-  return rows.map(({ id, selected }) => (
+  return rows.map(({ id, selected = false }) => (
     <calcite-table-row id={id} selected={selected}>
       <calcite-table-cell>cell</calcite-table-cell>
       <calcite-table-cell>cell</calcite-table-cell>
@@ -39,7 +50,7 @@ async function afterScrollUpdate(): Promise<void> {
 }
 
 function getTableContainer(table: Table["el"]): HTMLElement {
-  return table.shadowRoot!.querySelector<HTMLElement>(`.${TABLE_CSS.tableContainer}`)!;
+  return table.shadowRoot!.querySelector<HTMLElement>(`.${CSS.tableContainer}`)!;
 }
 
 function getTableRowElement(row: Element): HTMLTableRowElement {
@@ -420,6 +431,421 @@ describe("renders", () => {
   );
 });
 
+describe("theme", () => {
+  describe("themed table", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-table
+            bordered
+            caption="Theming testing"
+            numbered
+            page-size="3"
+            selection-mode="multiple"
+            striped
+          >
+            <calcite-action icon="trash" slot="selection-actions" />
+            <calcite-action icon="send" slot="selection-actions" />
+            <calcite-action icon="copy" slot="selection-actions" />
+            <calcite-action icon="plus" slot="selection-actions" />
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Example column heading" />
+              <calcite-table-header heading="Example heading" />
+              <calcite-table-header heading="Heading example">
+                <calcite-chip appearance="outline-fill" scale="s" slot="actions-end">
+                  slot
+                </calcite-chip>
+              </calcite-table-header>
+              <calcite-table-header heading="Example" />
+              <calcite-table-header description="With a description" heading="Testing" />
+              <calcite-table-header alignment="end" heading="Site visits" />
+              <calcite-table-header heading="Status" />
+              <calcite-table-header alignment="center" heading="More" />
+            </calcite-table-row>
+            <calcite-table-row id="row-1">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell alignment="end">test 1</calcite-table-cell>
+              <calcite-table-cell>
+                <calcite-chip icon="smile" scale="s">
+                  Happy
+                </calcite-chip>
+              </calcite-table-cell>
+              <calcite-table-cell alignment="center">
+                <calcite-chip scale="s">Another thing</calcite-chip>
+              </calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="row-2">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell alignment="end">test 2</calcite-table-cell>
+              <calcite-table-cell>
+                <calcite-chip icon="smile" scale="s">
+                  Happy
+                </calcite-chip>
+              </calcite-table-cell>
+              <calcite-table-cell alignment="center">
+                <calcite-chip scale="s">Another thing</calcite-chip>
+              </calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="row-3">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell alignment="end">test 3</calcite-table-cell>
+              <calcite-table-cell>
+                <calcite-chip icon="smile" scale="s">
+                  Happy
+                </calcite-chip>
+              </calcite-table-cell>
+              <calcite-table-cell alignment="center">
+                <calcite-chip scale="s">Another thing</calcite-chip>
+              </calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row slot="table-footer">
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell col-span="5">foot</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>,
+        ),
+      {
+        "--calcite-table-border-color": {
+          selector: `#row-1`,
+          shadowSelector: `tr`,
+          targetProp: "--calcite-table-row-border-color",
+        },
+        "--calcite-table-corner-radius": {
+          shadowSelector: `.${CSS.tableContainer}`,
+          targetProp: "borderRadius",
+        },
+        "--calcite-table-shadow": {
+          shadowSelector: `.${CSS.tableContainer}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-table-row-background-color-striped": {
+          selector: "#row-2",
+          shadowSelector: "tr",
+          targetProp: "--calcite-table-row-background-color",
+        },
+        "--calcite-table-number-cell-background-color": {
+          selector: "#row-1",
+          shadowSelector: `.${CELL_CSS.numberCell}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-number-cell-text-color": {
+          selector: "#row-1",
+          shadowSelector: `.${CELL_CSS.numberCell}`,
+          targetProp: "color",
+        },
+        "--calcite-table-selection-cell-background-color": {
+          selector: "#row-1",
+          shadowSelector: `.${CELL_CSS.selectionCell}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-selection-chip-background-color": {
+          shadowSelector: `.${CSS.selectionCountChip}`,
+          targetProp: "--calcite-chip-background-color",
+        },
+        "--calcite-table-selection-chip-border-color": {
+          shadowSelector: `.${CSS.selectionCountChip}`,
+          targetProp: "--calcite-chip-border-color",
+        },
+        "--calcite-table-selection-chip-corner-radius": {
+          shadowSelector: `.${CSS.selectionCountChip}`,
+          targetProp: "--calcite-chip-corner-radius",
+        },
+        "--calcite-table-selection-chip-shadow": {
+          shadowSelector: `.${CSS.selectionCountChip}`,
+          targetProp: "--calcite-chip-shadow",
+        },
+        "--calcite-table-selection-chip-text-color": {
+          shadowSelector: `.${CSS.selectionCountChip}`,
+          targetProp: "--calcite-chip-text-color",
+        },
+      },
+    );
+  });
+
+  describe("themed table with selected rows", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-table
+            bordered
+            caption="Theming testing"
+            numbered
+            page-size="1"
+            selection-mode="multiple"
+            striped
+          >
+            <calcite-action icon="trash" slot="selection-actions" />
+            <calcite-action icon="send" slot="selection-actions" />
+            <calcite-action icon="copy" slot="selection-actions" />
+            <calcite-action icon="plus" slot="selection-actions" />
+            <calcite-table-row slot="table-header">
+              <calcite-table-header heading="Example column heading" />
+              <calcite-table-header heading="Example heading" />
+              <calcite-table-header heading="Heading example">
+                <calcite-chip appearance="outline-fill" scale="s" slot="actions-end">
+                  slot
+                </calcite-chip>
+              </calcite-table-header>
+              <calcite-table-header heading="Example" />
+              <calcite-table-header description="With a description" heading="Testing" />
+              <calcite-table-header alignment="end" heading="Site visits" />
+              <calcite-table-header heading="Status" />
+              <calcite-table-header alignment="center" heading="More" />
+            </calcite-table-row>
+            <calcite-table-row id="row-1" selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell alignment="end">test 1</calcite-table-cell>
+              <calcite-table-cell>
+                <calcite-chip icon="smile" scale="s">
+                  Happy
+                </calcite-chip>
+              </calcite-table-cell>
+              <calcite-table-cell alignment="center">
+                <calcite-chip scale="s">Another thing</calcite-chip>
+              </calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="row-2" selected>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell alignment="end">test 2</calcite-table-cell>
+              <calcite-table-cell>
+                <calcite-chip icon="smile" scale="s">
+                  Happy
+                </calcite-chip>
+              </calcite-table-cell>
+              <calcite-table-cell alignment="center">
+                <calcite-chip scale="s">Another thing</calcite-chip>
+              </calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row slot="table-footer">
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell>foot</calcite-table-cell>
+              <calcite-table-cell col-span="5">foot</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>,
+        ),
+      {
+        "--calcite-table-selection-cell-icon-color-selected": {
+          selector: "#row-1",
+          shadowSelector: `.${HEADER_CSS.selectionCell}`,
+          targetProp: "color",
+        },
+        "--calcite-table-selection-chip-background-color-selected": {
+          shadowSelector: `.${CSS.selectionChipActive}`,
+          targetProp: "--calcite-chip-background-color",
+        },
+        "--calcite-table-selection-chip-border-color-selected": {
+          shadowSelector: `.${CSS.selectionChipActive}`,
+          targetProp: "--calcite-chip-border-color",
+        },
+        "--calcite-table-selection-chip-text-color-selected": {
+          shadowSelector: `.${CSS.selectionChipActive}`,
+          targetProp: "--calcite-chip-text-color",
+        },
+        "--calcite-table-selection-out-of-view-chip-background-color": {
+          shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+          targetProp: "--calcite-chip-background-color",
+        },
+        "--calcite-table-selection-out-of-view-chip-border-color": {
+          shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+          targetProp: "--calcite-chip-border-color",
+        },
+        "--calcite-table-selection-out-of-view-chip-corner-radius": {
+          shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+          targetProp: "--calcite-chip-corner-radius",
+        },
+        "--calcite-table-selection-out-of-view-chip-icon-color": {
+          shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+          targetProp: "--calcite-chip-icon-color",
+        },
+        "--calcite-table-selection-out-of-view-chip-text-color": {
+          shadowSelector: `.${CSS.selectionOutOfViewChip}`,
+          targetProp: "--calcite-chip-text-color",
+        },
+        "--calcite-table-selection-dismiss-button-background-color-hover": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-background-color",
+          state: "hover",
+        },
+        "--calcite-table-selection-dismiss-button-background-color": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-background-color",
+        },
+        "--calcite-table-selection-dismiss-button-border-color-hover": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-border-color",
+          state: "hover",
+        },
+        "--calcite-table-selection-dismiss-button-border-color": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-border-color",
+        },
+        "--calcite-table-selection-dismiss-button-corner-radius": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-corner-radius",
+        },
+        "--calcite-table-selection-dismiss-button-shadow": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-shadow",
+        },
+        "--calcite-table-selection-dismiss-button-text-color": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-text-color",
+        },
+        "--calcite-table-selection-dismiss-button-text-color-hover": {
+          shadowSelector: `.${CSS.dismissButton}`,
+          targetProp: "--calcite-button-text-color",
+          state: "hover",
+        },
+        "--calcite-table-pagination-color": {
+          shadowSelector: "calcite-pagination",
+          targetProp: "--calcite-pagination-color",
+        },
+        "--calcite-table-pagination-color-hover": {
+          shadowSelector: "calcite-pagination",
+          targetProp: "--calcite-pagination-color-hover",
+        },
+        "--calcite-table-pagination-color-border-hover": {
+          shadowSelector: "calcite-pagination",
+          targetProp: "--calcite-pagination-color-border-hover",
+        },
+        "--calcite-table-pagination-background-color": {
+          shadowSelector: "calcite-pagination",
+          targetProp: "--calcite-pagination-background-color",
+        },
+        "--calcite-table-pagination-icon-color-background-hover": {
+          shadowSelector: "calcite-pagination",
+          targetProp: "--calcite-pagination-icon-color-background-hover",
+        },
+      },
+    );
+  });
+
+  describe("themed table cell", () => {
+    themed(() => mount(<calcite-table-cell>cell</calcite-table-cell>), {
+      // `--calcite-table-cell-background` is deprecated
+      "--calcite-table-cell-background": {
+        shadowSelector: "td",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-table-cell-background-color": {
+        shadowSelector: "td",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-table-cell-text-color": {
+        shadowSelector: "td",
+        targetProp: "color",
+      },
+      "--calcite-table-cell-border-color": {
+        shadowSelector: "td",
+        targetProp: "borderInlineEndColor",
+      },
+    });
+  });
+
+  describe("themed table header", () => {
+    themed(() => mount(<calcite-table-header description="Description" heading="Heading" />), {
+      // `--calcite-table-header-background` is deprecated
+      "--calcite-table-header-background": {
+        shadowSelector: "th",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-table-header-background-color": {
+        shadowSelector: "th",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-table-header-border-color": {
+        shadowSelector: "th",
+        targetProp: "borderBlockEndColor",
+      },
+      "--calcite-table-header-heading-text-color": {
+        shadowSelector: `.${HEADER_CSS.heading}`,
+        targetProp: "color",
+      },
+      "--calcite-table-header-description-text-color": {
+        shadowSelector: `.${HEADER_CSS.description}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("themed table row", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-table
+            caption="Simple table"
+            interaction-mode="static"
+            numbered
+            selection-mode="multiple"
+            striped
+          >
+            <calcite-table-row id="row-1">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="row-2">
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+            <calcite-table-row id="row-3" selected>
+              <calcite-table-cell id="cell-3-1">cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+              <calcite-table-cell>cell</calcite-table-cell>
+            </calcite-table-row>
+          </calcite-table>,
+        ),
+      {
+        // `--calcite-table-row-background` is deprecated
+        "--calcite-table-row-background": {
+          selector: "#row-1",
+          shadowSelector: "tr",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-row-background-color": {
+          selector: "#row-1",
+          shadowSelector: "tr",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-row-background-color-selected": {
+          selector: "#cell-3-1",
+          shadowSelector: "td",
+          targetProp: "backgroundColor",
+        },
+        "--calcite-table-row-border-color": {
+          selector: "#row-1",
+          shadowSelector: "calcite-table-cell >>> td",
+          targetProp: "borderBottomColor",
+        },
+      },
+    );
+  });
+});
+
 describe("sticky header", () => {
   it("keeps the header row fixed while the table container scrolls", async () => {
     const { el } = await mount<Table>(
@@ -480,8 +906,8 @@ describe("sticky header", () => {
 
     const tableContainer = getTableContainer(el);
     const containerBorderColor = getComputedStyle(tableContainer).borderTopColor;
-    const firstCell = getTableCellElement(el.querySelector("#row-1 calcite-table-cell"));
-    const lastRowFirstCell = getTableCellElement(el.querySelector("#row-3 calcite-table-cell"));
+    const firstCell = getTableCellElement(el.querySelector("#row-1 calcite-table-cell")!);
+    const lastRowFirstCell = getTableCellElement(el.querySelector("#row-3 calcite-table-cell")!);
 
     expect(getComputedStyle(firstCell).borderBottomColor).toBe(containerBorderColor);
     expect(getComputedStyle(firstCell).borderBottomWidth).toBe("1px");
@@ -514,10 +940,10 @@ describe("sticky header", () => {
 
     const getMetrics = () => {
       const firstHeaderCell = getTableCellElement(
-        firstHeaderRow.querySelector("calcite-table-header"),
+        firstHeaderRow.querySelector("calcite-table-header")!,
       );
       const secondHeaderCell = getTableCellElement(
-        secondHeaderRow.querySelector("calcite-table-header"),
+        secondHeaderRow.querySelector("calcite-table-header")!,
       );
 
       return {
@@ -603,9 +1029,9 @@ describe("sticky header", () => {
       </calcite-table>,
     );
 
-    const rowspanCell = getTableCellElement(el.querySelector("#rowspan-cell"));
+    const rowspanCell = getTableCellElement(el.querySelector("#rowspan-cell")!);
     const lastRowCell = getTableCellElement(
-      el.querySelector("calcite-table-row:last-of-type calcite-table-cell"),
+      el.querySelector("calcite-table-row:last-of-type calcite-table-cell")!,
     );
 
     expect(getComputedStyle(rowspanCell).borderBottomWidth).toBe("0px");
@@ -630,7 +1056,7 @@ describe("sticky header", () => {
 
     const scrollContainer = getTableContainer(el);
     const headerRow = el.querySelector(`calcite-table-row[slot="${SLOTS.tableHeader}"]`)!;
-    const firstBodyRow = el.querySelector("#row-1")!;
+    const firstBodyRow = el.querySelector<TableRow["el"]>("#row-1")!;
     const headerRowEl = getTableRowElement(headerRow);
     const bodyRowEl = getTableRowElement(firstBodyRow);
 
@@ -659,7 +1085,7 @@ describe("sticky header", () => {
 
     firstSelectionCell.click();
     await afterNextFrame();
-    expect((firstBodyRow as HTMLElement & { selected: boolean }).selected).toBe(true);
+    expect(firstBodyRow.selected).toBe(true);
   });
 });
 

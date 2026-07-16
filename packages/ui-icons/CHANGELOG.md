@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.6...@esri/calcite-ui-icons@4.6.0-next.7) (2026-07-08)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.6.0-next.6](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.5...@esri/calcite-ui-icons@4.6.0-next.6) (2026-07-07)
+
+### Features
+
+- add arcgis enterprise ([#14767](https://github.com/Esri/calcite-design-system/issues/14767))
+
 ## [4.6.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.6.0-next.4...@esri/calcite-ui-icons@4.6.0-next.5) (2026-06-29)
 
 ### Features

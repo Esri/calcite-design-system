@@ -1,7 +1,8 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { accessible, hidden, renders } from "../../tests/commonTests/browser";
+import { accessible, hidden, renders, themed } from "../../tests/commonTests/browser";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-progress label="my progress" />));
@@ -17,4 +18,21 @@ describe("honors hidden attribute", () => {
 
 describe("renders", () => {
   renders(() => mount(<calcite-progress value={20} />), { display: "block", visible: false });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-progress text="optional text" type="determinate" value={50} />), {
+    "--calcite-progress-background-color": {
+      shadowSelector: `.${CSS.track}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-progress-fill-color": {
+      shadowSelector: `.${CSS.bar}`,
+      targetProp: "backgroundColor",
+    },
+    "--calcite-progress-text-color": {
+      shadowSelector: `.${CSS.text}`,
+      targetProp: "color",
+    },
+  });
 });

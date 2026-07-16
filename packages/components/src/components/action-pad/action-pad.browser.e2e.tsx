@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -12,10 +12,11 @@ import {
   focusable,
   t9n,
   accessible,
+  topLayer,
+  themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
-import { SLOTS } from "./resources";
-import { html } from "lit";
+import { CSS, SLOTS } from "./resources";
 
 mockConsole();
 
@@ -149,6 +150,24 @@ describe("translation support", () => {
   t9n(() => mount("calcite-action-pad"));
 });
 
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-pad expand-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-pad>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-pad > calcite-action-group"),
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+    },
+  );
+});
+
 describe("selection-modes", () => {
   it("supports ARIA keyboard navigation and focus management", async () => {
     const { el } = await mount<"calcite-action-pad">(
@@ -219,13 +238,15 @@ describe("selection-modes", () => {
 });
 
 it("keeps actions tabbable when tabbing out", async () => {
-  await mount(html`
-    <calcite-action-pad expand-disabled>
-      <calcite-action text="first" icon="number-circle-1"></calcite-action>
-      <calcite-action text="second" icon="number-circle-2"></calcite-action>
-    </calcite-action-pad>
-    <calcite-action text="third" icon="number-circle-3"></calcite-action>
-  `);
+  await mount(
+    <>
+      <calcite-action-pad expand-disabled>
+        <calcite-action icon="number-circle-1" text="first" />
+        <calcite-action icon="number-circle-2" text="second" />
+      </calcite-action-pad>
+      <calcite-action icon="number-circle-3" text="third" />
+    </>,
+  );
   const actions = page.getBySelector("calcite-action");
 
   await userEvent.keyboard("{Tab}");
@@ -245,4 +266,34 @@ it("keeps actions tabbable when tabbing out", async () => {
 
   await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
   expect(document.body).toHaveFocus();
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-action-pad"), {
+      "--calcite-action-pad-corner-radius": {
+        targetProp: "borderRadius",
+      },
+      "--calcite-action-pad-items-space": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
+    });
+  });
+  describe("grid", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-action-pad expanded layout="vertical">
+            <calcite-action-group />
+          </calcite-action-pad>,
+        ),
+      {
+        "--calcite-action-pad-expanded-max-width": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxInlineSize",
+        },
+      },
+    );
+  });
 });

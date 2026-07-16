@@ -1,11 +1,12 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
+import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import type { NavigationLogo } from "./navigation-logo";
-const { scale } = ATTRIBUTES;
+const { headingLevel: headingLevelAttribute } = ATTRIBUTES;
 
-type NavigationLogoStoryArgs = Pick<NavigationLogo, "active" | "description" | "heading" | "scale">;
+type NavigationLogoStoryArgs = Pick<NavigationLogo, "active" | "description" | "heading" | "headingLevel" | "icon">;
 
 export default {
   title: "Components/Navigation/Navigation Logo",
@@ -13,11 +14,15 @@ export default {
     active: false,
     description: "City of AcmeCo",
     heading: "ArcGIS Online",
-    scale: scale.defaultValue,
+    icon: "",
   },
   argTypes: {
-    scale: {
-      options: scale.values,
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    headingLevel: {
+      options: headingLevelAttribute.values,
       control: { type: "select" },
     },
   },
@@ -28,7 +33,8 @@ export const simple = (args: NavigationLogoStoryArgs): string =>
     ${boolean("active", args.active)}
     description="${args.description}"
     heading="${args.heading}"
-    scale="${args.scale}"
+    ${optionalAttribute("heading-level", args.headingLevel)}
+    ${optionalAttribute("icon", args.icon)}
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />`;
 

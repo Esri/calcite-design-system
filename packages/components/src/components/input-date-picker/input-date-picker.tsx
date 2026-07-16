@@ -35,8 +35,9 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -142,6 +143,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   })(this);
 
   labelEl?: Label["el"];
+
+  labelable = useLabel(this);
 
   transitionProp = "opacity" as const;
 
@@ -254,6 +257,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
 
   /**
    * Determines the `calcite-date-picker`'s placement relative to the input.
@@ -409,7 +419,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    connectLabel(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
   }
@@ -493,7 +502,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     disconnectFloatingUI(this);
   }
 
@@ -527,6 +535,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
         this.valueAsDate = newValueAsDate;
       }
 
@@ -956,6 +965,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.userChangedValue = true;
     this.value = newValue;
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -1108,7 +1118,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                 oncalciteInternalInputTextFocus={this.startInputFocus}
-                placeholder={this.localeData?.placeholder}
+                placeholder={this.placeholder || this.localeData?.placeholder}
                 readOnly={readOnly}
                 ref={this.startInputRef}
                 role="combobox"
@@ -1119,7 +1129,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 !this.range &&
                 this.renderToggleIcon(this.open && this.focusedInput === "start")}
               <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
+                {this.placeholder ||
+                  messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
             </div>
             <div
@@ -1193,7 +1204,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.endInputFocus}
-                  placeholder={this.localeData?.placeholder}
+                  placeholder={this.placeholder || this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.endInputRef}
                   role="combobox"

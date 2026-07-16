@@ -3,6 +3,7 @@ import { h } from "@arcgis/lumina";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { commands } from "../../tests/browser/commands";
+
 import {
   defaults,
   disabled,
@@ -13,10 +14,12 @@ import {
   reflects,
   renders,
   t9n,
+  themed,
 } from "../../tests/commonTests/browser";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
+import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
@@ -32,6 +35,14 @@ describe("defaults", () => {
       {
         propertyName: "alignment",
         defaultValue: "start",
+      },
+      {
+        propertyName: "inlineEditable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "inlineEditableControls",
+        defaultValue: false,
       },
       {
         propertyName: "numberButtonType",
@@ -74,6 +85,14 @@ describe("reflects", () => {
         value: "center",
       },
       {
+        propertyName: "inlineEditable",
+        value: true,
+      },
+      {
+        propertyName: "inlineEditableControls",
+        value: true,
+      },
+      {
         propertyName: "numberButtonType",
         value: "horizontal",
       },
@@ -113,6 +132,111 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
+});
+
+describe("inline editable", () => {
+  it("clears value on first Escape when clearable is set", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number clearable inline-editable inline-editable-controls value="123" />,
+    );
+
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("cancels editing on first Escape when clearable is not set", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("4");
+    expect(el.value).toBe("1234");
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("123");
+    expect(el.editingEnabled).toBe(false);
+  });
+
+  it("emits enable editing change when built-in inline editable is activated", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    const enableEditingSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInlineEditableChange", enableEditingSpy);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+
+    expect(enableEditingSpy).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("emits confirm and keeps editing enabled when save is clicked without inlineEditableAfterConfirm", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    const confirmSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInlineEditableConfirm", confirmSpy);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditableControlsCSS.confirmChanges}`),
+    );
+
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("disables editing when inlineEditableAfterConfirm resolves successfully", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    el.inlineEditableAfterConfirm = vi.fn().mockResolvedValue(undefined);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditableControlsCSS.confirmChanges}`),
+    );
+
+    expect(el.inlineEditableAfterConfirm).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(false);
+  });
+
+  it("saves changes on blur and disables editing when inline editable controls are off", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-editable value="123" />);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("4");
+    await userEvent.tab();
+
+    expect(el.value).toBe("1234");
+    expect(el.editingEnabled).toBe(false);
+  });
 });
 
 describe("clearable", () => {
@@ -995,4 +1119,312 @@ it("emits events when value is modified", async () => {
   expect(el.value).toBe("");
   expect(calciteInputNumberInput).toHaveBeenCalledTimes(11);
   expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-input-number"), {
+      "--calcite-input-number-background-color": {
+        shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-number-border-color": [
+        {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonItem}`,
+          targetProp: "borderColor",
+        },
+      ],
+      "--calcite-input-number-corner-radius": [
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+      "--calcite-input-number-height": [
+        {
+          shadowSelector: `input`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonWrapper}`,
+          targetProp: "blockSize",
+        },
+      ],
+      "--calcite-input-number-text-color": {
+        shadowSelector: `input`,
+        targetProp: "color",
+      },
+      "--calcite-input-number-text-color-focus": {
+        shadowSelector: `input`,
+        targetProp: "color",
+        state: "focus",
+      },
+    });
+  });
+
+  describe("with prefix and suffix", () => {
+    themed(() => mount(<calcite-input-number prefix-text="prefix" suffix-text="suffix" />), {
+      "--calcite-input-number-border-color": [
+        {
+          shadowSelector: `input`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "borderColor",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonItem}`,
+          targetProp: "borderColor",
+        },
+      ],
+      "--calcite-input-number-corner-radius": [
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "borderEndStartRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+      "--calcite-input-number-height": [
+        {
+          shadowSelector: `input`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "blockSize",
+        },
+        {
+          shadowSelector: `.${CSS.numberButtonWrapper}`,
+          targetProp: "blockSize",
+        },
+      ],
+      "--calcite-input-prefix-size": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-prefix-text-color": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-suffix-text-color": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-suffix-size": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
+    });
+  });
+
+  describe("loading", () => {
+    themed(() => mount(<calcite-input-number loading />), {
+      "--calcite-input-loading-background-color": {
+        shadowSelector: `calcite-progress`,
+        targetProp: "--calcite-progress-background-color",
+      },
+      "--calcite-input-loading-fill-color": {
+        shadowSelector: `calcite-progress`,
+        targetProp: "--calcite-progress-fill-color",
+      },
+    });
+  });
+
+  describe("inline editable", () => {
+    themed(() => mount(<calcite-input-number inline-editable value="42" />), {
+      "--calcite-input-number-inline-editable-background-color-hover": {
+        shadowSelector: `.${CSS.inlineEditable}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+    });
+
+    themed(
+      async () => {
+        const component = await mount(
+          <calcite-input-number inline-editable inline-editable-controls value="42" />,
+        );
+
+        const input = page.getBySelector("calcite-input-number input");
+        await userEvent.click(input);
+
+        return component;
+      },
+      {
+        "--calcite-input-number-inline-editable-control-background-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-input-number-inline-editable-control-background-color-hover": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-input-number-inline-editable-control-background-color-press": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditableControlsCSS.confirmChanges}` },
+        },
+        "--calcite-input-number-inline-editable-control-corner-radius": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-corner-radius",
+        },
+        "--calcite-input-number-inline-editable-control-loader-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-loader-color",
+        },
+        "--calcite-input-number-inline-editable-control-text-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-input-number-inline-editable-control-text-color-press": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditableControlsCSS.confirmChanges}` },
+        },
+      },
+    );
+  });
+
+  describe("clearable", () => {
+    themed(() => mount(<calcite-input-number clearable value="2" />), {
+      "--calcite-input-actions-background-color": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          targetProp: "backgroundColor",
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          targetProp: "backgroundColor",
+        },
+      ],
+      "--calcite-input-actions-background-color-hover": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      ],
+      "--calcite-input-actions-background-color-press": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          targetProp: "backgroundColor",
+          state: { press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> .button` },
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          targetProp: "backgroundColor",
+          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> .button` },
+        },
+      ],
+      "--calcite-input-actions-icon-color": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+          targetProp: "color",
+        },
+      ],
+      "--calcite-input-actions-icon-color-hover": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+          targetProp: "color",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+          targetProp: "color",
+          state: "hover",
+        },
+      ],
+      "--calcite-input-actions-icon-color-press": [
+        {
+          shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+          targetProp: "color",
+          state: { press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> calcite-icon` },
+        },
+        {
+          shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+          targetProp: "color",
+          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> calcite-icon` },
+        },
+      ],
+    });
+  });
+
+  describe("with icon", () => {
+    themed(() => mount(<calcite-input-number icon="layers" />), {
+      "--calcite-input-number-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    });
+  });
+
+  describe("with placeholder", () => {
+    themed(() => mount(<calcite-input-number placeholder="placeholder" />), {
+      "--calcite-input-number-placeholder-text-color": {
+        shadowSelector: `input::placeholder`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("readOnly", () => {
+    themed(() => mount(<calcite-input-number read-only />), {
+      "--calcite-input-number-background-color": {
+        shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-number-text-color-focus": {
+        shadowSelector: `input`,
+        targetProp: "color",
+        state: "focus",
+      },
+    });
+  });
+
+  describe("deprecated", () => {
+    themed(() => mount(<calcite-input-number icon="layers" value="42" />), {
+      "--calcite-ui-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    });
+  });
 });

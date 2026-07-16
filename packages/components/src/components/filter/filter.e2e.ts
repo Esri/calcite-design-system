@@ -1,12 +1,10 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { themed } from "../../tests/commonTests";
+
 import { CSS as INPUT_CSS } from "../input/resources";
 import { DEBOUNCE } from "../../utils/resources";
-import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import type { Filter } from "./filter";
-import { CSS } from "./resources";
 
 mockConsole();
 
@@ -296,68 +294,5 @@ describe("filter method", () => {
     await page.waitForChanges();
     expect(filterChangeSpy).toHaveReceivedEventTimes(0);
     assertMatchingItems(await filter.getProperty("filteredItems"), ["harry"]);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-filter></calcite-filter>`, {
-      "--calcite-filter-content-space": {
-        targetProp: "padding",
-        shadowSelector: `.${CSS.container}`,
-      },
-      "--calcite-filter-input-background-color": {
-        targetProp: "--calcite-input-background-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-border-color": {
-        targetProp: "--calcite-input-border-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-corner-radius": {
-        targetProp: "--calcite-input-corner-radius",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-shadow": {
-        targetProp: "--calcite-input-shadow",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-icon-color": {
-        targetProp: "--calcite-input-icon-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-text-color": {
-        targetProp: "--calcite-input-text-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-placeholder-text-color": {
-        targetProp: "--calcite-input-placeholder-text-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-background-color": {
-        targetProp: "--calcite-input-actions-background-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-background-color-hover": {
-        targetProp: "--calcite-input-actions-background-color-hover",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-background-color-press": {
-        targetProp: "--calcite-input-actions-background-color-press",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-icon-color": {
-        targetProp: "--calcite-input-actions-icon-color",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-icon-color-hover": {
-        targetProp: "--calcite-input-actions-icon-color-hover",
-        shadowSelector: "calcite-input",
-      },
-      "--calcite-filter-input-actions-icon-color-press": {
-        targetProp: "--calcite-input-actions-icon-color-press",
-        shadowSelector: "calcite-input",
-      },
-    });
   });
 });

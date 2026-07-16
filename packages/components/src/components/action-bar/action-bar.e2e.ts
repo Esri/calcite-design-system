@@ -1,7 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import type { ActionGroup } from "../action-group/action-group";
@@ -81,9 +80,9 @@ describe("expand functionality", () => {
     expect(expandAction).not.toBeNull();
   });
 
-  it("allows disabling expandable behavior", async () => {
+  it("hides the expand/collapse toggle button", async () => {
     const page = await newE2EPage();
-    await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
+    await page.setContent("<calcite-action-bar expand-toggle-disabled></calcite-action-bar>");
     await page.waitForChanges();
 
     const expandAction = await page.find("calcite-action-bar >>> calcite-action-group calcite-action");
@@ -91,6 +90,31 @@ describe("expand functionality", () => {
     expect(expandAction).toBeNull();
   });
 
+  it("should map deprecated 'expandDisabled' prop to 'expandToggleDisabled' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
+
+    actionBar.setProperty("expandDisabled", true);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
+
+    actionBar.setProperty("expandDisabled", false);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
+  });
+
+  it("should map deprecated 'expand-disabled' attribute to 'expandToggleDisabled' prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
+    await page.waitForChanges();
+
+    const actionBar = await page.find("calcite-action-bar");
+    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
+  });
   it("should toggle expanded", async () => {
     const page = await newE2EPage({ html: "<calcite-action-bar></calcite-action-bar>" });
 
@@ -156,7 +180,7 @@ describe("expand functionality", () => {
   it("should not have end group when not expandable", async () => {
     const page = await newE2EPage();
 
-    await page.setContent(html`<calcite-action-bar expand-disabled></calcite-action-bar>`);
+    await page.setContent(html`<calcite-action-bar expand-toggle-disabled></calcite-action-bar>`);
     await page.waitForChanges();
 
     const buttonGroup = await page.find(`calcite-action-bar >>> .${CSS.actionGroupEnd}`);
@@ -169,7 +193,7 @@ describe("expand functionality", () => {
     const page = await newE2EPage();
 
     await page.setContent(
-      html`<calcite-action-bar expand-disabled expanded>
+      html`<calcite-action-bar expand-toggle-disabled expanded>
         <calcite-action-group>
           <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
         </calcite-action-group>
@@ -435,80 +459,4 @@ it("should set layout on child action-groups", async () => {
   for (const childGroup of groups) {
     expect(await childGroup.getProperty("layout")).toBe("vertical");
   }
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`<calcite-action-bar expanded layout="vertical">
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-      {
-        "--calcite-action-bar-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-action-bar-expanded-max-width": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "maxInlineSize",
-        },
-        "--calcite-action-bar-items-space": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "gap",
-        },
-      },
-    );
-  });
-  describe("floating", () => {
-    themed(
-      html`<calcite-action-bar expanded layout="vertical" floating>
-        <calcite-action-group>
-          <calcite-action id="my-action" text="Add" label="Add Item" icon="plus"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action-menu label="Save and open">
-            <calcite-action id="menu-action" text-enabled text="Save" label="Save" icon="save"></calcite-action>
-          </calcite-action-menu>
-        </calcite-action-group>
-      </calcite-action-bar>`,
-      {
-        "--calcite-action-bar-corner-radius": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "borderRadius",
-        },
-        "--calcite-action-bar-shadow": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "boxShadow",
-        },
-      },
-    );
-  });
-
-  it("should emit expanded/collapsed events when toggled", async () => {
-    const page = await newE2EPage();
-    await page.setContent(html`<calcite-action-bar heading="Test"></calcite-action-bar>`);
-    const item = await page.find("calcite-action-bar");
-
-    const expandSpy = await page.spyOnEvent("calciteActionBarExpand");
-    const collapseSpy = await page.spyOnEvent("calciteActionBarCollapse");
-
-    item.setProperty("expanded", true);
-    await page.waitForChanges();
-    expect(await item.getProperty("expanded")).toBe(true);
-    expect(expandSpy).toHaveReceivedEventTimes(1);
-    expect(collapseSpy).toHaveReceivedEventTimes(0);
-
-    item.setProperty("expanded", false);
-    await page.waitForChanges();
-    expect(await item.getProperty("expanded")).toBe(false);
-    expect(expandSpy).toHaveReceivedEventTimes(1);
-    expect(collapseSpy).toHaveReceivedEventTimes(1);
-  });
 });

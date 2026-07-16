@@ -1,4 +1,4 @@
-import { PropertyValues, isServer } from "lit";
+import { type PropertyValues, isServer } from "lit";
 import {
   LitElement,
   property,
@@ -6,16 +6,18 @@ import {
   Fragment,
   h,
   method,
-  JsxNode,
+  type JsxNode,
   stringOrBoolean,
+  type ToEvents,
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
-import { Appearance, Layout, Scale, Status, Width } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import type { Appearance, Layout, Scale, Status, Width } from "../interfaces";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/interfaces";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
@@ -47,7 +49,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Private Properties
 
-  defaultValue: SegmentedControl["value"];
+  defaultValue?: SegmentedControl["value"];
 
   private direction = useDirection();
 
@@ -55,7 +57,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   private items: SegmentedControlItem["el"][] = [];
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   /**
    * Made into a prop for testing purposes only
@@ -67,6 +69,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   //#endregion
 
@@ -82,19 +86,19 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property({ reflect: true }) disabled = false;
 
   /** @copyDoc */
-  @property({ reflect: true }) form: string;
+  @property({ reflect: true }) form?: string;
 
   /** Defines the layout of the component. */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
   /** @copyDoc */
-  @property() labelText: string;
+  @property() labelText?: string;
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @copyDoc */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
@@ -110,18 +114,18 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    *
    * @readonly
    */
-  @property() selectedItem: SegmentedControlItem["el"];
+  @property() selectedItem!: SegmentedControlItem["el"];
 
   /** Specifies the status of the validation message. */
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
+  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon?:
     | IconName
     | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
    * @copyDoc
@@ -129,9 +133,10 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedItem` value. */
+  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
   /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
@@ -166,13 +171,12 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
-    this.listen("calciteInternalSegmentedControlItemChange", this.handleSelected);
+    this.listen<ToEvents<SegmentedControlItem>["calciteInternalSegmentedControlItemChange"]>(
+      "calciteInternalSegmentedControlItemChange",
+      this.handleSelected,
+    );
     this.listen("keydown", this.handleKeyDown);
     this.listen("click", this.handleClick);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -199,10 +203,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.formSupport.overrideDefaultValue(this.value);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -347,7 +347,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     }
 
     const { items } = this;
-    let match: SegmentedControlItem["el"] = null;
+    let match: SegmentedControlItem["el"] | undefined;
 
     items.forEach((item) => {
       const matches = item === selected;
@@ -363,6 +363,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       }
     });
 
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.selectedItem = match;
 
     if (match && emit) {
