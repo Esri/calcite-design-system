@@ -400,7 +400,7 @@ export class Block extends LitElement {
   private onHeaderClick(): void {
     this.calciteBlockToggle.emit();
     if (this.parentBlockGroupElement?.tagName === "CALCITE-BLOCK-GROUP") {
-      this.calciteInternalBlockUpdateSortMenuItems.emit();
+      this.calciteInternalBlockChange.emit({ el: this.el });
     } else {
       this.expanded = !this.expanded;
     }
