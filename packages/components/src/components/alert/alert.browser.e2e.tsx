@@ -232,7 +232,11 @@ it("displays alerts according to their queue priority", async () => {
   alert2.open = true;
   alert3.queue = "immediate";
   alert3.open = true;
-  await Promise.all([alert1.manager.component.updateComplete, alert2.manager.component.updateComplete, alert3.manager.component.updateComplete]);
+  await Promise.all([
+    alert1.manager.component.updateComplete,
+    alert2.manager.component.updateComplete,
+    alert3.manager.component.updateComplete,
+  ]);
   vi.advanceTimersByTime(alertQueueTimeoutMs);
   expect(alert1.active).toBe(false);
   expect(alert2.active).toBe(false);
@@ -330,7 +334,11 @@ it("updates the queued alert count when alerts are removed", async () => {
   const first = page.getBySelector("#first").element() as Alert["el"];
   const second = page.getBySelector("#second").element() as Alert["el"];
   const third = page.getBySelector("#third").element() as Alert["el"];
-  await Promise.all([first.manager.component.updateComplete, second.manager.component.updateComplete, third.manager.component.updateComplete]);
+  await Promise.all([
+    first.manager.component.updateComplete,
+    second.manager.component.updateComplete,
+    third.manager.component.updateComplete,
+  ]);
 
   const chip = page.getBySelector("#first calcite-chip");
   await expect.element(chip).toHaveProperty("value", "+2");
