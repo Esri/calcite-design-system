@@ -494,19 +494,26 @@ export class ActionBar extends LitElement {
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
-    const target = event.target as Element;
-    const targetIsActionGroup = isActionGroup(target);
-    const targetIsActionMenu = isActionMenu(target);
-
-    if (!targetIsActionGroup && !targetIsActionMenu) {
-      return;
-    }
-
-    if ((targetIsActionGroup && !target.menuOpen) || (targetIsActionMenu && !target.open)) {
-      return;
-    }
-
     const composedPath = event.composedPath();
+    const source = composedPath.find(
+      (element): element is ActionGroup["el"] | ActionMenu["el"] =>
+        element instanceof Element && (isActionGroup(element) || isActionMenu(element)),
+    );
+
+    if (!source) {
+      return;
+    }
+
+    const sourceIsActionGroup = isActionGroup(source);
+    const sourceIsActionMenu = isActionMenu(source);
+
+    if (!sourceIsActionGroup && !sourceIsActionMenu) {
+      return;
+    }
+
+    if ((sourceIsActionGroup && !source.menuOpen) || (sourceIsActionMenu && !source.open)) {
+      return;
+    }
 
     this.getTrackedActionGroups().forEach((group) => {
       if (!composedPath.includes(group)) {

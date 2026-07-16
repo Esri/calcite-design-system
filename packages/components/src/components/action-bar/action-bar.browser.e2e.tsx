@@ -1129,6 +1129,45 @@ describe("slot-change action tracking", () => {
     expect(menuOne.open).toBe(false);
   });
 
+  it("closes default-slot action-menu when an actions-start action-menu opens", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal">
+        <calcite-action-menu id="menu-default" label="Default Menu">
+          <calcite-action icon="ellipsis" slot="trigger" text="Open Default" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-menu>
+        <calcite-action-menu id="menu-start" label="Start Menu" slot={SLOTS.actionsStart}>
+          <calcite-action icon="ellipsis" slot="trigger" text="Open Start" />
+          <calcite-action icon="download" text="Download" />
+        </calcite-action-menu>
+      </calcite-action-bar>,
+    );
+
+    const defaultMenu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu#menu-default")
+      .element() as ActionMenu["el"];
+    const startMenu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu#menu-start[slot='actions-start']")
+      .element() as ActionMenu["el"];
+    const defaultTrigger = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu#menu-default > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+    const startTrigger = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu#menu-start[slot='actions-start'] > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+
+    await userEvent.click(defaultTrigger);
+    expect(defaultMenu.open).toBe(true);
+
+    await userEvent.click(startTrigger);
+    expect(startMenu.open).toBe(true);
+    expect(defaultMenu.open).toBe(false);
+  });
+
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
     const { component } = await mount(ActionBarTestWrapper);
     const actions = page.getBySelector("action-bar-test-wrapper calcite-action");
