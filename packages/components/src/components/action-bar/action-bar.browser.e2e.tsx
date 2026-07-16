@@ -1259,6 +1259,40 @@ describe("slot-change action tracking", () => {
     expect(getStartMenu().expanded).toBe(false);
     expect(getEndMenu().expanded).toBe(false);
   });
+
+  it("syncs expanded state when expand-toggle-disabled is true", async () => {
+    const { el, reRender } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action-menu label="Start" slot={SLOTS.actionsStart}>
+          <calcite-action icon="ellipsis" slot="trigger" text="Start menu" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-menu>
+      </calcite-action-bar>,
+    );
+
+    const action = page.getBySelector("calcite-action-bar > calcite-action").element() as
+      | Action["el"]
+      | undefined;
+    const startMenu = page
+      .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-start']")
+      .element() as ActionMenu["el"];
+
+    expect(action?.textEnabled).toBe(false);
+    expect(startMenu.expanded).toBe(false);
+
+    el.expanded = true;
+    await reRender();
+
+    expect(action?.textEnabled).toBe(true);
+    expect(startMenu.expanded).toBe(true);
+
+    el.expanded = false;
+    await reRender();
+
+    expect(action?.textEnabled).toBe(false);
+    expect(startMenu.expanded).toBe(false);
+  });
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
