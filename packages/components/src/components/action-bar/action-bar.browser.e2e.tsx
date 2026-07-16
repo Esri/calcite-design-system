@@ -387,7 +387,7 @@ describe("overflowing actions", () => {
         </calcite-action-group>
         <calcite-action-group slot="actions-end">
           <calcite-action icon="speech-bubble-plus" text="Feedback" />
-          <calcite-action icon="megaphone" text="What's next" />
+          <calcite-action icon="plus-square" text="What's next" />
         </calcite-action-group>
       </calcite-action-bar>,
     );
