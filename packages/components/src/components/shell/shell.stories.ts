@@ -34,7 +34,7 @@ type PanelWithActionBarPositionStoryArgs = {
   isResizable: boolean;
 };
 
-type ActionBarPositionPanelStartItem = {
+type ActionBarPositionPanelSlotItem = {
   id: string;
   shellId: string;
   slot: ShellPanelSlot;
@@ -45,6 +45,11 @@ type ActionBarPositionPanelStartItem = {
   resizable: boolean;
   sizeAttribute: string;
 };
+
+type ShellPanelWithActionBarPositionPanelSlotStoryArgs = Pick<
+  PanelWithActionBarPositionStoryArgs,
+  "applyShellBorderColor"
+>;
 
 export default {
   title: "Components/Shell",
@@ -3209,7 +3214,7 @@ shellPanelWithActionBarPositionProp.parameters = {
   },
 };
 
-function renderActionBarPositionPanelStartItem(config: ActionBarPositionPanelStartItem): string {
+function renderActionBarPositionPanelSlotItem(config: ActionBarPositionPanelSlotItem): string {
   return html`
     <calcite-shell
       class="shell-set__item"
@@ -3264,105 +3269,96 @@ function renderShellPanelWithActionBarPositionPanelSlotStory(
   position: Position,
   applyShellBorderColor = false,
 ): string {
-  const panelItemConfigs: ActionBarPositionPanelStartItem[] = shellPanelActionBarPositions.flatMap(
-    (actionBarPosition) =>
-      [false, true].map((resizable) => {
-        const itemId = `${slot}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
-        const sizeAttribute = layout === "horizontal" ? 'height-scale="m"' : 'width="l"';
+  const panelItemConfigs: ActionBarPositionPanelSlotItem[] = shellPanelActionBarPositions.flatMap((actionBarPosition) =>
+    [false, true].map((resizable) => {
+      const itemId = `${slot}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
+      const sizeAttribute = layout === "horizontal" ? 'height-scale="m"' : 'width="l"';
 
-        return {
-          id: `shellPanel-${itemId}`,
-          shellId: `shell-${itemId}`,
-          slot,
-          actionBarPosition,
-          applyShellBorderColor,
-          layout,
-          position,
-          resizable,
-          sizeAttribute,
-        };
-      }),
+      return {
+        id: `shellPanel-${itemId}`,
+        shellId: `shell-${itemId}`,
+        slot,
+        actionBarPosition,
+        applyShellBorderColor,
+        layout,
+        position,
+        resizable,
+        sizeAttribute,
+      };
+    }),
   );
 
   return html` ${shellSetStyles} ${shellSampleContentStyles}
     <div class="shell-set">
-      ${panelItemConfigs.map((itemConfig) => renderActionBarPositionPanelStartItem(itemConfig)).join("")}
+      ${panelItemConfigs.map((itemConfig) => renderActionBarPositionPanelSlotItem(itemConfig)).join("")}
     </div>`;
 }
 
-export const shellPanelWithActionBarPositionAndPanelStart = ({
-  applyShellBorderColor,
-}: Pick<PanelWithActionBarPositionStoryArgs, "applyShellBorderColor">): string => {
-  return renderShellPanelWithActionBarPositionPanelSlotStory("panel-start", "vertical", "start", applyShellBorderColor);
-};
+function createShellPanelWithActionBarPositionPanelSlotStory(
+  slot: ShellPanelSlot,
+  layout: "horizontal" | "vertical",
+  position: Position,
+): ((args: ShellPanelWithActionBarPositionPanelSlotStoryArgs) => string) & {
+  args?: ShellPanelWithActionBarPositionPanelSlotStoryArgs;
+  argTypes?: {
+    applyShellBorderColor: {
+      control: {
+        type: "boolean";
+      };
+    };
+  };
+  parameters?: typeof shellPanelWithActionBarPositionPanelSlotStoryParameters;
+} {
+  const story = (({ applyShellBorderColor }: ShellPanelWithActionBarPositionPanelSlotStoryArgs): string =>
+    renderShellPanelWithActionBarPositionPanelSlotStory(slot, layout, position, applyShellBorderColor)) as ((
+    args: ShellPanelWithActionBarPositionPanelSlotStoryArgs,
+  ) => string) & {
+    args?: ShellPanelWithActionBarPositionPanelSlotStoryArgs;
+    argTypes?: {
+      applyShellBorderColor: {
+        control: {
+          type: "boolean";
+        };
+      };
+    };
+    parameters?: typeof shellPanelWithActionBarPositionPanelSlotStoryParameters;
+  };
 
-shellPanelWithActionBarPositionAndPanelStart.args = {
-  applyShellBorderColor: false,
-};
+  story.args = {
+    applyShellBorderColor: false,
+  };
 
-shellPanelWithActionBarPositionAndPanelStart.argTypes = {
-  applyShellBorderColor: {
-    control: { type: "boolean" },
-  },
-};
+  story.argTypes = {
+    applyShellBorderColor: {
+      control: { type: "boolean" },
+    },
+  };
 
-shellPanelWithActionBarPositionAndPanelStart.parameters = shellPanelWithActionBarPositionPanelSlotStoryParameters;
+  story.parameters = shellPanelWithActionBarPositionPanelSlotStoryParameters;
 
-export const shellPanelWithActionBarPositionAndPanelEnd = ({
-  applyShellBorderColor,
-}: Pick<PanelWithActionBarPositionStoryArgs, "applyShellBorderColor">): string => {
-  return renderShellPanelWithActionBarPositionPanelSlotStory("panel-end", "vertical", "end", applyShellBorderColor);
-};
+  return story;
+}
 
-shellPanelWithActionBarPositionAndPanelEnd.args = {
-  applyShellBorderColor: false,
-};
+export const shellPanelWithActionBarPositionAndPanelStart = createShellPanelWithActionBarPositionPanelSlotStory(
+  "panel-start",
+  "vertical",
+  "start",
+);
 
-shellPanelWithActionBarPositionAndPanelEnd.argTypes = {
-  applyShellBorderColor: {
-    control: { type: "boolean" },
-  },
-};
+export const shellPanelWithActionBarPositionAndPanelEnd = createShellPanelWithActionBarPositionPanelSlotStory(
+  "panel-end",
+  "vertical",
+  "end",
+);
 
-shellPanelWithActionBarPositionAndPanelEnd.parameters = shellPanelWithActionBarPositionPanelSlotStoryParameters;
+export const shellPanelWithActionBarPositionAndPanelTop = createShellPanelWithActionBarPositionPanelSlotStory(
+  "panel-top",
+  "horizontal",
+  "start",
+);
 
-export const shellPanelWithActionBarPositionAndPanelTop = ({
-  applyShellBorderColor,
-}: Pick<PanelWithActionBarPositionStoryArgs, "applyShellBorderColor">): string => {
-  return renderShellPanelWithActionBarPositionPanelSlotStory("panel-top", "horizontal", "start", applyShellBorderColor);
-};
-
-shellPanelWithActionBarPositionAndPanelTop.args = {
-  applyShellBorderColor: false,
-};
-
-shellPanelWithActionBarPositionAndPanelTop.argTypes = {
-  applyShellBorderColor: {
-    control: { type: "boolean" },
-  },
-};
-
-shellPanelWithActionBarPositionAndPanelTop.parameters = shellPanelWithActionBarPositionPanelSlotStoryParameters;
-
-export const shellPanelWithActionBarPositionAndPanelBottom = ({
-  applyShellBorderColor,
-}: Pick<PanelWithActionBarPositionStoryArgs, "applyShellBorderColor">): string => {
-  return renderShellPanelWithActionBarPositionPanelSlotStory(
-    "panel-bottom",
-    "horizontal",
-    "end",
-    applyShellBorderColor,
-  );
-};
-
-shellPanelWithActionBarPositionAndPanelBottom.args = {
-  applyShellBorderColor: false,
-};
-
-shellPanelWithActionBarPositionAndPanelBottom.argTypes = {
-  applyShellBorderColor: {
-    control: { type: "boolean" },
-  },
-};
-
-shellPanelWithActionBarPositionAndPanelBottom.parameters = shellPanelWithActionBarPositionPanelSlotStoryParameters;
+export const shellPanelWithActionBarPositionAndPanelBottom = createShellPanelWithActionBarPositionPanelSlotStory(
+  "panel-bottom",
+  "horizontal",
+  "end",
+);
