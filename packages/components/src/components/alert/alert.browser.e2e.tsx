@@ -18,7 +18,7 @@ import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
 import type { Alert } from "./alert";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
-import { Action } from "../action/action";
+import type { Action } from "../action/action";
 
 function renderAlertContent(): JsxNode {
   return (
@@ -113,7 +113,6 @@ describe("translation support", () => {
 });
 
 afterEach(() => {
-  vi.clearAllTimers();
   vi.useRealTimers();
 });
 
