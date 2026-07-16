@@ -113,7 +113,18 @@ export class ActionBar extends LitElement {
 
     const itemSizes = this.getItemSizes();
 
-    const { actionGroups } = this;
+    const {
+      actionGroups: defaultActionGroups,
+      actionsEnd,
+      actionsEndGroups,
+      actionsStart,
+      actionsStartGroups,
+    } = this;
+    const slottedActionGroups = [
+      ...actionsStartGroups,
+      ...defaultActionGroups,
+      ...actionsEndGroups,
+    ];
 
     const actionsEndCount =
       this.hasActionsEnd || (!expandToggleDisabled && expandPosition === "end") ? 1 : 0;
@@ -121,7 +132,7 @@ export class ActionBar extends LitElement {
     const actionsStartCount =
       this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
 
-    const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
+    const groupCount = defaultActionGroups.length + actionsEndCount + actionsStartCount;
 
     let bufferSize = groupCount;
     const actionBarContainerStyle = getComputedStyle(this.containerRef.value);
@@ -138,13 +149,14 @@ export class ActionBar extends LitElement {
           : actionBarContainerStyle.paddingBlockEnd,
       );
 
-    if (actionGroups.length > 0) {
-      actionGroups.forEach((actionGroup, i) => {
+    if (slottedActionGroups.length > 0) {
+      slottedActionGroups.forEach((actionGroup) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
         const actionGroupGapQuantity = actionGroup.childElementCount - 1;
         bufferSize += actionGroupGap * actionGroupGapQuantity;
-        if (i < actionGroups.length - 1) {
+
+        if (actionGroup.matches(":not(:last-of-type)")) {
           bufferSize += getStylePixelValue(
             layout === "horizontal"
               ? actionGroupStyle.paddingInlineEnd
@@ -157,6 +169,29 @@ export class ActionBar extends LitElement {
           );
         }
       });
+    }
+
+    const addWrappedSectionGap = (
+      items: ActionBarItem[],
+      wrapper: ActionGroup["el"] | undefined,
+    ): void => {
+      if (!wrapper || items.length < 1) {
+        return;
+      }
+
+      const wrapperStyle = getComputedStyle(wrapper);
+      const wrapperGap = getStylePixelValue(wrapperStyle.gap);
+      const wrapperItemCount = items.length + 1;
+
+      bufferSize += wrapperGap * Math.max(wrapperItemCount - 1, 0);
+    };
+
+    if (!expandToggleDisabled && expandPosition === "start") {
+      addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value);
+    }
+
+    if (!expandToggleDisabled && expandPosition === "end") {
+      addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value);
     }
 
     if (groupCount > 0) {
@@ -172,7 +207,7 @@ export class ActionBar extends LitElement {
     });
 
     this.runOverflowActions({
-      actionGroups,
+      actionGroups: defaultActionGroups,
       expanded,
       overflowCount,
     });

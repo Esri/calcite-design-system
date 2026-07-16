@@ -366,6 +366,41 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions.nth(1)).toBeInViewport();
     await expect.element(triggerActions.nth(2)).toBeInViewport();
   });
+
+  it("overflows when an actions-end group adds trailing divider and wrapper gaps", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expanded style={{ height: "515px" }}>
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="plus" text="New" />
+          <calcite-action icon="folder-open" text="Open" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="legend" text="Legend" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="share" text="Share" />
+          <calcite-action icon="print" text="Print" />
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+          <calcite-action icon="megaphone" text="What's next" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedActions = page
+      .getBySelector("calcite-action[slot='menu-actions']")
+      .elements()
+      .filter((action) => el.contains(action));
+
+    expect(overflowedActions.length).toBeGreaterThan(0);
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
