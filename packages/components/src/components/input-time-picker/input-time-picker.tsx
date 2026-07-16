@@ -12,7 +12,8 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
@@ -100,6 +101,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   private time = useTime(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   private timePickerRef = createRef<TimePicker>();
 
@@ -273,10 +276,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -309,10 +308,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         this.previousEmittedValue = this.value;
       }
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
