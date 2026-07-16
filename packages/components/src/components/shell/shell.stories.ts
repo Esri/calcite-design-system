@@ -340,7 +340,7 @@ const shellSampleContentStyles = `
   </style>
 `;
 
-const actionBarPositionActionBarHTML = html`
+const actionBarHTML = html`
   <calcite-action-bar slot="action-bar">
     <calcite-action-group>
       <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -364,7 +364,7 @@ const actionBarPositionActionBarHTML = html`
   </calcite-action-bar>
 `;
 
-const actionBarPositionNestedPanelHTML = html`
+const panelHTML = html`
   <calcite-panel heading="Panel heading">
     <calcite-block collapsible heading="Block heading" description="Description">
       <calcite-notice open>
@@ -3154,7 +3154,7 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
         width="l"
         ${boolean("resizable", args.isResizable)}
       >
-        ${args.includeActionBar ? actionBarPositionActionBarHTML : ""} ${actionBarPositionNestedPanelHTML}
+        ${args.includeActionBar ? actionBarHTML : ""} ${panelHTML}
       </calcite-shell-panel>
       ${actionBarPositionPanelHTML}
     </calcite-shell>
@@ -3237,7 +3237,7 @@ function renderActionBarPositionPanelSlotItem(config: ActionBarPositionPanelSlot
         ${config.sizeAttribute}
         ${boolean("resizable", config.resizable)}
       >
-        ${actionBarPositionActionBarHTML} ${actionBarPositionNestedPanelHTML}
+        ${actionBarHTML} ${panelHTML}
       </calcite-shell-panel>
       ${actionBarPositionPanelHTML}
     </calcite-shell>
