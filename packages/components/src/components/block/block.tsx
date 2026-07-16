@@ -25,6 +25,7 @@ import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
 import { BlockToggleDisplay } from "./interface";
+import { BlockGroup } from "../block-group/block-group";
 
 declare global {
   interface DeclareElements {
@@ -57,7 +58,7 @@ export class Block extends LitElement {
 
   private sortHandleEl?: SortHandle["el"];
 
-  // private nestedBlockElements: Block["el"][] = [];
+  private parentBlockGroupElement?: BlockGroup["el"] | null;
 
   /**
    * Made into a prop for testing purposes only
@@ -303,6 +304,7 @@ export class Block extends LitElement {
 
   override connectedCallback(): void {
     this.transitionEl = this.el;
+    this.setParentBlockElement();
   }
 
   load(): void {
@@ -396,9 +398,12 @@ export class Block extends LitElement {
   }
 
   private onHeaderClick(): void {
-    // this.expanded = !this.expanded;
     this.calciteBlockToggle.emit();
-    this.calciteInternalBlockChange.emit({ el: this.el });
+    if (this.parentBlockGroupElement?.tagName === "CALCITE-BLOCK-GROUP") {
+      this.calciteInternalBlockUpdateSortMenuItems.emit();
+    } else {
+      this.expanded = !this.expanded;
+    }
   }
 
   private menuActionsSlotChangeHandler(event: Event): void {
@@ -429,9 +434,9 @@ export class Block extends LitElement {
     });
   }
 
-  // private handleSectionsSlotChange(event: Event): void {
-  //   this.nestedBlockElements = slotChangeGetAssignedElements(event, "calcite-block");
-  // }
+  private setParentBlockElement(): void {
+    this.parentBlockGroupElement = this.el.parentElement?.closest(" calcite-block-group");
+  }
 
   //#endregion
 

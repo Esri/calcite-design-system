@@ -86,12 +86,12 @@ export class BlockGroup extends LitElement {
         break;
       case "single":
         el.expanded = !el.expanded;
-        this.collapseAllBlocks(blockChildren, el);
+        this.collapseAllBlockElements(blockChildren, el);
         break;
       case "single-persist":
         if (!el.expanded) {
           el.expanded = true;
-          this.collapseAllBlocks(blockChildren, el);
+          this.collapseAllBlockElements(blockChildren, el);
         } else if (el.expanded) {
           blockChildren.forEach((item) => {
             if (item.contains(el) && item !== el) {
@@ -103,7 +103,7 @@ export class BlockGroup extends LitElement {
     }
   };
 
-  private collapseAllBlocks = (blockChildren: Block["el"][], el: Block["el"]): void => {
+  private collapseAllBlockElements = (blockChildren: Block["el"][], el: Block["el"]): void => {
     blockChildren.forEach((item) => {
       if (item !== el && !item.contains(el)) {
         item.expanded = false;
