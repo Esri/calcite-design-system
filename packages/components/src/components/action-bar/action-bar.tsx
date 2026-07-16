@@ -481,14 +481,31 @@ export class ActionBar extends LitElement {
   }
 
   private actionMenuOpenHandler(event: CustomEvent<void>): void {
-    if ((event.target as ActionGroup["el"]).menuOpen) {
-      const composedPath = event.composedPath();
-      this.getTrackedActionGroups().forEach((group) => {
-        if (!composedPath.includes(group)) {
-          group.menuOpen = false;
-        }
-      });
+    const target = event.target as Element;
+    const targetIsActionGroup = isActionGroup(target);
+    const targetIsActionMenu = isActionMenu(target);
+
+    if (!targetIsActionGroup && !targetIsActionMenu) {
+      return;
     }
+
+    if ((targetIsActionGroup && !target.menuOpen) || (targetIsActionMenu && !target.open)) {
+      return;
+    }
+
+    const composedPath = event.composedPath();
+
+    this.getTrackedActionGroups().forEach((group) => {
+      if (!composedPath.includes(group)) {
+        group.menuOpen = false;
+      }
+    });
+
+    this.getTrackedActionMenus().forEach((menu) => {
+      if (!composedPath.includes(menu)) {
+        menu.open = false;
+      }
+    });
   }
 
   private runOverflowActions({

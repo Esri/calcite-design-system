@@ -416,7 +416,9 @@ describe("per-group overflow-actions-disabled", () => {
 
     await component.updateComplete;
 
-    const group = component.shadowRoot?.querySelector("calcite-action-group") as ActionGroup["el"];
+    const group = page
+      .getBySelector("action-bar-test-wrapper calcite-action-group:not([hidden])")
+      .element() as ActionGroup["el"];
     const projectedActions = page
       .getBySelector("action-bar-test-wrapper > calcite-action")
       .elements() as Action["el"][];
@@ -763,13 +765,15 @@ describe("overflow-disabled actions", () => {
 
 describe("slot-change action tracking", () => {
   it("updates slotted action state when an action-group emits an actions change event", async () => {
-    const { component, el } = await mount<ActionBar>(
+    const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
         <calcite-action-group />
       </calcite-action-bar>,
     );
 
-    const group = el.querySelector("calcite-action-group") as ActionGroup["el"];
+    const group = page
+      .getBySelector("calcite-action-bar > calcite-action-group")
+      .element() as ActionGroup["el"];
     const actionsChange = vi.fn();
     const actions = page.getBySelector(
       "calcite-action-bar > calcite-action-group > calcite-action",
@@ -797,7 +801,7 @@ describe("slot-change action tracking", () => {
   });
 
   it("requests overflow recomputation when an action-group's actions change", async () => {
-    const { component, el } = await mount<ActionBar>(
+    const { component } = await mount<ActionBar>(
       <calcite-action-bar expand-toggle-disabled layout="horizontal">
         <calcite-action-group>
           <calcite-action icon="plus" text="Add" />
@@ -808,7 +812,9 @@ describe("slot-change action tracking", () => {
     const overflowSpy = vi.spyOn(ActionBar.prototype, "overflowActions");
 
     try {
-      const group = el.querySelector("calcite-action-group") as ActionGroup["el"];
+      const group = page
+        .getBySelector("calcite-action-bar > calcite-action-group")
+        .element() as ActionGroup["el"];
 
       group.innerHTML = `
         <calcite-action icon="plus" text="Add"></calcite-action>
@@ -1001,6 +1007,45 @@ describe("slot-change action tracking", () => {
     expect(defaultGroup.menuOpen).toBe(false);
   });
 
+  it("closes other direct action-menus when one opens", async () => {
+    await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal">
+        <calcite-action-menu id="menu-one" label="Menu One">
+          <calcite-action icon="ellipsis" slot="trigger" text="Open One" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-menu>
+        <calcite-action-menu id="menu-two" label="Menu Two">
+          <calcite-action icon="ellipsis" slot="trigger" text="Open Two" />
+          <calcite-action icon="download" text="Download" />
+        </calcite-action-menu>
+      </calcite-action-bar>,
+    );
+
+    const menuOne = page
+      .getBySelector("calcite-action-bar > calcite-action-menu#menu-one")
+      .element() as ActionMenu["el"];
+    const menuTwo = page
+      .getBySelector("calcite-action-bar > calcite-action-menu#menu-two")
+      .element() as ActionMenu["el"];
+    const triggerOne = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu#menu-one > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+    const triggerTwo = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu#menu-two > calcite-action[slot='trigger']",
+      )
+      .element() as Action["el"];
+
+    await userEvent.click(triggerOne);
+    expect(menuOne.open).toBe(true);
+
+    await userEvent.click(triggerTwo);
+    expect(menuTwo.open).toBe(true);
+    expect(menuOne.open).toBe(false);
+  });
+
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
     const { component } = await mount(ActionBarTestWrapper);
     const actions = page.getBySelector("action-bar-test-wrapper calcite-action");
@@ -1012,10 +1057,12 @@ describe("slot-change action tracking", () => {
 
     await component.updateComplete;
 
-    const actionBar = component.shadowRoot?.querySelector("calcite-action-bar") as ActionBar["el"];
-    const group = component.shadowRoot?.querySelector(
-      "calcite-action-group:not([hidden])",
-    ) as ActionGroup["el"];
+    const actionBar = page
+      .getBySelector("action-bar-test-wrapper calcite-action-bar")
+      .element() as ActionBar["el"];
+    const group = page
+      .getBySelector("action-bar-test-wrapper calcite-action-group:not([hidden])")
+      .element() as ActionGroup["el"];
     const action1 = actions.nth(0).element() as Action["el"];
     const action2 = actions.nth(1).element() as Action["el"];
 
