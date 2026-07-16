@@ -92,6 +92,8 @@ export class ActionBar extends LitElement {
 
   private actionsEndGroups: ActionGroup["el"][] = [];
 
+  private overflowPassId = 0;
+
   private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
 
   private cancelable = useCancelable<this>()(this);
@@ -517,6 +519,8 @@ export class ActionBar extends LitElement {
     expanded: boolean;
     overflowCount: number;
   }): void {
+    const overflowPassId = ++this.overflowPassId;
+
     const slotStateByGroup = new Map<ActionGroup["el"], string>();
     actionGroups.forEach((group) => {
       const directActions = group.actions.filter((action) => action.parentElement === group);
@@ -534,8 +538,19 @@ export class ActionBar extends LitElement {
       const nextSlotState = directActions.map((action) => action.slot ?? "").join("|");
 
       if (slotStateByGroup.get(group) !== nextSlotState) {
-        const pending = this.suppressedActionGroupActionsChange.get(group) ?? 0;
-        this.suppressedActionGroupActionsChange.set(group, pending + 1);
+        this.suppressedActionGroupActionsChange.set(group, overflowPassId);
+        this.queueSuppressedActionGroupActionsChangeCleanup(group, overflowPassId);
+      }
+    });
+  }
+
+  private queueSuppressedActionGroupActionsChangeCleanup(
+    group: ActionGroup["el"],
+    overflowPassId: number,
+  ): void {
+    queueMicrotask(() => {
+      if (this.suppressedActionGroupActionsChange.get(group) === overflowPassId) {
+        this.suppressedActionGroupActionsChange.delete(group);
       }
     });
   }
@@ -693,13 +708,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    const pending = this.suppressedActionGroupActionsChange.get(group) ?? 0;
-    if (pending > 0) {
-      if (pending === 1) {
-        this.suppressedActionGroupActionsChange.delete(group);
-      } else {
-        this.suppressedActionGroupActionsChange.set(group, pending - 1);
-      }
+    if (this.suppressedActionGroupActionsChange.has(group)) {
       return;
     }
 
