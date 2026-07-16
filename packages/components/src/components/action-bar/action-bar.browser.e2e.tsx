@@ -914,7 +914,7 @@ describe("slot-change action tracking", () => {
     }
   });
 
-  it("updates slotted trigger action state when an action-menu emits an actions change event", async () => {
+  it("updates slotted action state when an action-menu emits an actions change event", async () => {
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
         <calcite-action-menu label="Actions" />
@@ -940,15 +940,20 @@ describe("slot-change action tracking", () => {
     const triggerAction = page
       .getBySelector("calcite-action-bar > calcite-action-menu > calcite-action[slot='trigger']")
       .element() as Action["el"];
+    const menuAction = page
+      .getBySelector("calcite-action-bar > calcite-action-menu > calcite-action:not([slot])")
+      .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
     expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
+    expect(menu.actions[1]).toBe(menuAction);
     expect(triggerAction.selectionAppearance).toBe("highlight");
+    expect(menuAction.selectionAppearance).toBe("highlight");
   });
 
-  it("updates slotted trigger action state when an actions-start action-menu emits an actions change event", async () => {
+  it("updates slotted action state when an actions-start action-menu emits an actions change event", async () => {
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
         <calcite-action-menu label="Actions" slot={SLOTS.actionsStart} />
@@ -976,15 +981,22 @@ describe("slot-change action tracking", () => {
         "calcite-action-bar > calcite-action-menu[slot='actions-start'] > calcite-action[slot='trigger']",
       )
       .element() as Action["el"];
+    const menuAction = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu[slot='actions-start'] > calcite-action:not([slot])",
+      )
+      .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
     expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
+    expect(menu.actions[1]).toBe(menuAction);
     expect(triggerAction.selectionAppearance).toBe("highlight");
+    expect(menuAction.selectionAppearance).toBe("highlight");
   });
 
-  it("updates slotted trigger action state when an actions-end action-menu emits an actions change event", async () => {
+  it("updates slotted action state when an actions-end action-menu emits an actions change event", async () => {
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
         <calcite-action-menu label="Actions" slot={SLOTS.actionsEnd} />
@@ -1012,12 +1024,19 @@ describe("slot-change action tracking", () => {
         "calcite-action-bar > calcite-action-menu[slot='actions-end'] > calcite-action[slot='trigger']",
       )
       .element() as Action["el"];
+    const menuAction = page
+      .getBySelector(
+        "calcite-action-bar > calcite-action-menu[slot='actions-end'] > calcite-action:not([slot])",
+      )
+      .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
     expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
+    expect(menu.actions[1]).toBe(menuAction);
     expect(triggerAction.selectionAppearance).toBe("highlight");
+    expect(menuAction.selectionAppearance).toBe("highlight");
   });
 
   it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
@@ -1057,7 +1076,7 @@ describe("slot-change action tracking", () => {
 
   it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar>
+      <calcite-action-bar layout="horizontal">
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />

@@ -613,7 +613,13 @@ export class ActionBar extends LitElement {
   }
 
   private updateActions(): void {
-    this.actions.forEach((action) => {
+    const actions = new Set<Action["el"]>(this.actions);
+
+    this.getTrackedActionMenus().forEach((menu) => {
+      menu.actions.forEach((action) => actions.add(action));
+    });
+
+    actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
     });
   }
