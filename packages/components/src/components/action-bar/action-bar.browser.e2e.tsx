@@ -1132,7 +1132,7 @@ describe("slot-change action tracking", () => {
     await userEvent.click(defaultTrigger);
     expect(defaultGroup.menuOpen).toBe(true);
 
-    await userEvent.click(startTrigger);
+    startTrigger.click();
     expect(startGroup.menuOpen).toBe(true);
     expect(defaultGroup.menuOpen).toBe(false);
   });
