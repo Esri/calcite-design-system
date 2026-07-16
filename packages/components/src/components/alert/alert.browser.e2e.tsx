@@ -1,4 +1,4 @@
-import { h, Fragment, type JsxNode } from "@arcgis/lumina";
+import { Fragment, h, type JsxNode } from "@arcgis/lumina";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
@@ -166,13 +166,16 @@ it("renders default and requested properties", async () => {
 
   const defaultAlert = page.getBySelector("#default").element() as Alert["el"];
   const requestedAlert = page.getBySelector("#requested").element() as Alert["el"];
+  const defaultClose = page.getBySelector(`#default .${CSS.close}`);
+  const defaultIcon = page.getBySelector(`#default .${CSS.icon}`);
+  const requestedIcon = page.getBySelector(`#requested .${CSS.icon}`);
 
   expect(defaultAlert.kind).toBe("brand");
-  expect(defaultAlert.shadowRoot!.querySelector(`.${CSS.close}`)).toBeTruthy();
-  expect(defaultAlert.shadowRoot!.querySelector(`.${CSS.icon}`)).toBeNull();
+  await expect.element(defaultClose).toBeInTheDocument();
+  await expect.element(defaultIcon).not.toBeInTheDocument();
   expect(requestedAlert.kind).toBe("warning");
   expect(requestedAlert.autoCloseDuration).toBe("fast");
-  expect(requestedAlert.shadowRoot!.querySelector(`.${CSS.icon}`)).toBeNull();
+  await expect.element(requestedIcon).not.toBeInTheDocument();
 });
 
 it("renders requested icons, including filled status icons", async () => {
@@ -187,13 +190,11 @@ it("renders requested icons, including filled status icons", async () => {
     </>,
   );
 
-  const alertWithIcon = page.getBySelector("#icon").element() as Alert["el"];
-  const statusIcon = page.getBySelector("#status-icon").element() as Alert["el"];
-  const icon = statusIcon.shadowRoot!.querySelector("calcite-icon")!;
+  const statusGlyph = page.getBySelector(`#status-icon .${CSS.icon} calcite-icon`);
 
-  expect(alertWithIcon.shadowRoot!.querySelector(`.${CSS.close}`)).toBeTruthy();
-  expect(alertWithIcon.shadowRoot!.querySelector(`.${CSS.icon}`)).toBeTruthy();
-  expect(icon.getAttribute("icon")).toBe("exclamationMarkTriangleF");
+  await expect.element(page.getBySelector(`#icon .${CSS.close}`)).toBeInTheDocument();
+  await expect.element(page.getBySelector(`#icon .${CSS.icon}`)).toBeInTheDocument();
+  await expect.element(statusGlyph).toHaveAttribute("icon", "exclamationMarkTriangleF");
 });
 
 it("closes after the configured auto-close duration", async () => {
@@ -274,18 +275,12 @@ it("assigns placement classes", async () => {
       <calcite-alert id="requested-placement" placement="top-end" />
     </>,
   );
-  const defaultContainer = page
-    .getBySelector("#default-placement")
-    .element()
-    .shadowRoot!.querySelector(`.${CSS.container}`)!;
-  const requestedContainer = page
-    .getBySelector("#requested-placement")
-    .element()
-    .shadowRoot!.querySelector(`.${CSS.container}`)!;
+  const defaultContainer = page.getBySelector(`#default-placement .${CSS.container}`);
+  const requestedContainer = page.getBySelector(`#requested-placement .${CSS.container}`);
 
-  expect(defaultContainer.classList.contains(CSS.containerBottom)).toBe(true);
-  expect(requestedContainer.classList.contains(CSS.containerBottom)).toBe(false);
-  expect(requestedContainer.classList.contains(CSS.containerTopEnd)).toBe(true);
+  await expect.element(defaultContainer).toHaveClass(CSS.containerBottom);
+  await expect.element(requestedContainer).not.toHaveClass(CSS.containerBottom);
+  await expect.element(requestedContainer).toHaveClass(CSS.containerTopEnd);
 });
 
 describe("dismiss progress color", () => {
@@ -301,7 +296,10 @@ describe("dismiss progress color", () => {
     );
     vi.advanceTimersByTime(alertQueueTimeoutMs);
     await alert.manager.component.updateComplete;
-    const progress = alert.shadowRoot!.querySelector(`.${CSS.dismissProgress}`)!;
+    const progress = page
+      .elementLocator(alert)
+      .getBySelector(`.${CSS.dismissProgress}`)
+      .element() as HTMLElement;
     return getComputedStyle(progress, "::after").backgroundColor;
   }
 
@@ -334,19 +332,18 @@ it("updates the queued alert count when alerts are removed", async () => {
   const third = page.getBySelector("#third").element() as Alert["el"];
   await Promise.all([first.manager.component.updateComplete, second.manager.component.updateComplete, third.manager.component.updateComplete]);
 
-  let chip = first.shadowRoot!.querySelector("calcite-chip")!;
-  expect(chip.value).toBe("+2");
-  expect(chip.textContent).toBe("+2");
+  const chip = page.getBySelector("#first calcite-chip");
+  await expect.element(chip).toHaveProperty("value", "+2");
+  await expect.element(chip).toHaveTextContent("+2");
 
   third.remove();
   await first.manager.component.updateComplete;
-  chip = first.shadowRoot!.querySelector("calcite-chip")!;
-  expect((chip).value).toBe("+1");
-  expect(chip.textContent).toBe("+1");
+  await expect.element(chip).toHaveProperty("value", "+1");
+  await expect.element(chip).toHaveTextContent("+1");
 
   second.remove();
   await first.manager.component.updateComplete;
-  expect(first.shadowRoot!.querySelector("calcite-chip")).toBeNull();
+  await expect.element(chip).not.toBeInTheDocument();
 });
 
 it("auto-closes queued alerts in order", async () => {
@@ -362,7 +359,7 @@ it("auto-closes queued alerts in order", async () => {
   vi.advanceTimersByTime(alertQueueTimeoutMs);
   await Promise.all([first.manager.component.updateComplete, second.manager.component.updateComplete]);
 
-  expect(first.shadowRoot!.querySelector("calcite-chip")!.textContent).toBe("+1");
+  await expect.element(page.getBySelector("#first-auto-close calcite-chip")).toHaveTextContent("+1");
   vi.advanceTimersByTime(DURATIONS.medium);
   await first.manager.component.updateComplete;
   expect(first.open).toBe(false);
