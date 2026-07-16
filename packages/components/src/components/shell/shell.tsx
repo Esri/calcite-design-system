@@ -8,7 +8,9 @@ import type { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
-type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
+
+type PanelSlot = (typeof panelSlots)[number];
 
 declare global {
   interface DeclareElements {
@@ -36,8 +38,6 @@ export class Shell extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  private readonly panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
 
   private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
     {
@@ -124,7 +124,7 @@ export class Shell extends LitElement {
       | ShellPanel["el"]
       | undefined;
 
-    if (panel?.slot && this.panelSlots.includes(panel.slot as PanelSlot)) {
+    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
       this.updateResizableSlotState(panel.slot as PanelSlot);
     }
 
@@ -138,7 +138,7 @@ export class Shell extends LitElement {
       | ShellPanel["el"]
       | undefined;
 
-    if (panel?.slot && this.panelSlots.includes(panel.slot as PanelSlot)) {
+    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
       this.updateResizableSlotState(panel.slot as PanelSlot);
     }
 
@@ -253,7 +253,7 @@ export class Shell extends LitElement {
   }
 
   private syncActionBarPositionPanelAttribute(): void {
-    const hasActionBarPositionPanel = this.panelSlots.some((slot) =>
+    const hasActionBarPositionPanel = panelSlots.some((slot) =>
       this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
     );
 
