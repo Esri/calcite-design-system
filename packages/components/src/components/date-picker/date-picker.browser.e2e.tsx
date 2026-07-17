@@ -196,7 +196,7 @@ describe("value", () => {
     el.value = ["", ""];
     await waitForCalendarUpdate(el, component);
 
-    expect(el.valueAsDate).toEqual([undefined, undefined]);
+    expect(el.valueAsDate).toBeUndefined();
     expectDate(el.activeStartDate, today);
     expect(el.activeEndDate).toBeUndefined();
     expect(getDay(el, todayDayId, "active")).not.toBeNull();

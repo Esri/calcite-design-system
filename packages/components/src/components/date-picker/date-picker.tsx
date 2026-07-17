@@ -254,7 +254,9 @@ export class DatePicker extends LitElement {
   private valueHandler(value: string | string[] | null | undefined): void {
     if (Array.isArray(value)) {
       // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-      this.valueAsDate = getValueAsDateRange(value);
+      this.valueAsDate = value.every((rangeValue) => rangeValue === "")
+        ? undefined
+        : getValueAsDateRange(value);
       if (!this.rangeValueChangedByUser) {
         this.resetActiveDates();
       }
