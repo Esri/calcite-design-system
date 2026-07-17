@@ -76,6 +76,10 @@ export class Shell extends LitElement {
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
+  @property({ reflect: true }) hasResizablePanelBottom = false;
+
+  @property({ reflect: true }) hasResizablePanelTop = false;
+
   //#endregion
 
   //#region Lifecycle
@@ -248,7 +252,7 @@ export class Shell extends LitElement {
       elements: panelElements,
       resizable: panelElements.some((panel) => panel.resizable),
     };
-    this.syncResizableAttribute();
+    this.syncResizableState();
     this.syncActionBarPositionPanelAttribute();
   }
 
@@ -260,19 +264,9 @@ export class Shell extends LitElement {
     this.el.toggleAttribute("data-has-action-bar-position-panel", hasActionBarPositionPanel);
   }
 
-  private syncResizableAttribute(): void {
-    const nextResizableSlot =
-      (this.panelSlotState["panel-bottom"].resizable && "panel-bottom") ||
-      (this.panelSlotState["panel-top"].resizable && "panel-top") ||
-      (this.panelSlotState["panel-end"].resizable && "panel-end") ||
-      (this.panelSlotState["panel-start"].resizable && "panel-start");
-
-    if (nextResizableSlot) {
-      this.el.setAttribute("data-resizable", nextResizableSlot);
-      return;
-    }
-
-    this.el.removeAttribute("data-resizable");
+  private syncResizableState(): void {
+    this.hasResizablePanelBottom = this.panelSlotState["panel-bottom"].resizable;
+    this.hasResizablePanelTop = this.panelSlotState["panel-top"].resizable;
   }
 
   //#endregion

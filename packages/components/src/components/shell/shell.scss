@@ -145,13 +145,13 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   inset: 0;
 }
 
-:host([data-resizable="panel-top"]) {
+:host([has-resizable-panel-top]) {
   ::slotted(calcite-panel) {
     border-block-start: none;
   }
 }
 
-:host([data-resizable="panel-bottom"]) {
+:host([has-resizable-panel-bottom]) {
   ::slotted(calcite-panel) {
     border-block-end: none;
   }
