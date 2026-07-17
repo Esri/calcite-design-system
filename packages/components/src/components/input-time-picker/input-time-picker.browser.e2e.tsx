@@ -1452,6 +1452,7 @@ describe("time picker interactions", () => {
     await el.setFocus();
     await page.getBySelector(`calcite-input-time-picker .${CSS.toggleIcon}`).click();
     await page.getBySelector(`calcite-time-picker .${TimePickerCSS.hour}`).click();
+    await expect.element(el).toHaveProperty("open", true);
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
     await expect.element(next).not.toHaveFocus();
     await userEvent.keyboard("{Escape}");
