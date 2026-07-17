@@ -145,19 +145,19 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   inset: 0;
 }
 
-:host([has-resizable-panel-top]) {
+.main.has-resizable-panel-top {
   ::slotted(calcite-panel) {
     border-block-start: none;
   }
 }
 
-:host([has-resizable-panel-bottom]) {
+.main.has-resizable-panel-bottom {
   ::slotted(calcite-panel) {
     border-block-end: none;
   }
 }
 
-:host([has-action-bar-position-panel]) {
+.main.has-action-bar-position-panel {
   ::slotted(calcite-panel) {
     border: 0;
   }

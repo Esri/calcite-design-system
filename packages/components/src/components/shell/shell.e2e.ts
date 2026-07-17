@@ -72,21 +72,53 @@ describe("action bar position panel", () => {
 
     await page.waitForChanges();
 
-    const shell = await page.find("calcite-shell");
     const shellPanel = await page.find("calcite-shell-panel");
 
-    expect(shell).toHaveAttribute("has-action-bar-position-panel");
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).not.toBeNull();
 
     await shellPanel.setProperty("actionBarPosition", undefined);
     await page.waitForChanges();
 
-    expect(shell).not.toHaveAttribute("has-action-bar-position-panel");
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).toBeNull();
 
     await shellPanel.setProperty("actionBarPosition", "top");
     await page.waitForChanges();
 
-    expect(shell).toHaveAttribute("has-action-bar-position-panel");
+    expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasActionBarPositionPanel}`)).not.toBeNull();
   });
+});
+
+it("should apply resizable panel classes to the main container", async () => {
+  const page = await newE2EPage();
+
+  await page.setContent(
+    html`<calcite-shell>
+      <calcite-shell-panel slot="${SLOTS.panelTop}">
+        <p>Top content</p>
+      </calcite-shell-panel>
+      <calcite-shell-panel slot="${SLOTS.panelBottom}">
+        <p>Bottom content</p>
+      </calcite-shell-panel>
+    </calcite-shell>`,
+  );
+
+  await page.waitForChanges();
+
+  const topPanel = await page.find(`[slot="${SLOTS.panelTop}"]`);
+  const bottomPanel = await page.find(`[slot="${SLOTS.panelBottom}"]`);
+
+  await topPanel.setProperty("resizable", true);
+  await bottomPanel.setProperty("resizable", true);
+  await page.waitForChanges();
+
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelTop}`)).not.toBeNull();
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelBottom}`)).not.toBeNull();
+
+  await topPanel.setProperty("resizable", false);
+  await page.waitForChanges();
+
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelTop}`)).toBeNull();
+  expect(await page.find(`calcite-shell >>> .${CSS.main}.${CSS.hasResizablePanelBottom}`)).not.toBeNull();
 });
 
 it("should place content behind", async () => {

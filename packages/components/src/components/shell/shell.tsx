@@ -59,11 +59,17 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
+  @state() hasActionBarPositionPanel = false;
+
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
 
   @state() hasPanelTop = false;
+
+  @state() hasResizablePanelBottom = false;
+
+  @state() hasResizablePanelTop = false;
 
   @state() hasSheets = false;
 
@@ -75,12 +81,6 @@ export class Shell extends LitElement {
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
-
-  @property({ reflect: true }) hasActionBarPositionPanel = false;
-
-  @property({ reflect: true }) hasResizablePanelBottom = false;
-
-  @property({ reflect: true }) hasResizablePanelTop = false;
 
   //#endregion
 
@@ -255,10 +255,10 @@ export class Shell extends LitElement {
       resizable: panelElements.some((panel) => panel.resizable),
     };
     this.syncResizableState();
-    this.syncActionBarPositionPanelAttribute();
+    this.syncActionBarPositionPanelState();
   }
 
-  private syncActionBarPositionPanelAttribute(): void {
+  private syncActionBarPositionPanelState(): void {
     this.hasActionBarPositionPanel = panelSlots.some((slot) =>
       this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
     );
@@ -371,7 +371,14 @@ export class Shell extends LitElement {
 
   private renderMain(): JsxNode {
     return (
-      <div class={CSS.main}>
+      <div
+        class={{
+          [CSS.main]: true,
+          [CSS.hasActionBarPositionPanel]: this.hasActionBarPositionPanel,
+          [CSS.hasResizablePanelBottom]: this.hasResizablePanelBottom,
+          [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
+        }}
+      >
         <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
         {this.renderContent()}
         <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />
