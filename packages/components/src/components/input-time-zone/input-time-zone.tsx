@@ -10,7 +10,7 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
-import { connectLabel, disconnectLabel, LabelableComponent } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { Scale, Status } from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { IconName } from "../icon/interfaces";
@@ -81,6 +81,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
    */
@@ -146,6 +148,13 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
 
   /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -251,10 +260,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region Lifecycle
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
     await this.updateTimeZoneItems();
@@ -291,10 +296,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.openChanged();
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -507,13 +508,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
           oncalciteComboboxClose={this.onComboboxClose}
           oncalciteComboboxOpen={this.onComboboxOpen}
           overlayPositioning={this.overlayPositioning}
-          placeholder={
-            this.mode === "name"
-              ? this.messages.namePlaceholder
-              : this.mode === "offset"
-                ? this.messages.offsetPlaceholder
-                : this.messages.regionPlaceholder
-          }
+          placeholder={this.placeholder || this.messages[`${this.mode}Placeholder`]}
           placeholderIcon="search"
           readOnly={this.readOnly}
           ref={this.comboboxRef}

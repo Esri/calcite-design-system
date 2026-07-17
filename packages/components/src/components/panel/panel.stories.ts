@@ -1,11 +1,11 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { defaultEndMenuPlacement, placements } from "../../utils/floating-ui";
+import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { Panel } from "./panel";
 import { SLOTS } from "./resources";
 
-const { collapseDirection, scale } = ATTRIBUTES;
+const { collapseDirection, placement, scale } = ATTRIBUTES;
 
 interface PanelStoryArgs extends Pick<
   Panel,
@@ -42,7 +42,7 @@ export default {
   },
   argTypes: {
     menuPlacement: {
-      options: placements,
+      options: placement.values,
       control: { type: "select" },
     },
     collapseDirection: {
@@ -106,7 +106,7 @@ export const simple = (args: PanelStoryArgs): string => html`
     collapseDirection="${args.collapseDirection}"
     heightScale="${args.heightScale}"
     scale="${args.scale}"
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
     ${boolean("loading", args.loading)}
     menu-placement="${args.menuPlacement}"
     heading="Heading"
@@ -382,7 +382,7 @@ export const footerVariations = (): string =>
 
 export const actionBarBackgroundColor = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
-    <calcite-action-bar slot="action-bar" expand-disabled>
+    <calcite-action-bar slot="action-bar" expand-toggle-disabled>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>

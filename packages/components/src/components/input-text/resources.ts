@@ -6,6 +6,8 @@ export const CSS = {
   hasPrefix: "has-prefix",
   hasSuffix: "has-suffix",
   inlineChild: "inline-child",
+  inlineEditableChild: "inline-editable-child", // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
+  inlineEditable: "inline-editable",
   inputIcon: "icon",
   prefix: "prefix",
   suffix: "suffix",

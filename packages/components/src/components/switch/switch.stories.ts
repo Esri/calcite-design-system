@@ -5,13 +5,14 @@ import { Switch } from "./switch";
 
 const { scale } = ATTRIBUTES;
 
-type SwitchStoryArgs = Pick<Switch, "checked" | "disabled" | "scale">;
+type SwitchStoryArgs = Pick<Switch, "checked" | "disabled" | "required" | "scale">;
 
 export default {
   title: "Components/Controls/Switch",
   args: {
     checked: true,
     disabled: false,
+    required: false,
     scale: scale.defaultValue,
   },
   argTypes: {
@@ -28,6 +29,7 @@ export const simple = (args: SwitchStoryArgs): string => html`
     value="enabled"
     ${boolean("checked", args.checked)}
     ${boolean("disabled", args.disabled)}
+    ${boolean("required", args.required)}
     scale="${args.scale}"
   ></calcite-switch>
 `;
