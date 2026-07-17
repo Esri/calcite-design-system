@@ -157,7 +157,7 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   }
 }
 
-:host([data-has-action-bar-position-panel]) {
+:host([has-action-bar-position-panel]) {
   ::slotted(calcite-panel) {
     border: 0;
   }

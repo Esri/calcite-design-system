@@ -76,6 +76,8 @@ export class Shell extends LitElement {
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
+  @property({ reflect: true }) hasActionBarPositionPanel = false;
+
   @property({ reflect: true }) hasResizablePanelBottom = false;
 
   @property({ reflect: true }) hasResizablePanelTop = false;
@@ -257,11 +259,9 @@ export class Shell extends LitElement {
   }
 
   private syncActionBarPositionPanelAttribute(): void {
-    const hasActionBarPositionPanel = panelSlots.some((slot) =>
+    this.hasActionBarPositionPanel = panelSlots.some((slot) =>
       this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
     );
-
-    this.el.toggleAttribute("data-has-action-bar-position-panel", hasActionBarPositionPanel);
   }
 
   private syncResizableState(): void {

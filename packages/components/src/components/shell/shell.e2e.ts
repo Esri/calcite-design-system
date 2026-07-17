@@ -75,17 +75,17 @@ describe("action bar position panel", () => {
     const shell = await page.find("calcite-shell");
     const shellPanel = await page.find("calcite-shell-panel");
 
-    expect(shell).toHaveAttribute("data-has-action-bar-position-panel");
+    expect(shell).toHaveAttribute("has-action-bar-position-panel");
 
     await shellPanel.setProperty("actionBarPosition", undefined);
     await page.waitForChanges();
 
-    expect(shell).not.toHaveAttribute("data-has-action-bar-position-panel");
+    expect(shell).not.toHaveAttribute("has-action-bar-position-panel");
 
     await shellPanel.setProperty("actionBarPosition", "top");
     await page.waitForChanges();
 
-    expect(shell).toHaveAttribute("data-has-action-bar-position-panel");
+    expect(shell).toHaveAttribute("has-action-bar-position-panel");
   });
 });
 
