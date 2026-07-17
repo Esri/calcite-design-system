@@ -428,10 +428,14 @@ export class ActionMenu extends LitElement {
     this.connectMenuButtonEl();
   }
 
-  private handleTriggerSlotChange(): void {
-    this.setMenuButtonEl();
+  private syncActionsAndEmitChange(): void {
     this.syncActions();
     this.calciteActionMenuActionsChange.emit();
+  }
+
+  private handleTriggerSlotChange(): void {
+    this.setMenuButtonEl();
+    this.syncActionsAndEmitChange();
   }
 
   private setDefaultMenuButtonEl(el: Action["el"]): void {
@@ -479,8 +483,7 @@ export class ActionMenu extends LitElement {
 
   private async handleDefaultSlotChange(): Promise<void> {
     await this.componentOnReady();
-    this.syncActions();
-    this.calciteActionMenuActionsChange.emit();
+    this.syncActionsAndEmitChange();
   }
 
   private handleActionGroupActionsChange(event: CustomEvent<void>): void {
@@ -496,8 +499,7 @@ export class ActionMenu extends LitElement {
       return;
     }
 
-    this.syncActions();
-    this.calciteActionMenuActionsChange.emit();
+    this.syncActionsAndEmitChange();
   }
 
   private isValidKey(key: string, supportedKeys: string[]): boolean {

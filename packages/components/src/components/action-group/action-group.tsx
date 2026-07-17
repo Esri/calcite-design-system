@@ -215,28 +215,28 @@ export class ActionGroup extends LitElement {
   //#region Private Methods
 
   private setActiveAction(index: number, active: Action["el"]): void {
-    if (this.selectionMode === "multiple") {
-      const nextActive = !active.active;
-      this.updateAction(active, nextActive);
-      this.updateSelectedActions(this.actions.filter((action) => action.active));
-      this.calciteActionGroupChange.emit();
-      return;
+    const nextActive = !active.active;
+
+    switch (this.selectionMode) {
+      case "multiple":
+        this.updateAction(active, nextActive);
+        break;
+      case "single":
+        this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
+        break;
+      case "single-persist":
+        if (!this.actions[index].active) {
+          this.actions.forEach((action, i) => this.updateAction(action, i === index));
+          this.updateSelectedActions([active]);
+          this.calciteActionGroupChange.emit();
+        }
+        return;
+      default:
+        return;
     }
-    if (this.selectionMode === "single") {
-      const nextActive = !active.active;
-      this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
-      this.updateSelectedActions(this.actions.filter((action) => action.active));
-      this.calciteActionGroupChange.emit();
-      return;
-    }
-    if (this.selectionMode === "single-persist") {
-      if (!this.actions[index].active) {
-        this.actions.forEach((action, i) => this.updateAction(action, i === index));
-        this.updateSelectedActions([active]);
-        this.calciteActionGroupChange.emit();
-      }
-      return;
-    }
+
+    this.updateSelectedActions(this.actions.filter((action) => action.active));
+    this.calciteActionGroupChange.emit();
   }
 
   private setMenuOpen(event: ToEvents<ActionMenu>["calciteActionMenuOpen"]): void {
@@ -276,15 +276,18 @@ export class ActionGroup extends LitElement {
     this.syncSelectionState();
   }
 
-  private handleDefaultSlotChange(): void {
+  private syncActionsAndEmitChange(): void {
     this.syncActions();
     this.calciteActionGroupActionsChange.emit();
   }
 
+  private handleDefaultSlotChange(): void {
+    this.syncActionsAndEmitChange();
+  }
+
   private handleMenuActionsSlotChange(event: Event): void {
     this.hasMenuActions = slotChangeHasAssignedElement(event);
-    this.syncActions();
-    this.calciteActionGroupActionsChange.emit();
+    this.syncActionsAndEmitChange();
   }
 
   private handleActionClick(event: MouseEvent): void {

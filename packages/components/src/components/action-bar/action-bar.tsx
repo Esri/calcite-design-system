@@ -32,11 +32,12 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
+import { isActionMenu } from "../action-menu/utils/isActionMenu";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { ActionBarItem, isActionMenu, overflowActions, queryActions } from "./utils";
+import { ActionBarItem, overflowActions, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -569,14 +570,18 @@ export class ActionBar extends LitElement {
     entries.forEach(this.resizeHandler);
   }
 
+  private getSectionWrapperGroups(): ActionGroup["el"][] {
+    return [this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
+      (group): group is ActionGroup["el"] => !!group,
+    );
+  }
+
   private updateGroups(): void {
     const groups = [
       ...this.actionGroups,
       ...this.actionsStartGroups,
       ...this.actionsEndGroups,
-      ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
-        (group): group is ActionGroup["el"] => !!group,
-      ),
+      ...this.getSectionWrapperGroups(),
     ];
 
     groups.forEach((group) => {
@@ -586,21 +591,15 @@ export class ActionBar extends LitElement {
   }
 
   private handleDefaultSlotChange(): void {
-    this.syncDefaultSlot();
-    this.syncActionsState();
-    this.overflowActions();
+    this.syncSlotAndActions(() => this.syncDefaultSlot());
   }
 
   private handleActionsEndSlotChange(): void {
-    this.syncActionsEndSlot();
-    this.syncActionsState();
-    this.overflowActions();
+    this.syncSlotAndActions(() => this.syncActionsEndSlot());
   }
 
   private handleActionsStartSlotChange(): void {
-    this.syncActionsStartSlot();
-    this.syncActionsState();
-    this.overflowActions();
+    this.syncSlotAndActions(() => this.syncActionsStartSlot());
   }
 
   private handleTooltipSlotChange(event: Event): void {
@@ -631,6 +630,16 @@ export class ActionBar extends LitElement {
     ]);
   }
 
+  private syncActionsAndOverflow(): void {
+    this.syncActionsState();
+    this.overflowActions();
+  }
+
+  private syncSlotAndActions(syncSlot: () => void): void {
+    syncSlot();
+    this.syncActionsAndOverflow();
+  }
+
   private syncActionsState(syncExpandedState = false): void {
     this.syncActions();
     this.updateActions();
@@ -644,9 +653,7 @@ export class ActionBar extends LitElement {
       expandables: [
         ...this.getTrackedActionGroups(),
         ...this.getTrackedActionMenus(),
-        ...[this.actionsStartGroupRef.value, this.actionsEndGroupRef.value].filter(
-          (group): group is ActionGroup["el"] => !!group,
-        ),
+        ...this.getSectionWrapperGroups(),
       ],
       expanded: this.expanded,
     });
@@ -662,19 +669,6 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private getAssignedDefaultSlotItems(): ActionBarItem[] {
-    const slot = this.defaultSlotRef.value;
-
-    if (!slot) {
-      return [];
-    }
-
-    return getSlotAssignedElements(slot).filter(
-      (element): element is ActionBarItem =>
-        isAction(element) || isActionGroup(element) || isActionMenu(element),
-    );
-  }
-
   private getAssignedActionBarItems(slot?: HTMLSlotElement | null): ActionBarItem[] {
     if (!slot) {
       return [];
@@ -687,7 +681,7 @@ export class ActionBar extends LitElement {
   }
 
   private syncDefaultSlot(): void {
-    this.defaultSlotItems = this.getAssignedDefaultSlotItems();
+    this.defaultSlotItems = this.getAssignedActionBarItems(this.defaultSlotRef.value);
     this.actionGroups = this.defaultSlotItems.filter((item): item is ActionGroup["el"] =>
       isActionGroup(item),
     );
@@ -728,8 +722,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState();
-    this.overflowActions();
+    this.syncActionsAndOverflow();
   }
 
   private handleActionMenuActionsChange(event: CustomEvent<void>): void {
@@ -739,8 +732,7 @@ export class ActionBar extends LitElement {
       return;
     }
 
-    this.syncActionsState();
-    this.overflowActions();
+    this.syncActionsAndOverflow();
   }
 
   private getNavigableActions(): Action["el"][] {
@@ -829,14 +821,18 @@ export class ActionBar extends LitElement {
 
     const isStart = position === "start";
     const hasExpandToggle = !expandToggleDisabled && expandPosition === position;
+    const hasActions = isStart ? this.hasActionsStart : this.hasActionsEnd;
 
     const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
     const onSlotChange = isStart
       ? this.handleActionsStartSlotChange
       : this.handleActionsEndSlotChange;
     const label = isStart ? this.actionsStartGroupLabel : this.actionsEndGroupLabel;
-    const hidden = !hasExpandToggle && !(isStart ? this.hasActionsStart : this.hasActionsEnd);
+    const hidden = !hasExpandToggle && !hasActions;
     const className = isStart ? CSS.actionGroupStart : CSS.actionGroupEnd;
+    const actionGroupRef = isStart ? this.actionsStartGroupRef : this.actionsEndGroupRef;
+    const slotRef = isStart ? this.actionsStartSlotRef : this.actionsEndSlotRef;
+    const expandToggle = hasExpandToggle ? this.renderExpandToggle() : null;
 
     return (
       <calcite-action-group
@@ -845,25 +841,23 @@ export class ActionBar extends LitElement {
         label={label}
         layout={layout}
         overlayPositioning={overlayPositioning}
-        ref={isStart ? this.actionsStartGroupRef : this.actionsEndGroupRef}
+        ref={actionGroupRef}
         scale={scale}
       >
-        {isStart && hasExpandToggle ? this.renderExpandToggle() : null}
-        <slot
-          name={slotName}
-          onSlotChange={onSlotChange}
-          ref={isStart ? this.actionsStartSlotRef : this.actionsEndSlotRef}
-        />
+        {isStart ? expandToggle : null}
+        <slot name={slotName} onSlotChange={onSlotChange} ref={slotRef} />
         {hasExpandToggle ? this.renderExpandTooltipSlot() : null}
-        {!isStart && hasExpandToggle ? this.renderExpandToggle() : null}
+        {isStart ? null : expandToggle}
       </calcite-action-group>
     );
   }
 
   override render(): JsxNode {
+    const ariaOrientation = this.layout === "horizontal" ? "horizontal" : "vertical";
+
     return (
       <div
-        ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
+        ariaOrientation={ariaOrientation}
         class={CSS.container}
         ref={this.containerRef}
         role="toolbar"

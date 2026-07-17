@@ -1,14 +1,11 @@
 import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { isActionMenu } from "../action-menu/utils/isActionMenu";
 import type { ActionMenu } from "../action-menu/action-menu";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
 export type ActionBarItem = Action["el"] | ActionGroup["el"] | ActionMenu["el"];
-
-export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
-  return el?.tagName === "CALCITE-ACTION-MENU";
-}
 
 export const queryActions = (items: ActionBarItem[]): Action["el"][] =>
   items
