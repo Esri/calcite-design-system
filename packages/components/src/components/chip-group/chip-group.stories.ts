@@ -1,15 +1,16 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ChipGroup } from "./chip-group";
 
 const { selectionMode, scale } = ATTRIBUTES;
 
-type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;
+type ChipGroupStoryArgs = Pick<ChipGroup, "disabled" | "scale" | "selectionMode">;
 
 export default {
   title: "Components/Chip Group",
   args: {
+    disabled: false,
     selectionMode: selectionMode.defaultValue,
     scale: scale.defaultValue,
   },
@@ -28,7 +29,11 @@ export default {
 };
 
 export const simple = (args: ChipGroupStoryArgs): string => html`
-  <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
+  <calcite-chip-group
+    ${boolean("disabled", args.disabled)}
+    selection-mode="${args.selectionMode}"
+    scale="${args.scale}"
+  >
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>
     <calcite-chip value="shore">Seashore</calcite-chip>

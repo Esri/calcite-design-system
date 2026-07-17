@@ -1,4 +1,4 @@
-import { boolean } from "../../../.storybook/utils";
+import { boolean, optionalAttribute } from "../../../.storybook/utils";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { SLOTS } from "../../../src/components/menu-item/resources";
@@ -6,7 +6,17 @@ import type { MenuItem } from "./menu-item";
 
 interface MenuItemStoryArgs extends Pick<
   MenuItem,
-  "text" | "href" | "rel" | "target" | "label" | "active" | "breadcrumb"
+  | "active"
+  | "breadcrumb"
+  | "href"
+  | "iconEnd"
+  | "iconFlipRtl"
+  | "iconStart"
+  | "label"
+  | "open"
+  | "rel"
+  | "target"
+  | "text"
 > {
   src: string;
 }
@@ -19,9 +29,23 @@ export default {
     href: "",
     rel: "",
     target: "",
+    iconStart: "",
+    iconEnd: "",
+    iconFlipRtl: false,
     label: "",
     active: false,
     breadcrumb: false,
+    open: false,
+  },
+  argTypes: {
+    iconStart: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    iconEnd: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -33,9 +57,13 @@ export const simple = (args: MenuItemStoryArgs): string => html`
       href="${args.href}"
       rel="${args.rel}"
       target="${args.target}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
+      ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
       label="${args.label}"
       ${boolean("active", args.active)}
       ${boolean("breadcrumb", args.breadcrumb)}
+      ${boolean("open", args.open)}
     />
   </calcite-menu>
 `;

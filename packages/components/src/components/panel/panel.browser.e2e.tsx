@@ -14,6 +14,7 @@ import {
   t9n,
   disabled,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
@@ -337,6 +338,22 @@ describe("floating-ui", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-panel"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-panel>
+          <calcite-action icon="plus" slot={SLOTS.headerMenuActions} text="Add" />
+        </calcite-panel>,
+      ),
+    {
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-panel [popover]"),
+    },
+  );
 });
 
 describe("disabled", () => {
