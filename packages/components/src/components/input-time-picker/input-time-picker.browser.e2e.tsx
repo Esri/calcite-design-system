@@ -19,8 +19,10 @@ import {
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { supportedNlsLocales } from "../date-picker/utils";
-import { getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
+import { formatTimePart, getLocaleHourFormat, getMeridiemOrder, localizeTimeString } from "../../utils/time";
+import { letterKeys } from "../../utils/key";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS as TimePickerCSS } from "../time-picker/resources";
 import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
@@ -974,5 +976,512 @@ describe("deprecated", () => {
       shadowSelector: `.${CSS.container}`,
       targetProp: "--calcite-icon-color",
     },
+  });
+});
+
+describe("value and property behavior", () => {
+  it("resets an invalid initial value", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="invalid" />,
+    );
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("resets to the previous value when a change event is prevented", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="14:59" />,
+    );
+    el.addEventListener("calciteInputTimePickerChange", (event) => event.preventDefault());
+
+    await el.setFocus();
+    await userEvent.keyboard("5{Enter}");
+
+    await expect.element(el).toHaveProperty("value", "14:59");
+    await assertDisplayedTime("02:59 PM");
+  });
+
+  it("allows a programmatic value to be edited and reset", async () => {
+    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker />);
+    el.value = "04:35";
+    await assertDisplayedTime("04:35 AM");
+
+    el.open = true;
+    await page.getBySelector(`calcite-time-picker .${TimePickerCSS.buttonHourUp}`).click();
+    await page.getBySelector(`calcite-time-picker .${TimePickerCSS.buttonMinuteUp}`).click();
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "05:36");
+    el.value = "04:35";
+    await expect.element(el).toHaveProperty("value", "04:35");
+    await assertDisplayedTime("04:35 AM");
+  });
+
+  it("remains focusable but cannot be edited when readOnly", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker read-only step={0.001} />,
+    );
+    const fields = ["Hour", "Minute", "Second", "Fractional second", "AM/PM"];
+
+    await el.setFocus();
+    await expect.element(el).toHaveFocus();
+    await expect.element(el).toHaveProperty("open", false);
+
+    for (const name of fields) {
+      await page.getByRole("spinbutton", { exact: true, name }).click();
+      await userEvent.keyboard("1{ArrowUp}");
+      await assertDisplayedTime("--:--:--.--- --");
+    }
+  });
+
+  it("responds to hourFormat changes without emitting change", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="14:30" />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+
+    for (const [hourFormat, displayed] of [
+      ["24", "14:30"],
+      ["12", "02:30 PM"],
+      ["24", "14:30"],
+      ["user", "02:30 PM"],
+    ] as const) {
+      el.hourFormat = hourFormat;
+      await assertDisplayedTime(displayed);
+      await expect.element(el).toHaveProperty("value", "14:30");
+    }
+    expect(change).not.toHaveBeenCalled();
+  });
+
+  it("responds to lang and numberingSystem changes without emitting change", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker step={1} value="14:30:25" />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+
+    el.lang = "da";
+    await vi.waitFor(() => assertDisplayedTime("14.30.25"));
+    el.lang = "ar";
+    await vi.waitFor(() => assertDisplayedTime("02:30:25 م"));
+    el.numberingSystem = "arab";
+    await vi.waitFor(() => assertDisplayedTime("٠٢:٣٠:٢٥ م"));
+    el.lang = "zh-HK";
+    el.numberingSystem = "latn";
+    await vi.waitFor(() => assertDisplayedTime("下午02:30:25"));
+    expect(change).not.toHaveBeenCalled();
+  });
+
+  it("responds to step changes", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="1:2:3" />,
+    );
+
+    await expect.element(el).toHaveProperty("value", "01:02");
+    el.step = 1;
+    await expect.element(el).toHaveProperty("value", "01:02:00");
+    await assertDisplayedTime("01:02:00 AM");
+    el.step = 60;
+    await expect.element(el).toHaveProperty("value", "01:02");
+  });
+
+  it("direct value changes do not interfere with later user changes", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="14:30" />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+
+    el.value = "15:00";
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(el).toHaveProperty("value", "16:00");
+    expect(change).not.toHaveBeenCalled();
+    await userEvent.keyboard("{Enter}");
+    expect(change).toHaveBeenCalledTimes(1);
+  });
+
+  it("setting an undefined value clears partially filled input and picker fields", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker open step={0.001} />,
+    );
+    const fields = [
+      [CSS.hour, TimePickerCSS.hour],
+      [CSS.minute, TimePickerCSS.minute],
+      [CSS.second, TimePickerCSS.second],
+      [CSS.fractionalSecond, TimePickerCSS.fractionalSecond],
+    ];
+
+    for (const [inputClassName, pickerClassName] of fields) {
+      for (const selector of [
+        `calcite-input-time-picker .${inputClassName}`,
+        `calcite-time-picker .${pickerClassName}`,
+      ]) {
+        await page.getBySelector(selector).first().click();
+        await userEvent.keyboard("{ArrowUp}");
+        // @ts-expect-error -- setting unsupported value
+        el.value = undefined;
+        await assertDisplayedTime("--:--:--.--- --");
+        await expect
+          .element(page.getBySelector(`calcite-time-picker .${pickerClassName}`))
+          .toHaveTextContent(inputClassName === CSS.fractionalSecond ? "---" : "--");
+      }
+    }
+  });
+
+  it("a value set by a change listener does not interfere with later changes", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker value="14:30" />,
+    );
+    const change = vi.fn(() => {
+      el.value = "10:00";
+    });
+    el.addEventListener("calciteInputTimePickerChange", change);
+    await el.setFocus();
+
+    for (const key of ["{ArrowUp}", "{ArrowUp}", "{ArrowDown}", "{ArrowDown}{ArrowDown}"]) {
+      await userEvent.keyboard(`${key}{Enter}`);
+      await expect.element(el).toHaveProperty("value", "10:00");
+    }
+    expect(change).toHaveBeenCalledTimes(4);
+  });
+});
+
+describe("time field behavior", () => {
+  const inputField = (className: string) =>
+    page.getBySelector(`calcite-input-time-picker .${className}`).first();
+  const pickerField = (className: string) =>
+    page.getBySelector(`calcite-time-picker .${className}`);
+
+  async function assertSynchronized(
+    inputClassName: string,
+    value: string,
+    pickerClassName = inputClassName,
+  ): Promise<void> {
+    await expect.element(inputField(inputClassName)).toHaveTextContent(value);
+    await expect.element(pickerField(pickerClassName)).toHaveTextContent(value);
+  }
+
+  for (const {
+    field,
+    inputClass,
+    pickerClass,
+    upButton,
+    downButton,
+    max,
+  } of [
+    {
+      field: "minute",
+      inputClass: CSS.minute,
+      pickerClass: TimePickerCSS.minute,
+      upButton: TimePickerCSS.buttonMinuteUp,
+      downButton: TimePickerCSS.buttonMinuteDown,
+      max: 59,
+    },
+    {
+      field: "second",
+      inputClass: CSS.second,
+      pickerClass: TimePickerCSS.second,
+      upButton: TimePickerCSS.buttonSecondUp,
+      downButton: TimePickerCSS.buttonSecondDown,
+      max: 59,
+    },
+  ]) {
+    describe(field, () => {
+      for (const source of ["input", "picker", "nudge"] as const) {
+        it(`increments with ${source}`, async () => {
+          await mount(<calcite-input-time-picker open step={0.001} />);
+          const target =
+            source === "input"
+              ? inputField(inputClass)
+              : source === "picker"
+                ? pickerField(pickerClass)
+                : page.getBySelector(`calcite-time-picker .${upButton}`);
+          await target.click();
+
+          for (let value = 0; value <= max; value++) {
+            if (value > 0 || source !== "nudge") {
+              await (source === "nudge" ? target.click() : userEvent.keyboard("{ArrowUp}"));
+            }
+            await assertSynchronized(inputClass, formatTimePart(value)!);
+          }
+          await (source === "nudge" ? target.click() : userEvent.keyboard("{ArrowUp}"));
+          await assertSynchronized(inputClass, "00");
+        });
+
+        it(`decrements with ${source}`, async () => {
+          await mount(<calcite-input-time-picker open step={0.001} />);
+          const target =
+            source === "input"
+              ? inputField(inputClass)
+              : source === "picker"
+                ? pickerField(pickerClass)
+                : page.getBySelector(`calcite-time-picker .${downButton}`);
+          await target.click();
+
+          for (let value = max; value >= 0; value--) {
+            if (value !== max || source !== "nudge") {
+              await (source === "nudge" ? target.click() : userEvent.keyboard("{ArrowDown}"));
+            }
+            await assertSynchronized(inputClass, formatTimePart(value)!);
+          }
+        });
+      }
+    });
+  }
+
+  for (const hourFormat of ["12", "24"] as const) {
+    for (const direction of ["increments", "decrements"] as const) {
+      it(`${direction} the hour in ${hourFormat}-hour format from both inputs and buttons`, async () => {
+        await mount(
+          <calcite-input-time-picker hour-format={hourFormat} open step={0.001} />,
+        );
+        const arrow = direction === "increments" ? "{ArrowUp}" : "{ArrowDown}";
+        const buttonClass =
+          direction === "increments" ? TimePickerCSS.buttonHourUp : TimePickerCSS.buttonHourDown;
+        const values =
+          hourFormat === "12"
+            ? direction === "increments"
+              ? Array.from({ length: 12 }, (_, index) => index + 1)
+              : Array.from({ length: 12 }, (_, index) => 12 - index)
+            : direction === "increments"
+              ? [...Array.from({ length: 23 }, (_, index) => index + 1), 0]
+              : [0, ...Array.from({ length: 23 }, (_, index) => 23 - index)];
+
+        for (const [source, target] of [
+          ["input", inputField(CSS.hour)],
+          ["picker", pickerField(TimePickerCSS.hour)],
+          ["nudge", page.getBySelector(`calcite-time-picker .${buttonClass}`)],
+        ] as const) {
+          await userEvent.keyboard("{Delete}");
+          for (const value of values) {
+            await target.click();
+            if (source !== "nudge") await userEvent.keyboard(arrow);
+            await assertSynchronized(CSS.hour, formatTimePart(value)!);
+          }
+        }
+      });
+    }
+  }
+
+  for (const [step, expected] of [
+    [0.1, "0"],
+    [0.01, "00"],
+    [0.001, "000"],
+  ] as const) {
+    it(`nudges an empty fractional second to ${expected} for step=${step}`, async () => {
+      await mount(<calcite-input-time-picker step={step} />);
+      await inputField(CSS.fractionalSecond).click();
+      await userEvent.keyboard("{ArrowUp}");
+      await expect.element(inputField(CSS.fractionalSecond)).toHaveTextContent(expected);
+    });
+  }
+
+  it("increments and decrements fractional seconds from the input, picker and buttons", async () => {
+    await mount(<calcite-input-time-picker open step={0.001} />);
+    for (const [arrow, button, values] of [
+      ["{ArrowUp}", TimePickerCSS.buttonFractionalSecondUp, Array.from({ length: 11 }, (_, i) => i)],
+      ["{ArrowDown}", TimePickerCSS.buttonFractionalSecondDown, Array.from({ length: 11 }, (_, i) => 999 - i)],
+    ] as const) {
+      for (const target of [
+        inputField(CSS.fractionalSecond),
+        pickerField(TimePickerCSS.fractionalSecond),
+      ]) {
+        await target.click();
+        for (const value of values) {
+          await userEvent.keyboard(arrow);
+          await assertSynchronized(
+            CSS.fractionalSecond,
+            `${value}`.padStart(3, "0"),
+            TimePickerCSS.fractionalSecond,
+          );
+        }
+        await userEvent.keyboard("{Delete}");
+      }
+      const nudge = page.getBySelector(`calcite-time-picker .${button}`);
+      for (const value of values) {
+        await nudge.click();
+        await assertSynchronized(
+          CSS.fractionalSecond,
+          `${value}`.padStart(3, "0"),
+          TimePickerCSS.fractionalSecond,
+        );
+      }
+      await userEvent.keyboard("{Delete}");
+    }
+  });
+
+  it("increments, decrements, types and clears the meridiem", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker open step={0.001} value="15:00:00.000" />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+    const meridiem = inputField(CSS.meridiem);
+
+    await meridiem.click();
+    await userEvent.keyboard("{ArrowUp}");
+    await assertSynchronized(CSS.meridiem, "AM");
+    await userEvent.keyboard("{ArrowUp}");
+    await assertSynchronized(CSS.meridiem, "PM");
+    await userEvent.keyboard("{ArrowDown}");
+    await assertSynchronized(CSS.meridiem, "AM");
+    await userEvent.keyboard("p");
+    await assertSynchronized(CSS.meridiem, "PM");
+    await userEvent.keyboard("{Delete}{Enter}");
+    expect(change).toHaveBeenCalledTimes(1);
+  });
+
+  it("emits change when cleared immediately after the value is set programmatically (#12889)", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker open step={0.001} />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+
+    el.value = "15:00:00";
+    await expect.element(el).toHaveProperty("value", "15:00:00.000");
+    expect(change).not.toHaveBeenCalled();
+
+    await inputField(CSS.meridiem).click();
+    await userEvent.keyboard("{Delete}{Enter}");
+    expect(change).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("typed input behavior", () => {
+  for (const hourFormat of ["12", "24"] as const) {
+    it(`ignores letters in numeric fields in ${hourFormat}-hour format`, async () => {
+      await mount(<calcite-input-time-picker hour-format={hourFormat} step={1} />);
+      for (const name of ["Hour", "Minute", "Second"]) {
+        const field = page.getByRole("spinbutton", { name });
+        await field.click();
+        await userEvent.keyboard(letterKeys.join(""));
+        await expect.element(field).toHaveTextContent("--");
+      }
+    });
+
+    it(`pads single digit numeric fields in ${hourFormat}-hour format`, async () => {
+      await mount(<calcite-input-time-picker hour-format={hourFormat} step={1} />);
+      for (const [name, zero] of [
+        ["Hour", hourFormat === "12" ? "12" : "00"],
+        ["Minute", "00"],
+        ["Second", "00"],
+      ]) {
+        const field = page.getByRole("spinbutton", { name });
+        await field.click();
+        for (let value = 0; value < 10; value++) {
+          await userEvent.keyboard(`${value}`);
+          await expect.element(field).toHaveTextContent(value === 0 ? zero : `0${value}`);
+          await userEvent.keyboard("{Backspace}");
+        }
+      }
+    });
+  }
+
+  for (const [name, max, hourFormat] of [
+    ["Hour", 12, "12"],
+    ["Hour", 23, "24"],
+    ["Minute", 59, "12"],
+    ["Second", 59, "12"],
+  ] as const) {
+    it(`restricts ${name.toLowerCase()} typing to valid values`, async () => {
+      await mount(<calcite-input-time-picker hour-format={hourFormat} step={1} />);
+      const field = page.getByRole("spinbutton", { name });
+      await field.click();
+      for (let value = 10; value < 100; value++) {
+        await userEvent.keyboard(`${value}`);
+        const expected =
+          value <= max
+            ? `${value}`
+            : name === "Hour" && hourFormat === "12" && value % 10 === 0
+              ? "12"
+              : `0${value % 10}`;
+        await expect.element(field).toHaveTextContent(expected);
+      }
+    });
+  }
+
+  it("repeated AM and PM input does not affect the hour", async () => {
+    await mount(<calcite-input-time-picker value="00:00" />);
+    const meridiem = page.getByRole("spinbutton", { name: "AM/PM" });
+    await meridiem.click();
+    await userEvent.keyboard("aaappp");
+    await expect.element(page.getByRole("spinbutton", { name: "Hour" })).toHaveTextContent("12");
+    await expect.element(meridiem).toHaveTextContent("PM");
+  });
+});
+
+describe("time picker interactions", () => {
+  it("sets the internal popover to autoClose", async () => {
+    await mount(<calcite-input-time-picker />);
+    await expect
+      .element(page.getBySelector("calcite-input-time-picker calcite-popover"))
+      .toHaveProperty("autoClose", true);
+  });
+
+  it("toggles only from the toggle button and closes with Escape", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker focus-trap-disabled />,
+    );
+    const toggle = page.getBySelector(`calcite-input-time-picker .${CSS.toggleIcon}`);
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}{Escape}");
+    await expect.element(el).toHaveProperty("open", false);
+    await toggle.click();
+    await expect.element(el).toHaveProperty("open", true);
+    await toggle.click();
+    await expect.element(el).toHaveProperty("open", false);
+    await toggle.click();
+    await userEvent.keyboard("{Escape}");
+    await expect.element(el).toHaveProperty("open", false);
+  });
+
+  it("traps focus only while open", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <>
+        <calcite-input-time-picker />
+        <button>next sibling</button>
+      </>,
+    );
+    const next = page.getByRole("button", { name: "next sibling" });
+    await el.setFocus();
+    await userEvent.keyboard("{Tab}{Tab}{Tab}");
+    await expect.element(next).toHaveFocus();
+    await el.setFocus();
+    await page.getBySelector(`calcite-input-time-picker .${CSS.toggleIcon}`).click();
+    await page.getBySelector(`calcite-time-picker .${TimePickerCSS.hour}`).click();
+    await expect.element(el).toHaveProperty("open", true);
+    await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
+    await expect.element(next).not.toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await expect.element(el).toHaveProperty("open", false);
+    await userEvent.keyboard("{Tab}{Tab}{Tab}");
+    await expect.element(next).toHaveFocus();
+  });
+
+  it("updates value and emits change on Enter after editing in the picker", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker step={0.001} value="00:00:00" />,
+    );
+    const change = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", change);
+    await page.getBySelector(`calcite-input-time-picker .${CSS.toggleIcon}`).click();
+
+    for (const className of [
+      TimePickerCSS.hour,
+      TimePickerCSS.minute,
+      TimePickerCSS.second,
+      TimePickerCSS.fractionalSecond,
+      TimePickerCSS.meridiem,
+    ]) {
+      await page.getBySelector(`calcite-time-picker .${className}`).click();
+      await userEvent.keyboard("{ArrowUp}");
+      expect(change).not.toHaveBeenCalled();
+    }
+    await expect.element(el).toHaveProperty("value", "13:01:01.001");
+    await userEvent.keyboard("{Enter}");
+    expect(change).toHaveBeenCalledTimes(1);
   });
 });
