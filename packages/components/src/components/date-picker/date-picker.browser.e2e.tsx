@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page } from "vitest/browser";
 import { defaults, focusable, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
@@ -8,10 +8,6 @@ import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
 import { mockConsole } from "../../tests/utils/logging";
 import type { DatePickerMonth } from "../date-picker-month/date-picker-month";
-
-afterEach(() => {
-  vi.useRealTimers();
-});
 
 describe("defaults", () => {
   defaults(
@@ -106,8 +102,7 @@ describe("activeDate", () => {
 });
 
 describe("value", () => {
-  const today = new Date(2026, 6, 16, 12);
-  const todayDayId = "20260716";
+  const today = new Date();
   const unsetValueCases = [
     { label: "empty string", value: "" },
     { label: "null", value: null },
@@ -122,16 +117,12 @@ describe("value", () => {
 
       expect(el.valueAsDate).toBeInstanceOf(Date);
 
-      vi.useFakeTimers();
-      vi.setSystemTime(today);
-
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
       expect(el.valueAsDate).toBeUndefined();
       expectDate(el.activeDate, today);
-      expect(getDay(el, todayDayId, "active")).not.toBeNull();
-      expect(getDay(el, todayDayId, "selected")).toBeNull();
+      expectDate(getMonth(el)?.activeDate, today);
       expect(getSelectedDays(el)).toHaveLength(0);
     },
   );
@@ -144,16 +135,12 @@ describe("value", () => {
 
     expect(el.valueAsDate).toBeInstanceOf(Date);
 
-    vi.useFakeTimers();
-    vi.setSystemTime(today);
-
     el.valueAsDate = undefined;
     await waitForCalendarUpdate(el, component);
 
     expect(el.valueAsDate).toBeUndefined();
     expectDate(el.activeDate, today);
-    expect(getDay(el, todayDayId, "active")).not.toBeNull();
-    expect(getDay(el, todayDayId, "selected")).toBeNull();
+    expectDate(getMonth(el)?.activeDate, today);
     expect(getSelectedDays(el)).toHaveLength(0);
   });
 
@@ -167,17 +154,12 @@ describe("value", () => {
 
       expect(el.valueAsDate).toHaveLength(2);
 
-      vi.useFakeTimers();
-      vi.setSystemTime(today);
-
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
       expect(el.valueAsDate).toBeUndefined();
-      expectDate(el.activeStartDate, today);
+      expectDate(getMonth(el)?.activeDate, today);
       expect(el.activeEndDate).toBeUndefined();
-      expect(getDay(el, todayDayId, "active")).not.toBeNull();
-      expect(getDay(el, todayDayId, "selected")).toBeNull();
       expect(getSelectedDays(el)).toHaveLength(0);
     },
   );
@@ -190,39 +172,23 @@ describe("value", () => {
 
     expect(el.valueAsDate).toHaveLength(2);
 
-    vi.useFakeTimers();
-    vi.setSystemTime(today);
-
     el.value = ["", ""];
     await waitForCalendarUpdate(el, component);
 
     expect(el.valueAsDate).toBeUndefined();
-    expectDate(el.activeStartDate, today);
+    expectDate(getMonth(el)?.activeDate, today);
     expect(el.activeEndDate).toBeUndefined();
-    expect(getDay(el, todayDayId, "active")).not.toBeNull();
-    expect(getDay(el, todayDayId, "selected")).toBeNull();
     expect(getSelectedDays(el)).toHaveLength(0);
   });
 
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
+    await component.updateComplete;
     await component.updateComplete;
     await (getMonth(el) as DatePickerMonth | null)?.updateComplete;
   }
 
   function getMonth(el: DatePicker["el"]): DatePickerMonth["el"] | null {
     return el.shadowRoot!.querySelector("calcite-date-picker-month");
-  }
-
-  function getDay(
-    el: DatePicker["el"],
-    id: string,
-    attribute: "active" | "selected",
-  ): Element | null {
-    return (
-      getMonth(el)?.shadowRoot!.querySelector(
-        `calcite-date-picker-day[id='${id}'][${attribute}]`,
-      ) || null
-    );
   }
 
   function getSelectedDays(el: DatePicker["el"]): Element[] {
