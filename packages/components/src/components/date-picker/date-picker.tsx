@@ -262,14 +262,19 @@ export class DatePicker extends LitElement {
       this.valueAsDate = dateFromISO(value);
     } else {
       this.valueAsDate = undefined;
+      this.resetActiveDates();
     }
   }
 
   private valueAsDateWatcher(newValueAsDate?: Date | (Date | undefined)[]): void {
     if (this.range && Array.isArray(newValueAsDate) && !this.rangeValueChangedByUser) {
       this.setActiveStartAndEndDates();
-    } else if (!this.range && newValueAsDate && newValueAsDate !== this.activeDate) {
-      this.activeDate = newValueAsDate as Date;
+    } else if (!this.range) {
+      if (newValueAsDate && newValueAsDate !== this.activeDate) {
+        this.activeDate = newValueAsDate as Date;
+      } else if (!newValueAsDate) {
+        this.resetActiveDates();
+      }
     }
   }
 
@@ -423,16 +428,32 @@ export class DatePicker extends LitElement {
   private resetActiveDates(): void {
     const { valueAsDate } = this;
 
-    if (!Array.isArray(valueAsDate) && valueAsDate && valueAsDate !== this.activeDate) {
-      this.activeDate = new Date(valueAsDate);
+    if (!Array.isArray(valueAsDate)) {
+      if (valueAsDate && valueAsDate !== this.activeDate) {
+        this.activeDate = new Date(valueAsDate);
+      } else if (!valueAsDate) {
+        this.activeDate = undefined;
+        const activeDate = this.getActiveDate(undefined, this.minAsDate, this.maxAsDate);
+
+        if (this.range) {
+          this.activeStartDate = activeDate;
+          this.activeEndDate = undefined;
+        } else {
+          this.activeDate = activeDate;
+        }
+      }
     }
 
     if (Array.isArray(valueAsDate)) {
       if (valueAsDate[0] && valueAsDate[0] !== this.activeStartDate) {
         this.activeStartDate = new Date(valueAsDate[0]);
+      } else if (!valueAsDate[0]) {
+        this.activeStartDate = this.getActiveDate(undefined, this.minAsDate, this.maxAsDate);
       }
       if (valueAsDate[1] && valueAsDate[1] !== this.activeEndDate) {
         this.activeEndDate = new Date(valueAsDate[1]);
+      } else if (!valueAsDate[1]) {
+        this.activeEndDate = undefined;
       }
     }
     this.hoverRange = undefined;
