@@ -58,7 +58,7 @@ export class Block extends LitElement {
 
   private sortHandleEl?: SortHandle["el"];
 
-  private parentBlockGroupElement?: BlockGroup["el"] | null;
+  parentBlockGroupElement?: BlockGroup["el"] | null;
 
   /**
    * Made into a prop for testing purposes only
@@ -294,7 +294,7 @@ export class Block extends LitElement {
    *
    * @private
    */
-  calciteInternalBlockChange = createEvent<{ el: Block["el"] }>({
+  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
     cancelable: false,
   });
 
@@ -304,7 +304,7 @@ export class Block extends LitElement {
 
   override connectedCallback(): void {
     this.transitionEl = this.el;
-    this.setParentBlockElement();
+    this.setParentBlockGroupElement();
   }
 
   load(): void {
@@ -400,7 +400,10 @@ export class Block extends LitElement {
   private onHeaderClick(): void {
     this.calciteBlockToggle.emit();
     if (this.parentBlockGroupElement?.tagName === "CALCITE-BLOCK-GROUP") {
-      this.calciteInternalBlockChange.emit({ el: this.el });
+      this.calciteInternalBlockChange.emit({
+        el: this.el,
+        parentElement: this.parentBlockGroupElement,
+      });
     } else {
       this.expanded = !this.expanded;
     }
@@ -434,7 +437,7 @@ export class Block extends LitElement {
     });
   }
 
-  private setParentBlockElement(): void {
+  private setParentBlockGroupElement(): void {
     this.parentBlockGroupElement = this.el.parentElement?.closest(" calcite-block-group");
   }
 

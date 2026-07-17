@@ -129,10 +129,10 @@ describe("disabled", () => {
   });
 });
 
-describe("selectionMode", () => {
-  it("should allow only one block to be expanded when selectionMode is single", async () => {
+describe("expandMode", () => {
+  it("should allow only one block to be expanded when expandMode is single", async () => {
     await mount(
-      <calcite-block-group selection-mode="single">
+      <calcite-block-group expand-mode="single">
         <calcite-block collapsible heading="block 1" open>
           <div>content</div>
         </calcite-block>
@@ -148,9 +148,9 @@ describe("selectionMode", () => {
     expect(block2.expanded).toBe(true);
   });
 
-  it("should allow multiple block elements to be expanded when selectionMode is multiple", async () => {
+  it("should allow multiple block elements to be expanded when expandMode is multiple", async () => {
     await mount(
-      <calcite-block-group selection-mode="multiple">
+      <calcite-block-group expand-mode="multiple">
         <calcite-block collapsible heading="block 1" open>
           <div>content</div>
         </calcite-block>
@@ -166,9 +166,9 @@ describe("selectionMode", () => {
     expect(block2.expanded).toBe(true);
   });
 
-  it("should not allow expanded block element to collapse when selectionMode is single-persist", async () => {
+  it("should not allow expanded block element to collapse when expandMode is single-persist", async () => {
     await mount(
-      <calcite-block-group selection-mode="single-persist">
+      <calcite-block-group expand-mode="single-persist">
         <calcite-block collapsible heading="block 1">
           <div>content</div>
         </calcite-block>
@@ -193,9 +193,9 @@ describe("selectionMode", () => {
   });
 
   describe("nested block elements", () => {
-    it("should allow only one block to be expanded on click when selectionMode is single", async () => {
+    it("should allow only one block to be expanded on click when expandMode is single", async () => {
       await mount(
-        <calcite-block-group selection-mode="single">
+        <calcite-block-group expand-mode="single">
           <calcite-block collapsible heading="Asia">
             <calcite-block collapsible heading="Himalayas" slot="sections" />
           </calcite-block>
@@ -224,9 +224,9 @@ describe("selectionMode", () => {
       expect(block2.expanded).toBe(true);
     });
 
-    it("should allow at least one block element expanded on click when selectionMode is single-persist", async () => {
+    it("should allow at least one block element expanded on click when expandMode is single-persist", async () => {
       await mount(
-        <calcite-block-group selection-mode="single-persist">
+        <calcite-block-group expand-mode="single-persist">
           <calcite-block collapsible heading="Asia">
             <calcite-block collapsible heading="Himalayas" slot="sections" />
           </calcite-block>
@@ -265,9 +265,9 @@ describe("selectionMode", () => {
       expect(block2.expanded).toBe(false);
     });
 
-    it("should allow multiple block elements to expand on click when selectionMode is multiple", async () => {
+    it("should allow multiple block elements to expand on click when expandMode is multiple", async () => {
       await mount(
-        <calcite-block-group selection-mode="multiple">
+        <calcite-block-group expand-mode="multiple">
           <calcite-block collapsible heading="Asia">
             <calcite-block collapsible heading="Himalayas" slot="sections" />
           </calcite-block>

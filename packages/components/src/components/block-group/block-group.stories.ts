@@ -139,15 +139,13 @@ const nestedBlockHTML = html`
   </calcite-block>
 `;
 
-export const multipleSelectionMode = (): string => html`
-  <calcite-block-group label="My Group" selection-mode="multiple"> ${nestedBlockHTML} </calcite-block-group>
+export const multipleExpandMode = (): string => html`
+  <calcite-block-group label="My Group" expand-mode="multiple"> ${nestedBlockHTML} </calcite-block-group>
 `;
 
-export const singleSelectionMode = (): string => html`
-  <calcite-block-group label="My Group" selection-mode="single"> ${nestedBlockHTML} </calcite-block-group>
+export const singleExpandMode = (): string => html`
+  <calcite-block-group label="My Group" expand-mode="single"> ${nestedBlockHTML} </calcite-block-group>
 `;
 
-export const singlePersistSelectionMode = (): string =>
-  html` <calcite-block-group label="My Group" selection-mode="single-persist">
-    ${nestedBlockHTML}
-  </calcite-block-group>`;
+export const singlePersistExpandMode = (): string =>
+  html` <calcite-block-group label="My Group" expand-mode="single-persist"> ${nestedBlockHTML} </calcite-block-group>`;
