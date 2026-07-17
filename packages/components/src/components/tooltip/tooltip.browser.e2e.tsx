@@ -25,6 +25,35 @@ import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 import { html } from "lit";
 
+declare global {
+  interface DeclareElements {
+    "tooltip-shadow-a": TooltipShadowA;
+  }
+}
+
+class TooltipShadowA extends LitElement {
+  static tagName = "tooltip-shadow-a";
+
+  override render(): JsxNode {
+    return (
+      <>
+        <button id="tooltip-button">Data disclaimer</button>
+        <calcite-tooltip reference-element="tooltip-button">content</calcite-tooltip>
+      </>
+    )
+  }
+}
+
+class TooltipShadowB extends LitElement {
+  static tagName = "tooltip-shadow-b";
+
+  override render(): JsxNode {
+    return (
+      <tooltip-shadow-a/>
+    )
+  }
+}
+
 mockConsole();
 
 const eventOptions = { bubbles: true, cancelable: true };
@@ -863,29 +892,6 @@ describe("interactions", () => {
 });
 
 describe("within shadow roots", () => {
-  class TooltipShadowA extends LitElement {
-    static tagName = "tooltip-shadow-a";
-
-    override render(): JsxNode {
-      return (
-        <>
-        <button id="tooltip-button">Data disclaimer</button>
-        <calcite-tooltip reference-element="tooltip-button">content</calcite-tooltip>
-      </>
-    )
-    }
-  }
-
-  class TooltipShadowB extends LitElement {
-    static tagName = "tooltip-shadow-b";
-
-    override render(): JsxNode {
-      return (
-        html`<tooltip-shadow-a></tooltip-shadow-a>`
-      )
-    }
-  }
-
   function getElements(id: string): { button: HTMLButtonElement; tooltip: Tooltip["el"] } {
     const innerRoot = document.querySelector(id)!.shadowRoot!.querySelector("tooltip-shadow-a")!.shadowRoot!;
     return {
