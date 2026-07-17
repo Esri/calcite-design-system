@@ -24,6 +24,7 @@ import { FloatingCSS } from "../../utils/floating-ui";
 import { CSS } from "./resources";
 import { Tooltip } from "./tooltip";
 import { html } from "lit";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 declare global {
   interface DeclareElements {
@@ -845,18 +846,17 @@ describe("interactions", () => {
         <button id="ref">Button</button>
       </>,
     );
-    pointerMove(document.querySelector("#ref")!);
+    await userEvent.hover(page.getBySelector("#ref"));
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
     expect(el.open).toBe(true);
 
-    dispatchEvent(document, new PointerEvent("pointerleave", eventOptions));
+    await userEvent.hover(document.body, { position: { x: -1, y: -1 }});
     vi.advanceTimersByTime(HOVER_CLOSE_DELAY_MS);
 
     expect(el.open).toBe(false);
   });
 
   it("emits lifecycle events for pointer interaction", async () => {
-    vi.useRealTimers();
     const { el } = await mount<Tooltip>(
       <>
         <button id="other">other</button>
@@ -873,15 +873,14 @@ describe("interactions", () => {
     el.addEventListener("calciteTooltipBeforeClose", beforeClose);
     el.addEventListener("calciteTooltipClose", close);
 
-    const openEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }),
-    );
+    const openEvent = waitForEvent(el, "calciteTooltipOpen");
     await userEvent.hover(page.getBySelector("#ref"));
+    await vi.advanceTimersByTimeAsync(HOVER_OPEN_DELAY_MS * 2);
     await openEvent;
-    const closeEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }),
-    );
+
+    const closeEvent = waitForEvent(el, "calciteTooltipClose");
     await userEvent.hover(page.getBySelector("#other"));
+    await vi.advanceTimersByTimeAsync(HOVER_CLOSE_DELAY_MS * 2);
     await closeEvent;
 
     expect(beforeOpen).toHaveBeenCalledTimes(1);
