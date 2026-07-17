@@ -1,10 +1,10 @@
 import { describe, expect, it, beforeEach, MockInstance } from "vitest";
-import { defaultLocale } from "@arcgis/toolkit/intl";
-import { supportedNlsLocales } from "../components/date-picker/utils";
+import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import {
   dateTimeFormatCache,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
+  getDateTextSupportedLocale,
   getDateTimeFormat,
   numberingSystems,
   numberStringFormatter,
@@ -38,7 +38,7 @@ describe("NumberStringFormat", () => {
     expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
   });
 
-  describe.each(supportedNlsLocales)("locales", (locale) => {
+  describe.each([...supportedLocales])("locales", (locale) => {
     const localesWithBrokenFormatting = ["bs", "mk"];
     const shouldSkip = localesWithBrokenFormatting.includes(locale);
     const skipMessage = `Skipped: Chromium does not format ${locale} correctly.`;
@@ -207,6 +207,16 @@ describe("getDateFormatSupportedLocale", () => {
   describe("locale mappings", () => {
     it("maps `it-CH` to `de-CH`", () => {
       assertLocaleMapping("it-CH", "de-CH");
+    });
+
+    describe("getDateTextSupportedLocale", () => {
+      it("maps `bs` to the Serbian Latin fallback", () => {
+        expect(getDateTextSupportedLocale("bs")).toBe("sr-Latn-CS");
+      });
+
+      it("preserves locales whose textual date formatting is supported", () => {
+        expect(getDateTextSupportedLocale("it-CH")).toBe("it-CH");
+      });
     });
 
     it("maps `bs` to `sr-Latn-CS`", () => {
