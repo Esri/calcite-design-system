@@ -14,6 +14,7 @@ import {
   t9n,
   delegatesToFloatingUiOwningComponent,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -61,6 +62,10 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-action-bar"),
     [
+      {
+        propertyName: "expandToggleDisabled",
+        defaultValue: false,
+      },
       {
         propertyName: "expandDisabled",
         defaultValue: false,
@@ -118,6 +123,10 @@ describe("reflects", () => {
     () => mount("calcite-action-bar"),
     [
       {
+        propertyName: "expandToggleDisabled",
+        value: true,
+      },
+      {
         propertyName: "expandDisabled",
         value: true,
       },
@@ -171,6 +180,25 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-action-bar"));
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-action-bar expand-disabled overflow-actions-disabled>
+          <calcite-action-group>
+            <calcite-action icon="plus" slot="menu-actions" text="Add" />
+          </calcite-action-group>
+        </calcite-action-bar>,
+      ),
+    {
+      componentTarget: page.getBySelector("calcite-action-bar > calcite-action-group"),
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-action-bar > calcite-action-group [popover]"),
+    },
+  );
 });
 
 describe("selection-mode", () => {
@@ -264,7 +292,7 @@ describe("overflowing actions", () => {
 
   it("only collapses and expand direct actions and trigger actions for direct action-menus", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar expand-disabled expanded layout="horizontal">
+      <calcite-action-bar expand-toggle-disabled expanded layout="horizontal">
         <calcite-action-menu>
           <calcite-action active icon="toggle" text-enabled />
           <calcite-action icon="toggle" />
@@ -464,7 +492,7 @@ describe("per-group overflow-actions-disabled", () => {
   it("keeps actions tabbable when tabbing out", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action icon="number-circle-1" text="first" />
           <calcite-action icon="number-circle-2" text="second" />
         </calcite-action-bar>

@@ -10,7 +10,8 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useT9n } from "../../controllers/useT9n";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { createObserver } from "../../utils/observers";
 import { Scale, Status, Width } from "../interfaces";
 import { getIconScale } from "../../utils/component";
@@ -81,6 +82,8 @@ export class Select extends LitElement implements LabelableComponent {
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
+
+  labelable = useLabel(this);
 
   //#endregion
 
@@ -188,8 +191,6 @@ export class Select extends LitElement implements LabelableComponent {
       subtree: true,
       childList: true,
     });
-
-    connectLabel(this);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -220,7 +221,6 @@ export class Select extends LitElement implements LabelableComponent {
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
-    disconnectLabel(this);
   }
 
   //#endregion

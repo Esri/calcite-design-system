@@ -1,4 +1,4 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -16,8 +16,8 @@ type RatingStoryArgs = Pick<
   | "readOnly"
   | "disabled"
   | "status"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 >;
 
 export default {
@@ -61,7 +61,7 @@ export const simple = (args: RatingStoryArgs): string => html`
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-rating>
 `;
 

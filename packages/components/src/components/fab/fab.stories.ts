@@ -1,14 +1,15 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
+import { iconNames } from "../../../.storybook/helpers";
 import { Fab } from "./fab";
 import { ICONS } from "./resources";
 
-const { appearance, scale } = ATTRIBUTES;
+const { appearance, kind, scale } = ATTRIBUTES;
 
 type FabStoryArgs = Pick<
   Fab,
-  "appearance" | "disabled" | "icon" | "label" | "loading" | "text" | "textEnabled" | "scale"
+  "appearance" | "disabled" | "icon" | "iconFlipRtl" | "kind" | "label" | "loading" | "text" | "textEnabled" | "scale"
 >;
 
 export default {
@@ -17,6 +18,8 @@ export default {
     appearance: appearance.values[2],
     disabled: false,
     icon: ICONS.plus,
+    iconFlipRtl: false,
+    kind: kind.defaultValue,
     label: "Label",
     loading: false,
     text: "Text",
@@ -26,6 +29,14 @@ export default {
   argTypes: {
     appearance: {
       options: appearance.values.filter((option) => option !== "outline" && option !== "transparent"),
+      control: { type: "select" },
+    },
+    icon: {
+      options: iconNames,
+      control: { type: "select" },
+    },
+    kind: {
+      options: kind.values,
       control: { type: "select" },
     },
     scale: {
@@ -39,7 +50,9 @@ export const simple = (args: FabStoryArgs): string => html`
   <calcite-fab
     appearance="${args.appearance}"
     ${boolean("disabled", args.disabled)}
-    icon="${args.icon}"
+    ${optionalAttribute("icon", args.icon)}
+    ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+    kind="${args.kind}"
     label="${args.label}"
     ${boolean("loading", args.loading)}
     text="${args.text}"

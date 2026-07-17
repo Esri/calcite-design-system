@@ -3,10 +3,8 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
-import type { PaginationPosition } from "./interfaces";
 
-const { arrowType } = ATTRIBUTES;
-const paginationPosition: PaginationPosition[] = ["bottom", "top"];
+const { arrowType, paginationPosition } = ATTRIBUTES;
 
 type CarouselStoryArgs = Pick<
   Carousel,
@@ -30,7 +28,7 @@ export default {
     label: "Example carousel label",
     arrowType: arrowType.defaultValue,
     paginationDisabled: false,
-    paginationPosition: paginationPosition[0],
+    paginationPosition: paginationPosition.defaultValue,
   },
   argTypes: {
     arrowType: {
@@ -38,7 +36,7 @@ export default {
       control: { type: "select" },
     },
     paginationPosition: {
-      options: paginationPosition,
+      options: paginationPosition.values,
       control: { type: "select" },
     },
   },
