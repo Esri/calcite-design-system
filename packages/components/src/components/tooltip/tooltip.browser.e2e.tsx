@@ -897,11 +897,10 @@ describe("within shadow roots", () => {
   it("opens only the most recently focused tooltip", async () => {
     await mount(
       html`
-        <tooltip-shadow-b id="shadow-one" />
-        <tooltip-shadow-b id="shadow-two" />
-      `, {
-        dynamicComponents: [TooltipShadowA, TooltipShadowB]
-      }
+        <tooltip-shadow-b id="shadow-one"></tooltip-shadow-b>
+        <tooltip-shadow-b id="shadow-two"></tooltip-shadow-b>
+      `,
+      { dynamicComponents: [TooltipShadowA, TooltipShadowB] },
     );
     const one = getElements("#shadow-one");
     const two = getElements("#shadow-two");
@@ -918,11 +917,11 @@ describe("within shadow roots", () => {
   it("supports tabbing between nested shadow roots", async () => {
     await mount(
       html`
-        <tooltip-shadow-b id="shadow-one" />
-        <tooltip-shadow-b id="shadow-two" />
-    `, {
-        dynamicComponents: [TooltipShadowA, TooltipShadowB]
-      });
+        <tooltip-shadow-b id="shadow-one"></tooltip-shadow-b>
+        <tooltip-shadow-b id="shadow-two"></tooltip-shadow-b>
+      `,
+      { dynamicComponents: [TooltipShadowA, TooltipShadowB] },
+    );
     const one = getElements("#shadow-one");
     const two = getElements("#shadow-two");
 
