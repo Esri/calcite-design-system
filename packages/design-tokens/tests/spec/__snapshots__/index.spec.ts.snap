@@ -996,7 +996,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius: var(--calcite-size-none);
+  --calcite-corner-radius: 0;
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
@@ -1554,7 +1554,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-container-size-gutter: 16px;
   --calcite-container-size-content-fluid: 100%; /** for fluid grid widths */
   --calcite-container-size-content-fixed: 1440px; /** only for lg breakpoint fixed grid width */
-  --calcite-corner-radius: var(--calcite-size-none);
+  --calcite-corner-radius: 0;
   --calcite-corner-radius-sharp: 0; /** Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead. */
   --calcite-corner-radius-none: 0;
   --calcite-corner-radius-xs: 2px;
@@ -33179,7 +33179,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius: $calcite-size-none;
+$calcite-corner-radius: 0;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
@@ -33872,7 +33872,7 @@ $calcite-container-size-margin: 24px;
 $calcite-container-size-gutter: 16px;
 $calcite-container-size-content-fluid: 100%; // for fluid grid widths
 $calcite-container-size-content-fixed: 1440px; // only for lg breakpoint fixed grid width
-$calcite-corner-radius: $calcite-size-none;
+$calcite-corner-radius: 0;
 $calcite-corner-radius-sharp: 0; // Deprecated in v3.1.0, removal target v5.0.0 - Use \`--calcite-corner-radius-none\` instead.
 $calcite-corner-radius-none: 0;
 $calcite-corner-radius-xs: 2px;
