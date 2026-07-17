@@ -1,7 +1,16 @@
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { type PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -208,6 +217,18 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    this.listen<ToEvents<ActionBar>["calciteActionBarExpand"]>(
+      "calciteActionBarExpand",
+      this.handleActionBarExpandEvent,
+    );
+    this.listen<ToEvents<ActionBar>["calciteActionBarCollapse"]>(
+      "calciteActionBarCollapse",
+      this.handleActionBarCollapseEvent,
+    );
+  }
+
   override connectedCallback(): void {
     if (this.hasUpdated) {
       this.refreshResize();
@@ -275,14 +296,6 @@ export class ShellPanel extends LitElement {
 
     if (this.actionBarContainerEl) {
       this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
-      this.actionBarContainerEl.removeEventListener(
-        "calciteActionBarExpand",
-        this.handleActionBarExpand,
-      );
-      this.actionBarContainerEl.removeEventListener(
-        "calciteActionBarCollapse",
-        this.handleActionBarCollapse,
-      );
     }
   }
 
@@ -445,21 +458,11 @@ export class ShellPanel extends LitElement {
   private setActionBarContainerEl(el: HTMLDivElement): void {
     if (this.actionBarContainerEl) {
       this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
-      this.actionBarContainerEl.removeEventListener(
-        "calciteActionBarExpand",
-        this.handleActionBarExpand,
-      );
-      this.actionBarContainerEl.removeEventListener(
-        "calciteActionBarCollapse",
-        this.handleActionBarCollapse,
-      );
     }
 
     this.actionBarContainerEl = el;
 
     if (el) {
-      el.addEventListener("calciteActionBarExpand", this.handleActionBarExpand);
-      el.addEventListener("calciteActionBarCollapse", this.handleActionBarCollapse);
       this.actionBarContainerResizeObserver?.observe(el);
       this.updateActionBarSize();
     }
@@ -500,6 +503,22 @@ export class ShellPanel extends LitElement {
     this.actionBar = actionBar;
     this.setActionBarLayout(actionBar);
     this.syncActionBarExpandedState(actionBar);
+  }
+
+  private handleActionBarExpandEvent(event: CustomEvent<void>): void {
+    if (event.target !== this.actionBar) {
+      return;
+    }
+
+    this.handleActionBarExpand();
+  }
+
+  private handleActionBarCollapseEvent(event: CustomEvent<void>): void {
+    if (event.target !== this.actionBar) {
+      return;
+    }
+
+    this.handleActionBarCollapse();
   }
 
   private handleHeaderSlotChange(event: Event): void {
