@@ -12,12 +12,14 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem } from "../../utils/locale";
 import { HourFormat, TimePart } from "../../utils/time";
 import { Scale, Status } from "../interfaces";
 import { decimalPlaces } from "../../utils/math";
 import { getIconScale } from "../../utils/component";
+import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { IconName } from "../icon/interfaces";
@@ -101,6 +103,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private interactiveContainer = useInteractive(this);
 
+  labelable = useLabel(this);
+
   private timePickerRef = createRef<TimePicker>();
 
   //#endregion
@@ -112,6 +116,9 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   //#endregion
 
   //#region Public Properties
+
+  /** When `true`, displays a clear button when the component has a value. */
+  @property({ reflect: true }) clearable = false;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
@@ -273,10 +280,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.listen("calciteTimeChange", this.timeChangeHandler);
   }
 
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -309,10 +312,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
         this.previousEmittedValue = this.value;
       }
     }
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -362,6 +361,15 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
       this.changeEventHandler();
     } else if (this.open && key === "Escape") {
       this.open = false;
+      event.preventDefault();
+    } else if (
+      !this.disabled &&
+      !this.readOnly &&
+      this.clearable &&
+      this.value &&
+      key === "Escape"
+    ) {
+      this.clearValue();
       event.preventDefault();
     } else {
       const showFractionalSecond = decimalPlaces(this.step) > 0;
@@ -524,6 +532,12 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     this.open = !this.open;
   }
 
+  private clearValue(): void {
+    this.time.setValue(null, true);
+    this.open = false;
+    this.changeEventHandler();
+  }
+
   //#endregion
 
   //#region Rendering
@@ -560,6 +574,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
     const showSecond = this.step < 60;
     const meridiemStart = meridiemOrder === 0 || this.direction === "rtl";
     const isInteractive = !this.disabled && !this.readOnly;
+    const isClearable = this.clearable && !!this.value && isInteractive;
     return (
       <this.interactiveContainer disabled={this.disabled}>
         {this.labelText && (
@@ -696,6 +711,15 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
               {showMeridiem && !meridiemStart && this.renderMeridiem()}
             </div>
           </div>
+          {isClearable && (
+            <div class={CSS.clearButton} onClick={this.clearValue}>
+              <ClearButton
+                ariaLabel={this.messages.clear}
+                scale={this.scale}
+                title={this.messages.clear}
+              />
+            </div>
+          )}
           {!this.readOnly && this.renderToggleIcon(this.open)}
         </div>
         <calcite-popover

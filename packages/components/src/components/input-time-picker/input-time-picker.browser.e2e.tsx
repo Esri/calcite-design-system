@@ -23,6 +23,7 @@ import { formatTimePart, getLocaleHourFormat, getMeridiemOrder, localizeTimeStri
 import { letterKeys } from "../../utils/key";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS as TimePickerCSS } from "../time-picker/resources";
+import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import { CSS } from "./resources";
 import { InputTimePicker } from "./input-time-picker";
 
@@ -46,6 +47,7 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-input-time-picker"),
     [
+      { propertyName: "clearable", defaultValue: false },
       { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "step", defaultValue: 60 },
@@ -164,6 +166,96 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-time-picker"));
+});
+
+describe("clearable", () => {
+  const clearButtonSelector = `calcite-input-time-picker .${CLEAR_BUTTON_CSS.container}`;
+  const getClearButtons = (): Element[] => page.getBySelector(clearButtonSelector).elements();
+
+  it("does not render clear button when value is empty", async () => {
+    await mount<InputTimePicker>(<calcite-input-time-picker clearable value="" />);
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("renders clear button when value is set", async () => {
+    await mount<InputTimePicker>(<calcite-input-time-picker clearable value="10:37" />);
+
+    expect(getClearButtons()).toHaveLength(1);
+  });
+
+  it("does not render clear button when readOnly is true", async () => {
+    await mount<InputTimePicker>(<calcite-input-time-picker clearable readOnly value="10:37" />);
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("does not render clear button when disabled is true", async () => {
+    await mount<InputTimePicker>(<calcite-input-time-picker clearable disabled value="10:37" />);
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("clears value and emits change when clear button is clicked", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker clearable value="10:37" />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders clear button for required value and clearing sets validity.valueMissing", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker clearable required value="10:37" />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+    expect(el.validity.valueMissing).toBe(false);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+    await expect.element(el).toHaveProperty("value", "");
+
+    expect(el.validity.valueMissing).toBe(true);
+  });
+
+  it("clears value and emits change when Escape is pressed while closed", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker clearable value="10:37" />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getByRole("spinbutton", { name: "Hour" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("closes when Escape is pressed while open and clears on second Escape", async () => {
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker clearable open value="10:37" />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getByRole("combobox"));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("open", false);
+    await expect.element(el).toHaveProperty("value", "10:37");
+    expect(changeEventHandler).toHaveBeenCalledTimes(0);
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe("is form-associated", () => {
@@ -837,6 +929,43 @@ describe("theme", () => {
     "--calcite-input-time-picker-border-color": {
       shadowSelector: "calcite-time-picker",
       targetProp: "--calcite-time-picker-border-color",
+    },
+  });
+
+  const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
+
+  themed(() => mount(<calcite-input-time-picker clearable value="14:30" />), {
+    "--calcite-input-time-picker-input-action-background-color": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-background-color",
+    },
+    "--calcite-input-time-picker-input-action-background-color-hover": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-background-color-hover",
+      state: "hover",
+    },
+    "--calcite-input-time-picker-input-action-background-color-press": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-background-color-press",
+      state: {
+        press: `calcite-input-time-picker >>> ${clearButtonContainerSelector} calcite-action`,
+      },
+    },
+    "--calcite-input-time-picker-input-action-icon-color": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-text-color",
+    },
+    "--calcite-input-time-picker-input-action-icon-color-hover": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-text-color-press",
+      state: "hover",
+    },
+    "--calcite-input-time-picker-input-action-icon-color-press": {
+      shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+      targetProp: "--calcite-action-text-color-press",
+      state: {
+        press: `calcite-input-time-picker >>> ${clearButtonContainerSelector} calcite-action`,
+      },
     },
   });
 });
