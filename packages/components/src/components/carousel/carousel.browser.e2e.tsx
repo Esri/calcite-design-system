@@ -1,8 +1,8 @@
 import { Fragment, h, type JsxNode } from "@arcgis/lumina";
 import { css } from "../../../support/formatting";
-import { beforeAll, afterAll, describe, expect, it, vi } from "vitest";
+import { beforeEach, afterEach, beforeAll, afterAll, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import {
   hidden,
   focusable,
@@ -14,6 +14,7 @@ import {
 import { breakpoints } from "../../utils/responsive";
 import type { Carousel } from "./carousel";
 import { centerItemsByBreakpoint, CSS } from "./resources";
+import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 const customDuration = 1000;
 
@@ -297,37 +298,47 @@ describe("themed", () => {
 
 function carouselItems(selected = "two"): JsxNode[] {
   return ["one", "two", "three"].map((id, index) => (
-    <calcite-carousel-item id={id} key={id} label={`Carousel Item ${index + 1}`} selected={id === selected}>
+    <calcite-carousel-item
+      id={id}
+      key={id}
+      label={`Carousel Item ${index + 1}`}
+      selected={id === selected}
+    >
       <p>item {index + 1}</p>
     </calcite-carousel-item>
   ));
 }
 
-function selectedItem(carousel: Carousel["el"]): Element | null {
-  return carousel.querySelector("calcite-carousel-item[selected]");
-}
-
-function shadowElement<T extends Element>(carousel: Carousel["el"], selector: string): T {
-  return carousel.shadowRoot!.querySelector<T>(selector)!;
+function selectedItem(): Locator {
+  return page.getBySelector("calcite-carousel-item[selected]");
 }
 
 describe("first render", () => {
   it("does not render arrows when arrowType is none", async () => {
-    const { el } = await mount<Carousel>(
+    await mount<Carousel>(
       <calcite-carousel arrowType="none" label="Carousel example">
         {carouselItems()}
       </calcite-carousel>,
     );
 
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`)).not.toBeInTheDocument();
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`)).not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`))
+      .not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`))
+      .not.toBeInTheDocument();
   });
 
   it("focuses top pagination controls before item content", async () => {
     const { el } = await mount<Carousel>(
       <>
         <button id="before">before</button>
-        <calcite-carousel arrowType="none" id="carousel" label="Carousel example" paginationPosition="top">
+        <calcite-carousel
+          arrowType="none"
+          id="carousel"
+          label="Carousel example"
+          paginationPosition="top"
+        >
           <calcite-carousel-item label="Carousel Item 1">
             <button>item button</button>
           </calcite-carousel-item>
@@ -344,28 +355,30 @@ describe("first render", () => {
     expect(document.activeElement).toBe(el);
     await userEvent.tab();
     expect(document.activeElement).toBe(el);
-    expect(el.shadowRoot?.activeElement?.classList.contains(CSS.paginationItemIndividual)).toBe(true);
+    expect(el.shadowRoot?.activeElement?.classList.contains(CSS.paginationItemIndividual)).toBe(
+      true,
+    );
   });
 });
 
 describe("navigation and events", () => {
   it("selects items and emits change events from arrow controls", async () => {
     const changeSpy = vi.fn();
-    const { el } = await mount<Carousel>(
+    await mount<Carousel>(
       <calcite-carousel label="Carousel example" oncalciteCarouselChange={changeSpy}>
         {carouselItems()}
       </calcite-carousel>,
     );
-    const next = shadowElement<HTMLButtonElement>(el, `.${CSS.pageNext}`);
-    const previous = shadowElement<HTMLButtonElement>(el, `.${CSS.pagePrevious}`);
+    const next = page.getBySelector(`calcite-carousel .${CSS.pageNext}`);
+    const previous = page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`);
 
-    expect(selectedItem(el)?.id).toBe("two");
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
     await userEvent.click(next);
-    expect(selectedItem(el)?.id).toBe("three");
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
     await userEvent.click(next);
-    expect(selectedItem(el)?.id).toBe("one");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
     await userEvent.click(previous);
-    expect(selectedItem(el)?.id).toBe("three");
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
     expect(changeSpy).toHaveBeenCalledTimes(3);
   });
 
@@ -388,33 +401,45 @@ describe("navigation and events", () => {
       ["{ArrowRight}", "one"],
     ]) {
       await userEvent.keyboard(key);
-      expect(selectedItem(el)?.id).toBe(id);
+      await expect.element(selectedItem()).toHaveProperty("id", id);
     }
     expect(changeSpy).toHaveBeenCalledTimes(6);
   });
 
   it("only emits when direct pagination changes the selected item", async () => {
     const changeSpy = vi.fn();
-    const { el } = await mount<Carousel>(
-      <calcite-carousel arrowType="none" label="Carousel example" oncalciteCarouselChange={changeSpy}>
+    await mount<Carousel>(
+      <calcite-carousel
+        arrowType="none"
+        label="Carousel example"
+        oncalciteCarouselChange={changeSpy}
+      >
         {carouselItems()}
       </calcite-carousel>,
     );
-    const [one, two, three] = Array.from(
-      el.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${CSS.paginationItemIndividual}`),
-    );
+    const [one, two, three] = page
+      .getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`)
+      .all();
 
     await userEvent.click(one);
     await userEvent.click(one);
     await userEvent.click(three);
     await userEvent.click(two);
     await userEvent.click(two);
-    expect(selectedItem(el)?.id).toBe("two");
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
     expect(changeSpy).toHaveBeenCalledTimes(3);
   });
 });
 
 describe("autoplay", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("toggles autoplay without emitting a carousel change", async () => {
     const changeSpy = vi.fn();
     const playSpy = vi.fn();
@@ -431,7 +456,7 @@ describe("autoplay", () => {
         {carouselItems()}
       </calcite-carousel>,
     );
-    const control = shadowElement<HTMLButtonElement>(el, `.${CSS.autoplayControl}`);
+    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
 
     await userEvent.click(control);
     expect(el.paused).toBe(true);
@@ -460,85 +485,85 @@ describe("autoplay", () => {
         {carouselItems()}
       </calcite-carousel>,
     );
-    const control = shadowElement<HTMLButtonElement>(el, `.${CSS.autoplayControl}`);
-    const pagination = Array.from(
-      el.shadowRoot!.querySelectorAll<HTMLButtonElement>(`.${CSS.paginationItemIndividual}`),
-    );
+    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
+    const pagination = page.getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`);
 
-    await userEvent.click(pagination[0]);
+    await userEvent.click(pagination.nth(0));
     expect(el.paused).toBe(true);
-    expect(selectedItem(el)?.id).toBe("one");
-    await userEvent.click(pagination[2]);
-    expect(selectedItem(el)?.id).toBe("three");
-    await userEvent.click(shadowElement<HTMLButtonElement>(el, `.${CSS.pageNext}`));
-    expect(selectedItem(el)?.id).toBe("one");
-    await userEvent.click(shadowElement<HTMLButtonElement>(el, `.${CSS.pagePrevious}`));
-    expect(selectedItem(el)?.id).toBe("three");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    await userEvent.click(pagination.nth(2));
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
     expect(stopSpy).toHaveBeenCalledTimes(1);
 
     await userEvent.click(control);
-    await userEvent.click(shadowElement<HTMLButtonElement>(el, `.${CSS.pageNext}`));
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     expect(el.paused).toBe(true);
-    expect(selectedItem(el)?.id).toBe("one");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
     await userEvent.click(control);
-    await userEvent.click(shadowElement<HTMLButtonElement>(el, `.${CSS.pagePrevious}`));
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
     expect(el.paused).toBe(true);
-    expect(selectedItem(el)?.id).toBe("three");
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
     expect(changeSpy).toHaveBeenCalledTimes(6);
     expect(playSpy).toHaveBeenCalledTimes(2);
     expect(stopSpy).toHaveBeenCalledTimes(3);
   });
 
-  it("rotates after custom and default durations and pauses and resumes from the control", async () => {
-    vi.useFakeTimers();
-    try {
-      const playSpy = vi.fn();
-      const stopSpy = vi.fn();
-      const { el } = await mount<Carousel>(
-        <calcite-carousel
-          autoplay
-          autoplayDuration={customDuration}
-          label="Carousel example"
-          oncalciteCarouselPlay={playSpy}
-          oncalciteCarouselStop={stopSpy}
-        >
-          {carouselItems()}
-        </calcite-carousel>,
-      );
-      const control = shadowElement<HTMLButtonElement>(el, `.${CSS.autoplayControl}`);
+  it("rotates to a new carousel item after duration elapses", async () => {
+    const playSpy = vi.fn();
+    const stopSpy = vi.fn();
+    await mount<Carousel>(
+      <calcite-carousel
+        autoplay
+        autoplayDuration={customDuration}
+        label="Carousel example"
+        oncalciteCarouselPlay={playSpy}
+        oncalciteCarouselStop={stopSpy}
+      >
+        {carouselItems()}
+      </calcite-carousel>,
+    );
 
-      vi.advanceTimersByTime(customDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(el)?.id).toBe("three");
-      vi.advanceTimersByTime(customDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(el)?.id).toBe("one");
-      await userEvent.click(control);
-      vi.advanceTimersByTime(customDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(el)?.id).toBe("one");
-      await userEvent.click(control);
-      vi.advanceTimersByTime(customDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(el)?.id).toBe("two");
-      expect(playSpy).toHaveBeenCalledTimes(1);
-      expect(stopSpy).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(customDuration + 20);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+    vi.advanceTimersByTime(customDuration + 20);
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    vi.advanceTimersByTime(customDuration + 20);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(stopSpy).not.toHaveBeenCalled();
+  });
 
-      el.remove();
-      const { el: defaultDurationCarousel } = await mount<Carousel>(
-        <calcite-carousel autoplay label="Carousel example">
-          {carouselItems()}
-        </calcite-carousel>,
-      );
-      vi.advanceTimersByTime(defaultDurationCarousel.autoplayDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(defaultDurationCarousel)?.id).toBe("three");
-      vi.advanceTimersByTime(defaultDurationCarousel.autoplayDuration + 20);
-      await Promise.resolve();
-      expect(selectedItem(defaultDurationCarousel)?.id).toBe("one");
-    } finally {
-      vi.useRealTimers();
-    }
+  it("rotates to a new carousel item after default duration elapses", async () => {
+    const playSpy = vi.fn();
+    const stopSpy = vi.fn();
+    const { el } = await mount<Carousel>(
+      <calcite-carousel autoplay label="Carousel example">
+        {carouselItems()}
+      </calcite-carousel>,
+    );
+    const defaultSlideDuration = el.autoplayDuration;
+    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
+
+    vi.advanceTimersByTime(defaultSlideDuration + 20);
+
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+    vi.advanceTimersByTime(defaultSlideDuration + 20);
+
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    await userEvent.click(control);
+    vi.advanceTimersByTime(defaultSlideDuration + 20);
+
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    await userEvent.click(control);
+    vi.advanceTimersByTime(defaultSlideDuration + 20);
+
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(stopSpy).not.toHaveBeenCalled();
   });
 
   it("supports keyboard play and stop only when autoplay is enabled", async () => {
@@ -593,18 +618,18 @@ describe("autoplay", () => {
 
 describe("pagination", () => {
   it("selects the first item by default and pages in either direction", async () => {
-    const { el } = await mount<Carousel>(
+    await mount<Carousel>(
       <calcite-carousel label="Carousel example">
         <calcite-carousel-item id="one" label="one" />
         <calcite-carousel-item id="two" label="two" />
       </calcite-carousel>,
     );
 
-    expect(selectedItem(el)?.id).toBe("one");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
     await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
-    expect(selectedItem(el)?.id).toBe("two");
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
     await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
-    expect(selectedItem(el)?.id).toBe("one");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
   });
 
   it("pagination should show when there is a single item", async () => {
@@ -617,15 +642,19 @@ describe("pagination", () => {
     expect(page.getBySelector(`calcite-carousel .${CSS.pagination}`)).toBeInTheDocument();
   });
 
-    it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
-    const { el } = await mount<Carousel>(
+  it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
+    await mount<Carousel>(
       <calcite-carousel label="Carousel example" paginationDisabled>
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
       </calcite-carousel>,
     );
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.paginationItems}`)).not.toBeInTheDocument();
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.paginationAriaLive}`)).toHaveTextContent("Item 1 of 2");
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.paginationItems}`))
+      .not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.paginationAriaLive}`))
+      .toHaveTextContent("Item 1 of 2");
   });
 });
 
@@ -642,10 +671,10 @@ describe("DOM updates", () => {
     el.append(added);
     await expect.poll(() => el.querySelectorAll("calcite-carousel-item").length).toBe(2);
     await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
-    expect(selectedItem(el)?.id).toBe("two");
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
 
     added.remove();
-    await expect.poll(() => selectedItem(el)?.id).toBe("one");
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
   });
 });
 
@@ -694,21 +723,21 @@ describe("public methods", () => {
     await el.play();
     await el.stop();
     expect(el.paused).toBeUndefined();
-    expect(selectedItem(el)?.id).toBe("two");
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
     expect(playSpy).not.toHaveBeenCalled();
     expect(stopSpy).not.toHaveBeenCalled();
   });
 });
 
 describe("animations", () => {
-  let testStyleOverride = HTMLStyleElement;
+  let testStyleOverride: HTMLStyleElement;
 
   beforeAll(() => {
     testStyleOverride = document.createElement("style");
     testStyleOverride.innerHTML = css`
-    :root {
-     --calcite-duration-factor: 0.1;
-    }
+      :root {
+        --calcite-duration-factor: 0.01;
+      }
     `;
     document.head.append(testStyleOverride);
   });
@@ -717,41 +746,39 @@ describe("animations", () => {
     testStyleOverride.remove();
   });
 
-
-  async function expectAnimation(carousel: Carousel["el"], target: Element): Promise<void> {
-    const container = page.elementLocator(carousel).getBySelector(`.${CSS.container}`).first().element();
-    const started = new Promise((resolve) => container.addEventListener("animationstart", resolve, { once: true }));
-    const ended = new Promise((resolve) => container.addEventListener("animationend", resolve, { once: true }));
-    await userEvent.click(target);
+  async function expectAnimation(carousel: Carousel["el"], target: Locator): Promise<void> {
+    const container = page
+      .elementLocator(carousel)
+      .getBySelector(`.${CSS.container}`)
+      .first()
+      .element();
+    const started = waitForEvent(container, "animationstart");
+    const ended = waitForEvent(container, "animationend");
+    await target.click();
     await started;
     await ended;
   }
 
   it("finishes animations between arrow and direct pagination selections", async () => {
     const { el } = await mount<Carousel>(
-      <calcite-carousel label="Carousel example">
+      <calcite-carousel label="Carousel example">{carouselItems("one")}</calcite-carousel>,
+    );
+    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
+    const paginationItems = page.getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`);
+    await expectAnimation(el, paginationItems.nth(1));
+    await expectAnimation(el, paginationItems.nth(2));
+  });
+
+  it("finishes selection animations with autoplay enabled", async () => {
+    const { el } = await mount<Carousel>(
+      <calcite-carousel autoplay autoplayDuration={customDuration} label="Carousel example">
         {carouselItems("one")}
       </calcite-carousel>,
     );
     await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
-    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
-    const [, second, third] = Array.from(
-      el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemIndividual}`),
-    );
-    await expectAnimation(el, second);
-    await expectAnimation(el, third);
-  });
-
-  it("finishes selection animations with autoplay enabled", async () => {
-    document.documentElement.style.setProperty("--calcite-duration-factor", "0.1");
-      const { el } = await mount<Carousel>(
-        <calcite-carousel autoplay autoplayDuration={10000} label="Carousel example">
-          {carouselItems("one")}
-        </calcite-carousel>,
-      );
-      await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
-      const [, , third] = Array.from(el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemIndividual}`));
-      await expectAnimation(el, third);
+    const paginationItems = page.getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`);
+    await expectAnimation(el, paginationItems.nth(2));
   });
 
   it("does not animate arrow keys when only one item is present", async () => {
@@ -780,27 +807,38 @@ describe("overflowing pagination", () => {
     [breakpoints.width.small, "medium", centerItemsByBreakpoint.medium + 2, "ten"],
   ] as const;
 
-  it.each(cases)("shows the expected items at %s px (%s)", async (width, _breakpoint, count, selected) => {
-    const ids = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
-    const { el } = await mount<Carousel>(
-      <calcite-carousel label="Carousel example" style={{ width: `${width}px` }}>
-        {ids.map((id) => (
-          <calcite-carousel-item id={id} key={id} label={id} selected={id === selected} />
-        ))}
-      </calcite-carousel>,
-    );
+  it.each(cases)(
+    "shows the expected items at %s px (%s)",
+    async (width, _breakpoint, count, selected) => {
+      const ids = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"];
+      await mount<Carousel>(
+        <calcite-carousel label="Carousel example" style={{ width: `${width}px` }}>
+          {ids.map((id) => (
+            <calcite-carousel-item id={id} key={id} label={id} selected={id === selected} />
+          ))}
+        </calcite-carousel>,
+      );
 
-    await expect.poll(() => el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemVisible}`).length).toBe(count);
-  });
+      await expect
+        .poll(() => page.getBySelector(`.${CSS.paginationItemVisible}`).length)
+        .toBe(count);
+    },
+  );
 
   it("does not render autoplay or navigation controls for one item", async () => {
-    const { el } = await mount<Carousel>(
+    await mount<Carousel>(
       <calcite-carousel autoplay label="Carousel example">
         <calcite-carousel-item label="one" />
       </calcite-carousel>,
     );
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`)).not.toBeInTheDocument();
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`)).not.toBeInTheDocument();
-    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`)).not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`))
+      .not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`))
+      .not.toBeInTheDocument();
+    await expect
+      .element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`))
+      .not.toBeInTheDocument();
   });
 });
