@@ -1,7 +1,8 @@
 import { Fragment, h, type JsxNode } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { css } from "../../../support/formatting";
+import { beforeAll, afterAll, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import {
   hidden,
   focusable,
@@ -318,8 +319,8 @@ describe("first render", () => {
       </calcite-carousel>,
     );
 
-    expect(shadowElement(el, `.${CSS.pageNext}`)).toBeNull();
-    expect(shadowElement(el, `.${CSS.pagePrevious}`)).toBeNull();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`)).not.toBeInTheDocument();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`)).not.toBeInTheDocument();
   });
 
   it("focuses top pagination controls before item content", async () => {
@@ -600,28 +601,31 @@ describe("pagination", () => {
     );
 
     expect(selectedItem(el)?.id).toBe("one");
-    await userEvent.click(shadowElement(el, `.${CSS.pageNext}`));
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     expect(selectedItem(el)?.id).toBe("two");
-    await userEvent.click(shadowElement(el, `.${CSS.pagePrevious}`));
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
     expect(selectedItem(el)?.id).toBe("one");
   });
 
-  it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
-    const { el: single } = await mount<Carousel>(
+  it("pagination should show when there is a single item", async () => {
+    await mount<Carousel>(
       <calcite-carousel label="Carousel example">
         <calcite-carousel-item label="one" />
       </calcite-carousel>,
     );
-    expect(shadowElement(single, `.${CSS.pagination}`)).not.toBeNull();
 
+    expect(page.getBySelector(`calcite-carousel .${CSS.pagination}`)).toBeInTheDocument();
+  });
+
+    it("renders pagination for one item and aria-live information when pagination is disabled", async () => {
     const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example" paginationDisabled>
         <calcite-carousel-item label="one" />
         <calcite-carousel-item label="two" />
       </calcite-carousel>,
     );
-    expect(shadowElement(el, `.${CSS.paginationItems}`)).toBeNull();
-    expect(shadowElement(el, `.${CSS.paginationAriaLive}`).textContent).toBe("Item 1 of 2");
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.paginationItems}`)).not.toBeInTheDocument();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.paginationAriaLive}`)).toHaveTextContent("Item 1 of 2");
   });
 });
 
@@ -637,7 +641,7 @@ describe("DOM updates", () => {
     added.label = "two";
     el.append(added);
     await expect.poll(() => el.querySelectorAll("calcite-carousel-item").length).toBe(2);
-    await userEvent.click(shadowElement(el, `.${CSS.pageNext}`));
+    await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     expect(selectedItem(el)?.id).toBe("two");
 
     added.remove();
@@ -697,8 +701,25 @@ describe("public methods", () => {
 });
 
 describe("animations", () => {
+  let testStyleOverride = HTMLStyleElement;
+
+  beforeAll(() => {
+    testStyleOverride = document.createElement("style");
+    testStyleOverride.innerHTML = css`
+    :root {
+     --calcite-duration-factor: 0.1;
+    }
+    `;
+    document.head.append(testStyleOverride);
+  });
+
+  afterAll(() => {
+    testStyleOverride.remove();
+  });
+
+
   async function expectAnimation(carousel: Carousel["el"], target: Element): Promise<void> {
-    const container = shadowElement(carousel, `.${CSS.container}`);
+    const container = page.elementLocator(carousel).getBySelector(`.${CSS.container}`).first().element();
     const started = new Promise((resolve) => container.addEventListener("animationstart", resolve, { once: true }));
     const ended = new Promise((resolve) => container.addEventListener("animationend", resolve, { once: true }));
     await userEvent.click(target);
@@ -707,39 +728,30 @@ describe("animations", () => {
   }
 
   it("finishes animations between arrow and direct pagination selections", async () => {
-    document.documentElement.style.setProperty("--calcite-duration-factor", "0.1");
-    try {
-      const { el } = await mount<Carousel>(
-        <calcite-carousel label="Carousel example">
-          {carouselItems("one")}
-        </calcite-carousel>,
-      );
-      await expectAnimation(el, shadowElement(el, `.${CSS.pageNext}`));
-      await expectAnimation(el, shadowElement(el, `.${CSS.pagePrevious}`));
-      const [, second, third] = Array.from(
-        el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemIndividual}`),
-      );
-      await expectAnimation(el, second);
-      await expectAnimation(el, third);
-    } finally {
-      document.documentElement.style.removeProperty("--calcite-duration-factor");
-    }
+    const { el } = await mount<Carousel>(
+      <calcite-carousel label="Carousel example">
+        {carouselItems("one")}
+      </calcite-carousel>,
+    );
+    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
+    const [, second, third] = Array.from(
+      el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemIndividual}`),
+    );
+    await expectAnimation(el, second);
+    await expectAnimation(el, third);
   });
 
   it("finishes selection animations with autoplay enabled", async () => {
     document.documentElement.style.setProperty("--calcite-duration-factor", "0.1");
-    try {
       const { el } = await mount<Carousel>(
         <calcite-carousel autoplay autoplayDuration={10000} label="Carousel example">
           {carouselItems("one")}
         </calcite-carousel>,
       );
-      await expectAnimation(el, shadowElement(el, `.${CSS.pageNext}`));
+      await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
       const [, , third] = Array.from(el.shadowRoot!.querySelectorAll(`.${CSS.paginationItemIndividual}`));
       await expectAnimation(el, third);
-    } finally {
-      document.documentElement.style.removeProperty("--calcite-duration-factor");
-    }
   });
 
   it("does not animate arrow keys when only one item is present", async () => {
@@ -750,10 +762,10 @@ describe("animations", () => {
         <calcite-carousel-item label="one" />
       </calcite-carousel>,
     );
-    const container = shadowElement(el, `.${CSS.container}`);
+    const container = page.getBySelector(`calcite-carousel .${CSS.container}`).first().element();
     container.addEventListener("animationstart", startSpy);
     container.addEventListener("animationend", endSpy);
-    el.focus();
+    await el.setFocus();
     await userEvent.keyboard("{ArrowRight}{ArrowLeft}");
     expect(startSpy).not.toHaveBeenCalled();
     expect(endSpy).not.toHaveBeenCalled();
@@ -787,8 +799,8 @@ describe("overflowing pagination", () => {
         <calcite-carousel-item label="one" />
       </calcite-carousel>,
     );
-    expect(shadowElement(el, `.${CSS.autoplayControl}`)).toBeNull();
-    expect(shadowElement(el, `.${CSS.pageNext}`)).toBeNull();
-    expect(shadowElement(el, `.${CSS.pagePrevious}`)).toBeNull();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`)).not.toBeInTheDocument();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pageNext}`)).not.toBeInTheDocument();
+    await expect.element(page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`)).not.toBeInTheDocument();
   });
 });
