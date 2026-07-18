@@ -1,68 +1,57 @@
 {
   "corner-radius": {
     "default": {
-      "$value": "{corner-radius.none}",
-      "$type": "borderRadius",
-      "$extensions": {
-        "calcite.outputReference": true
-      },
       "attributes": {
         "category": "corner-radius"
-      }
+      },
+      "$type": "borderRadius",
+      "$value": "{corner-radius.none}"
     },
     "sharp": {
-      "$value": "{core.size.default.none}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead.",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
-      }
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.none}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-none` instead."
     },
     "none": {
-      "$value": "{corner-radius.sharp}",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       },
-      "$extensions": {
-        "calcite.outputReference": true
-      },
-      "$description": "Replaces `--calcite-corner-radius-sharp`"
+      "$type": "borderRadius",
+      "$value": "{core.size.default.none}"
     },
     "xs": {
-      "$value": "{core.size.default.2}",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
-      }
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.2}"
     },
     "sm": {
-      "$value": "{corner-radius.round}",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
       },
-      "$extensions": {
-        "calcite.outputReference": true
-      },
-      "$description": "Replaces `--calcite-corner-radius-round`"
+      "$type": "borderRadius",
+      "$value": "{core.size.default.4}"
     },
     "round": {
-      "$value": "{core.size.default.4}",
-      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead.",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius",
         "docs": "deprecated"
-      }
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.4}",
+      "$description": "Deprecated in v3.1.0, removal target v5.0.0 - Use `--calcite-corner-radius-sm` instead."
     },
     "pill": {
-      "$value": "{core.size.default.9999}",
-      "$type": "borderRadius",
       "attributes": {
         "category": "corner-radius"
-      }
+      },
+      "$type": "borderRadius",
+      "$value": "{core.size.default.9999}"
     }
   }
 }

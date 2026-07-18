@@ -1,6 +1,7 @@
 import { IconName } from "../icon/interfaces";
 
 export const CSS = {
+  clearButton: "clear-button",
   clockIcon: "clock-icon",
   container: "container",
   contentContainer: "content-container",
