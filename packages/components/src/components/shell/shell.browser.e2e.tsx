@@ -105,7 +105,7 @@ describe("shell provides sizing context", () => {
     const panel = el.querySelector<ShellPanel["el"]>(
       `calcite-shell-panel[slot="${SLOTS.panelBottom}"]`,
     )!;
-    const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${CSS.content}`)!;
+    const content = panel.shadowRoot!.querySelector<HTMLElement>(`.${SHELL_PANEL_CSS.content}`)!;
 
     await panel.updateSize({ block: shellHeight });
     await component.updateComplete;
