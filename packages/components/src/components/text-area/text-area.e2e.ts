@@ -165,6 +165,25 @@ it("does not change height & width when status changes from valid to invalid", a
   expect(textAreaInvalidRect.height).toEqual(textAreaRect.height);
 });
 
+it("does not grow textarea height on repeated key presses", async () => {
+  const page = await newE2EPage();
+  await page.setContent(`<calcite-text-area label-text="Description" limit-text max-length="600"></calcite-text-area>`);
+
+  const element = await page.find("calcite-text-area");
+  await element.callMethod("setFocus");
+  await page.waitForChanges();
+
+  const initialRect = await getElementRect(page, "calcite-text-area", "textarea");
+
+  for (let i = 0; i < 10; i++) {
+    await page.keyboard.press("a");
+    await page.waitForChanges();
+  }
+
+  const finalRect = await getElementRect(page, "calcite-text-area", "textarea");
+  expect(finalRect.height).toEqual(initialRect.height);
+});
+
 // Ref https://github.com/Esri/calcite-design-system/issues/8456
 it("should not set width and height to auto when resizing viewport to narrow height", async () => {
   const page = await newE2EPage();

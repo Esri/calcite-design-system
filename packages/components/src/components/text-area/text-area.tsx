@@ -69,6 +69,8 @@ export class TextArea
 
   private footerRef = createRef<HTMLElement>();
 
+  private loaderContainerRef = createRef<HTMLDivElement>();
+
   private validationMessageEl?: HTMLDivElement;
 
   formSupport = useForm<this>({
@@ -408,16 +410,16 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
-      this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
-      this.textAreaEl!.style.height = `${elHeight - footerHeight}px`;
+    const { textAreaHeight, loaderHeight, footerHeight } = this.getHeightAndWidthOfElements();
+    if (footerHeight > 0 && textAreaHeight + footerHeight !== loaderHeight) {
+      this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
     }
   }
 
   private getHeightAndWidthOfElements(): {
     textAreaHeight: number;
     textAreaWidth: number;
+    loaderHeight: number;
     elHeight: number;
     elWidth: number;
     footerHeight: number;
@@ -426,6 +428,9 @@ export class TextArea
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
+      : NO_DIMENSIONS;
+    const { height: loaderHeight } = this.loaderContainerRef.value
+      ? this.loaderContainerRef.value.getBoundingClientRect()
       : NO_DIMENSIONS;
     const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerRef.value
@@ -439,6 +444,7 @@ export class TextArea
     return {
       textAreaHeight,
       textAreaWidth,
+      loaderHeight,
       elHeight,
       elWidth,
       footerHeight,
@@ -486,7 +492,7 @@ export class TextArea
               tooltipText={this.messages.required}
             />
           )}
-          <div class={CSS.loaderContainer}>
+          <div class={CSS.loaderContainer} ref={this.loaderContainerRef}>
             {this.loading ? loader : null}
             <textarea
               aria-describedby={this.guid}
