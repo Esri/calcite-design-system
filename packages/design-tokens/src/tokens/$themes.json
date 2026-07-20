@@ -859,6 +859,7 @@
       "core/size": "source",
       "semantic/shadow": "enabled"
     },
-    "group": "_styles"
+    "group": "_styles",
+    "$figmaVariableReferences": {}
   }
 ]

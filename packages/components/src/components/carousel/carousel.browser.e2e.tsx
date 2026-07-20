@@ -1,7 +1,14 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { hidden, focusable, renders, t9n, accessible, themed } from "../../tests/commonTests/browser";
+import {
+  hidden,
+  focusable,
+  renders,
+  t9n,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { CSS } from "./resources";
 
 const customDuration = 1000;

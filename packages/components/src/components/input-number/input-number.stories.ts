@@ -1,5 +1,5 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
@@ -20,10 +20,18 @@ type InputNumberStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "groupSeparator"
+  | "icon"
+  | "iconFlipRtl"
+  | "integer"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEditable"
+  | "inlineEditableControls"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,10 +49,18 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    groupSeparator: false,
+    icon: "",
+    iconFlipRtl: false,
+    integer: false,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEditable: false,
+    inlineEditableControls: false,
   },
   argTypes: {
     scale: {
@@ -75,6 +91,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -93,10 +113,18 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("group-separator", args.groupSeparator)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("integer", args.integer)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-editable", args.inlineEditable)}
+      ${boolean("inline-editable-controls", args.inlineEditableControls)}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
   </div>
@@ -251,3 +279,9 @@ export const overlayDoesNotObscureIcon = (): string =>
     <div class="overlay"></div>`;
 
 export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;
+
+export const inlineEditable = (): string => html`
+  <div>
+    <calcite-input-number inline-editable inline-editable-controls value="42"></calcite-input-number>
+  </div>
+`;

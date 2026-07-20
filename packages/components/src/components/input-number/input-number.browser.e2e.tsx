@@ -19,6 +19,7 @@ import {
 import { supportedNlsLocales } from "../date-picker/utils";
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
+import { CSS as InlineEditableControlsCSS } from "../functional/InlineEditableControls";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import { InputNumber } from "./input-number";
@@ -34,6 +35,14 @@ describe("defaults", () => {
       {
         propertyName: "alignment",
         defaultValue: "start",
+      },
+      {
+        propertyName: "inlineEditable",
+        defaultValue: false,
+      },
+      {
+        propertyName: "inlineEditableControls",
+        defaultValue: false,
       },
       {
         propertyName: "numberButtonType",
@@ -76,6 +85,14 @@ describe("reflects", () => {
         value: "center",
       },
       {
+        propertyName: "inlineEditable",
+        value: true,
+      },
+      {
+        propertyName: "inlineEditableControls",
+        value: true,
+      },
+      {
         propertyName: "numberButtonType",
         value: "horizontal",
       },
@@ -115,6 +132,111 @@ describe("translation support", () => {
 
 describe("disabled", () => {
   disabled(() => mount("calcite-input-number"));
+});
+
+describe("inline editable", () => {
+  it("clears value on first Escape when clearable is set", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number clearable inline-editable inline-editable-controls value="123" />,
+    );
+
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("");
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("cancels editing on first Escape when clearable is not set", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("4");
+    expect(el.value).toBe("1234");
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("123");
+    expect(el.editingEnabled).toBe(false);
+  });
+
+  it("emits enable editing change when built-in inline editable is activated", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    const enableEditingSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInlineEditableChange", enableEditingSpy);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+
+    expect(enableEditingSpy).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("emits confirm and keeps editing enabled when save is clicked without inlineEditableAfterConfirm", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    const confirmSpy = vi.fn();
+    el.addEventListener("calciteInputNumberInlineEditableConfirm", confirmSpy);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditableControlsCSS.confirmChanges}`),
+    );
+
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(true);
+  });
+
+  it("disables editing when inlineEditableAfterConfirm resolves successfully", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-editable inline-editable-controls value="123" />,
+    );
+    el.inlineEditableAfterConfirm = vi.fn().mockResolvedValue(undefined);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditableControlsCSS.confirmChanges}`),
+    );
+
+    expect(el.inlineEditableAfterConfirm).toHaveBeenCalledTimes(1);
+    expect(el.editingEnabled).toBe(false);
+  });
+
+  it("saves changes on blur and disables editing when inline editable controls are off", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-editable value="123" />);
+
+    const input = page.getBySelector("calcite-input-number input");
+    await userEvent.click(input);
+
+    await expect
+      .element(page.getBySelector("calcite-input-number"))
+      .toHaveAttribute("editing-enabled");
+
+    await userEvent.keyboard("4");
+    await userEvent.tab();
+
+    expect(el.value).toBe("1234");
+    expect(el.editingEnabled).toBe(false);
+  });
 });
 
 describe("clearable", () => {
@@ -1134,6 +1256,62 @@ describe("theme", () => {
         targetProp: "--calcite-progress-fill-color",
       },
     });
+  });
+
+  describe("inline editable", () => {
+    themed(() => mount(<calcite-input-number inline-editable value="42" />), {
+      "--calcite-input-number-inline-editable-background-color-hover": {
+        shadowSelector: `.${CSS.inlineEditable}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+    });
+
+    themed(
+      async () => {
+        const component = await mount(
+          <calcite-input-number inline-editable inline-editable-controls value="42" />,
+        );
+
+        const input = page.getBySelector("calcite-input-number input");
+        await userEvent.click(input);
+
+        return component;
+      },
+      {
+        "--calcite-input-number-inline-editable-control-background-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color",
+        },
+        "--calcite-input-number-inline-editable-control-background-color-hover": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-hover",
+          state: "hover",
+        },
+        "--calcite-input-number-inline-editable-control-background-color-press": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-background-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditableControlsCSS.confirmChanges}` },
+        },
+        "--calcite-input-number-inline-editable-control-corner-radius": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-corner-radius",
+        },
+        "--calcite-input-number-inline-editable-control-loader-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-loader-color",
+        },
+        "--calcite-input-number-inline-editable-control-text-color": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color",
+        },
+        "--calcite-input-number-inline-editable-control-text-color-press": {
+          shadowSelector: `.${InlineEditableControlsCSS.confirmChanges}`,
+          targetProp: "--calcite-action-text-color-press",
+          state: { press: `calcite-input-number >>> .${InlineEditableControlsCSS.confirmChanges}` },
+        },
+      },
+    );
   });
 
   describe("clearable", () => {

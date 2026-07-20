@@ -1,5 +1,12 @@
 import { h } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, accessible, themed } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  accessible,
+  themed,
+} from "../../tests/commonTests/browser";
 import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";

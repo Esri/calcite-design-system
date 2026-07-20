@@ -1,17 +1,30 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
-import { supportedNlsLocales } from "../date-picker/utils";
-import { defaultMenuPlacement, menuPlacements } from "../../utils/floating-ui";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputDatePicker } from "./input-date-picker";
 
-const { scale, status } = ATTRIBUTES;
+const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, supportedNlsLocale } = ATTRIBUTES;
 
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
-  "scale" | "status" | "value" | "min" | "max" | "placement" | "validationMessage" | "validationIcon"
+  | "calendars"
+  | "clearable"
+  | "disabled"
+  | "layout"
+  | "max"
+  | "min"
+  | "open"
+  | "placeholder"
+  | "placement"
+  | "range"
+  | "readOnly"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+  | "value"
 > {
   lang: string;
 }
@@ -19,13 +32,21 @@ interface InputDatePickerStoryArgs extends Pick<
 export default {
   title: "Components/Controls/InputDatePicker",
   args: {
+    calendars: calendarCount.defaultValue,
+    disabled: false,
+    layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
+    clearable: false,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
     lang: defaultLocale,
-    placement: defaultMenuPlacement,
+    open: true,
+    placeholder: "Enter a date",
+    placement: menuPlacement.defaultValue,
+    range: false,
+    readOnly: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -39,11 +60,19 @@ export default {
       control: { type: "select" },
     },
     lang: {
-      options: supportedNlsLocales,
+      options: supportedNlsLocale.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
+      control: { type: "select" },
+    },
+    calendars: {
+      options: calendarCount.values,
+      control: { type: "select" },
+    },
+    layout: {
+      options: horizontalVerticalLayout.values,
       control: { type: "select" },
     },
     validationIcon: {
@@ -64,14 +93,21 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
     <calcite-input-date-picker
       scale="${args.scale}"
       status="${args.status}"
+      ${boolean("clearable", args.clearable)}
       value="${args.value}"
+      calendars="${args.calendars}"
+      ${boolean("disabled", args.disabled)}
       lang="${args.lang}"
+      layout="${args.layout}"
       min="${args.min}"
       max="${args.max}"
+      ${boolean("open", args.open)}
+      placeholder="${args.placeholder}"
       placement="${args.placement}"
+      ${boolean("range", args.range)}
+      ${boolean("read-only", args.readOnly)}
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
-      open="${boolean("open", true)}"
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>
   </div>
 `;
@@ -424,3 +460,49 @@ localized.parameters = {
     delay: 1000,
   },
 };
+
+export const clearableSingle = (): string => html`
+  <div>
+    <calcite-input-date-picker clearable value="2020-12-12" open></calcite-input-date-picker>
+  </div>
+`;
+
+export const clearableRangeHorizontalAndVertical = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      gap: 32px;
+      width: 1200px;
+      height: 500px;
+    }
+
+    .picker {
+      width: 660px;
+      height: 460px;
+    }
+  </style>
+  <div class="container">
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-horizontal"
+        clearable
+        range
+        layout="horizontal"
+        open
+      ></calcite-input-date-picker>
+    </div>
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-vertical"
+        clearable
+        range
+        layout="vertical"
+        open
+      ></calcite-input-date-picker>
+    </div>
+  </div>
+  <script>
+    document.querySelector("#clearable-range-horizontal").value = ["2020-12-12", "2020-12-14"];
+    document.querySelector("#clearable-range-vertical").value = ["2020-12-12", "2020-12-14"];
+  </script>
+`;

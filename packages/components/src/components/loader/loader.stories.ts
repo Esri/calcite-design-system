@@ -1,16 +1,21 @@
+import { boolean } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Loader } from "./loader";
 
 const { determinateType, scale } = ATTRIBUTES;
 
-type LoaderStoryArgs = Pick<Loader, "type" | "scale" | "value">;
+type LoaderStoryArgs = Pick<Loader, "complete" | "inline" | "label" | "scale" | "text" | "type" | "value">;
 
 export default {
   title: "Components/Loader",
   args: {
+    complete: false,
+    inline: false,
+    label: "Loading",
     type: determinateType.values[1],
     scale: scale.defaultValue,
+    text: "",
     value: 0,
   },
   argTypes: {
@@ -29,7 +34,15 @@ export default {
 };
 
 export const simple = (args: LoaderStoryArgs): string => html`
-  <calcite-loader type="${args.type}" scale="${args.scale}" value="${args.value}" />
+  <calcite-loader
+    ${boolean("complete", args.complete)}
+    ${boolean("inline", args.inline)}
+    label="${args.label}"
+    scale="${args.scale}"
+    text="${args.text}"
+    type="${args.type}"
+    value="${args.value}"
+  />
 `;
 
 export const inline = (): string => html`

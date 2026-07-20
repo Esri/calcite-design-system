@@ -13,6 +13,7 @@ import {
   t9n,
   themed,
   openClose,
+  topLayer,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
@@ -38,6 +39,7 @@ describe("defaults", () => {
       { propertyName: "mode", defaultValue: "offset" },
       { propertyName: "open", defaultValue: false },
       { propertyName: "overlayPositioning", defaultValue: "absolute" },
+      { propertyName: "placeholder", defaultValue: undefined },
       { propertyName: "scale", defaultValue: "m" },
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
@@ -80,6 +82,10 @@ describe("focusable", () => {
 
 describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-input-time-zone", mountOptions));
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount("calcite-input-time-zone"));
 });
 
 describe("translation support", () => {
