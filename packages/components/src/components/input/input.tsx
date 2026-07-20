@@ -144,7 +144,7 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
-  private useInlineEditable = new UseInlineEditable({
+  private inlineEditableManager = new UseInlineEditable({
     getEditingEnabled: () => this.editingEnabled,
     setEditingEnabled: (editingEnabled) => {
       this.editingEnabled = editingEnabled;
@@ -608,7 +608,7 @@ export class Input
         return;
       }
 
-      this.useInlineEditable.cancelEditing();
+      this.inlineEditableManager.cancelEditing();
       requestAnimationFrame(() => {
         this.enableInlineEditingButtonRef.value?.setFocus();
       });
@@ -631,7 +631,7 @@ export class Input
 
   onLabelClick(): void {
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -712,7 +712,7 @@ export class Input
     this.calciteInternalInputBlur.emit();
 
     if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
-      this.useInlineEditable.disable();
+      this.inlineEditableManager.disable();
     }
 
     this.emitChangeIfUserModified();
@@ -740,7 +740,7 @@ export class Input
 
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
       event.preventDefault();
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -1292,13 +1292,13 @@ export class Input
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
                 enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditableLoading}
-                onCancelEditing={() => this.useInlineEditable.cancelEditing()}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
                 onConfirmChanges={() =>
-                  this.useInlineEditable.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
                     this.inlineEditableLoading = loading;
                   })
                 }
-                onEnableEditing={() => this.useInlineEditable.enable()}
+                onEnableEditing={() => this.inlineEditableManager.enable()}
                 scale={this.scale}
                 showControls={this.editingEnabled && this.inlineEditableControls}
               />
