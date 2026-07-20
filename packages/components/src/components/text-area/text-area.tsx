@@ -71,8 +71,6 @@ export class TextArea
 
   private loaderContainerRef = createRef<HTMLDivElement>();
 
-  private validationMessageEl?: HTMLDivElement;
-
   formSupport = useForm<this>({
     inputType: "text",
   })(this);
@@ -445,13 +443,6 @@ export class TextArea
     return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
   }
 
-  private setValidationRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-    this.validationMessageEl = el;
-  }
-
   //#endregion
 
   //#region Rendering
@@ -547,7 +538,6 @@ export class TextArea
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}
-              ref={this.setValidationRef}
               scale={this.scale}
               status={this.status}
             />
