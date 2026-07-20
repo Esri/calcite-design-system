@@ -382,7 +382,7 @@ export const footerVariations = (): string =>
 
 export const actionBarBackgroundColor = (): string =>
   html`<calcite-panel height-scale="s" style="width: 300px;">
-    <calcite-action-bar slot="action-bar" expand-disabled>
+    <calcite-action-bar slot="action-bar" expand-toggle-disabled>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" icon="save"> </calcite-action>

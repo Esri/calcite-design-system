@@ -8,6 +8,10 @@ import type { ShellPanel } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
 
+const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
+
+type PanelSlot = (typeof panelSlots)[number];
+
 declare global {
   interface DeclareElements {
     "calcite-shell": Shell;
@@ -27,13 +31,25 @@ declare global {
  * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
  */
 export class Shell extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region Private Properties
+
+  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
+    {
+      "panel-start": { elements: [], resizable: false },
+      "panel-end": { elements: [], resizable: false },
+      "panel-top": { elements: [], resizable: false },
+      "panel-bottom": { elements: [], resizable: false },
+    };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasAlerts = false;
 
@@ -43,26 +59,32 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
+  @state() hasActionBarPositionPanel = false;
+
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
 
   @state() hasPanelTop = false;
 
+  @state() hasResizablePanelBottom = false;
+
+  @state() hasResizablePanelTop = false;
+
   @state() hasSheets = false;
 
   @state() panelIsResizing = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -73,6 +95,14 @@ export class Shell extends LitElement {
     this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
+    );
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizableChange"]>(
+      "calciteInternalShellPanelResizableChange",
+      this.handleCalciteInternalShellPanelResizableChange,
+    );
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelActionBarPositionChange"]>(
+      "calciteInternalShellPanelActionBarPositionChange",
+      this.handleCalciteInternalShellPanelActionBarPositionChange,
     );
   }
 
@@ -89,9 +119,37 @@ export class Shell extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
+    const panel = event
+      .composedPath()
+      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
+      | ShellPanel["el"]
+      | undefined;
+
+    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
+      this.updateResizableSlotState(panel.slot as PanelSlot);
+    }
+
+    event.stopPropagation();
+  }
+
+  private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
+    const panel = event
+      .composedPath()
+      .find((el) => (el as Element)?.matches?.("calcite-shell-panel")) as
+      | ShellPanel["el"]
+      | undefined;
+
+    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
+      this.updateResizableSlotState(panel.slot as PanelSlot);
+    }
+
+    event.stopPropagation();
+  }
 
   private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
@@ -130,41 +188,53 @@ export class Shell extends LitElement {
   }
 
   private handlePanelTopChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "start";
-      });
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "start";
+    });
+    this.updateResizableSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "end";
-      });
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "end";
+    });
+    this.updateResizableSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "start";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "start";
+    });
+    this.updateResizableSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "end";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(
+      (el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"),
+    );
+
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "end";
+    });
+    this.updateResizableSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -176,9 +246,32 @@ export class Shell extends LitElement {
       });
   }
 
-  // #endregion
+  private updateResizableSlotState(
+    slot: PanelSlot,
+    panelElements = this.panelSlotState[slot].elements,
+  ): void {
+    this.panelSlotState[slot] = {
+      elements: panelElements,
+      resizable: panelElements.some((panel) => panel.resizable),
+    };
+    this.syncResizableState();
+    this.syncActionBarPositionPanelState();
+  }
 
-  // #region Rendering
+  private syncActionBarPositionPanelState(): void {
+    this.hasActionBarPositionPanel = panelSlots.some((slot) =>
+      this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
+    );
+  }
+
+  private syncResizableState(): void {
+    this.hasResizablePanelBottom = this.panelSlotState["panel-bottom"].resizable;
+    this.hasResizablePanelTop = this.panelSlotState["panel-top"].resizable;
+  }
+
+  //#endregion
+
+  //#region Rendering
 
   private renderHeader(): JsxNode {
     return (
@@ -278,7 +371,14 @@ export class Shell extends LitElement {
 
   private renderMain(): JsxNode {
     return (
-      <div class={CSS.main}>
+      <div
+        class={{
+          [CSS.main]: true,
+          [CSS.hasActionBarPositionPanel]: this.hasActionBarPositionPanel,
+          [CSS.hasResizablePanelBottom]: this.hasResizablePanelBottom,
+          [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
+        }}
+      >
         <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
         {this.renderContent()}
         <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />

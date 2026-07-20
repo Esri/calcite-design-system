@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   defaults,
@@ -15,10 +16,12 @@ import {
   disabled,
   openClose,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -213,6 +216,15 @@ describe("floating-ui", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-block"));
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount(<calcite-block drag-handle heading="heading" />), {
+    openProp: "sortHandleOpen",
+    openEventName: "calciteBlockSortHandleOpen",
+    closeEventName: "calciteBlockSortHandleClose",
+    topLayerTarget: page.getBySelector(`.${DropdownCSS.wrapper}[popover]`),
+  });
 });
 
 describe("disabled", () => {

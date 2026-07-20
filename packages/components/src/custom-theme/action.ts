@@ -7,6 +7,7 @@ export const actionTokens = {
   calciteActionBackgroundColorPressed: "",
   calciteActionTextColor: "",
   calciteActionTextColorPressed: "",
+  calciteActionLoaderColor: "",
 };
 
 export const actionBarTokens = {

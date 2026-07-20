@@ -477,6 +477,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
+      designEstimate.one,
+      {
+        column: mondayColumns.designEstimate,
+        value: 1,
+        clearable: true,
+      },
+    ],
+    [
       designEstimate.two,
       {
         column: mondayColumns.designEstimate,
@@ -485,10 +493,26 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       },
     ],
     [
+      designEstimate.three,
+      {
+        column: mondayColumns.designEstimate,
+        value: 3,
+        clearable: true,
+      },
+    ],
+    [
       designEstimate.five,
       {
         column: mondayColumns.designEstimate,
         value: 5,
+        clearable: true,
+      },
+    ],
+    [
+      designEstimate.eight,
+      {
+        column: mondayColumns.designEstimate,
+        value: 8,
         clearable: true,
       },
     ],
@@ -505,6 +529,14 @@ module.exports = function Monday(issue, core, updateIssueBody) {
       {
         column: mondayColumns.designEstimate,
         value: 21,
+        clearable: true,
+      },
+    ],
+    [
+      designEstimate.thirtyFour,
+      {
+        column: mondayColumns.designEstimate,
+        value: 34,
         clearable: true,
       },
     ],

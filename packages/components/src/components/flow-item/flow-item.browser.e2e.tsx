@@ -13,6 +13,7 @@ import {
   t9n,
   disabled,
   accessible,
+  topLayer,
   themed,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
@@ -220,6 +221,22 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-flow-item"), ["calcite-panel"]);
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-flow-item>
+          <calcite-action icon="plus" slot={SLOTS.headerMenuActions} text="Add" />
+        </calcite-flow-item>,
+      ),
+    {
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-flow-item [popover]"),
+    },
+  );
 });
 
 describe("disabled", () => {
