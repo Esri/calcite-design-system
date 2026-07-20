@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.28...@esri/calcite-components@5.2.0-next.29) (2026-07-20)
+
+### Features
+
+- **input-date-picker:** update vertical layout divider line padding ([#14842](https://github.com/Esri/calcite-design-system/issues/14842)), closes [#9440](https://github.com/Esri/calcite-design-system/issues/9440)
+
 ## [5.2.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.27...@esri/calcite-components@5.2.0-next.28) (2026-07-20)
 
 ### Features
