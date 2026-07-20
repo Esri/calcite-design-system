@@ -343,6 +343,7 @@ export const fullResizeHorizontal = (): string => html`
 export const fullResizeHorizontalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
+      display-mode="float"
       slot="panel-start"
       resizable
       style="
@@ -386,6 +387,7 @@ export const fullResizeHorizontalFloat = (): string => html`
 export const fullResizeHorizontalFloatAll = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
+      display-mode="float-all"
       slot="panel-start"
       resizable
       style="
@@ -471,6 +473,7 @@ export const fullResizeVertical = (): string => html`
 export const fullResizeVerticalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
+      display-mode="float"
       slot="panel-top"
       resizable
       style="
@@ -514,6 +517,7 @@ export const fullResizeVerticalFloat = (): string => html`
 export const fullResizeVerticalFloatAll = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
+      display-mode="float-all"
       slot="panel-top"
       resizable
       style="
