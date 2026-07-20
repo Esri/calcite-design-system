@@ -23,6 +23,15 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import type { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
+export type ShellPanelSizingData = {
+  containerSize: number;
+  defaultSlotBorderSize: number;
+  shellSize: number;
+  siblingPanelSize: number;
+};
+
+type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
+
 declare global {
   interface DeclareElements {
     "calcite-shell-panel": ShellPanel;
@@ -137,6 +146,9 @@ export class ShellPanel extends LitElement {
 
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
+
+  /** @private */
+  @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
 
   /** @copyDoc */
   @property({ reflect: true }) height?: Height;
@@ -365,14 +377,8 @@ export class ShellPanel extends LitElement {
   }
 
   private getAvailableSize(axis: "inline" | "block"): number | null {
-    const { el } = this;
-    const containerElement = el.assignedSlot?.parentElement ?? el.parentElement;
-    const shellElement = el.parentElement;
     const dimension = axis === "inline" ? "width" : "height";
-    const slots =
-      axis === "inline"
-        ? ['slot="panel-start"', 'slot="panel-end"']
-        : ['slot="panel-top"', 'slot="panel-bottom"'];
+    const shellSizingData = this.shellSizingDataProvider?.(axis);
     const actionBarContainerSize =
       this.actionBarContainerRef.value?.getBoundingClientRect()[dimension] ?? 0;
     const actionBarSize = Math.max(
@@ -383,26 +389,13 @@ export class ShellPanel extends LitElement {
       ),
     );
 
-    if (!containerElement) {
+    if (!shellSizingData) {
       return null;
     }
 
-    const siblingPanelSize = Array.from(
-      shellElement?.querySelectorAll<ShellPanel["el"]>(
-        slots.map((slot) => `calcite-shell-panel[${slot}]`).join(", "),
-      ) ?? [],
-    ).reduce(
-      (total, shellPanel) =>
-        shellPanel === el ? total : total + shellPanel.getBoundingClientRect()[dimension],
-      0,
-    );
-
-    const containerSize = containerElement.getBoundingClientRect()[dimension];
-    const shellSize = shellElement?.getBoundingClientRect()[dimension] ?? containerSize;
+    const { containerSize, defaultSlotBorderSize, shellSize, siblingPanelSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
     const contentSpacingSize = this.getContentSpacingSize(axis);
-    const defaultSlotBorderSize =
-      axis === "block" ? this.getDefaultSlotBorderSize(containerElement) : 0;
 
     return Math.max(
       Math.floor(Math.min(containerSize, shellSize)) -
@@ -453,22 +446,6 @@ export class ShellPanel extends LitElement {
           getStylePixelValue(computedStyle.marginBlockEnd) +
           getStylePixelValue(computedStyle.borderBlockStartWidth) +
           getStylePixelValue(computedStyle.borderBlockEndWidth);
-  }
-
-  private getDefaultSlotBorderSize(containerElement: HTMLElement): number {
-    const defaultSlot = containerElement.querySelector<HTMLSlotElement>("slot:not([name])");
-
-    return (
-      defaultSlot?.assignedElements({ flatten: true }).reduce((total, element) => {
-        const computedStyle = window.getComputedStyle(element);
-
-        return (
-          total +
-          getStylePixelValue(computedStyle.borderBlockStartWidth) +
-          getStylePixelValue(computedStyle.borderBlockEndWidth)
-        );
-      }, 0) ?? 0
-    );
   }
 
   private getMaxBlockSize(): number | null {

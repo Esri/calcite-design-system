@@ -1,12 +1,21 @@
 import { type PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import type { Dialog } from "../dialog/dialog";
 import type { Sheet } from "../sheet/sheet";
 import type { Alert } from "../alert/alert";
-import type { ShellPanel } from "../shell-panel/shell-panel";
+import type { ShellPanel, ShellPanelSizingData } from "../shell-panel/shell-panel";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
+
+type ShellPanelWithSizingProvider = ShellPanel["el"] & {
+  shellSizingDataProvider?: (axis: "inline" | "block") => ShellPanelSizingData | null;
+};
 
 declare global {
   interface DeclareElements {
@@ -30,6 +39,20 @@ export class Shell extends LitElement {
   // #region Static Members
 
   static override styles = styles;
+
+  // #endregion
+
+  // #region Private Properties
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private panelBottomSlotRef = createRef<HTMLSlotElement>();
+
+  private panelEndSlotRef = createRef<HTMLSlotElement>();
+
+  private panelStartSlotRef = createRef<HTMLSlotElement>();
+
+  private panelTopSlotRef = createRef<HTMLSlotElement>();
 
   // #endregion
 
@@ -129,42 +152,106 @@ export class Shell extends LitElement {
       });
   }
 
+  private configurePanels(
+    panels: ShellPanel["el"][],
+    layout: Extract<"horizontal" | "vertical", ShellPanel["layout"]>,
+    position: Extract<"start" | "end", ShellPanel["position"]>,
+  ): void {
+    panels.forEach((panel) => {
+      const sizingPanel = panel as ShellPanelWithSizingProvider;
+
+      panel.layout = layout;
+      panel.position = position;
+      sizingPanel.shellSizingDataProvider = (axis) => this.getShellPanelSizingData(panel, axis);
+    });
+  }
+
+  private getDefaultSlotBorderSize(): number {
+    return (
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }).reduce((total, element) => {
+        const computedStyle = window.getComputedStyle(element);
+
+        return (
+          total +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth)
+        );
+      }, 0) ?? 0
+    );
+  }
+
+  private getShellPanelSizingData(
+    panel: ShellPanel["el"],
+    axis: "inline" | "block",
+  ): ShellPanelSizingData | null {
+    const containerElement = panel.assignedSlot?.parentElement;
+
+    if (!containerElement) {
+      return null;
+    }
+
+    const dimension = axis === "inline" ? "width" : "height";
+    const panelSlotRefs =
+      axis === "inline"
+        ? [this.panelStartSlotRef, this.panelEndSlotRef]
+        : [this.panelTopSlotRef, this.panelBottomSlotRef];
+    const siblingPanelSize = panelSlotRefs
+      .flatMap((slotRef) => slotRef.value?.assignedElements({ flatten: true }) ?? [])
+      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
+      .reduce(
+        (total, siblingPanel) =>
+          siblingPanel === panel ? total : total + siblingPanel.getBoundingClientRect()[dimension],
+        0,
+      );
+
+    return {
+      containerSize: containerElement.getBoundingClientRect()[dimension],
+      defaultSlotBorderSize: axis === "block" ? this.getDefaultSlotBorderSize() : 0,
+      shellSize: this.el.getBoundingClientRect()[dimension],
+      siblingPanelSize,
+    };
+  }
+
   private handlePanelTopChange(event: Event): void {
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "start";
-      });
+    this.configurePanels(
+      slotChangeGetAssignedElements(event).filter((el): el is ShellPanel["el"] =>
+        el?.matches("calcite-shell-panel"),
+      ),
+      "horizontal",
+      "start",
+    );
   }
 
   private handlePanelBottomChange(event: Event): void {
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "end";
-      });
+    this.configurePanels(
+      slotChangeGetAssignedElements(event).filter((el): el is ShellPanel["el"] =>
+        el?.matches("calcite-shell-panel"),
+      ),
+      "horizontal",
+      "end",
+    );
   }
 
   private handlePanelStartChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "start";
-      });
+    this.configurePanels(
+      slotChangeGetAssignedElements(event).filter((el): el is ShellPanel["el"] =>
+        el?.matches("calcite-shell-panel"),
+      ),
+      "vertical",
+      "start",
+    );
   }
 
   private handlePanelEndChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "end";
-      });
+    this.configurePanels(
+      slotChangeGetAssignedElements(event).filter((el): el is ShellPanel["el"] =>
+        el?.matches("calcite-shell-panel"),
+      ),
+      "vertical",
+      "end",
+    );
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -222,7 +309,7 @@ export class Shell extends LitElement {
 
   private renderContent(): JsxNode {
     const { panelIsResizing } = this;
-    const defaultSlotNode: JsxNode = <slot key="default-slot" />;
+    const defaultSlotNode: JsxNode = <slot key="default-slot" ref={this.defaultSlotRef} />;
     const defaultSlotContainerNode = panelIsResizing ? (
       <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
     ) : (
@@ -233,10 +320,16 @@ export class Shell extends LitElement {
         key="panel-bottom-slot"
         name={SLOTS.panelBottom}
         onSlotChange={this.handlePanelBottomChange}
+        ref={this.panelBottomSlotRef}
       />
     );
     const panelTopSlotNode: JsxNode = (
-      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotChange={this.handlePanelTopChange} />
+      <slot
+        key="panel-top-slot"
+        name={SLOTS.panelTop}
+        onSlotChange={this.handlePanelTopChange}
+        ref={this.panelTopSlotRef}
+      />
     );
 
     const contentContainerKey = "content-container";
@@ -279,9 +372,17 @@ export class Shell extends LitElement {
   private renderMain(): JsxNode {
     return (
       <div class={CSS.main}>
-        <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
+        <slot
+          name={SLOTS.panelStart}
+          onSlotChange={this.handlePanelStartChange}
+          ref={this.panelStartSlotRef}
+        />
         {this.renderContent()}
-        <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />
+        <slot
+          name={SLOTS.panelEnd}
+          onSlotChange={this.handlePanelEndChange}
+          ref={this.panelEndSlotRef}
+        />
       </div>
     );
   }
