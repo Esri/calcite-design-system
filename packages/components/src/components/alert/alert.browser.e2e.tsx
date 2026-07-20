@@ -292,9 +292,7 @@ describe("dismiss progress color", () => {
     vi.useFakeTimers();
     const { el: alert } = await mount<Alert>(
       <div class={modeClass}>
-        {override ? (
-          <style>{`:root { --calcite-color-transparent-tint: ${override}; }`}</style>
-        ) : null}
+        {override ? <style>{`:root { --calcite-color-transparent-tint: ${override}; }`}</style> : null}
         <calcite-alert autoClose autoCloseDuration="slow" icon="i2DExplore" kind="danger" open>
           <div slot="message">Successfully duplicated a layer</div>
         </calcite-alert>
@@ -318,7 +316,9 @@ describe("dismiss progress color", () => {
   });
 
   it("supports overriding the color", async () => {
-    expect(await getProgressColor(undefined, "rgba(255, 0, 0, 0.5)")).toBe("rgba(255, 0, 0, 0.5)");
+    expect(await getProgressColor(undefined, "rgba(255, 0, 0, 0.5)")).toBe(
+      "rgba(255, 0, 0, 0.5)",
+    );
   });
 });
 
@@ -365,14 +365,9 @@ it("auto-closes queued alerts in order", async () => {
   const first = page.getBySelector("#first-auto-close").element() as Alert["el"];
   const second = page.getBySelector("#second-auto-close").element() as Alert["el"];
   vi.advanceTimersByTime(alertQueueTimeoutMs);
-  await Promise.all([
-    first.manager.component.updateComplete,
-    second.manager.component.updateComplete,
-  ]);
+  await Promise.all([first.manager.component.updateComplete, second.manager.component.updateComplete]);
 
-  await expect
-    .element(page.getBySelector("#first-auto-close calcite-chip"))
-    .toHaveTextContent("+1");
+  await expect.element(page.getBySelector("#first-auto-close calcite-chip")).toHaveTextContent("+1");
   vi.advanceTimersByTime(DURATIONS.medium);
   await first.manager.component.updateComplete;
   expect(first.open).toBe(false);
