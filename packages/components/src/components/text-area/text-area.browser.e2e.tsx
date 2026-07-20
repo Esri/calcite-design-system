@@ -18,6 +18,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
+import { TextArea } from "./text-area";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -227,7 +228,7 @@ describe("theme", () => {
 });
 
 it("does not grow textarea height on repeated key presses", async () => {
-  const { el } = await mount(
+  const { el } = await mount<TextArea>(
     <calcite-text-area label-text="Description" limit-text max-length="600" />,
   );
 
