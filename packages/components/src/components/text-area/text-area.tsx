@@ -87,15 +87,8 @@ export class TextArea
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const {
-      textAreaHeight,
-      textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
-      footerWidth,
-      validationMessageHeight,
-    } = this.getHeightAndWidthOfElements();
+    const { textAreaHeight, textAreaWidth, loaderHeight, elWidth, footerHeight, footerWidth } =
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
@@ -108,10 +101,7 @@ export class TextArea
     if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
       this.updateSizeToAuto("width");
     }
-    if (
-      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
-      elStyleHeight !== "auto"
-    ) {
+    if (loaderHeight !== textAreaHeight + footerHeight && elStyleHeight !== "auto") {
       this.updateSizeToAuto("height");
     }
   });

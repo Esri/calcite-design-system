@@ -18,7 +18,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
-import { TextArea } from "./text-area";
+import type { TextArea } from "./text-area";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
