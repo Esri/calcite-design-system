@@ -231,14 +231,24 @@ export class Shell extends LitElement {
     }
 
     const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
-    const availableOccupiedSize =
-      axis === "inline"
-        ? panel.position === "start"
+    const isRTL = window.getComputedStyle(this).direction === "rtl";
+    let availableOccupiedSize: number;
+
+    if (axis === "inline") {
+      const isStart = panel.position === "start";
+      availableOccupiedSize = isRTL
+        ? isStart
+          ? containerRect.right - defaultSlotRect.left
+          : defaultSlotRect.right - containerRect.left
+        : isStart
           ? defaultSlotRect.right - containerRect.left
-          : containerRect.right - defaultSlotRect.left
-        : panel.position === "start"
+          : containerRect.right - defaultSlotRect.left;
+    } else {
+      availableOccupiedSize =
+        panel.position === "start"
           ? defaultSlotRect.bottom - containerRect.top
           : containerRect.bottom - defaultSlotRect.top;
+    }
     const availableSize = Math.max(
       Math.floor(availableOccupiedSize) - Math.ceil(defaultSlotMinSize),
       0,
