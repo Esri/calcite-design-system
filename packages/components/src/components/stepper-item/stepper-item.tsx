@@ -14,7 +14,6 @@ import { Scale } from "../interfaces";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
   StepperLayout,
 } from "../stepper/interfaces";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -163,11 +162,6 @@ export class StepperItem extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalStepperItemKeyEvent = createEvent<StepperItemKeyEventDetail>({
-    cancelable: false,
-  });
-
-  /** @private */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /** @private */
@@ -265,7 +259,6 @@ export class StepperItem extends LitElement {
         case "ArrowRight":
         case "Home":
         case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
           event.preventDefault();
           break;
       }

@@ -123,9 +123,6 @@ export class Swatch extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalSwatchKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -185,7 +182,6 @@ export class Swatch extends LitElement {
         case "ArrowLeft":
         case "Home":
         case "End":
-          this.calciteInternalSwatchKeyEvent.emit(event);
           event.preventDefault();
           break;
       }

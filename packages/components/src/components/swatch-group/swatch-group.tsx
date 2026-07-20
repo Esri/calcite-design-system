@@ -99,7 +99,7 @@ export class SwatchGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalSwatchKeyEvent", this.calciteInternalSwatchKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteSwatchSelect", this.calciteSwatchSelectListener);
     this.listen("calciteInternalSwatchSelect", this.calciteInternalSwatchSelectListener);
     this.listen("calciteInternalSyncSelectedSwatches", this.calciteInternalSyncSelectedSwatches);
@@ -115,25 +115,42 @@ export class SwatchGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalSwatchKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items?.filter((el) => !el.disabled);
-      switch (event.detail.key) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.detail.target, "next");
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(interactiveItems, event.detail.target, "previous");
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.detail.target, "first");
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.detail.target, "last");
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    const target = event
+      .composedPath()
+      .find(
+        (node): node is Swatch["el"] =>
+          node instanceof HTMLElement && node.matches("calcite-swatch"),
+      );
+
+    if (!target || !this.el.contains(target)) {
+      return;
     }
-    event.stopPropagation();
+
+    const interactiveItems = this.items?.filter((el) => !el.disabled);
+
+    if (!interactiveItems.includes(target)) {
+      return;
+    }
+
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(interactiveItems, target, "next");
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(interactiveItems, target, "previous");
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(interactiveItems, target, "first");
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(interactiveItems, target, "last");
+        event.preventDefault();
+        break;
+    }
   }
 
   private calciteSwatchSelectListener(event: CustomEvent): void {

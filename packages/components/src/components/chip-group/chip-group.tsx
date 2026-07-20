@@ -104,7 +104,7 @@ export class ChipGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalChipKeyEvent", this.calciteInternalChipKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteChipClose", this.calciteChipCloseListener);
     this.listen("calciteChipSelect", this.calciteChipSelectListener);
     this.listen("calciteInternalChipSelect", this.calciteInternalChipSelectListener);
@@ -125,22 +125,29 @@ export class ChipGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalChipKeyEventListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
-        ArrowRight: "next",
-        ArrowLeft: "previous",
-        Home: "first",
-        End: "last",
-      };
-      const destination = destinationFromKey[event.detail.key];
+  private keyDownHandler(event: KeyboardEvent): void {
+    const destinationFromKey: Record<string, FocusElementInGroupDestination> = {
+      ArrowRight: "next",
+      ArrowLeft: "previous",
+      Home: "first",
+      End: "last",
+    };
+    const destination = destinationFromKey[event.key];
 
-      if (destination) {
-        const interactiveItems = this.items?.filter((el) => !el.disabled);
-        focusElementInGroup(interactiveItems, event.detail.target, destination, true, true, true);
-      }
+    if (!destination) {
+      return;
     }
-    event.stopPropagation();
+
+    const chip = event
+      .composedPath()
+      .find((el): el is Chip["el"] => el instanceof HTMLElement && el.matches("calcite-chip"));
+
+    if (!chip || !this.items?.includes(chip)) {
+      return;
+    }
+
+    const interactiveItems = this.items?.filter((el) => !el.disabled);
+    focusElementInGroup(interactiveItems, chip, destination, true, true, true);
   }
 
   private calciteChipCloseListener(event: CustomEvent): void {

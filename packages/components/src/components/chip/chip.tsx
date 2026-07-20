@@ -167,9 +167,6 @@ export class Chip extends LitElement {
   calciteChipSelect = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -237,7 +234,6 @@ export class Chip extends LitElement {
         case "ArrowLeft":
         case "Home":
         case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
           event.preventDefault();
           break;
       }

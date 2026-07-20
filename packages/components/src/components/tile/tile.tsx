@@ -165,9 +165,6 @@ export class Tile extends LitElement implements SelectableComponent {
 
   // #region Events
 
-  /** @private */
-  calciteInternalTileKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
   /** Fires when the selected state of the component changes. */
   calciteTileSelect = createEvent();
 
@@ -217,15 +214,6 @@ export class Tile extends LitElement implements SelectableComponent {
         case " ":
         case "Enter":
           this.handleSelectEvent();
-          event.preventDefault();
-          break;
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "Home":
-        case "End":
-          this.calciteInternalTileKeyEvent.emit(event);
           event.preventDefault();
           break;
       }

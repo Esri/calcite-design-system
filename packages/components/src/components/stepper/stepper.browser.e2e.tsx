@@ -1,7 +1,7 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { LitElement } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, t9n, themed } from "../../tests/commonTests/browser";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
@@ -168,6 +168,78 @@ describe("inheritable props in shadow DOM", () => {
       expect(item).toHaveProperty("scale", "l");
       expect(item).toHaveProperty("numberingSystem", "arab");
     }
+  });
+});
+
+describe("keyboard navigation", () => {
+  function focusFirstItem(layout: Stepper["layout"]): void {
+    const item = document.getElementById("step-1") as HTMLElement & { shadowRoot?: ShadowRoot };
+
+    if (layout === "horizontal") {
+      (item.shadowRoot.querySelector(".stepper-item-header") as HTMLElement).focus();
+      return;
+    }
+
+    item.focus();
+  }
+
+  function isFocusedStepperItem(layout: Stepper["layout"], id: string): boolean {
+    const item = document.getElementById(id) as HTMLElement & { shadowRoot?: ShadowRoot };
+
+    return layout === "horizontal"
+      ? (item.shadowRoot?.activeElement?.classList.contains("stepper-item-header") ?? false)
+      : document.activeElement === item;
+  }
+
+  function isFocusedStepperContentButton(): boolean {
+    return document.activeElement?.id === "step-1-button";
+  }
+
+  it.each([
+    {
+      key: "ArrowRight",
+      layout: "horizontal" as const,
+    },
+    {
+      key: "ArrowDown",
+      layout: "vertical" as const,
+    },
+  ])("delegates %s keydown navigation from stepper items", async ({ key, layout }) => {
+    await mount(
+      <calcite-stepper layout={layout}>
+        <calcite-stepper-item heading="Step 1" id="step-1" selected>
+          <button id="step-1-button" type="button">
+            Step 1 content
+          </button>
+        </calcite-stepper-item>
+        <calcite-stepper-item disabled heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>,
+    );
+
+    await expect.element(page.getBySelector("#step-1")).toHaveAttribute("selected");
+    await expect.element(page.getBySelector("#step-3")).not.toHaveAttribute("selected");
+
+    if (layout === "horizontal") {
+      (document.getElementById("step-1-button") as HTMLElement).focus();
+
+      await userEvent.keyboard(`{${key}}`);
+
+      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
+      expect(await isFocusedStepperContentButton()).toBe(true);
+    }
+
+    await focusFirstItem(layout);
+    await userEvent.keyboard(`{${key}}`);
+
+    await expect.element(page.getBySelector("#step-1")).toHaveAttribute("selected");
+    await expect.element(page.getBySelector("#step-2")).not.toHaveAttribute("selected");
+    await expect.element(page.getBySelector("#step-3")).not.toHaveAttribute("selected");
+    expect(await isFocusedStepperItem(layout, "step-3")).toBe(true);
   });
 });
 
