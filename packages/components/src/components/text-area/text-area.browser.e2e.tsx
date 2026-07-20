@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   cancelable,
   accessible,
@@ -223,4 +224,21 @@ describe("theme", () => {
       },
     });
   });
+});
+
+it("does not grow textarea height on repeated key presses", async () => {
+  const { el } = await mount(
+    <calcite-text-area label-text="Description" limit-text max-length="600" />,
+  );
+
+  const textArea = page.getBySelector("calcite-text-area textarea");
+  await userEvent.click(textArea);
+
+  const initialHeight = textArea.element().getBoundingClientRect().height;
+
+  await userEvent.keyboard("aaaaaaaaaa");
+
+  const finalHeight = textArea.element().getBoundingClientRect().height;
+  expect(finalHeight).toEqual(initialHeight);
+  expect(el.value).toBe("aaaaaaaaaa");
 });
