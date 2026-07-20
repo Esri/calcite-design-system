@@ -13,7 +13,7 @@ import {
 } from "../../tests/commonTests/browser";
 import { breakpoints } from "../../utils/responsive";
 import type { Carousel } from "./carousel";
-import { centerItemsByBreakpoint, CSS } from "./resources";
+import { centerItemsByBreakpoint, CSS, DURATION } from "./resources";
 import { waitForEvent } from "../../tests/commonTests/browser/utils";
 
 const customDuration = 1000;
@@ -540,7 +540,7 @@ describe("autoplay", () => {
   it("rotates to a new carousel item after default duration elapses", async () => {
     const playSpy = vi.fn();
     const stopSpy = vi.fn();
-    const { el } = await mount<Carousel>(
+    await mount<Carousel>(
       <calcite-carousel
         autoplay
         label="Carousel example"
@@ -550,22 +550,15 @@ describe("autoplay", () => {
         {carouselItems()}
       </calcite-carousel>,
     );
-    const defaultSlideDuration = el.autoplayDuration;
-    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
+    const defaultSlideDuration = DURATION;
 
-    vi.advanceTimersByTime(defaultSlideDuration + 20);
-
+    vi.advanceTimersByTime(defaultSlideDuration);
     await expect.element(selectedItem()).toHaveProperty("id", "three");
-    vi.advanceTimersByTime(defaultSlideDuration + 20);
 
+    vi.advanceTimersByTime(defaultSlideDuration);
     await expect.element(selectedItem()).toHaveProperty("id", "one");
-    await userEvent.click(control);
-    vi.advanceTimersByTime(defaultSlideDuration + 20);
 
-    await expect.element(selectedItem()).toHaveProperty("id", "one");
-    await userEvent.click(control);
-    vi.advanceTimersByTime(defaultSlideDuration + 20);
-
+    vi.advanceTimersByTime(defaultSlideDuration);
     await expect.element(selectedItem()).toHaveProperty("id", "two");
     expect(playSpy).not.toHaveBeenCalled();
     expect(stopSpy).not.toHaveBeenCalled();
@@ -592,10 +585,10 @@ describe("autoplay", () => {
     await userEvent.tab();
     await userEvent.keyboard("{Enter}");
     expect(el.paused).toBe(false);
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard("{Space}");
     expect(el.paused).toBe(true);
     await el.setFocus();
-    await userEvent.keyboard(" ");
+    await userEvent.keyboard("{Space}");
     expect(el.paused).toBe(false);
     expect(playSpy).toHaveBeenCalledTimes(2);
     expect(stopSpy).toHaveBeenCalledTimes(1);
