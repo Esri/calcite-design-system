@@ -459,7 +459,6 @@ export class ShellPanel extends LitElement {
           ref={this.resizeHandleRef}
           role="separator"
           tabIndex={0}
-          touch-action="none"
         >
           <div class={CSS.resizeHandleBar}>
             <calcite-icon icon={this.getResizeIcon()} scale="s" />
