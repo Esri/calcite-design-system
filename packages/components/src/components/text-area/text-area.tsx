@@ -410,11 +410,9 @@ export class TextArea
     textAreaHeight: number;
     textAreaWidth: number;
     loaderHeight: number;
-    elHeight: number;
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
-    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
@@ -422,24 +420,18 @@ export class TextArea
     const { height: loaderHeight } = this.loaderContainerRef.value
       ? this.loaderContainerRef.value.getBoundingClientRect()
       : NO_DIMENSIONS;
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerRef.value
       ? this.footerRef.value.getBoundingClientRect()
-      : NO_DIMENSIONS;
-
-    const { height: validationMessageHeight } = this.validationMessageEl
-      ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
       textAreaWidth,
       loaderHeight,
-      elHeight,
       elWidth,
       footerHeight,
       footerWidth,
-      validationMessageHeight,
     };
   }
 
