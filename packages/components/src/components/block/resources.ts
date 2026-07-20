@@ -38,8 +38,8 @@ export const SLOTS = {
   actionsEnd: "actions-end",
   contentEnd: "content-end",
   contentStart: "content-start",
+  children: "children",
   headerMenuActions: "header-menu-actions",
-  sections: "sections",
 };
 
 export const ICONS: Record<string, IconName> = {

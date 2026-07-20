@@ -123,7 +123,7 @@ const nestedBlockHTML = html`
       heading="Sub Symbology2"
       description="Select type, color, and transparency"
       icon-start="map-pin"
-      slot="sections"
+      slot="children"
       drag-handle
     >
       <calcite-block
@@ -131,7 +131,7 @@ const nestedBlockHTML = html`
         heading="Sub Sub Symbology2"
         description="Select type, color, and transparency"
         icon-start="map-pin"
-        slot="sections"
+        slot="children"
         drag-handle
       >
       </calcite-block>

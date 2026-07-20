@@ -409,13 +409,63 @@ export const emptyHeader = (): string => html`
 `;
 
 export const toggleDisplaySwitch = (): string => html`
-  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible expanded>
-  </calcite-block>
+  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible> </calcite-block>
 `;
 
-export const slottedSections = (): string => html`
-  <calcite-block heading="Heading" description="description" toggle-display="switch" collapsible expanded>
-    <calcite-block heading="Sub Heading1" description="description1"></calcite-block>
-    <calcite-block heading="Sub Heading2" description="description2"></calcite-block>
+export const nestedBlockChildren = (): string => html`
+  <calcite-block
+    heading="Map layers"
+    description="Configure visibility and drawing order"
+    toggle-display="switch"
+    collapsible
+    expanded
+  >
+    <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" slot="children">
+      <calcite-block
+        heading="Road network"
+        description="Highways, arterials, and local streets"
+        slot="children"
+      ></calcite-block>
+      <calcite-block
+        heading="Transit lines"
+        description="Bus and rail routes with stop locations"
+        slot="children"
+      ></calcite-block>
+    </calcite-block>
   </calcite-block>
+  <calcite-block
+    heading="Hydrology"
+    description="Rivers, lakes, and watershed boundaries"
+    slot="children"
+  ></calcite-block>
+`;
+
+export const nestedBlockGroupChildren = (): string => html`
+  <calcite-block
+    heading="Map layers"
+    description="Configure visibility and drawing order"
+    toggle-display="switch"
+    collapsible
+    expanded
+  >
+    <calcite-block-group slot="children">
+      <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
+        <calcite-block
+          heading="Road network"
+          description="Highways, arterials, and local streets"
+          slot="children"
+        ></calcite-block>
+        <calcite-block
+          heading="Transit lines"
+          description="Bus and rail routes with stop locations"
+          slot="children"
+        ></calcite-block>
+      </calcite-block>
+    </calcite-block-group>
+  </calcite-block>
+  <calcite-block
+    heading="Hydrology"
+    description="Rivers, lakes, and watershed boundaries"
+    slot="children"
+  ></calcite-block>
 `;

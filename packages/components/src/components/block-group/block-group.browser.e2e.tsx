@@ -197,7 +197,7 @@ describe("expandMode", () => {
       await mount(
         <calcite-block-group expand-mode="single">
           <calcite-block collapsible heading="Asia">
-            <calcite-block collapsible heading="Himalayas" slot="sections" />
+            <calcite-block collapsible heading="Himalayas" slot="children" />
           </calcite-block>
           <calcite-block collapsible heading="Africa" />
         </calcite-block-group>,
@@ -228,7 +228,7 @@ describe("expandMode", () => {
       await mount(
         <calcite-block-group expand-mode="single-persist">
           <calcite-block collapsible heading="Asia">
-            <calcite-block collapsible heading="Himalayas" slot="sections" />
+            <calcite-block collapsible heading="Himalayas" slot="children" />
           </calcite-block>
           <calcite-block collapsible heading="Africa" />
         </calcite-block-group>,
@@ -269,7 +269,7 @@ describe("expandMode", () => {
       await mount(
         <calcite-block-group expand-mode="multiple">
           <calcite-block collapsible heading="Asia">
-            <calcite-block collapsible heading="Himalayas" slot="sections" />
+            <calcite-block collapsible heading="Himalayas" slot="children" />
           </calcite-block>
           <calcite-block collapsible heading="Africa" />
         </calcite-block-group>,

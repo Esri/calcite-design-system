@@ -345,6 +345,6 @@ calcite-action-menu {
 
 @include includes.base-component();
 
-slot[name="sections"]::slotted(calcite-block) {
+slot[name="children"]::slotted(calcite-block) {
   border-block-end-width: 0;
 }

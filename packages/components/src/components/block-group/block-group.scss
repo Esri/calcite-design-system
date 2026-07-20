@@ -15,3 +15,7 @@
 @include includes.base-component();
 
 @include includes.disabled();
+
+:host([slot="children"])slot::slotted(calcite-block) {
+  border-block-end-width: 0;
+}
