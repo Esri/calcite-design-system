@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.27...@esri/calcite-components@5.2.0-next.28) (2026-07-20)
+
+### Features
+
+- **shell-panel:** enable all `Position` values for slotted Action Bar ([#13652](https://github.com/Esri/calcite-design-system/issues/13652)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559)
+
 ## [5.2.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.26...@esri/calcite-components@5.2.0-next.27) (2026-07-20)
 
 ### Bug Fixes
