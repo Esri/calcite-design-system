@@ -541,7 +541,12 @@ describe("autoplay", () => {
     const playSpy = vi.fn();
     const stopSpy = vi.fn();
     const { el } = await mount<Carousel>(
-      <calcite-carousel autoplay label="Carousel example">
+      <calcite-carousel
+        autoplay
+        label="Carousel example"
+        oncalciteCarouselPlay={playSpy}
+        oncalciteCarouselStop={stopSpy}
+      >
         {carouselItems()}
       </calcite-carousel>,
     );
@@ -599,13 +604,13 @@ describe("autoplay", () => {
   });
 
   it("does not begin autoplay after keyboard interaction if not enabled via property", async () => {
-    const noAutoplayPlaySpy = vi.fn();
-    const noAutoplayStopSpy = vi.fn();
+    const playSpy = vi.fn();
+    const stopSpy = vi.fn();
     const { el } = await mount<Carousel>(
       <calcite-carousel
         label="Carousel example"
-        oncalciteCarouselPlay={noAutoplayPlaySpy}
-        oncalciteCarouselStop={noAutoplayStopSpy}
+        oncalciteCarouselPlay={playSpy}
+        oncalciteCarouselStop={stopSpy}
       >
         {carouselItems()}
       </calcite-carousel>,
@@ -613,8 +618,8 @@ describe("autoplay", () => {
     await el.setFocus();
     await userEvent.keyboard("{Enter} ");
     expect(el.paused).toBeUndefined();
-    expect(noAutoplayPlaySpy).not.toHaveBeenCalled();
-    expect(noAutoplayStopSpy).not.toHaveBeenCalled();
+    expect(playSpy).not.toHaveBeenCalled();
+    expect(stopSpy).not.toHaveBeenCalled();
   });
 });
 
