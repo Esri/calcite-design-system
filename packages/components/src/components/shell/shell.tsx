@@ -17,6 +17,8 @@ type ShellPanelWithSizingProvider = ShellPanel["el"] & {
   shellSizingDataProvider?: (axis: "inline" | "block") => ShellPanelSizingData | null;
 };
 
+type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
+
 declare global {
   interface DeclareElements {
     "calcite-shell": Shell;
@@ -166,18 +168,47 @@ export class Shell extends LitElement {
     });
   }
 
-  private getDefaultSlotBorderSize(): number {
+  private getDefaultSlotMinSize(axis: "inline" | "block"): number {
     return (
       this.defaultSlotRef.value?.assignedElements({ flatten: true }).reduce((total, element) => {
         const computedStyle = window.getComputedStyle(element);
 
-        return (
-          total +
-          getStylePixelValue(computedStyle.borderBlockStartWidth) +
-          getStylePixelValue(computedStyle.borderBlockEndWidth)
-        );
+        return axis === "inline"
+          ? total +
+              getStylePixelValue(computedStyle.borderInlineStartWidth) +
+              getStylePixelValue(computedStyle.borderInlineEndWidth)
+          : total +
+              getStylePixelValue(computedStyle.borderBlockStartWidth) +
+              getStylePixelValue(computedStyle.borderBlockEndWidth);
       }, 0) ?? 0
     );
+  }
+
+  private getDefaultSlotBounds(): Bounds | null {
+    const defaultSlotElements =
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }) ?? [];
+
+    if (!defaultSlotElements.length) {
+      return null;
+    }
+
+    return defaultSlotElements.reduce<Bounds | null>((bounds, element) => {
+      const rect = element.getBoundingClientRect();
+
+      return bounds
+        ? {
+            bottom: Math.max(bounds.bottom, rect.bottom),
+            left: Math.min(bounds.left, rect.left),
+            right: Math.max(bounds.right, rect.right),
+            top: Math.min(bounds.top, rect.top),
+          }
+        : {
+            bottom: rect.bottom,
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+          };
+    }, null);
   }
 
   private getShellPanelSizingData(
@@ -190,25 +221,31 @@ export class Shell extends LitElement {
       return null;
     }
 
-    const dimension = axis === "inline" ? "width" : "height";
-    const panelSlotRefs =
+    const containerRect = containerElement.getBoundingClientRect();
+    const defaultSlotRect = this.getDefaultSlotBounds();
+
+    if (!defaultSlotRect) {
+      return {
+        availableSize: axis === "inline" ? containerRect.width : containerRect.height,
+      };
+    }
+
+    const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
+    const availableOccupiedSize =
       axis === "inline"
-        ? [this.panelStartSlotRef, this.panelEndSlotRef]
-        : [this.panelTopSlotRef, this.panelBottomSlotRef];
-    const siblingPanelSize = panelSlotRefs
-      .flatMap((slotRef) => slotRef.value?.assignedElements({ flatten: true }) ?? [])
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .reduce(
-        (total, siblingPanel) =>
-          siblingPanel === panel ? total : total + siblingPanel.getBoundingClientRect()[dimension],
-        0,
-      );
+        ? panel.position === "start"
+          ? defaultSlotRect.right - containerRect.left
+          : containerRect.right - defaultSlotRect.left
+        : panel.position === "start"
+          ? defaultSlotRect.bottom - containerRect.top
+          : containerRect.bottom - defaultSlotRect.top;
+    const availableSize = Math.max(
+      Math.floor(availableOccupiedSize) - Math.ceil(defaultSlotMinSize),
+      0,
+    );
 
     return {
-      containerSize: containerElement.getBoundingClientRect()[dimension],
-      defaultSlotBorderSize: axis === "block" ? this.getDefaultSlotBorderSize() : 0,
-      shellSize: this.el.getBoundingClientRect()[dimension],
-      siblingPanelSize,
+      availableSize,
     };
   }
 

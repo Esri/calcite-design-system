@@ -24,10 +24,7 @@ import type { DisplayMode } from "./interfaces";
 import { styles } from "./shell-panel.scss";
 
 export type ShellPanelSizingData = {
-  containerSize: number;
-  defaultSlotBorderSize: number;
-  shellSize: number;
-  siblingPanelSize: number;
+  availableSize: number;
 };
 
 type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
@@ -393,17 +390,15 @@ export class ShellPanel extends LitElement {
       return null;
     }
 
-    const { containerSize, defaultSlotBorderSize, shellSize, siblingPanelSize } = shellSizingData;
+    const { availableSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
     const contentSpacingSize = this.getContentSpacingSize(axis);
 
     return Math.max(
-      Math.floor(Math.min(containerSize, shellSize)) -
-        Math.ceil(siblingPanelSize) -
+      Math.floor(availableSize) -
         Math.ceil(actionBarSize) -
         Math.ceil(containerSpacingSize) -
-        Math.ceil(contentSpacingSize) -
-        Math.ceil(defaultSlotBorderSize),
+        Math.ceil(contentSpacingSize),
       0,
     );
   }
