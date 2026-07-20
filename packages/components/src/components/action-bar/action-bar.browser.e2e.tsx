@@ -147,7 +147,7 @@ describe("translation support", () => {
 describe("selection-mode", () => {
   it("supports toolbar pattern keyboard navigation", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar overflow-actions-disabled>
+      <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>
         <calcite-action-group selection-mode="single-persist">
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />
@@ -459,6 +459,95 @@ describe("per-group overflow-actions-disabled", () => {
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
     expect(document.body).toHaveFocus();
+  });
+
+  it("clears action focus styling after focus returns from an action menu", async () => {
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar expand-disabled>
+        <calcite-action icon="number-circle1" id="first-action" text="first" />
+        <calcite-action-menu id="action-menu">
+          <calcite-action icon="number-circle2" id="menu-action" text="second" />
+        </calcite-action-menu>
+      </calcite-action-bar>,
+    );
+
+    const actionMenu = page.getBySelector("#action-menu").element() as HTMLElement;
+    const firstAction = page.getBySelector("#first-action").element() as Action["el"];
+    const menuAction = page.getBySelector("#menu-action").element() as HTMLElement;
+
+    (actionMenu as typeof actionMenu & { open: boolean }).open = true;
+    menuAction.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
+    await component.updateComplete;
+    expect(el).toHaveAttribute("aria-activedescendant", "menu-action");
+
+    (actionMenu as typeof actionMenu & { open: boolean }).open = false;
+    actionMenu.dispatchEvent(new FocusEvent("focusin", { bubbles: true, composed: true }));
+    await component.updateComplete;
+    expect(el).not.toHaveAttribute("aria-activedescendant");
+    expect(firstAction.activeDescendant).toBe(false);
+  });
+
+  it("clears action focus styling when focus moves to another action bar", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action id="first-bar-action" icon="number-circle1" text="first"></calcite-action>
+      </calcite-action-bar>
+      <calcite-action-bar expand-disabled>
+        <calcite-action id="second-bar-action" icon="number-circle2" text="second"></calcite-action>
+      </calcite-action-bar>
+    `);
+
+    const [firstActionBar, secondActionBar] = page
+      .getBySelector("calcite-action-bar")
+      .elements() as ActionBar["el"][];
+    const firstAction = page.getBySelector("#first-bar-action").element() as Action["el"];
+    const secondAction = page.getBySelector("#second-bar-action").element() as Action["el"];
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstAction).toHaveFocus();
+    expect(firstAction.activeDescendant).toBe(true);
+    expect(firstActionBar).toHaveAttribute("aria-activedescendant", "first-bar-action");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(secondAction).toHaveFocus();
+    expect(firstAction.activeDescendant).toBe(false);
+    expect(firstActionBar).not.toHaveAttribute("aria-activedescendant");
+    expect(secondAction.activeDescendant).toBe(true);
+    expect(secondActionBar).toHaveAttribute("aria-activedescendant", "second-bar-action");
+  });
+
+  it("supports keyboard navigation after focus moves to another action bar", async () => {
+    await mount(html`
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action id="first-bar-action" icon="number-circle1" text="first"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-action-bar expand-disabled>
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action
+            data-testid="second-bar-action"
+            icon="number-circle2"
+            text="second"
+          ></calcite-action>
+          <calcite-action
+            data-testid="second-bar-next-action"
+            icon="number-circle3"
+            text="third"
+          ></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+    `);
+
+    const secondAction = page.getByTestId("second-bar-action");
+    const secondNextAction = page.getByTestId("second-bar-next-action");
+
+    await userEvent.keyboard("{Tab}");
+    await userEvent.keyboard("{Tab}");
+    await expect.element(secondAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(secondNextAction).toHaveFocus();
   });
 });
 

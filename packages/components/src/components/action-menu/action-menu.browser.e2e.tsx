@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -109,4 +110,66 @@ describe("delegates to floating-ui-owner component", () => {
       ),
     "calcite-popover",
   );
+});
+
+describe("accessibility", () => {
+  it("sets an accessible name on menuitem actions", async () => {
+    const { el } = await mount(
+      <calcite-action-menu>
+        <calcite-action icon="plus" label="Create item" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    const action = el.querySelector("calcite-action");
+
+    expect(action).toHaveAttribute("aria-label", "Create item");
+    expect(action).toHaveAttribute("role", "menuitem");
+  });
+
+  it("sets active descendant on the host and menu", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="plus" id="create-action" text="Add" />
+      </calcite-action-menu>,
+    );
+
+    el.open = true;
+    await component.updateComplete;
+
+    const menu = el.shadowRoot?.querySelector("[role='menu']");
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("create-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("create-action");
+  });
+
+  it("updates active descendant on the host and menu during keyboard navigation", async () => {
+    const { component, el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action icon="undo" id="undo-action" text="Undo" />
+        <calcite-action icon="redo" id="redo-action" text="Redo" />
+        <calcite-action icon="save" id="save-action" text="Save" />
+      </calcite-action-menu>,
+    );
+
+    el.open = true;
+    await component.updateComplete;
+
+    const menu = el.shadowRoot?.querySelector("[role='menu']");
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("undo-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("undo-action");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("redo-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("redo-action");
+
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    expect(el.ariaActiveDescendantElement?.id).toBe("save-action");
+    expect(menu?.ariaActiveDescendantElement?.id).toBe("save-action");
+  });
 });

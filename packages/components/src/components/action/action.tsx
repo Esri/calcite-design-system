@@ -4,6 +4,7 @@ import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
 import {
+  ActiveDescendantElement,
   Alignment,
   Appearance,
   AriaAttributesCamelCased,
@@ -29,7 +30,7 @@ declare global {
 /**
  * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
  */
-export class Action extends LitElement {
+export class Action extends LitElement implements ActiveDescendantElement {
   //#region Static Members
 
   static formAssociated = true;

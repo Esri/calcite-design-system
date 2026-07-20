@@ -3,6 +3,13 @@ import { CamelCase, ReadonlyTuple } from "type-fest";
 
 export type Alignment = "start" | "center" | "end";
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
+export interface ActiveDescendantElement extends HTMLElement {
+  activeDescendant: boolean;
+}
+export interface ActiveDescendantManager extends HTMLElement {
+  activeDescendantElement?: ActiveDescendantElement;
+  activeDescendantControlDisabled: boolean;
+}
 export interface Dimensions {
   width: number;
   height: number;

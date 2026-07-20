@@ -13,13 +13,20 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  closestElementCrossShadowBoundary,
   getStylePixelValue,
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import {
+  ActiveDescendantElement,
+  Layout,
+  Position,
+  Scale,
+  SelectionAppearance,
+} from "../interfaces";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
@@ -315,8 +322,13 @@ export class ActionBar extends LitElement {
       "calciteActionMenuOpen",
       this.actionMenuOpenHandler,
     );
+    this.listen<ToEvents<ActionMenu>["calciteInternalActiveDescendantChange"]>(
+      "calciteInternalActiveDescendantChange",
+      this.calciteInternalActiveDescendantChangeHandler,
+    );
     this.listen("keydown", this.handleKeyDown, { capture: true });
     this.listen("focusin", this.handleFocusIn);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -426,12 +438,12 @@ export class ActionBar extends LitElement {
     }
 
     if (actionMenu?.open) {
-      this.syncActiveDescendantToActionMenu(actionMenu);
+      void this.syncActiveDescendantToActionMenu(actionMenu);
       return;
     }
 
     if (actionMenu) {
-      this.syncActiveDescendant(actionMenu);
+      this.syncClosedActionMenu(actionMenu);
       return;
     }
 
@@ -510,8 +522,8 @@ export class ActionBar extends LitElement {
   private updateActions(): void {
     this.actions.forEach((action) => {
       action.selectionAppearance = this.selectionAppearance;
-      action.activeDescendant = action.id === this.activeDescendantId;
     });
+    this.updateActiveDescendantElements();
   }
 
   private queryAndStoreNavigableItems(): void {
@@ -564,8 +576,6 @@ export class ActionBar extends LitElement {
     }
 
     this.navigationItems = navigationItems;
-
-    console.log("calcite-action-bar active element id", document.activeElement?.id);
   }
 
   private getActionGroupNavigationItems(
@@ -607,6 +617,22 @@ export class ActionBar extends LitElement {
     return !!actionMenu.id;
   }
 
+  private calciteInternalActiveDescendantChangeHandler(event: CustomEvent<void>): void {
+    const actionMenu = this.getEventActionMenu(event);
+
+    if (!actionMenu?.open) {
+      return;
+    }
+
+    event.stopPropagation();
+    if (!actionMenu.activeDescendantElement) {
+      void this.syncActiveDescendantToActionMenu(actionMenu);
+      return;
+    }
+
+    this.setActiveDescendantElement(actionMenu.activeDescendantElement);
+  }
+
   private handleKeyDown(event: KeyboardEvent): void {
     const actionMenu = this.getEventActionMenu(event) || this.getOpenActionMenu();
 
@@ -614,8 +640,6 @@ export class ActionBar extends LitElement {
       if (event.key === "Escape") {
         return;
       }
-
-      this.syncActiveDescendantToActionMenu(actionMenu);
       return;
     }
 
@@ -686,17 +710,29 @@ export class ActionBar extends LitElement {
     const actionMenu = this.getEventActionMenu(event) || this.getOpenActionMenu();
 
     if (actionMenu?.open) {
-      this.syncActiveDescendantToActionMenu(actionMenu);
+      void this.syncActiveDescendantToActionMenu(actionMenu);
       return;
     }
 
     if (focusedItem?.matches("calcite-action-menu") && actionMenu) {
-      this.setActiveDescendantId(actionMenu.id);
-      this.syncActiveDescendant(actionMenu);
+      this.syncClosedActionMenu(actionMenu);
       return;
     }
 
     this.syncActiveDescendant(focusedItem ?? undefined);
+  }
+
+  private handleFocusOut(event: FocusEvent): void {
+    const { relatedTarget } = event;
+
+    if (
+      relatedTarget instanceof Element &&
+      closestElementCrossShadowBoundary(relatedTarget, "calcite-action-bar") === this.el
+    ) {
+      return;
+    }
+
+    this.setActiveDescendantElement();
   }
 
   private focusNavigationItem(
@@ -847,20 +883,57 @@ export class ActionBar extends LitElement {
     );
   }
 
-  private syncActiveDescendantToActionMenu(actionMenu: ActionMenu["el"]): void {
-    const menuActions = this.getActionMenuActions(actionMenu);
-    const activeMenuItem =
-      menuActions.find((action) => action.activeDescendant) ||
-      menuActions.find((action) => !action.disabled && !action.hidden);
+  private async syncActiveDescendantToActionMenu(actionMenu: ActionMenu["el"]): Promise<void> {
+    let menuActions = this.getActionMenuActions(actionMenu);
+    let activeMenuItem = this.getActiveActionMenuItem(menuActions);
 
-    this.setActiveDescendantId(activeMenuItem?.id);
-    this.clearActionsActiveDescendant();
+    if (!activeMenuItem && actionMenu.open) {
+      await actionMenu.componentOnReady();
+
+      if (!actionMenu.open) {
+        return;
+      }
+
+      menuActions = this.getActionMenuActions(actionMenu);
+      activeMenuItem = this.getActiveActionMenuItem(menuActions);
+    }
+
+    if (!activeMenuItem) {
+      return;
+    }
+
+    this.setActiveDescendantElement(activeMenuItem);
   }
 
-  private clearActionsActiveDescendant(): void {
+  private getActiveActionMenuItem(menuActions: Action["el"][]): Action["el"] | undefined {
+    return (
+      menuActions.find((action) => action.activeDescendant) ||
+      menuActions.find((action) => !action.disabled && !action.hidden)
+    );
+  }
+
+  private setActiveDescendantElement(activeDescendantElement?: ActiveDescendantElement): void {
+    this.setActiveDescendantId(activeDescendantElement?.id);
+    this.updateActiveDescendantElements();
+  }
+
+  private updateActiveDescendantElements(): void {
     this.actions.forEach((action) => {
-      action.activeDescendant = false;
+      action.activeDescendant = action.id === this.activeDescendantId;
     });
+  }
+
+  private syncClosedActionMenu(actionMenu: ActionMenu["el"]): void {
+    this.queryAndStoreNavigableItems();
+    const navigationActionMenu = this.navigationItems.find(
+      (item) => item === actionMenu || item.id === actionMenu.id,
+    );
+
+    if (navigationActionMenu) {
+      this.setNavigationItemTabIndexes(navigationActionMenu);
+    }
+
+    this.setActiveDescendantElement();
   }
 
   private getActionMenuActions(actionMenu: ActionMenu["el"]): Action["el"][] {
@@ -923,8 +996,8 @@ export class ActionBar extends LitElement {
   }
 
   private ensureActionBarChildIds(): void {
-    const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
-    const actions = Array.from(this.el.querySelectorAll("calcite-action"));
+    const groups = Array.from(this.el.getElementsByTagName("calcite-action-group"));
+    const actions = Array.from(this.el.getElementsByTagName("calcite-action"));
 
     groups.forEach((group, index) => {
       if (!group.id) {

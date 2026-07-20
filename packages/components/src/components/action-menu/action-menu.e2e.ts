@@ -521,6 +521,39 @@ describe("Keyboard navigation", () => {
     expect(clickSpy).toHaveReceivedEventTimes(1);
   });
 
+  it("should select the active action on Enter key and keep selectable action groups open", async () => {
+    const page = await newE2EPage();
+    await page.setContent(
+      html`<calcite-action-menu>
+        <calcite-action-group selection-mode="multiple">
+          <calcite-action id="first" text="Add" icon="plus" text-enabled></calcite-action>
+          <calcite-action id="second" text="Remove" icon="minus" text-enabled></calcite-action>
+          <calcite-action id="third" text="View" icon="banana" text-enabled></calcite-action>
+        </calcite-action-group>
+      </calcite-action-menu>`,
+    );
+    await skipAnimations(page);
+    const actionMenu = await page.find("calcite-action-menu");
+    const actions = await findAll(page, "calcite-action");
+
+    await actionMenu.callMethod("setFocus");
+    await page.waitForChanges();
+    const openEventSpy = await actionMenu.spyOnEvent("calciteActionMenuOpen");
+    await page.keyboard.press("ArrowDown");
+    await page.waitForChanges();
+    await openEventSpy.next();
+
+    expect(await actionMenu.getProperty("open")).toBe(true);
+    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
+    expect(await actions[0].getProperty("active")).toBe(false);
+
+    await page.keyboard.press("Enter");
+    await page.waitForChanges();
+
+    expect(await actionMenu.getProperty("open")).toBe(true);
+    expect(await actions[0].getProperty("active")).toBe(true);
+  });
+
   it("should move the focus ring to the active action on mousedown", async () => {
     const page = await newE2EPage();
     await page.setContent(
