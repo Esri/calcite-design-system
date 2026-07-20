@@ -375,8 +375,10 @@ describe("navigation and events", () => {
     await expect.element(selectedItem()).toHaveProperty("id", "two");
     await userEvent.click(next);
     await expect.element(selectedItem()).toHaveProperty("id", "three");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
     await userEvent.click(next);
     await expect.element(selectedItem()).toHaveProperty("id", "one");
+    expect(changeSpy).toHaveBeenCalledTimes(2);
     await userEvent.click(previous);
     await expect.element(selectedItem()).toHaveProperty("id", "three");
     expect(changeSpy).toHaveBeenCalledTimes(3);
@@ -392,18 +394,18 @@ describe("navigation and events", () => {
 
     await userEvent.tab();
     expect(document.activeElement).toBe(el);
-    for (const [key, id] of [
+    for (const [index, [key, id]] of [
       ["{ArrowRight}", "three"],
       ["{ArrowRight}", "one"],
       ["{ArrowLeft}", "three"],
       ["{Home}", "one"],
       ["{End}", "three"],
       ["{ArrowRight}", "one"],
-    ]) {
+    ].entries()) {
       await userEvent.keyboard(key);
       await expect.element(selectedItem()).toHaveProperty("id", id);
+      expect(changeSpy).toHaveBeenCalledTimes(index + 1);
     }
-    expect(changeSpy).toHaveBeenCalledTimes(6);
   });
 
   it("only emits when direct pagination changes the selected item", async () => {
@@ -421,10 +423,18 @@ describe("navigation and events", () => {
       .getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`)
       .all();
 
-    await userEvent.click(one, { clickCount: 2 });
+    await userEvent.click(one);
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    await userEvent.click(one);
+    expect(changeSpy).toHaveBeenCalledTimes(1);
     await userEvent.click(three);
-    await userEvent.click(two, { clickCount: 2 });
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+    expect(changeSpy).toHaveBeenCalledTimes(2);
+    await userEvent.click(two);
     await expect.element(selectedItem()).toHaveProperty("id", "two");
+    expect(changeSpy).toHaveBeenCalledTimes(3);
+    await userEvent.click(two);
     expect(changeSpy).toHaveBeenCalledTimes(3);
   });
 });
@@ -465,6 +475,28 @@ describe("autoplay", () => {
     expect(changeSpy).not.toHaveBeenCalled();
     expect(playSpy).toHaveBeenCalledTimes(1);
     expect(stopSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("stops and resumes timed rotation from the autoplay control", async () => {
+    const { el } = await mount<Carousel>(
+      <calcite-carousel autoplay autoplayDuration={customDuration} label="Carousel example">
+        {carouselItems()}
+      </calcite-carousel>,
+    );
+    const control = page.getBySelector(`calcite-carousel .${CSS.autoplayControl}`);
+
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
+    await userEvent.click(control);
+    expect(el.paused).toBe(true);
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
+    await userEvent.click(control);
+    expect(el.paused).toBe(false);
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "one");
   });
 
   it("stops autoplay when pagination or arrows are clicked", async () => {
@@ -540,7 +572,7 @@ describe("autoplay", () => {
   it("rotates to a new carousel item after default duration elapses", async () => {
     const playSpy = vi.fn();
     const stopSpy = vi.fn();
-    await mount<Carousel>(
+    const { el } = await mount<Carousel>(
       <calcite-carousel
         autoplay
         label="Carousel example"
@@ -550,7 +582,8 @@ describe("autoplay", () => {
         {carouselItems()}
       </calcite-carousel>,
     );
-    const defaultSlideDuration = DURATION;
+    expect(el.autoplayDuration).toBe(DURATION);
+    const defaultSlideDuration = el.autoplayDuration;
 
     vi.advanceTimersByTime(defaultSlideDuration);
     await expect.element(selectedItem()).toHaveProperty("id", "three");
@@ -572,6 +605,7 @@ describe("autoplay", () => {
     const { el } = await mount<Carousel>(
       <calcite-carousel
         autoplay="paused"
+        autoplayDuration={customDuration}
         label="Carousel example"
         oncalciteCarouselPause={pauseSpy}
         oncalciteCarouselPlay={playSpy}
@@ -583,11 +617,24 @@ describe("autoplay", () => {
     );
 
     await userEvent.tab();
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+
     await userEvent.keyboard("{Enter}");
     expect(el.paused).toBe(false);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
     await userEvent.keyboard("{Space}");
     expect(el.paused).toBe(true);
-    await el.setFocus();
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
     await userEvent.keyboard("{Space}");
     expect(el.paused).toBe(false);
     expect(playSpy).toHaveBeenCalledTimes(2);
@@ -599,20 +646,34 @@ describe("autoplay", () => {
   it("does not begin autoplay after keyboard interaction if not enabled via property", async () => {
     const playSpy = vi.fn();
     const stopSpy = vi.fn();
+    const pauseSpy = vi.fn();
+    const resumeSpy = vi.fn();
     const { el } = await mount<Carousel>(
       <calcite-carousel
         label="Carousel example"
+        oncalciteCarouselPause={pauseSpy}
         oncalciteCarouselPlay={playSpy}
+        oncalciteCarouselResume={resumeSpy}
         oncalciteCarouselStop={stopSpy}
       >
         {carouselItems()}
       </calcite-carousel>,
     );
-    await el.setFocus();
-    await userEvent.keyboard("{Enter} ");
+    await userEvent.tab();
+    await userEvent.keyboard("{Enter}");
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+    await userEvent.keyboard("{Space}");
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
+    await userEvent.keyboard("{Space}");
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
     expect(el.paused).toBeUndefined();
     expect(playSpy).not.toHaveBeenCalled();
     expect(stopSpy).not.toHaveBeenCalled();
+    expect(pauseSpy).not.toHaveBeenCalled();
+    expect(resumeSpy).not.toHaveBeenCalled();
   });
 });
 
@@ -659,7 +720,7 @@ describe("pagination", () => {
 });
 
 describe("DOM updates", () => {
-  it("updates when items are added and when the selected item is removed", async () => {
+  it("updates when items are added", async () => {
     const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example">
         <calcite-carousel-item id="one" label="one" />
@@ -670,21 +731,41 @@ describe("DOM updates", () => {
     added.label = "two";
     el.append(added);
 
+    await expect.poll(() => page.getBySelector("calcite-carousel-item").length).toBe(2);
     await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     await expect.element(selectedItem()).toHaveProperty("id", "two");
+  });
 
-    added.remove();
-    await expect.element(selectedItem()).toHaveProperty("id", "one");
+  it("updates the selected item when the current item is removed", async () => {
+    await mount<Carousel>(
+      <calcite-carousel label="Carousel example">
+        <calcite-carousel-item id="one" label="one" />
+        <calcite-carousel-item id="two" label="two" />
+      </calcite-carousel>,
+    );
+
+    page.getBySelector("calcite-carousel-item").first().element().remove();
+
+    await expect.element(selectedItem()).toHaveProperty("id", "two");
   });
 });
 
 describe("public methods", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("plays and stops autoplay idempotently", async () => {
     const playSpy = vi.fn();
     const stopSpy = vi.fn();
     const { el } = await mount<Carousel>(
       <calcite-carousel
         autoplay="paused"
+        autoplayDuration={customDuration}
         label="Carousel example"
         oncalciteCarouselPlay={playSpy}
         oncalciteCarouselStop={stopSpy}
@@ -697,14 +778,48 @@ describe("public methods", () => {
     await el.play();
     expect(el.paused).toBe(false);
     expect(playSpy).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
     await el.stop();
     await el.stop();
     expect(el.paused).toBe(true);
     expect(stopSpy).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
     await el.play();
     await el.stop();
     expect(playSpy).toHaveBeenCalledTimes(2);
     expect(stopSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not restart autoplay when already playing", async () => {
+    const playSpy = vi.fn();
+    const stopSpy = vi.fn();
+    const { el } = await mount<Carousel>(
+      <calcite-carousel
+        autoplay
+        autoplayDuration={customDuration}
+        label="Carousel example"
+        oncalciteCarouselPlay={playSpy}
+        oncalciteCarouselStop={stopSpy}
+      >
+        {carouselItems()}
+      </calcite-carousel>,
+    );
+
+    await el.play();
+    await el.play();
+    expect(el.paused).toBe(false);
+    expect(playSpy).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+
+    await el.stop();
+    vi.advanceTimersByTime(customDuration);
+    await expect.element(selectedItem()).toHaveProperty("id", "three");
+    expect(stopSpy).toHaveBeenCalledTimes(1);
   });
 
   it("does not play or stop without autoplay", async () => {
@@ -721,7 +836,10 @@ describe("public methods", () => {
     );
 
     await el.play();
+    await el.play();
     await el.stop();
+    await el.stop();
+    vi.advanceTimersByTime(customDuration);
     expect(el.paused).toBeUndefined();
     await expect.element(selectedItem()).toHaveProperty("id", "two");
     expect(playSpy).not.toHaveBeenCalled();
@@ -746,12 +864,7 @@ describe("animations", () => {
     testStyleOverride.remove();
   });
 
-  async function expectAnimation(carousel: Carousel["el"], target: Locator): Promise<void> {
-    const container = page
-      .elementLocator(carousel)
-      .getBySelector(`.${CSS.container}`)
-      .first()
-      .element();
+  async function expectAnimation(container: HTMLElement, target: Locator): Promise<void> {
     const started = waitForEvent(container, "animationstart");
     const ended = waitForEvent(container, "animationend");
     await target.click();
@@ -763,11 +876,23 @@ describe("animations", () => {
     const { el } = await mount<Carousel>(
       <calcite-carousel label="Carousel example">{carouselItems("one")}</calcite-carousel>,
     );
-    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
-    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
+    const container = page
+      .elementLocator(el)
+      .getBySelector(`.${CSS.container}`)
+      .first()
+      .element() as HTMLElement;
+    const startSpy = vi.fn();
+    const endSpy = vi.fn();
+    container.addEventListener("animationstart", startSpy);
+    container.addEventListener("animationend", endSpy);
+
+    await expectAnimation(container, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+    await expectAnimation(container, page.getBySelector(`calcite-carousel .${CSS.pagePrevious}`));
     const paginationItems = page.getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`);
-    await expectAnimation(el, paginationItems.nth(1));
-    await expectAnimation(el, paginationItems.nth(2));
+    await expectAnimation(container, paginationItems.nth(1));
+    await expectAnimation(container, paginationItems.nth(2));
+    expect(startSpy).toHaveBeenCalledTimes(4);
+    expect(endSpy).toHaveBeenCalledTimes(4);
   });
 
   it("finishes selection animations with autoplay enabled", async () => {
@@ -776,9 +901,21 @@ describe("animations", () => {
         {carouselItems("one")}
       </calcite-carousel>,
     );
-    await expectAnimation(el, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
+    const container = page
+      .elementLocator(el)
+      .getBySelector(`.${CSS.container}`)
+      .first()
+      .element() as HTMLElement;
+    const startSpy = vi.fn();
+    const endSpy = vi.fn();
+    container.addEventListener("animationstart", startSpy);
+    container.addEventListener("animationend", endSpy);
+
+    await expectAnimation(container, page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     const paginationItems = page.getBySelector(`calcite-carousel .${CSS.paginationItemIndividual}`);
-    await expectAnimation(el, paginationItems.nth(2));
+    await expectAnimation(container, paginationItems.nth(2));
+    expect(startSpy).toHaveBeenCalledTimes(2);
+    expect(endSpy).toHaveBeenCalledTimes(2);
   });
 
   it("does not animate arrow keys when only one item is present", async () => {
