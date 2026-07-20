@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.26...@esri/calcite-components@5.2.0-next.27) (2026-07-20)
+
+### Bug Fixes
+
+- **shell-panel:** enable resizing on mobile/touch screens ([#14773](https://github.com/Esri/calcite-design-system/issues/14773)), closes [#14531](https://github.com/Esri/calcite-design-system/issues/14531)
+
 ## [5.2.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.25...@esri/calcite-components@5.2.0-next.26) (2026-07-17)
 
 ### Features
