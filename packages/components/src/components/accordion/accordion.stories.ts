@@ -6,6 +6,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Accordion } from "./accordion";
 const { appearance, iconType, position, scale, selectionMode } = ATTRIBUTES;
+import "./accordion"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 type AccordionStoryArgs = Pick<Accordion, "appearance" | "iconPosition" | "iconType" | "scale" | "selectionMode"> &
   Pick<AccordionItem, "heading" | "description" | "iconStart" | "iconEnd">;
