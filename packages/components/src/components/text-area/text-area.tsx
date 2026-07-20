@@ -71,8 +71,6 @@ export class TextArea
 
   private loaderContainerRef = createRef<HTMLDivElement>();
 
-  private validationMessageEl?: HTMLDivElement;
-
   formSupport = useForm<this>({
     inputType: "text",
   })(this);
@@ -87,15 +85,8 @@ export class TextArea
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const {
-      textAreaHeight,
-      textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
-      footerWidth,
-      validationMessageHeight,
-    } = this.getHeightAndWidthOfElements();
+    const { textAreaHeight, textAreaWidth, loaderHeight, elWidth, footerHeight, footerWidth } =
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
       this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
@@ -108,10 +99,7 @@ export class TextArea
     if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
       this.updateSizeToAuto("width");
     }
-    if (
-      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
-      elStyleHeight !== "auto"
-    ) {
+    if (loaderHeight !== textAreaHeight + footerHeight && elStyleHeight !== "auto") {
       this.updateSizeToAuto("height");
     }
   });
@@ -342,10 +330,6 @@ export class TextArea
     }
   }
 
-  override updated(): void {
-    this.setTextAreaHeight();
-  }
-
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -409,22 +393,13 @@ export class TextArea
     this.textAreaEl = el;
   }
 
-  private setTextAreaHeight(): void {
-    const { textAreaHeight, loaderHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight !== loaderHeight) {
-      this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
-    }
-  }
-
   private getHeightAndWidthOfElements(): {
     textAreaHeight: number;
     textAreaWidth: number;
     loaderHeight: number;
-    elHeight: number;
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
-    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
@@ -432,24 +407,18 @@ export class TextArea
     const { height: loaderHeight } = this.loaderContainerRef.value
       ? this.loaderContainerRef.value.getBoundingClientRect()
       : NO_DIMENSIONS;
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerRef.value
       ? this.footerRef.value.getBoundingClientRect()
-      : NO_DIMENSIONS;
-
-    const { height: validationMessageHeight } = this.validationMessageEl
-      ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
       textAreaWidth,
       loaderHeight,
-      elHeight,
       elWidth,
       footerHeight,
       footerWidth,
-      validationMessageHeight,
     };
   }
 
@@ -461,13 +430,6 @@ export class TextArea
 
   private isCharacterLimitExceeded(): boolean {
     return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
-  }
-
-  private setValidationRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-    this.validationMessageEl = el;
   }
 
   //#endregion
@@ -565,7 +527,6 @@ export class TextArea
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}
-              ref={this.setValidationRef}
               scale={this.scale}
               status={this.status}
             />

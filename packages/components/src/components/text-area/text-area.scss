@@ -62,6 +62,8 @@
 
 .wrapper {
   @apply h-full w-full box-border;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--calcite-internal-text-area-shadow);
   border-radius: var(--calcite-internal-text-area-corner-radius);
 }
@@ -80,6 +82,7 @@
 
 .text-area {
   @apply relative block box-border w-full m-0;
+  flex: 1 1 auto;
   --calcite-internal-text-area-border-block-end-color: var(--calcite-internal-text-area-border-color);
   border: var(--calcite-border-width-sm) solid var(--calcite-internal-text-area-border-color);
   border-block-end-color: var(--calcite-internal-text-area-border-block-end-color);
@@ -132,7 +135,10 @@
 
 .loader-container {
   position: relative;
-  block-size: inherit;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-block-size: 0;
 }
 
 .loader {
