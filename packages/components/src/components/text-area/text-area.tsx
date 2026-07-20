@@ -34,6 +34,8 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
+const DIMENSION_EPSILON = 1;
+
 declare global {
   interface DeclareElements {
     "calcite-text-area": TextArea;
@@ -96,10 +98,16 @@ export class TextArea
     }
 
     const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
-    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+    if (this.dimensionsDiffer(elWidth, textAreaWidth) && elStyleWidth !== "auto") {
       this.updateSizeToAuto("width");
     }
-    if (loaderHeight !== textAreaHeight + footerHeight && elStyleHeight !== "auto") {
+    if (
+      loaderHeight > 0 &&
+      textAreaHeight > 0 &&
+      footerHeight > 0 &&
+      this.dimensionsDiffer(loaderHeight, textAreaHeight + footerHeight) &&
+      elStyleHeight !== "auto"
+    ) {
       this.updateSizeToAuto("height");
     }
   });
@@ -342,6 +350,10 @@ export class TextArea
 
   //#region Private Methods
 
+  private dimensionsDiffer(dimensionA: number, dimensionB: number): boolean {
+    return Math.abs(dimensionA - dimensionB) > DIMENSION_EPSILON;
+  }
+
   private updateNumberFormatter(): void {
     numberStringFormatter.numberFormatOptions = {
       locale: this.messages._lang,
@@ -399,7 +411,11 @@ export class TextArea
 
   private setTextAreaHeight(): void {
     const { textAreaHeight, loaderHeight, footerHeight } = this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight !== loaderHeight) {
+    if (loaderHeight <= 0 || textAreaHeight <= 0 || footerHeight <= 0) {
+      return;
+    }
+
+    if (this.dimensionsDiffer(textAreaHeight + footerHeight, loaderHeight)) {
       this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
     }
   }
