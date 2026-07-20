@@ -113,7 +113,7 @@ export class Accordion extends LitElement {
       item.scale = this.scale;
     });
 
-    // sync props on items across shadow DOM
+    // sync properties on items across shadow DOM
     document.dispatchEvent(new CustomEvent("calciteInternalAccordionItemsSync"));
   }
 
