@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.25...@esri/calcite-components@5.2.0-next.26) (2026-07-17)
+
+### Features
+
+- **input-date-picker, input-time-picker:** add clearable behavior ([#14758](https://github.com/Esri/calcite-design-system/issues/14758)), closes [#9440](https://github.com/Esri/calcite-design-system/issues/9440)
+
 ## [5.2.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.24...@esri/calcite-components@5.2.0-next.25) (2026-07-15)
 
 ### Features
