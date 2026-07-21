@@ -13,7 +13,6 @@ import { queryAssignedElements } from "lit/decorators.js";
 import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { Layout, Scale } from "../interfaces";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
@@ -58,6 +57,20 @@ export class ActionGroup extends LitElement {
 
   @queryAssignedElements({ selector: "calcite-action" })
   private actions!: Action["el"][];
+
+  private menuActions: Action["el"][] = [];
+
+  private handleActionMenuSelection = (action: Action["el"]): boolean => {
+    if (action.slot !== SLOTS.menuActions || this.selectionMode === "none") {
+      return false;
+    }
+
+    const menuActions = this.getMenuActions();
+    this.menuActions = menuActions.includes(action) ? menuActions : [...menuActions, action];
+
+    this.setActiveAction(this.getSelectableActions().indexOf(action), action);
+    return true;
+  };
 
   //#endregion
 
@@ -181,6 +194,7 @@ export class ActionGroup extends LitElement {
   constructor() {
     super();
     this.listen("click", this.handleActionClick);
+    this.listen("calciteInternalActionMenuSelect", this.handleActionMenuSelect);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -231,23 +245,25 @@ export class ActionGroup extends LitElement {
   //#region Private Methods
 
   private setActiveAction(index: number, active: Action["el"]): void {
+    const actions = this.getSelectableActions();
+
     if (this.selectionMode === "multiple") {
       const nextActive = !active.active;
       this.updateAction(active, nextActive);
-      this.updateSelectedActions(this.actions.filter((action) => action.active));
+      this.updateSelectedActions(actions.filter((action) => action.active));
       this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single") {
       const nextActive = !active.active;
-      this.actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
-      this.updateSelectedActions(this.actions.filter((action) => action.active));
+      actions.forEach((action, i) => this.updateAction(action, i === index && nextActive));
+      this.updateSelectedActions(actions.filter((action) => action.active));
       this.calciteActionGroupChange.emit();
       return;
     }
     if (this.selectionMode === "single-persist") {
-      if (!this.actions[index].active) {
-        this.actions.forEach((action, i) => this.updateAction(action, i === index));
+      if (!actions[index].active) {
+        actions.forEach((action, i) => this.updateAction(action, i === index));
         this.updateSelectedActions([active]);
         this.calciteActionGroupChange.emit();
       }
@@ -260,7 +276,12 @@ export class ActionGroup extends LitElement {
   }
 
   private handleMenuActionsSlotChange(event: Event): void {
-    this.hasMenuActions = slotChangeHasAssignedElement(event);
+    const menuActions = (event.target as HTMLSlotElement)
+      .assignedElements({ flatten: true })
+      .filter((el): el is Action["el"] => isAction(el));
+
+    this.menuActions = menuActions.length > 0 ? menuActions : this.getMenuActions();
+    this.hasMenuActions = this.menuActions.length > 0;
   }
 
   private handleActionClick(event: MouseEvent): void {
@@ -271,11 +292,51 @@ export class ActionGroup extends LitElement {
     if (!target || target.disabled) {
       return;
     }
-    const index = this.actions.indexOf(target);
+
+    if (this.menuActions.includes(target)) {
+      return;
+    }
+
+    const index = this.getSelectableActions().indexOf(target);
     if (index === -1 || this.selectionMode === "none") {
       return;
     }
     this.setActiveAction(index, target);
+  }
+
+  private handleActionMenuSelect(event: Event): void {
+    if (!event.composedPath().includes(this.el) || this.selectionMode === "none") {
+      return;
+    }
+
+    this.syncActionMenuSelection();
+  }
+
+  private syncActionMenuSelection(): void {
+    this.menuActions = this.getMenuActions();
+
+    const actions = this.getSelectableActions();
+
+    if (this.selectionMode === "multiple") {
+      this.updateSelectedActions(actions.filter((action) => action.active));
+      this.calciteActionGroupChange.emit();
+      return;
+    }
+
+    const activeMenuAction = this.menuActions.find((action) => action.active);
+
+    if (this.selectionMode === "single") {
+      actions.forEach((action) => this.updateAction(action, action === activeMenuAction));
+      this.updateSelectedActions(activeMenuAction ? [activeMenuAction] : []);
+      this.calciteActionGroupChange.emit();
+      return;
+    }
+
+    if (this.selectionMode === "single-persist" && activeMenuAction) {
+      actions.forEach((action) => this.updateAction(action, action === activeMenuAction));
+      this.updateSelectedActions([activeMenuAction]);
+      this.calciteActionGroupChange.emit();
+    }
   }
 
   private setRoleOnActions(): void {
@@ -289,6 +350,24 @@ export class ActionGroup extends LitElement {
       };
       this.setActionAriaChecked(action, action.active);
     });
+  }
+
+  private getSelectableActions(): Action["el"][] {
+    return [...(this.actions ?? []), ...this.menuActions];
+  }
+
+  private getMenuActions(): Action["el"][] {
+    return Array.from(this.el.children).filter(
+      (el): el is Action["el"] => isAction(el) && el.slot === SLOTS.menuActions,
+    );
+  }
+
+  private setActionMenuSelectionHandler(el: ActionMenu["el"] | undefined): void {
+    if (!el) {
+      return;
+    }
+
+    el.selectionHandler = this.handleActionMenuSelection;
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {
@@ -357,7 +436,9 @@ export class ActionGroup extends LitElement {
         open={menuOpen}
         overlayPositioning={overlayPositioning}
         placement={menuPlacement ?? (layout === "horizontal" ? "bottom-start" : "leading-start")}
+        ref={this.setActionMenuSelectionHandler}
         scale={scale}
+        selectionMode={this.selectionMode}
         topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action

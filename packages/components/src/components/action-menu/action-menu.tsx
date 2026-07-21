@@ -14,7 +14,7 @@ import { toAriaBoolean } from "../../utils/aria";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
 import { guid } from "../../utils/guid";
 import { isActivationKey } from "../../utils/key";
-import { ActiveDescendantManager, Appearance, Scale } from "../interfaces";
+import { ActiveDescendantManager, Appearance, Scale, SelectionMode } from "../interfaces";
 import type { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { Tooltip } from "../tooltip/tooltip";
@@ -110,11 +110,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   private tooltipEl: Tooltip["el"];
 
   private updateAction = (action: Action["el"], index: number): void => {
-    const { activeDescendantControlDisabled, guid, activeMenuItemIndex } = this;
+    const { activeDescendantControlDisabled, guid, activeMenuItemIndex, selectionMode } = this;
     const id = IDS.action(guid, index);
     action.tabIndex = -1;
     action.setAttribute("aria-label", action.label || action.text);
-    action.setAttribute("role", "menuitem");
+    action.setAttribute("role", this.getActionRole());
+
+    if (selectionMode === "none") {
+      action.removeAttribute("aria-checked");
+    } else {
+      action.setAttribute("aria-checked", toAriaBoolean(action.active));
+    }
 
     if (!action.id) {
       action.id = id;
@@ -217,6 +223,23 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
   /** Specifies the size of the component's trigger `calcite-action`. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * Specifies the selection mode of slotted actions.
+   *
+   * @private
+   */
+  @property() selectionMode: Extract<
+    "single" | "single-persist" | "multiple" | "none",
+    SelectionMode
+  > = "none";
+
+  /**
+   * Specifies a function to handle selection updates for slotted actions.
+   *
+   * @private
+   */
+  @property() selectionHandler?: (action: Action["el"]) => boolean;
+
   //#endregion
 
   //#region Public Methods
@@ -255,6 +278,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     cancelable: false,
   });
 
+  /**
+   * Fires when the component updates action selection.
+   *
+   * @private
+   */
+  calciteInternalActionMenuSelect = createEvent({
+    bubbles: true,
+    cancelable: false,
+    composed: true,
+  });
+
   //#endregion
 
   //#region Lifecycle
@@ -282,6 +316,10 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     }
 
     if (changes.has("activeDescendantControlDisabled") && this.hasUpdated) {
+      this.updateActions(this.actionElements);
+    }
+
+    if (changes.has("selectionMode") && this.hasUpdated) {
       this.updateActions(this.actionElements);
     }
 
@@ -427,7 +465,17 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
       return;
     }
 
-    if (this.isSelectionAction(action)) {
+    this.activeMenuItemIndex = this.actionElements.indexOf(action);
+
+    if (this.selectionMode !== "none") {
+      if (this.selectionHandler?.(action)) {
+        this.updateActions(this.actionElements);
+        return;
+      }
+
+      this.setActiveAction(action);
+      this.updateActions(this.actionElements);
+      this.calciteInternalActionMenuSelect.emit();
       return;
     }
 
@@ -435,10 +483,39 @@ export class ActionMenu extends LitElement implements ActiveDescendantManager {
     this.setFocus();
   }
 
-  private isSelectionAction(action: Action["el"]): boolean {
-    const actionGroup = action.closest("calcite-action-group");
+  private getActionRole(): "menuitem" | "menuitemcheckbox" | "menuitemradio" {
+    if (this.selectionMode === "multiple") {
+      return "menuitemcheckbox";
+    }
 
-    return !!actionGroup && actionGroup.selectionMode !== "none";
+    if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
+      return "menuitemradio";
+    }
+
+    return "menuitem";
+  }
+
+  private setActiveAction(activeAction: Action["el"]): void {
+    const { actionElements, selectionMode } = this;
+
+    if (selectionMode === "multiple") {
+      activeAction.active = !activeAction.active;
+      return;
+    }
+
+    if (selectionMode === "single") {
+      const nextActive = !activeAction.active;
+      actionElements.forEach((action) => {
+        action.active = action === activeAction && nextActive;
+      });
+      return;
+    }
+
+    if (selectionMode === "single-persist" && !activeAction.active) {
+      actionElements.forEach((action) => {
+        action.active = action === activeAction;
+      });
+    }
   }
 
   private updateTooltip(event: Event): void {
