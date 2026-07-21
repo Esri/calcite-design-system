@@ -117,6 +117,7 @@ function connectLabel(component: LabelableComponent): void {
 
   if (labelEl) {
     component.labelEl = labelEl;
+    component.disabled = labelEl.disabled;
 
     const labelables = labelToLabelables.get(labelEl) || [];
     labelables.push(component);
@@ -188,7 +189,7 @@ function onLabelClick(this: Label["el"], event: CustomEvent<{ sourceEvent: Mouse
 
   const firstLabelable = labelables[0];
 
-  if (firstLabelable.disabled) {
+  if (this.disabled || firstLabelable.disabled) {
     return;
   }
 

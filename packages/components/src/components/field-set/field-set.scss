@@ -22,6 +22,7 @@
   font-weight: var(--calcite-font-weight-medium);
   block-size: 32px; // TODO: variables
   border: 1px solid red; // TODO: remove
+  float: inline-start; // TODO: this is a hack; consider using <div> instead of <legend>
 }
 
 .field-wrapper {
@@ -41,6 +42,12 @@
 
 .field-wrapper--horizontal {
   flex-direction: row;
+}
+
+@include includes.disabled() {
+  .legend {
+    @apply text-color-3;
+  }
 }
 
 @include includes.base-component();
