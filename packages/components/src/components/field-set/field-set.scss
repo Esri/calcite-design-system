@@ -1,0 +1,46 @@
+@use "../../styles/includes";
+
+:host {
+  display: block;
+  border: 1px solid orange; // TODO: remove
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; // TODO: variable
+  padding: 0;
+  border: 1px solid green; // TODO: remove
+  margin: 0;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  color: var(--calcite-color-text-1);
+  font-size: var(--calcite-font-size-0);
+  font-weight: var(--calcite-font-weight-medium);
+  block-size: 32px; // TODO: variables
+  border: 1px solid red; // TODO: remove
+}
+
+.field-wrapper {
+  display: flex;
+  flex-wrap: wrap; // TODO: decide min-width for labels when used in field set
+  gap: 12px; // TODO: variable
+  border: 1px solid blue; // TODO: remove
+
+  ::slotted(calcite-label) {
+    // width: 100%;
+  }
+}
+
+.field-wrapper--vertical {
+  flex-direction: column;
+}
+
+.field-wrapper--horizontal {
+  flex-direction: row;
+}
+
+@include includes.base-component();
