@@ -15,8 +15,9 @@ import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
 import { Alignment, Scale, Status } from "../interfaces";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   addLocalizedTrailingDecimalZeros,
   BigDecimal,
@@ -111,6 +112,8 @@ export class Input
 
   labelEl?: Label["el"];
 
+  labelable = useLabel(this);
+
   private maxString?: string;
 
   private minString?: string;
@@ -141,7 +144,7 @@ export class Input
 
   private interactiveContainer = useInteractive(this);
 
-  private useInlineEditable = new UseInlineEditable({
+  private inlineEditableManager = new UseInlineEditable({
     getEditingEnabled: () => this.editingEnabled,
     setEditingEnabled: (editingEnabled) => {
       this.editingEnabled = editingEnabled;
@@ -502,7 +505,6 @@ export class Input
     if (this.inlineEditableEl) {
       this.editingEnabled = this.inlineEditableEl.editingEnabled || false;
     }
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -553,7 +555,6 @@ export class Input
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.stopNudging();
   }
 
@@ -607,7 +608,7 @@ export class Input
         return;
       }
 
-      this.useInlineEditable.cancelEditing();
+      this.inlineEditableManager.cancelEditing();
       requestAnimationFrame(() => {
         this.enableInlineEditingButtonRef.value?.setFocus();
       });
@@ -630,7 +631,7 @@ export class Input
 
   onLabelClick(): void {
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -711,7 +712,7 @@ export class Input
     this.calciteInternalInputBlur.emit();
 
     if (this.selfManagedInlineEditable && this.editingEnabled && !this.inlineEditableControls) {
-      this.useInlineEditable.disable();
+      this.inlineEditableManager.disable();
     }
 
     this.emitChangeIfUserModified();
@@ -739,7 +740,7 @@ export class Input
 
     if (this.selfManagedInlineEditable && !this.editingEnabled) {
       event.preventDefault();
-      this.useInlineEditable.enable();
+      this.inlineEditableManager.enable();
       return;
     }
 
@@ -1291,13 +1292,13 @@ export class Input
                 enableEditingButtonRef={this.enableInlineEditingButtonRef}
                 enableEditingLabel={this.messages.enableInlineEditing}
                 loading={this.inlineEditableLoading}
-                onCancelEditing={() => this.useInlineEditable.cancelEditing()}
+                onCancelEditing={() => this.inlineEditableManager.cancelEditing()}
                 onConfirmChanges={() =>
-                  this.useInlineEditable.confirm(this.inlineEditableAfterConfirm, (loading) => {
+                  this.inlineEditableManager.confirm(this.inlineEditableAfterConfirm, (loading) => {
                     this.inlineEditableLoading = loading;
                   })
                 }
-                onEnableEditing={() => this.useInlineEditable.enable()}
+                onEnableEditing={() => this.inlineEditableManager.enable()}
                 scale={this.scale}
                 showControls={this.editingEnabled && this.inlineEditableControls}
               />

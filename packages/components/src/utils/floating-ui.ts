@@ -333,7 +333,11 @@ export const FloatingCSS = {
   arrowStroke: "calcite-floating-ui-arrow__stroke",
 };
 
-function getMiddleware({
+/**
+ * Exported for testing purposes only
+ * @private
+ */
+export function getMiddleware({
   placement,
   flipDisabled,
   flipPlacements,
@@ -350,15 +354,14 @@ function getMiddleware({
   arrowEl?: SVGSVGElement;
   type: UIType;
 }): Middleware[] {
-  const middleware = [shift(), hide()];
+  const rootBoundary = "layoutViewport";
+  const isAutoPlacement = placement === "auto" || placement === "auto-start" || placement === "auto-end";
 
-  if (type === "menu") {
-    middleware.push(
-      flip({
-        fallbackPlacements: flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"],
-      }),
-    );
-  }
+  const middleware = [
+    shift({
+      rootBoundary,
+    }),
+  ];
 
   middleware.push(
     offset({
@@ -367,12 +370,24 @@ function getMiddleware({
     }),
   );
 
-  if (placement === "auto" || placement === "auto-start" || placement === "auto-end") {
+  if (isAutoPlacement) {
     middleware.push(
-      autoPlacement({ alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null }),
+      autoPlacement({
+        alignment: placement === "auto-start" ? "start" : placement === "auto-end" ? "end" : null,
+        rootBoundary,
+      }),
     );
-  } else if (!flipDisabled) {
-    middleware.push(flip(flipPlacements ? { fallbackPlacements: flipPlacements } : {}));
+  }
+
+  const shouldAddFlip = !flipDisabled && (!isAutoPlacement || type === "menu");
+
+  if (shouldAddFlip) {
+    const fallbackPlacements =
+      type === "menu"
+        ? flipPlacements || ["top-start", "top", "top-end", "bottom-start", "bottom", "bottom-end"]
+        : flipPlacements;
+
+    middleware.push(flip(fallbackPlacements ? { fallbackPlacements, rootBoundary } : { rootBoundary }));
   }
 
   if (arrowEl) {
@@ -382,6 +397,12 @@ function getMiddleware({
       }),
     );
   }
+
+  middleware.push(
+    hide({
+      rootBoundary,
+    }),
+  );
 
   return middleware;
 }
