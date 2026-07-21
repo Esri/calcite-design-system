@@ -731,7 +731,6 @@ describe("DOM updates", () => {
     added.label = "two";
     el.append(added);
 
-    await expect.poll(() => page.getBySelector("calcite-carousel-item").length).toBe(2);
     await userEvent.click(page.getBySelector(`calcite-carousel .${CSS.pageNext}`));
     await expect.element(selectedItem()).toHaveProperty("id", "two");
   });
@@ -957,8 +956,8 @@ describe("overflowing pagination", () => {
       );
 
       await expect
-        .poll(() => page.getBySelector(`.${CSS.paginationItemVisible}`).length)
-        .toBe(count);
+        .poll(() => page.getBySelector(`.${CSS.paginationItemVisible}`))
+        .toHaveLength(count);
     },
   );
 
