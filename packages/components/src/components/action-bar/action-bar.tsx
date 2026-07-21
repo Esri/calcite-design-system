@@ -96,7 +96,7 @@ export class ActionBar extends LitElement {
     }
 
     if (
-      this.resolvedOverflowMode !== "collapse" ||
+      this.overflowMode !== "collapse" ||
       (layout === "vertical" && !height) ||
       (layout === "horizontal" && !width)
     ) {
@@ -287,7 +287,19 @@ export class ActionBar extends LitElement {
    *
    * @deprecated in v5.2.0, removal target v7.0.0 - Use `overflowMode="none"` instead.
    */
-  @property({ reflect: true }) overflowActionsDisabled = false;
+  @property({ reflect: true })
+  get overflowActionsDisabled(): boolean {
+    return this.overflowMode === "none";
+  }
+  set overflowActionsDisabled(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "overflowActionsDisabled",
+      removalVersion: 7,
+      suggested: 'overflowMode="none"',
+    });
+    this.overflowMode = value ? "none" : "collapse";
+  }
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -321,21 +333,27 @@ export class ActionBar extends LitElement {
    * @private
    */
   @method()
-async overflowActions(): Promise<void> {
-  if (this.resolvedOverflowMode !== "collapse") {
-    // Ensure any previously-overflowed actions are returned to their original slot positions.
-    this.updateGroups();
-    overflowActions({ actionGroups: [...this.actionGroups], expanded: this.expanded, overflowCount: 0 });
+  async overflowActions(): Promise<void> {
+    if (this.overflowMode !== "collapse") {
+      // Return any previously-overflowed actions to their original slots.
+      if (this.hasUpdated && this.el.isConnected) {
+        this.updateGroups();
+        overflowActions({
+          actionGroups: [...this.actionGroups],
+          expanded: this.expanded,
+          overflowCount: 0,
+        });
+      }
 
-    if (this.usesWrap) {
-      this.scheduleLineMeasure();
+      if (this.usesWrap) {
+        this.scheduleLineMeasure();
+      }
+
+      return;
     }
 
-    return;
+    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
   }
-
-  this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
-}
 
   /**
    * Sets focus on the component's first focusable element.
@@ -422,13 +440,6 @@ async overflowActions(): Promise<void> {
       this.overflowActions();
     }
 
-    if (
-      changes.has("overflowActionsDisabled") &&
-      (this.hasUpdated || this.overflowActionsDisabled !== false)
-    ) {
-      this.overflowModeHandler();
-    }
-
     if (changes.has("expanded") && this.hasUpdated) {
       this.expandedHandler();
       if (this.expanded) {
@@ -491,7 +502,7 @@ async overflowActions(): Promise<void> {
   }
 
   private overflowModeHandler(): void {
-    if (this.resolvedOverflowMode === "none") {
+    if (this.overflowMode === "none") {
       this.resizeObserver?.disconnect();
       return;
     }
@@ -532,22 +543,11 @@ async overflowActions(): Promise<void> {
   }
 
   /**
-   * Maps the deprecated `overflowActionsDisabled` to `"none"`, but only while `overflowMode`
-   * is unchanged from its default, so the newer property wins when both are set.
-   */
-  private get resolvedOverflowMode(): "collapse" | "wrap" | "none" {
-    if (this.overflowActionsDisabled && this.overflowMode === "collapse") {
-      return "none";
-    }
-    return this.overflowMode;
-  }
-
-  /**
    * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
    * `"wrap"`.
    */
   private get usesWrap(): boolean {
-    return this.resolvedOverflowMode === "wrap" && this.layout !== "grid";
+    return this.overflowMode === "wrap" && this.layout !== "grid";
   }
 
   /**

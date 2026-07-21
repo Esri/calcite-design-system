@@ -359,6 +359,50 @@ describe("overflowing actions", () => {
     await expect.element(triggerActions.nth(1)).toBeInViewport();
     await expect.element(triggerActions.nth(2)).toBeInViewport();
   });
+
+  it("returns overflowed actions to their slots when overflowMode switches away from collapse", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" style="width: 100px;">
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="measure" text="Measure" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const overflowedCount = (): number =>
+      page.getBySelector("calcite-action[slot='menu-actions']").elements().length;
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+    await component.updateComplete;
+
+    // `overflowMode="collapse"` (default) overflows actions into the group's menu.
+    expect(overflowedCount()).toBeGreaterThan(0);
+
+    el.overflowMode = "wrap";
+    await component.updateComplete;
+
+    // Switching to `"wrap"` returns the overflowed actions to their slots.
+    expect(overflowedCount()).toBe(0);
+
+    el.overflowMode = "none";
+    await component.updateComplete;
+
+    // Switching to `"none"` keeps them un-slotted.
+    expect(overflowedCount()).toBe(0);
+
+    el.overflowMode = "collapse";
+    await component.updateComplete;
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+    await component.updateComplete;
+
+    // Returning to `"collapse"` overflows them again.
+    expect(overflowedCount()).toBeGreaterThan(0);
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
