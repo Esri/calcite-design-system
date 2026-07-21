@@ -1,7 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
-import type { Label } from "../label/label";
+import type { Input } from "../input/input";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -26,14 +26,16 @@ export class FieldSet extends LitElement {
 
   // #region Private Properties
 
-  @queryAssignedElements({ selector: "calcite-label" })
-  private labels!: Label["el"][];
+  @queryAssignedElements({ selector: "calcite-input" })
+  private inputs!: Input["el"][];
+
+  private inputDisabledState = new WeakMap<Input["el"], boolean>();
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, disables the slotted labels and their associated inputs. */
+  /** When `true`, disables the slotted inputs. */
   @property({ reflect: true }) disabled = false;
 
   /** Specifies the component layout. */
@@ -45,7 +47,7 @@ export class FieldSet extends LitElement {
 
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("disabled")) {
-      this.syncLabelsDisabledState();
+      this.syncInputsDisabledState(changes.get("disabled"));
     }
   }
 
@@ -53,10 +55,40 @@ export class FieldSet extends LitElement {
 
   // #region Private Methods
 
-  private syncLabelsDisabledState(): void {
-    this.labels?.forEach((label) => {
-      label.disabled = this.disabled;
+  private getInputDisabledState(input: Input["el"]): boolean {
+    return input.hasAttribute("disabled") || input.disabled;
+  }
+
+  private syncInputsDisabledState(previousDisabled = this.disabled): void {
+    const wasDisabled = previousDisabled;
+
+    this.inputs?.forEach((input) => {
+      if (this.disabled) {
+        if (!wasDisabled || !this.inputDisabledState.has(input)) {
+          this.inputDisabledState.set(input, this.getInputDisabledState(input));
+        }
+
+        input.toggleAttribute("disabled", true);
+        input.disabled = true;
+        return;
+      }
+
+      if (!wasDisabled) {
+        this.inputDisabledState.set(input, this.getInputDisabledState(input));
+        return;
+      }
+
+      const inputDisabled = this.inputDisabledState.get(input);
+      const nextDisabled = inputDisabled ?? this.getInputDisabledState(input);
+
+      input.toggleAttribute("disabled", nextDisabled);
+      input.disabled = nextDisabled;
+      this.inputDisabledState.set(input, nextDisabled);
     });
+  }
+
+  private handleInputSlotChange(): void {
+    this.syncInputsDisabledState();
   }
 
   // #endregion
@@ -76,7 +108,7 @@ export class FieldSet extends LitElement {
             [CSS.fieldWrapperVertical]: this.layout === "vertical",
           }}
         >
-          <slot onSlotChange={this.syncLabelsDisabledState} />
+          <slot onSlotChange={this.handleInputSlotChange} />
         </div>
       </fieldset>
     );

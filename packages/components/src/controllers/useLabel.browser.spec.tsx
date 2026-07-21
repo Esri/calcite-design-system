@@ -51,10 +51,10 @@ describe("useLabel", () => {
       expect(component.labelEl).toBeUndefined();
     });
 
-    it("prevents selecting elements associated with a disabled label", async () => {
+    it("prevents selecting disabled labeled element", async () => {
       const { el } = await mount(
         html`
-          <calcite-label disabled for="for">label</calcite-label>
+          <calcite-label for="for">label</calcite-label>
           <labelable-component disabled id="for"></labelable-component>
         `,
         {

@@ -39,10 +39,6 @@ export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";
 export const labelDisconnectedEvent = "calciteInternalLabelDisconnected";
 
-export function getPrimaryLabelableForLabel(label: Label["el"]): LabelableComponent | null {
-  return labelToLabelables.get(label)?.[0] ?? null;
-}
-
 const labelTagName = "calcite-label";
 const labelToLabelables = new WeakMap<Label["el"], LabelableComponent[]>();
 const onLabelClickMap = new WeakMap<Label["el"], typeof onLabelClick>();
@@ -117,7 +113,6 @@ function connectLabel(component: LabelableComponent): void {
 
   if (labelEl) {
     component.labelEl = labelEl;
-    component.disabled = labelEl.disabled;
 
     const labelables = labelToLabelables.get(labelEl) || [];
     labelables.push(component);
@@ -189,7 +184,7 @@ function onLabelClick(this: Label["el"], event: CustomEvent<{ sourceEvent: Mouse
 
   const firstLabelable = labelables[0];
 
-  if (this.disabled || firstLabelable.disabled) {
+  if (firstLabelable.disabled) {
     return;
   }
 
@@ -227,16 +222,12 @@ export async function associateExplicitLabelToUnlabeledComponent(label: Label["e
     return;
   }
 
-  await new Promise<void>((resolve) => {
-    requestAnimationFrame(() => {
-      for (const labelable of unlabeledComponents) {
-        if (labelable.el === forComponentEl) {
-          connectLabel(labelable);
-          break;
-        }
+  requestAnimationFrame(() => {
+    for (const labelable of unlabeledComponents) {
+      if (labelable.el === forComponentEl) {
+        connectLabel(labelable);
+        break;
       }
-
-      resolve();
-    });
+    }
   });
 }

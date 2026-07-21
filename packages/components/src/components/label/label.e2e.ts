@@ -29,41 +29,6 @@ it("renders requested props when valid props are provided", async () => {
   expect(element).toEqualAttribute("layout", "inline-space-between");
 });
 
-it("label `disabled` state overrides slotted associated component `disabled` state", async () => {
-  const page = await newE2EPage({
-    html: `<calcite-label>Label text<calcite-input disabled></calcite-input></calcite-label>`,
-  });
-
-  const label = await page.find("calcite-label");
-  const input = await page.find("calcite-input");
-
-  expect(await input.getProperty("disabled")).toBe(false);
-
-  await label.setProperty("disabled", true);
-  await page.waitForChanges();
-
-  expect(label).toHaveAttribute("disabled");
-  expect(await input.getProperty("disabled")).toBe(true);
-});
-
-it("label `disabled` state overrides an explicitly associated component `disabled` state", async () => {
-  const page = await newE2EPage({
-    html: `<calcite-label for="label-input">Label text</calcite-label><calcite-input disabled id="label-input"></calcite-input>`,
-  });
-
-  const label = await page.find("calcite-label");
-  const input = await page.find("calcite-input");
-
-  await page.waitForChanges();
-
-  expect(await input.getProperty("disabled")).toBe(false);
-
-  await label.setProperty("disabled", true);
-  await page.waitForChanges();
-
-  expect(await input.getProperty("disabled")).toBe(true);
-});
-
 describe("alignment prop", () => {
   let page;
   let element;
