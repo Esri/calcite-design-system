@@ -233,7 +233,7 @@ it("does not grow textarea height on repeated key presses", async () => {
     <calcite-text-area label-text="Description" limit-text max-length="600" />,
   );
 
-  const textArea = page.getByRole("textbox", { name: "Description" });
+  const textArea = page.elementLocator(el).getByRole("textbox").first();
   await userEvent.click(textArea);
 
   const initialHeight = textArea.element().getBoundingClientRect().height;
