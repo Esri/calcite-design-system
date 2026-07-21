@@ -10,6 +10,7 @@ const { calendarCount, horizontalVerticalLayout, menuPlacement, scale, status, s
 interface InputDatePickerStoryArgs extends Pick<
   InputDatePicker,
   | "calendars"
+  | "clearable"
   | "disabled"
   | "layout"
   | "max"
@@ -36,6 +37,7 @@ export default {
     layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
+    clearable: false,
     value: "2020-12-12",
     min: "2016-08-09",
     max: "2023-12-18",
@@ -91,6 +93,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
     <calcite-input-date-picker
       scale="${args.scale}"
       status="${args.status}"
+      ${boolean("clearable", args.clearable)}
       value="${args.value}"
       calendars="${args.calendars}"
       ${boolean("disabled", args.disabled)}
@@ -457,3 +460,49 @@ localized.parameters = {
     delay: 1000,
   },
 };
+
+export const clearableSingle = (): string => html`
+  <div>
+    <calcite-input-date-picker clearable value="2020-12-12" open></calcite-input-date-picker>
+  </div>
+`;
+
+export const clearableRangeHorizontalAndVertical = (): string => html`
+  <style>
+    .container {
+      display: flex;
+      gap: 32px;
+      width: 1200px;
+      height: 500px;
+    }
+
+    .picker {
+      width: 660px;
+      height: 460px;
+    }
+  </style>
+  <div class="container">
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-horizontal"
+        clearable
+        range
+        layout="horizontal"
+        open
+      ></calcite-input-date-picker>
+    </div>
+    <div class="picker">
+      <calcite-input-date-picker
+        id="clearable-range-vertical"
+        clearable
+        range
+        layout="vertical"
+        open
+      ></calcite-input-date-picker>
+    </div>
+  </div>
+  <script>
+    document.querySelector("#clearable-range-horizontal").value = ["2020-12-12", "2020-12-14"];
+    document.querySelector("#clearable-range-vertical").value = ["2020-12-12", "2020-12-14"];
+  </script>
+`;
