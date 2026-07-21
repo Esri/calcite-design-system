@@ -332,6 +332,17 @@ describe("shell-panel updateSize public method", () => {
     };
   }
 
+  it("applies touch-action:none to the resize handle to enable resizing on mobile/touch devices", async () => {
+    const { el } = await mount<"calcite-shell-panel">(
+      <calcite-shell-panel resizable>
+        <calcite-panel>Content</calcite-panel>
+      </calcite-shell-panel>,
+    );
+    const handle = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
+
+    expect(getComputedStyle(handle).touchAction).toBe("none");
+  });
+
   testCases.forEach(({ dir, changeAfterMount, slot, position }) => {
     const layout = layoutFromPanelSlot(slot);
     const { keyboardKey, mouseDelta } = getUserInteraction({ dir, slot });
