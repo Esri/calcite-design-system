@@ -219,4 +219,12 @@
   }
 }
 
+:host([overflow-mode="none"][layout="horizontal"]) .container {
+  overflow-x: auto;
+}
+
+:host([overflow-mode="none"][layout="vertical"]) .container {
+  overflow-y: auto;
+}
+
 @include includes.base-component();

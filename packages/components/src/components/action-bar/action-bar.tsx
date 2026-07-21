@@ -321,14 +321,21 @@ export class ActionBar extends LitElement {
    * @private
    */
   @method()
-  async overflowActions(): Promise<void> {
+async overflowActions(): Promise<void> {
+  if (this.resolvedOverflowMode !== "collapse") {
+    // Ensure any previously-overflowed actions are returned to their original slot positions.
+    this.updateGroups();
+    overflowActions({ actionGroups: [...this.actionGroups], expanded: this.expanded, overflowCount: 0 });
+
     if (this.usesWrap) {
       this.scheduleLineMeasure();
-      return;
     }
 
-    this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
+    return;
   }
+
+  this.resize({ width: this.el.clientWidth, height: this.el.clientHeight });
+}
 
   /**
    * Sets focus on the component's first focusable element.
