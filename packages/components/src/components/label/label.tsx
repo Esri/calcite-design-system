@@ -2,6 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   associateExplicitLabelToUnlabeledComponent,
+  getPrimaryLabelableForLabel,
   labelConnectedEvent,
   labelDisconnectedEvent,
 } from "../../controllers/useLabel";
@@ -30,6 +31,9 @@ export class Label extends LitElement {
 
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @property({ reflect: true }) for?: string;
+
+  /** @private */
+  @property({ reflect: true }) disabled = false;
 
   /** Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
@@ -66,6 +70,12 @@ export class Label extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("disabled") || changes.has("for")) {
+      void this.syncAssociatedComponentDisabled();
+    }
+  }
+
   override disconnectedCallback(): void {
     document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
   }
@@ -73,6 +83,21 @@ export class Label extends LitElement {
   // #endregion
 
   // #region Private Methods
+
+  private async syncAssociatedComponentDisabled(): Promise<void> {
+    if (this.for) {
+      await associateExplicitLabelToUnlabeledComponent(this.el);
+    }
+
+    const associatedComponent = getPrimaryLabelableForLabel(this.el);
+
+    if (!associatedComponent) {
+      return;
+    }
+
+    associatedComponent.disabled = this.disabled;
+  }
+
   private labelClickHandler(event: MouseEvent): void {
     if (window.getSelection()?.type === "Range" || event.defaultPrevented) {
       return;
@@ -90,7 +115,7 @@ export class Label extends LitElement {
   override render(): JsxNode {
     return (
       <div class={CSS.container}>
-        <slot />
+        <slot onSlotChange={this.syncAssociatedComponentDisabled} />
       </div>
     );
   }

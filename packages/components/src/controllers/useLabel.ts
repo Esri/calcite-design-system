@@ -39,6 +39,10 @@ export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";
 export const labelDisconnectedEvent = "calciteInternalLabelDisconnected";
 
+export function getPrimaryLabelableForLabel(label: Label["el"]): LabelableComponent | null {
+  return labelToLabelables.get(label)?.[0] ?? null;
+}
+
 const labelTagName = "calcite-label";
 const labelToLabelables = new WeakMap<Label["el"], LabelableComponent[]>();
 const onLabelClickMap = new WeakMap<Label["el"], typeof onLabelClick>();
@@ -222,12 +226,16 @@ export async function associateExplicitLabelToUnlabeledComponent(label: Label["e
     return;
   }
 
-  requestAnimationFrame(() => {
-    for (const labelable of unlabeledComponents) {
-      if (labelable.el === forComponentEl) {
-        connectLabel(labelable);
-        break;
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      for (const labelable of unlabeledComponents) {
+        if (labelable.el === forComponentEl) {
+          connectLabel(labelable);
+          break;
+        }
       }
-    }
+
+      resolve();
+    });
   });
 }

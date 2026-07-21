@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { hidden, renders, themed } from "../../tests/commonTests/browser";
 
@@ -34,5 +34,19 @@ describe("theme", () => {
         },
       },
     );
+  });
+});
+
+describe("disabled", () => {
+  it("applies disabled styling to the label container", async () => {
+    const { el } = await mount<"calcite-label">(
+      <calcite-label disabled>
+        Label text
+        <calcite-input />
+      </calcite-label>,
+    );
+    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(getComputedStyle(container).opacity).not.toBe("1");
   });
 });
