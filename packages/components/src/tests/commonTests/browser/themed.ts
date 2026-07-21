@@ -147,9 +147,9 @@ export function themed(setup: TestSetup, tokens: ComponentTestTokens): void {
           );
         }
 
-        const selectorLocator = (() =>
-          selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector))();
-        const errorMessage = `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`;
+const selectorLocator =
+  selector === elLocator ? elLocator : getScopedLocator(page.elementLocator(document.body), el, selector);
+const errorMessage = `[${token}] target (${describeTarget(selector, shadowSelector)}) not found, make sure test HTML renders the component and expected shadow DOM elements`;
         const selectorElement = getRequiredElement(selectorLocator, errorMessage);
         const targetLocator = shadowSelector ? getNestedLocator(selectorLocator, shadowSelector) : selectorLocator;
 
