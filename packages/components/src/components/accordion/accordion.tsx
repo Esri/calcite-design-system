@@ -43,11 +43,9 @@ export class Accordion extends LitElement {
   /**
    * Specifies the selection mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection, and
-   *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * - `"multiple"` allows any number of selections
+   * - `"single"` allows only one selection
+   * - `"single-persist"` allows one selection and prevents de-selection
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",

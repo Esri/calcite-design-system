@@ -107,9 +107,8 @@ export class BlockSection extends LitElement {
   /**
    * Specifies how the component's toggle is displayed, where:
    *
-   * `"button"` sets the toggle to a selectable header, and
-   *
-   * `"switch"` sets the toggle to a switch.
+   * - `"button"` sets the toggle to a selectable header
+   * - `"switch"` sets the toggle to a switch
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 

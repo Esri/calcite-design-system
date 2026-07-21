@@ -60,19 +60,13 @@ export class Tree extends LitElement {
   /**
    * Specifies the selection mode of the component, where:
    *
-   * `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,
-   *
-   * `"children"` allows any number of selections from one parent from corresponding parent and child selections,
-   *
-   * `"multichildren"` allows any number of selections from corresponding parent and child selections,
-   *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"none"` allows no selections,
-   *
-   * `"single"` allows one selection, and
-   *
-   * `"single-persist"` allows and requires one selection.
+   * - `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections
+   * - `"children"` allows any number of selections from one parent from corresponding parent and child selections
+   * - `"multichildren"` allows any number of selections from corresponding parent and child selections
+   * - `"multiple"` allows any number of selections
+   * - `"none"` allows no selections
+   * - `"single"` allows one selection
+   * - `"single-persist"` allows and requires one selection
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 

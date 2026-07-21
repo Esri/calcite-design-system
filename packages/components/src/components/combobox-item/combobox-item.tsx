@@ -115,13 +115,10 @@ export class ComboboxItem extends LitElement {
   /**
    * Specifies the selection mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   * - `"multiple"` allows any number of selections
+   * - `"single"` allows only one selection
+   * - `"single-persist"` allows one selection and prevents de-selection
+   * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips
    *
    * @private
    */

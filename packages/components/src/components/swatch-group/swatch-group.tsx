@@ -59,13 +59,10 @@ export class SwatchGroup extends LitElement {
   /**
    * Specifies the selection mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections
+   * - `"single"` allows only one selection
+   * - `"single-persist"` allows one selection and prevents de-selection
+   * - `"none"` does not allow any selections
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
