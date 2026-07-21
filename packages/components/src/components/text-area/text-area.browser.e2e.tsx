@@ -19,6 +19,7 @@ import {
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { CSS } from "./resources";
 import type { TextArea } from "./text-area";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("cancelable", () => {
   cancelable("calcite-text-area");
@@ -232,13 +233,13 @@ it("does not grow textarea height on repeated key presses", async () => {
     <calcite-text-area label-text="Description" limit-text max-length="600" />,
   );
 
-  const textArea = page.getBySelector("calcite-text-area textarea");
+  const textArea = page.getByRole("textbox", { name: "Description" });
   await userEvent.click(textArea);
 
   const initialHeight = textArea.element().getBoundingClientRect().height;
 
   await userEvent.keyboard("aaaaaaaaaa");
-  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  await afterNextFrame();
 
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);

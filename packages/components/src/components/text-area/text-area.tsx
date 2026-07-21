@@ -34,8 +34,6 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
 
-const DIMENSION_EPSILON = 1;
-
 declare global {
   interface DeclareElements {
     "calcite-text-area": TextArea;
@@ -351,7 +349,8 @@ export class TextArea
   //#region Private Methods
 
   private dimensionsDiffer(dimensionA: number, dimensionB: number): boolean {
-    return Math.abs(dimensionA - dimensionB) > DIMENSION_EPSILON;
+    const dimensionTolerance = 1;
+    return Math.abs(dimensionA - dimensionB) > dimensionTolerance;
   }
 
   private updateNumberFormatter(): void {
