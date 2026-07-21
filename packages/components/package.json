@@ -61,7 +61,7 @@
     "test:watch:browser:time-zone": "npm run util:install-playwright && node support/run-time-zone-browser-tests.ts watch",
     "util:add-internal-custom-css-prop-doc": "node support/add-internal-custom-prop-doc.ts",
     "util:clean-js-files": "rimraf --glob -- *.js {src,.storybook,support}/**/*.js",
-    "util:install-playwright": "node support/install-playwright.ts",
+    "util:install-playwright": "npx playwright install chromium --with-deps --no-shell",
     "util:clean-tested-build": "npm ci && npm test && npm run build",
     "util:copy-assets": "npm run util:copy-icons",
     "util:copy-icons": "cpy \"../ui-icons/js/*.json\" \"src/components/icon/assets/\" --flat",

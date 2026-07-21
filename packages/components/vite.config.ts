@@ -94,7 +94,11 @@ export function createConfig({
     test: test ?? {
       browser: {
         enabled: runBrowserTests,
-        provider: playwright(),
+        provider: playwright({
+          launchOptions: {
+            channel: "chromium",
+          },
+        }),
         screenshotFailures: false,
         headless: process.env.HEADLESS !== "false",
         ui: false,
