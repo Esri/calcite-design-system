@@ -5,6 +5,7 @@ import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/browser/commands";
 
 import {
+  accessible,
   defaults,
   disabled,
   formAssociated,
@@ -41,6 +42,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "labelFormatter",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "label",
         defaultValue: undefined,
       },
       {
@@ -100,6 +105,40 @@ describe("reflects", () => {
       },
     ],
   );
+});
+
+describe("accessible", () => {
+  accessible(() =>
+    mount(
+      <calcite-slider
+        label="hello world"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    ),
+  );
+
+  it("applies min and max labels to the corresponding thumbs", async () => {
+    await mount<Slider>(
+      <calcite-slider
+        label="Group label"
+        max-label="Maximum"
+        max-value="75"
+        min-label="Minimum"
+        min-value="50"
+      />,
+    );
+
+    const container = page.getByLabelText("Group label");
+    await expect.element(container).toHaveAttribute("aria-label", "Group label");
+
+    const [minThumb, maxThumb] = page.getByRole("slider").all();
+
+    await expect.element(minThumb).toHaveAttribute("aria-label", "Minimum");
+    await expect.element(maxThumb).toHaveAttribute("aria-label", "Maximum");
+  });
 });
 
 describe("honors hidden attribute", () => {

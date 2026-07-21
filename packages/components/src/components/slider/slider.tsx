@@ -236,6 +236,9 @@ export class Slider extends LitElement implements LabelableComponent {
   /** Specifies a list of single color stops for a histogram, sorted by offset in ascending order. */
   @property() histogramStops?: ColorStop[];
 
+  /** @copyDoc */
+  @property() label?: string;
+
   /** When specified, allows users to customize handle labels. */
   @property() labelFormatter?: (
     value: number,
