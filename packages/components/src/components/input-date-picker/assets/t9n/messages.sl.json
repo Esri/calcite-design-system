@@ -1,5 +1,6 @@
 {
   "chooseDate": "Izberi datum",
+  "clear": "Clear value",
   "date": "Datum",
   "dateFormat": "Oblika datuma: {format}",
   "endDate": "Datum zaključka",

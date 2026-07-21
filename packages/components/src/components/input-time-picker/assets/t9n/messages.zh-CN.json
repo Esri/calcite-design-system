@@ -1,5 +1,6 @@
 {
   "chooseTime": "选择时间",
+  "clear": "Clear value",
   "fractionalSecond": "小数秒",
   "fractionalSecondDown": "减少小数秒",
   "fractionalSecondUp": "增加小数秒",
