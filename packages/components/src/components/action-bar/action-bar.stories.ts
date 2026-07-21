@@ -8,7 +8,7 @@ const { layout, position, scale, selectionAppearance } = ATTRIBUTES;
 
 type ActionBarStoryArgs = Pick<
   ActionBar,
-  | "expandDisabled"
+  | "expandToggleDisabled"
   | "expanded"
   | "expandPosition"
   | "floating"
@@ -21,7 +21,7 @@ type ActionBarStoryArgs = Pick<
 export default {
   title: "Components/Action Bar",
   args: {
-    expandDisabled: false,
+    expandToggleDisabled: false,
     expanded: false,
     layout: layout.values[1],
     position: position.defaultValue,
@@ -56,7 +56,7 @@ export default {
 
 export const simple = (args: ActionBarStoryArgs): string => html`
   <calcite-action-bar
-    ${boolean("expand-disabled", args.expandDisabled)}
+    ${boolean("expand-toggle-disabled", args.expandToggleDisabled)}
     ${boolean("expanded", args.expanded)}
     ${boolean("floating", args.floating)}
     layout="${args.layout}"
@@ -267,7 +267,7 @@ export const horizontalSmall = (): string => html`
 
 export const horizontalOverflow = (): string => html`
   <div style="width: 450px; display:flex;">
-    <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"> </calcite-action>
         <calcite-action text="Save" active icon="save"> </calcite-action>
@@ -297,7 +297,7 @@ export const horizontalOverflow = (): string => html`
 
 export const horizontalOverflowPerGroupDisabled = (): string => html`
   <div style="width: 300px; display:flex;">
-    <calcite-action-bar layout="horizontal" expand-disabled style="flex:1;">
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex:1;">
       <calcite-action-group overflow-actions-disabled>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" active icon="save"></calcite-action>
@@ -335,7 +335,7 @@ export const withDefinedWidths = (): string => html`
 
 export const gridLayout = (): string =>
   html`<div style="padding:20px;">
-    <calcite-action-bar layout="grid" expand-disabled overflow-actions-disabled floating>
+    <calcite-action-bar layout="grid" expand-toggle-disabled overflow-actions-disabled floating>
       <calcite-action-group>
         <calcite-action text="Northwest" icon="chevron-up-left"></calcite-action>
         <calcite-action text="North" icon="chevron-up"></calcite-action>
@@ -560,7 +560,7 @@ export const overflowDisabledActions = (): string => html`
       Horizontal — width unconstrained. First three actions have <code>overflow-disabled</code>; all actions are
       visible.
     </p>
-    <calcite-action-bar layout="horizontal" expand-disabled>
+    <calcite-action-bar layout="horizontal" expand-toggle-disabled>
       <calcite-action-group>
         <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
         <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>
@@ -575,7 +575,7 @@ export const overflowDisabledActions = (): string => html`
       width.
     </p>
     <div style="width: 100px; display: flex;">
-      <calcite-action-bar layout="horizontal" expand-disabled style="flex: 1;">
+      <calcite-action-bar layout="horizontal" expand-toggle-disabled style="flex: 1;">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus" overflow-disabled></calcite-action>
           <calcite-action text="Save" icon="save" overflow-disabled></calcite-action>

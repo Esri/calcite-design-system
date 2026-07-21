@@ -25,6 +25,7 @@ import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
+import { logger } from "../../utils/logger";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import { useSetFocus } from "../../controllers/useSetFocus";
@@ -83,7 +84,7 @@ export class ActionBar extends LitElement {
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, expandPosition } = this;
+    const { expanded, expandToggleDisabled, layout, expandPosition } = this;
 
     if (!this.containerRef.value) {
       return;
@@ -109,10 +110,10 @@ export class ActionBar extends LitElement {
     const { actionGroups } = this;
 
     const actionsEndCount =
-      this.hasActionsEnd || (!expandDisabled && expandPosition === "end") ? 1 : 0;
+      this.hasActionsEnd || (!expandToggleDisabled && expandPosition === "end") ? 1 : 0;
 
     const actionsStartCount =
-      this.hasActionsStart || (!expandDisabled && expandPosition === "start") ? 1 : 0;
+      this.hasActionsStart || (!expandToggleDisabled && expandPosition === "start") ? 1 : 0;
 
     const groupCount = actionGroups.length + actionsEndCount + actionsStartCount;
 
@@ -231,8 +232,27 @@ export class ActionBar extends LitElement {
    */
   @property({ reflect: true }) floating = false;
 
-  /** When `true`, the expand-toggling behavior is disabled. */
-  @property({ reflect: true }) expandDisabled = false;
+  /** When `true`, the expand/collapse toggle button is not shown. */
+  @property({ reflect: true }) expandToggleDisabled = false;
+
+  /**
+   * When `true`, the expand/collapse toggle button is not shown.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - Use `expandToggleDisabled` instead.
+   */
+  @property({ reflect: true })
+  get expandDisabled(): boolean {
+    return this.expandToggleDisabled;
+  }
+  set expandDisabled(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "expandDisabled",
+      removalVersion: 6,
+      suggested: "expandToggleDisabled",
+    });
+    this.expandToggleDisabled = value;
+  }
 
   /**
    * When `true`, expands the component and its contents.
@@ -273,7 +293,7 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * When `expandDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   * When `expandToggleDisabled` is `false`, specifies the expand toggle's chevron direction, where:
    *
    * `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`, and
    * `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
@@ -364,6 +384,8 @@ export class ActionBar extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
+      (changes.has("expandToggleDisabled") &&
+        (this.hasUpdated || this.expandToggleDisabled !== false)) ||
       (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))
     ) {
       this.overflowActions();
@@ -759,10 +781,10 @@ export class ActionBar extends LitElement {
   }
 
   private renderActionsGroup(position: Extract<"start" | "end", Position>): JsxNode {
-    const { expandDisabled, scale, layout, overlayPositioning, expandPosition } = this;
+    const { expandToggleDisabled, scale, layout, overlayPositioning, expandPosition } = this;
 
     const isStart = position === "start";
-    const hasExpandToggle = !expandDisabled && expandPosition === position;
+    const hasExpandToggle = !expandToggleDisabled && expandPosition === position;
 
     const slotName = isStart ? SLOTS.actionsStart : SLOTS.actionsEnd;
     const onSlotChange = isStart

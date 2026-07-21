@@ -5,6 +5,7 @@ export const CSS = {
   actionBarContainer: "action-bar-container",
   contentContainer: "content-container",
   content: "content",
+  contentActionBarExpanded: "content--action-bar-expanded",
   contentHeader: "content__header",
   contentBody: "content__body",
   contentOverlay: "content--overlay",

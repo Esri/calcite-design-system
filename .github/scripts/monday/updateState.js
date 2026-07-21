@@ -16,6 +16,6 @@ module.exports = async ({ github, context, core }) => {
   } else {
     monday.handleState(action);
   }
-  
+
   await monday.commit();
 };
