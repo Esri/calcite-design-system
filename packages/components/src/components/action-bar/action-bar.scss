@@ -144,8 +144,8 @@
   );
 }
 
-:host([wrap][layout="horizontal"]),
-:host([wrap][layout="vertical"]) {
+:host([overflow-mode="wrap"][layout="horizontal"]),
+:host([overflow-mode="wrap"][layout="vertical"]) {
   .container {
     position: relative;
     flex-wrap: wrap;
@@ -159,7 +159,7 @@
   }
 }
 
-:host([wrap][layout="horizontal"]) {
+:host([overflow-mode="wrap"][layout="horizontal"]) {
   .container {
     row-gap: var(--calcite-internal-action-bar-line-gap);
   }
@@ -188,7 +188,7 @@
   }
 }
 
-:host([wrap][layout="vertical"]) {
+:host([overflow-mode="wrap"][layout="vertical"]) {
   .container {
     block-size: 100%;
     min-block-size: 0;

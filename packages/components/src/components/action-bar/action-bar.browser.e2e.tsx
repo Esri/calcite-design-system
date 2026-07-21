@@ -95,8 +95,8 @@ describe("defaults", () => {
         defaultValue: "end",
       },
       {
-        propertyName: "wrap",
-        defaultValue: false,
+        propertyName: "overflowMode",
+        defaultValue: "collapse",
       },
     ],
   );
@@ -147,8 +147,8 @@ describe("reflects", () => {
         value: "start",
       },
       {
-        propertyName: "wrap",
-        value: true,
+        propertyName: "overflowMode",
+        value: "wrap",
       },
     ],
   );
@@ -594,7 +594,7 @@ describe("overflow-disabled actions", () => {
 describe("wrap", () => {
   it("wraps items when enabled for horizontal layout", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal" wrap>
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
         <calcite-action icon="trash" text="Delete" />
@@ -607,7 +607,7 @@ describe("wrap", () => {
 
   it("wraps items when enabled for vertical layout", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar layout="vertical" wrap>
+      <calcite-action-bar layout="vertical" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
         <calcite-action icon="trash" text="Delete" />
@@ -620,7 +620,7 @@ describe("wrap", () => {
 
   it("keeps top-level items in the default slot when enabled", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal" wrap>
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action-group>
           <calcite-action icon="save" text="Save" />
@@ -636,7 +636,7 @@ describe("wrap", () => {
 
   it("renders the divider overlay when enabled and removes it when disabled", async () => {
     const { el, component } = await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
         <calcite-action-group>
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />
@@ -659,7 +659,7 @@ describe("wrap", () => {
       .toBeGreaterThan(0);
     expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeTruthy();
 
-    el.wrap = false;
+    el.overflowMode = "collapse";
     await component.updateComplete;
 
     expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
@@ -670,7 +670,7 @@ describe("wrap", () => {
 
   it("does not render the divider overlay when layout is grid", async () => {
     const { el } = await mount<ActionBar>(
-      <calcite-action-bar layout="grid" wrap>
+      <calcite-action-bar layout="grid" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
       </calcite-action-bar>,
@@ -681,7 +681,7 @@ describe("wrap", () => {
 
   it("hides the trailing group divider at the end of a wrapped line without changing its size", async () => {
     const { el, component } = await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal" style="width: 120px;" wrap>
+      <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
         <calcite-action-group>
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />
@@ -717,7 +717,12 @@ describe("wrap", () => {
 
   it("ignores hidden top-level items when measuring wrapped lines", async () => {
     const { el, component } = await mount<ActionBar>(
-      <calcite-action-bar expandDisabled layout="horizontal" style="width: 120px;" wrap>
+      <calcite-action-bar
+        expandDisabled
+        layout="horizontal"
+        overflow-mode="wrap"
+        style="width: 120px;"
+      >
         <calcite-action-group>
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />

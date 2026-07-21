@@ -352,7 +352,7 @@ export const gridLayout = (): string =>
 
 export const horizontalWrap = (): string =>
   html`<div style="width: 360px;">
-    <calcite-action-bar layout="horizontal" wrap>
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" icon="save"></calcite-action>
@@ -376,7 +376,7 @@ export const horizontalWrap = (): string =>
   </div>`;
 
 export const verticalWrap = (): string =>
-  html`<calcite-action-bar layout="vertical" wrap style="height: 260px;">
+  html`<calcite-action-bar layout="vertical" overflow-mode="wrap" style="height: 260px;">
     <calcite-action-group>
       <calcite-action text="Add" icon="plus"></calcite-action>
       <calcite-action text="Save" icon="save"></calcite-action>
@@ -414,7 +414,7 @@ darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const horizontalWrapDarkModeRTL = (): string =>
   html`<div style="width: 360px;">
-    <calcite-action-bar layout="horizontal" wrap dir="rtl" class="calcite-mode-dark">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap" dir="rtl" class="calcite-mode-dark">
       <calcite-action-group>
         <calcite-action text="Add" icon="plus"></calcite-action>
         <calcite-action text="Save" icon="save"></calcite-action>
@@ -440,7 +440,13 @@ export const horizontalWrapDarkModeRTL = (): string =>
 horizontalWrapDarkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const verticalWrapDarkModeRTL = (): string =>
-  html`<calcite-action-bar layout="vertical" wrap dir="rtl" class="calcite-mode-dark" style="height: 260px;">
+  html`<calcite-action-bar
+    layout="vertical"
+    overflow-mode="wrap"
+    dir="rtl"
+    class="calcite-mode-dark"
+    style="height: 260px;"
+  >
     <calcite-action-group>
       <calcite-action text="Add" icon="plus"></calcite-action>
       <calcite-action text="Save" icon="save"></calcite-action>

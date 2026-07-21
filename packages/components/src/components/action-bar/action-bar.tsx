@@ -83,7 +83,7 @@ export class ActionBar extends LitElement {
   private cancelable = useCancelable<this>()(this);
 
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
-    const { expanded, expandDisabled, layout, overflowActionsDisabled, expandPosition } = this;
+    const { expanded, expandDisabled, layout, expandPosition } = this;
 
     if (!this.containerRef.value) {
       return;
@@ -95,7 +95,7 @@ export class ActionBar extends LitElement {
     }
 
     if (
-      overflowActionsDisabled ||
+      this.resolvedOverflowMode !== "collapse" ||
       (layout === "vertical" && !height) ||
       (layout === "horizontal" && !width)
     ) {
@@ -248,17 +248,25 @@ export class ActionBar extends LitElement {
     "vertical";
 
   /**
-   * When `true`, and `layout` is `"horizontal"` or `"vertical"`, allows the actions to wrap onto multiple lines, adding
-   * dividers between the wrapped rows or columns.
+   * Specifies how the component handles `calcite-action`s that overflow the available space, where:
    *
-   * Note: when enabled, automatic overflow of actions into menus is not applied.
+   * `"collapse"` overflows actions that won't fit into menus,
+   *
+   * `"wrap"` allows the actions to wrap onto multiple lines, adding dividers between the wrapped rows
+   * or columns (has no effect when `layout` is `"grid"`), and
+   *
+   * `"none"` applies no overflow handling.
    */
-  @property({ reflect: true }) wrap = false;
+  @property({ reflect: true }) overflowMode: "collapse" | "wrap" | "none" = "collapse";
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus. */
+  /**
+   * When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus.
+   *
+   * @deprecated in v5.2.0, removal target v7.0.0 - Use `overflowMode="none"` instead.
+   */
   @property({ reflect: true }) overflowActionsDisabled = false;
 
   /** @copyDoc */
@@ -345,7 +353,7 @@ export class ActionBar extends LitElement {
     this.overflowActions();
     this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
-    this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+    this.overflowModeHandler();
     this.cancelable.add(this.resize);
   }
 
@@ -363,15 +371,15 @@ export class ActionBar extends LitElement {
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.updateGroups();
-      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+      this.overflowModeHandler();
 
       if (!this.usesWrap) {
         this.updateLines();
       }
     }
 
-    if (changes.has("wrap") && (this.hasUpdated || this.wrap !== false)) {
-      if (!this.wrap && this.lineMeasureFrame != null) {
+    if (changes.has("overflowMode") && (this.hasUpdated || this.overflowMode !== "collapse")) {
+      if (!this.usesWrap && this.lineMeasureFrame != null) {
         cancelAnimationFrame(this.lineMeasureFrame);
         this.lineMeasureFrame = undefined;
       }
@@ -381,7 +389,7 @@ export class ActionBar extends LitElement {
       } else {
         this.updateLines();
       }
-      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+      this.overflowModeHandler();
       this.overflowActions();
     }
 
@@ -389,7 +397,7 @@ export class ActionBar extends LitElement {
       changes.has("overflowActionsDisabled") &&
       (this.hasUpdated || this.overflowActionsDisabled !== false)
     ) {
-      this.overflowActionsDisabledHandler(this.overflowActionsDisabled);
+      this.overflowModeHandler();
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -453,8 +461,8 @@ export class ActionBar extends LitElement {
     this.overflowActions();
   }
 
-  private overflowActionsDisabledHandler(overflowActionsDisabled: boolean): void {
-    if (overflowActionsDisabled && !this.usesWrap) {
+  private overflowModeHandler(): void {
+    if (this.resolvedOverflowMode === "none") {
       this.resizeObserver?.disconnect();
       return;
     }
@@ -495,10 +503,22 @@ export class ActionBar extends LitElement {
   }
 
   /**
-   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when `wrap` is enabled.
+   * Maps the deprecated `overflowActionsDisabled` to `"none"`, but only while `overflowMode`
+   * is unchanged from its default, so the newer property wins when both are set.
+   */
+  private get resolvedOverflowMode(): "collapse" | "wrap" | "none" {
+    if (this.overflowActionsDisabled && this.overflowMode === "collapse") {
+      return "none";
+    }
+    return this.overflowMode;
+  }
+
+  /**
+   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
+   * `"wrap"`.
    */
   private get usesWrap(): boolean {
-    return this.wrap && this.layout !== "grid";
+    return this.resolvedOverflowMode === "wrap" && this.layout !== "grid";
   }
 
   /**
