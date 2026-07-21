@@ -213,17 +213,9 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
       return;
     }
 
-    const originalTarget = composedPath[0] as Node;
-    const target = composedPath.find(
-      (node): node is Tile["el"] => node instanceof HTMLElement && node.matches("calcite-tile"),
-    );
+    const target = this.items.find((item) => item === event.target);
 
-    if (
-      !target ||
-      !this.items.includes(target) ||
-      target.disabled ||
-      !target.shadowRoot?.contains(originalTarget)
-    ) {
+    if (!target || target.disabled) {
       return;
     }
 

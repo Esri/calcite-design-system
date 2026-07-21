@@ -172,40 +172,10 @@ describe("inheritable props in shadow DOM", () => {
 });
 
 describe("keyboard navigation", () => {
-  function focusFirstItem(layout: Stepper["layout"]): void {
-    const item = document.getElementById("step-1") as HTMLElement & { shadowRoot?: ShadowRoot };
-
-    if (layout === "horizontal") {
-      (item.shadowRoot.querySelector(".stepper-item-header") as HTMLElement).focus();
-      return;
-    }
-
-    item.focus();
-  }
-
-  function isFocusedStepperItem(layout: Stepper["layout"], id: string): boolean {
-    const item = document.getElementById(id) as HTMLElement & { shadowRoot?: ShadowRoot };
-
-    return layout === "horizontal"
-      ? (item.shadowRoot?.activeElement?.classList.contains("stepper-item-header") ?? false)
-      : document.activeElement === item;
-  }
-
-  function isFocusedStepperContentButton(): boolean {
-    return document.activeElement?.id === "step-1-button";
-  }
-
-  it.each([
-    {
-      key: "ArrowRight",
-      layout: "horizontal" as const,
-    },
-    {
-      key: "ArrowDown",
-      layout: "vertical" as const,
-    },
-  ])("delegates %s keydown navigation from stepper items", async ({ key, layout }) => {
-    await mount(
+  async function mountStepper(
+    layout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+  ): Promise<void> {
+    await mount<"calcite-stepper">(
       <calcite-stepper layout={layout}>
         <calcite-stepper-item heading="Step 1" id="step-1" selected>
           <button id="step-1-button" type="button">
@@ -220,26 +190,37 @@ describe("keyboard navigation", () => {
         </calcite-stepper-item>
       </calcite-stepper>,
     );
+  }
 
-    await expect.element(page.getBySelector("#step-1")).toHaveAttribute("selected");
-    await expect.element(page.getBySelector("#step-3")).not.toHaveAttribute("selected");
+  it("delegates horizontal keyboard navigation from stepper items", async () => {
+    await mountStepper("horizontal");
 
-    if (layout === "horizontal") {
-      (document.getElementById("step-1-button") as HTMLElement).focus();
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+    const contentButton = page.getBySelector("#step-1-button");
 
-      await userEvent.keyboard(`{${key}}`);
+    await userEvent.click(contentButton);
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(contentButton).toHaveFocus();
 
-      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
-      expect(await isFocusedStepperContentButton()).toBe(true);
-    }
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.element(firstItem).toHaveFocus();
 
-    await focusFirstItem(layout);
-    await userEvent.keyboard(`{${key}}`);
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(thirdItem).toHaveFocus();
+  });
 
-    await expect.element(page.getBySelector("#step-1")).toHaveAttribute("selected");
-    await expect.element(page.getBySelector("#step-2")).not.toHaveAttribute("selected");
-    await expect.element(page.getBySelector("#step-3")).not.toHaveAttribute("selected");
-    expect(await isFocusedStepperItem(layout, "step-3")).toBe(true);
+  it("delegates vertical keyboard navigation from stepper items", async () => {
+    await mountStepper("vertical");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(thirdItem).toHaveFocus();
   });
 });
 

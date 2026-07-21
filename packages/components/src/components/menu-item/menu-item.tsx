@@ -226,7 +226,6 @@ export class MenuItem extends LitElement {
     if (key === " " || key === "Enter") {
       if (hasSubmenu && (!href || (href && targetIsDropdown))) {
         this.open = !open;
-        event.stopPropagation();
       }
       if (!(href && targetIsDropdown) && key !== "Enter") {
         this.selectMenuItem(event);
@@ -237,24 +236,19 @@ export class MenuItem extends LitElement {
     } else if (key === "Escape") {
       if (open) {
         this.open = false;
-        event.stopPropagation();
+        event.preventDefault();
         return;
       }
-      event.preventDefault();
     } else if (key === "ArrowDown" || key === "ArrowUp") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "horizontal") {
         this.open = true;
-        event.stopPropagation();
+        event.preventDefault();
         return;
       }
-    } else if (key === "ArrowLeft") {
-      event.preventDefault();
     } else if (key === "ArrowRight") {
-      event.preventDefault();
       if ((targetIsDropdown || !href) && hasSubmenu && !open && layout === "vertical") {
         this.open = true;
-        event.stopPropagation();
+        event.preventDefault();
         return;
       }
     }

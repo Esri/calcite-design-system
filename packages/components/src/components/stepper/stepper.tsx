@@ -238,7 +238,7 @@ export class Stepper extends LitElement {
       return;
     }
 
-    const item = this.getStepperItemFromKeyboardEvent(event);
+    const item = this.items.find((item) => item === event.target);
 
     if (!item || item.disabled) {
       return;
@@ -264,28 +264,6 @@ export class Stepper extends LitElement {
         event.preventDefault();
         break;
     }
-  }
-
-  private getStepperItemFromKeyboardEvent(event: KeyboardEvent): StepperItem["el"] | undefined {
-    const composedPath = event.composedPath();
-    const origin = composedPath[0];
-    const item = composedPath.find(
-      (el): el is StepperItem["el"] => el instanceof Element && isStepperItem(el),
-    );
-
-    if (!item) {
-      return;
-    }
-
-    if (origin === item) {
-      return item;
-    }
-
-    if (origin instanceof Node && item.shadowRoot?.contains(origin)) {
-      return item;
-    }
-
-    return;
   }
 
   private updateItem(event: CustomEvent): void {

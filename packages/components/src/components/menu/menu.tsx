@@ -102,6 +102,10 @@ export class Menu extends LitElement {
   }
 
   private calciteInternalNavMenuItemKeyEvent(event: KeyboardEvent): void {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     const target = this.getMenuItemFromEvent(event);
 
     if (!target) {
@@ -109,45 +113,50 @@ export class Menu extends LitElement {
     }
 
     const submenuItems = this.getSubmenuItems(target);
-    const hasSubmenu = !!submenuItems?.length;
+    const hasSubmenu = submenuItems.length > 0;
     const key = event.key;
+    let handled = false;
 
     if (key === "ArrowDown") {
-      event.stopPropagation();
       if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
+        handled = true;
       } else if (target.open && hasSubmenu) {
-        submenuItems?.[0]?.setFocus();
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowUp") {
-      event.stopPropagation();
       if (target.layout === "vertical") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
+        handled = true;
       } else if (target.open && hasSubmenu) {
-        const lastSubmenuItem = submenuItems?.[submenuItems.length - 1];
-        lastSubmenuItem?.setFocus();
+        submenuItems[submenuItems.length - 1].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowRight") {
-      event.stopPropagation();
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "next", false, false);
+        handled = true;
       } else if (target.open && hasSubmenu) {
-        submenuItems?.[0]?.setFocus();
+        submenuItems[0].setFocus();
+        handled = true;
       }
     } else if (key === "ArrowLeft") {
-      event.stopPropagation();
       if (this.layout === "horizontal") {
         focusElementInGroup(this.menuItems, target, "previous", false, false);
+        handled = true;
       } else if (target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
         this.focusParentElement(target);
+        handled = true;
       }
-    } else if (key === "Escape") {
-      event.stopPropagation();
+    } else if (key === "Escape" && target.parentElement?.tagName === "CALCITE-MENU-ITEM") {
       this.focusParentElement(target);
-    } else {
-      return;
+      handled = true;
     }
-    event.preventDefault();
+
+    if (handled) {
+      event.preventDefault();
+    }
   }
 
   private getMenuItemFromEvent(event: KeyboardEvent): MenuItem["el"] | undefined {
@@ -161,12 +170,9 @@ export class Menu extends LitElement {
     return target && this.menuItems.includes(target) ? target : undefined;
   }
 
-  private getSubmenuItems(menuItem: MenuItem["el"]): MenuItem["el"][] | undefined {
-    return (
-      menuItem.submenuItems ??
-      (menuItem.shadowRoot
-        ?.querySelector<HTMLSlotElement>('slot[name="submenu-item"]')
-        ?.assignedElements({ flatten: true }) as MenuItem["el"][] | undefined)
+  private getSubmenuItems(menuItem: MenuItem["el"]): MenuItem["el"][] {
+    return Array.from(menuItem.children).filter((child): child is MenuItem["el"] =>
+      child.matches('calcite-menu-item[slot="submenu-item"]'),
     );
   }
 

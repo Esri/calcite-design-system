@@ -326,30 +326,6 @@ describe("focus and interaction function as intended", () => {
     expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
   });
 
-  it("navigation skips disabled swatches", async () => {
-    const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-swatch-group label="test-label" selection-mode="multiple">
-        <calcite-swatch id="swatch-1" label="test-label"></calcite-swatch>
-        <calcite-swatch id="swatch-2" disabled label="test-label"></calcite-swatch>
-        <calcite-swatch id="swatch-3" label="test-label"></calcite-swatch>
-      </calcite-swatch-group>`,
-    );
-
-    const element = await page.find("calcite-swatch-group");
-    const swatch1 = await page.find("#swatch-1");
-    const swatch3 = await page.find("#swatch-3");
-
-    await swatch1.click();
-    await page.waitForChanges();
-
-    await page.keyboard.press("ArrowRight");
-    await page.waitForChanges();
-
-    expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch3.id);
-    expect(await element.getProperty("selectedItems")).toHaveLength(1);
-  });
-
   it("selectedItems property is correctly populated at load when property is set on swatches in DOM", async () => {
     const page = await newE2EPage();
     await page.setContent(

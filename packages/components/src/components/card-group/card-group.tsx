@@ -123,19 +123,9 @@ export class CardGroup extends LitElement {
       return;
     }
 
-    const composedPath = event.composedPath();
-    const card = composedPath.find(
-      (node): node is Card["el"] => node instanceof HTMLElement && node.matches("calcite-card"),
-    );
-    const target = composedPath[0];
+    const card = this.items.find((item) => item === event.target);
 
-    if (
-      !card ||
-      !this.items.includes(card) ||
-      card.disabled ||
-      card.selectable ||
-      !card.shadowRoot?.contains(target as Node)
-    ) {
+    if (!card || card.disabled || card.selectable) {
       return;
     }
 
