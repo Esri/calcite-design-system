@@ -1105,11 +1105,14 @@ export class Slider extends LitElement implements LabelableComponent {
     const maxInterval = this.getUnitInterval(value) * 100;
     const mirror = this.shouldMirror();
     const valueIsRange = isRange(this.value);
+    const containerAriaLabel = getLabelText(this);
+    const useGroupRole = valueIsRange && !!containerAriaLabel;
 
     const thumbTypes = this.buildThumbType("max");
     const thumb = this.renderThumb({
       type: thumbTypes,
       thumbPlacement: thumbTypes.includes("histogram") ? "below" : "above",
+      labelFallback: containerAriaLabel,
       maxInterval,
       minInterval,
       mirror,
@@ -1123,6 +1126,7 @@ export class Slider extends LitElement implements LabelableComponent {
             minThumbTypes.includes("histogram") || minThumbTypes.includes("precise")
               ? "below"
               : "above",
+          labelFallback: containerAriaLabel,
           maxInterval,
           minInterval,
           mirror,
@@ -1162,13 +1166,14 @@ export class Slider extends LitElement implements LabelableComponent {
         <div
           aria-errormessage={IDS.validationMessage}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={containerAriaLabel}
           ariaRequired={this.required}
           class={{
             [CSS.container]: true,
             [CSS.containerRange]: valueIsRange,
             [CSS.scale(this.scale)]: true,
           }}
+          role={useGroupRole ? "group" : undefined}
         >
           {this.renderGraph()}
           <div class={CSS.track} ref={this.trackRef}>
@@ -1234,7 +1239,9 @@ export class Slider extends LitElement implements LabelableComponent {
     thumbPlacement,
     minInterval,
     maxInterval,
+    labelFallback,
   }: {
+    labelFallback: string;
     maxInterval: number;
     minInterval: number;
     mirror: boolean;
@@ -1252,7 +1259,11 @@ export class Slider extends LitElement implements LabelableComponent {
         ? this.maxValue
         : (this.value as number);
     const valueProp = isMinThumb ? "minValue" : valueIsRange ? "maxValue" : "value";
-    const ariaLabel = isMinThumb ? this.minLabel : valueIsRange ? this.maxLabel : this.minLabel;
+    const ariaLabel = isMinThumb
+      ? this.minLabel || labelFallback
+      : valueIsRange
+        ? this.maxLabel || labelFallback
+        : this.minLabel || labelFallback;
     const ariaValuenow = isMinThumb ? this.minValue : value;
     const displayedValue =
       valueProp === "minValue"
