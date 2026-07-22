@@ -188,6 +188,7 @@ export class ActionBar extends LitElement {
     const addWrappedSectionGap = (
       items: ActionBarItem[],
       wrapper: ActionGroup["el"] | undefined,
+      hasExpandToggle: boolean,
     ): void => {
       if (!wrapper || items.length < 1) {
         return;
@@ -195,18 +196,16 @@ export class ActionBar extends LitElement {
 
       const wrapperStyle = getComputedStyle(wrapper);
       const wrapperGap = getStylePixelValue(wrapperStyle.gap);
-      const wrapperItemCount = items.length + 1;
+      const wrapperItemCount = items.length + (hasExpandToggle ? 1 : 0);
 
       bufferSize += wrapperGap * Math.max(wrapperItemCount - 1, 0);
     };
 
-    if (!expandToggleDisabled && expandPosition === "start") {
-      addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value);
-    }
+    const hasExpandToggleAtStart = !expandToggleDisabled && expandPosition === "start";
+    const hasExpandToggleAtEnd = !expandToggleDisabled && expandPosition === "end";
 
-    if (!expandToggleDisabled && expandPosition === "end") {
-      addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value);
-    }
+    addWrappedSectionGap(actionsStart, this.actionsStartGroupRef.value, hasExpandToggleAtStart);
+    addWrappedSectionGap(actionsEnd, this.actionsEndGroupRef.value, hasExpandToggleAtEnd);
 
     if (visibleSectionCount > 1) {
       bufferSize += getStylePixelValue(actionBarContainerStyle.gap) * (visibleSectionCount - 1);

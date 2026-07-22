@@ -500,6 +500,47 @@ describe("overflowing actions", () => {
 
     expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
   });
+
+  it("accounts for wrapped section gaps when expand-toggle-disabled is true", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "320px" }}>
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="gear" text="Settings" />
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const overflowedInDefaultGroup = page.getBySelector(
+      "calcite-action-bar > calcite-action-group:not([slot]) calcite-action[slot='menu-actions']",
+    );
+
+    const beforeGapOverflowedCount = overflowedInDefaultGroup.length;
+
+    const actionsEndWrapperGroup = page
+      .getBySelector("calcite-action-bar .action-group--end")
+      .element() as ActionGroup["el"];
+
+    actionsEndWrapperGroup.style.setProperty("--calcite-internal-action-group-gap", "2000px");
+
+    await el.overflowActions();
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const afterGapOverflowedCount = overflowedInDefaultGroup.length;
+
+    expect(afterGapOverflowedCount).toBeGreaterThan(beforeGapOverflowedCount);
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {
