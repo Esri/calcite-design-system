@@ -335,19 +335,10 @@ export class ActionBar extends LitElement {
    */
   @method()
   async overflowActions(): Promise<void> {
+    // In "wrap" and "none" modes the component does not manage overflow slotting — consumers control
+    // which actions live in the "menu-actions" slot. "wrap" still needs its line measurement.
     if (this.overflowMode !== "collapse") {
-      // In "wrap" mode, return actions the component previously overflowed so they participate in
-      // wrapping. In "none" mode, slotting is left entirely to the consumer and must not be touched.
       if (this.usesWrap) {
-        if (this.hasUpdated && this.el.isConnected) {
-          this.updateGroups();
-          overflowActions({
-            actionGroups: [...this.actionGroups],
-            expanded: this.expanded,
-            overflowCount: 0,
-          });
-        }
-
         this.scheduleLineMeasure();
       }
 
