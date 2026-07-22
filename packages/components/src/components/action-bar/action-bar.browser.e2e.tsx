@@ -686,7 +686,7 @@ describe("wrap", () => {
     });
   });
 
-  it("renders the divider overlay when enabled and removes it when disabled", async () => {
+  it("removes the divider overlay when leaving wrap mode", async () => {
     const { el, component } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
         <calcite-action-group>
@@ -715,9 +715,6 @@ describe("wrap", () => {
     await component.updateComplete;
 
     expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
-    Array.from(el.children).forEach((child) => {
-      expect(child.slot).toBe("");
-    });
   });
 
   it("does not render the divider overlay when layout is grid", async () => {
@@ -731,40 +728,22 @@ describe("wrap", () => {
     expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
   });
 
-  it("hides the trailing group divider at the end of a wrapped line without changing its size", async () => {
+  it("keeps the container's leading padding when only bare actions are slotted", async () => {
     const { el, component } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
-        <calcite-action-group>
-          <calcite-action icon="plus" text="Add" />
-          <calcite-action icon="save" text="Save" />
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action icon="layers" text="Layers" />
-          <calcite-action icon="measure" text="Measure" />
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action icon="search" text="Search" />
-          <calcite-action icon="information" text="About" />
-        </calcite-action-group>
+        <calcite-action icon="plus" text="Add" />
+        <calcite-action icon="save" text="Save" />
+        <calcite-action icon="layers" text="Layers" />
       </calcite-action-bar>,
     );
 
-    // Let the rAF-batched line measurement settle so the divider lines and line-end marker apply.
     await component.updateComplete;
-    await expect
-      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
-      .toBeGreaterThan(0);
 
-    const group = el.querySelector<HTMLElement>("calcite-action-group.action-bar-line-end");
-    expect(group).toBeTruthy();
-
-    const groupStyle = getComputedStyle(group!);
-    // The last group in a line hides its divider (transparent border)...
-    expect(groupStyle.borderInlineEndColor).toBe("rgba(0, 0, 0, 0)");
-    // ...but keeps its border width and padding so its size is unchanged, which prevents the wrap
-    // boundary from oscillating (flicker).
-    expect(groupStyle.borderInlineEndWidth).not.toBe("0px");
-    expect(groupStyle.paddingInlineEnd).not.toBe("0px");
+    // Without groups there are no dividers to clip, so the clipping machinery stays off and the
+    // container keeps its default leading padding.
+    const container = el.shadowRoot?.querySelector<HTMLElement>(`.${CSS.container}`);
+    expect(container?.classList.contains(CSS.hasActionGroups)).toBe(false);
+    expect(getComputedStyle(container!).paddingInlineStart).not.toBe("0px");
   });
 
   it("ignores hidden top-level items when measuring wrapped lines", async () => {

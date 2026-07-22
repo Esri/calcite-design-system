@@ -71,8 +71,6 @@ export class ActionBar extends LitElement {
 
   private defaultSlotItems: HTMLElement[] = [];
 
-  private lineEndGroups = new Set<HTMLElement>();
-
   private actionsStartRef = createRef<ActionGroup["el"]>();
 
   private actionsEndRef = createRef<ActionGroup["el"]>();
@@ -213,6 +211,9 @@ export class ActionBar extends LitElement {
   @state() hasActionsEnd = false;
 
   @state() hasActionsStart = false;
+
+  /** Whether any action groups are slotted in the default slot; enables wrap-mode group dividers. */
+  @state() hasActionGroups = false;
 
   /** Cross-axis offsets (px) of each wrapped line after the first; drives the divider overlay. */
   @state() lineOffsets: number[] = [];
@@ -395,7 +396,6 @@ export class ActionBar extends LitElement {
 
   override connectedCallback(): void {
     this.updateGroups();
-    this.overflowActions();
     this.updateActions();
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
     this.overflowModeHandler();
@@ -437,7 +437,6 @@ export class ActionBar extends LitElement {
         this.updateLines();
       }
       this.overflowModeHandler();
-      this.overflowActions();
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -474,7 +473,6 @@ export class ActionBar extends LitElement {
       cancelAnimationFrame(this.lineMeasureFrame);
       this.lineMeasureFrame = undefined;
     }
-    this.clearLineEndGroups();
   }
 
   //#endregion
@@ -504,10 +502,10 @@ export class ActionBar extends LitElement {
   private overflowModeHandler(): void {
     if (this.overflowMode === "none") {
       this.resizeObserver?.disconnect();
-      return;
+    } else {
+      this.resizeObserver?.observe(this.el);
     }
 
-    this.resizeObserver?.observe(this.el);
     this.overflowActions();
   }
 
@@ -536,6 +534,7 @@ export class ActionBar extends LitElement {
   private updateGroups(): void {
     const groups = Array.from(this.el.querySelectorAll("calcite-action-group"));
     this.actionGroups = groups;
+    this.hasActionGroups = groups.some((group) => !group.slot);
     groups.forEach((group) => {
       group.layout = this.layout;
       group.scale = this.scale;
@@ -597,7 +596,6 @@ export class ActionBar extends LitElement {
     const container = this.containerRef.value;
 
     if (!container || !this.usesWrap) {
-      this.clearLineEndGroups();
       if (this.lineOffsets.length > 0) {
         this.lineOffsets = [];
       }
@@ -618,28 +616,17 @@ export class ActionBar extends LitElement {
     };
 
     const lineOffsets: number[] = [];
-    const lineEndGroups = new Set<HTMLElement>();
     let previousOffset: number | null = null;
 
-    items.forEach((item, index) => {
+    items.forEach((item) => {
       const offset = crossOffset(item);
 
       if (previousOffset !== null && Math.abs(offset - previousOffset) > 1) {
         lineOffsets.push(offset);
-        const previous = items[index - 1];
-        if (
-          previous.matches("calcite-action-group") &&
-          previous !== this.actionsStartRef.value &&
-          previous !== this.actionsEndRef.value
-        ) {
-          lineEndGroups.add(previous);
-        }
       }
 
       previousOffset = offset;
     });
-
-    this.setLineEndGroups(lineEndGroups);
 
     const changed =
       lineOffsets.length !== this.lineOffsets.length ||
@@ -647,25 +634,6 @@ export class ActionBar extends LitElement {
 
     if (changed) {
       this.lineOffsets = lineOffsets;
-    }
-  }
-
-  /** Marks the last group of each wrapped line so its trailing group divider is hidden. */
-  private setLineEndGroups(groups: Set<HTMLElement>): void {
-    this.lineEndGroups.forEach((group) => {
-      if (!groups.has(group)) {
-        group.classList.remove(CSS.lineEnd);
-      }
-    });
-
-    groups.forEach((group) => group.classList.add(CSS.lineEnd));
-    this.lineEndGroups = groups;
-  }
-
-  private clearLineEndGroups(): void {
-    this.lineEndGroups.forEach((group) => group.classList.remove(CSS.lineEnd));
-    if (this.lineEndGroups.size > 0) {
-      this.lineEndGroups = new Set();
     }
   }
 
@@ -822,7 +790,7 @@ export class ActionBar extends LitElement {
     return (
       <div
         ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
-        class={CSS.container}
+        class={`${CSS.container} ${this.hasActionGroups ? CSS.hasActionGroups : ""}`}
         ref={this.containerRef}
         role="toolbar"
       >

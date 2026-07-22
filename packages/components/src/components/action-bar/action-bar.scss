@@ -164,6 +164,25 @@
     row-gap: var(--calcite-internal-action-bar-line-gap);
   }
 
+  // Draw the divider on each group's leading edge so a wrapped row never ends with a dangling
+  // divider. Only matches when groups are slotted; the first-in-row divider is clipped by the
+  // `has-action-groups` rule below.
+  ::slotted(calcite-action-group) {
+    margin-inline-start: calc(-1 * var(--calcite-border-width-sm));
+    padding-inline: var(--calcite-internal-action-bar-padding) 0;
+    border-inline-start-width: var(--calcite-border-width-sm);
+    border-inline-end-width: 0;
+    border-image: linear-gradient(
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent calc(100% - var(--calcite-internal-action-group-dividing-border-margin))
+    );
+    border-image-slice: 1;
+  }
+
   .line {
     inset-inline: var(--calcite-internal-action-bar-padding);
     block-size: var(--calcite-border-width-sm);
@@ -181,10 +200,18 @@
     );
   }
 
-  // Hide the trailing group divider at the end of a wrapped row without changing its size.
-  ::slotted(calcite-action-group.action-bar-line-end) {
-    border-image: none;
-    border-inline-end-color: transparent;
+  // The overflow clipping and zeroed leading padding only apply when action groups are slotted.
+  .container.has-action-groups {
+    overflow: hidden;
+    padding-inline-start: 0;
+
+    // Add the divider width back into the main-axis gap so group spacing matches collapse/none,
+    // compensating for the negative margin that pulls each leading divider into the clipped region.
+    column-gap: calc(var(--calcite-internal-action-bar-gap) + var(--calcite-border-width-sm));
+
+    .action-group--start {
+      padding-inline-start: var(--calcite-internal-action-bar-padding);
+    }
   }
 }
 
@@ -193,6 +220,23 @@
     block-size: 100%;
     min-block-size: 0;
     column-gap: var(--calcite-internal-action-bar-line-gap);
+  }
+
+  ::slotted(calcite-action-group) {
+    margin-block-start: calc(-1 * var(--calcite-border-width-sm));
+    padding-block: var(--calcite-internal-action-bar-padding) 0;
+    border-block-start-width: var(--calcite-border-width-sm);
+    border-block-end-width: 0;
+    border-image: linear-gradient(
+      to right,
+      transparent var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        var(--calcite-internal-action-group-dividing-border-margin),
+      var(--calcite-action-group-border-color, var(--calcite-color-border-3))
+        calc(100% - var(--calcite-internal-action-group-dividing-border-margin)),
+      transparent calc(100% - var(--calcite-internal-action-group-dividing-border-margin))
+    );
+    border-image-slice: 1;
   }
 
   .line {
@@ -212,10 +256,14 @@
     );
   }
 
-  // Hide the trailing group divider at the end of a wrapped column without changing its size.
-  ::slotted(calcite-action-group.action-bar-line-end) {
-    border-image: none;
-    border-block-end-color: transparent;
+  .container.has-action-groups {
+    overflow: hidden;
+    padding-block-start: 0;
+    row-gap: calc(var(--calcite-internal-action-bar-gap) + var(--calcite-border-width-sm));
+
+    .action-group--start {
+      padding-block-start: var(--calcite-internal-action-bar-padding);
+    }
   }
 }
 

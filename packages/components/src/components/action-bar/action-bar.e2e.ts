@@ -115,6 +115,7 @@ describe("expand functionality", () => {
     const actionBar = await page.find("calcite-action-bar");
     expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
   });
+
   it("should toggle expanded", async () => {
     const page = await newE2EPage({ html: "<calcite-action-bar></calcite-action-bar>" });
 
@@ -310,6 +311,46 @@ const dynamicGroupActionsSelector = "#dynamic-group calcite-action";
 const slottedActionsSelector = "calcite-action[slot='menu-actions']";
 
 describe("overflow actions", () => {
+  it("should map deprecated 'overflowActionsDisabled' prop to 'overflowMode' prop", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("overflowMode")).toBe("collapse");
+
+    actionBar.setProperty("overflowActionsDisabled", true);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowMode")).toBe("none");
+
+    actionBar.setProperty("overflowActionsDisabled", false);
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowMode")).toBe("collapse");
+  });
+
+  it("should reflect 'overflowActionsDisabled' from 'overflowMode'", async () => {
+    const page = await newE2EPage({
+      html: html`<calcite-action-bar></calcite-action-bar>`,
+    });
+    const actionBar = await page.find("calcite-action-bar");
+
+    expect(await actionBar.getProperty("overflowActionsDisabled")).toBe(false);
+
+    actionBar.setProperty("overflowMode", "none");
+    await page.waitForChanges();
+    expect(await actionBar.getProperty("overflowActionsDisabled")).toBe(true);
+    expect(actionBar.getAttribute("overflow-mode")).toBe("none");
+  });
+
+  it("should map deprecated 'overflow-actions-disabled' attribute to 'overflowMode' prop", async () => {
+    const page = await newE2EPage();
+    await page.setContent("<calcite-action-bar overflow-actions-disabled></calcite-action-bar>");
+    await page.waitForChanges();
+
+    const actionBar = await page.find("calcite-action-bar");
+    expect(await actionBar.getProperty("overflowMode")).toBe("none");
+  });
+
   it("should slot 'menu-actions' on sublist changes", async () => {
     const page = await newE2EPage({
       html: html`<div style="width:500px; height:500px;">

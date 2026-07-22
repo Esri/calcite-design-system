@@ -375,6 +375,23 @@ export const horizontalWrap = (): string =>
     </calcite-action-bar>
   </div>`;
 
+export const horizontalWrapNoGroups = (): string =>
+  html`<div style="width: 360px;">
+    <calcite-action-bar layout="horizontal" overflow-mode="wrap">
+      <calcite-action text="Add" icon="plus"></calcite-action>
+      <calcite-action text="Save" icon="save"></calcite-action>
+      <calcite-action text="Layers" icon="layers"></calcite-action>
+      <calcite-action text="Basemaps" icon="layer-basemap"></calcite-action>
+      <calcite-action text="Measure" icon="measure"></calcite-action>
+      <calcite-action text="Share" icon="share"></calcite-action>
+      <calcite-action text="Print" icon="print"></calcite-action>
+      <calcite-action text="Search" icon="search"></calcite-action>
+      <calcite-action text="About" icon="information"></calcite-action>
+      <calcite-action text="Bookmarks" icon="bookmark"></calcite-action>
+      <calcite-action text="Settings" icon="gear" slot="actions-end"></calcite-action>
+    </calcite-action-bar>
+  </div>`;
+
 export const verticalWrap = (): string =>
   html`<calcite-action-bar layout="vertical" overflow-mode="wrap" style="height: 260px;">
     <calcite-action-group>
