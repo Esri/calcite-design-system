@@ -9,6 +9,8 @@ exports[`CSS > breakpoints should match 1`] = `
 :root {
   --calcite-container-size-height-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
   --calcite-container-size-height-xxs-max: 154px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
+  --calcite-container-size-height-2xs-min: 0; /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
+  --calcite-container-size-height-2xs-max: 154px; /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\` */
   --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
   --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
   --calcite-container-size-height-sm-min: 329px; /** Small tablets */
@@ -20,6 +22,8 @@ exports[`CSS > breakpoints should match 1`] = `
   --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
   --calcite-container-size-width-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
   --calcite-container-size-width-xxs-max: 320px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
+  --calcite-container-size-width-2xs-min: 0; /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
+  --calcite-container-size-width-2xs-max: 320px; /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\` */
   --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
   --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
   --calcite-container-size-width-sm-min: 477px; /** Small tablets */
@@ -29,10 +33,6 @@ exports[`CSS > breakpoints should match 1`] = `
   --calcite-container-size-width-lg-min: 1153px; /** Large laptops and desktop computers */
   --calcite-container-size-width-lg-max: 1440px; /** Large laptops and desktop computers */
   --calcite-container-size-width-xl-min: 1441px; /** Projectors and televisions */
-  --calcite-container-size-height-2xs-min: var(--calcite-container-size-height-xxs-min); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
-  --calcite-container-size-height-2xs-max: var(--calcite-container-size-height-xxs-max); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\` */
-  --calcite-container-size-width-2xs-min: var(--calcite-container-size-width-xxs-min); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
-  --calcite-container-size-width-2xs-max: var(--calcite-container-size-width-xxs-max); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\` */
 }
 "
 `;
@@ -29539,20 +29539,14 @@ exports[`ES6 > breakpoints should match 1`] = `
  */
 
 export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = {
-  min: { min: "0", max: "154px" },
-  max: "154px",
-}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
+export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
 export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = {
-  min: { min: "0", max: "320px" },
-  max: "320px",
-}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
+export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -29570,10 +29564,7 @@ exports[`ES6 > breakpoints types should match 1`] = `
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
 /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
-export const calciteContainerSizeHeight2xs: {
-  min: { min: string; max: string };
-  max: string;
-};
+export const calciteContainerSizeHeight2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -29587,10 +29578,7 @@ export const calciteContainerSizeHeightXl: { min: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
 /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
-export const calciteContainerSizeWidth2xs: {
-  min: { min: string; max: string };
-  max: string;
-};
+export const calciteContainerSizeWidth2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -31009,20 +30997,14 @@ export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
 export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = {
-  min: { min: "0", max: "154px" },
-  max: "154px",
-}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
+export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
 export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = {
-  min: { min: "0", max: "320px" },
-  max: "320px",
-}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
+export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -31573,10 +31555,7 @@ export const calciteBorderWidthLg: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
 /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
-export const calciteContainerSizeHeight2xs: {
-  min: { min: string; max: string };
-  max: string;
-};
+export const calciteContainerSizeHeight2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -31590,10 +31569,7 @@ export const calciteContainerSizeHeightXl: { min: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
 /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
-export const calciteContainerSizeWidth2xs: {
-  min: { min: string; max: string };
-  max: string;
-};
+export const calciteContainerSizeWidth2xs: { min: string; max: string };
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -32661,6 +32637,8 @@ exports[`SCSS > breakpoints should match 1`] = `
 
 $calcite-container-size-height-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
 $calcite-container-size-height-xxs-max: 154px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
+$calcite-container-size-height-2xs-min: 0; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
+$calcite-container-size-height-2xs-max: 154px; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\`
 $calcite-container-size-height-xs-min: 155px; // Handheld devices
 $calcite-container-size-height-xs-max: 328px; // Handheld devices
 $calcite-container-size-height-sm-min: 329px; // Small tablets
@@ -32672,6 +32650,8 @@ $calcite-container-size-height-lg-max: 854px; // Large laptops and desktop compu
 $calcite-container-size-height-xl-min: 855px; // Projectors and televisions
 $calcite-container-size-width-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
 $calcite-container-size-width-xxs-max: 320px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
+$calcite-container-size-width-2xs-min: 0; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
+$calcite-container-size-width-2xs-max: 320px; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\`
 $calcite-container-size-width-xs-min: 321px; // Handheld devices
 $calcite-container-size-width-xs-max: 476px; // Handheld devices
 $calcite-container-size-width-sm-min: 477px; // Small tablets
@@ -32681,10 +32661,6 @@ $calcite-container-size-width-md-max: 1152px; // Small laptops
 $calcite-container-size-width-lg-min: 1153px; // Large laptops and desktop computers
 $calcite-container-size-width-lg-max: 1440px; // Large laptops and desktop computers
 $calcite-container-size-width-xl-min: 1441px; // Projectors and televisions
-$calcite-container-size-height-2xs-min: $calcite-container-size-height-xxs-min; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
-$calcite-container-size-height-2xs-max: $calcite-container-size-height-xxs-max; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\`
-$calcite-container-size-width-2xs-min: $calcite-container-size-width-xxs-min; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
-$calcite-container-size-width-2xs-max: $calcite-container-size-width-xxs-max; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\`
 "
 `;
 
