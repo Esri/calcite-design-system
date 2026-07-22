@@ -1,3 +1,11 @@
+/**
+ * CSS Custom Properties
+ *
+ * These properties can be overridden using the component's tag as selector.
+ *
+ * @prop --calcite-field-set-gap: Specifies the gap between the component's slotted elements.
+ */
+
 @use "../../styles/includes";
 
 :host {
@@ -8,7 +16,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 12px; // TODO: variable
+  gap: var(--calcite-space-md);
   padding: 0;
   border: 1px solid green; // TODO: remove
   margin: 0;
@@ -28,7 +36,7 @@
 .field-wrapper {
   display: flex;
   flex-wrap: wrap; // TODO: decide min-width for labels when used in field set
-  gap: 12px; // TODO: variable
+  gap: var(--calcite-field-set-gap, var(--calcite-space-md)); // TODO: review Storybook Control
   border: 1px solid blue; // TODO: remove
 
   ::slotted(calcite-label) {
