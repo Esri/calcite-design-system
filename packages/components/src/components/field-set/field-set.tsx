@@ -116,8 +116,8 @@ export class FieldSet extends LitElement {
 
   override render(): JsxNode {
     return (
-      <fieldset aria-labelledby="fieldset-legend" class={CSS.container}>
-        <legend class={CSS.legend} id="fieldset-legend">
+      <fieldset class={CSS.container} disabled={this.disabled}>
+        <legend class={CSS.legend}>
           <slot name="legend" />
         </legend>
         <div

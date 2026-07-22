@@ -1,10 +1,10 @@
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
-  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   disabled: boolean;
   gap?: string;
   layout: "vertical" | "horizontal" | "grid";
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   legendText: string;
   legendTextColor?: string;
   scale: "s" | "m" | "l";
@@ -16,9 +16,9 @@ export default {
     layout: "padded",
   },
   args: {
-    columns: 2,
     disabled: false,
     layout: "vertical",
+    columns: 2,
     legendText: "Field Set legend",
     legendTextColor: "",
     scale: "m",
@@ -27,16 +27,16 @@ export default {
     disabled: {
       control: { type: "boolean" },
     },
-    columns: {
-      options: [1, 2, 3, 4, 5, 6],
-      control: { type: "radio" },
-    },
     gap: {
       name: "spacing",
       control: { type: "text" },
     },
     layout: {
       options: ["vertical", "horizontal", "grid"],
+      control: { type: "radio" },
+    },
+    columns: {
+      options: [1, 2, 3, 4, 5, 6],
       control: { type: "radio" },
     },
     legendText: {
