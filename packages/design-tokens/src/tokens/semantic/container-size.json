@@ -27,16 +27,22 @@
             "category": "breakpoint"
           },
           "$type": "dimension",
-          "$value": "{core.container-size.0}",
-          "$description": "Small handheld devices and mini-windows"
+          "$value": "{container-size.height.xxs.min}",
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-height-xxs-min`",
+          "$extensions": {
+            "calcite.outputReference": true
+          }
         },
         "max": {
           "attributes": {
             "category": "breakpoint"
           },
           "$type": "dimension",
-          "$value": "{core.container-size.154}",
-          "$description": "Small handheld devices and mini-windows"
+          "$value": "{container-size.height.xxs.max}",
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-height-xxs-max`",
+          "$extensions": {
+            "calcite.outputReference": true
+          }
         }
       },
       "xs": {
@@ -149,16 +155,22 @@
             "category": "breakpoint"
           },
           "$type": "dimension",
-          "$value": "{core.container-size.0}",
-          "$description": "Small handheld devices and mini-windows"
+          "$value": "{container-size.width.xxs.min}",
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-width-xxs-min`",
+          "$extensions": {
+            "calcite.outputReference": true
+          }
         },
         "max": {
           "attributes": {
             "category": "breakpoint"
           },
           "$type": "dimension",
-          "$value": "{core.container-size.320}",
-          "$description": "Small handheld devices and mini-windows"
+          "$value": "{container-size.width.xxs.max}",
+          "$description": "Small handheld devices and mini-windows - Replaces `--calcite-container-size-width-xxs-max`",
+          "$extensions": {
+            "calcite.outputReference": true
+          }
         }
       },
       "xs": {
