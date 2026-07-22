@@ -58,7 +58,7 @@ export class TableCell extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the horizontal alignment of content within the component, where:
+   * Specifies the horizontal alignment of content within the component.
    *
    * - `"start"` positions content at the start of the component
    * - `"center"` positions content in the middle of the component

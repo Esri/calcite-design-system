@@ -113,7 +113,7 @@ export class ComboboxItem extends LitElement {
   }
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"multiple"` allows any number of selections
    * - `"single"` allows only one selection
@@ -128,11 +128,10 @@ export class ComboboxItem extends LitElement {
   > = "multiple";
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a radio or checkbox, and
-   *
-   * `"highlight"` displays a background highlight.
+   * - `"icon"` displays a radio or checkbox
+   * - `"highlight"` displays a background highlight
    *
    * @private
    */

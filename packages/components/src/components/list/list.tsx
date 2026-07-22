@@ -245,13 +245,10 @@ export class List extends LitElement {
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies the interaction mode of the component, where
+   * Specifies the interaction mode of the component.
    *
-   * `"interactive"` allows interaction styling and pointer changes on hover,
-   *
-   * `"static"` does not allow interaction styling and pointer changes on hover -
-   *
-   * the `"static"` value should only be used when `selectionMode` is `"none"`.
+   * - `"interactive"` allows interaction styling and pointer changes on hover
+   * - `"static"` does not allow interaction styling and pointer changes on hover. Should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
@@ -271,14 +268,12 @@ export class List extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the nesting behavior of `calcite-list-item`s, where
+   * Specifies the nesting behavior of `calcite-list-item`s.
    *
-   * `"flat"` displays `calcite-list-item`s in a uniform list, and
-   *
-   * `"nested"` displays `calcite-list-item`s under their parent element.
+   * - `"flat"` displays `calcite-list-item`s in a uniform list
+   * - `"nested"` displays `calcite-list-item`s under their parent element
    *
    *  The parent component's behavior should follow throughout its child elements.
-   *
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
@@ -296,14 +291,11 @@ export class List extends LitElement {
   @property() selectedItems: ListItem["el"][] = [];
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a checkmark or dot,
-   *
-   * `"border"` [Deprecated] - Use `"highlight"` instead - displays a border, or
-   *
-   * `"highlight"` displays background highlight.
-   *
+   * - `"icon"` displays a checkmark or dot
+   * - `"border"` [Deprecated] - Use `"highlight"` instead - displays a border
+   * - `"highlight"` displays background highlight
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",
@@ -311,7 +303,7 @@ export class List extends LitElement {
   > = "icon";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"multiple"` allows any number of selections
    * - `"single"` allows only one selection

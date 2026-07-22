@@ -122,7 +122,7 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the component's display mode, where:
+   * Specifies the component's display mode.
    *
    * - `"dock"` displays at full height adjacent to center content
    * - `"overlay"` displays at full height on top of center content

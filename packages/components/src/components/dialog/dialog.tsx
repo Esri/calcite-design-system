@@ -184,7 +184,7 @@ export class Dialog extends LitElement implements OpenCloseComponentWithEl {
   @property({ reflect: true }) escapeDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component, where:
+   * Specifies custom focus trap configuration on the component.
    *
    * - `"allowOutsideClick`" allows outside clicks
    * - `"initialFocus"` enables initial focus

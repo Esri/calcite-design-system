@@ -113,7 +113,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
    * - `"icon"` (displays a checkmark or dot)
    * - `"highlight"` (changes the background color)
@@ -129,7 +129,7 @@ export class Tile extends LitElement implements SelectableComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
    * - `"multiple"` (allows any number of selected items)
    * - `"single"` (allows only one selected item)

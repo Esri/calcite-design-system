@@ -57,7 +57,7 @@ export class SwatchGroup extends LitElement {
   @property() selectedItems: Swatch["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"multiple"` allows any number of selections
    * - `"single"` allows only one selection

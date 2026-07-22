@@ -58,7 +58,7 @@ export class Tree extends LitElement {
   @property() selectedItems: TreeItem["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections
    * - `"children"` allows any number of selections from one parent from corresponding parent and child selections

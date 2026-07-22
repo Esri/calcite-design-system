@@ -51,13 +51,13 @@ export class FocusTrap extends LitElement {
   @property() focusTrapDisabledOverride?: () => boolean;
 
   /**
-   * Specifies custom focus trap configuration on the component, where
+   * Specifies custom focus trap configuration on the component.
    *
-   * `"allowOutsideClick"` allows outside clicks,
-   * `"initialFocus"` enables initial focus,
-   * `"returnFocusOnDeactivate"` returns focus when not active,
-   * `"extraContainers"` specifies additional focusable elements external to the trap, and
-   * `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated.
+   * - `"allowOutsideClick"` allows outside clicks
+   * - `"initialFocus"` enables initial focus
+   * - `"returnFocusOnDeactivate"` returns focus when not active
+   * - `"extraContainers"` specifies additional focusable elements external to the trap
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated.
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 

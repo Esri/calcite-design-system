@@ -71,7 +71,7 @@ export class TableRow extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the vertical alignment of content within child `calcite-table-cell`s, where:
+   * Specifies the vertical alignment of content within child `calcite-table-cell`s.
    *
    * - `"start"` positions content at the top of a `calcite-table-cell`
    * - `"center"` positions content in the middle of a `calcite-table-cell`

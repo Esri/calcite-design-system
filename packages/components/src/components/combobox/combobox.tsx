@@ -456,7 +456,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   /**
-   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections, where:
+   * When `selectionMode` is `"ancestors"` or `"multiple"`, specifies the display of multiple `calcite-combobox-item` selections.
    *
    * - `"all"` displays all selections with individual `calcite-chip`s
    * - `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed
@@ -465,11 +465,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a checkmark or dot, and
-   *
-   * `"highlight"` displays a background highlight.
+   * - `"icon"` displays a checkmark or dot
+   * - `"highlight"` displays a background highlight
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -477,7 +476,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   > = "icon";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"multiple"` allows any number of selections
    * - `"single"` allows only one selection

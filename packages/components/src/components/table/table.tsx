@@ -146,7 +146,7 @@ export class Table extends LitElement {
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
    * - `"multiple"` allows any number of selections
    * - `"single"` allows only one selection

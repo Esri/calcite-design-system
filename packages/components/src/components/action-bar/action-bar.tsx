@@ -252,7 +252,7 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * When `expandToggleDisabled` is `false`, specifies the expand toggle's chevron direction, where:
+   * When `expandToggleDisabled` is `false`, specifies the expand toggle's chevron direction.
    *
    * - `"start"` positions the expand toggle's chevron away from the start of the component when `expanded` is `false`
    * - `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`
