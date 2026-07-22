@@ -18,6 +18,7 @@ declare global {
 /**
  * @slot - A slot for adding content to the field set.
  * @slot legend - A slot for adding legend content.
+ * @slot notice - A slot for adding a Notice component below the field wrapper.
  */
 export class FieldSet extends LitElement {
   // #region Static Members
@@ -130,6 +131,7 @@ export class FieldSet extends LitElement {
         >
           <slot onSlotChange={this.handleInputSlotChange} />
         </div>
+        <slot name="notice" />
       </fieldset>
     );
   }

@@ -92,6 +92,9 @@ export const simple = (args: FieldSetStoryArgs): string => {
       ></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
+      <calcite-notice hidden slot="notice" open kind="danger" icon="exclamation-mark-triangle-f">
+        <div slot="title">Aggregate notice</div>
+      </calcite-notice>
     </calcite-field-set>
   `;
 };

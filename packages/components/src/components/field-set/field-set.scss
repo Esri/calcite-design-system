@@ -80,6 +80,10 @@
   }
 }
 
+::slotted(calcite-notice[slot="notice"]) {
+  --calcite-notice-width: 100%;
+}
+
 @include includes.disabled() {
   .legend {
     @apply text-color-3;
