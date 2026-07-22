@@ -1,13 +1,16 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
-import { queryAssignedElements } from "lit/decorators.js";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
+import { getSlotAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
 type Layout = "grid" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
+
+const prefixSizeVar = "--calcite-input-prefix-size";
+const suffixSizeVar = "--calcite-input-suffix-size";
 
 declare global {
   interface DeclareElements {
@@ -29,16 +32,13 @@ export class FieldSet extends LitElement {
 
   // #region Private Properties
 
-  @queryAssignedElements({ selector: "calcite-input" })
-  private inputs!: Input["el"][];
-
   private inputDisabledState = new WeakMap<Input["el"], boolean>();
 
   // #endregion
 
   // #region Public Properties
 
-  /** When `true`, disables the slotted inputs. */
+  /** When `layout` is `"grid"`, specifies the number of columns. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** When `true`, disables the slotted inputs. */
@@ -47,8 +47,14 @@ export class FieldSet extends LitElement {
   /** Specifies the component layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
 
+  /** When `true`, slotted input prefixes share the same width. */
+  @property({ reflect: true }) prefixAutoWidth = false;
+
   /** Specifies the scale of the slotted inputs. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /** When `true`, slotted input suffixes share the same width. */
+  @property({ reflect: true }) suffixAutoWidth = false;
 
   // #endregion
 
@@ -62,14 +68,64 @@ export class FieldSet extends LitElement {
     if (changes.has("scale")) {
       this.syncInputsScale();
     }
+
+    if (changes.has("prefixAutoWidth") || changes.has("scale") || changes.has("suffixAutoWidth")) {
+      void this.syncInputsAffixWidths();
+    }
   }
 
   // #endregion
 
   // #region Private Methods
 
+  private get inputs(): Input["el"][] {
+    return (
+      this.slottedElements.flatMap((element) => {
+        if (element.matches("calcite-input")) {
+          return [element];
+        }
+
+        return Array.from(element.querySelectorAll<Input["el"]>("calcite-input"));
+      }) ?? []
+    );
+  }
+
+  private get labelInputs(): Input["el"][] {
+    return this.slottedElements.flatMap((element) =>
+      element.matches("calcite-label")
+        ? Array.from(element.querySelectorAll<Input["el"]>("calcite-input"))
+        : [],
+    );
+  }
+
+  private get slottedElements(): HTMLElement[] {
+    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
+
+    return slot ? getSlotAssignedElements<HTMLElement>(slot) : [];
+  }
+
   private getInputDisabledState(input: Input["el"]): boolean {
     return input.hasAttribute("disabled") || input.disabled;
+  }
+
+  private async getInputAffixWidth(
+    input: Input["el"],
+    affixSelector: ".prefix" | ".suffix",
+  ): Promise<number> {
+    const readyInput = input as Input["el"] & {
+      componentOnReady?: () => Promise<void>;
+      updateComplete?: Promise<unknown>;
+      el?: HTMLElement;
+    };
+
+    await readyInput.componentOnReady?.();
+    await readyInput.updateComplete;
+
+    const affix = (readyInput.el?.shadowRoot ?? input.shadowRoot)?.querySelector<HTMLElement>(
+      affixSelector,
+    );
+
+    return affix ? Math.ceil(affix.getBoundingClientRect().width) : 0;
   }
 
   private syncInputsDisabledState(previousDisabled = this.disabled): void {
@@ -103,10 +159,53 @@ export class FieldSet extends LitElement {
   private handleInputSlotChange(): void {
     this.syncInputsDisabledState();
     this.syncInputsScale();
+    void this.syncInputsAffixWidths();
+  }
+
+  private async syncInputAffixWidth(
+    affixSelector: ".prefix" | ".suffix",
+    shouldSync: boolean,
+    styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
+  ): Promise<void> {
+    const inputs = this.labelInputs;
+
+    if (!shouldSync) {
+      inputs.forEach((input) => input.style.removeProperty(styleProperty));
+      return;
+    }
+
+    inputs.forEach((input) => input.style.removeProperty(styleProperty));
+
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
+
+    const nextWidth = Math.max(
+      0,
+      ...(await Promise.all(inputs.map((input) => this.getInputAffixWidth(input, affixSelector)))),
+    );
+
+    inputs.forEach((input) => {
+      if (!nextWidth) {
+        input.style.removeProperty(styleProperty);
+        return;
+      }
+
+      input.style.setProperty(styleProperty, `${nextWidth}px`);
+    });
+  }
+
+  private async syncInputsAffixWidths(): Promise<void> {
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => resolve());
+    });
+
+    await this.syncInputAffixWidth(".prefix", this.prefixAutoWidth, prefixSizeVar);
+    await this.syncInputAffixWidth(".suffix", this.suffixAutoWidth, suffixSizeVar);
   }
 
   private syncInputsScale(): void {
-    this.inputs?.forEach((input) => {
+    this.inputs.forEach((input) => {
       input.scale = this.scale;
     });
   }
