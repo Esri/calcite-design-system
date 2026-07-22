@@ -8,6 +8,9 @@ type FieldSetStoryArgs = {
 
 export default {
   title: "Components/Field Set",
+  parameters: {
+    layout: "padded",
+  },
   args: {
     disabled: false,
     gap: "var(--calcite-space-md)",
@@ -33,12 +36,21 @@ export const simple = (args: FieldSetStoryArgs): string => html`
     layout="${args.layout}"
     style="--calcite-field-set-gap: ${args.gap};"
   >
-    <div slot="legend">Field Set</div>
-    <calcite-input label-text="Region" placeholder="Enter your region"></calcite-input>
-    <calcite-input label-text="Region" placeholder="Enter your region" disabled></calcite-input>
+    <div slot="legend">Field Set legend</div>
+    <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
     <calcite-input
-      label-text="Region"
-      placeholder="Enter your region"
+      label-text="Label"
+      placeholder="Placeholder"
+      status="invalid"
+      validation-message="This field is required."
+      validation-icon="frown"
+    ></calcite-input>
+    <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
+    <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
+    <calcite-input
+      label-text="Label"
+      placeholder="Placeholder"
       status="invalid"
       validation-message="This field is required."
       validation-icon="frown"

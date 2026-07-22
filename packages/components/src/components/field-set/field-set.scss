@@ -10,7 +10,6 @@
 
 :host {
   display: block;
-  border: 1px solid orange; // TODO: remove
 }
 
 .container {
@@ -18,7 +17,7 @@
   flex-direction: column;
   gap: var(--calcite-space-md);
   padding: 0;
-  border: 1px solid green; // TODO: remove
+  border: 0;
   margin: 0;
 }
 
@@ -29,7 +28,6 @@
   font-size: var(--calcite-font-size-0);
   font-weight: var(--calcite-font-weight-medium);
   block-size: 32px; // TODO: variables
-  border: 1px solid red; // TODO: remove
   float: inline-start; // TODO: this is a hack; consider using <div> instead of <legend>
 }
 
@@ -37,7 +35,6 @@
   display: flex;
   flex-wrap: wrap; // TODO: decide min-width for labels when used in field set
   gap: var(--calcite-field-set-gap, var(--calcite-space-md)); // TODO: review Storybook Control
-  border: 1px solid blue; // TODO: remove
 
   ::slotted(calcite-label) {
     // width: 100%;
