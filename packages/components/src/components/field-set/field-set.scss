@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-field-set-gap: Specifies the gap between the component's slotted elements.
+ * @prop --calcite-field-set-space: Specifies the gap between the component's slotted elements.
  */
 
 @use "../../styles/includes";
@@ -24,20 +24,28 @@
 .legend {
   display: flex;
   align-items: center;
-  color: var(--calcite-color-text-1);
   font-size: var(--calcite-font-size-0);
   font-weight: var(--calcite-font-weight-medium);
-  block-size: 32px; // TODO: variables
+  color: var(--calcite-field-set-legend-text-color, var(--calcite-color-text-1));
+  min-block-size: var(--calcite-space-3xl);
   float: inline-start; // TODO: this is a hack; consider using <div> instead of <legend>
 }
 
 .field-wrapper {
   display: flex;
-  flex-wrap: wrap; // TODO: decide min-width for labels when used in field set
-  gap: var(--calcite-field-set-gap, var(--calcite-space-md)); // TODO: review Storybook Control
+  flex-wrap: wrap;
+  gap: var(--calcite-field-set-space, var(--calcite-space-md));
+}
 
-  ::slotted(calcite-label) {
-    // width: 100%;
+:host([scale="s"]) {
+  .field-wrapper {
+    gap: var(--calcite-field-set-space, var(--calcite-space-sm));
+  }
+}
+
+:host([scale="l"]) {
+  .field-wrapper {
+    gap: var(--calcite-field-set-space, var(--calcite-space-lg));
   }
 }
 

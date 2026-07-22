@@ -2,6 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import { queryAssignedElements } from "lit/decorators.js";
 import type { Input } from "../input/input";
+import type { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -41,6 +42,9 @@ export class FieldSet extends LitElement {
   /** Specifies the component layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
 
+  /** Specifies the scale of the slotted inputs. */
+  @property({ reflect: true }) scale: Scale = "m";
+
   // #endregion
 
   // #region Lifecycle
@@ -48,6 +52,10 @@ export class FieldSet extends LitElement {
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("disabled")) {
       this.syncInputsDisabledState(changes.get("disabled"));
+    }
+
+    if (changes.has("scale")) {
+      this.syncInputsScale();
     }
   }
 
@@ -89,6 +97,13 @@ export class FieldSet extends LitElement {
 
   private handleInputSlotChange(): void {
     this.syncInputsDisabledState();
+    this.syncInputsScale();
+  }
+
+  private syncInputsScale(): void {
+    this.inputs?.forEach((input) => {
+      input.scale = this.scale;
+    });
   }
 
   // #endregion
