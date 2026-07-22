@@ -403,6 +403,23 @@ describe("overflowing actions", () => {
     // Returning to `"collapse"` overflows them again.
     expect(overflowedCount()).toBeGreaterThan(0);
   });
+
+  it("preserves consumer-slotted menu-actions in none mode", async () => {
+    const { component } = await mount<ActionBar>(
+      <calcite-action-bar overflow-mode="none">
+        <calcite-action-group>
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="map" slot="menu-actions" text="New" />
+          <calcite-action icon="collection" slot="menu-actions" text="Open" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await component.updateComplete;
+
+    // `none` leaves slotting to the consumer, so their menu-actions must not be un-slotted.
+    expect(page.getBySelector("calcite-action[slot='menu-actions']").elements().length).toBe(2);
+  });
 });
 
 describe("per-group overflow-actions-disabled", () => {

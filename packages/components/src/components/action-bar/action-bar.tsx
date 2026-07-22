@@ -336,17 +336,18 @@ export class ActionBar extends LitElement {
   @method()
   async overflowActions(): Promise<void> {
     if (this.overflowMode !== "collapse") {
-      // Return any previously-overflowed actions to their original slots.
-      if (this.hasUpdated && this.el.isConnected) {
-        this.updateGroups();
-        overflowActions({
-          actionGroups: [...this.actionGroups],
-          expanded: this.expanded,
-          overflowCount: 0,
-        });
-      }
-
+      // In "wrap" mode, return actions the component previously overflowed so they participate in
+      // wrapping. In "none" mode, slotting is left entirely to the consumer and must not be touched.
       if (this.usesWrap) {
+        if (this.hasUpdated && this.el.isConnected) {
+          this.updateGroups();
+          overflowActions({
+            actionGroups: [...this.actionGroups],
+            expanded: this.expanded,
+            overflowCount: 0,
+          });
+        }
+
         this.scheduleLineMeasure();
       }
 
