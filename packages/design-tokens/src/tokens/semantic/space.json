@@ -129,7 +129,7 @@
         "$value": "{core.size.default.8}",
         "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-sm` instead."
       },
-      "sm-plus": {
+      "sm+": {
         "attributes": {
           "category": "spacing",
           "docs": "deprecated"
@@ -147,7 +147,7 @@
         "$value": "{core.size.default.12}",
         "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-space-md` instead."
       },
-      "md-plus": {
+      "md+": {
         "attributes": {
           "category": "spacing",
           "docs": "deprecated"

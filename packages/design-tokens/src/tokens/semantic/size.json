@@ -37,7 +37,7 @@
         "$value": "{core.size.default.8}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
       },
-      "sm-plus": {
+      "sm+": {
         "attributes": {
           "category": "size",
           "docs": "deprecated"
@@ -55,7 +55,7 @@
         "$value": "{core.size.default.12}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-3xs` instead."
       },
-      "md-plus": {
+      "md+": {
         "attributes": {
           "category": "size",
           "docs": "deprecated"
