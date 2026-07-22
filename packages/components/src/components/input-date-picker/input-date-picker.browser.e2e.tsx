@@ -1,5 +1,6 @@
 import { JsxNode, LitElement } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
@@ -16,11 +17,13 @@ import {
   t9n,
   themed,
   topLayer,
+  disabled,
 } from "../../tests/commonTests/browser";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/commonTests/browser/defaults";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { afterNextTask } from "../../tests/utils/timing";
+import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
@@ -41,6 +44,10 @@ describe("defaults", () => {
       {
         propertyName: "flipPlacements",
         defaultValue: undefined,
+      },
+      {
+        propertyName: "clearable",
+        defaultValue: false,
       },
       {
         propertyName: "overlayPositioning",
@@ -113,7 +120,9 @@ describe("translation support", () => {
   t9n(() => mount("calcite-input-date-picker"));
 });
 
-describe.todo("disabled");
+describe("disabled", () => {
+  disabled(() => mount("calcite-input-date-picker"));
+});
 
 describe("is form-associated", () => {
   mockConsole();
@@ -225,6 +234,164 @@ it("should update calendar in range while typing in input", async () => {
 
   await expect.element(yearInput).toHaveProperty("value", "2020");
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
+});
+
+describe("clearable", () => {
+  const clearButtonSelector = `calcite-input-date-picker .${CLEAR_BUTTON_CSS.container}`;
+  const getClearButtons = (): Element[] => page.getBySelector(clearButtonSelector).elements();
+
+  it("does not render clear button when single value is empty", async () => {
+    await mount<InputDatePicker>(<calcite-input-date-picker clearable value="" />);
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("renders clear button when single value is set", async () => {
+    await mount<InputDatePicker>(<calcite-input-date-picker clearable value="2024-05-05" />);
+
+    expect(getClearButtons()).toHaveLength(1);
+  });
+
+  it("does not render clear button when readOnly is true", async () => {
+    await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable readOnly value="2024-05-05" />,
+    );
+
+    expect(getClearButtons()).toHaveLength(0);
+  });
+
+  it("clears single value when clear button is clicked", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("emits change when single value is cleared via clear button", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("renders clear button for required value and clearing sets validity.valueMissing", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable required value="2024-05-05" />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+    expect(el.validity.valueMissing).toBe(false);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+    await expect.element(el).toHaveProperty("value", "");
+
+    expect(el.validity.valueMissing).toBe(true);
+  });
+
+  it("clears single value when Escape is pressed", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getByRole("combobox"));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("clears value and closes popover when Escape is pressed while open", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable value="2024-05-05" />,
+    );
+
+    await userEvent.click(page.getByRole("combobox"));
+    await expect.element(el).toHaveProperty("open", true);
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(el).toHaveProperty("open", false);
+  });
+
+  it("renders one shared clear button in horizontal range and clears both values", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        layout="horizontal"
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("renders one shared clear button in vertical range and clears both values", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        layout="vertical"
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("clears range values when Escape is pressed", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
+    );
+
+    await userEvent.click(page.getByRole("combobox").first());
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("emits change when range values are cleared via Escape", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
+    );
+    const changeEventHandler = vi.fn();
+    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+
+    await userEvent.click(page.getByRole("combobox").first());
+    await userEvent.keyboard("{Escape}");
+
+    expect(changeEventHandler).toHaveBeenCalledTimes(1);
+    await expect.element(el).toHaveProperty("value", "");
+  });
+
+  it("renders one shared clear button in range when only one date is present", async () => {
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker clearable range value={["2024-05-01", ""]} />,
+    );
+
+    expect(getClearButtons()).toHaveLength(1);
+
+    await userEvent.click(page.getBySelector(clearButtonSelector));
+
+    await expect.element(el).toHaveProperty("value", "");
+  });
 });
 
 function getYearInput(): Locator {
@@ -380,6 +547,45 @@ describe("theme", () => {
     });
   });
 
+  describe("clearable", () => {
+    const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
+
+    themed(() => mount(<calcite-input-date-picker clearable value="2024-01-31" />), {
+      "--calcite-input-date-picker-input-action-background-color": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-input-date-picker-input-action-background-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color-hover",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-input-action-background-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-background-color-press",
+        state: {
+          press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action`,
+        },
+      },
+      "--calcite-input-date-picker-input-action-icon-color": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-input-date-picker-input-action-icon-color-hover": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: "hover",
+      },
+      "--calcite-input-date-picker-input-action-icon-color-press": {
+        shadowSelector: `${clearButtonContainerSelector} calcite-action`,
+        targetProp: "--calcite-action-text-color-press",
+        state: {
+          press: `calcite-input-date-picker >>> ${clearButtonContainerSelector} calcite-action`,
+        },
+      },
+    });
+  });
+
   describe("range", () => {
     themed(
       async () =>
@@ -428,11 +634,11 @@ describe("theme", () => {
   describe("range with vertical layout", () => {
     themed(() => mount(<calcite-input-date-picker layout="vertical" range />), {
       "--calcite-input-date-picker-background-color": {
-        shadowSelector: `.${CSS.verticalChevronContainer}`,
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
         targetProp: "backgroundColor",
       },
       "--calcite-input-date-picker-border-color": {
-        shadowSelector: `.${CSS.verticalChevronContainer}`,
+        shadowSelector: `.${CSS.verticalActionsContainer}`,
         targetProp: "borderColor",
       },
     });

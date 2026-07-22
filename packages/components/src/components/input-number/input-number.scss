@@ -23,6 +23,15 @@
  * @prop --calcite-input-prefix-text-color: When `prefixText` is provided, specifies the text color of the component's prefix element.
  * @prop --calcite-input-suffix-size: When `suffixText` is provided, specifies the width of the component's suffix element.
  * @prop --calcite-input-suffix-text-color: When `suffixText` is provided, specifies the text color of the component's suffix element.
+
+ * @prop --calcite-input-number-inline-editable-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component, its inline editable elements and slotted `calcite-action` wrappers, when hovered.
+ * @prop --calcite-input-number-inline-editable-control-background-color: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls.
+ * @prop --calcite-input-number-inline-editable-control-background-color-hover: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when hovered.
+ * @prop --calcite-input-number-inline-editable-control-background-color-press: When `inline-editable` is enabled, specifies the background color of the component's inline editable controls, when pressed.
+ * @prop --calcite-input-number-inline-editable-control-corner-radius: When `inline-editable` is enabled, specifies the corner radius of the component's inline editable controls.
+ * @prop --calcite-input-number-inline-editable-control-loader-color: When `inline-editable` is enabled, specifies the loader color of the component's inline editable controls.
+ * @prop --calcite-input-number-inline-editable-control-text-color: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls.
+ * @prop --calcite-input-number-inline-editable-control-text-color-press: When `inline-editable` is enabled, specifies the text color of the component's inline editable controls, when pressed or hovered.
  */
 
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
@@ -361,9 +370,13 @@ input[readonly]:focus {
   }
 }
 
+.inline-editable {
+  order: 7;
+}
+
 // slotted action
 .action-wrapper {
-  order: 7;
+  order: 8;
   display: flex;
 }
 
@@ -561,7 +574,13 @@ input[readonly]:focus {
 // input needed for higher specificity of these overrides
 input {
   &.inline-child {
-    @apply transition-default bg-transparent;
+    @apply transition-default;
+
+    // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
+    &.inline-editable-child {
+      @apply bg-transparent;
+    }
+
     .editing-enabled {
       background-color: inherit;
     }
@@ -572,6 +591,44 @@ input {
     flex
     cursor-pointer text-ellipsis;
     padding-inline-start: 0;
+  }
+}
+
+.element-wrapper:has(input.inline-child:not(.editing-enabled)) {
+  .loader,
+  .number-button-item,
+  .prefix,
+  .icon,
+  .clear-button,
+  .suffix {
+    display: none;
+  }
+}
+
+// `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove .inline-editable-child)
+:host([inline-editable]:not([editing-enabled])),
+:host:has(input.inline-child:not(.inline-editable-child):not(.editing-enabled)) {
+  .wrapper {
+    &:hover {
+      input,
+      .inline-editable,
+      .action-wrapper {
+        @apply transition-default;
+        background-color: var(
+          --calcite-input-number-inline-editable-background-color-hover,
+          var(--calcite-color-foreground-2)
+        );
+      }
+    }
+  }
+}
+
+:host([inline-editable]) {
+  input,
+  .inline-editable,
+  .action-wrapper {
+    @apply transition-default;
+    background-color: var(--calcite-input-number-background-color, var(--calcite-color-foreground-1));
   }
 }
 
@@ -588,4 +645,13 @@ input {
   $icon-color: "--calcite-input-actions-icon-color",
   $icon-color-hover: "--calcite-input-actions-icon-color-hover",
   $icon-color-press: "--calcite-input-actions-icon-color-press"
+);
+@include includes.inline-editable(
+  $background-color: "--calcite-input-number-inline-editable-control-background-color",
+  $background-color-hover: "--calcite-input-number-inline-editable-control-background-color-hover",
+  $background-color-press: "--calcite-input-number-inline-editable-control-background-color-press",
+  $corner-radius: "--calcite-input-number-inline-editable-control-corner-radius",
+  $loader-color: "--calcite-input-number-inline-editable-control-loader-color",
+  $text-color: "--calcite-input-number-inline-editable-control-text-color",
+  $text-color-press: "--calcite-input-number-inline-editable-control-text-color-press"
 );

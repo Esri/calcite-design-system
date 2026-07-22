@@ -343,6 +343,7 @@ withTooltips.parameters = {
   chromatic: { delay: 500 },
 };
 
+// `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline editable (`inline-editable` and `inline-editable-controls` props) instead.
 export const withCustomHeader = (): string => html`
   <style>
     #three-quarters-width-header-content {
