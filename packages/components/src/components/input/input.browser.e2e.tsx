@@ -1569,6 +1569,67 @@ describe("theme", () => {
         targetProp: "color",
       },
     });
+
+    it("measures affix widths and stores them as internal host CSS properties", async () => {
+      const { el } = await mount<Input>(
+        <calcite-input prefix-text="prefix" suffix-text="suffix" />,
+      );
+
+      await vi.waitFor(() => {
+        const computedStyle = window.getComputedStyle(el);
+        const prefixWidth = computedStyle
+          .getPropertyValue("--calcite-internal-input-prefix-width")
+          .trim();
+        const suffixWidth = computedStyle
+          .getPropertyValue("--calcite-internal-input-suffix-width")
+          .trim();
+
+        expect(prefixWidth).toMatch(/^\d+px$/);
+        expect(suffixWidth).toMatch(/^\d+px$/);
+      });
+
+      const prefix = el.shadowRoot.querySelector(`.${CSS.prefix}`) as HTMLDivElement;
+      const suffix = el.shadowRoot.querySelector(`.${CSS.suffix}`) as HTMLDivElement;
+      const computedStyle = window.getComputedStyle(el);
+
+      expect(computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim()).toBe(
+        `${Math.ceil(prefix.getBoundingClientRect().width)}px`,
+      );
+      expect(computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim()).toBe(
+        `${Math.ceil(suffix.getBoundingClientRect().width)}px`,
+      );
+    });
+
+    it("clears internal affix width properties when affixes are removed", async () => {
+      const { el } = await mount<Input>(
+        <calcite-input prefix-text="prefix" suffix-text="suffix" />,
+      );
+
+      await vi.waitFor(() => {
+        const computedStyle = window.getComputedStyle(el);
+
+        expect(
+          computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim(),
+        ).not.toBe("");
+        expect(
+          computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim(),
+        ).not.toBe("");
+      });
+
+      el.prefixText = undefined;
+      el.suffixText = undefined;
+
+      await vi.waitFor(() => {
+        const computedStyle = window.getComputedStyle(el);
+
+        expect(computedStyle.getPropertyValue("--calcite-internal-input-prefix-width").trim()).toBe(
+          "",
+        );
+        expect(computedStyle.getPropertyValue("--calcite-internal-input-suffix-width").trim()).toBe(
+          "",
+        );
+      });
+    });
   });
 
   describe("with placeholder", () => {
