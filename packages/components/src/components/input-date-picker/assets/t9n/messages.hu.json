@@ -1,5 +1,6 @@
 {
   "chooseDate": "Válasszon dátumot",
+  "clear": "Clear value",
   "date": "Dátum",
   "dateFormat": "Dátumformátum: {format}",
   "endDate": "Záró dátum",
