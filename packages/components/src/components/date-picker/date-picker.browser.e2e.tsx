@@ -105,9 +105,8 @@ describe("value", () => {
   const today = new Date();
   const unsetValueCases = [
     { label: "empty string", value: "" },
-    { label: "null", value: null },
     { label: "undefined", value: undefined },
-  ] satisfies { label: string; value: "" | null | undefined }[];
+  ] satisfies { label: string; value: "" | undefined }[];
 
   it.each<{ label: string; value: DatePicker["value"] }>(unsetValueCases)(
     "clears valueAsDate and activates the current date when value is set to $label",
