@@ -233,8 +233,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.xxs}",
-      "$description": "Replaces `--calcite-spacing-fixed-xxs`",
+      "$value": "{spacing.default.xxs}",
+      "$description": "Replaces `--calcite-spacing-xxs`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -244,8 +244,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.xs}",
-      "$description": "Replaces `--calcite-spacing-fixed-xs`",
+      "$value": "{spacing.default.xs}",
+      "$description": "Replaces `--calcite-spacing-xs`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -255,8 +255,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.sm}",
-      "$description": "Replaces `--calcite-spacing-fixed-sm`",
+      "$value": "{spacing.default.sm}",
+      "$description": "Replaces `--calcite-spacing-sm`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -277,8 +277,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.md}",
-      "$description": "Replaces `--calcite-spacing-fixed-md`",
+      "$value": "{spacing.default.md}",
+      "$description": "Replaces `--calcite-spacing-md`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -288,8 +288,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.lg}",
-      "$description": "Replaces `--calcite-spacing-fixed-lg`",
+      "$value": "{spacing.default.md-plus}",
+      "$description": "Replaces `--calcite-spacing-md-plus`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -299,8 +299,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.xl}",
-      "$description": "Replaces `--calcite-spacing-fixed-xl`",
+      "$value": "{spacing.default.lg}",
+      "$description": "Replaces `--calcite-spacing-lg`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -310,8 +310,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.xxl}",
-      "$description": "Replaces `--calcite-spacing-fixed-xxl`",
+      "$value": "{spacing.default.xl}",
+      "$description": "Replaces `--calcite-spacing-xl`",
       "$extensions": {
         "calcite.outputReference": true
       }
@@ -332,8 +332,8 @@
         "category": "spacing"
       },
       "$type": "spacing",
-      "$value": "{spacing.fixed.xxxl}",
-      "$description": "Replaces `--calcite-spacing-fixed-xxxl`",
+      "$value": "{spacing.default.xxxl}",
+      "$description": "Replaces `--calcite-spacing-xxxl`",
       "$extensions": {
         "calcite.outputReference": true
       }
