@@ -73,7 +73,6 @@ export class Label extends LitElement {
   // #endregion
 
   // #region Private Methods
-
   private labelClickHandler(event: MouseEvent): void {
     if (window.getSelection()?.type === "Range" || event.defaultPrevented) {
       return;
