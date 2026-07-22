@@ -2,13 +2,15 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Input } from "../input/input";
 import type { Scale } from "../interfaces";
-import { getSlotAssignedElements } from "../../utils/dom";
+import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
 type Layout = "grid" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
+const internalPrefixWidthVar = "--calcite-internal-input-prefix-width";
+const internalSuffixWidthVar = "--calcite-internal-input-suffix-width";
 const prefixSizeVar = "--calcite-input-prefix-size";
 const suffixSizeVar = "--calcite-input-suffix-size";
 
@@ -110,22 +112,17 @@ export class FieldSet extends LitElement {
 
   private async getInputAffixWidth(
     input: Input["el"],
-    affixSelector: ".prefix" | ".suffix",
+    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
   ): Promise<number> {
     const readyInput = input as Input["el"] & {
       componentOnReady?: () => Promise<void>;
       updateComplete?: Promise<unknown>;
-      el?: HTMLElement;
     };
 
     await readyInput.componentOnReady?.();
     await readyInput.updateComplete;
 
-    const affix = (readyInput.el?.shadowRoot ?? input.shadowRoot)?.querySelector<HTMLElement>(
-      affixSelector,
-    );
-
-    return affix ? Math.ceil(affix.getBoundingClientRect().width) : 0;
+    return getStylePixelValue(getComputedStyle(input).getPropertyValue(affixWidthProperty).trim());
   }
 
   private syncInputsDisabledState(previousDisabled = this.disabled): void {
@@ -163,7 +160,7 @@ export class FieldSet extends LitElement {
   }
 
   private async syncInputAffixWidth(
-    affixSelector: ".prefix" | ".suffix",
+    affixWidthProperty: typeof internalPrefixWidthVar | typeof internalSuffixWidthVar,
     shouldSync: boolean,
     styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
   ): Promise<void> {
@@ -182,7 +179,9 @@ export class FieldSet extends LitElement {
 
     const nextWidth = Math.max(
       0,
-      ...(await Promise.all(inputs.map((input) => this.getInputAffixWidth(input, affixSelector)))),
+      ...(await Promise.all(
+        inputs.map((input) => this.getInputAffixWidth(input, affixWidthProperty)),
+      )),
     );
 
     inputs.forEach((input) => {
@@ -200,8 +199,8 @@ export class FieldSet extends LitElement {
       requestAnimationFrame(() => resolve());
     });
 
-    await this.syncInputAffixWidth(".prefix", this.prefixAutoWidth, prefixSizeVar);
-    await this.syncInputAffixWidth(".suffix", this.suffixAutoWidth, suffixSizeVar);
+    await this.syncInputAffixWidth(internalPrefixWidthVar, this.prefixAutoWidth, prefixSizeVar);
+    await this.syncInputAffixWidth(internalSuffixWidthVar, this.suffixAutoWidth, suffixSizeVar);
   }
 
   private syncInputsScale(): void {

@@ -94,6 +94,10 @@ export class Input
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
 
+  private prefixRef = createRef<HTMLDivElement>();
+
+  private suffixRef = createRef<HTMLDivElement>();
+
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
   defaultValue?: Input["value"];
@@ -554,6 +558,12 @@ export class Input
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
+      this.syncAffixWidths();
+    }
+  }
+
   override disconnectedCallback(): void {
     this.stopNudging();
   }
@@ -564,6 +574,29 @@ export class Input
 
   private stopNudging() {
     window.clearInterval(this.nudgeNumberValueIntervalId);
+  }
+
+  private syncAffixWidth(
+    affixWidthProperty:
+      | "--calcite-internal-input-prefix-width"
+      | "--calcite-internal-input-suffix-width",
+    affixRef: { value?: HTMLDivElement },
+    affixText: string | undefined,
+  ): void {
+    if (!affixText || !affixRef.value) {
+      this.el.style.removeProperty(affixWidthProperty);
+      return;
+    }
+
+    this.el.style.setProperty(
+      affixWidthProperty,
+      `${Math.ceil(affixRef.value.getBoundingClientRect().width)}px`,
+    );
+  }
+
+  private syncAffixWidths(): void {
+    this.syncAffixWidth("--calcite-internal-input-prefix-width", this.prefixRef, this.prefixText);
+    this.syncAffixWidth("--calcite-internal-input-suffix-width", this.suffixRef, this.suffixText);
   }
 
   private handleGlobalAttributesChanged(): void {
@@ -1148,8 +1181,16 @@ export class Input
       </div>
     );
 
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
