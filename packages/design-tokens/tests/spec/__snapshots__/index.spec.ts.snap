@@ -9,8 +9,6 @@ exports[`CSS > breakpoints should match 1`] = `
 :root {
   --calcite-container-size-height-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
   --calcite-container-size-height-xxs-max: 154px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
-  --calcite-container-size-height-2xs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-height-2xs-max: 154px; /** Small handheld devices and mini-windows */
   --calcite-container-size-height-xs-min: 155px; /** Handheld devices */
   --calcite-container-size-height-xs-max: 328px; /** Handheld devices */
   --calcite-container-size-height-sm-min: 329px; /** Small tablets */
@@ -22,8 +20,6 @@ exports[`CSS > breakpoints should match 1`] = `
   --calcite-container-size-height-xl-min: 855px; /** Projectors and televisions */
   --calcite-container-size-width-xxs-min: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
   --calcite-container-size-width-xxs-max: 320px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
-  --calcite-container-size-width-2xs-min: 0; /** Small handheld devices and mini-windows */
-  --calcite-container-size-width-2xs-max: 320px; /** Small handheld devices and mini-windows */
   --calcite-container-size-width-xs-min: 321px; /** Handheld devices */
   --calcite-container-size-width-xs-max: 476px; /** Handheld devices */
   --calcite-container-size-width-sm-min: 477px; /** Small tablets */
@@ -33,6 +29,10 @@ exports[`CSS > breakpoints should match 1`] = `
   --calcite-container-size-width-lg-min: 1153px; /** Large laptops and desktop computers */
   --calcite-container-size-width-lg-max: 1440px; /** Large laptops and desktop computers */
   --calcite-container-size-width-xl-min: 1441px; /** Projectors and televisions */
+  --calcite-container-size-height-2xs-min: var(--calcite-container-size-height-xxs-min); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
+  --calcite-container-size-height-2xs-max: var(--calcite-container-size-height-xxs-max); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\` */
+  --calcite-container-size-width-2xs-min: var(--calcite-container-size-width-xxs-min); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
+  --calcite-container-size-width-2xs-max: var(--calcite-container-size-width-xxs-max); /** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\` */
 }
 "
 `;
@@ -969,11 +969,11 @@ exports[`CSS > dark should match 1`] = `
   --calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
   --calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-  --calcite-color-surface-1: #212121; /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: #2b2b2b; /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: #363636; /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: #404040; /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: #2b465f; /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1138,16 +1138,16 @@ exports[`CSS > global should match 1`] = `
   --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
   --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
   --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-fixed-xxs); /** Replaces \`--calcite-spacing-fixed-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-fixed-xs); /** Replaces \`--calcite-spacing-fixed-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-fixed-sm); /** Replaces \`--calcite-spacing-fixed-sm\` */
+  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
+  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
+  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
   --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-fixed-md); /** Replaces \`--calcite-spacing-fixed-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-fixed-lg); /** Replaces \`--calcite-spacing-fixed-lg\` */
-  --calcite-space-lg: var(--calcite-spacing-fixed-xl); /** Replaces \`--calcite-spacing-fixed-xl\` */
-  --calcite-space-xl: var(--calcite-spacing-fixed-xxl); /** Replaces \`--calcite-spacing-fixed-xxl\` */
+  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
+  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
+  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
+  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-fixed-xxxl); /** Replaces \`--calcite-spacing-fixed-xxxl\` */
+  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
@@ -1579,11 +1579,11 @@ exports[`CSS > light should match 1`] = `
   --calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
   --calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
   --calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-  --calcite-color-surface-1: #f7f7f7; /** Replaces \`--calcite-color-background\` */
-  --calcite-color-surface-2: #ffffff; /** Replaces \`--calcite-color-foreground-1\` */
-  --calcite-color-surface-3: #f2f2f2; /** Replaces \`--calcite-color-foreground-2\` */
-  --calcite-color-surface-4: #ebebeb; /** Replaces \`--calcite-color-foreground-3\` */
-  --calcite-color-surface-highlight: #d6efff; /** Replaces \`--calcite-color-foreground-current\` */
+  --calcite-color-surface-1: var(--calcite-color-background); /** Replaces \`--calcite-color-background\` */
+  --calcite-color-surface-2: var(--calcite-color-foreground-1); /** Replaces \`--calcite-color-foreground-1\` */
+  --calcite-color-surface-3: var(--calcite-color-foreground-2); /** Replaces \`--calcite-color-foreground-2\` */
+  --calcite-color-surface-4: var(--calcite-color-foreground-3); /** Replaces \`--calcite-color-foreground-3\` */
+  --calcite-color-surface-highlight: var(--calcite-color-foreground-current); /** Replaces \`--calcite-color-foreground-current\` */
   --calcite-color-focus: var(--calcite-color-brand);
 }
 "
@@ -1746,16 +1746,16 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-space-none: var(--calcite-spacing-none); /** Replaces \`--calcite-spacing-none\` */
   --calcite-space-px: var(--calcite-spacing-px); /** Replaces \`--calcite-spacing-px\` */
   --calcite-space-base: var(--calcite-spacing-base); /** Replaces \`--calcite-spacing-base\` */
-  --calcite-space-2xs: var(--calcite-spacing-fixed-xxs); /** Replaces \`--calcite-spacing-fixed-xxs\` */
-  --calcite-space-xs: var(--calcite-spacing-fixed-xs); /** Replaces \`--calcite-spacing-fixed-xs\` */
-  --calcite-space-sm: var(--calcite-spacing-fixed-sm); /** Replaces \`--calcite-spacing-fixed-sm\` */
+  --calcite-space-2xs: var(--calcite-spacing-xxs); /** Replaces \`--calcite-spacing-xxs\` */
+  --calcite-space-xs: var(--calcite-spacing-xs); /** Replaces \`--calcite-spacing-xs\` */
+  --calcite-space-sm: var(--calcite-spacing-sm); /** Replaces \`--calcite-spacing-sm\` */
   --calcite-space-sm-plus: var(--calcite-spacing-sm-plus); /** Replaces \`--calcite-spacing-sm-plus\` */
-  --calcite-space-md: var(--calcite-spacing-fixed-md); /** Replaces \`--calcite-spacing-fixed-md\` */
-  --calcite-space-md-plus: var(--calcite-spacing-fixed-lg); /** Replaces \`--calcite-spacing-fixed-lg\` */
-  --calcite-space-lg: var(--calcite-spacing-fixed-xl); /** Replaces \`--calcite-spacing-fixed-xl\` */
-  --calcite-space-xl: var(--calcite-spacing-fixed-xxl); /** Replaces \`--calcite-spacing-fixed-xxl\` */
+  --calcite-space-md: var(--calcite-spacing-md); /** Replaces \`--calcite-spacing-md\` */
+  --calcite-space-md-plus: var(--calcite-spacing-md-plus); /** Replaces \`--calcite-spacing-md-plus\` */
+  --calcite-space-lg: var(--calcite-spacing-lg); /** Replaces \`--calcite-spacing-lg\` */
+  --calcite-space-xl: var(--calcite-spacing-xl); /** Replaces \`--calcite-spacing-xl\` */
   --calcite-space-2xl: var(--calcite-spacing-xxl); /** Replaces \`--calcite-spacing-xxl\` */
-  --calcite-space-3xl: var(--calcite-spacing-fixed-xxxl); /** Replaces \`--calcite-spacing-fixed-xxxl\` */
+  --calcite-space-3xl: var(--calcite-spacing-xxxl); /** Replaces \`--calcite-spacing-xxxl\` */
   --calcite-corner-radius: var(--calcite-corner-radius-none);
 }
 "
@@ -19021,7 +19021,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Small handheld devices and mini-windows",
+      "$description": "Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Height 2xs Min",
@@ -19204,7 +19204,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0",
-      "$description": "Small handheld devices and mini-windows",
+      "$description": "Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`",
       "filePath": "src/tokens/semantic/container-size.json",
       "isSource": true,
       "name": "Container Size Width 2xs Min",
@@ -22840,7 +22840,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.25rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxs\`",
+      "$description": "Replaces \`--calcite-spacing-xxs\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
@@ -22864,7 +22864,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.375rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xs\`",
+      "$description": "Replaces \`--calcite-spacing-xs\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
@@ -22888,7 +22888,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.5rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-sm\`",
+      "$description": "Replaces \`--calcite-spacing-sm\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
@@ -22936,7 +22936,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-md\`",
+      "$description": "Replaces \`--calcite-spacing-md\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
@@ -22960,7 +22960,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-lg\`",
+      "$description": "Replaces \`--calcite-spacing-md-plus\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
@@ -22984,7 +22984,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xl\`",
+      "$description": "Replaces \`--calcite-spacing-lg\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
@@ -23008,7 +23008,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.25rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxl\`",
+      "$description": "Replaces \`--calcite-spacing-xl\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
@@ -23056,7 +23056,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxxl\`",
+      "$description": "Replaces \`--calcite-spacing-xxxl\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
@@ -29052,7 +29052,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.25rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxs\`",
+      "$description": "Replaces \`--calcite-spacing-xxs\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 2xs",
@@ -29076,7 +29076,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.375rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xs\`",
+      "$description": "Replaces \`--calcite-spacing-xs\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xs",
@@ -29100,7 +29100,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.5rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-sm\`",
+      "$description": "Replaces \`--calcite-spacing-sm\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Sm",
@@ -29148,7 +29148,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.75rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-md\`",
+      "$description": "Replaces \`--calcite-spacing-md\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md",
@@ -29172,7 +29172,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "0.875rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-lg\`",
+      "$description": "Replaces \`--calcite-spacing-md-plus\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Md Plus",
@@ -29196,7 +29196,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xl\`",
+      "$description": "Replaces \`--calcite-spacing-lg\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Lg",
@@ -29220,7 +29220,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "1.25rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxl\`",
+      "$description": "Replaces \`--calcite-spacing-xl\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space Xl",
@@ -29268,7 +29268,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "dimension",
       "$value": "2rem",
-      "$description": "Replaces \`--calcite-spacing-fixed-xxxl\`",
+      "$description": "Replaces \`--calcite-spacing-xxxl\`",
       "filePath": "src/tokens/semantic/space.json",
       "isSource": true,
       "name": "Space 3xl",
@@ -29539,14 +29539,20 @@ exports[`ES6 > breakpoints should match 1`] = `
  */
 
 export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xs = {
+  min: { min: "0", max: "154px" },
+  max: "154px",
+}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
 export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xs = {
+  min: { min: "0", max: "320px" },
+  max: "320px",
+}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -29563,8 +29569,11 @@ exports[`ES6 > breakpoints types should match 1`] = `
 
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
-/** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeight2xs: { min: string; max: string };
+/** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
+export const calciteContainerSizeHeight2xs: {
+  min: { min: string; max: string };
+  max: string;
+};
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -29577,8 +29586,11 @@ export const calciteContainerSizeHeightLg: { min: string; max: string };
 export const calciteContainerSizeHeightXl: { min: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
-/** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidth2xs: { min: string; max: string };
+/** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
+export const calciteContainerSizeWidth2xs: {
+  min: { min: string; max: string };
+  max: string;
+};
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -30997,14 +31009,20 @@ export const calciteBorderWidthSm = "1px";
 export const calciteBorderWidthMd = "2px";
 export const calciteBorderWidthLg = "4px";
 export const calciteContainerSizeHeightXxs = { min: "0", max: "154px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-export const calciteContainerSizeHeight2xs = { min: "0", max: "154px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeHeight2xs = {
+  min: { min: "0", max: "154px" },
+  max: "154px",
+}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
 export const calciteContainerSizeHeightXs = { min: "155px", max: "328px" }; // Handheld devices
 export const calciteContainerSizeHeightSm = { min: "329px", max: "504px" }; // Small tablets
 export const calciteContainerSizeHeightMd = { min: "505px", max: "678px" }; // Small laptops
 export const calciteContainerSizeHeightLg = { min: "679px", max: "854px" }; // Large laptops and desktop computers
 export const calciteContainerSizeHeightXl = { min: "855px" }; // Projectors and televisions
 export const calciteContainerSizeWidthXxs = { min: "0", max: "320px" }; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-export const calciteContainerSizeWidth2xs = { min: "0", max: "320px" }; // Small handheld devices and mini-windows
+export const calciteContainerSizeWidth2xs = {
+  min: { min: "0", max: "320px" },
+  max: "320px",
+}; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
 export const calciteContainerSizeWidthXs = { min: "321px", max: "476px" }; // Handheld devices
 export const calciteContainerSizeWidthSm = { min: "477px", max: "768px" }; // Small tablets
 export const calciteContainerSizeWidthMd = { min: "769px", max: "1152px" }; // Small laptops
@@ -31193,16 +31211,16 @@ export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal targe
 export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
 export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
 export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
-export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-fixed-xxs\`
-export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-fixed-xs\`
-export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-fixed-sm\`
+export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-xxs\`
+export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-xs\`
+export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-sm\`
 export const calciteSpaceSmPlus = "0.625rem"; // Replaces \`--calcite-spacing-sm-plus\`
-export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-fixed-md\`
-export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-fixed-lg\`
-export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-fixed-xl\`
-export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-fixed-xxl\`
+export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-md\`
+export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-md-plus\`
+export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-lg\`
+export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-xl\`
 export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
-export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-fixed-xxxl\`
+export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
@@ -31554,8 +31572,11 @@ export const calciteBorderWidthMd: string;
 export const calciteBorderWidthLg: string;
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead. */
 export const calciteContainerSizeHeightXxs: { min: string; max: string };
-/** Small handheld devices and mini-windows */
-export const calciteContainerSizeHeight2xs: { min: string; max: string };
+/** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\` */
+export const calciteContainerSizeHeight2xs: {
+  min: { min: string; max: string };
+  max: string;
+};
 /** Handheld devices */
 export const calciteContainerSizeHeightXs: { min: string; max: string };
 /** Small tablets */
@@ -31568,8 +31589,11 @@ export const calciteContainerSizeHeightLg: { min: string; max: string };
 export const calciteContainerSizeHeightXl: { min: string };
 /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead. */
 export const calciteContainerSizeWidthXxs: { min: string; max: string };
-/** Small handheld devices and mini-windows */
-export const calciteContainerSizeWidth2xs: { min: string; max: string };
+/** Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\` */
+export const calciteContainerSizeWidth2xs: {
+  min: { min: string; max: string };
+  max: string;
+};
 /** Handheld devices */
 export const calciteContainerSizeWidthXs: { min: string; max: string };
 /** Small tablets */
@@ -31830,25 +31854,25 @@ export const calciteSpaceNone: string;
 export const calciteSpacePx: string;
 /** Replaces \`--calcite-spacing-base\` */
 export const calciteSpaceBase: string;
-/** Replaces \`--calcite-spacing-fixed-xxs\` */
+/** Replaces \`--calcite-spacing-xxs\` */
 export const calciteSpace2xs: string;
-/** Replaces \`--calcite-spacing-fixed-xs\` */
+/** Replaces \`--calcite-spacing-xs\` */
 export const calciteSpaceXs: string;
-/** Replaces \`--calcite-spacing-fixed-sm\` */
+/** Replaces \`--calcite-spacing-sm\` */
 export const calciteSpaceSm: string;
 /** Replaces \`--calcite-spacing-sm-plus\` */
 export const calciteSpaceSmPlus: string;
-/** Replaces \`--calcite-spacing-fixed-md\` */
+/** Replaces \`--calcite-spacing-md\` */
 export const calciteSpaceMd: string;
-/** Replaces \`--calcite-spacing-fixed-lg\` */
+/** Replaces \`--calcite-spacing-md-plus\` */
 export const calciteSpaceMdPlus: string;
-/** Replaces \`--calcite-spacing-fixed-xl\` */
+/** Replaces \`--calcite-spacing-lg\` */
 export const calciteSpaceLg: string;
-/** Replaces \`--calcite-spacing-fixed-xxl\` */
+/** Replaces \`--calcite-spacing-xl\` */
 export const calciteSpaceXl: string;
 /** Replaces \`--calcite-spacing-xxl\` */
 export const calciteSpace2xl: string;
-/** Replaces \`--calcite-spacing-fixed-xxxl\` */
+/** Replaces \`--calcite-spacing-xxxl\` */
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteTypography: {
@@ -32312,16 +32336,16 @@ export const calciteSpacingXxxl = "2rem"; // Deprecated in v4.0.0, removal targe
 export const calciteSpaceNone = "0"; // Replaces \`--calcite-spacing-none\`
 export const calciteSpacePx = "1px"; // Replaces \`--calcite-spacing-px\`
 export const calciteSpaceBase = "2px"; // Replaces \`--calcite-spacing-base\`
-export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-fixed-xxs\`
-export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-fixed-xs\`
-export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-fixed-sm\`
+export const calciteSpace2xs = "0.25rem"; // Replaces \`--calcite-spacing-xxs\`
+export const calciteSpaceXs = "0.375rem"; // Replaces \`--calcite-spacing-xs\`
+export const calciteSpaceSm = "0.5rem"; // Replaces \`--calcite-spacing-sm\`
 export const calciteSpaceSmPlus = "0.625rem"; // Replaces \`--calcite-spacing-sm-plus\`
-export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-fixed-md\`
-export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-fixed-lg\`
-export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-fixed-xl\`
-export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-fixed-xxl\`
+export const calciteSpaceMd = "0.75rem"; // Replaces \`--calcite-spacing-md\`
+export const calciteSpaceMdPlus = "0.875rem"; // Replaces \`--calcite-spacing-md-plus\`
+export const calciteSpaceLg = "1rem"; // Replaces \`--calcite-spacing-lg\`
+export const calciteSpaceXl = "1.25rem"; // Replaces \`--calcite-spacing-xl\`
 export const calciteSpace2xl = "1.5rem"; // Replaces \`--calcite-spacing-xxl\`
-export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-fixed-xxxl\`
+export const calciteSpace3xl = "2rem"; // Replaces \`--calcite-spacing-xxxl\`
 export const calciteSpace4xl = "2.75rem";
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -32596,25 +32620,25 @@ export const calciteSpaceNone: string;
 export const calciteSpacePx: string;
 /** Replaces \`--calcite-spacing-base\` */
 export const calciteSpaceBase: string;
-/** Replaces \`--calcite-spacing-fixed-xxs\` */
+/** Replaces \`--calcite-spacing-xxs\` */
 export const calciteSpace2xs: string;
-/** Replaces \`--calcite-spacing-fixed-xs\` */
+/** Replaces \`--calcite-spacing-xs\` */
 export const calciteSpaceXs: string;
-/** Replaces \`--calcite-spacing-fixed-sm\` */
+/** Replaces \`--calcite-spacing-sm\` */
 export const calciteSpaceSm: string;
 /** Replaces \`--calcite-spacing-sm-plus\` */
 export const calciteSpaceSmPlus: string;
-/** Replaces \`--calcite-spacing-fixed-md\` */
+/** Replaces \`--calcite-spacing-md\` */
 export const calciteSpaceMd: string;
-/** Replaces \`--calcite-spacing-fixed-lg\` */
+/** Replaces \`--calcite-spacing-md-plus\` */
 export const calciteSpaceMdPlus: string;
-/** Replaces \`--calcite-spacing-fixed-xl\` */
+/** Replaces \`--calcite-spacing-lg\` */
 export const calciteSpaceLg: string;
-/** Replaces \`--calcite-spacing-fixed-xxl\` */
+/** Replaces \`--calcite-spacing-xl\` */
 export const calciteSpaceXl: string;
 /** Replaces \`--calcite-spacing-xxl\` */
 export const calciteSpace2xl: string;
-/** Replaces \`--calcite-spacing-fixed-xxxl\` */
+/** Replaces \`--calcite-spacing-xxxl\` */
 export const calciteSpace3xl: string;
 export const calciteSpace4xl: string;
 export const calciteZIndexDeep: string;
@@ -32637,8 +32661,6 @@ exports[`SCSS > breakpoints should match 1`] = `
 
 $calcite-container-size-height-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
 $calcite-container-size-height-xxs-max: 154px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-height-2xs-min|max\` instead.
-$calcite-container-size-height-2xs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-height-2xs-max: 154px; // Small handheld devices and mini-windows
 $calcite-container-size-height-xs-min: 155px; // Handheld devices
 $calcite-container-size-height-xs-max: 328px; // Handheld devices
 $calcite-container-size-height-sm-min: 329px; // Small tablets
@@ -32650,8 +32672,6 @@ $calcite-container-size-height-lg-max: 854px; // Large laptops and desktop compu
 $calcite-container-size-height-xl-min: 855px; // Projectors and televisions
 $calcite-container-size-width-xxs-min: 0; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
 $calcite-container-size-width-xxs-max: 320px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-container-size-width-2xs-min|max\` instead.
-$calcite-container-size-width-2xs-min: 0; // Small handheld devices and mini-windows
-$calcite-container-size-width-2xs-max: 320px; // Small handheld devices and mini-windows
 $calcite-container-size-width-xs-min: 321px; // Handheld devices
 $calcite-container-size-width-xs-max: 476px; // Handheld devices
 $calcite-container-size-width-sm-min: 477px; // Small tablets
@@ -32661,6 +32681,10 @@ $calcite-container-size-width-md-max: 1152px; // Small laptops
 $calcite-container-size-width-lg-min: 1153px; // Large laptops and desktop computers
 $calcite-container-size-width-lg-max: 1440px; // Large laptops and desktop computers
 $calcite-container-size-width-xl-min: 1441px; // Projectors and televisions
+$calcite-container-size-height-2xs-min: $calcite-container-size-height-xxs-min; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-min\`
+$calcite-container-size-height-2xs-max: $calcite-container-size-height-xxs-max; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-height-xxs-max\`
+$calcite-container-size-width-2xs-min: $calcite-container-size-width-xxs-min; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-min\`
+$calcite-container-size-width-2xs-max: $calcite-container-size-width-xxs-max; // Small handheld devices and mini-windows - Replaces \`--calcite-container-size-width-xxs-max\`
 "
 `;
 
@@ -33315,11 +33339,11 @@ $calcite-color-transparent-scrim: rgba(0, 0, 0, 0.85);
 $calcite-color-transparent-tint: rgba(43, 43, 43, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(0, 0, 0, 0.04);
 $calcite-color-transparent-inverse-press: rgba(0, 0, 0, 0.08);
-$calcite-color-surface-1: #212121; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: #2b2b2b; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: #363636; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: #404040; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: #2b465f; // Replaces \`--calcite-color-foreground-current\`
+$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
+$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
+$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
+$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
+$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
@@ -33481,16 +33505,16 @@ $calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
 $calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
 $calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
 $calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-fixed-xxs; // Replaces \`--calcite-spacing-fixed-xxs\`
-$calcite-space-xs: $calcite-spacing-fixed-xs; // Replaces \`--calcite-spacing-fixed-xs\`
-$calcite-space-sm: $calcite-spacing-fixed-sm; // Replaces \`--calcite-spacing-fixed-sm\`
+$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
+$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
+$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
 $calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-fixed-md; // Replaces \`--calcite-spacing-fixed-md\`
-$calcite-space-md-plus: $calcite-spacing-fixed-lg; // Replaces \`--calcite-spacing-fixed-lg\`
-$calcite-space-lg: $calcite-spacing-fixed-xl; // Replaces \`--calcite-spacing-fixed-xl\`
-$calcite-space-xl: $calcite-spacing-fixed-xxl; // Replaces \`--calcite-spacing-fixed-xxl\`
+$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
+$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
+$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
+$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-fixed-xxxl; // Replaces \`--calcite-spacing-fixed-xxxl\`
+$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
 $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
@@ -33700,11 +33724,11 @@ $calcite-color-transparent-scrim: rgba(255, 255, 255, 0.85);
 $calcite-color-transparent-tint: rgba(255, 255, 255, 0.8);
 $calcite-color-transparent-inverse-hover: rgba(255, 255, 255, 0.12);
 $calcite-color-transparent-inverse-press: rgba(255, 255, 255, 0.16);
-$calcite-color-surface-1: #f7f7f7; // Replaces \`--calcite-color-background\`
-$calcite-color-surface-2: #ffffff; // Replaces \`--calcite-color-foreground-1\`
-$calcite-color-surface-3: #f2f2f2; // Replaces \`--calcite-color-foreground-2\`
-$calcite-color-surface-4: #ebebeb; // Replaces \`--calcite-color-foreground-3\`
-$calcite-color-surface-highlight: #d6efff; // Replaces \`--calcite-color-foreground-current\`
+$calcite-color-surface-1: $calcite-color-background; // Replaces \`--calcite-color-background\`
+$calcite-color-surface-2: $calcite-color-foreground-1; // Replaces \`--calcite-color-foreground-1\`
+$calcite-color-surface-3: $calcite-color-foreground-2; // Replaces \`--calcite-color-foreground-2\`
+$calcite-color-surface-4: $calcite-color-foreground-3; // Replaces \`--calcite-color-foreground-3\`
+$calcite-color-surface-highlight: $calcite-color-foreground-current; // Replaces \`--calcite-color-foreground-current\`
 $calcite-color-focus: $calcite-color-brand;
 "
 `;
@@ -34194,16 +34218,16 @@ $calcite-size-3xl: $calcite-size-xxxl; // Replaces \`--calcite-size-xxxl\`
 $calcite-space-none: $calcite-spacing-none; // Replaces \`--calcite-spacing-none\`
 $calcite-space-px: $calcite-spacing-px; // Replaces \`--calcite-spacing-px\`
 $calcite-space-base: $calcite-spacing-base; // Replaces \`--calcite-spacing-base\`
-$calcite-space-2xs: $calcite-spacing-fixed-xxs; // Replaces \`--calcite-spacing-fixed-xxs\`
-$calcite-space-xs: $calcite-spacing-fixed-xs; // Replaces \`--calcite-spacing-fixed-xs\`
-$calcite-space-sm: $calcite-spacing-fixed-sm; // Replaces \`--calcite-spacing-fixed-sm\`
+$calcite-space-2xs: $calcite-spacing-xxs; // Replaces \`--calcite-spacing-xxs\`
+$calcite-space-xs: $calcite-spacing-xs; // Replaces \`--calcite-spacing-xs\`
+$calcite-space-sm: $calcite-spacing-sm; // Replaces \`--calcite-spacing-sm\`
 $calcite-space-sm-plus: $calcite-spacing-sm-plus; // Replaces \`--calcite-spacing-sm-plus\`
-$calcite-space-md: $calcite-spacing-fixed-md; // Replaces \`--calcite-spacing-fixed-md\`
-$calcite-space-md-plus: $calcite-spacing-fixed-lg; // Replaces \`--calcite-spacing-fixed-lg\`
-$calcite-space-lg: $calcite-spacing-fixed-xl; // Replaces \`--calcite-spacing-fixed-xl\`
-$calcite-space-xl: $calcite-spacing-fixed-xxl; // Replaces \`--calcite-spacing-fixed-xxl\`
+$calcite-space-md: $calcite-spacing-md; // Replaces \`--calcite-spacing-md\`
+$calcite-space-md-plus: $calcite-spacing-md-plus; // Replaces \`--calcite-spacing-md-plus\`
+$calcite-space-lg: $calcite-spacing-lg; // Replaces \`--calcite-spacing-lg\`
+$calcite-space-xl: $calcite-spacing-xl; // Replaces \`--calcite-spacing-xl\`
 $calcite-space-2xl: $calcite-spacing-xxl; // Replaces \`--calcite-spacing-xxl\`
-$calcite-space-3xl: $calcite-spacing-fixed-xxxl; // Replaces \`--calcite-spacing-fixed-xxxl\`
+$calcite-space-3xl: $calcite-spacing-xxxl; // Replaces \`--calcite-spacing-xxxl\`
 $calcite-corner-radius: $calcite-corner-radius-none;
 "
 `;
