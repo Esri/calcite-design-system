@@ -139,7 +139,7 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
   /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). Set to `null`, `undefined`, or an empty string (`""`) to clear the selection. */
-  @property() value?: string | string[] | null;
+  @property() value?: string | string[];
 
   /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
   @property() valueAsDate?: Date | Date[];
