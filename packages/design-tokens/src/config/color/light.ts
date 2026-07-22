@@ -4,10 +4,21 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
+import type { OutputReferences, TransformedToken } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types/extensions.d.ts";
 import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
 import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
+
+const hasOutputReferenceExtension = (token: TransformedToken): boolean =>
+  !!(
+    token.original?.$extensions?.["calcite.outputReference"] || token.original?.extensions?.["calcite.outputReference"]
+  );
+
+const stylesheetOutputReferences: OutputReferences = (token, options) => {
+  // output token references for tokens marked with calcite.outputReference extension
+  return hasOutputReferenceExtension(token) || primitiveValueOutputReferences(token, options);
+};
 
 const config: Config = {
   source: ["src/tokens/semantic/color/light.json"],
@@ -29,7 +40,7 @@ const config: Config = {
         platform: "scss",
         fileExtension: ".scss",
         fileHeader: headers.HeaderDefault,
-        outputReferences: primitiveValueOutputReferences,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     css: {
@@ -47,7 +58,7 @@ const config: Config = {
         platform: "css",
         fileExtension: ".css",
         fileHeader: headers.HeaderDefault,
-        outputReferences: primitiveValueOutputReferences,
+        outputReferences: stylesheetOutputReferences,
       },
     },
     es6: {
