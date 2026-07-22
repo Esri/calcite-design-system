@@ -37,7 +37,7 @@
         "$value": "{core.size.default.8}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
       },
-      "sm+": {
+      "sm-plus": {
         "attributes": {
           "category": "size",
           "docs": "deprecated"
@@ -55,7 +55,7 @@
         "$value": "{core.size.default.12}",
         "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-size-3xs` instead."
       },
-      "md+": {
+      "md-plus": {
         "attributes": {
           "category": "size",
           "docs": "deprecated"
@@ -112,12 +112,12 @@
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.sm-plus}",
-      "$description": "Replaces `--calcite-size-fixed-sm-plus`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.sm-plus}",
+      "$description": "Replaces `--calcite-size-fixed-sm-plus`"
     },
     "xxxs": {
       "attributes": {
@@ -132,12 +132,12 @@
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.md}",
-      "$description": "Replaces `--calcite-size-fixed-md`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.md}",
+      "$description": "Replaces `--calcite-size-fixed-md`"
     },
     "xxs": {
       "attributes": {
@@ -152,45 +152,45 @@
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.md-plus}",
-      "$description": "Replaces `--calcite-size-fixed-md-plus`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.md-plus}",
+      "$description": "Replaces `--calcite-size-fixed-md-plus`"
     },
     "xs": {
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.lg}",
-      "$description": "Replaces `--calcite-size-fixed-lg`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.lg}",
+      "$description": "Replaces `--calcite-size-fixed-lg`"
     },
     "sm": {
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.xxl}",
-      "$description": "Replaces `--calcite-size-fixed-xxl`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.xxl}",
+      "$description": "Replaces `--calcite-size-fixed-xxl`"
     },
     "md": {
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.fixed.xxxl}",
-      "$description": "Replaces `--calcite-size-fixed-xxxl`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.fixed.xxxl}",
+      "$description": "Replaces `--calcite-size-fixed-xxxl`"
     },
     "lg": {
       "attributes": {
@@ -219,12 +219,12 @@
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.xxl}",
-      "$description": "Replaces `--calcite-size-xxl`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.xxl}",
+      "$description": "Replaces `--calcite-size-xxl`"
     },
     "xxxl": {
       "attributes": {
@@ -239,12 +239,12 @@
       "attributes": {
         "category": "size"
       },
-      "$type": "dimension",
-      "$value": "{size.xxxl}",
-      "$description": "Replaces `--calcite-size-xxxl`",
       "$extensions": {
         "calcite.outputReference": true
-      }
+      },
+      "$type": "dimension",
+      "$value": "{size.xxxl}",
+      "$description": "Replaces `--calcite-size-xxxl`"
     }
   }
 }
