@@ -1,5 +1,6 @@
 {
   "chooseDate": "Choisir la date",
+  "clear": "Clear value",
   "date": "Date",
   "dateFormat": "Format de date : {format}",
   "endDate": "Date de fin",
