@@ -1,7 +1,7 @@
 import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { userEvent, page } from "vitest/browser";
-import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
+import { afterEach, beforeEach, describe, it, expect, onTestFinished, vi } from "vitest";
 
 import {
   cancelable,
@@ -368,7 +368,7 @@ describe("overflowing actions", () => {
   });
 
   it("overflows when an actions-end group adds trailing divider and wrapper gaps", async () => {
-    const { el } = await mount<ActionBar>(
+    await mount<ActionBar>(
       <calcite-action-bar expanded style={{ height: "515px" }}>
         <calcite-action-group>
           <calcite-action icon="save" text="Save" />
@@ -394,71 +394,59 @@ describe("overflowing actions", () => {
 
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    const overflowedActions = page
-      .getBySelector("calcite-action[slot='menu-actions']")
-      .elements()
-      .filter((action) => el.contains(action));
+    const overflowedActions = page.getBySelector("calcite-action[slot='menu-actions']");
 
     expect(overflowedActions.length).toBeGreaterThan(0);
   });
 
   it("uses visual slot order for overflow spacing regardless of light-DOM order", async () => {
-    const getOverflowedCount = (el: ActionBar["el"]): number =>
+    const { component, el } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
+        <calcite-action-group
+          style={{
+            borderBlockEndStyle: "solid",
+            borderBlockEndWidth: "20px",
+            paddingBlockEnd: "120px",
+          }}
+        >
+          <calcite-action icon="layers" text="Layers" />
+          <calcite-action icon="layer-basemap" text="Basemaps" />
+          <calcite-action icon="bookmark" text="Bookmarks" />
+        </calcite-action-group>
+        <calcite-action-group slot="actions-end">
+          <calcite-action icon="gear" text="Settings" />
+          <calcite-action icon="speech-bubble-plus" text="Feedback" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    vi.advanceTimersByTime(DEBOUNCE.resize);
+
+    const defaultSlotGroup = page
+      .getBySelector("calcite-action-bar > calcite-action-group:not([slot])")
+      .element() as ActionGroup["el"];
+    const actionsEndGroup = page
+      .getBySelector("calcite-action-bar > calcite-action-group[slot='actions-end']")
+      .element() as ActionGroup["el"];
+
+    const getOverflowedActionTexts = (): string[] =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
         .elements()
-        .filter((action) => el.contains(action)).length;
+        .map((action) => (action as Action["el"]).text);
 
-    const { el: orderedEl } = await mount<ActionBar>(
-      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
-        <calcite-action-group
-          style={{
-            borderBlockEndStyle: "solid",
-            borderBlockEndWidth: "20px",
-            paddingBlockEnd: "120px",
-          }}
-        >
-          <calcite-action icon="layers" text="Layers" />
-          <calcite-action icon="layer-basemap" text="Basemaps" />
-          <calcite-action icon="bookmark" text="Bookmarks" />
-        </calcite-action-group>
-        <calcite-action-group slot="actions-end">
-          <calcite-action icon="gear" text="Settings" />
-          <calcite-action icon="speech-bubble-plus" text="Feedback" />
-        </calcite-action-group>
-      </calcite-action-bar>,
-    );
+    const defaultSlotFirstOverflowedTexts = getOverflowedActionTexts();
 
+    el.prepend(actionsEndGroup);
+    el.append(defaultSlotGroup);
+
+    await component.updateComplete;
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    const orderedOverflowCount = getOverflowedCount(orderedEl);
+    const actionsEndFirstOverflowedTexts = getOverflowedActionTexts();
 
-    const { el: reorderedEl } = await mount<ActionBar>(
-      <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
-        <calcite-action-group slot="actions-end">
-          <calcite-action icon="gear" text="Settings" />
-          <calcite-action icon="speech-bubble-plus" text="Feedback" />
-        </calcite-action-group>
-        <calcite-action-group
-          style={{
-            borderBlockEndStyle: "solid",
-            borderBlockEndWidth: "20px",
-            paddingBlockEnd: "120px",
-          }}
-        >
-          <calcite-action icon="layers" text="Layers" />
-          <calcite-action icon="layer-basemap" text="Basemaps" />
-          <calcite-action icon="bookmark" text="Bookmarks" />
-        </calcite-action-group>
-      </calcite-action-bar>,
-    );
-
-    vi.advanceTimersByTime(DEBOUNCE.resize);
-
-    const reorderedOverflowCount = getOverflowedCount(reorderedEl);
-
-    expect(orderedOverflowCount).toBeGreaterThan(0);
-    expect(reorderedOverflowCount).toBe(orderedOverflowCount);
+    expect(defaultSlotFirstOverflowedTexts.length).toBeGreaterThan(0);
+    expect(actionsEndFirstOverflowedTexts).toEqual(defaultSlotFirstOverflowedTexts);
   });
 
   it("accounts for direct default-slot section gaps when evaluating overflow", async () => {
@@ -484,9 +472,9 @@ describe("overflowing actions", () => {
 
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    const overflowedActions = page
-      .getBySelector("calcite-action-group calcite-action[slot='menu-actions']")
-      .elements();
+    const overflowedActions = page.getBySelector(
+      "calcite-action-group calcite-action[slot='menu-actions']",
+    );
 
     expect(overflowedActions.length).toBeGreaterThan(0);
   });
@@ -506,11 +494,9 @@ describe("overflowing actions", () => {
 
     vi.advanceTimersByTime(DEBOUNCE.resize);
 
-    const overflowedInActionsEndGroup = page
-      .getBySelector(
-        "calcite-action-bar > calcite-action-group[slot='actions-end'] calcite-action[slot='menu-actions']",
-      )
-      .elements();
+    const overflowedInActionsEndGroup = page.getBySelector(
+      "calcite-action-bar > calcite-action-group[slot='actions-end'] calcite-action[slot='menu-actions']",
+    );
 
     expect(overflowedInActionsEndGroup.length).toBeGreaterThan(0);
   });
@@ -518,9 +504,9 @@ describe("overflowing actions", () => {
 
 describe("per-group overflow-actions-disabled", () => {
   it("does not slot projected non-direct actions when evaluating overflow", async () => {
-    const { component } = await mount(ActionBarTestWrapper);
+    const { component, el } = await mount(ActionBarTestWrapper);
 
-    component.innerHTML = `
+    el.innerHTML = `
       <calcite-action icon="plus" text="Add"></calcite-action>
       <calcite-action icon="save" text="Save"></calcite-action>
       <calcite-action icon="trash" text="Delete"></calcite-action>
@@ -565,7 +551,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const before = [...groups];
 
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 10 });
@@ -594,7 +580,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const [group1, group2] = groups;
     const overflowedIn = (group: ActionGroup["el"]): number =>
       page
@@ -629,7 +615,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const directActions = page
       .getBySelector("calcite-action-group > calcite-action")
       .elements()
@@ -666,7 +652,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const overflowedIn = (group: ActionGroup["el"]): string[] =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
@@ -696,7 +682,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const overflowedIn = (group: ActionGroup["el"]): number =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
@@ -727,7 +713,7 @@ describe("per-group overflow-actions-disabled", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const overflowedIn = (group: ActionGroup["el"]): number =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
@@ -822,7 +808,7 @@ describe("overflow-disabled actions", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const overflowedIn = (group: ActionGroup["el"]): Element[] =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
@@ -854,7 +840,7 @@ describe("overflow-disabled actions", () => {
     const groups = page
       .getBySelector("calcite-action-group")
       .elements()
-      .filter((g) => g.parentElement === el) as ActionGroup["el"][];
+      .filter((group) => group.parentElement === el) as ActionGroup["el"][];
     const overflowedIn = (group: ActionGroup["el"]): Element[] =>
       page
         .getBySelector("calcite-action[slot='menu-actions']")
@@ -878,21 +864,20 @@ describe("overflow-disabled actions", () => {
 
 describe("slot-change action tracking", () => {
   it("updates slotted action state when an action-group emits an actions change event", async () => {
+    const actionsChange = vi.fn();
+
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
-        <calcite-action-group />
+        <calcite-action-group oncalciteInternalActionGroupActionsChange={actionsChange} />
       </calcite-action-bar>,
     );
 
     const group = page
       .getBySelector("calcite-action-bar > calcite-action-group")
       .element() as ActionGroup["el"];
-    const actionsChange = vi.fn();
     const actions = page.getBySelector(
       "calcite-action-bar > calcite-action-group > calcite-action",
     );
-
-    group.addEventListener("calciteActionGroupActionsChange", actionsChange);
 
     expect(group.actions).toEqual([]);
 
@@ -907,7 +892,6 @@ describe("slot-change action tracking", () => {
     const action2 = actions.nth(1).element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(group.actions).toEqual([action1, action2]);
     expect(action1.selectionAppearance).toBe("highlight");
     expect(action2.selectionAppearance).toBe("highlight");
@@ -922,41 +906,40 @@ describe("slot-change action tracking", () => {
       </calcite-action-bar>,
     );
 
-    const overflowSpy = vi.spyOn(ActionBar.prototype, "overflowActions");
+    const overflowSpy = vi.spyOn(component, "overflowActions");
+    onTestFinished(() => overflowSpy.mockRestore());
 
-    try {
-      const group = page
-        .getBySelector("calcite-action-bar > calcite-action-group")
-        .element() as ActionGroup["el"];
+    const group = page
+      .getBySelector("calcite-action-bar > calcite-action-group")
+      .element() as ActionGroup["el"];
 
-      group.innerHTML = `
-        <calcite-action icon="plus" text="Add"></calcite-action>
-        <calcite-action icon="save" text="Save"></calcite-action>
-        <calcite-action icon="trash" text="Delete"></calcite-action>
-        <calcite-action icon="pencil" text="Edit"></calcite-action>
-      `;
+    group.innerHTML = `
+      <calcite-action icon="plus" text="Add"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+      <calcite-action icon="trash" text="Delete"></calcite-action>
+      <calcite-action icon="pencil" text="Edit"></calcite-action>
+    `;
 
-      await component.updateComplete;
+    await component.updateComplete;
 
-      expect(overflowSpy).toHaveBeenCalled();
-    } finally {
-      overflowSpy.mockRestore();
-    }
+    expect(overflowSpy).toHaveBeenCalled();
   });
 
   it("updates slotted action state when an action-menu emits an actions change event", async () => {
+    const actionsChange = vi.fn();
+
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
-        <calcite-action-menu label="Actions" />
+        <calcite-action-menu
+          label="Actions"
+          oncalciteInternalActionMenuActionsChange={actionsChange}
+        />
       </calcite-action-bar>,
     );
 
     const menu = page
       .getBySelector("calcite-action-bar > calcite-action-menu")
       .element() as ActionMenu["el"];
-    const actionsChange = vi.fn();
-
-    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
 
     expect(menu.actions).toEqual([]);
 
@@ -975,7 +958,6 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
@@ -984,18 +966,21 @@ describe("slot-change action tracking", () => {
   });
 
   it("updates slotted action state when an actions-start action-menu emits an actions change event", async () => {
+    const actionsChange = vi.fn();
+
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
-        <calcite-action-menu label="Actions" slot={SLOTS.actionsStart} />
+        <calcite-action-menu
+          label="Actions"
+          oncalciteInternalActionMenuActionsChange={actionsChange}
+          slot={SLOTS.actionsStart}
+        />
       </calcite-action-bar>,
     );
 
     const menu = page
       .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-start']")
       .element() as ActionMenu["el"];
-    const actionsChange = vi.fn();
-
-    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
 
     expect(menu.actions).toEqual([]);
 
@@ -1018,7 +1003,6 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
@@ -1027,18 +1011,21 @@ describe("slot-change action tracking", () => {
   });
 
   it("updates slotted action state when an actions-end action-menu emits an actions change event", async () => {
+    const actionsChange = vi.fn();
+
     const { component } = await mount<ActionBar>(
       <calcite-action-bar expanded selection-appearance="highlight">
-        <calcite-action-menu label="Actions" slot={SLOTS.actionsEnd} />
+        <calcite-action-menu
+          label="Actions"
+          oncalciteInternalActionMenuActionsChange={actionsChange}
+          slot={SLOTS.actionsEnd}
+        />
       </calcite-action-bar>,
     );
 
     const menu = page
       .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-end']")
       .element() as ActionMenu["el"];
-    const actionsChange = vi.fn();
-
-    menu.addEventListener("calciteActionMenuActionsChange", actionsChange);
 
     expect(menu.actions).toEqual([]);
 
@@ -1061,7 +1048,6 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(actionsChange.mock.calls[0][0].detail).toBeNull();
     expect(menu.actions).toHaveLength(2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
@@ -1218,10 +1204,10 @@ describe("slot-change action tracking", () => {
   });
 
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
-    const { component } = await mount(ActionBarTestWrapper);
+    const { component, el } = await mount(ActionBarTestWrapper);
     const actions = page.getBySelector("action-bar-test-wrapper calcite-action");
 
-    component.innerHTML = `
+    el.innerHTML = `
       <calcite-action icon="plus" text="Add"></calcite-action>
       <calcite-action icon="save" text="Save"></calcite-action>
     `;

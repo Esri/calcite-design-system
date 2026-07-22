@@ -51,7 +51,9 @@ export class ActionMenu extends LitElement {
 
   private guid = guid();
 
-  private actionElements: Action["el"][] = [];
+  private _actions: Action["el"][] = [];
+
+  private navigableActions: Action["el"][] = [];
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
@@ -67,9 +69,9 @@ export class ActionMenu extends LitElement {
 
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { key } = event;
-    const { actionElements, activeMenuItemIndex, open } = this;
+    const { activeMenuItemIndex, navigableActions, open } = this;
 
-    if (!actionElements.length) {
+    if (!navigableActions.length) {
       return;
     }
 
@@ -81,7 +83,7 @@ export class ActionMenu extends LitElement {
         return;
       }
 
-      const action = actionElements[activeMenuItemIndex];
+      const action = navigableActions[activeMenuItemIndex];
       if (action) {
         action.click();
       } else {
@@ -100,7 +102,7 @@ export class ActionMenu extends LitElement {
       return;
     }
 
-    this.handleActionNavigation(event, key, actionElements);
+    this.handleActionNavigation(event, key, navigableActions);
   };
 
   private menuId = IDS.menu(this.guid);
@@ -134,7 +136,7 @@ export class ActionMenu extends LitElement {
       return;
     }
 
-    this.activeMenuItemIndex = this.actionElements?.findIndex((action) => action === event.target);
+    this.activeMenuItemIndex = this.navigableActions.findIndex((action) => action === event.target);
   };
 
   //#endregion
@@ -195,11 +197,14 @@ export class ActionMenu extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the actions in the menu.
+   * Specifies the `calcite-action`s in the menu.
    *
+   * @internal
    * @readonly
    */
-  @property({ attribute: false }) actions: Action["el"][] = [];
+  @property({ attribute: false }) get actions(): Action["el"][] {
+    return this._actions;
+  }
 
   //#endregion
 
@@ -230,8 +235,8 @@ export class ActionMenu extends LitElement {
   /** Fires when the `open` property is toggled. */
   calciteActionMenuOpen = createEvent({ cancelable: false });
 
-  /** Fires after the component's slotted actions change. */
-  calciteActionMenuActionsChange = createEvent({ cancelable: false });
+  /** Fires after the component's slotted `calcite-action`s change. */
+  calciteInternalActionMenuActionsChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -240,7 +245,7 @@ export class ActionMenu extends LitElement {
   constructor() {
     super();
     this.listen<CustomEvent<void>>(
-      "calciteActionGroupActionsChange",
+      "calciteInternalActionGroupActionsChange",
       this.handleActionGroupActionsChange,
     );
   }
@@ -263,7 +268,7 @@ export class ActionMenu extends LitElement {
       changes.has("activeMenuItemIndex") &&
       (this.hasUpdated || this.activeMenuItemIndex !== -1)
     ) {
-      this.updateActions(this.actionElements);
+      this.updateActions(this.navigableActions);
     }
 
     if (changes.has("expanded") && this.hasUpdated) {
@@ -404,21 +409,21 @@ export class ActionMenu extends LitElement {
       dedupedActions.push(action);
     });
 
-    this.actions = dedupedActions;
-    this.actionElements = dedupedActions.filter(
+    this._actions = dedupedActions;
+    this.navigableActions = dedupedActions.filter(
       (action) => !triggerActionsSet.has(action) && !action.disabled && !action.hidden,
     );
 
-    if (!this.open || !this.actionElements.length) {
+    if (!this.open || !this.navigableActions.length) {
       this.activeMenuItemIndex = -1;
     } else if (
       this.activeMenuItemIndex < 0 ||
-      this.activeMenuItemIndex >= this.actionElements.length
+      this.activeMenuItemIndex >= this.navigableActions.length
     ) {
       this.activeMenuItemIndex = 0;
     }
 
-    this.updateActions(this.actionElements);
+    this.updateActions(this.navigableActions);
   }
 
   private setMenuButtonEl(): void {
@@ -430,7 +435,7 @@ export class ActionMenu extends LitElement {
 
   private syncActionsAndEmitChange(): void {
     this.syncActions();
-    this.calciteActionMenuActionsChange.emit();
+    this.calciteInternalActionMenuActionsChange.emit();
   }
 
   private handleTriggerSlotChange(): void {
@@ -452,7 +457,7 @@ export class ActionMenu extends LitElement {
   }
 
   private handleCalciteActionClick(event): void {
-    if (this.actionElements?.some((action) => event.composedPath().includes(action))) {
+    if (this.navigableActions.some((action) => event.composedPath().includes(action))) {
       this.open = false;
       this.setFocus();
     }
@@ -478,7 +483,7 @@ export class ActionMenu extends LitElement {
   }
 
   private updateActions(actions: Action["el"][]): void {
-    actions?.forEach(this.updateAction);
+    actions.forEach(this.updateAction);
   }
 
   private async handleDefaultSlotChange(): Promise<void> {
@@ -592,7 +597,7 @@ export class ActionMenu extends LitElement {
 
   private renderMenuItems(): JsxNode {
     const {
-      actionElements,
+      navigableActions,
       activeMenuItemIndex,
       menuId,
       menuButtonEl,
@@ -602,7 +607,7 @@ export class ActionMenu extends LitElement {
       flipPlacements,
     } = this;
 
-    const activeAction = actionElements[activeMenuItemIndex];
+    const activeAction = navigableActions[activeMenuItemIndex];
     const activeDescendantId = activeAction?.id || null;
 
     return (

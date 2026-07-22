@@ -48,7 +48,8 @@ export function toggleActionBarChildActionText({
   expandables.forEach((item) => (item.expanded = expanded));
 }
 
-export function toggleChildActionText({
+// Used by the legacy action-pad component. action-bar does not use this helper.
+export function legacyToggleChildActionText({
   el,
   expanded,
 }: {

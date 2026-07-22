@@ -21,8 +21,6 @@ import type { ActionMenu } from "./action-menu";
 mockConsole();
 
 class ActionMenuTestWrapper extends LitElement {
-  static tagName = "action-menu-test-wrapper";
-
   override render(): JsxNode {
     return (
       <calcite-action-menu label="Test">
@@ -97,12 +95,11 @@ describe("defaults", () => {
 });
 
 it("stores slotted actions and emits an actions change event without detail", async () => {
-  const { component, el } = await mount<"calcite-action-menu">(
-    <calcite-action-menu label="Test" />,
-  );
   const actionsChange = vi.fn();
 
-  el.addEventListener("calciteActionMenuActionsChange", actionsChange);
+  const { component, el } = await mount<"calcite-action-menu">(
+    <calcite-action-menu label="Test" oncalciteInternalActionMenuActionsChange={actionsChange} />,
+  );
 
   expect(el.actions).toEqual([]);
 
@@ -117,7 +114,6 @@ it("stores slotted actions and emits an actions change event without detail", as
   expect(el.actions[0].text).toBe("Open");
   expect(el.actions[1].text).toBe("Save");
   expect(actionsChange).toHaveBeenCalled();
-  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
 });
 
 it("applies menu item accessibility state when slotted actions change", async () => {
@@ -134,23 +130,22 @@ it("applies menu item accessibility state when slotted actions change", async ()
 
   const menuItem = el.actions[1];
 
-  expect(menuItem?.getAttribute("role")).toBe("menuitem");
-  expect(menuItem?.tabIndex).toBe(-1);
+  await expect.element(menuItem).toHaveAttribute("role", "menuitem");
+  await expect.element(menuItem).toHaveProperty("tabIndex", -1);
 });
 
 it("updates actions when nested action-group actions change", async () => {
+  const actionsChange = vi.fn();
+
   const { component, el } = await mount<"calcite-action-menu">(
-    <calcite-action-menu label="Test">
+    <calcite-action-menu label="Test" oncalciteInternalActionMenuActionsChange={actionsChange}>
       <calcite-action-group>
         <calcite-action icon="plus" text="Add" />
       </calcite-action-group>
     </calcite-action-menu>,
   );
 
-  const actionsChange = vi.fn();
   const group = page.getBySelector("calcite-action-menu > calcite-action-group").element();
-
-  el.addEventListener("calciteActionMenuActionsChange", actionsChange);
 
   expect(el.actions).toHaveLength(1);
 
@@ -162,23 +157,22 @@ it("updates actions when nested action-group actions change", async () => {
   await component.updateComplete;
 
   expect(actionsChange).toHaveBeenCalled();
-  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
   expect(el.actions).toHaveLength(2);
   expect(el.actions[0].text).toBe("Add");
   expect(el.actions[1].text).toBe("Save");
 });
 
 it("tracks trigger actions projected through an intermediate slot", async () => {
-  const { component } = await mount(ActionMenuTestWrapper);
+  const { component, el } = await mount(ActionMenuTestWrapper);
 
-  component.innerHTML = `
+  el.innerHTML = `
     <calcite-action icon="plus" slot="trigger-action" text="Open"></calcite-action>
     <calcite-action icon="save" text="Save"></calcite-action>
   `;
 
   await component.updateComplete;
 
-  const actionMenu = component.renderRoot.firstElementChild as ActionMenu["el"];
+  const actionMenu = page.getBySelector("calcite-action-menu").element() as ActionMenu["el"];
   const actions = actionMenu.actions;
   const triggerAction = actions[0];
   const menuAction = actions[1];

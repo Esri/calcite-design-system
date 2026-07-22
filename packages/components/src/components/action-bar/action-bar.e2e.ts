@@ -412,9 +412,7 @@ describe("overflow actions", () => {
     await page.waitForTimeout(DEBOUNCE.resize + 10);
 
     expect(await findAll(page, dynamicGroupActionsSelector)).toHaveLength(8);
-    const slottedActionsBeforeResize = await findAll(page, slottedActionsSelector, {
-      allowEmpty: true,
-    });
+    const slottedActionsBeforeResize = await findAll(page, slottedActionsSelector);
 
     expect(slottedActionsBeforeResize.length).toBeGreaterThan(0);
 

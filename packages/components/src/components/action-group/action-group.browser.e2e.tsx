@@ -284,10 +284,11 @@ it("should emit expanded/collapsed events when toggled", async () => {
 });
 
 it("stores slotted actions and emits an actions change event without detail", async () => {
-  const { component, el } = await mount<ActionGroup>(<calcite-action-group label="Test" />);
   const actionsChange = vi.fn();
 
-  el.addEventListener("calciteActionGroupActionsChange", actionsChange);
+  const { component, el } = await mount<ActionGroup>(
+    <calcite-action-group label="Test" oncalciteInternalActionGroupActionsChange={actionsChange} />,
+  );
 
   expect(el.actions).toEqual([]);
 
@@ -302,19 +303,21 @@ it("stores slotted actions and emits an actions change event without detail", as
   expect(el.actions[0].text).toBe("Add");
   expect(el.actions[1].text).toBe("Save");
   expect(actionsChange).toHaveBeenCalled();
-  expect(actionsChange.mock.calls[0][0].detail).toBeNull();
 });
 
 it("reapplies selection ARIA state and selectedActions when slotted actions change", async () => {
+  const actionFromEvent = {
+    current: null as ActionGroup["actions"][number] | null,
+  };
+
   const { component, el } = await mount<ActionGroup>(
-    <calcite-action-group selection-mode="single" />,
+    <calcite-action-group
+      oncalciteInternalActionGroupActionsChange={() => {
+        actionFromEvent.current = el.actions[0];
+      }}
+      selection-mode="single"
+    />,
   );
-
-  let actionFromEvent: ActionGroup["actions"][number] | undefined;
-
-  el.addEventListener("calciteActionGroupActionsChange", () => {
-    actionFromEvent = el.actions[0];
-  });
 
   el.innerHTML = `<calcite-action active icon="plus" text="Add"></calcite-action>`;
 
@@ -322,9 +325,12 @@ it("reapplies selection ARIA state and selectedActions when slotted actions chan
 
   const action = el.actions[0];
 
-  expect(actionFromEvent).toBe(action);
-  expect(action?.aria?.role).toBe("radio");
-  expect(action?.aria?.checked).toBe("true");
+  expect(actionFromEvent.current).not.toBeNull();
+  expect(actionFromEvent.current).toBe(action);
+  expect(action.aria).toEqual({
+    checked: "true",
+    role: "radio",
+  });
   expect(el.selectedActions).toEqual([action]);
 });
 

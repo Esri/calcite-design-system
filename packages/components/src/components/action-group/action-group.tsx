@@ -54,6 +54,8 @@ export class ActionGroup extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
+  private _actions: Action["el"][] = [];
+
   private focusSetter = useSetFocus<this>()(this);
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
@@ -132,11 +134,14 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
-   * Specifies the actions in the group.
+   * Specifies the `calcite-action`s in the group.
    *
+   * @internal
    * @readonly
    */
-  @property({ attribute: false }) actions: Action["el"][] = [];
+  @property({ attribute: false }) get actions(): Action["el"][] {
+    return this._actions;
+  }
 
   /**
    * Specifies the active actions in the group.
@@ -174,8 +179,8 @@ export class ActionGroup extends LitElement {
   /** Fires after an action's active state changes. */
   calciteActionGroupChange = createEvent({ cancelable: false });
 
-  /** Fires after the component's slotted actions change. */
-  calciteActionGroupActionsChange = createEvent({ cancelable: false });
+  /** Fires after the component's slotted `calcite-action`s change. */
+  calciteInternalActionGroupActionsChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -251,16 +256,14 @@ export class ActionGroup extends LitElement {
     }
 
     if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-      const selected = this.actions?.filter((action) => action.active) ?? [];
+      const selected = this.actions.filter((action) => action.active);
       if (selected.length > 1) {
-        this.actions.forEach((action) =>
-          this.updateAction(action, action === selected[selected.length - 1]),
-        );
+        this.actions.forEach((action) => this.updateAction(action, action === selected.at(-1)));
       }
     }
 
     this.updateSelectedActions(
-      this.selectionMode === "none" ? [] : (this.actions?.filter((action) => action.active) ?? []),
+      this.selectionMode === "none" ? [] : this.actions.filter((action) => action.active),
     );
   }
 
@@ -272,13 +275,13 @@ export class ActionGroup extends LitElement {
       ? getSlotAssignedElements<Action["el"]>(this.menuActionsSlotRef.value, "calcite-action")
       : [];
 
-    this.actions = [...defaultActions, ...menuActions];
+    this._actions = [...defaultActions, ...menuActions];
     this.syncSelectionState();
   }
 
   private syncActionsAndEmitChange(): void {
     this.syncActions();
-    this.calciteActionGroupActionsChange.emit();
+    this.calciteInternalActionGroupActionsChange.emit();
   }
 
   private handleDefaultSlotChange(): void {

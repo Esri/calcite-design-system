@@ -1,6 +1,5 @@
 import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
-import { isActionMenu } from "../action-menu/utils/isActionMenu";
+import { SLOTS as ACTION_MENU_SLOTS, isActionMenu } from "../action-menu/resources";
 import type { ActionMenu } from "../action-menu/action-menu";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
@@ -39,7 +38,7 @@ export const overflowActions = ({
   [...actionGroups].reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const directGroupActions = [...group.actions].filter((action) => action.parentElement === group).reverse();
+    const directGroupActions = group.actions.filter((action) => action.parentElement === group).reverse();
 
     directGroupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {

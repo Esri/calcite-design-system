@@ -32,7 +32,7 @@ import { useSetFocus } from "../../controllers/useSetFocus";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { isActionMenu } from "../action-menu/utils/isActionMenu";
+import { isActionMenu } from "../action-menu/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -95,6 +95,7 @@ export class ActionBar extends LitElement {
 
   private overflowPassId = 0;
 
+  // Suppresses the temporary actions-change event emitted while an overflow pass is mutating a group.
   private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
 
   private cancelable = useCancelable<this>()(this);
@@ -301,7 +302,7 @@ export class ActionBar extends LitElement {
   /**
    * When `true`, expands the component.
    *
-   * Child slotted `calcite-action`, `calcite-action-group`, and `calcite-action-menu` expanded/text state is synced when this property is toggled, not during initialization.
+   * The `expanded` or `textEnabled` state of `calcite-action`, `calcite-action-group`, and `calcite-action-menu` children is synced when this property is toggled, not during initialization.
    * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
    */
   @property({ reflect: true }) expanded = false;
@@ -391,11 +392,11 @@ export class ActionBar extends LitElement {
       this.actionMenuOpenHandler,
     );
     this.listen<CustomEvent<void>>(
-      "calciteActionGroupActionsChange",
+      "calciteInternalActionGroupActionsChange",
       this.handleActionGroupActionsChange,
     );
     this.listen<CustomEvent<void>>(
-      "calciteActionMenuActionsChange",
+      "calciteInternalActionMenuActionsChange",
       this.handleActionMenuActionsChange,
     );
     this.listen("keydown", this.handleKeyDown);
@@ -497,7 +498,7 @@ export class ActionBar extends LitElement {
     const composedPath = event.composedPath();
     const source = composedPath.find(
       (element): element is ActionGroup["el"] | ActionMenu["el"] =>
-        element instanceof Element && (isActionGroup(element) || isActionMenu(element)),
+        isActionGroup(element as Element) || isActionMenu(element as Element),
     );
 
     if (!source) {
@@ -521,6 +522,9 @@ export class ActionBar extends LitElement {
     });
   }
 
+  // Overflow is a two-step pass: capture each group's current direct-action slot state,
+  // run the overflow mutation, then suppress any transient actions-change event emitted
+  // by groups whose direct children were just moved.
   private runOverflowActions({
     actionGroups,
     expanded,
@@ -559,6 +563,7 @@ export class ActionBar extends LitElement {
     group: ActionGroup["el"],
     overflowPassId: number,
   ): void {
+    // Defer cleanup until the overflow mutation has finished propagating so the next actions-change event from this pass is still suppressed.
     queueMicrotask(() => {
       if (this.suppressedActionGroupActionsChange.get(group) === overflowPassId) {
         this.suppressedActionGroupActionsChange.delete(group);
@@ -682,12 +687,8 @@ export class ActionBar extends LitElement {
 
   private syncDefaultSlot(): void {
     this.defaultSlotItems = this.getAssignedActionBarItems(this.defaultSlotRef.value);
-    this.actionGroups = this.defaultSlotItems.filter((item): item is ActionGroup["el"] =>
-      isActionGroup(item),
-    );
-    this.actionMenus = this.defaultSlotItems.filter((item): item is ActionMenu["el"] =>
-      isActionMenu(item),
-    );
+    this.actionGroups = this.defaultSlotItems.filter((item) => isActionGroup(item));
+    this.actionMenus = this.defaultSlotItems.filter((item) => isActionMenu(item));
     this.updateGroups();
   }
 
