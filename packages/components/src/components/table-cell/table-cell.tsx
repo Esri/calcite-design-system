@@ -60,9 +60,9 @@ export class TableCell extends LitElement {
   /**
    * Specifies the horizontal alignment of content within the component.
    *
-   * - `"start"` positions content at the start of the component
-   * - `"center"` positions content in the middle of the component
-   * - `"end"` positions content at the end of the component
+   * - `"start"` positions content at the start of the component.
+   * - `"center"` positions content in the middle of the component.
+   * - `"end"` positions content at the end of the component.
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 

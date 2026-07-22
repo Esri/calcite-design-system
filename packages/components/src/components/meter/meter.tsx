@@ -87,8 +87,8 @@ export class Meter extends LitElement {
   /**
    * Specifies the component's display.
    *
-   * - `"single"` displays a single color
-   * - `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values
+   * - `"single"` displays a single color.
+   * - `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
    */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 

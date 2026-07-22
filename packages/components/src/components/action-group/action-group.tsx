@@ -110,10 +110,10 @@ export class ActionGroup extends LitElement {
   /**
    * Specifies the selection mode of the component.
    *
-   * - `"multiple"` allows any number of selections
-   * - `"single"` allows only one selection
-   * - `"single-persist"` allows one selection and prevents de-selection
-   * - `"none"` disables selection (default)
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` disables selection (default).
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple" | "none",

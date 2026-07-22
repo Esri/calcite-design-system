@@ -137,9 +137,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * When `mode` is `"offset"`, specifies how the offset will be displayed.
    *
-   * - `"user"` uses `UTC` or `GMT` depending on the user's locale
-   * - `"gmt"` always uses `GMT`
-   * - `"utc"` always uses `UTC`
+   * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
+   * - `"gmt"` always uses `GMT`.
+   * - `"utc"` always uses `UTC`.
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 

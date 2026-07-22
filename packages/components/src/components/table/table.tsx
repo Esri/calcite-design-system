@@ -148,9 +148,9 @@ export class Table extends LitElement {
   /**
    * Specifies the selection mode of the component.
    *
-   * - `"multiple"` allows any number of selections
-   * - `"single"` allows only one selection
-   * - `"none"` does not allow any selections
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single",

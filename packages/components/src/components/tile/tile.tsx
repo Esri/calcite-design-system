@@ -115,9 +115,9 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot)
-   * - `"highlight"` (changes the background color)
-   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead
+   * - `"icon"` (displays a checkmark or dot).
+   * - `"highlight"` (changes the background color).
+   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
@@ -131,10 +131,10 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items)
-   * - `"single"` (allows only one selected item)
-   * - `"single-persist"` (allows only one selected item and prevents de-selection)
-   * - `"none"` (allows no selected items)
+   * - `"multiple"` (allows any number of selected items).
+   * - `"single"` (allows only one selected item).
+   * - `"single-persist"` (allows only one selected item and prevents de-selection).
+   * - `"none"` (allows no selected items).
    *
    * This property is set by the parent tile-group.
    *
