@@ -6,7 +6,8 @@ import type { Scale } from "../interfaces";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
-type Layout = "horizontal" | "vertical";
+type Layout = "grid" | "horizontal" | "vertical";
+type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
 declare global {
   interface DeclareElements {
@@ -35,6 +36,9 @@ export class FieldSet extends LitElement {
   // #endregion
 
   // #region Public Properties
+
+  /** When `true`, disables the slotted inputs. */
+  @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** When `true`, disables the slotted inputs. */
   @property({ reflect: true }) disabled = false;
@@ -119,8 +123,9 @@ export class FieldSet extends LitElement {
         <div
           class={{
             [CSS.fieldWrapper]: true,
-            [CSS.fieldWrapperHorizontal]: this.layout === "horizontal",
             [CSS.fieldWrapperVertical]: this.layout === "vertical",
+            [CSS.fieldWrapperHorizontal]: this.layout === "horizontal",
+            [CSS.fieldWrapperGrid]: this.layout === "grid",
           }}
         >
           <slot onSlotChange={this.handleInputSlotChange} />

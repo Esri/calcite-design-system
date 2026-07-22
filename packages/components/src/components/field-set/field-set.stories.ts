@@ -1,9 +1,10 @@
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
+  columns?: 1 | 2 | 3 | 4 | 5 | 6;
   disabled: boolean;
   gap?: string;
-  layout: "vertical" | "horizontal";
+  layout: "vertical" | "horizontal" | "grid";
   legendText: string;
   legendTextColor?: string;
   scale: "s" | "m" | "l";
@@ -15,6 +16,7 @@ export default {
     layout: "padded",
   },
   args: {
+    columns: 2,
     disabled: false,
     layout: "vertical",
     legendText: "Field Set legend",
@@ -24,11 +26,15 @@ export default {
     disabled: {
       control: { type: "boolean" },
     },
+    columns: {
+      options: [1, 2, 3, 4, 5, 6],
+      control: { type: "radio" },
+    },
     gap: {
       control: { type: "text" },
     },
     layout: {
-      options: ["vertical", "horizontal"],
+      options: ["vertical", "horizontal", "grid"],
       control: { type: "radio" },
     },
     legendTextColor: {
@@ -59,6 +65,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
 
   return html`
     <calcite-field-set
+      ${args.columns ? `columns="${args.columns}"` : ""}
       ${args.disabled ? "disabled" : ""}
       layout="${args.layout}"
       scale="${args.scale}"
