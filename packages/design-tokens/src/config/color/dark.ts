@@ -4,21 +4,10 @@ import {
   logWarningLevels,
   logVerbosityLevels,
 } from "style-dictionary/enums";
-import type { OutputReferences, TransformedToken } from "style-dictionary/types";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types/extensions.d.ts";
 import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
-import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
-
-const hasOutputReferenceExtension = (token: TransformedToken): boolean =>
-  !!(
-    token.original?.$extensions?.["calcite.outputReference"] || token.original?.extensions?.["calcite.outputReference"]
-  );
-
-const stylesheetOutputReferences: OutputReferences = (token, options) => {
-  // output token references for tokens marked with calcite.outputReference extension
-  return hasOutputReferenceExtension(token) || primitiveValueOutputReferences(token, options);
-};
+import { primitiveValueOutputReferences, stylesheetOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
   source: ["src/tokens/semantic/color/dark.json"],
