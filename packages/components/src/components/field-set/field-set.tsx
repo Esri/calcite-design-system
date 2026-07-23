@@ -6,7 +6,7 @@ import { getSlotAssignedElements, getStylePixelValue } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
-type Layout = "grid" | "horizontal" | "vertical";
+type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
 const internalPrefixWidthVar = "--calcite-internal-input-prefix-width";
@@ -40,7 +40,7 @@ export class FieldSet extends LitElement {
 
   // #region Public Properties
 
-  /** When `layout` is `"grid"`, specifies the number of columns. */
+  /** When `layout` is `"columns"`, specifies the number of columns. */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
   /** When `true`, disables the slotted inputs. */
@@ -224,7 +224,7 @@ export class FieldSet extends LitElement {
             [CSS.fieldWrapper]: true,
             [CSS.fieldWrapperVertical]: this.layout === "vertical",
             [CSS.fieldWrapperHorizontal]: this.layout === "horizontal",
-            [CSS.fieldWrapperGrid]: this.layout === "grid",
+            [CSS.fieldWrapperColumns]: this.layout === "columns",
           }}
         >
           <slot onSlotChange={this.handleInputSlotChange} />

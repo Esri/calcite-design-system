@@ -3,7 +3,7 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-field-set-columns: When `layout` is `"grid"`, specifies the component's `grid-template-columns`.
+ * @prop --calcite-field-set-columns: When `layout` is `"columns"`, specifies the component's number of columns.
  * @prop --calcite-field-set-space: Specifies the gap between the component's slotted elements.
  */
 
@@ -65,7 +65,7 @@
   flex-direction: row;
 }
 
-.field-wrapper--grid {
+.field-wrapper--columns {
   display: grid;
   place-content: stretch;
   grid-template-columns: repeat(

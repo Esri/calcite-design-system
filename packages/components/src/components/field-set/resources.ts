@@ -4,5 +4,5 @@ export const CSS = {
   fieldWrapper: "field-wrapper",
   fieldWrapperVertical: "field-wrapper--vertical",
   fieldWrapperHorizontal: "field-wrapper--horizontal",
-  fieldWrapperGrid: "field-wrapper--grid",
+  fieldWrapperColumns: "field-wrapper--columns",
 };

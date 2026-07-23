@@ -6,7 +6,7 @@ type FieldSetStoryArgs = {
   legendTextColor?: string;
   gap?: string;
   scale: "s" | "m" | "l";
-  layout: "vertical" | "horizontal" | "grid";
+  layout: "vertical" | "horizontal" | "columns";
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   prefixAutoWidth: boolean;
   suffixAutoWidth: boolean;
@@ -36,7 +36,7 @@ export default {
       control: { type: "text" },
     },
     layout: {
-      options: ["vertical", "horizontal", "grid"],
+      options: ["vertical", "horizontal", "columns"],
       control: { type: "radio" },
     },
     columns: {
@@ -137,11 +137,12 @@ export const layouts = (args: FieldSetStoryArgs): string => html`
   <div style="display: flex; flex-direction: column; gap: 3rem;">
     ${simple({ ...args, layout: "vertical", legendText: "Vertical" })}
     ${simple({ ...args, layout: "horizontal", legendText: "Horizontal" })}
-    ${simple({ ...args, columns: 2, layout: "grid", legendText: "Grid with 2 columns" })}
-    ${simple({ ...args, columns: 3, layout: "grid", legendText: "Grid with 3 columns" })}
-    ${simple({ ...args, columns: 4, layout: "grid", legendText: "Grid with 4 columns" })}
-    ${simple({ ...args, columns: 5, layout: "grid", legendText: "Grid with 5 columns" })}
-    ${simple({ ...args, columns: 6, layout: "grid", legendText: "Grid with 6 columns" })}
+    ${simple({ ...args, columns: 1, layout: "columns", legendText: "Columns (1)" })}
+    ${simple({ ...args, columns: 2, layout: "columns", legendText: "Columns (2)" })}
+    ${simple({ ...args, columns: 3, layout: "columns", legendText: "Columns (3)" })}
+    ${simple({ ...args, columns: 4, layout: "columns", legendText: "Columns (4)" })}
+    ${simple({ ...args, columns: 5, layout: "columns", legendText: "Columns (5)" })}
+    ${simple({ ...args, columns: 6, layout: "columns", legendText: "Columns (6)" })}
   </div>
 `;
 layouts.args = { columns: 2, layout: "vertical" };

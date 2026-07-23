@@ -52,12 +52,12 @@ describe("layout", () => {
     expect(fieldWrapper.classList.contains(CSS.fieldWrapperVertical)).toBe(false);
   });
 
-  it("applies the grid layout class and column count when requested", async () => {
-    const { el } = await mount(<calcite-field-set columns={4} layout="grid" />);
+  it("applies the 'columns' layout class and column count when requested", async () => {
+    const { el } = await mount(<calcite-field-set columns={4} layout="columns" />);
     const fieldSet = el as unknown as FieldSetElement;
     const fieldWrapper = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
 
-    expect(fieldWrapper.classList.contains(CSS.fieldWrapperGrid)).toBe(true);
+    expect(fieldWrapper.classList.contains(CSS.fieldWrapperColumns)).toBe(true);
     expect(getStyleProperty(fieldSet, "--calcite-internal-field-set-columns")).toBe("4");
   });
 });
