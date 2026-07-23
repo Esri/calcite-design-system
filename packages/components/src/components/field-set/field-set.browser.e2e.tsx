@@ -63,7 +63,7 @@ describe("layout", () => {
 });
 
 describe("propagation", () => {
-  it("propagates scale to slotted inputs", async () => {
+  it("propagates scale to slotted Input, Text Area, Label, and Inline Editable components", async () => {
     const { el } = await mount(
       <calcite-field-set scale="s">
         <calcite-input id="direct" />
@@ -71,14 +71,32 @@ describe("propagation", () => {
           Label
           <calcite-input id="nested" />
         </calcite-label>
+        <calcite-text-area id="text-area" />
+        <calcite-inline-editable>
+          <calcite-input
+            label-text="Editable"
+            placeholder="Business District Tree Survey"
+            value="Business District Tree Survey"
+          />
+        </calcite-inline-editable>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
     const inputs = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-input"));
+    const textAreas = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-text-area"));
+    const labels = Array.from(fieldSet.querySelectorAll<UpdatableElement>("calcite-label"));
+    const inlineEditableComponents = Array.from(
+      fieldSet.querySelectorAll<UpdatableElement>("calcite-inline-editable"),
+    );
 
-    await Promise.all(inputs.map(waitForUpdate));
+    await Promise.all(
+      [...inputs, ...textAreas, ...labels, ...inlineEditableComponents].map(waitForUpdate),
+    );
 
-    expect(inputs.map((input) => input.scale)).toEqual(["s", "s"]);
+    expect(inputs.map((input) => input.scale)).toEqual(["s", "s", "s"]);
+    expect(textAreas.map((textArea) => textArea.scale)).toEqual(["s"]);
+    expect(labels.map((label) => label.scale)).toEqual(["s"]);
+    expect(inlineEditableComponents.map((inlineEditable) => inlineEditable.scale)).toEqual(["s"]);
   });
 
   it("disables slotted inputs and restores their prior disabled state", async () => {

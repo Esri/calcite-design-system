@@ -104,18 +104,53 @@ export const simple = (args: FieldSetStoryArgs): string => {
       ></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder" disabled></calcite-input>
+      <calcite-input label-text="Color" type="color" value="#abcdef"></calcite-input>
+      <calcite-input label-text="Date" type="date" value="2018-07-22"></calcite-input>
+      <calcite-input label-text="Date and time" type="datetime-local" value="2018-06-12T19:30"></calcite-input>
+      <calcite-input label-text="Email" type="email" value="test@test.com"></calcite-input>
+      <calcite-input label-text="Month" type="month" value="2018-05"></calcite-input>
+      <calcite-input label-text="Number" type="number" value="1337"></calcite-input>
+      <calcite-input label-text="Phone" type="tel" value="1234567890"></calcite-input>
+      <calcite-input label-text="Text" type="text" value="test"></calcite-input>
+      <calcite-input label-text="Password" type="password" value="password"></calcite-input>
+      <calcite-input label-text="Time" type="time" value="01:00"></calcite-input>
+      <calcite-input label-text="URL" type="url" value="http://www.esri.com"></calcite-input>
+      <calcite-input label-text="Week" type="week" value="2018-W26"></calcite-input>
+      <calcite-text-area label-text="Feedback" placeholder="Provide your feedback"></calcite-text-area>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
-        <calcite-input prefix-text="lil 'fix" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
+      <calcite-notice hidden slot="notice" open kind="danger" icon="exclamation-mark-triangle-f">
+        <div slot="title">Aggregate notice</div>
+      </calcite-notice>
+      <calcite-label layout="inline">
+        Desired size
+        <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Desired size
+        <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
+      </calcite-label>
+      <calcite-label layout="inline">
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+      </calcite-label>
+      <calcite-inline-editable>
+        <calcite-input
+          label-text="Editable"
+          value="Business District Tree Survey"
+          placeholder="Business District Tree Survey"
+        ></calcite-input>
+      </calcite-inline-editable>
       <calcite-notice hidden slot="notice" open kind="danger" icon="exclamation-mark-triangle-f">
         <div slot="title">Aggregate notice</div>
       </calcite-notice>
@@ -165,61 +200,61 @@ export const prefixAndSuffixAutoWidth = (): string => html`
     <calcite-field-set>
       <div slot="legend">no auto-width set</div>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
-        <calcite-input prefix-text="lil 'fix" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
     </calcite-field-set>
     <calcite-field-set prefix-auto-width>
       <div slot="legend">prefix auto-width set</div>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
-        <calcite-input prefix-text="lil 'fix" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
     </calcite-field-set>
     <calcite-field-set suffix-auto-width>
       <div slot="legend">suffix auto-width set</div>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
-        <calcite-input prefix-text="lil 'fix" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
     </calcite-field-set>
     <calcite-field-set prefix-auto-width suffix-auto-width>
       <div slot="legend">prefix and suffix auto-width set</div>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
+        Desired size
         <calcite-input prefix-text="longer prefix" suffix-text="pixels" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
       <calcite-label>
-        Desired subdomain
-        <calcite-input prefix-text="lil 'fix" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
+        Desired size
+        <calcite-input prefix-text="abc" suffix-text="centimeters" placeholder="Enter a size"> </calcite-input>
       </calcite-label>
     </calcite-field-set>
   </div>
