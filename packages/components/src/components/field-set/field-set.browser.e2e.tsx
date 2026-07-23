@@ -133,18 +133,17 @@ describe("styling", () => {
 });
 
 describe("affix width coordination", () => {
-  it("syncs prefix width only for label-contained inputs when prefix auto width is enabled", async () => {
+  it("syncs prefix width for direct slotted and wrapped inputs when prefix auto width is enabled", async () => {
     const { el } = await mount(
       <calcite-field-set prefix-auto-width>
-        <calcite-input id="direct" prefix-text="ignored" />
+        <calcite-input id="direct" prefix-text="ignored direct prefix" />
         <calcite-label>
           One
           <calcite-input id="short-prefix" prefix-text="pre" suffix-text="px" />
         </calcite-label>
-        <calcite-label>
-          Two
-          <calcite-input id="long-prefix" prefix-text="longer prefix" suffix-text="px" />
-        </calcite-label>
+        <div>
+          <calcite-input id="long-prefix" prefix-text="longer wrapped prefix" suffix-text="px" />
+        </div>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
@@ -156,28 +155,26 @@ describe("affix width coordination", () => {
     await Promise.all(inputs.map(waitForUpdate));
 
     await vi.waitFor(() => {
+      const directPrefixWidth = getStyleProperty(directInput, "--calcite-input-prefix-size");
       const shortPrefixWidth = getStyleProperty(shortPrefixInput, "--calcite-input-prefix-size");
       const longPrefixWidth = getStyleProperty(longPrefixInput, "--calcite-input-prefix-size");
 
+      expect(directPrefixWidth).toMatch(/^\d+px$/);
       expect(shortPrefixWidth).toMatch(/^\d+px$/);
+      expect(shortPrefixWidth).toBe(directPrefixWidth);
       expect(longPrefixWidth).toBe(shortPrefixWidth);
     });
 
-    expect(getStyleProperty(directInput, "--calcite-input-prefix-size")).toBe("");
     expect(getStyleProperty(shortPrefixInput, "--calcite-input-suffix-size")).toBe("");
   });
 
   it("clears synced prefix widths when prefix auto width is turned off after mount", async () => {
     const { el } = await mount(
       <calcite-field-set prefix-auto-width>
-        <calcite-label>
-          One
-          <calcite-input id="short-prefix" prefix-text="pre" />
-        </calcite-label>
-        <calcite-label>
-          Two
-          <calcite-input id="long-prefix" prefix-text="longer prefix" />
-        </calcite-label>
+        <calcite-input id="short-prefix" prefix-text="pre" />
+        <div>
+          <calcite-input id="long-prefix" prefix-text="longer wrapped prefix" />
+        </div>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
@@ -201,18 +198,17 @@ describe("affix width coordination", () => {
     });
   });
 
-  it("syncs suffix width only for label-contained inputs when suffix auto width is enabled", async () => {
+  it("syncs suffix width for direct slotted and wrapped inputs when suffix auto width is enabled", async () => {
     const { el } = await mount(
       <calcite-field-set suffix-auto-width>
-        <calcite-input id="direct" suffix-text="ignored" />
+        <calcite-input id="direct" suffix-text="very long direct suffix" />
         <calcite-label>
           One
           <calcite-input id="short-suffix" prefix-text="pre" suffix-text="px" />
         </calcite-label>
-        <calcite-label>
-          Two
-          <calcite-input id="long-suffix" prefix-text="pre" suffix-text="centimeters" />
-        </calcite-label>
+        <div>
+          <calcite-input id="long-suffix" prefix-text="pre" suffix-text="wrapped centimeters" />
+        </div>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;
@@ -224,28 +220,26 @@ describe("affix width coordination", () => {
     await Promise.all(inputs.map(waitForUpdate));
 
     await vi.waitFor(() => {
+      const directSuffixWidth = getStyleProperty(directInput, "--calcite-input-suffix-size");
       const shortSuffixWidth = getStyleProperty(shortSuffixInput, "--calcite-input-suffix-size");
       const longSuffixWidth = getStyleProperty(longSuffixInput, "--calcite-input-suffix-size");
 
+      expect(directSuffixWidth).toMatch(/^\d+px$/);
       expect(shortSuffixWidth).toMatch(/^\d+px$/);
+      expect(shortSuffixWidth).toBe(directSuffixWidth);
       expect(longSuffixWidth).toBe(shortSuffixWidth);
     });
 
-    expect(getStyleProperty(directInput, "--calcite-input-suffix-size")).toBe("");
     expect(getStyleProperty(shortSuffixInput, "--calcite-input-prefix-size")).toBe("");
   });
 
   it("clears synced suffix widths when suffix auto width is turned off after mount", async () => {
     const { el } = await mount(
       <calcite-field-set suffix-auto-width>
-        <calcite-label>
-          One
-          <calcite-input id="short-suffix" suffix-text="px" />
-        </calcite-label>
-        <calcite-label>
-          Two
-          <calcite-input id="long-suffix" suffix-text="centimeters" />
-        </calcite-label>
+        <calcite-input id="short-suffix" suffix-text="px" />
+        <div>
+          <calcite-input id="long-suffix" suffix-text="wrapped centimeters" />
+        </div>
       </calcite-field-set>,
     );
     const fieldSet = el as unknown as FieldSetElement;

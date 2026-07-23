@@ -92,14 +92,6 @@ export class FieldSet extends LitElement {
     );
   }
 
-  private get labelInputs(): Input["el"][] {
-    return this.slottedElements.flatMap((element) =>
-      element.matches("calcite-label")
-        ? Array.from(element.querySelectorAll<Input["el"]>("calcite-input"))
-        : [],
-    );
-  }
-
   private get slottedElements(): HTMLElement[] {
     const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
 
@@ -164,7 +156,7 @@ export class FieldSet extends LitElement {
     shouldSync: boolean,
     styleProperty: typeof prefixSizeVar | typeof suffixSizeVar,
   ): Promise<void> {
-    const inputs = this.labelInputs;
+    const inputs = this.inputs;
 
     if (!shouldSync) {
       inputs.forEach((input) => input.style.removeProperty(styleProperty));
