@@ -394,33 +394,34 @@ export class BlockGroup extends LitElement {
     event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
   ): void {
     const { el, parentElement } = event.detail;
-    if (parentElement !== this.el) {
-      return;
-    }
-    const blockChildren: Block["el"][] = this.blockAndGroups.filter((item): item is Block["el"] =>
-      isBlock(item),
-    );
+    if (parentElement === this.el) {
+      event.stopPropagation();
 
-    switch (this.expandMode) {
-      case "multiple":
-        el.expanded = !el.expanded;
-        break;
-      case "single":
-        el.expanded = !el.expanded;
-        this.collapseAllBlockElements(blockChildren, el);
-        break;
-      case "single-persist":
-        if (!el.expanded) {
-          el.expanded = true;
+      const blockChildren: Block["el"][] = this.blockAndGroups.filter((item): item is Block["el"] =>
+        isBlock(item),
+      );
+
+      switch (this.expandMode) {
+        case "multiple":
+          el.expanded = !el.expanded;
+          break;
+        case "single":
+          el.expanded = !el.expanded;
           this.collapseAllBlockElements(blockChildren, el);
-        } else if (el.expanded) {
-          blockChildren.forEach((item) => {
-            if (item.contains(el) && item !== el) {
-              el.expanded = false;
-            }
-          });
-        }
-        break;
+          break;
+        case "single-persist":
+          if (!el.expanded) {
+            el.expanded = true;
+            this.collapseAllBlockElements(blockChildren, el);
+          } else if (el.expanded) {
+            blockChildren.forEach((item) => {
+              if (item.contains(el) && item !== el) {
+                el.expanded = false;
+              }
+            });
+          }
+          break;
+      }
     }
   }
 

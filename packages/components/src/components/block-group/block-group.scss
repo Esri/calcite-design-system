@@ -16,6 +16,8 @@
 
 @include includes.disabled();
 
-:host([slot="children"])slot::slotted(calcite-block) {
-  border-block-end-width: 0;
+:host([slot="children"]) {
+  slot::slotted(calcite-block) {
+    border-block-end-width: 0;
+  }
 }

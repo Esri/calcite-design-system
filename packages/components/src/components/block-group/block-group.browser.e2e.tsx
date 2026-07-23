@@ -14,6 +14,8 @@ import {
 } from "../../tests/commonTests/browser";
 import { page, userEvent } from "vitest/browser";
 import type { Block } from "../block/block";
+import { TemplateResult } from "lit";
+import type { BlockGroup } from "./block-group";
 
 mockConsole();
 
@@ -192,108 +194,180 @@ describe("expandMode", () => {
     expect(block2.expanded).toBe(false);
   });
 
-  describe("nested block elements", () => {
-    it("should allow only one block to be expanded on click when expandMode is single", async () => {
-      await mount(
-        <calcite-block-group expand-mode="single">
+  describe("expandMode", () => {
+    const nestedBlockHTML = (expandMode: BlockGroup["expandMode"]): TemplateResult => {
+      return (
+        <calcite-block-group expandMode={expandMode}>
           <calcite-block collapsible heading="Asia">
             <calcite-block collapsible heading="Himalayas" slot="children" />
+            <calcite-block collapsible heading="Karakoram" slot="children" />
           </calcite-block>
           <calcite-block collapsible heading="Africa" />
-        </calcite-block-group>,
+        </calcite-block-group>
       );
+    };
 
-      const [block1, block2] = page
-        .getBySelector("calcite-block:not([slot='sections'])")
-        .elements() as Block["el"][];
-      await userEvent.click(block1);
-      expect(block1.expanded).toBe(true);
-      expect(block2.expanded).toBe(false);
+    const nestedBlockGroupHTML = (expandMode: BlockGroup["expandMode"]): TemplateResult => {
+      return (
+        <calcite-block-group expandMode={expandMode} label="Water Layers">
+          <calcite-block-group label="Rivers">
+            <calcite-block collapsible heading="Rivers" />
+            <calcite-block collapsible heading="Gauging Stations" />
+          </calcite-block-group>
+          <calcite-block-group expandMode={expandMode} label="Lakes & Ponds">
+            <calcite-block collapsible heading="Lakes" />
+            <calcite-block collapsible heading="Ponds" />
+          </calcite-block-group>
+        </calcite-block-group>
+      );
+    };
 
-      const nestedBlock = page
-        .getBySelector("calcite-block[slot='sections']")
-        .element() as Block["el"];
+    it("should allow only one block element to expand or collapse when expandMode is single", async () => {
+      await mount(nestedBlockHTML("single"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
+      const nestedBlockElements = page.getBySelector("calcite-block[slot='children']");
 
-      await userEvent.click(nestedBlock);
-      expect(nestedBlock.expanded).toBe(true);
-      expect(block1.expanded).toBe(true);
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", false);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
 
-      await userEvent.click(block2);
-      expect(block1.expanded).toBe(false);
-      expect(nestedBlock.expanded).toBe(true);
-      expect(block2.expanded).toBe(true);
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+
+      await userEvent.click(nestedBlockElements.nth(0));
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+
+      await userEvent.click(nestedBlockElements.nth(1));
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(nestedBlockElements.nth(1)).toHaveProperty("expanded", true);
     });
 
-    it("should allow at least one block element expanded on click when expandMode is single-persist", async () => {
-      await mount(
-        <calcite-block-group expand-mode="single-persist">
-          <calcite-block collapsible heading="Asia">
-            <calcite-block collapsible heading="Himalayas" slot="children" />
-          </calcite-block>
-          <calcite-block collapsible heading="Africa" />
-        </calcite-block-group>,
-      );
+    it("should allow only one block element to expand or collapse in same block-group when expandMode is single", async () => {
+      await mount(nestedBlockGroupHTML("single"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
 
-      const [block1, block2] = page
-        .getBySelector("calcite-block:not([slot='sections'])")
-        .elements() as Block["el"][];
-      const nestedBlock = page
-        .getBySelector("calcite-block[slot='sections']")
-        .element() as Block["el"];
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
 
-      await userEvent.click(block2);
-      expect(block1.expanded).toBe(false);
-      expect(block2.expanded).toBe(true);
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
 
-      await userEvent.click(block2);
-      expect(block1.expanded).toBe(false);
-      expect(block2.expanded).toBe(true);
+      await userEvent.click(descendantBlockElements.nth(2));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
 
-      await userEvent.click(block1);
-      expect(block1.expanded).toBe(true);
-      expect(nestedBlock.expanded).toBe(false);
-      expect(block2.expanded).toBe(false);
-
-      await userEvent.click(nestedBlock);
-      expect(block1.expanded).toBe(true);
-      expect(nestedBlock.expanded).toBe(true);
-      expect(block2.expanded).toBe(false);
-
-      await userEvent.click(nestedBlock);
-      expect(block1.expanded).toBe(true);
-      expect(nestedBlock.expanded).toBe(false);
-      expect(block2.expanded).toBe(false);
+      await userEvent.click(descendantBlockElements.nth(3));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", false);
+      await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
     });
 
-    it("should allow multiple block elements to expand on click when expandMode is multiple", async () => {
-      await mount(
-        <calcite-block-group expand-mode="multiple">
-          <calcite-block collapsible heading="Asia">
-            <calcite-block collapsible heading="Himalayas" slot="children" />
-          </calcite-block>
-          <calcite-block collapsible heading="Africa" />
-        </calcite-block-group>,
-      );
+    it("should allow only one block element to expand and disallow collapsing when expandMode is single-persist", async () => {
+      await mount(nestedBlockHTML("single-persist"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
+      const nestedBlockElements = page.getBySelector("calcite-block[slot='children']");
 
-      const [block1, block2] = page
-        .getBySelector("calcite-block:not([slot='sections'])")
-        .elements() as Block["el"][];
-      const nestedBlock = page
-        .getBySelector("calcite-block[slot='sections']")
-        .element() as Block["el"];
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", false);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
 
-      await userEvent.click(block1);
-      expect(block1.expanded).toBe(true);
-      expect(block2.expanded).toBe(false);
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", false);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
 
-      await userEvent.click(nestedBlock);
-      expect(nestedBlock.expanded).toBe(true);
-      expect(block1.expanded).toBe(true);
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
 
-      await userEvent.click(block2);
-      expect(block1.expanded).toBe(true);
-      expect(nestedBlock.expanded).toBe(true);
-      expect(block2.expanded).toBe(true);
+      await userEvent.click(nestedBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+
+      await userEvent.click(nestedBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(nestedBlockElements.nth(1)).toHaveProperty("expanded", true);
+    });
+
+    it("should allow only one block element in same block-group to expand and disallow collapsing when expandMode is single-persist", async () => {
+      await mount(nestedBlockGroupHTML("single-persist"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
+
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+
+      await userEvent.click(descendantBlockElements.nth(2));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
+
+      await userEvent.click(descendantBlockElements.nth(3));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", false);
+      await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
+    });
+
+    it("should allow multiple block elements to expand and collapse when expandMode is multiple", async () => {
+      await mount(nestedBlockHTML("multiple"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
+      const nestedBlockElements = page.getBySelector("calcite-block[slot='children']");
+
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+
+      await userEvent.click(nestedBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+
+      await userEvent.click(nestedBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(nestedBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(nestedBlockElements.nth(1)).toHaveProperty("expanded", true);
+    });
+
+    it("should allow multiple block elements to expand and collapse in nested groups when expandMode is multiple", async () => {
+      await mount(nestedBlockGroupHTML("multiple"));
+      const descendantBlockElements = page.getBySelector("calcite-block-group > calcite-block");
+
+      await userEvent.click(descendantBlockElements.nth(0));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", false);
+
+      await userEvent.click(descendantBlockElements.nth(1));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+
+      await userEvent.click(descendantBlockElements.nth(2));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
+
+      await userEvent.click(descendantBlockElements.nth(3));
+      await expect.element(descendantBlockElements.nth(0)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(1)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(2)).toHaveProperty("expanded", true);
+      await expect.element(descendantBlockElements.nth(3)).toHaveProperty("expanded", true);
     });
   });
 });
