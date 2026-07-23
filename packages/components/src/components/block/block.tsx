@@ -399,7 +399,7 @@ export class Block extends LitElement {
 
   private onHeaderClick(): void {
     this.calciteBlockToggle.emit();
-    if (this.parentBlockGroupElement?.tagName === "CALCITE-BLOCK-GROUP") {
+    if (this.parentBlockGroupElement) {
       this.calciteInternalBlockChange.emit({
         el: this.el,
         parentElement: this.parentBlockGroupElement,
@@ -693,11 +693,7 @@ export class Block extends LitElement {
           >
             {this.renderScrim()}
           </section>
-          <slot
-            hidden={!expanded}
-            name={SLOTS.children}
-            // onSlotChange={this.handleSectionsSlotChange}
-          />
+          <slot hidden={!expanded} name={SLOTS.children} />
         </article>
       </this.interactiveContainer>
     );
