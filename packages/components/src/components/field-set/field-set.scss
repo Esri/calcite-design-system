@@ -3,7 +3,8 @@
  *
  * These properties can be overridden using the component's tag as selector.
  *
- * @prop --calcite-field-set-columns: When `layout` is `"grid"`, specifies the component's `grid-template-columns`.
+ * @prop --calcite-field-set-columns: When `layout` is "grid", specifies the component's `grid-template-columns`.
+ * @prop --calcite-field-set-legend-text-color: Specifies the legend text color.
  * @prop --calcite-field-set-space: Specifies the gap between the component's slotted elements.
  */
 
