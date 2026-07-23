@@ -77,7 +77,7 @@ export const simple = (args: FieldSetStoryArgs): string => {
 
   return html`
     <calcite-field-set
-      ${args.columns ? `columns="${args.columns}"` : ""}
+      ${args.layout === "grid" && args.columns ? `columns="${args.columns}"` : ""}
       ${args.disabled ? "disabled" : ""}
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
