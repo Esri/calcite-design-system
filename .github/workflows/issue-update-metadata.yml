@@ -12,42 +12,42 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Add Esri Product Label
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addEsriProductLabel.js')
             await action({github, context, core})
 
       - name: Add Calcite Package Label
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addCalcitePackageLabel.js')
             await action({github, context, core})
 
       - name: Add Priority Label
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addPriorityLabel.js')
             await action({github, context, core})
 
       - name: Add Regression Label
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addRegressionLabel.js')
             await action({github, context, core})
 
       - name: Add Component Label
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addComponentLabel.js')
             await action({github, context, core})
 
       - name: Add Issues To Backlog
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             const action = require('${{ github.workspace }}/.github/scripts/addIssuesToBacklog.js')
