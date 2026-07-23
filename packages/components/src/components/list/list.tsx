@@ -294,8 +294,8 @@ export class List extends LitElement {
    * Specifies the selection appearance.
    *
    * - `"icon"` displays a checkmark or dot.
-   * - `"border"` [Deprecated] - Use `"highlight"` instead - displays a border.
    * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",
