@@ -24,8 +24,8 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
-import { BlockToggleDisplay } from "./interface";
-import { BlockGroup } from "../block-group/block-group";
+import type { BlockToggleDisplay } from "./interface";
+import type { BlockGroup } from "../block-group/block-group";
 
 declare global {
   interface DeclareElements {
@@ -438,7 +438,7 @@ export class Block extends LitElement {
   }
 
   private setParentBlockGroupElement(): void {
-    this.parentBlockGroupElement = this.el.parentElement?.closest(" calcite-block-group");
+    this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
   //#endregion
@@ -634,6 +634,7 @@ export class Block extends LitElement {
                 <calcite-switch
                   checked={expanded}
                   disabled={this.disabled}
+                  inert
                   label={toggleLabel}
                   scale={this.scale}
                 />

@@ -429,11 +429,7 @@ export const nestedBlockInChildrenSlot = (): string => html`
   <calcite-block heading="Transportation" description="Roads, rail, and transit overlays" collapsible expanded>
     ${nestedBlockHTML()}
   </calcite-block>
-  <calcite-block
-    heading="Hydrology"
-    description="Rivers, lakes, and watershed boundaries"
-    slot="children"
-  ></calcite-block>
+  <calcite-block heading="Hydrology" description="Rivers, lakes, and watershed boundaries"></calcite-block>
 `;
 
 export const nestedBlockGroupInChildrenSlot = (): string => html`
