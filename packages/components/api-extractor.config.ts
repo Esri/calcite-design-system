@@ -91,7 +91,7 @@ export const config: ApiExtractorConfig = {
             "Specifies the component's fallback `menuPlacement` when its initial or specified `menuPlacement` has insufficient space available.",
         },
         messageOverrides: {
-          description: "Overrides individual strings used by the component.",
+          description: `Replace localized message strings with your own strings.\n\n_**Note**: Individual message keys may change between releases._`,
         },
         name: {
           description:

@@ -1,5 +1,6 @@
 {
   "chooseDate": "日付の選択",
+  "clear": "Clear value",
   "date": "日付",
   "dateFormat": "日付形式: {format}",
   "endDate": "終了日",
