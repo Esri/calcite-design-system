@@ -1,13 +1,25 @@
 import { SLOTS as ACTION_GROUP_SLOTS, isActionGroup } from "../action-group/resources";
-import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { SLOTS as ACTION_MENU_SLOTS, isActionMenu } from "../action-menu/resources";
+import type { ActionMenu } from "../action-menu/action-menu";
 import type { ActionGroup } from "../action-group/action-group";
 import type { Action } from "../action/action";
 
-export const queryActions = (el: HTMLElement): Action["el"][] => {
-  return Array.from(el.querySelectorAll("calcite-action")).filter((action) =>
-    action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true,
-  );
-};
+export type ActionBarItem = Action["el"] | ActionGroup["el"] | ActionMenu["el"];
+
+export const queryActions = (items: ActionBarItem[]): Action["el"][] =>
+  items
+    .flatMap((item) => {
+      if (isActionGroup(item)) {
+        return item.actions;
+      }
+
+      if (isActionMenu(item)) {
+        return item.actions.filter((action) => action.slot === ACTION_MENU_SLOTS.trigger);
+      }
+
+      return item;
+    })
+    .filter((action): action is Action["el"] => !!action);
 
 /**
  * Returns an item's cross-axis offset (px) relative to the container, accounting for layout
@@ -47,12 +59,10 @@ export const overflowActions = ({
   overflowCount: number;
 }): void => {
   let needToSlotCount = overflowCount;
-  actionGroups.reverse().forEach((group) => {
+  [...actionGroups].reverse().forEach((group) => {
     let slottedWithinGroupCount = 0;
 
-    const directGroupActions = queryActions(group)
-      .filter((action) => isActionGroup(action.parentElement))
-      .reverse();
+    const directGroupActions = group.actions.filter((action) => action.parentElement === group).reverse();
 
     directGroupActions.forEach((groupAction) => {
       if (groupAction.slot === ACTION_GROUP_SLOTS.menuActions) {
