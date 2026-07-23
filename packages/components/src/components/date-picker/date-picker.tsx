@@ -434,6 +434,7 @@ export class DatePicker extends LitElement {
       if (valueAsDate && valueAsDate !== this.activeDate) {
         this.activeDate = new Date(valueAsDate);
       } else if (!valueAsDate) {
+        this.activeDate = undefined;
         const activeDate = this.getActiveDate(undefined, this.minAsDate, this.maxAsDate);
 
         if (this.range) {
