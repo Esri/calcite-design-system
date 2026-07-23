@@ -10,6 +10,30 @@ export const queryActions = (el: HTMLElement): Action["el"][] => {
 };
 
 /**
+ * Returns an item's cross-axis offset (px) relative to the container, accounting for layout
+ * orientation and text direction.
+ */
+export const getWrapItemCrossOffset = ({
+  item,
+  containerRect,
+  horizontal,
+  rtl,
+}: {
+  item: HTMLElement;
+  containerRect: DOMRect;
+  horizontal: boolean;
+  rtl: boolean;
+}): number => {
+  const rect = item.getBoundingClientRect();
+
+  if (horizontal) {
+    return rect.top - containerRect.top;
+  }
+
+  return rtl ? containerRect.right - rect.right : rect.left - containerRect.left;
+};
+
+/**
  * Manages action overflow by slotting actions into action menus as needed.
  * Note: this only handles direct actions and action-groups.
  */

@@ -35,7 +35,7 @@ import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
-import { overflowActions, queryActions } from "./utils";
+import { overflowActions, getWrapItemCrossOffset, queryActions } from "./utils";
 import { styles } from "./action-bar.scss";
 
 declare global {
@@ -598,19 +598,11 @@ export class ActionBar extends LitElement {
     const containerRect = container.getBoundingClientRect();
     const items = this.getWrapItems();
 
-    const crossOffset = (item: HTMLElement): number => {
-      const rect = item.getBoundingClientRect();
-      if (horizontal) {
-        return rect.top - containerRect.top;
-      }
-      return rtl ? containerRect.right - rect.right : rect.left - containerRect.left;
-    };
-
     const lineOffsets: number[] = [];
     let previousOffset: number | null = null;
 
     items.forEach((item) => {
-      const offset = crossOffset(item);
+      const offset = getWrapItemCrossOffset({ item, containerRect, horizontal, rtl });
 
       if (previousOffset !== null && Math.abs(offset - previousOffset) > 1) {
         lineOffsets.push(offset);
