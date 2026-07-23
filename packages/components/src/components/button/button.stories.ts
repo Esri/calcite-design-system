@@ -4,11 +4,21 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Button } from "./button";
 
-const { appearance, kind, scale, width } = ATTRIBUTES;
+const { alignment, appearance, kind, scale, width } = ATTRIBUTES;
 
 interface ButtonStoryArgs extends Pick<
   Button,
-  "appearance" | "disabled" | "href" | "iconEnd" | "iconStart" | "kind" | "loading" | "round" | "scale" | "width"
+  | "alignment"
+  | "appearance"
+  | "disabled"
+  | "href"
+  | "iconEnd"
+  | "iconStart"
+  | "kind"
+  | "loading"
+  | "round"
+  | "scale"
+  | "width"
 > {
   text: string;
 }
@@ -16,6 +26,7 @@ interface ButtonStoryArgs extends Pick<
 export default {
   title: "Components/Buttons/Button",
   args: {
+    alignment: alignment.defaultValue,
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
@@ -29,6 +40,10 @@ export default {
     text: "button text here",
   },
   argTypes: {
+    alignment: {
+      options: alignment.values,
+      control: { type: "select" },
+    },
     appearance: {
       options: appearance.values,
       control: { type: "select" },
@@ -58,6 +73,7 @@ export default {
 
 export const simple = (args: ButtonStoryArgs): string => html`
   <calcite-button
+    alignment="${args.alignment}"
     appearance="${args.appearance}"
     kind="${args.kind}"
     scale="${args.scale}"
