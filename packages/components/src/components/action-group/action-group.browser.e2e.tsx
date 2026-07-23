@@ -75,6 +75,10 @@ describe("defaults", () => {
         defaultValue: "none",
       },
       {
+        propertyName: "actions",
+        defaultValue: [],
+      },
+      {
         propertyName: "selectedActions",
         defaultValue: [],
       },
@@ -277,6 +281,57 @@ it("should emit expanded/collapsed events when toggled", async () => {
 
   expect(expandEventHandler).toHaveBeenCalledTimes(1);
   expect(collapseEventHandler).toHaveBeenCalledTimes(1);
+});
+
+it("stores slotted actions and emits an actions change event without detail", async () => {
+  const actionsChange = vi.fn();
+
+  const { component, el } = await mount<ActionGroup>(
+    <calcite-action-group label="Test" oncalciteInternalActionGroupActionsChange={actionsChange} />,
+  );
+
+  expect(el.actions).toEqual([]);
+
+  el.innerHTML = `
+    <calcite-action icon="plus" text="Add"></calcite-action>
+    <calcite-action icon="save" slot="menu-actions" text="Save"></calcite-action>
+  `;
+
+  await component.updateComplete;
+
+  expect(el.actions).toHaveLength(2);
+  expect(el.actions[0].text).toBe("Add");
+  expect(el.actions[1].text).toBe("Save");
+  expect(actionsChange).toHaveBeenCalled();
+});
+
+it("reapplies selection ARIA state and selectedActions when slotted actions change", async () => {
+  const actionFromEvent = {
+    current: null as ActionGroup["actions"][number] | null,
+  };
+
+  const { component, el } = await mount<ActionGroup>(
+    <calcite-action-group
+      oncalciteInternalActionGroupActionsChange={() => {
+        actionFromEvent.current = el.actions[0];
+      }}
+      selection-mode="single"
+    />,
+  );
+
+  el.innerHTML = `<calcite-action active icon="plus" text="Add"></calcite-action>`;
+
+  await component.updateComplete;
+
+  const action = el.actions[0];
+
+  expect(actionFromEvent.current).not.toBeNull();
+  expect(actionFromEvent.current).toBe(action);
+  expect(action.aria).toEqual({
+    checked: "true",
+    role: "radio",
+  });
+  expect(el.selectedActions).toEqual([action]);
 });
 
 describe("theme", () => {
