@@ -182,7 +182,6 @@ describe("value", () => {
 
   async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
     await component.updateComplete;
-    await component.updateComplete;
     await (getMonth(el) as DatePickerMonth | null)?.updateComplete;
   }
 
