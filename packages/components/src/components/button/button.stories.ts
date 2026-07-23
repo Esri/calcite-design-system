@@ -26,7 +26,7 @@ interface ButtonStoryArgs extends Pick<
 export default {
   title: "Components/Buttons/Button",
   args: {
-    alignment: alignment.defaultValue,
+    alignment: "center",
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
