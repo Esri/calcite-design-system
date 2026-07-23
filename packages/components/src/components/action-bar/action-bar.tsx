@@ -84,6 +84,7 @@ export class ActionBar extends LitElement {
   private resize = debounce(({ width, height }: { width: number; height: number }): void => {
     const { expanded, expandToggleDisabled, layout, expandPosition } = this;
 
+    // resize is debounced, so the container ref may be empty when it runs — the action-bar can be torn down (or not yet rendered) between scheduling and execution.
     if (!this.containerRef.value) {
       return;
     }

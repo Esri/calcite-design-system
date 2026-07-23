@@ -759,6 +759,39 @@ describe("wrap", () => {
     // add a phantom line.
     expect(el.shadowRoot?.querySelectorAll(`.${CSS.line}`)).toHaveLength(1);
   });
+
+  it("re-measures wrapped lines when the actions-end group becomes visible", async () => {
+    const { el, component } = await mount<ActionBar>(
+      <calcite-action-bar
+        expand-toggle-disabled
+        layout="horizontal"
+        overflow-mode="wrap"
+        style="width: 120px;"
+      >
+        <calcite-action-group>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+        </calcite-action-group>
+        <calcite-action-group>
+          <calcite-action icon="search" text="Search" />
+          <calcite-action icon="information" text="About" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const lineCount = (): number => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0;
+
+    await component.updateComplete;
+    await expect.poll(lineCount).toBeGreaterThan(0);
+    const initial = lineCount();
+
+    // Showing the expand toggle un-hides the actions-end group, adding it to the wrap flow. The
+    // divider overlay must re-measure to account for the new wrapped line.
+    el.expandToggleDisabled = false;
+    await component.updateComplete;
+
+    await expect.poll(lineCount).toBeGreaterThan(initial);
+  });
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
