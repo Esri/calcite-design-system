@@ -7,7 +7,7 @@ const { scale, status } = ATTRIBUTES;
 
 type CheckboxStoryArgs = Pick<
   Checkbox,
-  "checked" | "disabled" | "indeterminate" | "labelText" | "required" | "scale" | "status"
+  "checked" | "disabled" | "indeterminate" | "label" | "labelText" | "required" | "scale" | "status"
 >;
 
 export default {
@@ -20,6 +20,7 @@ export default {
     required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
+    label: "Checkbox",
   },
   argTypes: {
     scale: {
