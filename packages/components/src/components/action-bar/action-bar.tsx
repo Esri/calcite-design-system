@@ -761,7 +761,10 @@ export class ActionBar extends LitElement {
 
     return (
       <calcite-action-group
-        class={isStart ? CSS.actionGroupStart : CSS.actionGroupEnd}
+        class={{
+          [CSS.actionGroupStart]: isStart,
+          [CSS.actionGroupEnd]: !isStart,
+        }}
         hidden={hidden}
         label={label}
         layout={layout}
@@ -781,7 +784,10 @@ export class ActionBar extends LitElement {
     return (
       <div
         ariaOrientation={this.layout === "horizontal" ? "horizontal" : "vertical"}
-        class={`${CSS.container} ${this.hasActionGroups ? CSS.hasActionGroups : ""}`}
+        class={{
+          [CSS.container]: true,
+          [CSS.hasActionGroups]: this.hasActionGroups,
+        }}
         ref={this.containerRef}
         role="toolbar"
       >
