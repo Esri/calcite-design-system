@@ -337,7 +337,7 @@
             "kind": "fixed"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.default.64}"
+          "$value": "{core.size.default.56}"
         },
         "6xl": {
           "attributes": {
@@ -346,7 +346,7 @@
             "kind": "fixed"
           },
           "$type": "lineHeights",
-          "$value": "{core.size.default.80}"
+          "$value": "{core.size.default.64}"
         }
       },
       "relative": {
@@ -499,7 +499,7 @@
           "group": "line-height"
         },
         "$type": "lineHeights",
-        "$value": "{core.size.rem.4}"
+        "$value": "{core.size.rem.3-5}"
       },
       "6xl": {
         "attributes": {
