@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.30...@esri/calcite-components@5.2.0-next.31) (2026-07-24)
+
+### Bug Fixes
+
+- **action-bar:** support shadow-slotted actions and groups ([#14818](https://github.com/Esri/calcite-design-system/issues/14818)), closes [#14379](https://github.com/Esri/calcite-design-system/issues/14379) [#14379](https://github.com/Esri/calcite-design-system/issues/14379)
+- **date-picker:** clear date when value is unset ([#14796](https://github.com/Esri/calcite-design-system/issues/14796)), closes [#13607](https://github.com/Esri/calcite-design-system/issues/13607)
+
 ## [5.2.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.29...@esri/calcite-components@5.2.0-next.30) (2026-07-21)
 
 ### Bug Fixes
