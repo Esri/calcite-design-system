@@ -132,17 +132,13 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the component's display mode, where:
+   * Specifies the component's display mode.
    *
-   * `"dock"` displays at full height adjacent to center content,
-   *
-   * `"overlay"` displays at full height on top of center content, and
-   *
-   * `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"dock"` displays at full height adjacent to center content.
+   * - `"overlay"` displays at full height on top of center content.
+   * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content. [Deprecated] in v2.11.0, removal target v6.0.0 - use `"float-content"` instead.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
