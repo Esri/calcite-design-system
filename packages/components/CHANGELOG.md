@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.34](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.33...@esri/calcite-components@5.2.0-next.34) (2026-07-24)
+
+### Features
+
+- **slider:** add accessible label support ([#14845](https://github.com/Esri/calcite-design-system/issues/14845)), closes [#13529](https://github.com/Esri/calcite-design-system/issues/13529)
+
 ## [5.2.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.32...@esri/calcite-components@5.2.0-next.33) (2026-07-24)
 
 ### Features
