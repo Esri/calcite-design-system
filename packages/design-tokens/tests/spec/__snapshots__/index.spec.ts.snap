@@ -45,257 +45,273 @@ exports[`CSS > classes should match 1`] = `
 
 .calcite-typography {
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size);
+  font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-fixed-base);
+  line-height: var(--calcite-font-line-height-base);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
   text-decoration: var(--calcite-font-text-decoration-none);
 }
 .calcite-typography-light-minus-3h {
-  font-size: var(--calcite-font-size-xs);
+  font-size: var(--calcite-font-size-relative-xs);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-sm);
+  line-height: var(--calcite-font-line-height-xs);
 }
 .calcite-typography-light-minus-2h {
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
   font-weight: var(--calcite-font-weight-light);
+  line-height: var(--calcite-font-line-height-sm);
 }
 .calcite-typography-light-minus-1h {
+  font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-light);
+  line-height: var(--calcite-font-line-height-base);
 }
 .calcite-typography-light-0h {
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-lg);
+  line-height: var(--calcite-font-line-height-md);
 }
 .calcite-typography-light-1h {
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-xl);
+  line-height: var(--calcite-font-line-height-lg);
 }
 .calcite-typography-regular-minus-3h {
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-regular-minus-2h {
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 .calcite-typography-regular-minus-1h {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 1rem;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
   text-decoration: none;
 }
 .calcite-typography-regular-0h {
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-regular-1h {
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-medium-minus-3h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-medium-minus-2h {
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 .calcite-typography-medium-minus-1h {
   font-weight: var(--calcite-font-weight-medium);
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 .calcite-typography-medium-0h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-medium-1h {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-bold-minus-3h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 .calcite-typography-bold-minus-2h {
   font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 .calcite-typography-bold-minus-1h {
   font-weight: var(--calcite-font-weight-semibold);
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 .calcite-typography-bold-0h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-bold-1h {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-light-0 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-light-1 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-light-2 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-light-3 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-tight);
-  font-size: var(--calcite-font-size-xxl);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-light-minus-2 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-light-minus-1 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-regular-0 {
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-regular-1 {
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-regular-2 {
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-regular-3 {
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-regular-minus-2 {
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-regular-minus-1 {
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-medium-0 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-medium-1 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-medium-2 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-medium-3 {
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-medium-minus-2 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-medium-minus-1 {
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-wrap-bold-0 {
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 .calcite-typography-wrap-bold-1 {
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 .calcite-typography-wrap-bold-2 {
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 .calcite-typography-wrap-bold-3 {
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 .calcite-typography-wrap-bold-minus-2 {
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 .calcite-typography-wrap-bold-minus-1 {
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 .calcite-typography-hierarchy-display-1 {
   font-weight: 600;
-  line-height: 1.375;
-  font-size: 24px;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-hierarchy-display-2 {
   font-weight: 600;
   line-height: 1.375;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-1 {
   font-weight: 500;
-  line-height: 1.375;
-  font-size: 24px;
+  line-height: 1.25;
+  font-size: 1.625rem;
 }
 .calcite-typography-hierarchy-heading-2 {
   font-weight: 500;
   line-height: 1.375;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 .calcite-typography-hierarchy-heading-3 {
   font-weight: 500;
   line-height: 1.375;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 .calcite-typography-hierarchy-heading-4 {
   font-weight: 500;
   line-height: 1.375;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .calcite-typography-hierarchy-heading-5 {
   font-weight: 500;
   line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body-snug {
   line-height: 1.375;
+  font-size: 0.875rem;
 }
 .calcite-typography-hierarchy-body {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 1rem;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
@@ -308,7 +324,7 @@ exports[`CSS > classes should match 1`] = `
 }
 .calcite-typography-hierarchy-caption {
   line-height: 1.375;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 "
 `;
@@ -900,6 +916,7 @@ exports[`CSS > core should match 1`] = `
   --calcite-size-rem-1-625: 1.625rem;
   --calcite-size-rem-2-5: 2.5rem;
   --calcite-size-rem-3-5: 3.5rem;
+  --calcite-size-rem-4-5: 4.5rem;
   --calcite-z-index-0: -999999;
   --calcite-z-index-1: 1;
   --calcite-z-index-3: 300;
@@ -1038,8 +1055,8 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-2xl: 32px;
   --calcite-font-line-height-fixed-3xl: 40px;
   --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 64px;
-  --calcite-font-line-height-fixed-6xl: 80px;
+  --calcite-font-line-height-fixed-5xl: 56px;
+  --calcite-font-line-height-fixed-6xl: 64px;
   --calcite-font-line-height-relative: normal; /** normal */
   --calcite-font-line-height-relative-base: 1; /** 1 */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
@@ -1056,7 +1073,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-2xl: 2rem;
   --calcite-font-line-height-3xl: 2.5rem;
   --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-5xl: 3.5rem;
   --calcite-font-line-height-6xl: 4rem;
   --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1596,8 +1613,8 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-2xl: 32px;
   --calcite-font-line-height-fixed-3xl: 40px;
   --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 64px;
-  --calcite-font-line-height-fixed-6xl: 80px;
+  --calcite-font-line-height-fixed-5xl: 56px;
+  --calcite-font-line-height-fixed-6xl: 64px;
   --calcite-font-line-height-relative: normal; /** normal */
   --calcite-font-line-height-relative-base: 1; /** 1 */
   --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
@@ -1614,7 +1631,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-2xl: 2rem;
   --calcite-font-line-height-3xl: 2.5rem;
   --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 4rem;
+  --calcite-font-line-height-5xl: 3.5rem;
   --calcite-font-line-height-6xl: 4rem;
   --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -17301,6 +17318,31 @@ exports[`DOCS (internal) > core should match 1`] = `
       "path": ["core", "size", "rem", "3-5"]
     },
     {
+      "key": "{core.size.rem.4-5}",
+      "attributes": {
+        "category": "size",
+        "type": "size",
+        "item": "rem",
+        "subitem": "4-5",
+        "names": {
+          "scss": "$calcite-size-rem-4-5",
+          "css": "var(--calcite-size-rem-4-5)",
+          "docs": "core.size.rem.4-5",
+          "es6": "calciteSizeRem45"
+        },
+        "calcite-schema": {
+          "system": "calcite",
+          "tier": "core"
+        }
+      },
+      "$type": "dimension",
+      "$value": "4.5rem",
+      "filePath": "src/tokens/core/size.json",
+      "isSource": false,
+      "name": "Size Rem 4 5",
+      "path": ["core", "size", "rem", "4-5"]
+    },
+    {
       "key": "{core.z-index.0}",
       "attributes": {
         "category": "z-index",
@@ -20516,7 +20558,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "64px",
+      "$value": "56px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 5xl",
@@ -20543,7 +20585,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "80px",
+      "$value": "64px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 6xl",
@@ -20989,7 +21031,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "4rem",
+      "$value": "3.5rem",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height 5xl",
@@ -23023,7 +23065,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1rem\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography",
@@ -23055,9 +23097,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23065,7 +23107,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"10px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"12px\\"}",
+      "$value": "{\\"fontSize\\":\\"0.625rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 3h",
@@ -23097,9 +23139,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23107,7 +23149,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"12px\\",\\"fontWeight\\":\\"300\\"}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 2h",
@@ -23139,9 +23181,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23149,7 +23191,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\"}",
+      "$value": "{\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light Minus 1h",
@@ -23181,9 +23223,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23191,7 +23233,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"16px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"20px\\"}",
+      "$value": "{\\"fontSize\\":\\"1rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 0h",
@@ -23223,9 +23265,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23233,7 +23275,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"18px\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"24px\\"}",
+      "$value": "{\\"fontSize\\":\\"1.125rem\\",\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.5rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Light 1h",
@@ -23265,9 +23307,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23275,7 +23317,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
+      "$value": "{\\"lineHeight\\":\\"0.75rem\\",\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 3h",
@@ -23307,9 +23349,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23317,7 +23359,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 2h",
@@ -23342,7 +23384,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1rem\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular Minus 1h",
@@ -23374,9 +23416,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23384,7 +23426,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.25rem\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 0h",
@@ -23416,9 +23458,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23426,7 +23468,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.5rem\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Regular 1h",
@@ -23458,9 +23500,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23468,7 +23510,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"0.75rem\\",\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 3h",
@@ -23500,9 +23542,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23510,7 +23552,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 2h",
@@ -23542,9 +23584,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23552,7 +23594,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium Minus 1h",
@@ -23584,9 +23626,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23594,7 +23636,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.25rem\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 0h",
@@ -23626,9 +23668,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23636,7 +23678,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.5rem\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Medium 1h",
@@ -23668,9 +23710,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23678,7 +23720,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"12px\\",\\"fontSize\\":\\"10px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"0.75rem\\",\\"fontSize\\":\\"0.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 3h",
@@ -23710,9 +23752,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23720,7 +23762,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.75rem\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 2h",
@@ -23752,9 +23794,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23762,7 +23804,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"fontSize\\":\\"0.875rem\\",\\"lineHeight\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold Minus 1h",
@@ -23794,9 +23836,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23804,7 +23846,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"20px\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.25rem\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 0h",
@@ -23836,9 +23878,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23846,7 +23888,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"24px\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.5rem\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Bold 1h",
@@ -23878,9 +23920,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23888,7 +23930,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 0",
@@ -23920,9 +23962,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23930,7 +23972,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 1",
@@ -23962,9 +24004,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -23972,7 +24014,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 2",
@@ -24004,9 +24046,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24014,7 +24056,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light 3",
@@ -24046,9 +24088,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24056,7 +24098,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 2",
@@ -24088,9 +24130,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24098,7 +24140,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Light Minus 1",
@@ -24130,9 +24172,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24140,7 +24182,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 0",
@@ -24172,9 +24214,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24182,7 +24224,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 1",
@@ -24214,9 +24256,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24224,7 +24266,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 2",
@@ -24256,9 +24298,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24266,7 +24308,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular 3",
@@ -24298,9 +24340,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24308,7 +24350,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 2",
@@ -24340,9 +24382,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24350,7 +24392,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Regular Minus 1",
@@ -24382,9 +24424,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24392,7 +24434,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 0",
@@ -24424,9 +24466,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24434,7 +24476,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 1",
@@ -24466,9 +24508,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24476,7 +24518,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 2",
@@ -24508,9 +24550,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24518,7 +24560,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium 3",
@@ -24550,9 +24592,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24560,7 +24602,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 2",
@@ -24592,9 +24634,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24602,7 +24644,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Medium Minus 1",
@@ -24634,9 +24676,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24644,7 +24686,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 0",
@@ -24676,9 +24718,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24686,7 +24728,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 1",
@@ -24718,9 +24760,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24728,7 +24770,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 2",
@@ -24760,9 +24802,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24770,7 +24812,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold 3",
@@ -24802,9 +24844,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24812,7 +24854,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 2",
@@ -24844,9 +24886,9 @@ exports[`DOCS (internal) > global should match 1`] = `
             "Helvetica Neue",
             "sans-serif"
           ],
-          "fontSize": "14px",
+          "fontSize": "0.875rem",
           "fontWeight": "400",
-          "lineHeight": "16px",
+          "lineHeight": "1rem",
           "letterSpacing": "0",
           "paragraphSpacing": "4px",
           "textCase": "none",
@@ -24854,7 +24896,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Wrap Bold Minus 1",
@@ -24879,7 +24921,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 1",
@@ -24904,7 +24946,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 2",
@@ -24929,7 +24971,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"24px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.25\\",\\"fontSize\\":\\"1.625rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 1",
@@ -24954,7 +24996,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"20px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 2",
@@ -24979,7 +25021,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"18px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 3",
@@ -25004,7 +25046,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"16px\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 4",
@@ -25029,7 +25071,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 5",
@@ -25054,7 +25096,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.875rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body Snug",
@@ -25079,7 +25121,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"14px\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"16px\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
+      "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":\\"1rem\\",\\"letterSpacing\\":\\"0\\",\\"paragraphSpacing\\":\\"4px\\",\\"textCase\\":\\"none\\",\\"textDecoration\\":\\"none\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -25127,7 +25169,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"12px\\"}",
+      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"0.75rem\\"}",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Caption",
@@ -26703,7 +26745,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "64px",
+      "$value": "56px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 5xl",
@@ -26730,7 +26772,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "80px",
+      "$value": "64px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 6xl",
@@ -27176,7 +27218,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "4rem",
+      "$value": "3.5rem",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height 5xl",
@@ -30108,6 +30150,7 @@ export const calciteSizeRem15 = "1.5rem";
 export const calciteSizeRem1625 = "1.625rem";
 export const calciteSizeRem25 = "2.5rem";
 export const calciteSizeRem35 = "3.5rem";
+export const calciteSizeRem45 = "4.5rem";
 export const calciteZIndex0 = "-999999";
 export const calciteZIndex1 = "1";
 export const calciteZIndex3 = "300";
@@ -30761,6 +30804,7 @@ export const calciteSizeRem15: string;
 export const calciteSizeRem1625: string;
 export const calciteSizeRem25: string;
 export const calciteSizeRem35: string;
+export const calciteSizeRem45: string;
 export const calciteZIndex0: string;
 export const calciteZIndex1: string;
 export const calciteZIndex3: string;
@@ -30963,8 +31007,8 @@ export const calciteFontLineHeightFixedXl = "24px";
 export const calciteFontLineHeightFixed2xl = "32px";
 export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
-export const calciteFontLineHeightFixed5xl = "64px";
-export const calciteFontLineHeightFixed6xl = "80px";
+export const calciteFontLineHeightFixed5xl = "56px";
+export const calciteFontLineHeightFixed6xl = "64px";
 export const calciteFontLineHeightRelative = "normal"; // normal
 export const calciteFontLineHeightRelativeBase = "1"; // 1
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
@@ -30981,7 +31025,7 @@ export const calciteFontLineHeightXl = "1.5rem";
 export const calciteFontLineHeight2xl = "2rem";
 export const calciteFontLineHeight3xl = "2.5rem";
 export const calciteFontLineHeight4xl = "3rem";
-export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight5xl = "3.5rem";
 export const calciteFontLineHeight6xl = "4rem";
 export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -31101,245 +31145,273 @@ export const calciteSpace3xl = "2rem";
 export const calciteSpace4xl = "2.75rem";
 export const calciteTypography = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
-  fontSize: "14px",
+  fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "16px",
+  lineHeight: "1rem",
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
   textDecoration: "none",
 };
 export const calciteTypographyLightMinus3h = {
-  fontSize: "10px",
+  fontSize: "0.625rem",
   fontWeight: "300",
-  lineHeight: "12px",
+  lineHeight: "0.75rem",
 };
 export const calciteTypographyLightMinus2h = {
-  fontSize: "12px",
+  fontSize: "0.75rem",
   fontWeight: "300",
+  lineHeight: "1rem",
 };
-export const calciteTypographyLightMinus1h = { fontWeight: "300" };
-export const calciteTypographyLight0h = {
-  fontSize: "16px",
+export const calciteTypographyLightMinus1h = {
+  fontSize: "0.875rem",
   fontWeight: "300",
-  lineHeight: "20px",
+  lineHeight: "1rem",
+};
+export const calciteTypographyLight0h = {
+  fontSize: "1rem",
+  fontWeight: "300",
+  lineHeight: "1.25rem",
 };
 export const calciteTypographyLight1h = {
-  fontSize: "18px",
+  fontSize: "1.125rem",
   fontWeight: "300",
-  lineHeight: "24px",
+  lineHeight: "1.5rem",
 };
 export const calciteTypographyRegularMinus3h = {
-  lineHeight: "12px",
-  fontSize: "10px",
+  lineHeight: "0.75rem",
+  fontSize: "0.625rem",
 };
-export const calciteTypographyRegularMinus2h = { fontSize: "12px" };
+export const calciteTypographyRegularMinus2h = {
+  fontSize: "0.75rem",
+  lineHeight: "1rem",
+};
 export const calciteTypographyRegularMinus1h = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
-  fontSize: "14px",
+  fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "16px",
+  lineHeight: "1rem",
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
   textDecoration: "none",
 };
 export const calciteTypographyRegular0h = {
-  lineHeight: "20px",
-  fontSize: "16px",
+  lineHeight: "1.25rem",
+  fontSize: "1rem",
 };
 export const calciteTypographyRegular1h = {
-  lineHeight: "24px",
-  fontSize: "18px",
+  lineHeight: "1.5rem",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyMediumMinus3h = {
   fontWeight: "500",
-  lineHeight: "12px",
-  fontSize: "10px",
+  lineHeight: "0.75rem",
+  fontSize: "0.625rem",
 };
 export const calciteTypographyMediumMinus2h = {
   fontWeight: "500",
-  fontSize: "12px",
+  fontSize: "0.75rem",
+  lineHeight: "1rem",
 };
-export const calciteTypographyMediumMinus1h = { fontWeight: "500" };
+export const calciteTypographyMediumMinus1h = {
+  fontWeight: "500",
+  fontSize: "0.875rem",
+  lineHeight: "1rem",
+};
 export const calciteTypographyMedium0h = {
   fontWeight: "500",
-  lineHeight: "20px",
-  fontSize: "16px",
+  lineHeight: "1.25rem",
+  fontSize: "1rem",
 };
 export const calciteTypographyMedium1h = {
   fontWeight: "500",
-  lineHeight: "24px",
-  fontSize: "18px",
+  lineHeight: "1.5rem",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyBoldMinus3h = {
   fontWeight: "600",
-  lineHeight: "12px",
-  fontSize: "10px",
+  lineHeight: "0.75rem",
+  fontSize: "0.625rem",
 };
 export const calciteTypographyBoldMinus2h = {
   fontWeight: "600",
-  fontSize: "12px",
+  fontSize: "0.75rem",
+  lineHeight: "1rem",
 };
-export const calciteTypographyBoldMinus1h = { fontWeight: "600" };
+export const calciteTypographyBoldMinus1h = {
+  fontWeight: "600",
+  fontSize: "0.875rem",
+  lineHeight: "1rem",
+};
 export const calciteTypographyBold0h = {
   fontWeight: "600",
-  lineHeight: "20px",
-  fontSize: "16px",
+  lineHeight: "1.25rem",
+  fontSize: "1rem",
 };
 export const calciteTypographyBold1h = {
   fontWeight: "600",
-  lineHeight: "24px",
-  fontSize: "18px",
+  lineHeight: "1.5rem",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyWrapLight0 = {
   fontWeight: "300",
   lineHeight: "1.375",
-  fontSize: "16px",
+  fontSize: "1rem",
 };
 export const calciteTypographyWrapLight1 = {
   fontWeight: "300",
   lineHeight: "1.375",
-  fontSize: "18px",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyWrapLight2 = {
   fontWeight: "300",
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapLight3 = {
   fontWeight: "300",
   lineHeight: "1.25",
-  fontSize: "24px",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyWrapLightMinus2 = {
   fontWeight: "300",
   lineHeight: "1.375",
-  fontSize: "12px",
+  fontSize: "0.75rem",
 };
 export const calciteTypographyWrapLightMinus1 = {
   fontWeight: "300",
   lineHeight: "1.375",
+  fontSize: "0.875rem",
 };
 export const calciteTypographyWrapRegular0 = {
   lineHeight: "1.375",
-  fontSize: "16px",
+  fontSize: "1rem",
 };
 export const calciteTypographyWrapRegular1 = {
   lineHeight: "1.375",
-  fontSize: "18px",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyWrapRegular2 = {
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapRegular3 = {
-  lineHeight: "1.375",
-  fontSize: "24px",
+  lineHeight: "1.25",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyWrapRegularMinus2 = {
   lineHeight: "1.375",
-  fontSize: "12px",
+  fontSize: "0.75rem",
 };
-export const calciteTypographyWrapRegularMinus1 = { lineHeight: "1.375" };
+export const calciteTypographyWrapRegularMinus1 = {
+  lineHeight: "1.375",
+  fontSize: "0.875rem",
+};
 export const calciteTypographyWrapMedium0 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "16px",
+  fontSize: "1rem",
 };
 export const calciteTypographyWrapMedium1 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "18px",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyWrapMedium2 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapMedium3 = {
   fontWeight: "500",
-  lineHeight: "1.375",
-  fontSize: "24px",
+  lineHeight: "1.25",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyWrapMediumMinus2 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "12px",
+  fontSize: "0.75rem",
 };
 export const calciteTypographyWrapMediumMinus1 = {
   fontWeight: "500",
   lineHeight: "1.375",
+  fontSize: "0.875rem",
 };
 export const calciteTypographyWrapBold0 = {
   fontWeight: "600",
   lineHeight: "1.375",
-  fontSize: "16px",
+  fontSize: "1rem",
 };
 export const calciteTypographyWrapBold1 = {
   fontWeight: "600",
   lineHeight: "1.375",
-  fontSize: "18px",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyWrapBold2 = {
   fontWeight: "600",
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapBold3 = {
   fontWeight: "600",
-  lineHeight: "1.375",
-  fontSize: "24px",
+  lineHeight: "1.25",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyWrapBoldMinus2 = {
   fontWeight: "600",
   lineHeight: "1.375",
-  fontSize: "12px",
+  fontSize: "0.75rem",
 };
 export const calciteTypographyWrapBoldMinus1 = {
   fontWeight: "600",
   lineHeight: "1.375",
+  fontSize: "0.875rem",
 };
 export const calciteTypographyHierarchyDisplay1 = {
   fontWeight: "600",
-  lineHeight: "1.375",
-  fontSize: "24px",
+  lineHeight: "1.25",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyHierarchyDisplay2 = {
   fontWeight: "600",
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyHierarchyHeading1 = {
   fontWeight: "500",
-  lineHeight: "1.375",
-  fontSize: "24px",
+  lineHeight: "1.25",
+  fontSize: "1.625rem",
 };
 export const calciteTypographyHierarchyHeading2 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "20px",
+  fontSize: "1.25rem",
 };
 export const calciteTypographyHierarchyHeading3 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "18px",
+  fontSize: "1.125rem",
 };
 export const calciteTypographyHierarchyHeading4 = {
   fontWeight: "500",
   lineHeight: "1.375",
-  fontSize: "16px",
+  fontSize: "1rem",
 };
 export const calciteTypographyHierarchyHeading5 = {
   fontWeight: "500",
   lineHeight: "1.375",
+  fontSize: "0.875rem",
 };
-export const calciteTypographyHierarchyBodySnug = { lineHeight: "1.375" };
+export const calciteTypographyHierarchyBodySnug = {
+  lineHeight: "1.375",
+  fontSize: "0.875rem",
+};
 export const calciteTypographyHierarchyBody = {
   fontFamily: ["Avenir Next", "Avenir", "Helvetica Neue", "sans-serif"],
-  fontSize: "14px",
+  fontSize: "0.875rem",
   fontWeight: "400",
-  lineHeight: "16px",
+  lineHeight: "1rem",
   letterSpacing: "0",
   paragraphSpacing: "4px",
   textCase: "none",
@@ -31352,7 +31424,7 @@ export const calciteTypographyHierarchyOverline = {
 };
 export const calciteTypographyHierarchyCaption = {
   lineHeight: "1.375",
-  fontSize: "12px",
+  fontSize: "0.75rem",
 };
 export const calciteZIndexDeep = "-999999";
 export const calciteZIndex = "1";
@@ -31734,8 +31806,13 @@ export const calciteTypographyLightMinus3h: {
 export const calciteTypographyLightMinus2h: {
   fontSize: string;
   fontWeight: string;
+  lineHeight: string;
 };
-export const calciteTypographyLightMinus1h: { fontWeight: string };
+export const calciteTypographyLightMinus1h: {
+  fontSize: string;
+  fontWeight: string;
+  lineHeight: string;
+};
 export const calciteTypographyLight0h: {
   fontSize: string;
   fontWeight: string;
@@ -31750,7 +31827,10 @@ export const calciteTypographyRegularMinus3h: {
   lineHeight: string;
   fontSize: string;
 };
-export const calciteTypographyRegularMinus2h: { fontSize: string };
+export const calciteTypographyRegularMinus2h: {
+  fontSize: string;
+  lineHeight: string;
+};
 export const calciteTypographyRegularMinus1h: {
   fontFamily: [string, string, string, string];
   fontSize: string;
@@ -31777,8 +31857,13 @@ export const calciteTypographyMediumMinus3h: {
 export const calciteTypographyMediumMinus2h: {
   fontWeight: string;
   fontSize: string;
+  lineHeight: string;
 };
-export const calciteTypographyMediumMinus1h: { fontWeight: string };
+export const calciteTypographyMediumMinus1h: {
+  fontWeight: string;
+  fontSize: string;
+  lineHeight: string;
+};
 export const calciteTypographyMedium0h: {
   fontWeight: string;
   lineHeight: string;
@@ -31797,8 +31882,13 @@ export const calciteTypographyBoldMinus3h: {
 export const calciteTypographyBoldMinus2h: {
   fontWeight: string;
   fontSize: string;
+  lineHeight: string;
 };
-export const calciteTypographyBoldMinus1h: { fontWeight: string };
+export const calciteTypographyBoldMinus1h: {
+  fontWeight: string;
+  fontSize: string;
+  lineHeight: string;
+};
 export const calciteTypographyBold0h: {
   fontWeight: string;
   lineHeight: string;
@@ -31837,6 +31927,7 @@ export const calciteTypographyWrapLightMinus2: {
 export const calciteTypographyWrapLightMinus1: {
   fontWeight: string;
   lineHeight: string;
+  fontSize: string;
 };
 export const calciteTypographyWrapRegular0: {
   lineHeight: string;
@@ -31858,7 +31949,10 @@ export const calciteTypographyWrapRegularMinus2: {
   lineHeight: string;
   fontSize: string;
 };
-export const calciteTypographyWrapRegularMinus1: { lineHeight: string };
+export const calciteTypographyWrapRegularMinus1: {
+  lineHeight: string;
+  fontSize: string;
+};
 export const calciteTypographyWrapMedium0: {
   fontWeight: string;
   lineHeight: string;
@@ -31887,6 +31981,7 @@ export const calciteTypographyWrapMediumMinus2: {
 export const calciteTypographyWrapMediumMinus1: {
   fontWeight: string;
   lineHeight: string;
+  fontSize: string;
 };
 export const calciteTypographyWrapBold0: {
   fontWeight: string;
@@ -31916,6 +32011,7 @@ export const calciteTypographyWrapBoldMinus2: {
 export const calciteTypographyWrapBoldMinus1: {
   fontWeight: string;
   lineHeight: string;
+  fontSize: string;
 };
 export const calciteTypographyHierarchyDisplay1: {
   fontWeight: string;
@@ -31950,8 +32046,12 @@ export const calciteTypographyHierarchyHeading4: {
 export const calciteTypographyHierarchyHeading5: {
   fontWeight: string;
   lineHeight: string;
+  fontSize: string;
 };
-export const calciteTypographyHierarchyBodySnug: { lineHeight: string };
+export const calciteTypographyHierarchyBodySnug: {
+  lineHeight: string;
+  fontSize: string;
+};
 export const calciteTypographyHierarchyBody: {
   fontFamily: [string, string, string, string];
   fontSize: string;
@@ -32052,8 +32152,8 @@ export const calciteFontLineHeightFixedXl = "24px";
 export const calciteFontLineHeightFixed2xl = "32px";
 export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
-export const calciteFontLineHeightFixed5xl = "64px";
-export const calciteFontLineHeightFixed6xl = "80px";
+export const calciteFontLineHeightFixed5xl = "56px";
+export const calciteFontLineHeightFixed6xl = "64px";
 export const calciteFontLineHeightRelative = "normal"; // normal
 export const calciteFontLineHeightRelativeBase = "1"; // 1
 export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
@@ -32070,7 +32170,7 @@ export const calciteFontLineHeightXl = "1.5rem";
 export const calciteFontLineHeight2xl = "2rem";
 export const calciteFontLineHeight3xl = "2.5rem";
 export const calciteFontLineHeight4xl = "3rem";
-export const calciteFontLineHeight5xl = "4rem";
+export const calciteFontLineHeight5xl = "3.5rem";
 export const calciteFontLineHeight6xl = "4rem";
 export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -33089,6 +33189,7 @@ $calcite-size-rem-1-5: 1.5rem;
 $calcite-size-rem-1-625: 1.625rem;
 $calcite-size-rem-2-5: 2.5rem;
 $calcite-size-rem-3-5: 3.5rem;
+$calcite-size-rem-4-5: 4.5rem;
 $calcite-z-index-0: -999999;
 $calcite-z-index-1: 1;
 $calcite-z-index-3: 300;
@@ -33221,8 +33322,8 @@ $calcite-font-line-height-fixed-xl: 24px;
 $calcite-font-line-height-fixed-2xl: 32px;
 $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
-$calcite-font-line-height-fixed-5xl: 64px;
-$calcite-font-line-height-fixed-6xl: 80px;
+$calcite-font-line-height-fixed-5xl: 56px;
+$calcite-font-line-height-fixed-6xl: 64px;
 $calcite-font-line-height-relative: normal; // normal
 $calcite-font-line-height-relative-base: 1; // 1
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
@@ -33239,7 +33340,7 @@ $calcite-font-line-height-xl: 1.5rem;
 $calcite-font-line-height-2xl: 2rem;
 $calcite-font-line-height-3xl: 2.5rem;
 $calcite-font-line-height-4xl: 3rem;
-$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-5xl: 3.5rem;
 $calcite-font-line-height-6xl: 4rem;
 $calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -33537,9 +33638,9 @@ exports[`SCSS > mixins should match 1`] = `
 
 @mixin calcite-typography {
   font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 1rem;
   letter-spacing: 0;
   paragraph-spacing: 4px;
   text-case: none;
@@ -33547,46 +33648,50 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-light-minus-3h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-xs);
+  font-size: var(--calcite-font-size-relative-xs);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-sm);
+  line-height: var(--calcite-font-line-height-xs);
 }
 @mixin calcite-typography-light-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
   font-weight: var(--calcite-font-weight-light);
+  line-height: var(--calcite-font-line-height-sm);
 }
 @mixin calcite-typography-light-minus-1h {
   @include calcite-typography;
+  font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-light);
+  line-height: var(--calcite-font-line-height-base);
 }
 @mixin calcite-typography-light-0h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-lg);
+  line-height: var(--calcite-font-line-height-md);
 }
 @mixin calcite-typography-light-1h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
   font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-fixed-xl);
+  line-height: var(--calcite-font-line-height-lg);
 }
 @mixin calcite-typography-regular-minus-3h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-regular-minus-2h {
   @include calcite-typography;
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 @mixin calcite-typography-regular-minus-1h {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size);
+  font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-fixed-base);
+  line-height: var(--calcite-font-line-height-base);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
@@ -33594,253 +33699,265 @@ exports[`SCSS > mixins should match 1`] = `
 }
 @mixin calcite-typography-regular-0h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-regular-1h {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-medium-minus-3h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-medium-minus-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 @mixin calcite-typography-medium-minus-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 @mixin calcite-typography-medium-0h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-medium-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-bold-minus-3h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-sm);
-  font-size: var(--calcite-font-size-xs);
+  line-height: var(--calcite-font-line-height-xs);
+  font-size: var(--calcite-font-size-relative-xs);
 }
 @mixin calcite-typography-bold-minus-2h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
+  line-height: var(--calcite-font-line-height-sm);
 }
 @mixin calcite-typography-bold-minus-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
+  font-size: var(--calcite-font-size-relative-base);
+  line-height: var(--calcite-font-line-height-base);
 }
 @mixin calcite-typography-bold-0h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-lg);
-  font-size: var(--calcite-font-size-md);
+  line-height: var(--calcite-font-line-height-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-bold-1h {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-fixed-xl);
-  font-size: var(--calcite-font-size-lg);
+  line-height: var(--calcite-font-line-height-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-light-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-light-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-light-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-light-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-tight);
-  font-size: var(--calcite-font-size-xxl);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-light-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-light-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-regular-0 {
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-regular-1 {
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-regular-2 {
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-regular-3 {
   @include calcite-typography;
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-regular-minus-2 {
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-regular-minus-1 {
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-medium-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-medium-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-medium-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-medium-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-medium-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-medium-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-wrap-bold-0 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-wrap-bold-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-wrap-bold-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-bold-3 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-wrap-bold-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 @mixin calcite-typography-wrap-bold-minus-1 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-display-1 {
   @include calcite-typography-wrap-bold-3;
   font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-hierarchy-display-2 {
   @include calcite-typography-wrap-bold-2;
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-hierarchy-heading-1 {
   @include calcite-typography-wrap-medium-3;
   font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xxl);
+  line-height: var(--calcite-font-line-height-relative-tight);
+  font-size: var(--calcite-font-size-relative-2xl);
 }
 @mixin calcite-typography-hierarchy-heading-2 {
   @include calcite-typography-wrap-medium-2;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-xl);
+  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-hierarchy-heading-3 {
   @include calcite-typography-wrap-medium-1;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-lg);
+  font-size: var(--calcite-font-size-relative-lg);
 }
 @mixin calcite-typography-hierarchy-heading-4 {
   @include calcite-typography-wrap-medium-0;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-md);
+  font-size: var(--calcite-font-size-relative-md);
 }
 @mixin calcite-typography-hierarchy-heading-5 {
   @include calcite-typography-wrap-medium-minus-1;
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-body-snug {
   @include calcite-typography-wrap-regular-minus-1;
   line-height: var(--calcite-font-line-height-relative-snug);
+  font-size: var(--calcite-font-size-relative-base);
 }
 @mixin calcite-typography-hierarchy-body {
   @include calcite-typography;
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size);
+  font-size: var(--calcite-font-size-relative-base);
   font-weight: var(--calcite-font-weight-regular);
-  line-height: var(--calcite-font-line-height-fixed-base);
+  line-height: var(--calcite-font-line-height-base);
   letter-spacing: var(--calcite-font-letter-spacing-normal);
   paragraph-spacing: var(--calcite-font-paragraph-spacing-normal);
   text-case: var(--calcite-font-text-case-none);
@@ -33854,7 +33971,7 @@ exports[`SCSS > mixins should match 1`] = `
 @mixin calcite-typography-hierarchy-caption {
   @include calcite-typography-wrap-regular-minus-2;
   line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-sm);
+  font-size: var(--calcite-font-size-relative-sm);
 }
 "
 `;
@@ -33914,8 +34031,8 @@ $calcite-font-line-height-fixed-xl: 24px;
 $calcite-font-line-height-fixed-2xl: 32px;
 $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
-$calcite-font-line-height-fixed-5xl: 64px;
-$calcite-font-line-height-fixed-6xl: 80px;
+$calcite-font-line-height-fixed-5xl: 56px;
+$calcite-font-line-height-fixed-6xl: 64px;
 $calcite-font-line-height-relative: normal; // normal
 $calcite-font-line-height-relative-base: 1; // 1
 $calcite-font-line-height-relative-tight: 1.25; // 1.25
@@ -33932,7 +34049,7 @@ $calcite-font-line-height-xl: 1.5rem;
 $calcite-font-line-height-2xl: 2rem;
 $calcite-font-line-height-3xl: 2.5rem;
 $calcite-font-line-height-4xl: 3rem;
-$calcite-font-line-height-5xl: 4rem;
+$calcite-font-line-height-5xl: 3.5rem;
 $calcite-font-line-height-6xl: 4rem;
 $calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
