@@ -16,7 +16,7 @@ export default {
     checked: true,
     disabled: false,
     indeterminate: false,
-    labelText: "Checkbox label text",
+    labelText: "Label text",
     required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
