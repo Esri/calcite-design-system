@@ -387,7 +387,7 @@ describe("overflowing actions", () => {
     );
 
     const authoredCount = (): number =>
-      el.querySelectorAll("calcite-action[slot='menu-actions']").length;
+      page.getBySelector("calcite-action[slot='menu-actions']").elements().length;
 
     await component.updateComplete;
 
@@ -939,7 +939,7 @@ describe("overflow-disabled actions", () => {
 
 describe("wrap", () => {
   it("wraps items when enabled for horizontal layout", async () => {
-    const { el } = await mount<ActionBar>(
+    await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
@@ -947,12 +947,12 @@ describe("wrap", () => {
       </calcite-action-bar>,
     );
 
-    const container = el.shadowRoot?.querySelector(".container") as HTMLElement;
+    const container = page.getByRole("toolbar").element();
     expect(getComputedStyle(container).flexWrap).toBe("wrap");
   });
 
   it("wraps items when enabled for vertical layout", async () => {
-    const { el } = await mount<ActionBar>(
+    await mount<ActionBar>(
       <calcite-action-bar layout="vertical" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
@@ -960,7 +960,7 @@ describe("wrap", () => {
       </calcite-action-bar>,
     );
 
-    const container = el.shadowRoot?.querySelector(".container") as HTMLElement;
+    const container = page.getByRole("toolbar").element();
     expect(getComputedStyle(container).flexWrap).toBe("wrap");
   });
 
@@ -1001,29 +1001,35 @@ describe("wrap", () => {
     await component.updateComplete;
 
     await expect
-      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
+      .poll(() => page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length)
       .toBeGreaterThan(0);
-    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeTruthy();
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .toBeInTheDocument();
 
     el.overflowMode = "collapse";
     await component.updateComplete;
 
-    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .not.toBeInTheDocument();
   });
 
   it("does not render the divider overlay when layout is grid", async () => {
-    const { el } = await mount<ActionBar>(
+    await mount<ActionBar>(
       <calcite-action-bar layout="grid" overflow-mode="wrap">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
       </calcite-action-bar>,
     );
 
-    expect(el.shadowRoot?.querySelector(`.${CSS.lineOverlay}`)).toBeFalsy();
+    await expect
+      .element(page.getBySelector(`calcite-action-bar .${CSS.lineOverlay}`))
+      .not.toBeInTheDocument();
   });
 
   it("keeps the container's leading padding when only bare actions are slotted", async () => {
-    const { el, component } = await mount<ActionBar>(
+    const { component } = await mount<ActionBar>(
       <calcite-action-bar layout="horizontal" overflow-mode="wrap" style="width: 120px;">
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
@@ -1035,13 +1041,13 @@ describe("wrap", () => {
 
     // Without groups there are no dividers to clip, so the clipping machinery stays off and the
     // container keeps its default leading padding.
-    const container = el.shadowRoot?.querySelector<HTMLElement>(`.${CSS.container}`);
-    expect(container?.classList.contains(CSS.hasActionGroups)).toBe(false);
-    expect(getComputedStyle(container!).paddingInlineStart).not.toBe("0px");
+    const container = page.getByRole("toolbar").element();
+    expect(container.classList.contains(CSS.hasActionGroups)).toBe(false);
+    expect(getComputedStyle(container).paddingInlineStart).not.toBe("0px");
   });
 
   it("ignores hidden top-level items when measuring wrapped lines", async () => {
-    const { el, component } = await mount<ActionBar>(
+    const { component } = await mount<ActionBar>(
       <calcite-action-bar
         expandDisabled
         layout="horizontal"
@@ -1064,12 +1070,12 @@ describe("wrap", () => {
 
     await component.updateComplete;
     await expect
-      .poll(() => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0)
+      .poll(() => page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length)
       .toBeGreaterThan(0);
 
     // The two visible groups wrap into two rows → exactly one divider; the hidden group must not
     // add a phantom line.
-    expect(el.shadowRoot?.querySelectorAll(`.${CSS.line}`)).toHaveLength(1);
+    expect(page.getBySelector(`calcite-action-bar .${CSS.line}`).elements()).toHaveLength(1);
   });
 
   it("re-measures wrapped lines when the actions-end group becomes visible", async () => {
@@ -1091,7 +1097,8 @@ describe("wrap", () => {
       </calcite-action-bar>,
     );
 
-    const lineCount = (): number => el.shadowRoot?.querySelectorAll(`.${CSS.line}`).length ?? 0;
+    const lineCount = (): number =>
+      page.getBySelector(`calcite-action-bar .${CSS.line}`).elements().length;
 
     await component.updateComplete;
     await expect.poll(lineCount).toBeGreaterThan(0);
