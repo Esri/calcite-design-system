@@ -173,7 +173,7 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** @private */
+  /** @internal */
   @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
 
   /** @copyDoc */
