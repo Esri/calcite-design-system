@@ -269,13 +269,13 @@ export class Shell extends LitElement {
     panel: ShellPanel["el"],
     axis: "inline" | "block",
   ): ShellPanelSizingData | null {
-    const containerElement = panel.assignedSlot?.parentElement;
+    const panelLayoutContainer = panel.assignedSlot?.parentElement;
 
-    if (!containerElement) {
+    if (!panelLayoutContainer) {
       return null;
     }
 
-    const containerRect = containerElement.getBoundingClientRect();
+    const containerRect = panelLayoutContainer.getBoundingClientRect();
     const defaultSlotRect = this.getDefaultSlotBounds();
 
     if (!defaultSlotRect) {
