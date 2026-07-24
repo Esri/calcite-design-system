@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.32...@esri/calcite-components@5.2.0-next.33) (2026-07-24)
+
+### Features
+
+- **action-bar:** add `overflow-mode` property supporting collapse, wrap, and none ([#14799](https://github.com/Esri/calcite-design-system/issues/14799)), closes [#11000](https://github.com/Esri/calcite-design-system/issues/11000)
+
 ## [5.2.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0-next.31...@esri/calcite-components@5.2.0-next.32) (2026-07-24)
 
 ### Bug Fixes
