@@ -339,6 +339,10 @@ export class Block extends LitElement {
     if (changes.has("scale") && this.hasUpdated) {
       this.updateBlockSectionScale();
     }
+
+    if ((changes.has("moveToItems") || changes.has("addToItems")) && this.hasUpdated) {
+      this.setParentBlockGroupElement();
+    }
   }
 
   //#endregion
@@ -438,6 +442,7 @@ export class Block extends LitElement {
   }
 
   private setParentBlockGroupElement(): void {
+    console.log(this.heading, this.moveToItems, this.addToItems);
     this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
