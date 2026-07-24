@@ -6,6 +6,10 @@ import { Decorator } from "@storybook/web-components-vite";
 
 const { scale } = ATTRIBUTES;
 
+const expandMode: BlockGroup["expandMode"][] = ["single", "multiple", "single-persist"];
+
+type ExpandModeStoryArgs = Pick<BlockGroup, "expandMode">;
+
 type BlockGroupStoryArgs = Pick<BlockGroup, "disabled" | "group" | "dragEnabled" | "label" | "loading" | "scale">;
 
 export default {
@@ -157,11 +161,7 @@ const nestedBlockHTML = (): string => html`
   <calcite-block collapsible heading="Lakes" description="Large standing-water bodies and reservoirs"></calcite-block>
 `;
 
-const expandMode: BlockGroup["expandMode"][] = ["single", "multiple", "single-persist"];
-
-type ExpandModeStoryArgs = Pick<BlockGroup, "expandMode">;
-
-export const expandModeDecorator: Decorator = (storyFn, context) =>
+const expandModeDecorator: Decorator = (storyFn, context) =>
   html` <style>
       .container-wrapper {
         display: flex;
