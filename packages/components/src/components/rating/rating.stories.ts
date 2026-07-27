@@ -13,7 +13,9 @@ type RatingStoryArgs = Pick<
   | "showChip"
   | "average"
   | "count"
+  | "labelText"
   | "readOnly"
+  | "required"
   | "disabled"
   | "status"
   | "validationIcon"
@@ -28,7 +30,9 @@ export default {
     showChip: true,
     average: 4.4,
     count: 10,
+    labelText: "Label text",
     readOnly: false,
+    required: false,
     disabled: false,
     status: status.defaultValue,
     validationMessage: "",
@@ -57,7 +61,9 @@ export const simple = (args: RatingStoryArgs): string => html`
     ${boolean("show-chip", args.showChip)}
     average="${args.average}"
     count="${args.count}"
+    ${optionalAttribute("label-text", args.labelText)}
     ${boolean("read-only", args.readOnly)}
+    ${boolean("required", args.required)}
     ${boolean("disabled", args.disabled)}
     status="${args.status}"
     validation-message="${args.validationMessage}"

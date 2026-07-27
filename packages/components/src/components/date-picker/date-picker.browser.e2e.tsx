@@ -7,6 +7,7 @@ import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { DatePicker } from "./date-picker";
 import { mockConsole } from "../../tests/utils/logging";
+import type { DatePickerMonth } from "../date-picker-month/date-picker-month";
 
 describe("defaults", () => {
   defaults(
@@ -97,6 +98,108 @@ describe("activeDate", () => {
 
   function getMonthSelectMenu(): Locator {
     return page.getByRole("combobox", { name: "Month menu" }).first();
+  }
+});
+
+describe("value", () => {
+  const today = new Date();
+  const unsetValueCases = [
+    { label: "empty string", value: "" },
+    { label: "undefined", value: undefined },
+  ] satisfies { label: string; value: "" | undefined }[];
+
+  it.each<{ label: string; value: DatePicker["value"] }>(unsetValueCases)(
+    "clears valueAsDate and activates the current date when value is set to $label",
+    async ({ value }) => {
+      const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2025-12-05" />);
+      await component.updateComplete;
+
+      expect(el.valueAsDate).toBeInstanceOf(Date);
+
+      el.value = value;
+      await waitForCalendarUpdate(el, component);
+
+      expect(el.valueAsDate).toBeUndefined();
+      expectDate(el.activeDate, today);
+      expectDate(getMonth(el)?.activeDate, today);
+      expect(getSelectedDays(el)).toHaveLength(0);
+    },
+  );
+
+  it("clears valueAsDate and activates the current date when valueAsDate is unset", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker valueAsDate={new Date(2025, 11, 5)} />,
+    );
+    await component.updateComplete;
+
+    expect(el.valueAsDate).toBeInstanceOf(Date);
+
+    el.valueAsDate = undefined;
+    await waitForCalendarUpdate(el, component);
+
+    expect(el.valueAsDate).toBeUndefined();
+    expectDate(el.activeDate, today);
+    expectDate(getMonth(el)?.activeDate, today);
+    expect(getSelectedDays(el)).toHaveLength(0);
+  });
+
+  it.each<{ label: string; value: DatePicker["value"] }>(unsetValueCases)(
+    "clears range value and activates the current date when value is set to $label",
+    async ({ value }) => {
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker range value={["2025-12-05", "2026-01-10"]} />,
+      );
+      await component.updateComplete;
+
+      expect(el.valueAsDate).toHaveLength(2);
+
+      el.value = value;
+      await waitForCalendarUpdate(el, component);
+
+      expect(el.valueAsDate).toBeUndefined();
+      expectDate(getMonth(el)?.activeDate, today);
+      expect(el.activeEndDate).toBeUndefined();
+      expect(getSelectedDays(el)).toHaveLength(0);
+    },
+  );
+
+  it("clears range value and activates the current date when value is set to empty strings", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker range value={["2025-12-05", "2026-01-10"]} />,
+    );
+    await component.updateComplete;
+
+    expect(el.valueAsDate).toHaveLength(2);
+
+    el.value = ["", ""];
+    await waitForCalendarUpdate(el, component);
+
+    expect(el.valueAsDate).toBeUndefined();
+    expectDate(getMonth(el)?.activeDate, today);
+    expect(el.activeEndDate).toBeUndefined();
+    expect(getSelectedDays(el)).toHaveLength(0);
+  });
+
+  async function waitForCalendarUpdate(el: DatePicker["el"], component: DatePicker): Promise<void> {
+    await component.updateComplete;
+    await (getMonth(el) as DatePickerMonth | null)?.updateComplete;
+  }
+
+  function getMonth(el: DatePicker["el"]): DatePickerMonth["el"] | null {
+    return el.shadowRoot!.querySelector("calcite-date-picker-month");
+  }
+
+  function getSelectedDays(el: DatePicker["el"]): Element[] {
+    return Array.from(
+      getMonth(el)?.shadowRoot!.querySelectorAll("calcite-date-picker-day[selected]") || [],
+    );
+  }
+
+  function expectDate(actual: Date | undefined, expected: Date): void {
+    expect(actual).toBeInstanceOf(Date);
+    expect(actual?.getFullYear()).toBe(expected.getFullYear());
+    expect(actual?.getMonth()).toBe(expected.getMonth());
+    expect(actual?.getDate()).toBe(expected.getDate());
   }
 });
 

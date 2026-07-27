@@ -16,6 +16,7 @@ type TextAreaStoryArgs = Pick<
   | "resize"
   | "rows"
   | "label"
+  | "labelText"
   | "limitText"
   | "loading"
   | "maxLength"
@@ -39,6 +40,7 @@ export default {
     resize: "both",
     rows: 2,
     label: "",
+    labelText: "Label text",
     limitText: false,
     loading: false,
     maxLength: undefined,
@@ -89,6 +91,7 @@ export const simple = (args: TextAreaStoryArgs): string => html`
     resize="${args.resize}"
     rows="${args.rows}"
     label="${args.label}"
+    ${optionalAttribute("label-text", args.labelText)}
     ${optionalAttribute("max-length", args.maxLength)}
     ${optionalAttribute("min-length", args.minLength)}
     limit-text="${args.limitText}"
