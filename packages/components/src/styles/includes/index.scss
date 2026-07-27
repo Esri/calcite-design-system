@@ -229,20 +229,20 @@
 
   :host([scale="s"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
+      padding: var(--calcite-space-2xs);
     }
   }
 
   :host([scale="m"]) {
     .clear-button--container {
-      padding: var(--calcite-spacing-xxs);
+      padding: var(--calcite-space-2xs);
       padding-inline-end: var(--calcite-space-sm);
     }
   }
 
   :host([scale="l"]) {
     .clear-button--container {
-      padding-inline-end: var(--calcite-spacing-sm-plus);
+      padding-inline-end: var(--calcite-space-sm-plus);
     }
   }
 }

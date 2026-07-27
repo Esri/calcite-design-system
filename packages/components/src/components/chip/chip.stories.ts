@@ -7,7 +7,10 @@ import { Chip } from "./chip";
 
 const { scale, appearance, kind } = ATTRIBUTES;
 
-type ChipStoryArgs = Pick<Chip, "appearance" | "closable" | "icon" | "kind" | "label" | "scale" | "selected">;
+type ChipStoryArgs = Pick<
+  Chip,
+  "appearance" | "closable" | "disabled" | "icon" | "kind" | "label" | "scale" | "selected"
+>;
 
 export default {
   title: "Components/Chip",
@@ -17,6 +20,7 @@ export default {
     icon: "",
     kind: kind.values[4],
     closable: false,
+    disabled: false,
     selected: false,
     label: "My great chip",
   },
@@ -54,6 +58,7 @@ export const simple = (args: ChipStoryArgs): string => html`
       ${optionalAttribute("icon", args.icon)}
       label="${args.label}"
       ${boolean("closable", args.closable)}
+      ${boolean("disabled", args.disabled)}
       ${boolean("selected", args.selected)}
       >My great chip</calcite-chip
     >
