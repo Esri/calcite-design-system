@@ -323,55 +323,63 @@ describe("works with flow-items", () => {
     expect(await items[2].getProperty("showBackButton")).toBe(true);
   });
 
-  it("should also work with descendant slotted items", async () => {
+  it("should ignore descendant flow items and only track top-level slotted items", async () => {
     const page = await newE2EPage();
 
     await page.setContent(
       html`<calcite-flow>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <calcite-flow-item>Assigned item</calcite-flow-item>
-        <div>
-          <calcite-flow-item>
-            Assigned item
-            <calcite-flow-item>Assigned item</calcite-flow-item>
-            <calcite-flow>
-              <calcite-flow-item>Unassigned item</calcite-flow-item>
-            </calcite-flow>
-          </calcite-flow-item>
-        </div>
+        <calcite-flow-item id="first">Top-level item</calcite-flow-item>
+        <calcite-flow-item id="second"
+          >Top-level item
+          <calcite-flow-item id="nested">Nested descendant item</calcite-flow-item>
+        </calcite-flow-item>
       </calcite-flow>`,
     );
 
-    const items = await findAll(page, "calcite-flow-item");
+    const first = await page.find("#first");
+    const second = await page.find("#second");
+    const nested = await page.find("#nested");
 
-    expect(items).toHaveLength(5);
+    expect(await first.getProperty("selected")).toBe(false);
+    expect(await first.getProperty("showBackButton")).toBe(false);
+    expect(await first.isVisible()).toBe(false);
 
-    expect(await items[0].getProperty("selected")).toBe(false);
-    expect(await items[0].getProperty("showBackButton")).toBe(false);
-    expect(await items[0].isVisible()).toBe(false);
+    expect(await second.getProperty("selected")).toBe(true);
+    expect(await second.getProperty("showBackButton")).toBe(true);
+    expect(await second.isVisible()).toBe(true);
 
-    expect(await items[1].getProperty("selected")).toBe(false);
-    expect(await items[1].getProperty("showBackButton")).toBe(false);
-    expect(await items[1].isVisible()).toBe(false);
+    expect(await nested.getProperty("selected")).toBe(false);
+    expect(await nested.getProperty("showBackButton")).toBe(false);
+    expect(await nested.isVisible()).toBe(false);
+  });
 
-    expect(await items[2].getProperty("selected")).toBe(false);
-    expect(await items[2].getProperty("showBackButton")).toBe(false);
-    expect(await items[2].isVisible()).toBe(false);
+  it("falls back to calcite-flow-item when custom-item-selectors is invalid", async () => {
+    const page = await newE2EPage();
 
-    expect(await items[3].getProperty("selected")).toBe(true);
-    expect(await items[3].getProperty("showBackButton")).toBe(true);
-    expect(await items[3].isVisible()).toBe(true);
+    await page.setContent(
+      html`<calcite-flow custom-item-selectors=":is(">
+        <calcite-flow-item id="first">Top-level item</calcite-flow-item>
+        <calcite-flow-item id="second">Top-level item</calcite-flow-item>
+      </calcite-flow>`,
+    );
 
-    expect(await items[4].getProperty("selected")).toBe(true);
-    expect(await items[4].getProperty("showBackButton")).toBe(false);
-    expect(await items[4].isVisible()).toBe(true);
+    await page.waitForChanges();
+
+    const first = await page.find("#first");
+    const second = await page.find("#second");
+
+    expect(await first.getProperty("selected")).toBe(false);
+    expect(await first.getProperty("showBackButton")).toBe(false);
+
+    expect(await second.getProperty("selected")).toBe(true);
+    expect(await second.getProperty("showBackButton")).toBe(true);
   });
 });
 
 it("supports custom flow-items", async () => {
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-flow custom-item-selectors="custom-flow-item">
+    <calcite-flow custom-item-selectors=":is(custom-flow-item, custom-flow-item-alt)">
       <calcite-flow-item heading="flow-item-1" id="first">
         <p>😃</p>
       </calcite-flow-item>
@@ -379,8 +387,10 @@ it("supports custom flow-items", async () => {
         <p>🥸</p>
       </custom-flow-item>
       <calcite-flow-item heading="flow-item-2" id="third">
+        <custom-flow-item heading="nested custom-flow-item" id="nested"></custom-flow-item>
         <p>😃</p>
       </calcite-flow-item>
+      <custom-non-flow-item id="ignored"></custom-non-flow-item>
     </calcite-flow>
   `);
 
@@ -476,47 +486,64 @@ it("supports custom flow-items", async () => {
       }
     }
 
+    class CustomNonFlowItem extends HTMLElement {
+      get selected(): boolean {
+        return this.hasAttribute("selected");
+      }
+
+      set selected(value: boolean) {
+        this.toggleAttribute("selected", value);
+      }
+
+      get showBackButton(): boolean {
+        return this.hasAttribute("show-back-button");
+      }
+
+      set showBackButton(value: boolean) {
+        this.toggleAttribute("show-back-button", value);
+      }
+
+      get menuOpen(): boolean {
+        return this.hasAttribute("menu-open");
+      }
+
+      set menuOpen(value: boolean) {
+        this.toggleAttribute("menu-open", value);
+      }
+    }
+
     customElements.define("custom-flow-item", CustomFlowItem);
+    customElements.define("custom-non-flow-item", CustomNonFlowItem);
   });
   await page.waitForChanges();
 
   const flow = await page.find("calcite-flow");
   const displayedItemSelector = "calcite-flow > [selected]";
   let displayedItem = await page.find(displayedItemSelector);
+  const nestedCustomFlowItem = await page.find("#nested");
+  const ignoredCustomElement = await page.find("#ignored");
 
-  expect(await flow.getProperty("childElementCount")).toBe(3);
+  expect(await flow.getProperty("childElementCount")).toBe(4);
+  expect(await nestedCustomFlowItem.getProperty("selected")).toBe(false);
+  expect(await ignoredCustomElement.getProperty("selected")).toBe(false);
+  expect(await ignoredCustomElement.getProperty("showBackButton")).toBe(false);
   expect(displayedItem.id).toBe("third");
 
-  await page.evaluate(
-    async (displayedItemSelector: string, ITEM_CSS) => {
-      document
-        .querySelector(displayedItemSelector)!
-        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
-        .click();
-    },
-    displayedItemSelector,
-    ITEM_CSS,
-  );
+  const thirdItemBackButton = await page.find(`#third >>> .${ITEM_CSS.backButton}`);
+  await thirdItemBackButton.click();
   await page.waitForChanges();
 
   displayedItem = await page.find(displayedItemSelector);
-  expect(await flow.getProperty("childElementCount")).toBe(3);
+  expect(await flow.getProperty("childElementCount")).toBe(4);
   expect(displayedItem.id).toBe("second");
 
-  await page.evaluate(
-    async (displayedItemSelector: string, ITEM_CSS) => {
-      document
-        .querySelector(displayedItemSelector)!
-        .shadowRoot!.querySelector("calcite-flow-item")!
-        .shadowRoot!.querySelector<Action["el"]>(`.${ITEM_CSS.backButton}`)!
-        .click();
-    },
-    displayedItemSelector,
-    ITEM_CSS,
-  );
+  const secondItemBackButton = await page.find(`#second >>> #internalFlowItem >>> .${ITEM_CSS.backButton}`);
+  await secondItemBackButton.callMethod("click");
   await page.waitForChanges();
 
   displayedItem = await page.find(displayedItemSelector);
-  expect(await flow.getProperty("childElementCount")).toBe(3);
+  expect(await flow.getProperty("childElementCount")).toBe(4);
+  expect(await ignoredCustomElement.getProperty("selected")).toBe(false);
+  expect(await ignoredCustomElement.getProperty("showBackButton")).toBe(false);
   expect(displayedItem.id).toBe("first");
 });

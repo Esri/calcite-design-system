@@ -1,13 +1,19 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
+import { getSlotAssignedElements, whenAnimationDone } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
 import { useSetFocus } from "../../controllers/useSetFocus";
 import { FlowDirection, FlowItemLikeElement } from "./interfaces";
-import { CSS } from "./resources";
+import { CSS, SELECTORS } from "./resources";
 import { styles } from "./flow.scss";
+
+function getFlowItemSelectors(customItemSelectors?: string): string {
+  const customSelectors = customItemSelectors?.trim();
+
+  return customSelectors ? `${SELECTORS.item},${customSelectors}` : SELECTORS.item;
+}
 
 declare global {
   interface DeclareElements {
@@ -26,6 +32,8 @@ export class Flow extends LitElement {
   // #region Private Properties
 
   private frameRef = createRef<HTMLDivElement>();
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
 
   private itemMutationObserver = createObserver("mutation", () => this.updateItemsAndProps());
 
@@ -180,13 +188,23 @@ export class Flow extends LitElement {
   }
 
   private updateItemsAndProps(): void {
-    const { customItemSelectors, el } = this;
+    const { customItemSelectors } = this;
+    const itemSelectors = getFlowItemSelectors(customItemSelectors);
+    const slottedItems = this.defaultSlotRef.value
+      ? getSlotAssignedElements<FlowItemLikeElement>(this.defaultSlotRef.value)
+      : [];
 
-    const newItems = Array.from<FlowItemLikeElement>(
-      el.querySelectorAll(
-        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`,
-      ),
-    ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
+    let newItems: FlowItemLikeElement[] = [];
+
+    try {
+      newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
+    } catch {
+      console.warn(
+        `${this.el.tagName.toLowerCase()}: Error while matching custom-item-selectors. Falling back to "${SELECTORS.item}".`,
+      );
+
+      newItems = slottedItems.filter((flowItem) => flowItem.matches(SELECTORS.item));
+    }
 
     this.items = newItems;
 
@@ -257,7 +275,7 @@ export class Flow extends LitElement {
 
     return (
       <div class={frameDirectionClasses} ref={this.frameRef}>
-        <slot />
+        <slot onSlotChange={this.updateItemsAndProps} ref={this.defaultSlotRef} />
       </div>
     );
   }
