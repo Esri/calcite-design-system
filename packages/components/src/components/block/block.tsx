@@ -442,7 +442,6 @@ export class Block extends LitElement {
   }
 
   private setParentBlockGroupElement(): void {
-    console.log(this.heading, this.moveToItems, this.addToItems);
     this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
