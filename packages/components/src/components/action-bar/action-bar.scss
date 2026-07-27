@@ -157,6 +157,16 @@
       var(--calcite-internal-action-bar-padding) + var(--calcite-internal-action-bar-gap)
     );
   }
+
+  // Groups slotted into actions-start render inside the start wrapper, which supplies the leading
+  // gutter and clipped leading divider. Clear the base trailing padding and divider to match
+  // the default-slot appearance in both layouts.
+  ::slotted(calcite-action-group[slot="actions-start"]) {
+    padding-inline-end: 0;
+    padding-block-end: 0;
+    border-inline-end-width: 0;
+    border-block-end-width: 0;
+  }
 }
 
 :host([overflow-mode="wrap"][layout="horizontal"]) {
@@ -167,7 +177,7 @@
   // Draw the divider on each group's leading edge so a wrapped row never ends with a dangling
   // divider. Only matches when groups are slotted; the first-in-row divider is clipped by the
   // `has-action-groups` rule below.
-  ::slotted(calcite-action-group) {
+  ::slotted(calcite-action-group:not([slot="actions-start"])) {
     margin-inline-start: calc(-1 * var(--calcite-border-width-sm));
     padding-inline: var(--calcite-internal-action-bar-padding) 0;
     border-inline-start-width: var(--calcite-border-width-sm);
@@ -222,7 +232,7 @@
     column-gap: var(--calcite-internal-action-bar-line-gap);
   }
 
-  ::slotted(calcite-action-group) {
+  ::slotted(calcite-action-group:not([slot="actions-start"])) {
     margin-block-start: calc(-1 * var(--calcite-border-width-sm));
     padding-block: var(--calcite-internal-action-bar-padding) 0;
     border-block-start-width: var(--calcite-border-width-sm);
