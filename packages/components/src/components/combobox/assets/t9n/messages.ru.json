@@ -4,7 +4,7 @@
   "allSelected": "Все выбрано",
   "clear": "Очистить значение",
   "noMatches": "Нет совпадений",
-  "removeTag": "Remove {value} tag",
+  "removeTag": "Удалить тег {value}",
   "required": "Обязательное",
   "selectAll": "Выбрать все",
   "selected": "выбрано",

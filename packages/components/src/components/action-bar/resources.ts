@@ -1,5 +1,8 @@
 export const CSS = {
   container: "container",
+  hasActionGroups: "has-action-groups",
+  lineOverlay: "line-overlay",
+  line: "line",
   actionGroupEnd: "action-group--end",
   actionGroupStart: "action-group--start",
 };

@@ -1,5 +1,6 @@
 {
   "chooseTime": "Выбрать время",
+  "clear": "Clear value",
   "fractionalSecond": "Доля секунды",
   "fractionalSecondDown": "Уменьшить долю секунды",
   "fractionalSecondUp": "Увеличить долю секунды",

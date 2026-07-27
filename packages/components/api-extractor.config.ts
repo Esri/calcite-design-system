@@ -91,7 +91,7 @@ export const config: ApiExtractorConfig = {
             "Specifies the component's fallback `menuPlacement` when its initial or specified `menuPlacement` has insufficient space available.",
         },
         messageOverrides: {
-          description: "Overrides individual strings used by the component.",
+          description: `Replace localized message strings with your own strings.\n\n_**Note**: Individual message keys may change between releases._`,
         },
         name: {
           description:
@@ -99,7 +99,7 @@ export const config: ApiExtractorConfig = {
         },
         overlayPositioning: {
           description:
-            'Specifies the type of positioning to use for overlaid content, where:\n\n`"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout, and\n\n`"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
+            'Specifies the type of positioning to use for overlaid content.\n\n- `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout.\n\n- `"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
         },
         referenceElement: {
           description:

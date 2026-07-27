@@ -1,5 +1,6 @@
 {
   "chooseDate": "اختر تاريخ",
+  "clear": "Clear value",
   "date": "تاريخ",
   "dateFormat": "تنسيق التاريخ: {format}",
   "endDate": "تاريخ الانتهاء",
