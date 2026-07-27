@@ -130,11 +130,11 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies the component's hour format, where:
+   * Specifies the component's hour format.
    *
-   * `"user"` displays the user's locale format,
-   * `"12"` displays a 12-hour format, and
-   * `"24"` displays a 24-hour format.
+   * - `"user"` displays the user's locale format.
+   * - `"12"` displays a 12-hour format.
+   * - `"24"` displays a 24-hour format.
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
