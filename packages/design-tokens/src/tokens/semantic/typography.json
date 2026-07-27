@@ -10,7 +10,7 @@
           "fontFamily": "{font.family.default}",
           "fontSize": "{font.size.relative.base}",
           "fontWeight": "{font.weight.regular}",
-          "lineHeight": "{font.line-height.base}",
+          "lineHeight": "{font.line-height.relative.tight}",
           "letterSpacing": "{font.letter-spacing.normal}",
           "paragraphSpacing": "{font.paragraph-spacing.normal}",
           "textCase": "{font.text-case.none}",
@@ -29,7 +29,7 @@
           "$value": {
             "fontSize": "{font.size.relative.xs}",
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.xs}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "-2h": {
@@ -43,7 +43,7 @@
           "$value": {
             "fontSize": "{font.size.relative.sm}",
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.sm}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "-1h": {
@@ -57,7 +57,7 @@
           "$value": {
             "fontSize": "{font.size.relative.base}",
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.base}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "0h": {
@@ -71,7 +71,7 @@
           "$value": {
             "fontSize": "{font.size.relative.md}",
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.md}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "1h": {
@@ -85,7 +85,7 @@
           "$value": {
             "fontSize": "{font.size.relative.lg}",
             "fontWeight": "{font.weight.light}",
-            "lineHeight": "{font.line-height.lg}"
+            "lineHeight": "{font.line-height.relative.snug}"
           }
         }
       },
@@ -99,7 +99,7 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.xs}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.xs}"
           }
         },
@@ -113,7 +113,7 @@
           "$type": "typography",
           "$value": {
             "fontSize": "{font.size.relative.sm}",
-            "lineHeight": "{font.line-height.sm}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "-1h": {
@@ -132,7 +132,7 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.md}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.md}"
           }
         },
@@ -145,9 +145,11 @@
           },
           "$type": "typography",
           "$value": {
-            "lineHeight": "{font.line-height.lg}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.lg}"
           }
+        },
+        "2h": {
         }
       },
       "medium": {
@@ -161,7 +163,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.xs}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.xs}"
           }
         },
@@ -176,7 +178,7 @@
           "$value": {
             "fontWeight": "{font.weight.medium}",
             "fontSize": "{font.size.relative.sm}",
-            "lineHeight": "{font.line-height.sm}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "-1h": {
@@ -190,7 +192,7 @@
           "$value": {
             "fontWeight": "{font.weight.medium}",
             "fontSize": "{font.size.relative.base}",
-            "lineHeight": "{font.line-height.base}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "0h": {
@@ -203,7 +205,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.md}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.md}"
           }
         },
@@ -217,9 +219,11 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.medium}",
-            "lineHeight": "{font.line-height.lg}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.lg}"
           }
+        },
+        "2h": {
         }
       },
       "bold": {
@@ -233,7 +237,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.xs}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.xs}"
           }
         },
@@ -248,7 +252,7 @@
           "$value": {
             "fontWeight": "{font.weight.semibold}",
             "fontSize": "{font.size.relative.sm}",
-            "lineHeight": "{font.line-height.sm}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "-1h": {
@@ -262,7 +266,7 @@
           "$value": {
             "fontWeight": "{font.weight.semibold}",
             "fontSize": "{font.size.relative.base}",
-            "lineHeight": "{font.line-height.base}"
+            "lineHeight": "{font.line-height.relative.tight}"
           }
         },
         "0h": {
@@ -275,7 +279,7 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.md}",
+            "lineHeight": "{font.line-height.relative.tight}",
             "fontSize": "{font.size.relative.md}"
           }
         },
@@ -289,9 +293,11 @@
           "$type": "typography",
           "$value": {
             "fontWeight": "{font.weight.semibold}",
-            "lineHeight": "{font.line-height.lg}",
+            "lineHeight": "{font.line-height.relative.snug}",
             "fontSize": "{font.size.relative.lg}"
           }
+        },
+        "2h": {
         }
       }
     },
