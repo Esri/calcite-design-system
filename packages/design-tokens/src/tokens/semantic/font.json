@@ -370,6 +370,26 @@
           "$value": "{core.size.relative.100}",
           "$description": "1"
         },
+        "compact": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.115}",
+          "$description": "1.15"
+        },
+        "condensed": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.120}",
+          "$description": "1.2"
+        },
         "tight": {
           "attributes": {
             "category": "font",
@@ -379,6 +399,16 @@
           "$type": "lineHeights",
           "$value": "{core.size.relative.125}",
           "$description": "1.25"
+        },
+        "cozy": {
+          "attributes": {
+            "category": "font",
+            "group": "line-height",
+            "kind": "relative"
+          },
+          "$type": "lineHeights",
+          "$value": "{core.size.relative.133}",
+          "$description": "1.33"
         },
         "snug": {
           "attributes": {
