@@ -8,6 +8,8 @@ type FieldSetStoryArgs = {
   scale: "s" | "m" | "l";
   layout: "vertical" | "horizontal" | "columns";
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
+  prefixAutoWidth: boolean;
+  suffixAutoWidth: boolean;
 };
 
 export default {
@@ -22,6 +24,8 @@ export default {
     scale: "m",
     layout: "vertical",
     columns: 2,
+    prefixAutoWidth: false,
+    suffixAutoWidth: false,
   },
   argTypes: {
     disabled: {
@@ -45,6 +49,9 @@ export default {
     legendTextColor: {
       control: { type: "text" },
     },
+    prefixAutoWidth: {
+      control: { type: "boolean" },
+    },
     scale: {
       options: ["s", "m", "l"],
       control: {
@@ -53,6 +60,9 @@ export default {
           m: "m (default)",
         },
       },
+    },
+    suffixAutoWidth: {
+      control: { type: "boolean" },
     },
   },
 };
@@ -129,92 +139,33 @@ export const customLegendColor = (args: FieldSetStoryArgs): string => simple(arg
 customLegendColor.args = { legendTextColor: "blue" };
 customLegendColor.parameters = { controls: { disable: true } };
 
-export const prefixAndSuffixAutoWidth = (): string => html`
-  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 3rem;">
-    <calcite-field-set>
-      <div slot="legend">no auto-width set</div>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="prefix"
-        suffix-text="px"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="longer prefix"
-        suffix-text="pixels"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="abc"
-        suffix-text="centimeters"
-        placeholder="Enter a size"
-      ></calcite-input>
-    </calcite-field-set>
-    <calcite-field-set prefix-auto-width>
-      <div slot="legend">prefix auto-width set</div>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="prefix"
-        suffix-text="px"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="longer prefix"
-        suffix-text="pixels"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="abc"
-        suffix-text="centimeters"
-        placeholder="Enter a size"
-      ></calcite-input>
-    </calcite-field-set>
-    <calcite-field-set suffix-auto-width>
-      <div slot="legend">suffix auto-width set</div>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="prefix"
-        suffix-text="px"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="longer prefix"
-        suffix-text="pixels"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="abc"
-        suffix-text="centimeters"
-        placeholder="Enter a size"
-      ></calcite-input>
-    </calcite-field-set>
-    <calcite-field-set prefix-auto-width suffix-auto-width>
-      <div slot="legend">prefix and suffix auto-width set</div>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="prefix"
-        suffix-text="px"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="longer prefix"
-        suffix-text="pixels"
-        placeholder="Enter a size"
-      ></calcite-input>
-      <calcite-input
-        label-text="Desired size"
-        prefix-text="abc"
-        suffix-text="centimeters"
-        placeholder="Enter a size"
-      ></calcite-input>
-    </calcite-field-set>
-  </div>
+export const prefixAndSuffixAutoWidth = (args: FieldSetStoryArgs): string => html`
+  <calcite-field-set
+    ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
+    ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
+  >
+    <div slot="legend">prefix and suffix auto-width</div>
+    <calcite-input
+      label-text="Desired size"
+      prefix-text="prefix"
+      suffix-text="px"
+      placeholder="Enter a size"
+    ></calcite-input>
+    <calcite-input
+      label-text="Desired size"
+      prefix-text="longer prefix"
+      suffix-text="pixels"
+      placeholder="Enter a size"
+    ></calcite-input>
+    <calcite-input
+      label-text="Desired size"
+      prefix-text="abc"
+      suffix-text="centimeters"
+      placeholder="Enter a size"
+    ></calcite-input>
+  </calcite-field-set>
 `;
-prefixAndSuffixAutoWidth.parameters = { controls: { disable: true } };
+prefixAndSuffixAutoWidth.args = { prefixAutoWidth: true, suffixAutoWidth: true };
+prefixAndSuffixAutoWidth.parameters = {
+  controls: { include: ["prefixAutoWidth", "suffixAutoWidth"] },
+};
