@@ -938,7 +938,6 @@ exports[`CSS > core should match 1`] = `
   --calcite-size-rem-1-625: 1.625rem;
   --calcite-size-rem-2-5: 2.5rem;
   --calcite-size-rem-3-5: 3.5rem;
-  --calcite-size-rem-4-5: 4.5rem;
   --calcite-z-index-0: -999999;
   --calcite-z-index-1: 1;
   --calcite-z-index-3: 300;
@@ -1077,8 +1076,8 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-2xl: 32px;
   --calcite-font-line-height-fixed-3xl: 40px;
   --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 56px;
-  --calcite-font-line-height-fixed-6xl: 64px;
+  --calcite-font-line-height-fixed-5xl: 64px;
+  --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
   --calcite-font-line-height-relative-compact: 1.15;
@@ -1098,7 +1097,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-2xl: 2rem;
   --calcite-font-line-height-3xl: 2.5rem;
   --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 3.5rem;
+  --calcite-font-line-height-5xl: 4rem;
   --calcite-font-line-height-6xl: 4rem;
   --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1638,8 +1637,8 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-2xl: 32px;
   --calcite-font-line-height-fixed-3xl: 40px;
   --calcite-font-line-height-fixed-4xl: 48px;
-  --calcite-font-line-height-fixed-5xl: 56px;
-  --calcite-font-line-height-fixed-6xl: 64px;
+  --calcite-font-line-height-fixed-5xl: 64px;
+  --calcite-font-line-height-fixed-6xl: 80px;
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
   --calcite-font-line-height-relative-compact: 1.15;
@@ -1659,7 +1658,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-2xl: 2rem;
   --calcite-font-line-height-3xl: 2.5rem;
   --calcite-font-line-height-4xl: 3rem;
-  --calcite-font-line-height-5xl: 3.5rem;
+  --calcite-font-line-height-5xl: 4rem;
   --calcite-font-line-height-6xl: 4rem;
   --calcite-font-line-height-7xl: 5rem;
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -17421,31 +17420,6 @@ exports[`DOCS (internal) > core should match 1`] = `
       "path": ["core", "size", "rem", "3-5"]
     },
     {
-      "key": "{core.size.rem.4-5}",
-      "attributes": {
-        "category": "size",
-        "type": "size",
-        "item": "rem",
-        "subitem": "4-5",
-        "names": {
-          "scss": "$calcite-size-rem-4-5",
-          "css": "var(--calcite-size-rem-4-5)",
-          "docs": "core.size.rem.4-5",
-          "es6": "calciteSizeRem45"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "dimension",
-      "$value": "4.5rem",
-      "filePath": "src/tokens/core/size.json",
-      "isSource": false,
-      "name": "Size Rem 4 5",
-      "path": ["core", "size", "rem", "4-5"]
-    },
-    {
       "key": "{core.z-index.0}",
       "attributes": {
         "category": "z-index",
@@ -20661,7 +20635,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "56px",
+      "$value": "64px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 5xl",
@@ -20688,7 +20662,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "64px",
+      "$value": "80px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 6xl",
@@ -21208,7 +21182,7 @@ exports[`DOCS (internal) > global should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "3.5rem",
+      "$value": "4rem",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height 5xl",
@@ -27090,7 +27064,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "56px",
+      "$value": "64px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 5xl",
@@ -27117,7 +27091,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "64px",
+      "$value": "80px",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Fixed 6xl",
@@ -27637,7 +27611,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "lineHeight",
-      "$value": "3.5rem",
+      "$value": "4rem",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height 5xl",
@@ -30572,7 +30546,6 @@ export const calciteSizeRem15 = "1.5rem";
 export const calciteSizeRem1625 = "1.625rem";
 export const calciteSizeRem25 = "2.5rem";
 export const calciteSizeRem35 = "3.5rem";
-export const calciteSizeRem45 = "4.5rem";
 export const calciteZIndex0 = "-999999";
 export const calciteZIndex1 = "1";
 export const calciteZIndex3 = "300";
@@ -31229,7 +31202,6 @@ export const calciteSizeRem15: string;
 export const calciteSizeRem1625: string;
 export const calciteSizeRem25: string;
 export const calciteSizeRem35: string;
-export const calciteSizeRem45: string;
 export const calciteZIndex0: string;
 export const calciteZIndex1: string;
 export const calciteZIndex3: string;
@@ -31432,8 +31404,8 @@ export const calciteFontLineHeightFixedXl = "24px";
 export const calciteFontLineHeightFixed2xl = "32px";
 export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
-export const calciteFontLineHeightFixed5xl = "56px";
-export const calciteFontLineHeightFixed6xl = "64px";
+export const calciteFontLineHeightFixed5xl = "64px";
+export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal";
 export const calciteFontLineHeightRelativeBase = "1";
 export const calciteFontLineHeightRelativeCompact = "1.15";
@@ -31453,7 +31425,7 @@ export const calciteFontLineHeightXl = "1.5rem";
 export const calciteFontLineHeight2xl = "2rem";
 export const calciteFontLineHeight3xl = "2.5rem";
 export const calciteFontLineHeight4xl = "3rem";
-export const calciteFontLineHeight5xl = "3.5rem";
+export const calciteFontLineHeight5xl = "4rem";
 export const calciteFontLineHeight6xl = "4rem";
 export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -32614,8 +32586,8 @@ export const calciteFontLineHeightFixedXl = "24px";
 export const calciteFontLineHeightFixed2xl = "32px";
 export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
-export const calciteFontLineHeightFixed5xl = "56px";
-export const calciteFontLineHeightFixed6xl = "64px";
+export const calciteFontLineHeightFixed5xl = "64px";
+export const calciteFontLineHeightFixed6xl = "80px";
 export const calciteFontLineHeightRelative = "normal";
 export const calciteFontLineHeightRelativeBase = "1";
 export const calciteFontLineHeightRelativeCompact = "1.15";
@@ -32635,7 +32607,7 @@ export const calciteFontLineHeightXl = "1.5rem";
 export const calciteFontLineHeight2xl = "2rem";
 export const calciteFontLineHeight3xl = "2.5rem";
 export const calciteFontLineHeight4xl = "3rem";
-export const calciteFontLineHeight5xl = "3.5rem";
+export const calciteFontLineHeight5xl = "4rem";
 export const calciteFontLineHeight6xl = "4rem";
 export const calciteFontLineHeight7xl = "5rem";
 export const calciteFontLetterSpacingTight = "-0.4px"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -33653,7 +33625,6 @@ $calcite-size-rem-1-5: 1.5rem;
 $calcite-size-rem-1-625: 1.625rem;
 $calcite-size-rem-2-5: 2.5rem;
 $calcite-size-rem-3-5: 3.5rem;
-$calcite-size-rem-4-5: 4.5rem;
 $calcite-z-index-0: -999999;
 $calcite-z-index-1: 1;
 $calcite-z-index-3: 300;
@@ -33786,8 +33757,8 @@ $calcite-font-line-height-fixed-xl: 24px;
 $calcite-font-line-height-fixed-2xl: 32px;
 $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
-$calcite-font-line-height-fixed-5xl: 56px;
-$calcite-font-line-height-fixed-6xl: 64px;
+$calcite-font-line-height-fixed-5xl: 64px;
+$calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal;
 $calcite-font-line-height-relative-base: 1;
 $calcite-font-line-height-relative-compact: 1.15;
@@ -33807,7 +33778,7 @@ $calcite-font-line-height-xl: 1.5rem;
 $calcite-font-line-height-2xl: 2rem;
 $calcite-font-line-height-3xl: 2.5rem;
 $calcite-font-line-height-4xl: 3rem;
-$calcite-font-line-height-5xl: 3.5rem;
+$calcite-font-line-height-5xl: 4rem;
 $calcite-font-line-height-6xl: 4rem;
 $calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
@@ -34521,8 +34492,8 @@ $calcite-font-line-height-fixed-xl: 24px;
 $calcite-font-line-height-fixed-2xl: 32px;
 $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
-$calcite-font-line-height-fixed-5xl: 56px;
-$calcite-font-line-height-fixed-6xl: 64px;
+$calcite-font-line-height-fixed-5xl: 64px;
+$calcite-font-line-height-fixed-6xl: 80px;
 $calcite-font-line-height-relative: normal;
 $calcite-font-line-height-relative-base: 1;
 $calcite-font-line-height-relative-compact: 1.15;
@@ -34542,7 +34513,7 @@ $calcite-font-line-height-xl: 1.5rem;
 $calcite-font-line-height-2xl: 2rem;
 $calcite-font-line-height-3xl: 2.5rem;
 $calcite-font-line-height-4xl: 3rem;
-$calcite-font-line-height-5xl: 3.5rem;
+$calcite-font-line-height-5xl: 4rem;
 $calcite-font-line-height-6xl: 4rem;
 $calcite-font-line-height-7xl: 5rem;
 $calcite-font-letter-spacing-tight: -0.4px; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
