@@ -1079,16 +1079,16 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-fixed-4xl: 48px;
   --calcite-font-line-height-fixed-5xl: 56px;
   --calcite-font-line-height-fixed-6xl: 64px;
-  --calcite-font-line-height-relative: normal; /** normal */
-  --calcite-font-line-height-relative-base: 1; /** 1 */
-  --calcite-font-line-height-relative-compact: 1.15; /** 1.15 */
-  --calcite-font-line-height-relative-condensed: 1.2; /** 1.2 */
-  --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
-  --calcite-font-line-height-relative-cozy: 1.33; /** 1.33 */
-  --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
-  --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
-  --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
-  --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-relative: normal;
+  --calcite-font-line-height-relative-base: 1;
+  --calcite-font-line-height-relative-compact: 1.15;
+  --calcite-font-line-height-relative-condensed: 1.2;
+  --calcite-font-line-height-relative-tight: 1.25;
+  --calcite-font-line-height-relative-cozy: 1.33;
+  --calcite-font-line-height-relative-snug: 1.375;
+  --calcite-font-line-height-relative-normal: 1.5;
+  --calcite-font-line-height-relative-relaxed: 1.625;
+  --calcite-font-line-height-relative-loose: 2;
   --calcite-font-line-height-xs: 0.75rem;
   --calcite-font-line-height-sm: 1rem;
   --calcite-font-line-height-base: 1rem;
@@ -1640,16 +1640,16 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-fixed-4xl: 48px;
   --calcite-font-line-height-fixed-5xl: 56px;
   --calcite-font-line-height-fixed-6xl: 64px;
-  --calcite-font-line-height-relative: normal; /** normal */
-  --calcite-font-line-height-relative-base: 1; /** 1 */
-  --calcite-font-line-height-relative-compact: 1.15; /** 1.15 */
-  --calcite-font-line-height-relative-condensed: 1.2; /** 1.2 */
-  --calcite-font-line-height-relative-tight: 1.25; /** 1.25 */
-  --calcite-font-line-height-relative-cozy: 1.33; /** 1.33 */
-  --calcite-font-line-height-relative-snug: 1.375; /** 1.375 */
-  --calcite-font-line-height-relative-normal: 1.5; /** 1.5 */
-  --calcite-font-line-height-relative-relaxed: 1.625; /** 1.625 */
-  --calcite-font-line-height-relative-loose: 2; /** 2 */
+  --calcite-font-line-height-relative: normal;
+  --calcite-font-line-height-relative-base: 1;
+  --calcite-font-line-height-relative-compact: 1.15;
+  --calcite-font-line-height-relative-condensed: 1.2;
+  --calcite-font-line-height-relative-tight: 1.25;
+  --calcite-font-line-height-relative-cozy: 1.33;
+  --calcite-font-line-height-relative-snug: 1.375;
+  --calcite-font-line-height-relative-normal: 1.5;
+  --calcite-font-line-height-relative-relaxed: 1.625;
+  --calcite-font-line-height-relative-loose: 2;
   --calcite-font-line-height-xs: 0.75rem;
   --calcite-font-line-height-sm: 1rem;
   --calcite-font-line-height-base: 1rem;
@@ -20716,7 +20716,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "normal",
-      "$description": "normal",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative",
@@ -20744,7 +20743,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1",
-      "$description": "1",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Base",
@@ -20772,7 +20770,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.15",
-      "$description": "1.15",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Compact",
@@ -20800,7 +20797,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.2",
-      "$description": "1.2",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Condensed",
@@ -20828,7 +20824,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.25",
-      "$description": "1.25",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Tight",
@@ -20856,7 +20851,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.33",
-      "$description": "1.33",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Cozy",
@@ -20884,7 +20878,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.375",
-      "$description": "1.375",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Snug",
@@ -20912,7 +20905,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.5",
-      "$description": "1.5",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Normal",
@@ -20940,7 +20932,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.625",
-      "$description": "1.625",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Relaxed",
@@ -20968,7 +20959,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "2",
-      "$description": "2",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Loose",
@@ -27155,7 +27145,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "normal",
-      "$description": "normal",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative",
@@ -27183,7 +27172,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1",
-      "$description": "1",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Base",
@@ -27211,7 +27199,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.15",
-      "$description": "1.15",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Compact",
@@ -27239,7 +27226,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.2",
-      "$description": "1.2",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Condensed",
@@ -27267,7 +27253,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.25",
-      "$description": "1.25",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Tight",
@@ -27295,7 +27280,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.33",
-      "$description": "1.33",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Cozy",
@@ -27323,7 +27307,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.375",
-      "$description": "1.375",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Snug",
@@ -27351,7 +27334,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.5",
-      "$description": "1.5",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Normal",
@@ -27379,7 +27361,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "1.625",
-      "$description": "1.625",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Relaxed",
@@ -27407,7 +27388,6 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       },
       "$type": "lineHeight",
       "$value": "2",
-      "$description": "2",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Line Height Relative Loose",
@@ -31454,16 +31434,16 @@ export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
 export const calciteFontLineHeightFixed5xl = "56px";
 export const calciteFontLineHeightFixed6xl = "64px";
-export const calciteFontLineHeightRelative = "normal"; // normal
-export const calciteFontLineHeightRelativeBase = "1"; // 1
-export const calciteFontLineHeightRelativeCompact = "1.15"; // 1.15
-export const calciteFontLineHeightRelativeCondensed = "1.2"; // 1.2
-export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
-export const calciteFontLineHeightRelativeCozy = "1.33"; // 1.33
-export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
-export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
-export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
-export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightRelative = "normal";
+export const calciteFontLineHeightRelativeBase = "1";
+export const calciteFontLineHeightRelativeCompact = "1.15";
+export const calciteFontLineHeightRelativeCondensed = "1.2";
+export const calciteFontLineHeightRelativeTight = "1.25";
+export const calciteFontLineHeightRelativeCozy = "1.33";
+export const calciteFontLineHeightRelativeSnug = "1.375";
+export const calciteFontLineHeightRelativeNormal = "1.5";
+export const calciteFontLineHeightRelativeRelaxed = "1.625";
+export const calciteFontLineHeightRelativeLoose = "2";
 export const calciteFontLineHeightXs = "0.75rem";
 export const calciteFontLineHeightSm = "1rem";
 export const calciteFontLineHeightBase = "1rem";
@@ -32068,25 +32048,15 @@ export const calciteFontLineHeightFixed3xl: string;
 export const calciteFontLineHeightFixed4xl: string;
 export const calciteFontLineHeightFixed5xl: string;
 export const calciteFontLineHeightFixed6xl: string;
-/** normal */
 export const calciteFontLineHeightRelative: string;
-/** 1 */
 export const calciteFontLineHeightRelativeBase: string;
-/** 1.15 */
 export const calciteFontLineHeightRelativeCompact: string;
-/** 1.2 */
 export const calciteFontLineHeightRelativeCondensed: string;
-/** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
-/** 1.33 */
 export const calciteFontLineHeightRelativeCozy: string;
-/** 1.375 */
 export const calciteFontLineHeightRelativeSnug: string;
-/** 1.5 */
 export const calciteFontLineHeightRelativeNormal: string;
-/** 1.625 */
 export const calciteFontLineHeightRelativeRelaxed: string;
-/** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
 export const calciteFontLineHeightXs: string;
 export const calciteFontLineHeightSm: string;
@@ -32646,16 +32616,16 @@ export const calciteFontLineHeightFixed3xl = "40px";
 export const calciteFontLineHeightFixed4xl = "48px";
 export const calciteFontLineHeightFixed5xl = "56px";
 export const calciteFontLineHeightFixed6xl = "64px";
-export const calciteFontLineHeightRelative = "normal"; // normal
-export const calciteFontLineHeightRelativeBase = "1"; // 1
-export const calciteFontLineHeightRelativeCompact = "1.15"; // 1.15
-export const calciteFontLineHeightRelativeCondensed = "1.2"; // 1.2
-export const calciteFontLineHeightRelativeTight = "1.25"; // 1.25
-export const calciteFontLineHeightRelativeCozy = "1.33"; // 1.33
-export const calciteFontLineHeightRelativeSnug = "1.375"; // 1.375
-export const calciteFontLineHeightRelativeNormal = "1.5"; // 1.5
-export const calciteFontLineHeightRelativeRelaxed = "1.625"; // 1.625
-export const calciteFontLineHeightRelativeLoose = "2"; // 2
+export const calciteFontLineHeightRelative = "normal";
+export const calciteFontLineHeightRelativeBase = "1";
+export const calciteFontLineHeightRelativeCompact = "1.15";
+export const calciteFontLineHeightRelativeCondensed = "1.2";
+export const calciteFontLineHeightRelativeTight = "1.25";
+export const calciteFontLineHeightRelativeCozy = "1.33";
+export const calciteFontLineHeightRelativeSnug = "1.375";
+export const calciteFontLineHeightRelativeNormal = "1.5";
+export const calciteFontLineHeightRelativeRelaxed = "1.625";
+export const calciteFontLineHeightRelativeLoose = "2";
 export const calciteFontLineHeightXs = "0.75rem";
 export const calciteFontLineHeightSm = "1rem";
 export const calciteFontLineHeightBase = "1rem";
@@ -32865,25 +32835,15 @@ export const calciteFontLineHeightFixed3xl: string;
 export const calciteFontLineHeightFixed4xl: string;
 export const calciteFontLineHeightFixed5xl: string;
 export const calciteFontLineHeightFixed6xl: string;
-/** normal */
 export const calciteFontLineHeightRelative: string;
-/** 1 */
 export const calciteFontLineHeightRelativeBase: string;
-/** 1.15 */
 export const calciteFontLineHeightRelativeCompact: string;
-/** 1.2 */
 export const calciteFontLineHeightRelativeCondensed: string;
-/** 1.25 */
 export const calciteFontLineHeightRelativeTight: string;
-/** 1.33 */
 export const calciteFontLineHeightRelativeCozy: string;
-/** 1.375 */
 export const calciteFontLineHeightRelativeSnug: string;
-/** 1.5 */
 export const calciteFontLineHeightRelativeNormal: string;
-/** 1.625 */
 export const calciteFontLineHeightRelativeRelaxed: string;
-/** 2 */
 export const calciteFontLineHeightRelativeLoose: string;
 export const calciteFontLineHeightXs: string;
 export const calciteFontLineHeightSm: string;
@@ -33828,16 +33788,16 @@ $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
 $calcite-font-line-height-fixed-5xl: 56px;
 $calcite-font-line-height-fixed-6xl: 64px;
-$calcite-font-line-height-relative: normal; // normal
-$calcite-font-line-height-relative-base: 1; // 1
-$calcite-font-line-height-relative-compact: 1.15; // 1.15
-$calcite-font-line-height-relative-condensed: 1.2; // 1.2
-$calcite-font-line-height-relative-tight: 1.25; // 1.25
-$calcite-font-line-height-relative-cozy: 1.33; // 1.33
-$calcite-font-line-height-relative-snug: 1.375; // 1.375
-$calcite-font-line-height-relative-normal: 1.5; // 1.5
-$calcite-font-line-height-relative-relaxed: 1.625; // 1.625
-$calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-relative: normal;
+$calcite-font-line-height-relative-base: 1;
+$calcite-font-line-height-relative-compact: 1.15;
+$calcite-font-line-height-relative-condensed: 1.2;
+$calcite-font-line-height-relative-tight: 1.25;
+$calcite-font-line-height-relative-cozy: 1.33;
+$calcite-font-line-height-relative-snug: 1.375;
+$calcite-font-line-height-relative-normal: 1.5;
+$calcite-font-line-height-relative-relaxed: 1.625;
+$calcite-font-line-height-relative-loose: 2;
 $calcite-font-line-height-xs: 0.75rem;
 $calcite-font-line-height-sm: 1rem;
 $calcite-font-line-height-base: 1rem;
@@ -34563,16 +34523,16 @@ $calcite-font-line-height-fixed-3xl: 40px;
 $calcite-font-line-height-fixed-4xl: 48px;
 $calcite-font-line-height-fixed-5xl: 56px;
 $calcite-font-line-height-fixed-6xl: 64px;
-$calcite-font-line-height-relative: normal; // normal
-$calcite-font-line-height-relative-base: 1; // 1
-$calcite-font-line-height-relative-compact: 1.15; // 1.15
-$calcite-font-line-height-relative-condensed: 1.2; // 1.2
-$calcite-font-line-height-relative-tight: 1.25; // 1.25
-$calcite-font-line-height-relative-cozy: 1.33; // 1.33
-$calcite-font-line-height-relative-snug: 1.375; // 1.375
-$calcite-font-line-height-relative-normal: 1.5; // 1.5
-$calcite-font-line-height-relative-relaxed: 1.625; // 1.625
-$calcite-font-line-height-relative-loose: 2; // 2
+$calcite-font-line-height-relative: normal;
+$calcite-font-line-height-relative-base: 1;
+$calcite-font-line-height-relative-compact: 1.15;
+$calcite-font-line-height-relative-condensed: 1.2;
+$calcite-font-line-height-relative-tight: 1.25;
+$calcite-font-line-height-relative-cozy: 1.33;
+$calcite-font-line-height-relative-snug: 1.375;
+$calcite-font-line-height-relative-normal: 1.5;
+$calcite-font-line-height-relative-relaxed: 1.625;
+$calcite-font-line-height-relative-loose: 2;
 $calcite-font-line-height-xs: 0.75rem;
 $calcite-font-line-height-sm: 1rem;
 $calcite-font-line-height-base: 1rem;
