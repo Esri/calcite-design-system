@@ -411,13 +411,6 @@
           },
           "$type": "sizing",
           "$value": "3.5rem"
-        },
-        "4-5": {
-          "attributes": {
-            "category": "size"
-          },
-          "$type": "sizing",
-          "$value": "4.5rem"
         }
       }
     }
