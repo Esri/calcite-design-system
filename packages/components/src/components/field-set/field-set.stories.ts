@@ -4,13 +4,21 @@ type FieldSetStoryArgs = {
   disabled: boolean;
   legendText: string;
   legendTextColor?: string;
+  inputGap?: string;
   gap?: string;
+  columnGap?: string;
   scale: "s" | "m" | "l";
   layout: "vertical" | "horizontal" | "columns";
   columns?: 1 | 2 | 3 | 4 | 5 | 6;
   prefixAutoWidth: boolean;
   suffixAutoWidth: boolean;
 };
+
+const hiddenCustomSpacingArgTypes = Object.fromEntries(
+  ["columns", "disabled", "layout", "legendText", "legendTextColor", "prefixAutoWidth", "scale", "suffixAutoWidth"].map(
+    (key) => [key, { table: { disable: true }, control: false }],
+  ),
+) as Partial<Record<keyof FieldSetStoryArgs, { table: { disable: true }; control: false }>>;
 
 export default {
   title: "Components/Field Set",
@@ -24,6 +32,7 @@ export default {
     scale: "m",
     layout: "vertical",
     columns: 2,
+    columnGap: "",
     prefixAutoWidth: false,
     suffixAutoWidth: false,
   },
@@ -31,8 +40,16 @@ export default {
     disabled: {
       control: { type: "boolean" },
     },
+    columnGap: {
+      name: "columnSpace",
+      control: { type: "text" },
+    },
     gap: {
-      name: "spacing",
+      name: "space",
+      control: { type: "text" },
+    },
+    inputGap: {
+      name: "inputSpace",
       control: { type: "text" },
     },
     layout: {
@@ -69,7 +86,9 @@ export default {
 
 export const simple = (args: FieldSetStoryArgs): string => {
   const style = [
+    args.columnGap ? `--calcite-field-set-column-space: ${args.columnGap};` : "",
     args.gap ? `--calcite-field-set-space: ${args.gap};` : "",
+    args.inputGap ? `--calcite-field-set-input-space: ${args.inputGap};` : "",
     args.legendTextColor ? `--calcite-field-set-legend-text-color: ${args.legendTextColor};` : "",
   ]
     .filter(Boolean)
@@ -96,11 +115,11 @@ export const simple = (args: FieldSetStoryArgs): string => {
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
-      <calcite-notice scale="${args.scale}" slot="notice" open kind="danger" icon="exclamation-mark-triangle-f">
-        <div slot="title">Notice</div>
-      </calcite-notice>
     </calcite-field-set>
   `;
+};
+simple.parameters = {
+  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
 export const scales = (args: FieldSetStoryArgs): string => html`
@@ -132,11 +151,25 @@ disabled.args = { disabled: true };
 disabled.parameters = { controls: { disable: true } };
 
 export const customSpacing = (args: FieldSetStoryArgs): string => simple(args);
-customSpacing.args = { gap: "40px" };
-customSpacing.parameters = { controls: { disable: true } };
+customSpacing.args = { columnGap: "50px", inputGap: "40px", gap: "80px", layout: "columns" };
+customSpacing.argTypes = {
+  columnGap: {
+    name: "columnSpace",
+    control: { type: "text" },
+  },
+  gap: {
+    name: "space",
+    control: { type: "text" },
+  },
+  inputGap: {
+    name: "inputSpace",
+    control: { type: "text" },
+  },
+  ...hiddenCustomSpacingArgTypes,
+};
 
 export const customLegendColor = (args: FieldSetStoryArgs): string => simple(args);
-customLegendColor.args = { legendTextColor: "blue" };
+customLegendColor.args = { legendTextColor: "pink" };
 customLegendColor.parameters = { controls: { disable: true } };
 
 export const prefixAndSuffixAutoWidth = (args: FieldSetStoryArgs): string => html`
