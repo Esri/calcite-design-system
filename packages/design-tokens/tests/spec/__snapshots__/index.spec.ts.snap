@@ -193,16 +193,6 @@ exports[`CSS > classes should match 1`] = `
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
 }
-.calcite-typography-wrap-light-1h {
-  font-weight: 300;
-  line-height: 1.375;
-  font-size: 1.125rem;
-}
-.calcite-typography-wrap-light-2h {
-  font-weight: 300;
-  line-height: 1.375;
-  font-size: 1.25rem;
-}
 .calcite-typography-wrap-light-minus-2 {
   font-weight: var(--calcite-font-weight-light);
   line-height: var(--calcite-font-line-height-relative-snug);
@@ -228,14 +218,6 @@ exports[`CSS > classes should match 1`] = `
 .calcite-typography-wrap-regular-3 {
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-.calcite-typography-wrap-regular-1h {
-  line-height: 1.375;
-  font-size: 1.125rem;
-}
-.calcite-typography-wrap-regular-2h {
-  line-height: 1.375;
-  font-size: 1.25rem;
 }
 .calcite-typography-wrap-regular-minus-2 {
   line-height: var(--calcite-font-line-height-relative-snug);
@@ -264,16 +246,6 @@ exports[`CSS > classes should match 1`] = `
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-.calcite-typography-wrap-medium-1h {
-  font-weight: 500;
-  line-height: 1.375;
-  font-size: 1.125rem;
-}
-.calcite-typography-wrap-medium-2h {
-  font-weight: 500;
-  line-height: 1.375;
-  font-size: 1.25rem;
 }
 .calcite-typography-wrap-medium-minus-2 {
   font-weight: var(--calcite-font-weight-medium);
@@ -304,16 +276,6 @@ exports[`CSS > classes should match 1`] = `
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-.calcite-typography-wrap-bold-1h {
-  font-weight: 600;
-  line-height: 1.375;
-  font-size: 1.125rem;
-}
-.calcite-typography-wrap-bold-2h {
-  font-weight: 600;
-  line-height: 1.375;
-  font-size: 1.25rem;
 }
 .calcite-typography-wrap-bold-minus-2 {
   font-weight: var(--calcite-font-weight-semibold);
@@ -24288,70 +24250,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["typography", "wrap", "light", "3"]
     },
     {
-      "key": "{typography.wrap.light.1h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "light",
-        "subitem": "1h",
-        "names": {
-          "scss": "$calcite-typography-wrap-light-1h",
-          "css": "var(--calcite-typography-wrap-light-1h)",
-          "docs": "typography.wrap.light.1h",
-          "es6": "calciteTypographyWrapLight1h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "300",
-          "lineHeight": "1.375",
-          "fontSize": "1.125rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Light 1h",
-      "path": ["typography", "wrap", "light", "1h"]
-    },
-    {
-      "key": "{typography.wrap.light.2h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "light",
-        "subitem": "2h",
-        "names": {
-          "scss": "$calcite-typography-wrap-light-2h",
-          "css": "var(--calcite-typography-wrap-light-2h)",
-          "docs": "typography.wrap.light.2h",
-          "es6": "calciteTypographyWrapLight2h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "300",
-          "lineHeight": "1.375",
-          "fontSize": "1.25rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"300\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Light 2h",
-      "path": ["typography", "wrap", "light", "2h"]
-    },
-    {
       "key": "{typography.wrap.light.-2}",
       "attributes": {
         "category": "typography",
@@ -24602,68 +24500,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Typography Wrap Regular 3",
       "path": ["typography", "wrap", "regular", "3"]
-    },
-    {
-      "key": "{typography.wrap.regular.1h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "regular",
-        "subitem": "1h",
-        "names": {
-          "scss": "$calcite-typography-wrap-regular-1h",
-          "css": "var(--calcite-typography-wrap-regular-1h)",
-          "docs": "typography.wrap.regular.1h",
-          "es6": "calciteTypographyWrapRegular1h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "lineHeight": "1.375",
-          "fontSize": "1.125rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Regular 1h",
-      "path": ["typography", "wrap", "regular", "1h"]
-    },
-    {
-      "key": "{typography.wrap.regular.2h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "regular",
-        "subitem": "2h",
-        "names": {
-          "scss": "$calcite-typography-wrap-regular-2h",
-          "css": "var(--calcite-typography-wrap-regular-2h)",
-          "docs": "typography.wrap.regular.2h",
-          "es6": "calciteTypographyWrapRegular2h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "lineHeight": "1.375",
-          "fontSize": "1.25rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Regular 2h",
-      "path": ["typography", "wrap", "regular", "2h"]
     },
     {
       "key": "{typography.wrap.regular.-2}",
@@ -24918,70 +24754,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "path": ["typography", "wrap", "medium", "3"]
     },
     {
-      "key": "{typography.wrap.medium.1h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "medium",
-        "subitem": "1h",
-        "names": {
-          "scss": "$calcite-typography-wrap-medium-1h",
-          "css": "var(--calcite-typography-wrap-medium-1h)",
-          "docs": "typography.wrap.medium.1h",
-          "es6": "calciteTypographyWrapMedium1h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "500",
-          "lineHeight": "1.375",
-          "fontSize": "1.125rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Medium 1h",
-      "path": ["typography", "wrap", "medium", "1h"]
-    },
-    {
-      "key": "{typography.wrap.medium.2h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "medium",
-        "subitem": "2h",
-        "names": {
-          "scss": "$calcite-typography-wrap-medium-2h",
-          "css": "var(--calcite-typography-wrap-medium-2h)",
-          "docs": "typography.wrap.medium.2h",
-          "es6": "calciteTypographyWrapMedium2h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "500",
-          "lineHeight": "1.375",
-          "fontSize": "1.25rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Medium 2h",
-      "path": ["typography", "wrap", "medium", "2h"]
-    },
-    {
       "key": "{typography.wrap.medium.-2}",
       "attributes": {
         "category": "typography",
@@ -25232,70 +25004,6 @@ exports[`DOCS (internal) > global should match 1`] = `
       "isSource": true,
       "name": "Typography Wrap Bold 3",
       "path": ["typography", "wrap", "bold", "3"]
-    },
-    {
-      "key": "{typography.wrap.bold.1h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "bold",
-        "subitem": "1h",
-        "names": {
-          "scss": "$calcite-typography-wrap-bold-1h",
-          "css": "var(--calcite-typography-wrap-bold-1h)",
-          "docs": "typography.wrap.bold.1h",
-          "es6": "calciteTypographyWrapBold1h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "600",
-          "lineHeight": "1.375",
-          "fontSize": "1.125rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.125rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Bold 1h",
-      "path": ["typography", "wrap", "bold", "1h"]
-    },
-    {
-      "key": "{typography.wrap.bold.2h}",
-      "attributes": {
-        "category": "typography",
-        "type": "wrap",
-        "item": "bold",
-        "subitem": "2h",
-        "names": {
-          "scss": "$calcite-typography-wrap-bold-2h",
-          "css": "var(--calcite-typography-wrap-bold-2h)",
-          "docs": "typography.wrap.bold.2h",
-          "es6": "calciteTypographyWrapBold2h"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "semantic"
-        }
-      },
-      "extensions": {
-        "calcite.extends": {
-          "fontWeight": "600",
-          "lineHeight": "1.375",
-          "fontSize": "1.25rem"
-        }
-      },
-      "$type": "typography",
-      "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":\\"1.375\\",\\"fontSize\\":\\"1.25rem\\"}",
-      "filePath": "src/tokens/semantic/typography.json",
-      "isSource": true,
-      "name": "Typography Wrap Bold 2h",
-      "path": ["typography", "wrap", "bold", "2h"]
     },
     {
       "key": "{typography.wrap.bold.-2}",
@@ -31772,16 +31480,6 @@ export const calciteTypographyWrapLight3 = {
   lineHeight: "1.25",
   fontSize: "1.625rem",
 };
-export const calciteTypographyWrapLight1h = {
-  fontWeight: "300",
-  lineHeight: "1.375",
-  fontSize: "1.125rem",
-};
-export const calciteTypographyWrapLight2h = {
-  fontWeight: "300",
-  lineHeight: "1.375",
-  fontSize: "1.25rem",
-};
 export const calciteTypographyWrapLightMinus2 = {
   fontWeight: "300",
   lineHeight: "1.375",
@@ -31807,14 +31505,6 @@ export const calciteTypographyWrapRegular2 = {
 export const calciteTypographyWrapRegular3 = {
   lineHeight: "1.25",
   fontSize: "1.625rem",
-};
-export const calciteTypographyWrapRegular1h = {
-  lineHeight: "1.375",
-  fontSize: "1.125rem",
-};
-export const calciteTypographyWrapRegular2h = {
-  lineHeight: "1.375",
-  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapRegularMinus2 = {
   lineHeight: "1.375",
@@ -31843,16 +31533,6 @@ export const calciteTypographyWrapMedium3 = {
   fontWeight: "500",
   lineHeight: "1.25",
   fontSize: "1.625rem",
-};
-export const calciteTypographyWrapMedium1h = {
-  fontWeight: "500",
-  lineHeight: "1.375",
-  fontSize: "1.125rem",
-};
-export const calciteTypographyWrapMedium2h = {
-  fontWeight: "500",
-  lineHeight: "1.375",
-  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapMediumMinus2 = {
   fontWeight: "500",
@@ -31883,16 +31563,6 @@ export const calciteTypographyWrapBold3 = {
   fontWeight: "600",
   lineHeight: "1.25",
   fontSize: "1.625rem",
-};
-export const calciteTypographyWrapBold1h = {
-  fontWeight: "600",
-  lineHeight: "1.375",
-  fontSize: "1.125rem",
-};
-export const calciteTypographyWrapBold2h = {
-  fontWeight: "600",
-  lineHeight: "1.375",
-  fontSize: "1.25rem",
 };
 export const calciteTypographyWrapBoldMinus2 = {
   fontWeight: "600",
@@ -32474,16 +32144,6 @@ export const calciteTypographyWrapLight3: {
   lineHeight: string;
   fontSize: string;
 };
-export const calciteTypographyWrapLight1h: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapLight2h: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
 export const calciteTypographyWrapLightMinus2: {
   fontWeight: string;
   lineHeight: string;
@@ -32507,14 +32167,6 @@ export const calciteTypographyWrapRegular2: {
   fontSize: string;
 };
 export const calciteTypographyWrapRegular3: {
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapRegular1h: {
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapRegular2h: {
   lineHeight: string;
   fontSize: string;
 };
@@ -32546,16 +32198,6 @@ export const calciteTypographyWrapMedium3: {
   lineHeight: string;
   fontSize: string;
 };
-export const calciteTypographyWrapMedium1h: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapMedium2h: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
 export const calciteTypographyWrapMediumMinus2: {
   fontWeight: string;
   lineHeight: string;
@@ -32582,16 +32224,6 @@ export const calciteTypographyWrapBold2: {
   fontSize: string;
 };
 export const calciteTypographyWrapBold3: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapBold1h: {
-  fontWeight: string;
-  lineHeight: string;
-  fontSize: string;
-};
-export const calciteTypographyWrapBold2h: {
   fontWeight: string;
   lineHeight: string;
   fontSize: string;
@@ -34407,18 +34039,6 @@ exports[`SCSS > mixins should match 1`] = `
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
 }
-@mixin calcite-typography-wrap-light-1h {
-  @include calcite-typography-wrap-light-1;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-lg);
-}
-@mixin calcite-typography-wrap-light-2h {
-  @include calcite-typography-wrap-light-2;
-  font-weight: var(--calcite-font-weight-light);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-xl);
-}
 @mixin calcite-typography-wrap-light-minus-2 {
   @include calcite-typography;
   font-weight: var(--calcite-font-weight-light);
@@ -34450,16 +34070,6 @@ exports[`SCSS > mixins should match 1`] = `
   @include calcite-typography;
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-@mixin calcite-typography-wrap-regular-1h {
-  @include calcite-typography-wrap-regular-1;
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-lg);
-}
-@mixin calcite-typography-wrap-regular-2h {
-  @include calcite-typography-wrap-regular-2;
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-regular-minus-2 {
   @include calcite-typography;
@@ -34494,18 +34104,6 @@ exports[`SCSS > mixins should match 1`] = `
   font-weight: var(--calcite-font-weight-medium);
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-@mixin calcite-typography-wrap-medium-1h {
-  @include calcite-typography-wrap-medium-1;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-lg);
-}
-@mixin calcite-typography-wrap-medium-2h {
-  @include calcite-typography-wrap-medium-2;
-  font-weight: var(--calcite-font-weight-medium);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-medium-minus-2 {
   @include calcite-typography;
@@ -34542,18 +34140,6 @@ exports[`SCSS > mixins should match 1`] = `
   font-weight: var(--calcite-font-weight-semibold);
   line-height: var(--calcite-font-line-height-relative-tight);
   font-size: var(--calcite-font-size-relative-2xl);
-}
-@mixin calcite-typography-wrap-bold-1h {
-  @include calcite-typography-wrap-bold-1;
-  font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-lg);
-}
-@mixin calcite-typography-wrap-bold-2h {
-  @include calcite-typography-wrap-bold-2;
-  font-weight: var(--calcite-font-weight-semibold);
-  line-height: var(--calcite-font-line-height-relative-snug);
-  font-size: var(--calcite-font-size-relative-xl);
 }
 @mixin calcite-typography-wrap-bold-minus-2 {
   @include calcite-typography;
