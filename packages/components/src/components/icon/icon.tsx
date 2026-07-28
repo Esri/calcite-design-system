@@ -56,7 +56,7 @@ export class Icon extends LitElement {
     reflect: true,
     type: String,
   })
-  icon: IconName | null = null;
+  icon?: IconName;
 
   /** When `true`, preloads the `icon` data. */
   @property({ reflect: true }) preload = false;
