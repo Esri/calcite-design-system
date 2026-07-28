@@ -158,9 +158,6 @@
     );
   }
 
-  // Groups slotted into actions-start render inside the start wrapper, which supplies the leading
-  // gutter and clipped leading divider. Clear the base trailing padding and divider to match
-  // the default-slot appearance in both layouts.
   ::slotted(calcite-action-group[slot="actions-start"]) {
     padding-inline-end: 0;
     padding-block-end: 0;
