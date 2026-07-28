@@ -1,4 +1,5 @@
 import { IconName } from "../icon/interfaces";
+import type { ActionMenu } from "./action-menu";
 
 export const CSS = {
   menu: "menu",
@@ -21,3 +22,7 @@ export const SLOTS = {
 export const ICONS: Record<string, IconName> = {
   menu: "ellipsis",
 };
+
+export function isActionMenu(el: Element | null): el is ActionMenu["el"] {
+  return el?.tagName === "CALCITE-ACTION-MENU";
+}

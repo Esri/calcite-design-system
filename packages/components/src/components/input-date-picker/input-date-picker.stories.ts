@@ -12,6 +12,7 @@ interface InputDatePickerStoryArgs extends Pick<
   | "calendars"
   | "clearable"
   | "disabled"
+  | "labelText"
   | "layout"
   | "max"
   | "min"
@@ -20,6 +21,7 @@ interface InputDatePickerStoryArgs extends Pick<
   | "placement"
   | "range"
   | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "validationIcon"
@@ -34,6 +36,7 @@ export default {
   args: {
     calendars: calendarCount.defaultValue,
     disabled: false,
+    labelText: "Label text",
     layout: horizontalVerticalLayout.defaultValue,
     scale: scale.defaultValue,
     status: status.defaultValue,
@@ -47,6 +50,7 @@ export default {
     placement: menuPlacement.defaultValue,
     range: false,
     readOnly: false,
+    required: false,
     validationMessage: "",
     validationIcon: "",
   },
@@ -97,6 +101,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       value="${args.value}"
       calendars="${args.calendars}"
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("label-text", args.labelText)}
       lang="${args.lang}"
       layout="${args.layout}"
       min="${args.min}"
@@ -106,6 +111,7 @@ export const simple = (args: InputDatePickerStoryArgs): string => html`
       placement="${args.placement}"
       ${boolean("range", args.range)}
       ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       validation-message="${args.validationMessage}"
       ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input-date-picker>

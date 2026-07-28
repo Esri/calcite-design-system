@@ -16,11 +16,13 @@ interface SliderStoryArgs extends Pick<
   | "fillPlacement"
   | "minLabel"
   | "disabled"
+  | "labelText"
   | "labelHandles"
   | "labelTicks"
   | "ticks"
   | "pageStep"
   | "precise"
+  | "required"
   | "mirrored"
   | "snap"
   | "scale"
@@ -42,11 +44,13 @@ export default {
     fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
+    labelText: "Label text",
     labelHandles: false,
     labelTicks: false,
     ticks: 0,
     pageStep: 5,
     precise: false,
+    required: false,
     mirrored: false,
     snap: true,
     scale: scale.defaultValue,
@@ -91,11 +95,13 @@ export const simple = (args: SliderStoryArgs): string => html`
     fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
     ${boolean("label-handles", args.labelHandles)}
     ${boolean("label-ticks", args.labelTicks)}
     ticks="${args.ticks}"
     page-step="${args.pageStep}"
     ${boolean("precise", args.precise)}
+    ${boolean("required", args.required)}
     ${boolean("mirrored", args.mirrored)}
     ${boolean("snap", args.snap)}
     scale="${args.scale}"
