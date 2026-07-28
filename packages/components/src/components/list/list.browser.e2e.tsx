@@ -820,6 +820,66 @@ describe("filter item data updates", () => {
 });
 
 describe("nested selection modes", () => {
+  it("navigates to items added to nested groups after load", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item display-mode="nested" id="dynamic-group-parent" label="Parent">
+          <calcite-list-item-group>
+            <calcite-list-item-group id="dynamic-nested-group" />
+          </calcite-list-item-group>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page.getBySelector("#dynamic-group-parent").element() as ListItem["el"];
+    const nestedGroup = page.getBySelector("#dynamic-nested-group").element() as HTMLElement;
+
+    await vi.waitUntil(() => parentItem.displayMode === "nested");
+
+    const childItem = document.createElement("calcite-list-item");
+    childItem.id = "dynamic-nested-group-child";
+    childItem.label = "Child";
+    nestedGroup.append(childItem);
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(parentItem.expanded).toBe(false);
+
+    await userEvent.keyboard("{ArrowRight}");
+
+    await vi.waitUntil(async () => {
+      if (parentItem.expanded) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return parentItem.expanded;
+    });
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
   it("does not navigate to wrapped non-direct child list-items with ArrowDown", async () => {
     const { el } = await mount<List>(
       <calcite-list display-mode="nested">

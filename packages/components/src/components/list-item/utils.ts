@@ -16,21 +16,6 @@ export function getClosestAncestorInComposedTree<T extends Element>(element: Ele
   return startingElement ? closestElementCrossShadowBoundary<T>(startingElement, selector) : null;
 }
 
-function getGroupStructure(group: ListItemGroup["el"]): {
-  groups: ListItemGroup["el"][];
-  items: ListItem["el"][];
-} {
-  const childGroups = Array.isArray(group.childListItemGroups) ? group.childListItemGroups : [];
-  const nestedGroupStructure = childGroups.map((childGroup) => getGroupStructure(childGroup));
-
-  return {
-    groups: childGroups.concat(nestedGroupStructure.flatMap((nested) => nested.groups)),
-    items: (Array.isArray(group.listItems) ? group.listItems : []).concat(
-      nestedGroupStructure.flatMap((nested) => nested.items),
-    ),
-  };
-}
-
 export function getListStructureFromElements(elements: Element[]): {
   groups: ListItemGroup["el"][];
   lists: List["el"][];
@@ -66,11 +51,12 @@ export function getListStructureFromElements(elements: Element[]): {
 
       if (element.matches(listItemGroupSelector)) {
         const group = element;
-        const nestedGroupStructure = getGroupStructure(group);
+        const nestedChildren = getListStructureFromElements(Array.from(group.children));
 
         acc.groups.push(group);
-        acc.groups.push(...nestedGroupStructure.groups);
-        acc.items.push(...nestedGroupStructure.items);
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
 
         return acc;
       }

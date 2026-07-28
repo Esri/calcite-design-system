@@ -412,6 +412,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
     );
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupItemsChange"]>(
+      "calciteInternalListItemGroupItemsChange",
+      this.handleCalciteInternalListItemGroupItemsChange,
+    );
     this.listen<ToEvents<List>["calciteInternalListDefaultSlotChange"]>(
       "calciteInternalListDefaultSlotChange",
       this.handleCalciteInternalListDefaultSlotChanges,
@@ -521,6 +525,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
     event.stopPropagation();
+    this.handleExpandableChange(this.defaultSlotRef.value);
+  }
+
+  private handleCalciteInternalListItemGroupItemsChange(): void {
     this.handleExpandableChange(this.defaultSlotRef.value);
   }
 
