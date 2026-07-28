@@ -23,6 +23,33 @@ import { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
+declare global {
+  interface DeclareElements {
+    "list-test-wrapper": ListTestWrapper;
+  }
+}
+
+class ListTestWrapper extends HTMLElement {
+  listEl: List["el"];
+
+  constructor() {
+    super();
+    const root = this.attachShadow({ mode: "open" });
+
+    this.listEl = document.createElement("calcite-list");
+    this.listEl.selectionMode = "single";
+
+    const defaultSlot = document.createElement("slot");
+
+    this.listEl.append(defaultSlot);
+    root.append(this.listEl);
+  }
+}
+
+if (!customElements.get("list-test-wrapper")) {
+  customElements.define("list-test-wrapper", ListTestWrapper);
+}
+
 const scrollTopValue = 120;
 
 const placeholder = placeholderImage({
@@ -376,6 +403,54 @@ describe("sticky group heading with filter", () => {
   });
 });
 
+describe("shadow slot projection", () => {
+  function getMountedWrapper(mountedEl: Element): HTMLElement & {
+    listEl: List["el"];
+  } {
+    if (mountedEl.tagName === "LIST-TEST-WRAPPER") {
+      return mountedEl as HTMLElement & {
+        listEl: List["el"];
+      };
+    }
+
+    const rootNode = mountedEl.getRootNode();
+    const rootHost = rootNode instanceof ShadowRoot ? rootNode.host : null;
+
+    if (rootHost?.tagName === "LIST-TEST-WRAPPER") {
+      return rootHost as HTMLElement & {
+        listEl: List["el"];
+      };
+    }
+
+    throw new Error("Could not resolve list-test-wrapper from mount result");
+  }
+
+  it("tracks projected grouped list-items without query-based discovery", async () => {
+    const { el: mountedEl } = await mount("list-test-wrapper");
+    const listTestWrapper = getMountedWrapper(mountedEl);
+
+    listTestWrapper.innerHTML = `
+      <calcite-list-item-group heading="Group A">
+        <calcite-list-item label="Alpha" value="a"></calcite-list-item>
+        <calcite-list-item label="Beta" value="b"></calcite-list-item>
+      </calcite-list-item-group>
+      <calcite-list-item label="Gamma" value="c"></calcite-list-item>
+    `;
+
+    await vi.waitUntil(async () => {
+      if (listTestWrapper.listEl.filteredItems.length === 3) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return listTestWrapper.listEl.filteredItems.length === 3;
+    });
+
+    expect(listTestWrapper.listEl.filteredItems).toHaveLength(3);
+  });
+});
+
 describe("group filtering", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -707,6 +782,40 @@ describe("filter item data updates", () => {
       filterEl,
       (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
+  });
+
+  it("collects nested group headings from outermost to innermost", async () => {
+    const { el } = await mount<List>(
+      <calcite-list filter-enabled>
+        <calcite-list-item-group heading="Outer heading">
+          <calcite-list-item-group heading="Inner heading">
+            <calcite-list-item
+              id="prop-watch-item-nested-heading"
+              label="Label"
+              value="prop-watch-nested-heading"
+            />
+          </calcite-list-item-group>
+        </calcite-list-item-group>
+      </calcite-list>,
+    );
+
+    const listItem = page
+      .getBySelector("#prop-watch-item-nested-heading")
+      .element() as ListItem["el"];
+    const filterEl = page.getBySelector("calcite-list calcite-filter").element() as HTMLElement & {
+      items?: { el?: Element; heading?: string[] }[];
+    };
+
+    el.filterProps = ["heading"];
+    el.filterText = "inner";
+    await waitForFilteredLength(el, 1);
+    await waitForFilterItemsMatch(
+      filterEl,
+      (item) => item.el === listItem && item.heading?.join("|") === "Outer heading|Inner heading",
+    );
+
+    const matchingFilterItem = filterEl.items?.find((item) => item.el === listItem);
+    expect(matchingFilterItem?.heading).toEqual(["Outer heading", "Inner heading"]);
   });
 });
 

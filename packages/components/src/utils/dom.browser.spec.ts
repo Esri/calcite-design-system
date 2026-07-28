@@ -20,6 +20,7 @@ import {
   isPrimaryPointerButton,
   nextFrame,
   queryElementRoots,
+  queryElementRootsAll,
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeGetAssignedNodes,
@@ -1088,5 +1089,86 @@ describe(queryElementRoots, () => {
     const resultEl: HTMLElement = queryElementRoots(queryEl, { id: myButtonId })!;
 
     expect(resultEl.textContent).toBe(outsideHost);
+  });
+});
+
+describe(queryElementRootsAll, () => {
+  const className = "query-all-target";
+
+  beforeEach(() => {
+    document.body.innerHTML = "";
+  });
+
+  it("should query all matches from the current root and ancestor roots", () => {
+    class TestComponent extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `<div id="inside-shadow"><button class="${className}">Shadow</button></div>`;
+      }
+    }
+
+    const componentTag = `test-component-all-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    customElements.define(componentTag, TestComponent);
+
+    const testComponent = document.createElement(componentTag);
+    testComponent.innerHTML = `<button class="${className}">Host</button>`;
+    document.body.append(testComponent);
+
+    const queryEl = testComponent.shadowRoot!.querySelector("#inside-shadow")!;
+    const results = queryElementRootsAll<HTMLButtonElement>(queryEl, `button.${className}`);
+
+    expect(results).toHaveLength(2);
+    expect(results.map((button) => button.textContent)).toEqual(["Shadow", "Host"]);
+  });
+
+  it("should not return duplicate elements when traversing multiple roots", () => {
+    class TestComponent extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `<div id="inside-shadow"><button class="${className}">Shadow</button></div>`;
+      }
+    }
+
+    const componentTag = `test-component-dedup-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    customElements.define(componentTag, TestComponent);
+
+    const testComponent = document.createElement(componentTag);
+    testComponent.innerHTML = `<button class="${className}">Host</button>`;
+    document.body.append(testComponent);
+
+    const queryEl = testComponent.querySelector(`button.${className}`)!;
+    const results = queryElementRootsAll<HTMLButtonElement>(queryEl, `button.${className}`);
+
+    expect(results).toHaveLength(1);
+    expect(results[0].textContent).toBe("Host");
+  });
+
+  it("should apply an optional filter while collecting root matches", () => {
+    class TestComponent extends HTMLElement {
+      constructor() {
+        super();
+        const shadow = this.attachShadow({ mode: "open" });
+        shadow.innerHTML = `<div id="inside-shadow"><button class="${className}" data-include="yes">Shadow</button></div>`;
+      }
+    }
+
+    const componentTag = `test-component-filter-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    customElements.define(componentTag, TestComponent);
+
+    const testComponent = document.createElement(componentTag);
+    testComponent.innerHTML = `<button class="${className}">Host</button>`;
+    document.body.append(testComponent);
+
+    const queryEl = testComponent.shadowRoot!.querySelector("#inside-shadow")!;
+    const results = queryElementRootsAll<HTMLButtonElement>(
+      queryEl,
+      `button.${className}`,
+      (button) => button.dataset.include === "yes",
+    );
+
+    expect(results).toHaveLength(1);
+    expect(results[0].textContent).toBe("Shadow");
   });
 });
