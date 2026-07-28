@@ -1,8 +1,8 @@
 name: PR T9n
 on:
   pull_request:
-    branches:
-      - translations-dev
+    paths:
+      - packages/components/src/components/**/assets/t9n/messages*.json
 permissions:
   pull-requests: write
 jobs:
