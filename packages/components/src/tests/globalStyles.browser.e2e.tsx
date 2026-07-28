@@ -3,7 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, expect, it } from "vitest";
 import { css } from "../../support/formatting";
 
-let testStylingOverride: HTMLStyleElement;
+let testStylingOverride: HTMLStyleElement | undefined;
 
 /**
  * This helps restore animations as they are disabled by default for tests.
@@ -11,14 +11,16 @@ let testStylingOverride: HTMLStyleElement;
 function overrideTestStyles(): void {
   testStylingOverride = document.createElement("style");
   testStylingOverride.innerHTML = css`
-  :root {
-    --calcite-duration-factor: 1;
-  }`;
+    :root {
+      --calcite-duration-factor: 1;
+    }
+  `;
   document.head.append(testStylingOverride);
 }
 
 afterEach(() => {
   testStylingOverride?.remove();
+  testStylingOverride = undefined;
 });
 
 it("should set animation duration to 0ms when --calcite-duration-factor set to zero", async () => {
