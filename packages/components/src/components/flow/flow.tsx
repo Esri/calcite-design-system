@@ -198,11 +198,11 @@ export class Flow extends LitElement {
 
     try {
       newItems = slottedItems.filter((flowItem) => flowItem.matches(itemSelectors));
-    } catch {
+    } catch (error) {
       console.warn(
-        `${this.el.tagName.toLowerCase()}: Error while matching custom-item-selectors. Falling back to "${SELECTORS.item}".`,
+        `${this.el.tagName.toLowerCase()}: Error while matching custom-item-selectors ("${customItemSelectors}"). Falling back to "${SELECTORS.item}".`,
+        error,
       );
-
       newItems = slottedItems.filter((flowItem) => flowItem.matches(SELECTORS.item));
     }
 
