@@ -33,6 +33,7 @@ import { CharacterLengthObj } from "./interfaces";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
+import type CommonT9nStrings from "../../../assets/common/t9n/messages.en.json";
 
 declare global {
   interface DeclareElements {
@@ -129,6 +130,11 @@ export class TextArea
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
+  /**
+   * @private
+   */
+  messagesCommon = useT9n<typeof CommonT9nStrings>({ name: "common" });
+
   private focusSetter = useSetFocus<this>()(this);
 
   private interactiveContainer = useInteractive(this);
@@ -190,7 +196,8 @@ export class TextArea
   @property({ reflect: true }) maxLength?: number;
 
   /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messageOverrides?: typeof this.messages._overrides &
+    typeof this.messagesCommon._overrides;
 
   /**
    * When the component resides in a form,
@@ -466,7 +473,7 @@ export class TextArea
     const hasFooter = this.startSlotHasElements || this.endSlotHasElements || !!this.maxLength;
     const loader = (
       <div class={CSS.loader}>
-        <calcite-progress label={this.messages.loading} type="indeterminate" />
+        <calcite-progress label={this.messagesCommon.loading} type="indeterminate" />
       </div>
     );
     return (
@@ -477,7 +484,7 @@ export class TextArea
               labelText={this.labelText}
               onClick={this.onLabelClick}
               required={this.required}
-              tooltipText={this.messages.required}
+              tooltipText={this.messagesCommon.required}
             />
           )}
           <div class={CSS.loaderContainer} ref={this.loaderContainerRef}>
