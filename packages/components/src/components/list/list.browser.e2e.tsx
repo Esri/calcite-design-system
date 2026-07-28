@@ -820,6 +820,116 @@ describe("filter item data updates", () => {
 });
 
 describe("nested selection modes", () => {
+  it("does not navigate to wrapped non-direct child list-items with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-wrapped-parent-item" label="Parent">
+          <div>
+            <calcite-list-item id="keyboard-wrapped-child-item" label="Child" />
+          </div>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page
+      .getBySelector("#keyboard-wrapped-parent-item")
+      .element() as ListItem["el"];
+    const childItem = page
+      .getBySelector("#keyboard-wrapped-child-item")
+      .element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+    await afterNextTask();
+    await afterNextFrame();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+  });
+
+  it("navigates to nested child list-items with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-parent-item" label="Parent">
+          <calcite-list-item id="keyboard-child-item" label="Child" />
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page.getBySelector("#keyboard-parent-item").element() as ListItem["el"];
+    const childItem = page.getBySelector("#keyboard-child-item").element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
+  it("navigates to child items inside nested lists with ArrowDown", async () => {
+    const { el } = await mount<List>(
+      <calcite-list display-mode="nested">
+        <calcite-list-item expanded id="keyboard-nested-list-parent" label="Parent">
+          <calcite-list display-mode="flat" label="Nested list">
+            <calcite-list-item id="keyboard-nested-list-child" label="Nested child" />
+          </calcite-list>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    await afterNextTask();
+    await afterNextFrame();
+
+    const parentItem = page
+      .getBySelector("#keyboard-nested-list-parent")
+      .element() as ListItem["el"];
+    const childItem = page.getBySelector("#keyboard-nested-list-child").element() as ListItem["el"];
+
+    await el.setFocus();
+
+    expect(parentItem.active).toBe(true);
+    expect(childItem.active).toBe(false);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    await vi.waitUntil(async () => {
+      if (childItem.active) {
+        return true;
+      }
+
+      await afterNextTask();
+      await afterNextFrame();
+      return childItem.active;
+    });
+
+    expect(parentItem.active).toBe(false);
+    expect(childItem.active).toBe(true);
+  });
+
   it("preserves each nested list's direct-item properties", async () => {
     await mount(
       <>

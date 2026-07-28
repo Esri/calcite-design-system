@@ -36,15 +36,31 @@ export function getListStructureFromElements(elements: Element[]): {
   lists: List["el"][];
   items: ListItem["el"][];
 } {
+  // Intentionally only supports direct descendants and slot assignments. Neutral wrappers
+  // are not traversed unless they are themselves calcite-list/list-item/list-item-group.
   return elements.reduce(
     (acc, element) => {
       if (element.matches(listSelector)) {
         acc.lists.push(element);
+
+        const nestedChildren = getListStructureFromElements(Array.from(element.children));
+
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
         return acc;
       }
 
       if (isListItem(element)) {
         acc.items.push(element);
+
+        const nestedChildren = getListStructureFromElements(Array.from(element.children));
+
+        acc.groups.push(...nestedChildren.groups);
+        acc.lists.push(...nestedChildren.lists);
+        acc.items.push(...nestedChildren.items);
+
         return acc;
       }
 
