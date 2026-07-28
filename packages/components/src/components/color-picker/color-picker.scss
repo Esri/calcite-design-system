@@ -122,7 +122,7 @@ calcite-swatch {
   block-size: min-content;
   border: 1px solid var(--calcite-color-picker-border-color, var(--calcite-color-border-3));
   background-color: var(--calcite-color-picker-background-color, var(--calcite-color-foreground-1));
-  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none));
+  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
 
@@ -133,9 +133,9 @@ calcite-swatch {
 .color-field,
 .control-and-scope {
   user-select: none;
-  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none))
-    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius-none)) var(--calcite-corner-radius-none)
-    var(--calcite-corner-radius-none);
+  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius)) var(--calcite-corner-radius)
+    var(--calcite-corner-radius);
 }
 
 .scope {

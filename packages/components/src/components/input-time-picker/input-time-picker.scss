@@ -71,7 +71,10 @@ calcite-time-picker {
   align-items: center;
   background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
-  border-radius: var(--calcite-input-time-picker-input-corner-radius, var(--calcite-corner-radius-none));
+  border-radius: var(
+    --calcite-input-time-picker-input-corner-radius,
+    var(--calcite-corner-radius, var(--calcite-corner-radius-none))
+  );
   box-shadow: var(--calcite-input-time-picker-input-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   display: flex;
@@ -254,10 +257,7 @@ calcite-time-picker {
 calcite-time-picker {
   --calcite-time-picker-background-color: var(--calcite-input-time-picker-background-color);
   --calcite-time-picker-border-color: var(--calcite-input-time-picker-border-color, transparent);
-  --calcite-time-picker-corner-radius: var(
-    --calcite-input-time-picker-corner-radius,
-    var(--calcite-corner-radius-round)
-  );
+  --calcite-time-picker-corner-radius: var(--calcite-input-time-picker-corner-radius, var(--calcite-corner-radius));
 }
 
 calcite-popover {

@@ -187,13 +187,15 @@ calcite-button[split-child="secondary"] {
 }
 
 calcite-button[split-child="primary"] {
-  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius) var(--calcite-corner-radius-none)
-    var(--calcite-corner-radius-none) var(--calcite-split-button-corner-radius);
+  --calcite-button-corner-radius: var(--calcite-split-button-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-corner-radius) var(--calcite-corner-radius)
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius));
 }
 
 calcite-button[split-child="secondary"] {
-  --calcite-button-corner-radius: var(--calcite-corner-radius-none) var(--calcite-split-button-corner-radius)
-    var(--calcite-split-button-corner-radius) var(--calcite-corner-radius-none);
+  --calcite-button-corner-radius: var(--calcite-corner-radius)
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-split-button-corner-radius, var(--calcite-corner-radius)) var(--calcite-corner-radius);
 }
 
 calcite-dropdown {
