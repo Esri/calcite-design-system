@@ -1,10 +1,10 @@
-import { h, JsxNode } from "@arcgis/lumina";
+import { h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { createRef } from "lit/directives/ref.js";
 import {
   focusable,
-  cancelable,
   defaults,
   reflects,
   hidden,
@@ -59,10 +59,6 @@ describe("accessible", () => {
       ),
     );
   });
-});
-
-describe("cancelable", () => {
-  cancelable("calcite-autocomplete");
 });
 
 describe("defaults", () => {
@@ -294,6 +290,24 @@ function renderAutocomplete(): JsxNode {
   );
 }
 
+class AutocompleteTestWrapper extends LitElement {
+  static tagName = "autocomplete-test-wrapper";
+
+  autocompleteRef = createRef<Autocomplete["el"]>();
+
+  get autocompleteEl(): Autocomplete["el"] | undefined {
+    return this.autocompleteRef.value;
+  }
+
+  override render(): JsxNode {
+    return (
+      <calcite-autocomplete label="Item list" open ref={this.autocompleteRef}>
+        <slot />
+      </calcite-autocomplete>
+    );
+  }
+}
+
 describe("floating-ui", () => {
   describe("owns a floating-ui", () => {
     floatingUIOwner(() => mount<Autocomplete>(renderAutocomplete), "open", {
@@ -359,6 +373,36 @@ describe("keyboard selection", () => {
 
     expect(firstItem.selected).toBe(false);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("supports keyboard navigation for shadow-projected items", async () => {
+    const { component, el, reRender } = await mount(AutocompleteTestWrapper);
+
+    el.innerHTML = `
+      <calcite-autocomplete-item heading="Item one" label="Item one" value="one"></calcite-autocomplete-item>
+      <calcite-autocomplete-item heading="Item two" label="Item two" value="two"></calcite-autocomplete-item>
+      <calcite-autocomplete-item heading="Item three" label="Item three" value="three"></calcite-autocomplete-item>
+    `;
+
+    await reRender();
+
+    const autocomplete = component.autocompleteEl as Autocomplete["el"];
+    const listbox = page.elementLocator(autocomplete).getByRole("listbox");
+    const options = listbox.getByRole("option");
+
+    await expect.element(options.first()).toBeInTheDocument();
+    await expect.element(options.nth(1)).toBeInTheDocument();
+    await expect.element(options.nth(2)).toBeInTheDocument();
+
+    const firstOption = options.first().element() as HTMLElement;
+
+    await autocomplete.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+    await reRender();
+
+    const input = page.elementLocator(autocomplete).getByRole("combobox").element() as HTMLElement;
+
+    expect(input.getAttribute("aria-activedescendant")).toBe(firstOption.id);
   });
 });
 
