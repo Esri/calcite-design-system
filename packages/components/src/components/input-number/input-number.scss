@@ -192,7 +192,7 @@ input {
 input {
   border-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
 }
 
@@ -235,11 +235,11 @@ input {
 .element-wrapper:has(.icon) :is(.icon:first-child, .loader + .icon) {
   border-start-start-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
   border-end-start-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
 }
 
@@ -248,11 +248,11 @@ input {
 :host([number-button-type="horizontal"]) .number-button-item[data-adjustment="up"] {
   border-end-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
   border-start-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
 }
 
@@ -260,14 +260,14 @@ input {
   @apply border-t-0;
   border-end-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
   border-start-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
 }
 
@@ -523,7 +523,7 @@ input[readonly]:focus {
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="up"] {
   border-start-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
   border-block-end-width: var(--calcite-border-width-none);
   padding-block-start: var(--calcite-internal-input-number-number-button-item-vertical-padding);
@@ -533,7 +533,7 @@ input[readonly]:focus {
   @apply border-t-0;
   border-end-end-radius: var(
     --calcite-input-number-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-sharp))
+    var(--calcite-corner-radius-sharp, var(--calcite-corner-radius))
   );
   padding-block-end: var(--calcite-internal-input-number-number-button-item-vertical-padding);
 }
