@@ -1,13 +1,32 @@
 import { html } from "../../../support/formatting";
 
+type FormStoryArgs = {
+  showButtons: boolean;
+  showNotice: boolean;
+};
+
 export default {
   title: "Components/Form",
   parameters: {
     layout: "padded",
   },
+  args: {
+    showButtons: true,
+    showNotice: true,
+  },
+  argTypes: {
+    showButtons: {
+      name: "buttons",
+      control: { type: "boolean" },
+    },
+    showNotice: {
+      name: "notice",
+      control: { type: "boolean" },
+    },
+  },
 };
 
-export const sample = (): string => html`
+export const simple = (args: FormStoryArgs): string => html`
   <calcite-form>
     <calcite-field-set>
       <div slot="legend">Field Set legend</div>
@@ -19,6 +38,19 @@ export const sample = (): string => html`
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
       <calcite-input label-text="Label" placeholder="Placeholder"></calcite-input>
     </calcite-field-set>
+    ${args.showNotice
+      ? html`
+          <calcite-notice open icon="exclamation-mark-triangle-f" kind="danger" slot="notice">
+            <div slot="message">Aggregate notice</div>
+          </calcite-notice>
+        `
+      : ""}
+    ${args.showButtons
+      ? html`
+          <calcite-button slot="buttons" appearance="outline">Cancel</calcite-button>
+          <calcite-button slot="buttons">Save</calcite-button>
+        `
+      : ""}
   </calcite-form>
 `;
 
@@ -45,6 +77,8 @@ export const mix = (): string => html`
         <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
         <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
       </calcite-field-set>
+      <calcite-button slot="buttons" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="buttons">Save</calcite-button>
     </calcite-form>
     <calcite-form style="inline-size: 382px;">
       <calcite-field-set columns="2" layout="columns">
@@ -67,6 +101,8 @@ export const mix = (): string => html`
         <calcite-checkbox label-text="Waterfront"></calcite-checkbox>
         <calcite-checkbox label-text="On-site parking"></calcite-checkbox>
       </calcite-field-set>
+      <calcite-button slot="buttons" appearance="outline">Cancel</calcite-button>
+      <calcite-button slot="buttons">Save</calcite-button>
     </calcite-form>
   </div>
 `;

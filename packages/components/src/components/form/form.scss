@@ -16,7 +16,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--calcite-form-space, var(--calcite-space-sm));
+  gap: var(--calcite-form-space, var(--calcite-space-md));
+}
+
+.divider {
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
+::slotted(calcite-notice) {
+  inline-size: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--calcite-space-sm);
 }
 
 @include includes.base-component();
