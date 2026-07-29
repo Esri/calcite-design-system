@@ -375,6 +375,59 @@ describe("keyboard selection", () => {
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
   });
 
+  it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
+    const { el, reRender } = await mount<Autocomplete>(
+      <calcite-autocomplete label="Item list" open>
+        <calcite-autocomplete-item heading="Item one" label="Item one" selected value="one" />
+        <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+      </calcite-autocomplete>,
+    );
+
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteAutocompleteChange", changeSpy);
+
+    const getSecondOption = () =>
+      page.elementLocator(el).getByRole("listbox").getByRole("option").nth(1);
+
+    await expect.element(getSecondOption()).toBeInTheDocument();
+    await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "false");
+
+    const secondItem = el.children[1] as HTMLCalciteAutocompleteItemElement;
+    secondItem.selected = true;
+    await reRender();
+
+    await expect.element(getSecondOption()).toHaveAttribute("aria-selected", "true");
+    expect(changeSpy).toHaveBeenCalledTimes(0);
+  });
+
+  it("updates listbox option aria metadata and text from programmatic item state changes", async () => {
+    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    el.open = true;
+    await reRender();
+
+    const getSecondOption = () =>
+      page.elementLocator(el).getByRole("listbox").getByRole("option").nth(1);
+
+    await expect.element(getSecondOption()).toBeInTheDocument();
+    await expect.element(getSecondOption()).toHaveAttribute("aria-disabled", "false");
+    await expect.element(getSecondOption()).toHaveAttribute("aria-label", "Item two");
+    let secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
+    expect(secondOptionText).toContain("Item two");
+
+    const secondItem = el.children[1] as HTMLCalciteAutocompleteItemElement;
+    secondItem.disabled = true;
+    secondItem.description = "Updated description";
+    secondItem.heading = "Updated heading";
+    secondItem.label = "Updated label";
+    await reRender();
+
+    await expect.element(getSecondOption()).toHaveAttribute("aria-disabled", "true");
+    await expect.element(getSecondOption()).toHaveAttribute("aria-label", "Updated label");
+    secondOptionText = getSecondOption().element().textContent?.replace(/\s+/g, " ").trim();
+    expect(secondOptionText).toContain("Updated heading");
+    expect(secondOptionText).toContain("Updated description");
+  });
+
   it("supports keyboard navigation for shadow-projected items", async () => {
     const { component, el, reRender } = await mount(AutocompleteTestWrapper);
 

@@ -408,6 +408,7 @@ export class Autocomplete
     super();
     this.listenOn(document, "click", this.documentClickHandler);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
+    this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
     this.listen(
       "calciteInternalAutocompleteItemGroupItemsChange",
       this.handleAutocompleteItemGroupItemsChange,
@@ -528,6 +529,17 @@ export class Autocomplete
     this.emitChange();
     await this.setFocus();
     this.open = false;
+  }
+
+  private handleAutocompleteItemChange(event: Event): void {
+    event.stopPropagation();
+
+    if (!this.items.length) {
+      return;
+    }
+
+    this.updateItems();
+    this.requestUpdate();
   }
 
   onLabelClick(): void {
