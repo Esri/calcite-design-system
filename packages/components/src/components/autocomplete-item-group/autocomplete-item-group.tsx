@@ -78,6 +78,8 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * Fires after the component's slotted `calcite-autocomplete-item`s change.
+   *
+   * @private
    */
   calciteInternalAutocompleteItemGroupItemsChange = createEvent({ cancelable: false });
 
