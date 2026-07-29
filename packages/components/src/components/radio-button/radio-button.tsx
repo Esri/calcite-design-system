@@ -113,7 +113,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * @copyDoc
    *
    * @internal
-   * @readonly
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
