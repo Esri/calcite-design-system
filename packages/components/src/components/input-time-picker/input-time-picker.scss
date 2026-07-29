@@ -71,10 +71,7 @@ calcite-time-picker {
   align-items: center;
   background-color: var(--calcite-input-time-picker-input-background-color, var(--calcite-color-foreground-1));
   border: 1px solid var(--calcite-input-time-picker-input-border-color, var(--calcite-color-border-input));
-  border-radius: var(
-    --calcite-input-time-picker-input-corner-radius,
-    var(--calcite-corner-radius, var(--calcite-corner-radius-none))
-  );
+  border-radius: var(--calcite-input-time-picker-input-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-input-time-picker-input-shadow, var(--calcite-shadow-none));
   box-sizing: border-box;
   display: flex;
