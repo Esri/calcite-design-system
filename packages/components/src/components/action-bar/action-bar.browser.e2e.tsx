@@ -1308,7 +1308,7 @@ describe("slot-change action tracking", () => {
 
   it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar>
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1326,24 +1326,27 @@ describe("slot-change action tracking", () => {
     const startGroup = page
       .getBySelector("calcite-action-group#start-group[slot='actions-start']")
       .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const startTrigger = page
-      .getBySelector("calcite-action-group#start-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const startTrigger = page.getBySelector(
+      "calcite-action-group#start-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(startTrigger).toBeVisible();
 
-    await userEvent.click(startTrigger);
-    expect(startGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.poll(() => defaultGroup.menuOpen).toBe(true);
+
+    await startTrigger.click();
+    await expect.poll(() => startGroup.menuOpen).toBe(true);
+    await expect.poll(() => defaultGroup.menuOpen).toBe(false);
   });
 
   it("closes default-slot group menu when a slotted actions-end group menu opens", async () => {
     await mount<ActionBar>(
-      <calcite-action-bar layout="horizontal">
+      <calcite-action-bar layout="horizontal" overflow-actions-disabled>
         <calcite-action-group id="default-group">
           <calcite-action icon="plus" text="Default" />
           <calcite-action icon="save" slot="menu-actions" text="Save" />
@@ -1361,19 +1364,22 @@ describe("slot-change action tracking", () => {
     const endGroup = page
       .getBySelector("calcite-action-group#end-group[slot='actions-end']")
       .element() as ActionGroup["el"];
-    const defaultTrigger = page
-      .getBySelector("calcite-action-group#default-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
-    const endTrigger = page
-      .getBySelector("calcite-action-group#end-group calcite-action[slot='trigger']")
-      .element() as Action["el"];
+    const defaultTrigger = page.getBySelector(
+      "calcite-action-group#default-group calcite-action[slot='trigger']",
+    );
+    const endTrigger = page.getBySelector(
+      "calcite-action-group#end-group calcite-action[slot='trigger']",
+    );
 
-    await userEvent.click(defaultTrigger);
-    expect(defaultGroup.menuOpen).toBe(true);
+    await expect.element(defaultTrigger).toBeVisible();
+    await expect.element(endTrigger).toBeVisible();
 
-    await userEvent.click(endTrigger);
-    expect(endGroup.menuOpen).toBe(true);
-    expect(defaultGroup.menuOpen).toBe(false);
+    await defaultTrigger.click();
+    await expect.poll(() => defaultGroup.menuOpen).toBe(true);
+
+    await endTrigger.click();
+    await expect.poll(() => endGroup.menuOpen).toBe(true);
+    await expect.poll(() => defaultGroup.menuOpen).toBe(false);
   });
 
   it("closes other direct action-menus when one opens", async () => {
