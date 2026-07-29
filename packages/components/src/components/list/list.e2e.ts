@@ -115,6 +115,31 @@ it("should set the setSize and setPosition properties on nested items", async ()
   expect(await items[3].getProperty("setSize")).toBe(4);
 });
 
+it("should set setSize and setPosition from direct parent list items only", async () => {
+  const page = await newE2EPage();
+  await page.setContent(
+    html`<calcite-list id="root" display-mode="nested" drag-enabled group="nested-lists">
+      <calcite-list-item id="root-item" open label="Top-level list-item">
+        <calcite-list id="nested" display-mode="flat" drag-enabled group="nested-lists">
+          <calcite-list-item id="nested-item" label="Sub-level list-item"></calcite-list-item>
+        </calcite-list>
+      </calcite-list-item>
+    </calcite-list>`,
+  );
+
+  await page.waitForChanges();
+  await page.waitForTimeout(DEBOUNCE.filter);
+
+  const rootItem = await page.find("#root-item");
+  const nestedItem = await page.find("#nested-item");
+
+  expect(await rootItem.getProperty("setPosition")).toBe(1);
+  expect(await rootItem.getProperty("setSize")).toBe(1);
+
+  expect(await nestedItem.getProperty("setPosition")).toBe(1);
+  expect(await nestedItem.getProperty("setSize")).toBe(1);
+});
+
 it("should set the dragHandle property on items", async () => {
   const page = await newE2EPage();
   await page.setContent(

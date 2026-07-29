@@ -1003,7 +1003,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-one-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-none-drag-enabled"
               display-mode="flat"
@@ -1033,7 +1037,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-two-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-none"
               display-mode="flat"
@@ -1062,7 +1070,11 @@ describe("nested selection modes", () => {
           selection-appearance="icon"
           selection-mode="single-persist"
         >
-          <calcite-list-item expanded label="Top-level list-item">
+          <calcite-list-item
+            data-testid="root-list-three-top-item"
+            expanded
+            label="Top-level list-item"
+          >
             <calcite-list
               data-testid="nested-list-multiple"
               display-mode="flat"
@@ -1089,6 +1101,15 @@ describe("nested selection modes", () => {
     const nestedNoneDragEnabledItem = page
       .getByTestId("nested-none-item-drag-enabled")
       .element() as ListItem["el"];
+    const rootListOneTopItem = page
+      .getByTestId("root-list-one-top-item")
+      .element() as ListItem["el"];
+    const rootListTwoTopItem = page
+      .getByTestId("root-list-two-top-item")
+      .element() as ListItem["el"];
+    const rootListThreeTopItem = page
+      .getByTestId("root-list-three-top-item")
+      .element() as ListItem["el"];
     const nestedNoneItem = page.getByTestId("nested-none-item").element() as ListItem["el"];
     const nestedMultipleItem = page.getByTestId("nested-multiple-item").element() as ListItem["el"];
 
@@ -1107,8 +1128,18 @@ describe("nested selection modes", () => {
       expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
     };
 
+    const assertRootItemSetProperties = (): void => {
+      expect(rootListOneTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListOneTopItem).toHaveProperty("setSize", 1);
+      expect(rootListTwoTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListTwoTopItem).toHaveProperty("setSize", 1);
+      expect(rootListThreeTopItem).toHaveProperty("setPosition", 1);
+      expect(rootListThreeTopItem).toHaveProperty("setSize", 1);
+    };
+
     const assertAllNestedProperties = (): void => {
       assertSelectionModes();
+      assertRootItemSetProperties();
 
       expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
       expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
@@ -1154,6 +1185,7 @@ describe("nested selection modes", () => {
 
     // Assert immediately after initial render.
     assertSelectionModes();
+    assertRootItemSetProperties();
 
     // Establish nested list-item baselines from nested list updates.
     nestedListNoneDragEnabled.scale = "l";

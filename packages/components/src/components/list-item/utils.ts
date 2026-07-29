@@ -109,14 +109,28 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
 }
 
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
-  const listItemChildren = getListStructureFromElements(slotEl.assignedElements({ flatten: true })).items;
+  const listEl = getClosestAncestorInComposedTree<List["el"]>(slotEl, listSelector);
+  const listItemChildren: ListItem["el"][] = [];
 
-  const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
+  getListStructureFromElements(slotEl.assignedElements({ flatten: true })).items.forEach((listItem) => {
+    if (getClosestAncestorInComposedTree<List["el"]>(listItem, listSelector) === listEl) {
+      listItemChildren.push(listItem);
+    }
+  });
+
+  const visibleCount = listItemChildren.filter((listItem) => !listItem.filterHidden).length;
+  let visiblePosition = 0;
 
   listItemChildren.forEach((listItem) => {
-    const index = filteredListItemChildren.indexOf(listItem);
-    listItem.setPosition = index === -1 ? undefined : index + 1;
-    listItem.setSize = index === -1 ? undefined : filteredListItemChildren.length;
+    if (listItem.filterHidden) {
+      listItem.setPosition = undefined;
+      listItem.setSize = undefined;
+      return;
+    }
+
+    visiblePosition += 1;
+    listItem.setPosition = visiblePosition;
+    listItem.setSize = visibleCount;
   });
 }
 
