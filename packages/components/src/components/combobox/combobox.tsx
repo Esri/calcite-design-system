@@ -388,8 +388,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) form?: string;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
   @property() label!: string;
