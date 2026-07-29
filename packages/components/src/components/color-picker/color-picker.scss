@@ -134,8 +134,8 @@ calcite-swatch {
 .control-and-scope {
   user-select: none;
   border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius))
-    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius)) var(--calcite-corner-radius)
-    var(--calcite-corner-radius);
+    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius)) var(--calcite-corner-radius-none)
+    var(--calcite-corner-radius-none);
 }
 
 .scope {
