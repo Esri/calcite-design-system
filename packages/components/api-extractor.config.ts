@@ -80,8 +80,22 @@ export const config: ApiExtractorConfig = {
         iconStart: {
           description: "Specifies an icon to display at the start of the component.",
         },
-        label: {
-          description: "Specifies an accessible label for the component.",
+        label(_apiProperty, apiClass) {
+          const baseDescription = "Specifies an accessible label for the component.";
+          const dragDescription = (component: string): string =>
+            `When \`dragEnabled\` is \`true\` and multiple ${component} sorting is enabled with \`group\`, specifies the component's name for dragging between ${component}s.`;
+
+          const descriptionOverrides = {
+            Avatar: `Specifies alternative text when \`thumbnail\` is defined, otherwise ${baseDescription.toLowerCase()}`,
+            BlockGroup: `${baseDescription}\n\n${dragDescription("group")}`,
+            List: `${baseDescription}\n\n${dragDescription("list")}`,
+            ListItem: `${baseDescription.slice(0, baseDescription.length - 1)}, displays above the \`description\`.`,
+            Navigation: "When `navigationAction` is `true`, specifies an accessible label for the `calcite-action`.",
+          };
+
+          return {
+            description: descriptionOverrides[apiClass.name] ?? baseDescription,
+          };
         },
         labelText: {
           description: "Specifies the component's label text.",
