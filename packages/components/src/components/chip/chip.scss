@@ -19,7 +19,10 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-height
 // --calcite-internal-action-min-height
+// --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
 // --calcite-internal-action-spacing
 // --calcite-internal-chip-background-color
 // --calcite-internal-chip-block-size
@@ -437,26 +440,27 @@
 }
 
 .image-container {
-  @apply inline-flex overflow-hidden;
+  @apply inline-flex overflow-hidden flex-none;
   align-items: center;
   justify-content: center;
   pointer-events: none;
   block-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
   inline-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
   padding-inline-start: var(--calcite-spacing-none, 0);
-  padding-inline-end: var(--calcite-internal-chip-image-space-x-end, 0);
+  margin-inline-end: var(--calcite-internal-chip-image-space-x-end, 0);
 }
 
 .chip-icon {
-  @apply relative my-0 inline-flex ease-in-out;
+  @apply relative my-0 inline-flex ease-in-out flex-none;
   color: var(
     --calcite-chip-icon-color,
     var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
   );
-  padding-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
+  margin-inline: var(--calcite-internal-chip-icon-space, var(--calcite-spacing-xs, 0.375rem) /* 6px */);
 }
 
 .select-icon {
+  @apply flex-none;
   align-self: center;
   justify-content: center;
   align-items: center;
@@ -488,13 +492,14 @@
 
 .multiple .select-icon,
 .single .select-icon--active {
-  padding-inline-start: var(--calcite-internal-chip-select-space-x-start);
-  padding-inline-end: var(--calcite-internal-chip-select-space-x-end);
   block-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
   inline-size: var(--calcite-internal-chip-icon-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  margin-inline-start: var(--calcite-internal-chip-select-space-x-start);
+  margin-inline-end: var(--calcite-internal-chip-select-space-x-end);
 }
 
 .close {
+  @apply flex-none;
   --calcite-action-background-color-hover: var(--calcite-internal-chip-close-background-color-hover);
   --calcite-action-background-color-press: var(--calcite-internal-chip-close-background-color-press);
   --calcite-action-corner-radius: var(--calcite-corner-radius-pill);
@@ -507,12 +512,24 @@
     var(--calcite-close-icon-color, var(--calcite-internal-chip-close-icon-color-hover))
   );
   --calcite-icon-color: var(--calcite-action-text-color);
-  --calcite-internal-action-min-height: unset;
+  --calcite-internal-action-height: var(--calcite-internal-close-size);
+  --calcite-internal-action-min-height: var(--calcite-internal-close-size);
+  --calcite-internal-action-padding-block: var(--calcite-spacing-none);
+  --calcite-internal-action-padding-inline: var(--calcite-spacing-none);
   --calcite-internal-action-spacing: var(--calcite-internal-chip-close-padding);
+
+  block-size: var(--calcite-internal-close-size);
+  inline-size: var(--calcite-internal-close-size);
 }
 
 slot[name="image"]::slotted(*) {
   @apply rounded-half flex h-full w-full overflow-hidden;
+}
+
+slot[name="image"]::slotted(calcite-avatar) {
+  display: inline-block;
+  block-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
+  inline-size: var(--calcite-internal-chip-image-size, var(--calcite-spacing-xxl, 1.5rem) /* 24px */);
 }
 
 @include includes.disabled();
